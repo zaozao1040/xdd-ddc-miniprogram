@@ -1,0 +1,11 @@
+module.exports = ({
+    dealStoreFlag: (function(code, map) {
+        if (map != null) {
+            return (map[((nt_0 = (code), null == nt_0 ? undefined : 'number' === typeof nt_0 ? nt_0 : "" + nt_0))])
+        };
+        return ("")
+    }),
+    dealPrice: (function(price) {
+        return (Number)(price / 100).toFixed(1)
+    }),
+});

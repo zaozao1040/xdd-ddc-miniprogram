@@ -1,0 +1,83 @@
+var specialNeed = ({
+    getQuantity: (function(productGroup, groupindex, currentTasteList) {
+        if (groupindex > -1) {
+            if (!productGroup.__imenuvolist__[((nt_0 = (groupindex), null == nt_0 ? undefined : 'number' === typeof nt_0 ? nt_0 : "" + nt_0))].__tasteList__ || productGroup.__imenuvolist__[((nt_1 = (groupindex), null == nt_1 ? undefined : 'number' === typeof nt_1 ? nt_1 : "" + nt_1))].__tasteList__.length == 0) {
+                return (productGroup.__imenuvolist__[((nt_2 = (groupindex), null == nt_2 ? undefined : 'number' === typeof nt_2 ? nt_2 : "" + nt_2))].__quantity__)
+            } else {
+                if (!productGroup.subItems || productGroup.subItems.length == 0) {
+                    return (0)
+                };
+                var quantity = 0;
+                for (var i = 0; i < productGroup.subItems.length; i++) {
+                    var isSame = productGroup.__imenuvolist__[((nt_3 = (groupindex), null == nt_3 ? undefined : 'number' === typeof nt_3 ? nt_3 : "" + nt_3))].productId == productGroup.subItems[((nt_4 = (i), null == nt_4 ? undefined : 'number' === typeof nt_4 ? nt_4 : "" + nt_4))].productId && specialNeed.compareTaste(productGroup.subItems[((nt_5 = (i), null == nt_5 ? undefined : 'number' === typeof nt_5 ? nt_5 : "" + nt_5))].tasteList, currentTasteList);
+                    if (isSame) {
+                        quantity = productGroup.subItems[((nt_6 = (i), null == nt_6 ? undefined : 'number' === typeof nt_6 ? nt_6 : "" + nt_6))].__quantity__;
+                        break
+                    }
+                };
+                return (quantity)
+            }
+        } else {
+            if (!productGroup.subItems || productGroup.subItems.length == 0) {
+                return (0)
+            };
+            var quantity = 0;
+            for (var i = 0; i < productGroup.subItems.length; i++) {
+                var isSame = specialNeed.compareTaste(productGroup.subItems[((nt_7 = (i), null == nt_7 ? undefined : 'number' === typeof nt_7 ? nt_7 : "" + nt_7))].tasteList, currentTasteList);
+                if (isSame) {
+                    quantity = productGroup.subItems[((nt_8 = (i), null == nt_8 ? undefined : 'number' === typeof nt_8 ? nt_8 : "" + nt_8))].__quantity__;
+                    break
+                }
+            };
+            return (quantity)
+        }
+    }),
+    getSelectedTastes: (function(tasteList, defaultStr) {
+        if (!tasteList || tasteList.length == 0) {
+            return (defaultStr ? defaultStr : '')
+        };
+        var selectedTastes = '';
+        for (var i = 0; i < tasteList.length; i++) {
+            if (tasteList[((nt_9 = (i), null == nt_9 ? undefined : 'number' === typeof nt_9 ? nt_9 : "" + nt_9))].__choose__) {
+                selectedTastes += tasteList[((nt_10 = (i), null == nt_10 ? undefined : 'number' === typeof nt_10 ? nt_10 : "" + nt_10))].laberName;
+                selectedTastes += '、'
+            }
+        };
+        if (selectedTastes == '') {
+            return (defaultStr ? defaultStr : '')
+        };
+        return (selectedTastes.substring(0, selectedTastes.length - 1))
+    }),
+    getSelectedTasteList: (function(tasteList, defaultStr) {
+        var selectedTastes = [defaultStr];
+        if (!tasteList || tasteList.length == 0) {
+            return (selectedTastes)
+        };
+        var j = 0;
+        for (var i = 0; i < tasteList.length; i++) {
+            if (tasteList[((nt_11 = (i), null == nt_11 ? undefined : 'number' === typeof nt_11 ? nt_11 : "" + nt_11))].__choose__) {
+                selectedTastes[((nt_12 = (j), null == nt_12 ? undefined : 'number' === typeof nt_12 ? nt_12 : "" + nt_12))] = tasteList[((nt_13 = (i), null == nt_13 ? undefined : 'number' === typeof nt_13 ? nt_13 : "" + nt_13))].laberName;
+                j++
+            }
+        };
+        return (selectedTastes)
+    }),
+    compareTaste: (function(tasteList1, tasteList2) {
+        if (!tasteList1 || !tasteList2 || tasteList1.length != tasteList2.length) {
+            return (false)
+        };
+        var isSame = true;
+        for (var i = 0; i < tasteList1.length; i++) {
+            if (tasteList1[((nt_14 = (i), null == nt_14 ? undefined : 'number' === typeof nt_14 ? nt_14 : "" + nt_14))].__choose__ != tasteList2[((nt_15 = (i), null == nt_15 ? undefined : 'number' === typeof nt_15 ? nt_15 : "" + nt_15))].__choose__) {
+                isSame = false;
+                break
+            }
+        };
+        return (isSame)
+    }),
+});
+module.exports = ({
+    getQuantity: specialNeed.getQuantity,
+    selectedTasteList: specialNeed.getSelectedTasteList,
+    getSelectedTastes: specialNeed.getSelectedTastes,
+});

@@ -1,0 +1,348 @@
+{
+	"code": 200,
+	"msg": "",
+	"data" : {
+		"day" : 0,
+		"foodType":"lunch",
+		"foodList": [
+			{
+			"type_id": 11,
+			"type_name": "精品套餐",
+			"type_desc": "荤素搭配 营养健康",
+			"is_del": 0,
+			"food_date": [{
+				"food_count":0,
+				"date_id": 2248,
+				"food_id": 537,
+				"store_id": 1,
+				"food_date": "2018-11-20",
+				"time_food": 2,
+				"food_name": "红烧肉圆 套餐",
+				"food_store_price": "10.00",
+				"type_id": 11,
+				"admin_id": 23,
+				"realname": "旭日东升套餐",
+				"is_default": 0,
+				"food_desc": "红烧肉圆、大煮干丝、蒜泥青菜、香辣海带丝+青菜豆腐汤",
+				"timestamp": 1542643200,
+				"img_pic": {
+					"pic_id": 541,
+					"food_id": 537,
+					"pic_path": "http:\/\/cf.vpans.com\/uploads\/20181117\/56a1062b30163c98c9feaef6783cd165.jpg",
+					"food_pic_name": "图片",
+					"pic_type": 0
+				},
+				"sellCount": 1221,
+				"rating": 4
+			}, {
+				"date_id": 2249,
+				"food_id": 538,
+				"store_id": 1,
+				"food_date": "2018-11-20",
+				"time_food": 2,
+				"food_name": "熏鱼 套餐",
+				"food_store_price": "10.00",
+				"type_id": 11,
+				"admin_id": 23,
+				"realname": "旭日东升套餐",
+				"is_default": 0,
+				"food_desc": "熏鱼、大煮干丝、蒜泥青菜、香辣海带丝+青菜豆腐汤",
+				"timestamp": 1542643200,
+				"img_pic": {
+					"pic_id": 549,
+					"food_id": 538,
+					"pic_path": "http:\/\/cf.vpans.com\/uploads\/20181117\/094e3a122e2b7f9a7f4fdccf2b06b989.jpg",
+					"food_pic_name": "图片",
+					"pic_type": 0
+				}
+			}]
+		}, {
+			"type_id": 12,
+			"type_name": "东北水饺",
+			"type_desc": "个大皮薄 鲜嫩多汁 ",
+			"is_del": 0,
+			"food_date": []
+		}, {
+			"type_id": 13,
+			"type_name": "特色炒饭",
+			"type_desc": "粒粒清香 吃过难忘",
+			"is_del": 0,
+			"food_date": []
+		}, {
+			"type_id": 14,
+			"type_name": "秘制炒面",
+			"type_desc": "独家配方 十年口碑",
+			"is_del": 0,
+			"food_date": [{
+				"date_id": 2259,
+				"food_id": 418,
+				"store_id": 1,
+				"food_date": "2018-11-20",
+				"time_food": 2,
+				"food_name": "苏式炒面（咸香）",
+				"food_store_price": "10.90",
+				"type_id": 14,
+				"admin_id": 26,
+				"realname": "老街巷炒面",
+				"is_default": 0,
+				"food_desc": "精选优质鸡蛋面＋散养土鸡蛋＋本地小青菜+胡萝卜丝 主要原料: 鸡蛋, 青菜, 胡萝卜",
+				"timestamp": 1542643200,
+				"img_pic": {
+					"pic_id": 485,
+					"food_id": 418,
+					"pic_path": "http:\/\/cf.vpans.com\/uploads\/20181114\/449cdaca6afc2e117c2a87e9a37701d2.jpg",
+					"food_pic_name": "图片",
+					"pic_type": 0
+				}
+			}, {
+				"date_id": 2260,
+				"food_id": 429,
+				"store_id": 1,
+				"food_date": "2018-11-20",
+				"time_food": 2,
+				"food_name": "川味炒面（香辣）",
+				"food_store_price": "10.90",
+				"type_id": 14,
+				"admin_id": 26,
+				"realname": "老街巷炒面",
+				"is_default": 0,
+				"food_desc": "精选苏式细面、肉丝、配料",
+				"timestamp": 1542643200,
+				"img_pic": {
+					"pic_id": 445,
+					"food_id": 429,
+					"pic_path": "http:\/\/cf.vpans.com\/uploads\/20181114\/40b766120648f745ba2ce82e27625b20.jpg",
+					"food_pic_name": "图片",
+					"pic_type": 0
+				}
+			}]
+		}, {
+			"type_id": 15,
+			"type_name": "黄焖鸡米饭",
+			"type_desc": "黄焖鸡米饭",
+			"is_del": 0,
+			"food_date": [{
+				"date_id": 2257,
+				"food_id": 423,
+				"store_id": 1,
+				"food_date": "2018-11-20",
+				"time_food": 2,
+				"food_name": "黄焖鸡米饭",
+				"food_store_price": "13.90",
+				"type_id": 15,
+				"admin_id": 28,
+				"realname": "黄焖鸡米饭",
+				"is_default": 0,
+				"food_desc": "采用秘制料包与传统焖制手法，鲜嫩鸡肉，丰富蔬菜搭配巧妙，口味地道，香味浓郁。",
+				"timestamp": 1542643200,
+				"img_pic": {
+					"pic_id": 451,
+					"food_id": 423,
+					"pic_path": "http:\/\/cf.vpans.com\/uploads\/20181023\/785eac447ba0a40771d813ecebf71562.jpg",
+					"food_pic_name": "图片",
+					"pic_type": 0
+				}
+			}, {
+				"date_id": 2258,
+				"food_id": 431,
+				"store_id": 1,
+				"food_date": "2018-11-20",
+				"time_food": 2,
+				"food_name": "黄焖排骨饭",
+				"food_store_price": "13.90",
+				"type_id": 15,
+				"admin_id": 28,
+				"realname": "黄焖鸡米饭",
+				"is_default": 0,
+				"food_desc": "百年老工艺结合独家调味特点，先焖后收汁，老汤中加热，味道相辅相成，醇厚鲜美。",
+				"timestamp": 1542643200,
+				"img_pic": {
+					"pic_id": 456,
+					"food_id": 431,
+					"pic_path": "http:\/\/cf.vpans.com\/uploads\/20181114\/53f42a3ae165ef98bb9b2da9d3c4b414.jpg",
+					"food_pic_name": "图片",
+					"pic_type": 0
+				}
+			}]
+		}, {
+			"type_id": 16,
+			"type_name": "酸菜鱼",
+			"type_desc": "酸菜鱼",
+			"is_del": 0,
+			"food_date": [{
+				"date_id": 2255,
+				"food_id": 424,
+				"store_id": 1,
+				"food_date": "2018-11-20",
+				"time_food": 2,
+				"food_name": "秘制老坛酸菜鱼",
+				"food_store_price": "16.90",
+				"type_id": 16,
+				"admin_id": 29,
+				"realname": "金汤酸菜鱼",
+				"is_default": 0,
+				"food_desc": "老坛酸菜爽脆可口，鱼肉片片滑嫩，鱼汤鲜美营养。鲜、香、麻、微辣，让你的味蕾瞬间绽放。配有米饭",
+				"timestamp": 1542643200,
+				"img_pic": {
+					"pic_id": 492,
+					"food_id": 424,
+					"pic_path": "http:\/\/cf.vpans.com\/uploads\/20181108\/d376f4897ed5554022cb75f93beca833.jpg",
+					"food_pic_name": "图片",
+					"pic_type": 0
+				}
+			}, {
+				"date_id": 2256,
+				"food_id": 479,
+				"store_id": 1,
+				"food_date": "2018-11-20",
+				"time_food": 2,
+				"food_name": "鲜香藤椒酸菜鱼",
+				"food_store_price": "16.90",
+				"type_id": 16,
+				"admin_id": 29,
+				"realname": "金汤酸菜鱼",
+				"is_default": 0,
+				"food_desc": "精选龙利鱼、东北老酸菜、藤椒麻辣，汤浓味厚，及适合口味较重的食客。带有米饭。",
+				"timestamp": 1542643200,
+				"img_pic": {
+					"pic_id": 501,
+					"food_id": 479,
+					"pic_path": "http:\/\/cf.vpans.com\/uploads\/20181114\/699903faaf4f0e95f7cce873e885ba49.jpg",
+					"food_pic_name": "图片",
+					"pic_type": 0
+				}
+			}]
+		}, {
+			"type_id": 17,
+			"type_name": "双拼饭",
+			"type_desc": "双拼饭",
+			"is_del": 0,
+			"food_date": [{
+				"date_id": 2250,
+				"food_id": 438,
+				"store_id": 1,
+				"food_date": "2018-11-20",
+				"time_food": 2,
+				"food_name": "番茄炒蛋双拼饭",
+				"food_store_price": "10.90",
+				"type_id": 17,
+				"admin_id": 31,
+				"realname": "美年华双拼饭",
+				"is_default": 0,
+				"food_desc": "小炒：番茄炒蛋+素菜\n优质米饭",
+				"timestamp": 1542643200,
+				"img_pic": {
+					"pic_id": 569,
+					"food_id": 438,
+					"pic_path": "http:\/\/cf.vpans.com\/uploads\/20181119\/5e183f2463f898df4d371eb420d7bdb4.jpg",
+					"food_pic_name": "图片",
+					"pic_type": 0
+				}
+			}, {
+				"date_id": 2251,
+				"food_id": 481,
+				"store_id": 1,
+				"food_date": "2018-11-20",
+				"time_food": 2,
+				"food_name": "双椒肉丝双拼饭",
+				"food_store_price": "10.90",
+				"type_id": 17,
+				"admin_id": 31,
+				"realname": "美年华双拼饭",
+				"is_default": 0,
+				"food_desc": "小炒制餐，青椒、红椒、精选猪里脊肉+素菜，地道农家食材，将新鲜的青红椒肉丝以恰到好处的火候翻炒，色泽美观，质嫩味美。",
+				"timestamp": 1542643200,
+				"img_pic": {
+					"pic_id": 488,
+					"food_id": 481,
+					"pic_path": "http:\/\/cf.vpans.com\/uploads\/20181114\/02da6c828116bc27dc12aa55776cf019.jpg",
+					"food_pic_name": "图片",
+					"pic_type": 0
+				}
+			}, {
+				"date_id": 2252,
+				"food_id": 492,
+				"store_id": 1,
+				"food_date": "2018-11-20",
+				"time_food": 2,
+				"food_name": "宫保鸡丁双拼饭",
+				"food_store_price": "10.90",
+				"type_id": 17,
+				"admin_id": 31,
+				"realname": "美年华双拼饭",
+				"is_default": 0,
+				"food_desc": "辣中有甜，甜中有辣，鸡肉的鲜嫩配合花生的脆，入口鲜辣酥香，红而不辣，辣而不猛，肉质滑脆。",
+				"timestamp": 1542643200,
+				"img_pic": {
+					"pic_id": 448,
+					"food_id": 492,
+					"pic_path": "http:\/\/cf.vpans.com\/uploads\/20181114\/ec36debdadc814205b1d7a05102db52a.jpg",
+					"food_pic_name": "图片",
+					"pic_type": 0
+				}
+			}]
+		}, {
+			"type_id": 18,
+			"type_name": "水饺江湖",
+			"type_desc": "水饺",
+			"is_del": 0,
+			"food_date": [{
+				"date_id": 2253,
+				"food_id": 437,
+				"store_id": 1,
+				"food_date": "2018-11-20",
+				"time_food": 2,
+				"food_name": "芹菜鲜肉水饺",
+				"food_store_price": "10.90",
+				"type_id": 18,
+				"admin_id": 30,
+				"realname": "给饺子一个机会",
+				"is_default": 0,
+				"food_desc": "精选猪里脊肉搭配芹菜制馅，入口脆嫩多汁，清新爽口。",
+				"timestamp": 1542643200,
+				"img_pic": {
+					"pic_id": 522,
+					"food_id": 437,
+					"pic_path": "http:\/\/cf.vpans.com\/uploads\/20181108\/1ff9e969fb91ce8411f0706a19e616a5.jpg",
+					"food_pic_name": "图片",
+					"pic_type": 0
+				}
+			}, {
+				"date_id": 2254,
+				"food_id": 505,
+				"store_id": 1,
+				"food_date": "2018-11-20",
+				"time_food": 2,
+				"food_name": "白菜鲜肉水饺",
+				"food_store_price": "10.90",
+				"type_id": 18,
+				"admin_id": 30,
+				"realname": "给饺子一个机会",
+				"is_default": 0,
+				"food_desc": "精选上等猪肉与新鲜蔬菜，家常口味，皮嫩馅鲜。",
+				"timestamp": 1542643200,
+				"img_pic": {
+					"pic_id": 317,
+					"food_id": 505,
+					"pic_path": "http:\/\/cf.vpans.com\/uploads\/20181112\/618747d567ffefe08a639a85250e9eee.jpg",
+					"food_pic_name": "图片",
+					"pic_type": 0
+				}
+			}]
+		}, {
+			"type_id": 19,
+			"type_name": "炒米线",
+			"type_desc": "炒米线",
+			"is_del": 0,
+			"food_date": []
+		}, {
+			"type_id": 20,
+			"type_name": "江湖冒菜",
+			"type_desc": "江湖冒菜",
+			"is_del": 0,
+			"food_date": []
+		}]
+	},
+	"error": "",
+	"status": ""
+}

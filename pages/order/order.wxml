@@ -1,0 +1,40 @@
+<!--pages/order/order.wxml-->
+
+<view class="wrapper">
+  <view class="title-wrapper">
+    <view wx:for="{{orderStatus}}" wx:for-item="statusItem" wx:for-index="statusIndex" wx:key="statusIndex"
+      class="titleItem {{orderStatusActiveFlag==statusIndex?'orderStatusActive':''}}" data-orderstatusindex="{{statusIndex}}" bindtap="handleChangeOrderStatusActive">
+        {{statusItem}}
+    </view>
+  </view>
+  <view class="order-wrapper" wx:for="{{orderDataAll}}" wx:for-item="orderItem" wx:for-index="orderIndex" wx:key="orderIndex">
+    <view class="img-wrapper">
+      <image class="order-img" src="{{orderItem.img}}"></image>    
+    </view>
+    <view class="orderInfo-wrapper">
+      <view style="display: flex;justify-content: space-between;">
+        <view class="order-name">
+          {{orderItem.order_goods.goods_name}}
+        </view>
+        <view class="order-selfpayprice">
+          ¥{{orderItem.order_goods.cost_price}}
+        </view>       
+      </view>
+      <view style="display: flex;justify-content: space-between;">
+          <view class="order-mealtime">
+              取餐时间:{{orderItem.add_time}}
+            </view>
+            <view class="order-count">
+                x1
+              </view>     
+        </view>
+
+      <view class="order-status">
+        状态{{orderItem.order_goods.pay_status}}
+      </view>
+
+    </view>
+  </view>
+</view>
+
+

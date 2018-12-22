@@ -1,0 +1,61 @@
+<!--pages/home/home.wxml-->
+<scroll-view>
+  <view class="home-container">
+    <view class="h-v1" wx:if="{{userInfo}}">
+      <view class="has-login">{{wel}} <block wx:if="{{userInfo.nickName}}">{{userInfo.nickName}}</block>
+        <open-data wx:else type="userNickName"></open-data>
+        <text catchtap="logout" class="logout">退出</text>
+      </view>
+    </view>
+    <view class="h-v1" wx:else>
+      <view bindtap="login" class="h-v1-1">注册 | 登录</view>
+    </view>
+    <!-- 轮播图 -->
+    <view class="h-v2">
+      <swiper autoplay="true" circular="true" class="h-v2-1" duration="500" indicatorActiveColor="#fff" indicatorColor="rgb(212, 203, 201)" indicatorDots="{{swiperInfo.length>1}}" interval="5000" wx:if="{{swiperInfo&&swiperInfo.length>0}}">
+        <swiper-item wx:for="{{swiperInfo}}" wx:for-index="swiperInfoIndex" wx:for-item="swiperInfoItem" wx:key="swiperInfoIndex">
+          <image class="home-image-bk" src="{{swiperInfoItem.url}}"></image>
+        </swiper-item>
+      </swiper>
+    </view>
+    <!-- 宣传语 -->
+    <view class="propaganda-wrapper">
+      <view class='propaganda-itemwrapper' wx:for="{{propagandaList}}" wx:for-index="propagandaIndex" wx:for-item="propagandaItem" wx:key="propagandaIndex">
+          <text class='iconfont icon-{{propagandaIconArr[propagandaIndex]}} icon-propaganda' decode>&nbsp;</text>
+          <text class='propaganda-title'>{{propagandaItem}}</text>
+      </view>
+
+    </view>
+    <!-- 开始点餐 -->
+    <view class="h-v3">
+      <navigator url="/pages/menu/menu">
+        <view class="h-v3-1">
+        <text class='iconfont icon-canting'></text>
+        开始点餐
+        </view>
+      </navigator>
+    </view>
+    <!-- 新人大礼 -->
+    <view class="newuser-wrapper">
+
+    </view>
+    <!-- 活动 -->
+    <view class="promotion-wrapper">
+      <navigator url="#" class='promotion-1'>
+        <view class='promotion-title'>人气推荐</view>
+        <view class='promotion-des'>人气推荐</view>
+        <image class="promotion-img" src="{{promotionInfo[0].url}}"/>
+      </navigator>
+      <navigator url="#" class='promotion-1'>
+        <view class='promotion-title'>人气推荐</view>
+        <view class='promotion-des'>人气推荐</view>
+        <image class="promotion-img" src="{{promotionInfo[1].url}}"/>
+      </navigator>
+    </view>
+
+
+
+
+
+  </view>
+</scroll-view>
