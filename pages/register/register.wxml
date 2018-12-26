@@ -1,2 +1,53 @@
 <!--pages/register/register.wxml-->
-<text>pages/register/register.wxml</text>
+<view class="login-container">
+  <view class='section-1' style="background: url('../../images/login/icon-avatar.png') no-repeat top center;background-size: 134rpx 134rpx;"></view>
+  <view class="section-2" style="background: url('../../images/login/icon-star2.png') no-repeat center center;background-size: 363rpx 23rpx;">
+    <text class="section-2-1">您想要的员工餐</text>
+    <text class="section-2-1">都在这里</text>
+  </view>
+  <view class="section-3">
+      <view class="section-3-1" style="background: url('../../images/login/icon-phone.png') no-repeat center center;background-size: 28rpx 40rpx;"></view>
+      <input bindinput="phoneInput" class="section-3-2" maxlength="11" placeholder="请输入您的手机号" type="number"></input>
+  </view>
+  <view class="section-3">
+    <view class="section-3-3" style="background: url('../../images/login/icon-pwd.png') no-repeat center center;background-size: 29rpx 36rpx;"></view>
+    <input bindinput="codeInput" class="section-3-2" placeholder="请输入短信验证码" type="number"></input>
+    <view catchtap="sendCode" class="rg-section-v5" wx:if="{{firstCode}}">获取验证码</view>
+    <view class="rg-section-v5 rg-section-v6" wx:if="{{waitTime>0}}">{{waitTime}}s</view>
+    <view catchtap="sendCode" class="rg-section-v5" wx:if="{{waitTime==0}}">重新发送</view>
+  </view>
+  <view class="section-3">
+    <view class="section-3-1" style="background: url('../../images/login/icon-phone.png') no-repeat center center;background-size: 28rpx 40rpx;"></view>
+    <input bindinput="nameInput" class="section-3-2" placeholder="请输入真实姓名" type="string"></input>
+  </view>
+  <view class="section-3" catchtap="showAddress">
+      <view class="section-3-1" style="background: url('../../images/login/icon-phone.png') no-repeat center center;background-size: 28rpx 40rpx;"></view>
+      <input bindinput="organizeInput" class="section-3-2" placeholder="请选择企业" type="string" disabled></input>
+    </view>
+  <view catchtap="login" class="section-4">注册</view>
+  <!-- 企业选择 -->
+  <view wx:if="{{showAddressFlag}}" class="organize-wrapper" >
+    <view class="inputSearch-wrapper">
+      <input bindinput="searchInput" class="inputSearch" maxlength="11" placeholder="搜索企业名..."></input>
+    </view>
+    <view style="height:30rpx;background: #ddd;"></view>
+    <view class="organizeItem-wrapper" wx:for="{{organizeList}}" wx:for-index="organizeIndex" wx:for-item="organizeItem" wx:key="organizeIndex"
+      catchtap="selectorganize" data-organizename="{{organizeItem.organizeName}}" data-organizecode="{{organizeItem.organizeCode}}">
+      <view class="organizeItem-left">
+        <view class="organizeName">
+          {{organizeItem.organizeName}}
+        </view>
+        <view class="organizeAddress">
+          {{organizeItem.address}}
+        </view>
+      </view>
+      <view class="organizeItem-right">
+        {{organizeItem.distance/1000}}公里
+      </view>
+    </view>
+
+  </view>
+
+    
+</view>
+  

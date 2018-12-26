@@ -14,7 +14,6 @@ class base {
             'content-type': 'application/json'
         },
         success: function(res) {
-          console.log(res)
           params.sCallback && params.sCallback(res.data);
         },
         fail: function(err) {
