@@ -16,6 +16,11 @@
     <view class="rg-section-v5 rg-section-v6" wx:if="{{waitTime>0}}">{{waitTime}}s</view>
     <view catchtap="sendCode" class="rg-section-v5" wx:if="{{waitTime==0}}">重新发送</view>
   </view>
-  <button loading="{{loading}}" class="section-4" open-type="getUserInfo" bindgetuserinfo="register">注册</button>
+  <button loading="{{loading}}" class="section-4" open-type="getUserInfo" bindgetuserinfo="login">登录</button>
+  <navigator url="/pages/register/register">
+    <view class="register">
+      <text class='iconfont icon-wode' decode>&nbsp;去注册</text>
+    </view>  
+  </navigator>
 </view>
   

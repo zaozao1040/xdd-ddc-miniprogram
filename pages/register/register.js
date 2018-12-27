@@ -12,6 +12,7 @@ Page({
     windowHeight: 0,
     loading: false,
     showAddressFlag:false,
+    showGobackFlag:false,
     location: {},
     organizeList:[],
     organize: '',
@@ -75,7 +76,8 @@ Page({
           wx.hideLoading() 
           if(res.code === 0){
             _this.setData({
-              organizeList: res.data
+              organizeList: res.data,
+              showGobackFlag: true
             })                       
           }
         }) 
@@ -224,7 +226,6 @@ Page({
               })
               registerModel.register(param,(res)=>{
                 console.log('收到请求(登录):',param,res)
-                wx.hideLoading() //【防止狂点3】
                 if(res.code === 0){
                   let tmp_userInfo = {
                     phoneNumber: _this.data.phone,
@@ -237,14 +238,15 @@ Page({
                     organize: _this.data.organize    
                   }
                   app.globalData.userInfo = tmp_userInfo //设置全局变量
-                  wx.showToast({
-                    title: '注册成功',
-                    icon: 'success',
-                    duration: 2000
-                  })
                   setTimeout(function(){ //提示注册成功，两秒后跳转到首页
                     wx.switchTab({
                       url: '/pages/home/home',
+                    })
+                    wx.hideLoading() //【防止狂点3】
+                    wx.showToast({
+                      title: '注册成功',
+                      icon: 'success',
+                      duration: 2000
                     })
                   },2000) 
                 }else{
@@ -281,77 +283,6 @@ Page({
       })   
     }
   },
-
-  /* 登录 */
-  login: function () {
-    let _this = this
-    if (t._validCellPhone(_this.data.phone)){
-      if(_this.data.code == ''){
-        wx.showToast({
-          title: "请输入手机验证码",
-          icon: "none",
-          duration: 2000
-        })
-      }else{
-        wx.login({
-          success: function(res){
-            if(res.code){
-              let param = {
-                code: res.code, //微信code
-                validtion: _this.data.code, //短信验证码
-                phoneNumber: _this.data.phone
-              }
-              registerModel.login(param,(res)=>{
-                console.log('收到请求(登录):',res)
-                if(res.code === 0){
-                  wx.showToast({
-                    title: '发送成功',
-                    icon: 'success',
-                    duration: 2000
-                  })
-                  wx.navigateTo({
-                    url: '/pages/home/home'
-                  })
-                }else{
-                  wx.showToast({
-                    title: res.msg,
-                    icon: 'none',
-                    duration: 2000
-                  })  
-                }
-              })
-            }
-          },
-          fail: function() {
-            wx.showToast({
-              title: res.msg,
-              icon: 'none',
-              duration: 2000
-            })  
-          },
-          complete: function() {
-            // complete
-          }
-        })
-
-      }
-    } else wx.showToast({
-      title: "手机号必须11位数字",
-      icon: "none",
-      duration: 2000
-    })
-  },
-/*   checkPhone(phoneNum){
-    let str = /^1[0-9]{10}$/   
-    if (str.test(phoneNum)) {
-      return true
-    } else {
-      wx.showToast({
-        title: '手机号不正确',
-      })
-      return false
-    }
-  } */
 
 
 })

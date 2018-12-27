@@ -50,7 +50,7 @@
         未查询到企业..
       </view>
     </scroll-view>
-    <view catchtap="changeShowAddressFlag" class="iconfont icon-fanhui goback"></view>
+    <view wx-if="{{showGobackFlag}}" catchtap="changeShowAddressFlag" class="iconfont icon-fanhui goback"></view>
   </view>
 </view>
   
