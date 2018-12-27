@@ -1,14 +1,7 @@
 App({
   globalData: {
     baseUrl: 'http://192.168.1.123:8080',
-/*     userInfo: null */
-    userInfo:{
-      name: '李春来',
-      nickName:'春来',
-      phone:'18551585569',
-      enterprise:'星点点科技'
-    },
-    /* 购物车 */
+    userInfo: null,
     test:'123',
     selectedFoods:[],
     cacheMenuDataAll:[[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],

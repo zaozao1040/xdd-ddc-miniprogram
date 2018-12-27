@@ -9,10 +9,13 @@ Page({
    * 页面的初始数据
    */
   data: {
-    showAddressFlag: true,//showAddressFlag: false,
+    windowHeight: 0,
+    loading: false,
+    showAddressFlag:false,
     location: {},
     organizeList:[],
     organize: '',
+    organizeCode: '',
     search: '',
     phone:'',
     code:'',
@@ -20,22 +23,41 @@ Page({
     firstCode: true,
     waitTime: -1,
     action: "",
-    userInfo: {}
+    userInfo: {},
+    organizeListNoResult: false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let _this = this
-    //获取微信用户信息
-    wx.getUserInfo({
-      success(res) {
+    
+
+  },
+  initRegister: function(){
+    let _this = this;
+    wx.getSystemInfo({
+      success: function(res) {
         _this.setData({
-          userInfo: res.userInfo
+          windowHeight: res.windowHeight
         })
       }
     })
+    const query = wx.createSelectorQuery()
+    query.select('.c_scrollPosition_forCalculate').boundingClientRect()
+    query.selectViewport().scrollOffset()
+    query.exec(function (res) {
+      _this.setData({
+        scrollTop: res[0].top // #the-id节点的上边界坐标
+      })
+    })
+  },
+  showAddress:function(){
+    let _this = this
+    _this.setData({
+      showAddressFlag: true
+    });
+    _this.initRegister()
     //请求经纬度信息，以便注册
     wx.getLocation({
       type: 'gcj02', 
@@ -45,41 +67,36 @@ Page({
           myLongitude: res.longitude, 
           myLatitude: res.latitude
         }
+        wx.showLoading({ 
+          title: '加载中'
+        })
         //请求企业列表
         registerModel.getOrganizeListByLocation(param,(res)=>{
           console.log('收到请求(企业列表):',res)
+          wx.hideLoading() 
           if(res.code === 0){
             _this.setData({
               organizeList: res.data
-            })                        
+            })                       
           }
-        })
-      },
-      fail: function(res) {
-      },
-      complete: function() {
-        // complete
+        }) 
       }
     })
-  },
-  showAddress:function(){
-    this.setData({
-      showAddressFlag: true
-    });
   },
   getDistancesDes:function(distance){
     return distance/1000
   },
   changeShowAddressFlag:function(){
     this.setData({
-      showAddressFlag: false
+      showAddressFlag: !this.data.showAddressFlag
     });
   },
-  selectorganize:function(e){
-    console.log(e,e.currentTarget.dataset.organizename)
+  selectOrganize:function(e){
     this.setData({
       organize: e.currentTarget.dataset.organizename
     });
+    this.data.organizeCode = e.currentTarget.dataset.organizecode
+    console.log(this.data.organizeCode)
     this.changeShowAddressFlag()
   },
   phoneInput: function (e) {
@@ -110,13 +127,26 @@ Page({
     let param = {
       organizeName: e.detail.value
     }
+    wx.showLoading({ 
+      title: '加载中',
+    })
     //请求企业列表
     registerModel.getOrganizeListByLocation(param,(res)=>{
       console.log('收到请求(企业列表):',res)
+      wx.hideLoading() 
       if(res.code === 0){
         _this.setData({
           organizeList: res.data
-        })                        
+        })   
+        if(res.data.length==0){
+          _this.setData({
+            organizeListNoResult: true //查到企业列表无结果，则相应视图
+          })   
+        } else {
+          _this.setData({
+            organizeListNoResult: false
+          })  
+        }                     
       }
     })
   },
@@ -156,8 +186,13 @@ Page({
     })
   },
   /* 注册 */
-  register: function () {
+  register:function(res){ //点击注册，先获取个人信息，这个是微信小程序的坑，只能通过这个button来实现
     let _this = this
+    this.data.userInfo = {
+      nickName:res.detail.userInfo.nickName,
+      avatarUrl:res.detail.userInfo.avatarUrl,
+      gender:res.detail.userInfo.gender
+    }  
     if (t._validCellPhone(_this.data.phone)){
       if(_this.data.code == ''){
         wx.showToast({
@@ -172,32 +207,56 @@ Page({
             if(res.code){
               let param = {
                 code: res.code, //微信code
-                validtion: _this.data.code, //短信验证码
+                validation: _this.data.code, //短信验证码
                 phoneNumber: _this.data.phone,
+                nickName: userInfo.nickName,
                 headImage: userInfo.avatarUrl,
                 sex: userInfo.gender,
-                nickName: userInfo.nickName,
                 name: _this.data.name,
                 userType: "B_USER", //企业用户还是个人用户 B_USER  VISITOR
-                organizeCode: "" //B_USER模式下需要改字段    
+                organizeCode: _this.data.organizeCode //B_USER模式下需要改字段    
               }
+              _this.setData({ //【防止狂点1】
+                loading: true
+              })
+              wx.showLoading({ //【防止狂点2】
+                title: '加载中',
+                mask: true
+              })
               registerModel.register(param,(res)=>{
                 console.log('收到请求(登录):',param,res)
+                wx.hideLoading() //【防止狂点3】
                 if(res.code === 0){
+                  let tmp_userInfo = {
+                    phoneNumber: _this.data.phone,
+                    nickName: userInfo.nickName,
+                    headImage: userInfo.avatarUrl,
+                    sex: userInfo.gender,
+                    name: _this.data.name,
+                    userType: "B_USER", 
+                    organizeCode: _this.data.organizeCode,
+                    organize: _this.data.organize    
+                  }
+                  app.globalData.userInfo = tmp_userInfo //设置全局变量
                   wx.showToast({
-                    title: '发送成功',
+                    title: '注册成功',
                     icon: 'success',
                     duration: 2000
                   })
-                  wx.navigateTo({
-                    url: '/pages/home/home'
-                  })
+                  setTimeout(function(){ //提示注册成功，两秒后跳转到首页
+                    wx.switchTab({
+                      url: '/pages/home/home',
+                    })
+                  },2000) 
                 }else{
                   wx.showToast({
                     title: res.msg,
                     icon: 'none',
                     duration: 2000
                   })  
+                  _this.setData({
+                    loading: false
+                  })
                 }
               })
             }
@@ -215,12 +274,15 @@ Page({
         })
 
       }
-    } else wx.showToast({
-      title: "手机号必须11位数字",
-      icon: "none",
-      duration: 2000
-    })
+    } else {
+      wx.showToast({
+        title: "手机号必须11位数字",
+        icon: "none",
+        duration: 2000
+      })   
+    }
   },
+
   /* 登录 */
   login: function () {
     let _this = this

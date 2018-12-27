@@ -60,9 +60,7 @@ class register extends base{
       url: baseUrl+'/organize/organizes/longAndLat',
       type: 'GET',
       data: param,
-      sCallback: function (data) {
-        callback && callback(data);
-      },
+      sCallback: function (data) { callback && callback(data);},
       eCallback: function () { }
     }
     this.request(allParams)
