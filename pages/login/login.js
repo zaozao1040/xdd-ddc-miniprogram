@@ -114,7 +114,8 @@ Page({
                     organizeCode: _this.data.organizeCode,
                     organize: _this.data.organize    
                   }
-                  getApp().globalData.userInfo = tmp_userInfo //设置全局变量
+                  getApp().globalData.userInfo = tmp_userInfo //设置全局变量 以及缓存变量
+                  wx.setStorageSync('userInfo', tmp_userInfo)
                   setTimeout(function(){ //提示登录成功，两秒后跳转到首页
                     wx.switchTab({
                       url: '/pages/home/home',

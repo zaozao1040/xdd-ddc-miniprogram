@@ -1,10 +1,14 @@
-// pages/home/home.js
+import { home } from '../home/home-model.js'
+let homeModel = new home()
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    registered: false,
+    userInfo:null,
     swiperInfo: null,
     promotionInfo: null,
     wel: "",
@@ -12,6 +16,7 @@ Page({
     propagandaIconArr:['bianyihuo2','peisong','shipinanquan-','tuikuan'],
   },
   initHome:function(){
+    let _this = this
     /* **********设置轮播图数据********** */
     this.setData({
       swiperInfo: [{
@@ -45,62 +50,52 @@ Page({
    */
 
   onLoad: function (options) {
-    const app = getApp()  
-    this.setData({
-      userInfo: app.globalData.userInfo
-    })
     this.initHome()
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    let _this = this
+    /* **********判断是否已注册********** */
+    wx.login({
+      success: function(res){
+        if(res.code){
+          let param = {
+            code: res.code   
+          }
+          homeModel.getRegisteredFlag(param,(res)=>{
+            console.log('是否已注册:',res)
+            if(res.code === 0){
+              if(res.data === true){
+                _this.setData({
+                  registered:true
+                })
+                //既然已经注册，就直接自动登录，即从缓存读信息
+                let tmp_userInfo = wx.getStorageSync('userInfo')
+                _this.setData({
+                  userInfo:tmp_userInfo
+                })
+              }
+            }
+          })
+        }
+      }
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  },
+  logout:function(){
+    wx.removeStorageSync('userInfo')
+    wx.navigateTo({
+      url: '/pages/login/login',
+    })
+    wx.showToast({
+      title: '注销成功',
+      icon: 'success',
+      duration: 2000
+    })
+  }
 
 
 })

@@ -15,5 +15,10 @@ class login extends base{
     }
     this.request(allParams)
   }
+  /* 登出 */
+  logout(){
+    console.log(getApp().globalData.userInfo )
+    //getApp().globalData.userInfo = null
+  }
 }
 export { login }

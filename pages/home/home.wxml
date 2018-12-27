@@ -8,7 +8,19 @@
       </view>
     </view>
     <view class="h-v1" wx:else>
-      <view bindtap="login" class="h-v1-1">注册 | 登录</view>
+      <view bindtap="login" class="h-v1-1">
+        <navigator wx:if="{{!registered}}" url="/pages/register/register" style="display: inline-block">
+          <view class="" style="display: inline-block" bindtap="register">
+            <text decode>注册&nbsp;|&nbsp;</text>
+          </view>          
+        </navigator>
+        <navigator url="/pages/login/login" style="display: inline-block">
+          <view class="" style="display: inline-block" bindtap="login" decode>
+            登录
+          </view>       
+        </navigator>
+
+      </view>
     </view>
     <!-- 轮播图 -->
     <view class="h-v2">

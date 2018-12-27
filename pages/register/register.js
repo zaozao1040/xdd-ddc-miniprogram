@@ -2,7 +2,7 @@
 var t = require("../../comm/script/helper")
 import { register } from './register-model.js'
 let registerModel = new register()
-const app = getApp()
+
 Page({
 
   /**
@@ -237,7 +237,8 @@ Page({
                     organizeCode: _this.data.organizeCode,
                     organize: _this.data.organize    
                   }
-                  app.globalData.userInfo = tmp_userInfo //设置全局变量
+                  getApp().globalData.userInfo = tmp_userInfo //设置全局变量 以及缓存变量
+                  wx.setStorageSync('userInfo', tmp_userInfo)
                   setTimeout(function(){ //提示注册成功，两秒后跳转到首页
                     wx.switchTab({
                       url: '/pages/home/home',
