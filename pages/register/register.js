@@ -19,7 +19,7 @@ Page({
     search: '',
     phone:'',
     code:'',
-    target:'',
+/*     target:'', */
     firstCode: true,
     waitTime: -1,
     action: "",
@@ -31,8 +31,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
-
+  
   },
   initRegister: function(){
     let _this = this;

@@ -21,10 +21,10 @@
     <input bindinput="nameInput" class="section-3-2" placeholder="请输入真实姓名" type="string"></input>
   </view>
   <view class="section-3" catchtap="showAddress">
-      <view class="section-3-1" style="background: url('../../images/login/qiye.png') no-repeat center center;background-size: 40rpx 40rpx;"></view>
-      <input bindinput="organizeInput" value="{{organize}}" placeholder="请选择企业" data-organizecode="{{organizeCode}}" class="section-3-2" type="string" disabled></input>
-    </view>
-    <button loading="{{loading}}" class="section-4" open-type="getUserInfo" bindgetuserinfo="register">注册</button>
+    <view class="section-3-1" style="background: url('../../images/login/qiye.png') no-repeat center center;background-size: 40rpx 40rpx;"></view>
+    <input bindinput="organizeInput" value="{{organize}}" placeholder="请选择企业" data-organizecode="{{organizeCode}}" class="section-3-2" type="string" disabled></input>
+  </view>
+  <button loading="{{loading}}" class="section-4" open-type="getUserInfo" bindgetuserinfo="register">注册</button>
   <!-- 企业选择 -->
   <view wx:if="{{showAddressFlag}}" class="organize-wrapper" >
     <view class="inputSearch-wrapper">
