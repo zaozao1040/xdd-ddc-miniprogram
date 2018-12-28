@@ -23,13 +23,13 @@
       </view>
     </view>
     <!-- 轮播图 -->
-    <view class="h-v2">
-      <swiper autoplay="true" circular="true" class="h-v2-1" duration="500" indicatorActiveColor="#fff" indicatorColor="rgb(212, 203, 201)" indicatorDots="{{swiperInfo.length>1}}" interval="5000" wx:if="{{swiperInfo&&swiperInfo.length>0}}">
-        <swiper-item wx:for="{{swiperInfo}}" wx:for-index="swiperInfoIndex" wx:for-item="swiperInfoItem" wx:key="swiperInfoIndex">
-          <image class="home-image-bk" src="{{swiperInfoItem.url}}"></image>
-        </swiper-item>
-      </swiper>
-    </view>
+    <swiper autoplay="true" class="h-v2-swiper" circular="true"  duration="500" indicatorActiveColor="#fff" indicatorColor="rgb(212, 203, 201)" indicatorDots interval="5000" >
+      <swiper-item bindtap="navigateTo" wx:for="{{swiperList}}" wx:for-index="swiperListIndex" wx:for-item="swiperListItem" wx:key="swiperListIndex">
+        <navigator url="/pages/home/link?extendUrl={{swiperListItem.url}}">
+          <image class="home-image-bk" src="{{swiperListItem.image}}"></image>
+        </navigator>
+      </swiper-item>
+    </swiper>
     <!-- 宣传语 -->
     <view class="propaganda-wrapper">
       <view class='propaganda-itemwrapper' wx:for="{{propagandaList}}" wx:for-index="propagandaIndex" wx:for-item="propagandaItem" wx:key="propagandaIndex">

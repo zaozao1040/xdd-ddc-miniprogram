@@ -14,6 +14,7 @@ Page({
     wel: "",
     propagandaList: ['比外卖便宜','全程保温','食品更安全','急速退款'],
     propagandaIconArr:['bianyihuo2','peisong','shipinanquan-','tuikuan'],
+    swiperList:[],
   },
   initHome:function(){
     let _this = this
@@ -43,6 +44,27 @@ Page({
     }) : this.setData({
       wel: "晚上好"
     });
+    /* **********获取轮播图********** */
+    let param = {
+      limit:5,
+      page:1
+    }
+    homeModel.getSwiperList(param,(res)=>{
+      console.log('获取轮播图:',res)
+      if(res.code === 0){
+        _this.setData({
+          swiperList: res.data
+        })
+      }else{
+        wx.showToast({
+          title: res.msg,
+          icon: 'none',
+          duration: 2000
+        })  
+      }
+    })
+
+    /* **********获取推荐活动********** */
   },
 
   /**
@@ -84,7 +106,6 @@ Page({
       }
     })
   },
-
   logout:function(){
     wx.removeStorageSync('userInfo')
     wx.navigateTo({

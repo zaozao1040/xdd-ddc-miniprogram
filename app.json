@@ -3,6 +3,7 @@
     "pages/login/login",
     "pages/register/register",
     "pages/home/home",
+    "pages/home/link",
     "pages/logs/logs",
     "pages/loginInfo/loginInfo",
     "pages/coupon/coupon",
