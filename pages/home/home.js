@@ -9,30 +9,14 @@ Page({
   data: {
     registered: false,
     userInfo:null,
-    swiperInfo: null,
-    promotionInfo: null,
     wel: "",
     propagandaList: ['比外卖便宜','全程保温','食品更安全','急速退款'],
     propagandaIconArr:['bianyihuo2','peisong','shipinanquan-','tuikuan'],
     swiperList:[],
+    promotionList:[]
   },
   initHome:function(){
     let _this = this
-    /* **********设置轮播图数据********** */
-    this.setData({
-      swiperInfo: [{
-        url: 'https://img.4008823823.com.cn/kfcios/Banner/Banner_1_c80749057bfc4ad68d06af90bb809d25.jpg'
-      }, {
-        url: 'https://img.4008823823.com.cn/kfcios/Banner/Banner_1_d1c9737fad7d42df8b593bb7ae696e7c.jpg'
-      }, {
-        url: 'https://img.4008823823.com.cn/kfcios/Banner/Banner_1_c6e80bd6dbc5420b886937f217efc40d.jpg'
-      }],
-      promotionInfo: [{
-        url: 'https://fuss10.elemecdn.com/d/d4/16ff085900d62b8d60fa7e9c6b65dpng.png?imageMogr/format/webp/thumbnail/!240x160r/gravity/Center/crop/240x160/'
-      }, {
-          url: 'https://fuss10.elemecdn.com/b/e1/0fa0ed514c093a7138b0b9a50d61fpng.png?imageMogr/format/webp/thumbnail/!240x160r/gravity/Center/crop/240x160/'
-      }]
-    })
     /* **********设置欢迎时间********** */
     var t = new Date().getHours();
     t >= 6 && t < 11 ? this.setData({
@@ -45,11 +29,11 @@ Page({
       wel: "晚上好"
     });
     /* **********获取轮播图********** */
-    let param = {
+    let paramSwiper = {
       limit:5,
       page:1
     }
-    homeModel.getSwiperList(param,(res)=>{
+    homeModel.getSwiperList(paramSwiper,(res)=>{
       console.log('获取轮播图:',res)
       if(res.code === 0){
         _this.setData({
@@ -65,6 +49,24 @@ Page({
     })
 
     /* **********获取推荐活动********** */
+    let paramPromotion = {
+      limit:5,
+      page:1
+    }
+    homeModel.getPromotionList(paramPromotion,(res)=>{
+      console.log('获取推荐活动:',res)
+      if(res.code === 0){
+        _this.setData({
+          promotionList: res.data
+        })
+      }else{
+        wx.showToast({
+          title: res.msg,
+          icon: 'none',
+          duration: 2000
+        })  
+      }
+    })
   },
 
   /**

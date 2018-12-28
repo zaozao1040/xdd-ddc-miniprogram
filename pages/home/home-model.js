@@ -29,7 +29,7 @@ class home extends base{
     this.request(allParams)
   }
   /* 获取推荐活动 */
-  getAdvertiseList(param,callback){
+  getPromotionList(param,callback){
     let allParams = {
       url: baseUrl+'/home/banner?adType=CENTER',
       type: 'GET',

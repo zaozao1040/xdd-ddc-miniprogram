@@ -33,10 +33,9 @@
     <!-- 宣传语 -->
     <view class="propaganda-wrapper">
       <view class='propaganda-itemwrapper' wx:for="{{propagandaList}}" wx:for-index="propagandaIndex" wx:for-item="propagandaItem" wx:key="propagandaIndex">
-          <text class='iconfont icon-{{propagandaIconArr[propagandaIndex]}} icon-propaganda' decode>&nbsp;</text>
-          <text class='propaganda-title'>{{propagandaItem}}</text>
+        <text class='iconfont icon-{{propagandaIconArr[propagandaIndex]}} icon-propaganda' decode>&nbsp;</text>
+        <text class='propaganda-title'>{{propagandaItem}}</text>
       </view>
-
     </view>
     <!-- 开始点餐 -->
     <view class="h-v3">
@@ -53,16 +52,11 @@
     </view>
     <!-- 活动 -->
     <view class="promotion-wrapper">
-      <navigator url="#" class='promotion-1'>
-        <view class='promotion-title'>人气推荐</view>
-        <view class='promotion-des'>人气推荐</view>
-        <image class="promotion-img" src="{{promotionInfo[0].url}}"/>
-      </navigator>
-      <navigator url="#" class='promotion-1'>
-        <view class='promotion-title'>人气推荐</view>
-        <view class='promotion-des'>人气推荐</view>
-        <image class="promotion-img" src="{{promotionInfo[1].url}}"/>
-      </navigator>
+      <view class="promotionItem" wx:for="{{swiperList}}" wx:for-index="promotionListIndex" wx:for-item="promotionListItem" wx:key="promotionListIndex">
+        <navigator url="/pages/home/link?extendUrl={{promotionListItem.url}}">
+          <image class="promotion-img" src="{{promotionListItem.image}}"/>
+        </navigator>        
+      </view>
     </view>
 
 
