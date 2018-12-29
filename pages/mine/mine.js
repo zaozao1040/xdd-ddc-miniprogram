@@ -11,18 +11,17 @@ Page({
     scrollTop: 0,
     //用户信息
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    userInfo: {},
+    userInfo:null,
     //
-    orderList:['全部订单','待取订单','待评价','已取消','轻松退'],
-    orderIconArr: ['dingdan5','dingdan4','pingjia','yiquxiao1','tuikuan1'],
-    labelList:['地址管理','浏览记录','下单闹钟','客户服务','推荐有奖','更多'],
-    labelIconArr: ['dizhi','zuji','naozhong','kefu','bajiefuli','gengduo'],
+    labelList:['换绑手机','换绑企业','地址管理','浏览记录','下单闹钟','客户服务','推荐有奖','更多'],
+    labelIconArr: ['shouji1','qiye1','dizhi','zuji','naozhong','kefu','bajiefuli','gengduo'],
+    navigatorUrl:['/pages/mine/phone/phone','/pages/mine/organize/organize','/pages/mine/address/address']
   },
   initMine: function(){
-    let that = this;
+    let _this = this;
     wx.getSystemInfo({
       success: function(res) {
-        that.setData({
+        _this.setData({
           windowHeight: res.windowHeight
         })
       }
@@ -31,33 +30,19 @@ Page({
     query.select('.c_scrollPosition_forCalculate').boundingClientRect()
     query.selectViewport().scrollOffset()
     query.exec(function (res) {
-      that.setData({
+      _this.setData({
         scrollTop: res[0].top // #the-id节点的上边界坐标
       })
+    })
+    let tmp_userInfo = wx.getStorageSync('userInfo')
+    _this.setData({
+      userInfo:tmp_userInfo
     })
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
-    let that = this
-    //初始化，获取一些必要参数，如高度
-    that.initMine()
-    // 查看是否授权
-    wx.getSetting({
-      success(res) {
-        if (res.authSetting['scope.userInfo']) {
-          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-          wx.getUserInfo({
-            success(res) {
-              that.setData({   
-                userInfo : res.userInfo
-              })
-            }
-          })
-        }
-      }
-    })
 
   },
 
@@ -72,7 +57,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    let _this = this
+    //初始化，获取一些必要参数，如高度
+    _this.initMine()
   },
 
   /**

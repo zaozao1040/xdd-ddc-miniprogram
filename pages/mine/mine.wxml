@@ -3,16 +3,16 @@
   <!--头部-->
   <view class="header">
     <view class="left" >
-      <image wx:if="{{userInfo.avatarUrl}}" class="left-image" src="{{userInfo.avatarUrl}}"></image>
-      <image wx:else class="left-image" src="/images/mine/huiyuan.png" alt="" />
+      <image wx:if="{{userInfo.headImage}}" class="left-image" src="{{userInfo.headImage}}"></image>
+      <image wx:else class="left-image" src="/images/mine/huiyuan.png" alt=""></image>
     </view>
     <view class="middle" >
       <view class="userName" >
-        李春来
+          {{userInfo.name}}
       </view>
       <view class="userPhone" >
         <text class='iconfont icon-shouji userPhone'></text>
-        <text>18767654456</text>  
+        <text>{{userInfo.phoneNumber}}</text>  
       </view>
     </view>
     <view class="right" >
@@ -21,19 +21,11 @@
       </navigator>
     </view>
   </view>
-  <!-- 各种订单 -->
-<!--   <view class="order-wrapper">
-    <navigator url="#" class='order-itemwrapper' wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
-      <view class='iconfont icon-{{orderIconArr[orderIndex]}} icon-order' decode></view>
-      <view class='order-title'>{{orderItem}}</view>
-    </navigator>
-  </view>
-  <view style="height:30rpx;"></view> -->
   <!-- 钱包 优惠券 积分 -->
   <view class="offer-wrapper">
-    <navigator url="#" class="offerItem-wrapper">
+    <navigator url="/pages/mine/wallet/wallet" class="offerItem-wrapper">
       <view>
-        <text class="money-1" >9.19</text>
+        <text class="money-1" >{{userInfo.balance}}</text>
         <text class="money-2" >元</text>
       </view>
       <view class='offer-title' >
@@ -43,7 +35,7 @@
     </navigator>
     <navigator url="#" class="offerItem-wrapper">
       <view>
-        <text class="youhui-1" >3</text>
+        <text class="youhui-1" >{{userInfo.discountSize}}</text>
         <text class="youhui-2" >张</text>
       </view>
       <view class='offer-title' >
@@ -53,7 +45,7 @@
     </navigator>
     <navigator url="#" class="offerItem-wrapper">
       <view>
-        <text class="point-1" >12</text>
+        <text class="point-1" >{{userInfo.integral}}</text>
         <text class="point-2" >分</text>
       </view>
       <view class='offer-title' >
@@ -66,7 +58,7 @@
   <!-- 各种标签 -->
   <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;" class="c_scrollPosition_forCalculate">
     <view class="label-wrapper">
-      <navigator url="#" class='label-itemwrapper' wx:for="{{labelList}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex">
+      <navigator url="{{navigatorUrl[labelIndex]}}" class='label-itemwrapper' wx:for="{{labelList}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex">
         <text class='iconfont icon-{{labelIconArr[labelIndex]}}' ></text>
         <text class='label-title' decode>&nbsp;&nbsp;{{labelItem}}</text>
         <text class='iconfont icon-icon_on_the_right iconfont-label-right'></text>

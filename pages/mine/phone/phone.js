@@ -1,8 +1,8 @@
-var t = require("../../comm/script/helper")
-import { register } from '../register/register-model.js'
-import { login } from './login-model.js'
-let loginModel = new login()
+var t = require("../../../comm/script/helper")
+import { register } from '../../register/register-model.js'
+import { phone } from './phone-model.js'
 let registerModel = new register()
+let phoneModel = new phone()
 Page({
 
   /**
@@ -10,7 +10,7 @@ Page({
    */
   data: {
     loading: false,
-    phone:'',
+    phone: wx.getStorageSync('userInfo').phoneNumber,
     code:'',
     firstCode: true,
     waitTime: -1,
@@ -20,8 +20,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-  },
 
+  },
   phoneInput: function (e) {
     this.setData({
       phone: e.detail.value
@@ -67,8 +67,7 @@ Page({
       }
     })
   },
-  /* 登录 */
-  login:function(res){ //点击登录，先获取个人信息，这个是微信小程序的坑，只能通过这个button来实现
+  changePhone:function(){
     let _this = this
     if (t._validCellPhone(_this.data.phone)){
       if(_this.data.code == ''){
@@ -82,7 +81,7 @@ Page({
           success: function(res){
             if(res.code){
               let param = {
-                code: res.code, //微信code
+                userCode: wx.getStorageSync('userInfo').userCode, 
                 validation: _this.data.code, //短信验证码
                 phoneNumber: _this.data.phone
               }
@@ -93,17 +92,19 @@ Page({
                 title: '加载中',
                 mask: true
               })
-              loginModel.login(param,(res)=>{
-                console.log('收到请求(登录):',res)
+              phoneModel.changePhone(param,(res)=>{
+                console.log('收到请求(更换手机):',res)
                 if(res.code === 0){
-                  wx.setStorageSync('userInfo', res.data)
-                  setTimeout(function(){ //提示登录成功，两秒后跳转到首页
+                  let tmp_userInfo = wx.getStorageSync('userInfo')
+                  tmp_userInfo.phoneNumber = _this.data.phone
+                  wx.setStorageSync('userInfo', tmp_userInfo)
+                  setTimeout(function(){ //提示修改手机号成功，两秒后跳转到’我的‘
                     wx.switchTab({
-                      url: '/pages/home/home',
+                      url: '/pages/mine/mine',
                     })
                     wx.hideLoading() //【防止狂点3】
                     wx.showToast({
-                      title: '登录成功',
+                      title: '手机更换成功',
                       icon: 'success',
                       duration: 2000
                     })
@@ -132,6 +133,8 @@ Page({
       })   
     }
   },
+
+
 
 
 })

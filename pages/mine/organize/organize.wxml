@@ -1,0 +1,39 @@
+<view class="organize-wrapper" >
+  <view class="section-3" catchtap="showAddress">
+    <view class="section-3-1" style="background: url('../../../images/login/qiye.png') no-repeat center center;background-size: 40rpx 40rpx;"></view>
+    <input value="{{organize}}" placeholder="请选择企业" data-organizecode="{{organizeCode}}" class="section-3-2" type="string" disabled></input>
+  </view>
+  <view class="search-wrapper" >
+    <view class="" style="height: 10rpx;">
+      
+    </view>
+    <view class="inputSearch-wrapper">
+      <input bindinput="searchInput"  class="inputSearch" maxlength="11" placeholder="搜索企业名..."></input>
+    </view>
+    <scroll-view scroll-y style="height: {{buttonTop - scrollTop}}px;" class="c_scrollPosition_forCalculate">
+      <view class="organizeItem-wrapper" wx:for="{{organizeList}}" wx:for-index="organizeIndex" wx:for-item="organizeItem" wx:key="organizeIndex"
+        catchtap="selectOrganize" data-organizename="{{organizeItem.organizeName}}" data-organizecode="{{organizeItem.organizeCode}}">
+        <view class="organizeItem-left">
+          <view class="organizeName">
+            {{organizeItem.organizeName}}
+          </view>
+          <view class="organizeAddress">
+            {{organizeItem.address}}
+          </view>
+        </view>
+        <view class="organizeItem-right">
+          {{organizeItem.distance/1000}}公里
+        </view>
+      </view>
+      <view wx:if="{{organizeListNoResult}}" class="noResult">
+        未查询到企业..
+      </view>
+    </scroll-view>
+  </view>
+  <view class="c_buttonPosition_forCalculate">
+    <button loading="{{loading}}" class="button" catchtap="changeOrganize">绑定企业</button>
+  </view>
+</view>
+
+    
+  

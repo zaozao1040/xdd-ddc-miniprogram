@@ -1,15 +1,4 @@
-.login-container {
-  padding: 0 30rpx;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background-color: #eee;
-  position: fixed;
-  top:0;
-  bottom:0;
-  left:0;
-  right:0;
-}
+
 
 .section-1 {
   width: 100%;
@@ -100,24 +89,32 @@
 }
 /* 企业选择 */
 .organize-wrapper{
-  z-index: 99;
-  background: #fff;
+  background: #eee;
+  padding: 10rpx 20rpx;
   position: fixed;
   top:0;
   bottom: 0;
   left: 0;
   right: 0;
 }
+.search-wrapper{
+  background: #FFF;
+  margin-top: 10rpx;
+}
 .inputSearch-wrapper{
   border: #ddd 1rpx solid;
   border-radius: 40rpx;
-  margin: 10rpx 20rpx;
+  padding: 10rpx 20rpx;
   padding-left: 40rpx;
+  margin:10rpx;
 }
 .inputSearch{
-
-  height: 80rpx;
-  line-height: 80rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  font-size: 30rpx;
+}
+.c_scrollPosition_forCalculate{
+  margin-top:20rpx;
 }
 .organizeItem-wrapper{
   display: flex;
@@ -160,4 +157,23 @@
   padding:10rpx 20rpx;
   font-size: 40rpx;
   color:#666;
+}
+.c_buttonPosition_forCalculate{
+  padding: 0 20rpx 20rpx 20rpx;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.button {
+  width: 100%;
+  margin-top: 25rpx;
+  height: 100rpx;
+  text-align: center;
+  background-color: forestgreen;
+  border-radius: 15rpx;
+  line-height: 100rpx;
+  color: #FFF;
+  font-weight: bold;
+  font-size: 36rpx;
 }

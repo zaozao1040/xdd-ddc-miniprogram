@@ -128,9 +128,18 @@
 .label-itemwrapper:last-child{
   border-bottom: none;
 }
-.icon-dizhi{
+
+.icon-shouji1{
+  font-size: 40rpx;
+  color:rgb(66, 76, 83);
+}
+.icon-qiye1{
   font-size: 40rpx;
   color:rgb(51, 133, 189);
+}
+.icon-dizhi{
+  font-size: 40rpx;
+  color:rgb(46, 138, 17);
 }
 .icon-zuji{
   font-size: 40rpx;

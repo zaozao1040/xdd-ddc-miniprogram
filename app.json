@@ -14,7 +14,11 @@
     "images/menu/menu",
     "pages/menu/menu",
     "pages/mine/mine",
-    "pages/mine/userDetail/userDetail"
+    "pages/mine/userDetail/userDetail",
+    "pages/mine/phone/phone",
+    "pages/mine/organize/organize",
+    "pages/mine/address/address",
+    "pages/mine/wallet/wallet"
   ],
   "window": {
     "navigationBarBackgroundColor": "#000000",

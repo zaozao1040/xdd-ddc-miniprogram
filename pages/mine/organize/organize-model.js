@@ -1,11 +1,11 @@
-import { base } from '../../comm/public/base'
+import { base } from '../../../comm/public/base'
 const app = getApp()  
 const baseUrl = app.globalData.baseUrl
-class login extends base{
-  /* 登录 */
-  login(param,callback){
+class organize extends base{
+  /* 更换企业 */
+  changeOrganize(param,callback){
     let allParams = {
-      url: baseUrl+'/login/login',
+      url: baseUrl+'/user/organize',
       type: 'POST',
       data: param,
       sCallback: function (data) {
@@ -15,9 +15,5 @@ class login extends base{
     }
     this.request(allParams)
   }
-  /* 登出 */
-  logout(){
-    wx.setStorageSync('userInfo', null)
-  }
 }
-export { login }
+export { organize }

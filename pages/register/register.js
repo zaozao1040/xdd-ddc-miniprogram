@@ -68,7 +68,7 @@ Page({
           myLatitude: res.latitude
         }
         wx.showLoading({ 
-          title: '加载中'
+          title: '企业列表加载中'
         })
         //请求企业列表
         registerModel.getOrganizeListByLocation(param,(res)=>{
@@ -83,9 +83,6 @@ Page({
         }) 
       }
     })
-  },
-  getDistancesDes:function(distance){
-    return distance/1000
   },
   changeShowAddressFlag:function(){
     this.setData({
@@ -225,20 +222,9 @@ Page({
                 mask: true
               })
               registerModel.register(param,(res)=>{
-                console.log('收到请求(登录):',param,res)
+                console.log('收到请求(登录):',res)
                 if(res.code === 0){
-                  let tmp_userInfo = {
-                    phoneNumber: _this.data.phone,
-                    nickName: userInfo.nickName,
-                    headImage: userInfo.avatarUrl,
-                    sex: userInfo.gender,
-                    name: _this.data.name,
-                    userType: "B_USER", 
-                    organizeCode: _this.data.organizeCode,
-                    organize: _this.data.organize    
-                  }
-                  getApp().globalData.userInfo = tmp_userInfo //设置全局变量 以及缓存变量
-                  wx.setStorageSync('userInfo', tmp_userInfo)
+                  wx.setStorageSync('userInfo', res.data)
                   setTimeout(function(){ //提示注册成功，两秒后跳转到首页
                     wx.switchTab({
                       url: '/pages/home/home',

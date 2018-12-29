@@ -4,7 +4,7 @@
     width: 100%;
     flex-direction: column;
     display: flex;
-    background: #efeff4;
+    background: #eee;
     font-family: "微软雅黑","华文细黑",Arial,Helvetica,sans-serif;
     position: fixed;
     top:0;

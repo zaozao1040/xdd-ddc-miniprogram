@@ -37,7 +37,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 11,
+			"current": -1,
 			"list": [
 				{
 					"id": -1,
@@ -83,32 +83,33 @@
 				},
 				{
 					"id": -1,
-					"name": "mine",
-					"pathName": "pages/menu/menu",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "mine",
-					"pathName": "pages/mine/mine",
-					"query": ""
-				},
-				{
-					"id": -1,
 					"name": "userDetail",
 					"pathName": "pages/mine/userDetail/userDetail",
 					"query": ""
 				},
 				{
 					"id": -1,
-					"name": "mine",
-					"pathName": "pages/mine/mine",
+					"name": "register",
+					"pathName": "pages/register/register",
 					"query": ""
 				},
 				{
 					"id": -1,
-					"name": "register",
-					"pathName": "pages/register/register"
+					"name": "phone",
+					"pathName": "pages/mine/phone/phone",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "organize",
+					"pathName": "pages/mine/organize/organize",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "wallet",
+					"pathName": "pages/mine/wallet/wallet",
+					"query": ""
 				}
 			]
 		}

@@ -1,6 +1,6 @@
 <!--pages/mine/userDetail/userDetail.wxml-->
 <view class="detail-wrapper">
-  <view class="space">账号绑定</view>
+  <view class="space">手机绑定/修改</view>
   <view class="detail-item">
     <view class="label" >
       手机
@@ -9,9 +9,8 @@
       <text decode>18778765546&nbsp;</text>  
       <text class='iconfont icon-icon_on_the_right'></text>      
     </view>
-
   </view>
-  <view class="space">企业绑定</view>
+  <view class="space">企业绑定/修改</view>
   <view class="detail-item">
     <view class="label" >
       选择企业

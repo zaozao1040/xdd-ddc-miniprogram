@@ -1,0 +1,54 @@
+
+<view class="wallet-wrapper" >
+  <!-- 头部 -->
+  <view class="header" >
+    <view class="header-des">
+      账户余额
+    </view>  
+    <text class="header-label" decode>
+      ¥&nbsp;
+    </text>
+    <view class="header-item">
+      0.00
+    </view>
+
+  </view>
+  <!-- 内容 -->
+  <view class="content" >
+    <view class="content-header" >
+      <view class="content-header-item {{itemStatusActiveFlag==true?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="chongzhi">
+        在线充值
+      </view>
+      <view class="content-header-item {{itemStatusActiveFlag==false?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="jiaoyi">
+        交易记录
+      </view>
+    </view>
+    <view class="content-content" hover-class="none" hover-stop-propagation="false">
+      <!-- 充值的内容区域 -->
+      <view wx:if="{{itemStatusActiveFlag}}" class="chongzhi-wrapper" >
+        <view class="chongzhi-item-line" wx:for="{{moneyList}}" wx:for-index="moneyIndex_line" wx:for-item="moneyItem_line" wx:key="moneyIndex_line">
+          <view wx:for="{{moneyItem_line}}" wx:for-index="moneyIndex" wx:for-item="moneyItem" wx:key="moneyIndex"
+                class="chongzhi-item {{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex?'chongzhi-item-active':''}}"
+                catchtap="changeMoneyActiveFlag" data-activeflag1="{{moneyIndex_line}}" data-activeflag2="{{moneyIndex}}" data-selectedmoney="{{moneyItem}}">
+            <text class="chongzhi-label" decode>¥&nbsp;</text>
+            <text class="chongzhi-money" decode>{{moneyItem}}</text>
+          </view>
+        </view>
+        <view class="explain-wrapper" hover-class="none" hover-stop-propagation="false">
+          <view class="explain-title">充值说明</view>
+          <text class="explain-des">1.{{explainDes.one}}</text>
+          <text class="explain-des">2.{{explainDes.two}}</text>
+          <text class="explain-des">3.{{explainDes.three}}</text>
+        </view>
+        <button catchtap="recharge" loading="{{loading}}" class="button">立即充值</button>        
+      </view>
+      <!-- 交易记录的内容区域 -->
+      <view wx:else class="jilu-wrapper" >
+
+
+      </view>      
+    </view>
+
+  </view>
+</view>
+
