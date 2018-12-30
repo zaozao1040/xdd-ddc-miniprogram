@@ -1,0 +1,24 @@
+    timeInfo: [],
+    top_0: 0,
+    top_1: 0,
+    top_2: 0,
+    windowHeight: 0,
+    timeActiveFlag:0, //默认今天
+    timeDesActive:'', //选中的日期描述，如‘2018-12-22’
+    foodtypeActiveFlag:1, //默认餐别是该用户所在企业拥有餐标数组中的第一个
+    foodtypeDesActive:'', //选中的餐别描述，如‘LUNCH’
+    menutypeActiveFlag:0, 
+    boxActiveFlag: false,//默认关闭
+    loading: false,
+    canClick:true,
+    //四个重要的数据
+    selectedFoods:[],
+    cacheMenuDataAll:[[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]], //7行4列数组，用于存所有选中的数据---当前所有数据
+    totalMoney: 0,
+    totalCount:0,
+    
+    mapMenutype: ['早餐','午餐','晚餐','夜宵'],
+    mapMenutypeIconName: ['zaocan1','wucan','canting','xiaoye-'],
+    scrollToView: 'id_0',
+    listHeight: [], //这个数组记录每个餐类的"之前所有餐类描述+所有具体餐品"的占用高度值
+    timer: null

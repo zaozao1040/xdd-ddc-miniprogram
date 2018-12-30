@@ -149,28 +149,18 @@
   text-overflow:ellipsis;
   white-space:nowrap;
 }
-.merchant{
-  display: table;
-  padding: 2rpx 0;
+.sellCountRating{
+  display: flex;
+  padding-top: 5rpx;
+  font-size: 25rpx;
+  color: #666666;
 }
-.icon-merchant{
-  display: table-cell;
-  vertical-align: middle;
-  font-size: 30rpx;
-  color:seagreen;
-  height: 35rpx;
-  line-height: 35rpx;
+.rating{
+  padding-left:20rpx;
 }
-.merchantName{
-  display: table-cell;
-  vertical-align: middle;
-  font-size: 20rpx;
-  height: 35rpx;
-  line-height: 35rpx;
-  padding: 0 20rpx;
-  color: #444;
-  background: rgb(209, 231, 247);
-  border-radius: 6rpx;
+.icon-xingxing{
+  font-size: 25rpx;
+  color: goldenrod;
 }
 .price{
   position: absolute;
@@ -182,7 +172,6 @@
 .price-real{
   display: inline-block;
   color: red;
-  font-size: 30rpx;
 }
 .price-original{
   display: inline-block;
@@ -310,12 +299,9 @@
   font-size:30rpx;
   height: 90rpx;
   line-height: 90rpx;
-  color: #fff;
+  color: #666666;
 }
-.notUse{
-  color: rgb(255, 180, 180);
-  font-weight: 600;
-}
+
 /* **********购物车********** */
 .cart-wrapper{
 	position: fixed;
@@ -355,7 +341,7 @@
 .cart-day-title{
   margin-left:10rpx;
   font-size: 35rpx;
-  color:#222;
+  color:#666;
   font-weight:400;
 }
 .cart-day-content{

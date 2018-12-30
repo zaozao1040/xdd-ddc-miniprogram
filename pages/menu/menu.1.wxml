@@ -1,101 +1,107 @@
+<!--pages/time/time.wxml-->
 <view class="wrapper">
-  <!-- 七天日期 -->
+<!--   <view class="time-1">
+      {{timeInfo[0].year}}年{{timeInfo[0].month}}月
+  </view> -->
   <view class="time-2" >
     <view class="time-2-item {{timeActiveFlag==timeInfoIndex?'timeActive':''}}" data-timeindex="{{timeInfoIndex}}" bindtap="handleChangeTimeActive" 
-      wx:for="{{timeInfo.userOrderDateVO}}" wx:for-index="timeInfoIndex" wx:for-item="timeInfoItem" wx:key="timeInfoIndex">
+      wx:for="{{timeInfo}}" wx:for-index="timeInfoIndex" wx:for-item="timeInfoItem" wx:key="timeInfoIndex">
       <view class="time-2-day">
-        {{timeInfoItem.dateShort}}
+        {{timeInfoItem.day}}
       </view>
       <view class="time-2-dayDes">
         <block wx:if="{{timeInfoIndex==0}}" selectable="false" space="false" decode="false">
           今天
         </block>
-        <block wx:elif="{{timeInfoItem.dateShort=='01'}}" selectable="false" space="false" decode="false">
+        <block wx:if="{{timeInfoItem.month!=timeInfo[0].month}}" selectable="false" space="false" decode="false">
           下个月
         </block>
-        <block wx:else></block>
       </view>
     </view>
   </view>
   <!-- 第二排 餐品类型 -->
-  <view class="foodType-wrapper" >
-    <view wx:if="{{timeInfo.userOrderMealTypeVO.BREAKFAST}}" class="foodType-item {{foodtypeActiveFlag==0?'foodtypeActive':''}}" data-foodtypeindex="0" bindtap="handleChangeFoodtypeActive">
+  <view class="foodType-wrapper">
+    <view class="foodType-item {{foodtypeActiveFlag==0?'foodtypeActive':''}}" data-foodtypeindex="0" bindtap="handleChangeFoodtypeActive">
       <text class='iconfont iconfont-foodType icon-zaocan1'></text> 早餐
     </view>
-    <view wx:if="{{timeInfo.userOrderMealTypeVO.LUNCH}}" class="foodType-item {{foodtypeActiveFlag==1?'foodtypeActive':''}}" data-foodtypeindex="1" bindtap="handleChangeFoodtypeActive">
+    <view class="foodType-item {{foodtypeActiveFlag==1?'foodtypeActive':''}}" data-foodtypeindex="1" bindtap="handleChangeFoodtypeActive">
       <text class='iconfont iconfont-foodType icon-wucan'></text> 午餐
     </view>
-    <view wx:if="{{timeInfo.userOrderMealTypeVO.DINNER}}" class="foodType-item {{foodtypeActiveFlag==2?'foodtypeActive':''}}" data-foodtypeindex="2" bindtap="handleChangeFoodtypeActive">
+    <view class="foodType-item {{foodtypeActiveFlag==2?'foodtypeActive':''}}" data-foodtypeindex="2" bindtap="handleChangeFoodtypeActive">
       <text class='iconfont iconfont-foodType icon-canting'></text> 晚餐
     </view>
-    <view wx:if="{{timeInfo.userOrderMealTypeVO.NIGHT}}" class="foodType-item {{foodtypeActiveFlag==3?'foodtypeActive':''}}" data-foodtypeindex="3" bindtap="handleChangeFoodtypeActive">
+    <view class="foodType-item {{foodtypeActiveFlag==3?'foodtypeActive':''}}" data-foodtypeindex="3" bindtap="handleChangeFoodtypeActive">
       <text class='iconfont iconfont-foodType icon-xiaoye-'></text> 夜宵
     </view>
   </view> 
   <!-- 截止时间 -->
   <view class="time-deadline" >
     <text style="font-size:25rpx;color:#666;vertical-align: middle;" decode>截止时间:&nbsp;&nbsp;&nbsp;</text>
-    <text style="font-size:30rpx;color:red;vertical-align: middle;">{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].deadline}}</text>
+    <text style="font-size:30rpx;color:red;vertical-align: middle;">2018-12-21 19:00</text>
   </view>
   <!-- 内容区域 -->
   <view class="menu-wrapper c_scrollPosition_forCalculate" >
     <!-- 左边菜品分类 -->
     <scroll-view class="menu-left" scroll-y style="height: {{top_2 - top_0}}px;">
       <view class="left-item {{menutypeActiveFlag==menutypeIndex?'menutypeActive':''}}" data-menutypeindex="{{menutypeIndex}}" bindtap="handleChangeMenutypeActive" 
-        wx:for="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].foods}}" wx:for-item="menutypeItem" wx:for-index="menutypeIndex" wx:key="menutypeIndex">
-        {{menutypeItem.category}}
+        wx:for="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].foodList}}" wx:for-item="menutypeItem" wx:for-index="menutypeIndex" wx:key="menutypeIndex">
+        {{menutypeItem.type_name}}
       </view>
     </scroll-view>
     <!-- 右边具体菜品 -->
     <scroll-view class="menu-right" scroll-y scroll-with-animation="true" bindscroll="handleScroll" style="height: {{top_2 - top_0}}px;" scroll-into-view="{{scrollToView}}">
-      <view class="c_foodPosition_forCalculate right-item" wx:for="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].foods}}" wx:for-item="menutypeItem" wx:for-index="menutypeIndex" wx:key="menutypeIndex">
+      <view class="c_foodPosition_forCalculate right-item" wx:for="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].foodList}}" wx:for-item="menutypeItem" wx:for-index="menutypeIndex" wx:key="menutypeIndex">
           <view id="order{{menutypeIndex}}" class="right-item-text">
-            <text class="iconfont icon-jiageprice1" decode style="font-size: 25rpx;color:#555;">&nbsp;&nbsp;</text>{{menutypeItem.category}}
+            <text class="iconfont icon-jiageprice1" decode style="font-size: 25rpx;color:#555;">&nbsp;&nbsp;</text>{{menutypeItem.type_name}}
           </view>
-          <view class="food-wrapper-nofood" wx:if="{{menutypeItem.foods.length<=0}}">
+          <view class="food-wrapper-nofood" wx:if="{{menutypeItem.food_date.length<=0}}">
             <view class="food-wrapper-nofood-text">
               暂无...
             </view>
           </view>
           <!-- 单个食物 -->
-          <view class="food-wrapper" wx:for="{{menutypeItem.foods}}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex"
-            bindtap="handleShowFoodDetail" data-foodid="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}" data-picpath="{{foodItem.image}}" >
+          <view class="food-wrapper" wx:for="{{menutypeItem.food_date}}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex">
             <view class="img-wrapper">
-              <image class="food-img" src="{{foodItem.image}}"></image>    
+              <image class="food-img" src="{{foodItem.img_pic.pic_path}}"></image>    
             </view>
             <view class="food-info-wrapper">
               <view class="food-name">
-                {{foodItem.foodName}}
+                {{foodItem.food_name}}
               </view>
               <view class="food-desc">
-                {{foodItem.description}}
+                {{foodItem.food_desc}}
               </view>
-              <view class="merchant">
-                <text class='iconfont icon-merchant' decode>&nbsp;</text>
-                <view class="merchantName" hover-class="none" hover-stop-propagation="false">
-                  {{foodItem.merchantName}}
+              <view class="sellCountRating">
+                <view class="sellCount" wx:if="{{foodItem.sellCount}}">
+                  已售{{foodItem.sellCount}}份  
+                </view>
+                <view class="rating" wx:if="{{foodItem.rating}}">
+                  评价
+                  <block wx:for="{{foodItem.rating}}" wx:key="index">
+                    <text class='iconfont icon-xingxing'></text>
+                  </block>
                 </view>
               </view>
               <view class="price">
                 <view class="price-real">
-                  <text style="font-size: 25rpx;">￥</text>{{foodItem.foodPrice}}
+                  ￥{{foodItem.food_store_price}}
                 </view> 
-                <view wx:if="{{foodItem.foodOriginal}}" class="price-original">
-                  <text style="font-size: 25rpx;">￥</text>{{foodItem.foodOriginal}}
+                <view wx:if="{{foodItem.food_store_price_original}}" class="price-original">
+                  ￥{{foodItem.food_store_price_original}}
                 </view>  
               </view>
               <!-- ***************  + - 添加、减掉餐品的小控件(菜单中) *************** -->
               <view  class="num-control" >
                 <view wx:if="{{foodItem.food_count>0}}" style="display: inline-block;font-size:40rpx;" class='iconfont icon-jian-xianxingyuankuang'
-                  data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}" data-day="{{timeActiveFlag}}" data-foodtype="{{foodtypeActiveFlag}}"
-                  data-foodid="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}" data-picpath="{{foodItem.image}}" catchtap="handleMinusfood">
+                  data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}" data-day="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].day}}" data-foodtype="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].foodType}}"
+                  data-foodid="{{foodItem.food_id}}" data-foodprice="{{foodItem.food_store_price}}" data-foodname="{{foodItem.food_name}}" data-picpath="{{foodItem.img_pic.pic_path}}" bindtap="handleMinusfood">
                 </view>
                 <view wx:if="{{foodItem.food_count>0}}" style="display: inline-block;font-size:40rpx;width:60rpx;text-align: center;" class="num" >
                   {{foodItem.food_count}}
                 </view>
                 <view style="display: inline-block;font-size:40rpx;" class='iconfont icon-jia-yuankuang' 
-                data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}" data-day="{{timeActiveFlag}}" data-foodtype="{{foodtypeActiveFlag}}" 
-                  data-foodid="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}" data-picpath="{{foodItem.image}}" catchtap="handleAddfood">
+                data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}" data-day="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].day}}" data-foodtype="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].foodType}}" 
+                  data-foodid="{{foodItem.food_id}}" data-foodprice="{{foodItem.food_store_price}}" data-foodname="{{foodItem.food_name}}" data-picpath="{{foodItem.img_pic.pic_path}}" bindtap="handleAddfood">
                 </view>
               </view>
             </view>
@@ -120,7 +126,7 @@
     <scroll-view scroll-y class="cart-content" wx:else style="height: {{top_2 - top_1}}px;">
       <view class="cart-day-wrapper" wx:for="{{selectedFoods}}" wx:for-item="selectedfoodsItem" wx:for-index="selectedfoodsIndex" wx:key="selectedfoodsIndex">
         <view class="cart-day-title" >
-          {{timeDesActive}}
+          {{timeInfo[selectedfoodsItem.day].year}}年{{timeInfo[selectedfoodsItem.day].month}}月{{timeInfo[selectedfoodsItem.day].day}}日
         </view>
         <view class="cart-day-content" wx:for="{{selectedfoodsItem.dayInfo}}" wx:for-item="foodtypeItem" wx:for-index="foodtypeIndex" wx:key="foodtypeIndex">
           <view class="cart-menutype" >
@@ -144,65 +150,34 @@
                   <view  class="num-control-cart" >
                     <view wx:if="{{foodtypeinfoItem.food_count>=0}}" style="display: inline-block;font-size:40rpx;float: right" class='iconfont icon-jia-yuankuang' 
                       data-menutypeindex="{{foodtypeinfoItem.__menutype_index}}" data-foodindex="{{foodtypeinfoItem.__food_index}}" data-day="{{selectedfoodsItem.day}}" data-foodtype="{{foodtypeItem.foodType}}"
-                      data-foodid="{{foodtypeinfoItem.foodCode}}" data-foodprice="{{foodtypeinfoItem.food_store_price}}" data-foodname="{{foodtypeinfoItem.food_name}}" data-picpath="{{foodtypeinfoItem.img_pic.pic_path}}" catchtap="handleAddfood">
+                      data-foodid="{{foodtypeinfoItem.food_id}}" data-foodprice="{{foodtypeinfoItem.food_store_price}}" data-foodname="{{foodtypeinfoItem.food_name}}" data-picpath="{{foodtypeinfoItem.img_pic.pic_path}}" bindtap="handleAddfood">
                     </view>
                     <view wx:if="{{foodtypeinfoItem.food_count>0}}" style="display: inline-block;font-size:40rpx;width:60rpx;text-align: center;float: right" class="num" >
                       {{foodtypeinfoItem.food_count}}
                     </view>
                     <view wx:if="{{foodtypeinfoItem.food_count>0}}" style="display: inline-block;font-size:40rpx;float: right" class='iconfont icon-jian-xianxingyuankuang'
                       data-menutypeindex="{{foodtypeinfoItem.__menutype_index}}" data-foodindex="{{foodtypeinfoItem.__food_index}}" data-day="{{selectedfoodsItem.day}}" data-foodtype="{{foodtypeItem.foodType}}"
-                      data-foodid="{{foodtypeinfoItem.foodCode}}" data-foodprice="{{foodtypeinfoItem.food_store_price}}" data-foodname="{{foodtypeinfoItem.food_name}}" data-picpath="{{foodtypeinfoItem.img_pic.pic_path}}" catchtap="handleMinusfood">
+                      data-foodid="{{foodtypeinfoItem.food_id}}" data-foodprice="{{foodtypeinfoItem.food_store_price}}" data-foodname="{{foodtypeinfoItem.food_name}}" data-picpath="{{foodtypeinfoItem.img_pic.pic_path}}" bindtap="handleMinusfood">
                     </view>
                   </view>
                 </view>
+                
               </view>
             </view> 
             <view class="cart-amount" >   
-              <view wx:if="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].mealLabelUsed}}" 
-                style="display:inline-block;font-size:25rpx;margin-right: 10rpx;color:#666;">
+              <view style="display:inline-block;font-size:25rpx;margin-right: 10rpx;color:#666;">
                 企业将减免额度¥
-                <view style="display:inline-block;color:red;font-size:30rpx;margin-right: 10rpx;">
-                  -{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].organizeMealLabel}}
-                </view>
               </view>
-              <view style="display:inline-block;color:red;font-size:30rpx;margin-right: 10rpx;" wx:else>
-                当前额度已被使用
+              <view style="display:inline-block;color:red;font-size:30rpx;margin-right: 10rpx;">
+                -10.00
               </view>
             </view>         
           </view>
+      
         </view>
       </view>
-      <!-- 统计 -->
-      <view class="total-wrapper">
-        <view class="total-left" hover-class="none" hover-stop-propagation="false">
-          统计
-        </view>
-        <view class="total-right" hover-class="none" hover-stop-propagation="false">
-          <view class="total-right-line1" hover-class="none" hover-stop-propagation="false">
-            <view class="" hover-class="none" hover-stop-propagation="false">
-              总额
-            </view>
-            <view class="" hover-class="none" hover-stop-propagation="false">
-              {{totalMoney}}
-            </view>
-          </view>
-          <view class="total-right-line2" hover-class="none" hover-stop-propagation="false">
-            <view class="" hover-class="none" hover-stop-propagation="false">
-              企业抵扣
-            </view>
-            <view class="" hover-class="none" hover-stop-propagation="false">
-              111
-            </view>
-          </view>          
-          <view class="total-right-line3" hover-class="none" hover-stop-propagation="false">
-            <view class="" hover-class="none" hover-stop-propagation="false">
-              另需支付
-            </view>
-            <view class="" hover-class="none" hover-stop-propagation="false">
-              222
-            </view>
-          </view> 
-        </view>
+      <view class="">
+        -------------
       </view>
     </scroll-view>
     
@@ -228,17 +203,11 @@
       </view>
     </view>
     <view wx:else class="footer-middle" style="display: flex;">
-        <view class="middle-1" wx:if="{{}}">
+        <view class="middle-1" wx:if="{{totalMoney>0}}">
           ¥{{totalMoney}}
         </view>
-        <view class="middle-2" wx:if="{{!cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].mealLabelUsed}}">
-          企业将抵扣:<text style="font-size: 20rpx;color:rgb(255, 180, 180);" decode>￥&nbsp;</text>
-          <text style="color:rgb(255, 180, 180);font-weight: 500;">
-            {{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].organizeMealLabel}}
-          </text>
-        </view>
-        <view class="middle-2 notUse" wx:else>
-          当前额度已被使用
+        <view class="middle-2">
+          额度抵扣¥<text style="color:red;font-weight: 500;">-11</text>
         </view>
       </view>
     <view class="footer-right" >
