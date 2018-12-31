@@ -2,12 +2,13 @@ App({
   globalData: {
     baseUrl: 'http://192.168.1.123:8080',
     userInfo: null,
-    test:'123',
     selectedFoods:[],
     cacheMenuDataAll:[[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],
       [null,null,null,null],[null,null,null,null],[null,null,null,null]], //7行4列数组，用于存所有选中的数据---当前所有数据
-    totalMoney: 0,
-    totalCount:0,
+    totalCount: 0,
+    totalMoney: 0,//总价格
+    realMoney:0,//实际价格
+    totalCount:0
   },
   /**
    * 当小程序初始化完成时，会触发 onLaunch（全局只触发一次）

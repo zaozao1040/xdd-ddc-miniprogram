@@ -59,7 +59,7 @@
           </view>
           <!-- 单个食物 -->
           <view class="food-wrapper" wx:for="{{menutypeItem.foods}}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex"
-            bindtap="handleShowFoodDetail" data-foodcode="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}" data-image="{{foodItem.image}}" >
+            bindtap="handleShowFoodDetail" data-foodid="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}" data-picpath="{{foodItem.image}}" >
             <view class="img-wrapper">
               <image class="food-img" src="{{foodItem.image}}"></image>    
             </view>
@@ -86,16 +86,16 @@
               </view>
               <!-- ***************  + - 添加、减掉餐品的小控件(菜单中) *************** -->
               <view  class="num-control" >
-                <view wx:if="{{foodItem.foodCount>0}}" style="display: inline-block;font-size:40rpx;" class='iconfont icon-jian-xianxingyuankuang'  
-                  data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}"
-                  data-foodcode="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}" data-image="{{foodItem.image}}" catchtap="handleMinusfood">
+                <view wx:if="{{foodItem.food_count>0}}" style="display: inline-block;font-size:40rpx;" class='iconfont icon-jian-xianxingyuankuang'
+                  data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}" data-day="{{timeActiveFlag}}" data-foodtype="{{foodtypeActiveFlag}}" data-daydes="{{timeDesActive}}" data-foodtypedes="{{foodtypeDesActive}}"
+                  data-foodid="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}" data-picpath="{{foodItem.image}}" catchtap="handleMinusfood">
                 </view>
-                <view wx:if="{{foodItem.foodCount>0}}" style="display: inline-block;font-size:40rpx;width:60rpx;text-align: center;" class="num" >
-                  {{foodItem.foodCount}}
+                <view wx:if="{{foodItem.food_count>0}}" style="display: inline-block;font-size:40rpx;width:60rpx;text-align: center;" class="num" >
+                  {{foodItem.food_count}}
                 </view>
                 <view style="display: inline-block;font-size:40rpx;" class='iconfont icon-jia-yuankuang' 
-                  data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}"
-                  data-foodcode="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}" data-image="{{foodItem.image}}" catchtap="handleAddfood">
+                data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}" data-day="{{timeActiveFlag}}" data-foodtype="{{foodtypeActiveFlag}}" data-daydes="{{timeDesActive}}" data-foodtypedes="{{foodtypeDesActive}}"
+                  data-foodid="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}" data-picpath="{{foodItem.image}}" catchtap="handleAddfood">
                 </view>
               </view>
             </view>
@@ -131,38 +131,38 @@
             <view>
               <view class="cart-menuItem" wx:for="{{foodtypeItem.foodTypeInfo}}" wx:for-item="foodtypeinfoItem" wx:for-index="foodtypeinfoIndex" wx:key="foodtypeinfoIndex">
                 <view class="cart-menuItem-left">
-                  <image class="cart-menuItem-img" src="{{foodtypeinfoItem.image}}"></image> 
+                  <image class="cart-menuItem-img" src="{{foodtypeinfoItem.food_picpath}}"></image> 
                 </view>
                 <view class="cart-menuItem-right">
                   <view class="cart-menuItemDes" >
-                    {{foodtypeinfoItem.foodName}}
+                    {{foodtypeinfoItem.food_name}}
                   </view>
-                  <view class="cart-menuItemTotalmoney" wx:if="{{foodtypeinfoItem.foodCount>0}}">
-                    <text style="color:red;font-size:40rpx;">¥{{foodtypeinfoItem.foodTotalPrice}}</text>
+                  <view class="cart-menuItemTotalmoney" wx:if="{{foodtypeinfoItem.food_count>0}}">
+                    <text style="color:red;font-size:40rpx;">¥{{foodtypeinfoItem.food_total_price}}</text>
                   </view>
                   <!-- ***************  + - 添加、减掉餐品的小控件(购物车中) *************** -->
                   <view  class="num-control-cart" >
-                    <view wx:if="{{foodtypeinfoItem.foodCount>=0}}" style="display: inline-block;font-size:40rpx;float: right" class='iconfont icon-jia-yuankuang' 
+                    <view wx:if="{{foodtypeinfoItem.food_count>=0}}" style="display: inline-block;font-size:40rpx;float: right" class='iconfont icon-jia-yuankuang' 
                       data-menutypeindex="{{foodtypeinfoItem.__menutype_index}}" data-foodindex="{{foodtypeinfoItem.__food_index}}" data-day="{{selectedfoodsItem.day}}" data-foodtype="{{foodtypeItem.foodType}}" data-daydes="{{timeDesActive}}" data-foodtypedes="{{foodtypeItem.foodTypeDes}}"
-                      data-foodcode="{{foodtypeinfoItem.foodCode}}" data-foodprice="{{foodtypeinfoItem.foodPrice}}" data-foodname="{{foodtypeinfoItem.foodName}}" data-image="{{foodtypeinfoItem.image}}" catchtap="handleAddfood">
+                      data-foodid="{{foodtypeinfoItem.foodCode}}" data-foodprice="{{foodtypeinfoItem.foodPrice}}" data-foodname="{{foodtypeinfoItem.foodName}}" data-picpath="{{foodtypeinfoItem.image}}" catchtap="handleAddfood">
                     </view>
-                    <view wx:if="{{foodtypeinfoItem.foodCount>0}}" style="display: inline-block;font-size:40rpx;width:60rpx;text-align: center;float: right" class="num" >
-                      {{foodtypeinfoItem.foodCount}}
+                    <view wx:if="{{foodtypeinfoItem.food_count>0}}" style="display: inline-block;font-size:40rpx;width:60rpx;text-align: center;float: right" class="num" >
+                      {{foodtypeinfoItem.food_count}}
                     </view>
-                    <view wx:if="{{foodtypeinfoItem.foodCount>0}}" style="display: inline-block;font-size:40rpx;float: right" class='iconfont icon-jian-xianxingyuankuang'
+                    <view wx:if="{{foodtypeinfoItem.food_count>0}}" style="display: inline-block;font-size:40rpx;float: right" class='iconfont icon-jian-xianxingyuankuang'
                       data-menutypeindex="{{foodtypeinfoItem.__menutype_index}}" data-foodindex="{{foodtypeinfoItem.__food_index}}" data-day="{{selectedfoodsItem.day}}" data-foodtype="{{foodtypeItem.foodType}}" data-daydes="{{timeDesActive}}" data-foodtypedes="{{foodtypeItem.foodTypeDes}}"
-                      data-foodcode="{{foodtypeinfoItem.foodCode}}" data-foodprice="{{foodtypeinfoItem.foodPrice}}" data-foodname="{{foodtypeinfoItem.foodName}}" data-image="{{foodtypeinfoItem.image}}" catchtap="handleMinusfood">
+                      data-foodid="{{foodtypeinfoItem.foodCode}}" data-foodprice="{{foodtypeinfoItem.foodPrice}}" data-foodname="{{foodtypeinfoItem.foodName}}" data-picpath="{{foodtypeinfoItem.image}}" catchtap="handleMinusfood">
                     </view>
                   </view>
                 </view>
               </view>
             </view> 
             <view class="cart-amount" >   
-              <view wx:if="{{foodtypeItem.mealLabelUsed==false}}" 
+              <view wx:if="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].mealLabelUsed}}" 
                 style="display:inline-block;font-size:25rpx;margin-right: 10rpx;color:#666;">
                 企业将减免额度¥
                 <view style="display:inline-block;color:red;font-size:30rpx;margin-right: 10rpx;">
-                  -{{foodtypeItem.organizeMealLabel}}
+                  -{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].organizeMealLabel}}
                 </view>
               </view>
               <view style="display:inline-block;color:red;font-size:30rpx;margin-right: 10rpx;" wx:else>
@@ -178,28 +178,28 @@
           统计
         </view>
         <view class="total-right" hover-class="none" hover-stop-propagation="false">
-          <view class="total-right-line line1" hover-class="none" hover-stop-propagation="false">
+          <view class="total-right-line1" hover-class="none" hover-stop-propagation="false">
             <view class="" hover-class="none" hover-stop-propagation="false">
               总额
             </view>
             <view class="" hover-class="none" hover-stop-propagation="false">
-              <text style="font-size: 25rpx;color:red;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:red;">{{totalMoney}}</text>
+              {{totalMoney}}
             </view>
           </view>
-          <view class="total-right-line line2" hover-class="none" hover-stop-propagation="false">
+          <view class="total-right-line2" hover-class="none" hover-stop-propagation="false">
             <view class="" hover-class="none" hover-stop-propagation="false">
-              企业总抵扣
+              企业抵扣
             </view>
             <view class="" hover-class="none" hover-stop-propagation="false">
-              <text style="font-size: 25rpx;color:red;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:red;">-{{totalMoneyDeduction}}</text>
+              111
             </view>
           </view>          
-          <view class="total-right-line line3" hover-class="none" hover-stop-propagation="false">
+          <view class="total-right-line3" hover-class="none" hover-stop-propagation="false">
             <view class="" hover-class="none" hover-stop-propagation="false">
-              实际支付
+              另需支付
             </view>
             <view class="" hover-class="none" hover-stop-propagation="false">
-              <text style="font-size: 25rpx;color:red;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:red;font-weight: 700;">{{realMoney}}</text>
+              222
             </view>
           </view> 
         </view>
@@ -223,20 +223,22 @@
     </view>
     <!-- 购物车激活状态 -->
     <view wx:if="{{boxActiveFlag}}" class="footer-middle" style="display: flex;">
-      <view class="middle-2" wx:if="{{totalMoney>0}}">
-        实际需支付:<text style="font-size: 30rpx;color:rgb(255, 180, 180);" decode>￥&nbsp;</text>
-        <text style="color:rgb(255, 180, 180);font-weight: 500;font-size:35rpx;">{{realMoney}}</text>
+      <view class="middle-0" wx:if="{{totalMoney>0}}">
+        <text class="middle-0-des">需支付¥</text><text class="middle-0-money">{{totalMoney}}</text>
       </view>
     </view>
     <view wx:else class="footer-middle" style="display: flex;">
-      <view class="middle-2" wx:if="{{!mealLabelUsedActive}}">
-        企业将抵扣:<text style="font-size: 30rpx;color:rgb(255, 180, 180);" decode>￥&nbsp;</text>
-        <text style="color:rgb(255, 180, 180);font-weight: 500;font-size:35rpx;">{{organizeMealLabelActive}}</text>
+        <view class="middle-1" wx:if="{{}}">
+          ¥{{totalMoney}}
+        </view>
+        <view class="middle-2" wx:if="{{!cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].mealLabelUsed}}">
+          企业将抵扣:<text style="font-size: 20rpx;color:rgb(255, 180, 180);" decode>￥&nbsp;</text>
+          <text style="color:rgb(255, 180, 180);font-weight: 500;">{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].organizeMealLabel}}</text>
+        </view>
+        <view class="middle-2 notUse" wx:else>
+          当前额度已被使用
+        </view>
       </view>
-      <view class="middle-2 notUse" wx:else>
-        当前额度已被使用
-      </view>
-    </view>
     <view class="footer-right" >
       去结算
     </view>
