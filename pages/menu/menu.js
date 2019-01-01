@@ -79,7 +79,7 @@ Page({
     _this.data.selectedFoods.forEach((element1)=>{
       element1.dayInfo.forEach((element2)=>{
         if(element2.mealLabelUsed==false){
-          tmp_totalMoneyDeduction = (100*tmp_totalMoneyDeduction + 100*element2.organizeMealLabel)/100
+          tmp_totalMoneyDeduction = (parseFloat(tmp_totalMoneyDeduction) + parseFloat(element2.organizeMealLabel)).toFixed(2)
         }
       })
     })
@@ -127,7 +127,7 @@ Page({
                 console.log(tmp_length)
                 if(selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodCode == e.currentTarget.dataset.foodcode){
                   selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodCount++ //这种情况直接 计数器+1
-                  selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodTotalPrice = (100*selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodTotalPrice + 100*selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodPrice)/100
+                  selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodTotalPrice = (parseFloat(selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodTotalPrice) + parseFloat(selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodPrice)).toFixed(2)
                   k= tmp_length //跳出循环，提升性能
                 }else{
                   if(k == tmp_length-1){  //便利到最后一个了，还没有相等的，就push进这个新的
@@ -215,7 +215,7 @@ Page({
             for(var k=0;k<tmp_length;k++){
               if(selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodCode == e.currentTarget.dataset.foodcode){
                 selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodCount-- //这种情况直接 计数器-1
-                selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodTotalPrice = (100*selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodTotalPrice - 100*selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodPrice)/100
+                selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodTotalPrice = (parseFloat(selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodTotalPrice) - parseFloat(selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodPrice)).toFixed(2)
                 if(selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodCount == 0){ //如果count降到0 则直接删掉这个结构
                   selectedFoods[i].dayInfo[j].foodTypeInfo.splice(k,1)
                   //console.log('selectedFoods[i].dayInfo[j].foodTypeInfo',selectedFoods[i].dayInfo[j].foodTypeInfo)
@@ -285,8 +285,8 @@ Page({
       totalCount : app.globalData.totalCount
     })
     //总价格
-    app.globalData.totalMoney = (100*app.globalData.totalMoney + 100*e.currentTarget.dataset.foodprice)/100
-    app.globalData.realMoney = (100*app.globalData.totalMoney - 100*_this.data.totalMoneyDeduction)/100
+    app.globalData.totalMoney = (parseFloat(app.globalData.totalMoney)+ parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2)
+    app.globalData.realMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyDeduction)).toFixed(2)
     _this.setData({  
       totalMoney : app.globalData.totalMoney,
       realMoney : app.globalData.realMoney
@@ -331,8 +331,8 @@ Page({
       totalCount : app.globalData.totalCount
     })
     //总价格
-    app.globalData.totalMoney = (100*app.globalData.totalMoney - 100*e.currentTarget.dataset.foodprice)/100
-    app.globalData.realMoney = (100*app.globalData.totalMoney - 100*_this.data.totalMoneyDeduction)/100
+    app.globalData.totalMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2)
+    app.globalData.realMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyDeduction)).toFixed(2)
     _this.setData({  
       totalMoney : app.globalData.totalMoney,
       realMoney : app.globalData.realMoney
