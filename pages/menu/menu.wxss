@@ -17,6 +17,8 @@
   background-color:  rgb(233, 233, 233);
   color: green!important;
   font-weight: 700;
+  box-shadow: 5rpx -3rpx 8rpx #666;
+  text-shadow:2rpx 4rpx 3rpx #666;
 }
 .time-2-item{
   flex:1;
@@ -53,7 +55,9 @@
 .foodtypeActive{
   background-color: white;
   color: green!important;
-  font-weight: 700;
+  font-weight: 500;
+  box-shadow: 5rpx -3rpx 8rpx #666;
+  text-shadow:2rpx 4rpx 3rpx #666;
 }
 .iconfont-foodType{
   font-size:35rpx;
@@ -84,12 +88,38 @@
   color:green;
   font-size: 30rpx;
   font-weight: 500;
+  box-shadow: 5rpx -3rpx 8rpx #666;
+  text-shadow:2rpx 4rpx 3rpx #666;
 }
 .menu-right{
   width:80%;
   background-color: rgb(233, 233, 233);
 }
-
+.menu-label-wrapper{
+  display:flex;
+  background: #fff;
+  border-bottom-left-radius: 20rpx;
+}
+.label-item{
+  flex:1;
+  margin: 10rpx;
+  border: 1px solid #999;
+  border-radius: 20rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  text-align: center;
+  font-size: 25rpx;
+  font-weight: 400;
+  color:#666;
+}
+.labelActive{
+  background: seagreen;
+  font-size: 28rpx;
+  font-weight: 600;
+  color:#fff;
+  box-shadow: 5rpx -3rpx 8rpx #666;
+  text-shadow:2rpx 4rpx 3rpx #666;
+}
 .right-item-text{
   padding: 10rpx 30rpx;
   height: 30rpx;
@@ -459,14 +489,35 @@
   padding-left: 20rpx;
   text-align: center;
 }
+/* **********单菜品详情********** */
+.foodDetail-wrapper{
+  position: fixed;
+  top:0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.detail-img-wrapper{
+
+}
+.detail-img{
+
+}
+
+
+
+
 /* 统计 */
 .total-wrapper{
   display: table;
   width:100%;
+  height:80px;
   background: lightyellow;
   margin:20rpx 0;
   border-radius:20rpx;
   box-shadow:2rpx 13rpx 13rpx #666;
+  position: sticky;
+  bottom: 0;
 }
 .total-left{
   text-align:center;

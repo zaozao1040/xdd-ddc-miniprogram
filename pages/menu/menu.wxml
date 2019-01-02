@@ -1,5 +1,5 @@
 <view class="wrapper">
-  <!-- 七天日期 -->
+  <!-- 【七天日期】 -->
   <view class="time-2" >
     <view class="time-2-item {{timeActiveFlag==timeInfoIndex?'timeActive':''}}" data-timeindex="{{timeInfoIndex}}" bindtap="handleChangeTimeActive" 
       wx:for="{{timeInfo.userOrderDateVO}}" wx:for-index="timeInfoIndex" wx:for-item="timeInfoItem" wx:key="timeInfoIndex">
@@ -17,7 +17,7 @@
       </view>
     </view>
   </view>
-  <!-- 第二排 餐品类型 -->
+  <!-- 【第二排】 餐品类型 -->
   <view class="foodType-wrapper" >
     <view wx:if="{{timeInfo.userOrderMealTypeVO.BREAKFAST}}" class="foodType-item {{foodtypeActiveFlag==0?'foodtypeActive':''}}" data-foodtypeindex="0" bindtap="handleChangeFoodtypeActive">
       <text class='iconfont iconfont-foodType icon-zaocan1'></text> 早餐
@@ -32,12 +32,12 @@
       <text class='iconfont iconfont-foodType icon-xiaoye-'></text> 夜宵
     </view>
   </view> 
-  <!-- 截止时间 -->
+  <!-- 【第三排】 截止时间 -->
   <view class="time-deadline" >
     <text style="font-size:25rpx;color:#666;vertical-align: middle;" decode>截止时间:&nbsp;&nbsp;&nbsp;</text>
     <text style="font-size:30rpx;color:red;vertical-align: middle;">{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].deadline}}</text>
   </view>
-  <!-- 内容区域 -->
+  <!-- 【第四排】 内容区域 -->
   <view class="menu-wrapper c_scrollPosition_forCalculate" >
     <!-- 左边菜品分类 -->
     <scroll-view class="menu-left" scroll-y style="height: {{top_2 - top_0}}px;">
@@ -47,8 +47,16 @@
       </view>
     </scroll-view>
     <!-- 右边具体菜品 -->
-    <scroll-view class="menu-right" scroll-y scroll-with-animation="true" bindscroll="handleScroll" style="height: {{top_2 - top_0}}px;" scroll-into-view="{{scrollToView}}">
-      <view class="c_foodPosition_forCalculate right-item" wx:for="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].foods}}" wx:for-item="menutypeItem" wx:for-index="menutypeIndex" wx:key="menutypeIndex">
+    <view class="menu-right">
+      <!-- 标签过滤 -->
+      <view class="menu-label-wrapper" >
+        <view class="label-item {{foodLabelItem.active?'labelActive':''}}"  wx:for="{{foodLabels}}" wx:for-item="foodLabelItem" wx:for-index="foodLabelIndex" wx:key="foodLabelIndex"
+              bindtap="handleChangeFoodLabel" data-labelid="{{foodLabelItem.id}}" data-labelname="{{foodLabelItem.labelName}}" >
+          {{foodLabelItem.labelName}}
+        </view>
+      </view>
+      <scroll-view class="menu-right-item-wrapper" scroll-y scroll-with-animation="true" bindscroll="handleScroll" style="height: {{top_2 - top_0}}px;" scroll-into-view="{{scrollToView}}">
+        <view class="right-item" wx:for="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].foods}}" wx:for-item="menutypeItem" wx:for-index="menutypeIndex" wx:key="menutypeIndex">
           <view id="order{{menutypeIndex}}" class="right-item-text">
             <text class="iconfont icon-jiageprice1" decode style="font-size: 25rpx;color:#555;">&nbsp;&nbsp;</text>{{menutypeItem.category}}
           </view>
@@ -58,8 +66,8 @@
             </view>
           </view>
           <!-- 单个食物 -->
-          <view class="food-wrapper" wx:for="{{menutypeItem.foods}}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex"
-            bindtap="handleShowFoodDetail" data-foodcode="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}" data-image="{{foodItem.image}}" >
+          <view class="food-wrapper" wx:if="{{foodItem.active}}" wx:for="{{menutypeItem.foods}}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex"
+            bindtap="handleShowFoodDetail" data-foodcode="{{foodItem.foodCode}}" >
             <view class="img-wrapper">
               <image class="food-img" src="{{foodItem.image}}"></image>    
             </view>
@@ -72,7 +80,7 @@
               </view>
               <view class="merchant">
                 <text class='iconfont icon-merchant' decode>&nbsp;</text>
-                <view class="merchantName" hover-class="none" hover-stop-propagation="false">
+                <view class="merchantName" >
                   {{foodItem.merchantName}}
                 </view>
               </view>
@@ -100,11 +108,13 @@
               </view>
             </view>
           </view>
-      </view>
-    </scroll-view>
+        </view>
+      </scroll-view>      
+    </view>
+
   </view>      
 
-  <!-- 购物车 -->
+  <!-- 【【另一个页面】】 购物车 -->
   <view class="cart-wrapper" wx:if="{{boxActiveFlag}}">
     <view class="cart-title c_scrollPosition_1_forCalculate">
       <view class="cart-title-left" >
@@ -174,31 +184,31 @@
       </view>
       <!-- 统计 -->
       <view class="total-wrapper">
-        <view class="total-left" hover-class="none" hover-stop-propagation="false">
+        <view class="total-left" >
           统计
         </view>
-        <view class="total-right" hover-class="none" hover-stop-propagation="false">
-          <view class="total-right-line line1" hover-class="none" hover-stop-propagation="false">
-            <view class="" hover-class="none" hover-stop-propagation="false">
+        <view class="total-right" >
+          <view class="total-right-line line1" >
+            <view class="" >
               总额
             </view>
-            <view class="" hover-class="none" hover-stop-propagation="false">
+            <view class="" >
               <text style="font-size: 25rpx;color:red;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:red;">{{totalMoney}}</text>
             </view>
           </view>
-          <view class="total-right-line line2" hover-class="none" hover-stop-propagation="false">
-            <view class="" hover-class="none" hover-stop-propagation="false">
+          <view class="total-right-line line2" >
+            <view class="" >
               企业总抵扣
             </view>
-            <view class="" hover-class="none" hover-stop-propagation="false">
+            <view class="" >
               <text style="font-size: 25rpx;color:red;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:red;">-{{totalMoneyDeduction}}</text>
             </view>
           </view>          
-          <view class="total-right-line line3" hover-class="none" hover-stop-propagation="false">
-            <view class="" hover-class="none" hover-stop-propagation="false">
+          <view class="total-right-line line3" >
+            <view class="" >
               实际支付
             </view>
-            <view class="" hover-class="none" hover-stop-propagation="false">
+            <view class="" >
               <text style="font-size: 25rpx;color:red;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:red;font-weight: 700;">{{realMoney}}</text>
             </view>
           </view> 
@@ -207,9 +217,17 @@
     </scroll-view>
     
   </view> 
-
-
-  <!-- 底部状态栏 -->
+  <!-- 【【另一个页面】】 单菜品详情 -->
+  <view class="foodDetail-wrapper" wx:if="{{showFoodDetailFlag}}">
+    <view class="detail-img-wrapper" >
+      <image class="detail-img" src="#" />
+    </view>
+    <view class="detail-img" >
+      @@@@@
+    </view>
+  </view>
+ 
+  <!-- 【第五排】底部状态栏 -->
   <view class="footer-wrapper c_scrollPosition_2_forCalculate">
     <view class="footer-left" >
       <view class="box-wrapper" >

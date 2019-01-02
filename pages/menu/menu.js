@@ -38,7 +38,11 @@ Page({
     mapMenutypeIconName: ['zaocan1','wucan','canting','xiaoye-'],
     scrollToView: 'id_0',
     listHeight: [], //这个数组记录每个餐类的"之前所有餐类描述+所有具体餐品"的占用高度值
-    timer: null
+    timer: null,
+
+    showFoodDetailFlag: false, //展示单菜品详情
+    /* foodLabelArr:[] */
+    foodLabels:null,
   },
   getMenuData: function(){  //setData设置menuData为缓存数据，这样可以同步到模板渲染
     //console.log('cacheMenuDataAll',this.data.cacheMenuDataAll)
@@ -47,7 +51,8 @@ Page({
     if(tmp!=null){
       _this.setData({
         menuData: tmp
-      })      
+      }) 
+      _this.refreshLabelActiveList()      
     }else{
       _this.getMenuDataByResponse()
     }
@@ -359,13 +364,37 @@ Page({
     }
   },
   handleShowFoodDetail:function(e){
-    alert('菜品详情！！！')
-
+    console.log('eeeee',e.currentTarget.dataset)
+    let _this = this
+    _this.setData({
+      showFoodDetailFlag: true
+    })
+  },
+  /* 标签过滤 */
+  handleChangeFoodLabel:function(e){
+    let _this = this
+    let tmp_foodLabels= _this.data.foodLabels
+    let tmp_length = tmp_foodLabels.length
+    for(let i=0;i<tmp_length;i++){
+      if(tmp_foodLabels[i].id==e.currentTarget.dataset.labelid){
+        if(tmp_foodLabels[i].active){
+          tmp_foodLabels[i].active=false
+        }else{
+          tmp_foodLabels[i].active=true
+        }
+        break
+      }
+    }      
+    _this.setData({
+      foodLabels: tmp_foodLabels
+    })
+    _this.refreshLabelActiveList() 
   },
   initMenu: function(){
     let _this = this;
     wx.getSystemInfo({
       success: function(res) {
+        console.log('windowHeight',res.windowHeight)
         _this.setData({
           windowHeight: res.windowHeight
         })
@@ -375,6 +404,7 @@ Page({
     query_0.select('.c_scrollPosition_forCalculate').boundingClientRect()
     query_0.selectViewport().scrollOffset()
     query_0.exec(function (res) {
+      console.log('top_0',res)
       _this.setData({
         top_0: res[0].top // #the-id节点的占用高度
       })
@@ -384,6 +414,7 @@ Page({
     query_2.select('.c_scrollPosition_2_forCalculate').boundingClientRect()
     query_2.selectViewport().scrollOffset()
     query_2.exec(function (res) {
+      console.log('top_2',res)
       _this.setData({
         top_2: res[0].top // #the-id节点的上边界坐标
       })
@@ -458,8 +489,63 @@ Page({
         mealLabelUsedActive: resData.mealLabelUsed,
         organizeMealLabelActive: resData.organizeMealLabel
       }) 
+      //下面 标签数组本地化
+      if(_this.data.foodLabels==null){
+        let tmp_foodLabels = []
+        resData.foodLabels.forEach((element)=>{
+          tmp_foodLabels.push({
+            id:element.id,
+            labelName:element.labelName,
+            active:false //true代表激活状态 false代表普通状态  默认普通状态
+          })
+        })
+        _this.setData({
+          foodLabels: tmp_foodLabels
+        })    
+      }
+      _this.refreshLabelActiveList()
       _this.calculateHeight()
     })
+  },
+  /* 刷新标签的显示列表 */
+  refreshLabelActiveList:function(){
+    let _this = this
+    let tmp_cacheMenuDataCurrent = _this.data.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
+    let tmp_selectedFoodLabelsIdsArr = [] //用于存储选中状态的标签id，例如：[2,3] 注意是选中的
+    _this.data.foodLabels.forEach((element)=>{
+      if(element.active==true){
+        tmp_selectedFoodLabelsIdsArr.push(element.id)        
+      }
+    })
+    console.log('tmp_selectedFoodLabelsIdsArr',tmp_selectedFoodLabelsIdsArr)
+    console.log('tmp_cacheMenuDataCurrent',tmp_cacheMenuDataCurrent)
+    tmp_cacheMenuDataCurrent.foods.forEach((element1)=>{
+      element1.foods.forEach((element2)=>{
+        //tmp_foodLabelsIdsArr标签数组是tagId数组的子集，则该food就要设置active：true
+        let tmp_length = tmp_selectedFoodLabelsIdsArr.length
+        if(tmp_selectedFoodLabelsIdsArr.length==0){ //如果是空数组，则直接所有food设置为true显示
+          element2.active = true 
+        }else{
+          for(let i=0;i<tmp_length;i++){
+            //if(tmp_selectedFoodLabelsIdsArr.indexOf(element2.tagId[i])==-1){ //如果不包含
+            if(element2.tagId.indexOf(tmp_selectedFoodLabelsIdsArr[i])==-1){ //如果不包含
+              element2.active = false  //直接设置该food隐藏
+              break 
+            }
+            if(i==tmp_length-1){
+              element2.active = true //tagId循环到最后一个了，前面都没break，说明这个也被包含，要设置为true
+            }
+          }          
+        }
+      })
+    })
+    let tmp_cacheMenuDataAll = _this.data.cacheMenuDataAll  //cache大数组更新
+    tmp_cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]= tmp_cacheMenuDataCurrent
+    app.globalData.cacheMenuDataAll = tmp_cacheMenuDataAll //全局更新
+    _this.setData({   //添加或减少结束后，setData一定要把全局的赋给他
+      cacheMenuDataAll : app.globalData.cacheMenuDataAll
+    })
+    console.log('ddddddd',_this.data.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag].foods)
   },
   /* 计算高度 */
   calculateHeight: function () {
