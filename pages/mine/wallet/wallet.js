@@ -1,10 +1,14 @@
-// pages/mine/wallet/wallet.js
+import { wallet } from './wallet-model.js'
+let walletModel = new wallet()
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    loading: false,
+    canClick:true,
     itemStatusActiveFlag:true,
     moneyList:[[6,12,68],[108,218,318],[468,618,888]],
     itemMoneyActiveFlag:[0,2],//默认0行2列，也就是人民币68
@@ -12,8 +16,8 @@ Page({
     activeFlag2:undefined,
     selectedMoney:undefined,
     explainDes:{
-      one:'充值金额暂不支持跨平台使用',
-      two:'充值金额可用于结算点餐金额，暂不支持退款、提现、转赠他人',
+      one:'充值金额暂不支持跨平台使用，暂不支持退款、提现、转赠他人',
+      two:'若充值遇到问题请联系1855748732',
       three:'若充值遇到问题请联系1855748732',
     }
   },
@@ -53,8 +57,68 @@ Page({
       selectedMoney: e.currentTarget.dataset.selectedmoney
     })
   },
-  recharge:function(){
+  handleRecharge:function(){
     console.log(this.data.selectedMoney)
-  }
+  },
+  handleRecharge:function(){
+/*     let _this = this
+    if (_this.data.selectedMoney){
+      wx.showToast({
+        title: "请选择充值金额",
+        icon: "none",
+        duration: 2000
+      })
+    }else{
+      if(!_this.data.canClick){
+        return
+      }
+      _this.data.canClick = false
+      wx.showLoading({ 
+        title: '添加中',
+        mask: true
+      })
+      let param = {
+        userCode: wx.getStorageSync('userInfo').userCode, 
+        rechargeMoney: _this.data.selectedMoney
+      }
+      _this.setData({ //【防止狂点1】
+        loading: true
+      })
+      wx.showLoading({ //【防止狂点2】
+        title: '加载中',
+        mask: true
+      })
+      walletModel.recharge(param,(res)=>{
+        console.log('收到请求(充值):',res)
+        if(res.code === 0){
+          let tmp_userInfo = wx.getStorageSync('userInfo')
+          tmp_userInfo.phoneNumber = _this.data.phone
+          wx.setStorageSync('userInfo', tmp_userInfo)
+          setTimeout(function(){ //提示修改手机号成功，两秒后跳转到’我的‘
+            wx.switchTab({
+              url: '/pages/mine/mine',
+            })
+            wx.hideLoading() //【防止狂点3】
+            wx.showToast({
+              title: '手机更换成功',
+              icon: 'success',
+              duration: 2000
+            })
+          },2000) 
+        }else{
+          wx.showToast({
+            title: res.msg,
+            icon: 'none',
+            duration: 2000
+          })  
+          _this.setData({
+            loading: false
+          })
+        }
+      })
+    
 
+
+    } */
+  }, 
 })

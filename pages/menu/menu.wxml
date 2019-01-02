@@ -255,7 +255,7 @@
         当前额度已被使用
       </view>
     </view>
-    <view class="footer-right" >
+    <view class="footer-right" bindtap="handleCommitMenu">
       去结算
     </view>
   </view>

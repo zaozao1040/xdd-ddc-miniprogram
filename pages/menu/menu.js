@@ -484,11 +484,11 @@ Page({
 
       let tmp_cacheMenuDataAll = _this.data.cacheMenuDataAll
       tmp_cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]= resData
-      _this.setData({   
+/*       _this.setData({   
         cacheMenuDataAll : tmp_cacheMenuDataAll,
         mealLabelUsedActive: resData.mealLabelUsed,
         organizeMealLabelActive: resData.organizeMealLabel
-      }) 
+      })  */
       //下面 标签数组本地化
       if(_this.data.foodLabels==null){
         let tmp_foodLabels = []
@@ -505,6 +505,11 @@ Page({
       }
       _this.refreshLabelActiveList()
       _this.calculateHeight()
+      _this.setData({   //这里放在最后，是为了让异步setData最后再刷新，防止页面闪动
+        cacheMenuDataAll : tmp_cacheMenuDataAll,
+        mealLabelUsedActive: resData.mealLabelUsed,
+        organizeMealLabelActive: resData.organizeMealLabel
+      }) 
     })
   },
   /* 刷新标签的显示列表 */
@@ -603,6 +608,67 @@ Page({
         }
       }
     },50)
+  },
+  /* 提交菜单 */
+  handleCommitMenu: function(){
+    let _this = this
+    if(!_this.data.canClick){
+      return
+    }
+    _this.data.canClick = false
+    wx.showLoading({ 
+      title: '结算中',
+      mask: true
+    })
+    let param = {   //这个参数相当庞大
+      userCode:wx.getStorageSync('userInfo').userCode,
+      organizeCode:wx.getStorageSync('userInfo').organizeCode,
+      
+
+
+
+      code: res.code, //微信code
+      validation: _this.data.code, //短信验证码
+      phoneNumber: _this.data.phone,
+      nickName: userInfo.nickName,
+      headImage: userInfo.avatarUrl,
+      sex: userInfo.gender,
+      name: _this.data.name,
+      userType: "B_USER", //企业用户还是个人用户 B_USER  VISITOR
+      organizeCode: _this.data.organizeCode //B_USER模式下需要改字段    
+    }
+    menuModel.commitMenuData(param,function(res){
+      console.log('收到请求(结算菜单):',res)
+      if(res.code === 0){
+        wx.setStorageSync('userInfo', res.data)
+        setTimeout(function(){ //提示结算成功，两秒后跳转到首页
+          wx.switchTab({
+            url: '/pages/home/home',
+          })
+          wx.hideLoading() //【防止狂点3】
+          wx.showToast({
+            title: '结算成功',
+            icon: 'success',
+            duration: 2000
+          })
+        },2000) 
+      }else{
+        wx.showToast({
+          title: res.msg,
+          icon: 'none',
+          duration: 2000
+        })  
+      }
+    })
+
+
+
+
+
+    setTimeout(function(){ 
+      _this.data.canClick = true
+    },300)
+    wx.hideLoading()
   },
   /**
    * 生命周期函数--监听页面加载

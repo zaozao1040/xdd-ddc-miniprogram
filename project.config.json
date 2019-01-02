@@ -37,7 +37,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 12,
 			"list": [
 				{
 					"id": -1,
@@ -109,6 +109,12 @@
 					"id": -1,
 					"name": "wallet",
 					"pathName": "pages/mine/wallet/wallet",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "address",
+					"pathName": "pages/mine/address/address",
 					"query": ""
 				}
 			]

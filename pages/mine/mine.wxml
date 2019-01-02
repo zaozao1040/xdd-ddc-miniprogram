@@ -8,17 +8,20 @@
     </view>
     <view class="middle" >
       <view class="userName" >
-          {{userInfo.name}}
+        {{userInfo.name}}
       </view>
       <view class="userPhone" >
-        <text class='iconfont icon-shouji userPhone'></text>
+        <text class='iconfont icon-shouji1' style="font-size: 30rpx;" decode>&nbsp;</text>
         <text>{{userInfo.phoneNumber}}</text>  
       </view>
-    </view>
-    <view class="right" >
-      <navigator url="userDetail/userDetail">
-        <text class='iconfont icon-icon_on_the_right iconfont-title'></text>
-      </navigator>
+      <view class="userPhone" >
+        <text class='iconfont icon-qiye1' style="font-size: 30rpx;" decode>&nbsp;</text>
+        <text>{{userInfo.organizeName}}</text>  
+      </view>
+      <view class="userPhone" >
+        <text class='iconfont icon-dizhi' style="font-size: 30rpx;" decode>&nbsp;</text>
+        <text>{{userInfo.address}}</text>  
+      </view>
     </view>
   </view>
   <!-- 钱包 优惠券 积分 -->

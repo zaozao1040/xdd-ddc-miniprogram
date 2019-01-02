@@ -2,10 +2,10 @@ import { base } from '../../../comm/public/base'
 const app = getApp()  
 const baseUrl = app.globalData.baseUrl
 class wallet extends base{
-  /* 更换手机号 */
-  changePhone(param,callback){
+  /* 充值 */
+  recharge(param,callback){
     let allParams = {
-      url: baseUrl+'/user/mobile',
+      url: baseUrl+'/user/RechargeOfBalance',
       type: 'POST',
       data: param,
       sCallback: function (data) {

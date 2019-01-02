@@ -63,7 +63,7 @@
 }
 .chongzhi-item-line{
   display: flex;
-  margin: 40rpx 0 40rpx 0;
+  margin: 30rpx 0 30rpx 0;
 }
 .chongzhi-item{
   flex:1;
@@ -105,16 +105,55 @@
 }
 .explain-des{
   display: block;
-  margin-bottom:10rpx;
+  margin:0 20rpx 10rpx 20rpx;
   font-size: 30rpx;
   font-weight: 500;
   color:#666;
+}
+/* 充值方式 */
+.wxRecharge-wrapper{
+  margin-left:40rpx;
+  margin-right: 40rpx;
+}
+.icon-weixin{
+  display: inline-block;
+  font-size:60rpx;
+  font-weight: 500;
+  color:seagreen;
+  text-align: center;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+.wxRecharge-des-wrapper{
+  display: inline-block;
+  margin-left: 20rpx;
+}
+.wxRecharge-des-1{
+  font-size:30rpx;
+  font-weight: 500;
+  color:#666;
+}
+.wxRecharge-des-2{
+  font-size:20rpx;
+  font-weight: 500;
+  color:#666;
+}
+.icon-dagou{
+  display: inline-block;
+  float: right;
+  font-size:60rpx;
+  font-weight: 500;
+  color:seagreen;
+  height: 80rpx;
+  line-height: 80rpx;
 }
 /* 交易记录的内容区域 */
 .jilu-wrapper{
 
 }
+.wxRecharge{
 
+}
 .button{
   margin: 20rpx;
   height: 100rpx;

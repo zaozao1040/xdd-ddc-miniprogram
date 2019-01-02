@@ -10,12 +10,12 @@
 .header{
   display: flex;
   background: darkseagreen;
-  padding: 60rpx 40rpx;
+  padding: 30rpx 40rpx;
 }
 .left{
+  margin: auto 30rpx;
   width:120rpx;
   height: 120rpx;
-  
 }
 .left-image{
   width: 100%;
