@@ -1,0 +1,120 @@
+<view class="wrapper" >
+    <!-- 默认地址 -->
+    <view class="address-wrapper" >
+      <view style="flex:1;">
+        <view class="address-line1" >
+          <text class='iconfont icon-dizhi' decode>&nbsp;{{address}}</text>
+        </view>
+        <view class="address-line2" >
+          {{name}}  {{phoneNumber}}
+        </view>        
+      </view>
+      <view style="flex:0 0 40rpx;">
+        <text class='iconfont icon-icon_on_the_right' style="font-size:40rpx;color:seagreen;height: 90rpx;line-height: 90rpx;"></text>
+      </view>
+    </view>
+    <!-- 已选菜单 -->
+    <view class="foods-wrapper c_scrollPosition_forCalculate" >
+      <view class="cart-content-empty" wx:if="{{selectedFoods.length==0}}">
+        您的购物车空空如也~
+      </view>
+      <scroll-view class="cart-content" scroll-y style="height: {{buttonTop - scrollTop}}px;" >
+        <view class="cart-day-wrapper" wx:for="{{selectedFoods}}" wx:for-item="selectedfoodsItem" wx:for-index="selectedfoodsIndex" wx:key="selectedfoodsIndex">
+          <view class="cart-day-title" >
+            {{selectedfoodsItem.dayDes}}
+          </view>
+          <view class="cart-day-content" wx:for="{{selectedfoodsItem.dayInfo}}" wx:for-item="foodtypeItem" wx:for-index="foodtypeIndex" wx:key="foodtypeIndex">
+            <view class="cart-menutype" >
+              <text class="iconfont-title-{{mapMenutypeIconName[foodtypeItem.foodType]}}">{{mapMenutype[foodtypeItem.foodType]}}</text>
+              <view class="iconfont iconfont-{{mapMenutypeIconName[foodtypeItem.foodType]}} icon-{{mapMenutypeIconName[foodtypeItem.foodType]}}"></view>
+            </view>  
+            <view class="cart-menu">
+              <view>
+                <view class="cart-menuItem" wx:for="{{foodtypeItem.foodTypeInfo}}" wx:for-item="foodtypeinfoItem" wx:for-index="foodtypeinfoIndex" wx:key="foodtypeinfoIndex">
+                  <view class="cart-menuItem-left">
+                    <image class="cart-menuItem-img" src="{{foodtypeinfoItem.image}}"></image> 
+                  </view>
+                  <view class="cart-menuItem-right">
+                    <view class="cart-menuItemDes" >
+                      {{foodtypeinfoItem.foodName}}
+                    </view>
+                    <view class="cart-menuItemTotalmoney">
+                      <text style="color:red;font-size:40rpx;">¥{{foodtypeinfoItem.foodTotalPrice}}</text>
+                    </view>
+                    <view class="cart-menuItemCount">
+                        <text style="color:#222;font-size:40rpx;"><text style="color:#666;font-size:30rpx;">x</text>{{foodtypeinfoItem.foodCount}}</text>
+                    </view>
+                  </view>
+                </view>
+              </view> 
+              <view class="cart-amount" >   
+                <view wx:if="{{foodtypeItem.mealLabelUsed==false}}" 
+                  style="display:inline-block;font-size:25rpx;margin-right: 10rpx;color:#666;">
+                  企业将减免额度¥
+                  <view style="display:inline-block;color:red;font-size:30rpx;margin-right: 10rpx;">
+                    -{{foodtypeItem.organizeMealLabel}}
+                  </view>
+                </view>
+                <view style="display:inline-block;color:red;font-size:30rpx;margin-right: 10rpx;" wx:else>
+                  当前额度已被使用
+                </view>
+              </view>         
+            </view>
+          </view>
+        </view>
+        <!-- 统计 -->
+        <view class="total-wrapper">
+          <view class="total-left" >
+            统计
+          </view>
+          <view class="total-right" >
+            <view class="total-right-line line1" >
+              <view class="" >
+                总额
+              </view>
+              <view class="" >
+                <text style="font-size: 25rpx;color:red;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:red;">{{totalMoney}}</text>
+              </view>
+            </view>
+            <view class="total-right-line line2" >
+              <view class="" >
+                企业总抵扣
+              </view>
+              <view class="" >
+                <text style="font-size: 25rpx;color:red;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:red;">-{{totalMoneyDeduction}}</text>
+              </view>
+            </view>          
+            <view class="total-right-line line3" >
+              <view class="" >
+                实际支付
+              </view>
+              <view class="" >
+                <text style="font-size: 25rpx;color:red;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:red;font-weight: 700;">{{realMoney}}</text>
+              </view>
+            </view> 
+          </view>
+        </view>
+<!--         <view class="organizeItem-wrapper" wx:for="{{organizeList}}" wx:for-index="organizeIndex" wx:for-item="organizeItem" wx:key="organizeIndex"
+          catchtap="selectOrganize" data-organizename="{{organizeItem.organizeName}}" data-organizecode="{{organizeItem.organizeCode}}">
+          <view class="organizeItem-left">
+            <view class="organizeName">
+              {{organizeItem.organizeName}}
+            </view>
+            <view class="organizeAddress">
+              {{organizeItem.address}}
+            </view>
+          </view>
+          <view class="organizeItem-right">
+            {{organizeItem.distance/1000}}公里
+          </view>
+        </view>
+        <view wx:if="{{organizeListNoResult}}" class="noResult">
+          未查询到企业..
+        </view> -->
+      </scroll-view>
+    </view>
+    <!-- button -->
+    <view class="button-wrapper c_buttonPosition_forCalculate">
+      <view loading="{{loading}}" class="button" catchtap="changeOrganize">去付款</view>
+    </view>
+</view>

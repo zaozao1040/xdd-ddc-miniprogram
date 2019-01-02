@@ -1,0 +1,220 @@
+.wrapper{
+  position: fixed;
+  top:0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx;
+  background: #ddd;
+}
+/* 默认地址 */
+.address-wrapper{
+  display: flex;
+  background: #fff;
+  border-radius: 20rpx;
+  padding:10rpx 20rpx;
+}
+.foods-wrapper{
+
+}
+.address-line1{
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size:40rpx;
+  font-weight: 500;
+  color:#222;
+}
+.address-line2{
+  margin:10rpx 0;
+  height: 30rpx;
+  line-height: 30rpx;
+  font-size:30rpx;
+  font-weight: 500;
+  color:#666;
+}
+/*
+* 选中的菜单
+*/
+.foods-wrapper{
+  background: #FFF;
+  margin-top: 10rpx;
+  border-radius: 20rpx;
+  padding: 10rpx 20rpx;
+}
+
+
+/* 拷贝自购物车，所以都是cart的开头*/
+.cart-content{
+  padding:0 10rpx;
+  box-sizing:border-box;
+}
+.cart-day-wrapper{
+  background-color: #eee;
+  border-radius:10rpx;
+  margin-top:10rpx;
+  box-shadow:2rpx 10rpx 10rpx #666;
+  margin-bottom:15rpx;  
+}
+.cart-day-title{
+  margin-left:10rpx;
+  font-size: 35rpx;
+  color:#222;
+  font-weight:400;
+}
+.cart-day-content{
+  display: flex;
+  margin:10rpx 10rpx 0 20rpx;
+  border-bottom: #dddddd 1rpx solid;
+  line-height: 50rpx;
+}
+.cart-day-content:last-child{
+  border-bottom: none;
+}
+.cart-menutype{
+  flex:0 0 60rpx;
+  text-align: left;
+  font-size:25rpx;
+}
+.iconfont-title-zaocan1{
+  color:  rgb(83, 124, 0);
+}
+.iconfont-zaocan1{
+  font-size:50rpx;
+  font-weight:100;
+  height:40rpx;
+  line-height:40rpx;
+  color: rgb(83, 124, 0);
+}
+.iconfont-title-wucan{
+  color: rgb(128, 83, 0);
+}
+.iconfont-wucan{
+  font-size:50rpx;
+  font-weight:100;
+  height:40rpx;
+  line-height:40rpx;
+  color:  rgb(128, 83, 0);
+}
+.iconfont-title-canting{
+  color: dodgerblue;
+}
+.iconfont-canting{
+  font-size:50rpx;
+  font-weight:100;
+  height:40rpx;
+  line-height:40rpx;
+  color: dodgerblue;
+}
+.iconfont-title-xiaoye-{
+  color: darkslateblue;
+}
+.iconfont-xiaoye-{
+  font-size:50rpx;
+  font-weight:100;
+  height:40rpx;
+  line-height:40rpx;
+  color: darkslateblue;
+}
+.cart-menu{
+  flex: 1;
+}
+.cart-menuItem{
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 20rpx;
+  margin-bottom: 4rpx;
+  background-color: #fff;
+}
+.cart-menuItem-left{
+  flex: 0 0 120rpx;
+  height: 120rpx;
+}
+.cart-menuItem-img{
+  width: 120rpx;
+  height: 120rpx;
+  border-top-left-radius: 20rpx;
+  border-bottom-left-radius: 20rpx;
+}
+.cart-menuItem-right{
+  flex:1;
+}
+.cart-menuItemDes{
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  padding-left: 20rpx;
+  overflow:hidden; 
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.cart-menuItemTotalmoney{
+  float: left;
+  height: 60rpx;
+  line-height: 60rpx;
+  padding-left: 20rpx;
+  text-align: center;
+}
+.cart-menuItemCount{
+  float: right;
+  height: 60rpx;
+  line-height: 60rpx;
+  padding-right: 20rpx;
+  text-align: center;
+}
+/* 统计 */
+.total-wrapper{
+  display: table;
+  width:100%;
+  height:80px;
+  background: lightyellow;
+  margin:20rpx 0;
+  border-radius:20rpx;
+  box-shadow:2rpx 13rpx 13rpx #666;
+  position: sticky;
+  bottom: 0;
+}
+.total-left{
+  text-align:center;
+  vertical-align:middle;
+  display:table-cell;
+  font-size:40rpx;
+  font-weight:500;
+  color: black;
+  padding:0 30rpx;
+
+}
+.total-right{  
+}
+.total-right-line{
+  display:flex;
+  justify-content:space-between;
+  height:40rpx;
+  line-height:40rpx;
+  margin:10rpx 20rpx;
+  font-size:30rpx;
+  font-weight:500;
+  color:black;
+}
+
+
+/* button按钮 */
+.button-wrapper{
+  box-sizing:border-box;
+  padding: 25rpx 20rpx 10rpx 20rpx;
+  width:100%;
+  position: fixed;
+  bottom:0;
+  left: 0;
+}
+.button {
+  width: 100%;
+  height: 100rpx;
+  text-align: center;
+  background-color: forestgreen;
+  border-radius: 15rpx;
+  line-height: 100rpx;
+  color: #FFF;
+  font-weight: bold;
+  font-size: 36rpx;
+}

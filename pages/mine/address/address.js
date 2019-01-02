@@ -90,7 +90,10 @@ Page({
         if(res.code === 0){
           let tmp_userInfo = wx.getStorageSync('userInfo')
           tmp_userInfo.addressCode = _this.data.addressCode
-          tmp_userInfo.address = _this.data.address
+          tmp_userInfo.address = _this.data.addressDes
+/*           tmp_userInfo.district = _this.data.district
+          tmp_userInfo.province = _this.data.province
+          tmp_userInfo.city = _this.data.city */
           wx.setStorageSync('userInfo', tmp_userInfo)
           setTimeout(function(){
             wx.switchTab({

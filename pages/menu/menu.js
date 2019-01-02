@@ -59,15 +59,21 @@ Page({
   },
   handleChangeTimeActive: function(e){
     let tmp = parseInt(e.currentTarget.dataset.timeindex)//传过来的字符串，要转化成number格式
+    this.data.timeActiveFlag = tmp
+    this.data.timeDesActive = e.currentTarget.dataset.arrangetime
     this.setData({
-      timeActiveFlag: tmp
+      timeActiveFlag: tmp,
+      timeDesActive:e.currentTarget.dataset.arrangetime
     })
     this.getMenuData()
   },
   handleChangeFoodtypeActive: function(e){
     let tmp = parseInt(e.currentTarget.dataset.foodtypeindex)//传过来的字符串，要转化成number格式
+    this.data.foodtypeActiveFlag = tmp
+    this.data.foodtypeDesActive = e.currentTarget.dataset.mealtype
     this.setData({
-      foodtypeActiveFlag: tmp
+      foodtypeActiveFlag: tmp,
+      foodtypeDesActive:e.currentTarget.dataset.mealtype,
     })
     this.getMenuData()
   },
@@ -468,14 +474,9 @@ Page({
     let _this = this
     //获取后台数据
     let param = {
-      //timeActiveFlag:_this.data.timeDesActive,
-      //foodtypeActiveFlag:_this.data.foodtypeActiveFlag, ---以前俩参数
-      //arrangeTime:_this.data.timeDesActive,
-      //mealType:_this.data.foodtypeDesActive,
-      //userCode:wx.getStorageSync('userInfo').userCode,
-      arrangeTime:'2018-12-29',
-      mealType:'BREAKFAST',
-      userCode:'v0SkecAJ'
+      arrangeTime:_this.data.timeDesActive,
+      mealType:_this.data.foodtypeDesActive,
+      userCode:wx.getStorageSync('userInfo').userCode,
     }
     menuModel.getMenuData(param,(res)=>{
       let resData = res
@@ -608,6 +609,14 @@ Page({
         }
       }
     },50)
+  },
+  goToMenuCommit(){
+    wx.navigateTo({
+      url: '/pages/menu/confirm/confirm?totalMoney='
+        +this.data.totalMoney+'&totalMoneyDeduction='
+        +this.data.totalMoneyDeduction+'&realMoney='
+        +this.data.realMoney,
+    })
   },
   /* 提交菜单 */
   handleCommitMenu: function(){

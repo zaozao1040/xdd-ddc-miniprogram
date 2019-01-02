@@ -59,8 +59,6 @@ Page({
         }) 
       }
     })
-
-
   },
   initAddress: function(){
     let _this = this;

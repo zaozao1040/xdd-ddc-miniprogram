@@ -1,7 +1,7 @@
 <view class="wrapper">
   <!-- 【七天日期】 -->
   <view class="time-2" >
-    <view class="time-2-item {{timeActiveFlag==timeInfoIndex?'timeActive':''}}" data-timeindex="{{timeInfoIndex}}" bindtap="handleChangeTimeActive" 
+    <view class="time-2-item {{timeActiveFlag==timeInfoIndex?'timeActive':''}}" data-timeindex="{{timeInfoIndex}}" data-arrangetime="{{timeInfoItem.date}}" bindtap="handleChangeTimeActive" 
       wx:for="{{timeInfo.userOrderDateVO}}" wx:for-index="timeInfoIndex" wx:for-item="timeInfoItem" wx:key="timeInfoIndex">
       <view class="time-2-day">
         {{timeInfoItem.dateShort}}
@@ -19,16 +19,20 @@
   </view>
   <!-- 【第二排】 餐品类型 -->
   <view class="foodType-wrapper" >
-    <view wx:if="{{timeInfo.userOrderMealTypeVO.BREAKFAST}}" class="foodType-item {{foodtypeActiveFlag==0?'foodtypeActive':''}}" data-foodtypeindex="0" bindtap="handleChangeFoodtypeActive">
+    <view wx:if="{{timeInfo.userOrderMealTypeVO.BREAKFAST}}" class="foodType-item {{foodtypeActiveFlag==0?'foodtypeActive':''}}" 
+      data-foodtypeindex="0" data-mealtype="BREAKFAST" bindtap="handleChangeFoodtypeActive">
       <text class='iconfont iconfont-foodType icon-zaocan1'></text> 早餐
     </view>
-    <view wx:if="{{timeInfo.userOrderMealTypeVO.LUNCH}}" class="foodType-item {{foodtypeActiveFlag==1?'foodtypeActive':''}}" data-foodtypeindex="1" bindtap="handleChangeFoodtypeActive">
+    <view wx:if="{{timeInfo.userOrderMealTypeVO.LUNCH}}" class="foodType-item {{foodtypeActiveFlag==1?'foodtypeActive':''}}" 
+      data-foodtypeindex="1" data-mealtype="LUNCH" bindtap="handleChangeFoodtypeActive">
       <text class='iconfont iconfont-foodType icon-wucan'></text> 午餐
     </view>
-    <view wx:if="{{timeInfo.userOrderMealTypeVO.DINNER}}" class="foodType-item {{foodtypeActiveFlag==2?'foodtypeActive':''}}" data-foodtypeindex="2" bindtap="handleChangeFoodtypeActive">
+    <view wx:if="{{timeInfo.userOrderMealTypeVO.DINNER}}" class="foodType-item {{foodtypeActiveFlag==2?'foodtypeActive':''}}" 
+      data-foodtypeindex="2" data-mealtype="DINNER" bindtap="handleChangeFoodtypeActive">
       <text class='iconfont iconfont-foodType icon-canting'></text> 晚餐
     </view>
-    <view wx:if="{{timeInfo.userOrderMealTypeVO.NIGHT}}" class="foodType-item {{foodtypeActiveFlag==3?'foodtypeActive':''}}" data-foodtypeindex="3" bindtap="handleChangeFoodtypeActive">
+    <view wx:if="{{timeInfo.userOrderMealTypeVO.NIGHT}}" class="foodType-item {{foodtypeActiveFlag==3?'foodtypeActive':''}}" 
+      data-foodtypeindex="3" data-mealtype="NIGHT" bindtap="handleChangeFoodtypeActive">
       <text class='iconfont iconfont-foodType icon-xiaoye-'></text> 夜宵
     </view>
   </view> 
@@ -218,14 +222,14 @@
     
   </view> 
   <!-- 【【另一个页面】】 单菜品详情 -->
-  <view class="foodDetail-wrapper" wx:if="{{showFoodDetailFlag}}">
+<!--   <view class="foodDetail-wrapper" wx:if="{{showFoodDetailFlag}}">
     <view class="detail-img-wrapper" >
       <image class="detail-img" src="#" />
     </view>
     <view class="detail-img" >
       @@@@@
     </view>
-  </view>
+  </view> -->
  
   <!-- 【第五排】底部状态栏 -->
   <view class="footer-wrapper c_scrollPosition_2_forCalculate">
@@ -255,7 +259,7 @@
         当前额度已被使用
       </view>
     </view>
-    <view class="footer-right" bindtap="handleCommitMenu">
+    <view class="footer-right" bindtap="goToMenuCommit">
       去结算
     </view>
   </view>
