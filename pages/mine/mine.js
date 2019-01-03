@@ -13,7 +13,7 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     userInfo:null,
     //
-    labelList:['换绑手机','换绑企业','地址管理','浏览记录','下单闹钟','客户服务','推荐有奖','更多'],
+    labelList:['换绑手机','绑定企业','地址管理','浏览记录','下单闹钟','客户服务','推荐有奖','更多'],
     labelIconArr: ['shouji1','qiye1','dizhi','zuji','naozhong','kefu','bajiefuli','gengduo'],
     navigatorUrl:['/pages/mine/phone/phone','/pages/mine/organize/organize','/pages/mine/address/address']
   },

@@ -68,7 +68,7 @@ Page({
     }
     _this.data.canClick = false
     wx.showLoading({ 
-      title: '处理中',
+      title: '结算中',
       mask: true
     })
     /**** 拼接这个庞大的参数 ****/
@@ -87,20 +87,16 @@ Page({
       element1.dayInfo.forEach(element2=>{
         let foodTypeDes = element2.foodTypeDes
         let organizeMealLabel = element2.organizeMealLabel
-        let mealLabelUsed = element2.mealLabelUsed
         let orderDetail_item = {
           mealDate:dayDes,
           mealType:foodTypeDes,
           mark:"我是备注",
-          totalPrice: undefined,//先占位
-          //standardPrice:organizeMealLabel,
-          standardPrice:undefined,//先占位
-          payPrice: undefined,//先占位
+          totalPrice:_this.data.totalMoney,
+          standardPrice:organizeMealLabel,
+          payPrice:_this.data.realMoney,
           orderFood:[]
         }
-        let tmp_totalPrice = 0
         element2.foodTypeInfo.forEach(element3=>{
-          tmp_totalPrice += element3.foodCount * element3.foodPrice
           let orderFood_item = {
             foodCode : element3.foodCode,
             name : element3.foodName,
@@ -110,69 +106,25 @@ Page({
           }
           orderDetail_item.orderFood.push(orderFood_item)
         })
-        orderDetail_item.totalPrice = tmp_totalPrice
-        if(mealLabelUsed==true){
-          orderDetail_item.payPrice = tmp_totalPrice 
-          orderDetail_item.standardPrice = 0 
-        }else{
-          orderDetail_item.payPrice = tmp_totalPrice - organizeMealLabel
-          orderDetail_item.standardPrice = organizeMealLabel 
-        }
         tmp_param.orderDetail.push(orderDetail_item)
       })
+ 
     })
     console.log('提交菜单请求参数:',tmp_param)
     let param = tmp_param
     confirmModel.commitConfirmMenuData(param,function(res){
-      console.log('支付结果返回：',res)
       if(res.code === 0){
-        let data = res.data.payData;
-        if (data.timeStamp) {
-          wx.requestPayment({
-            'timeStamp': data.timeStamp.toString(),
-            'nonceStr': data.nonceStr,
-            'package': data.packageValue,
-            'signType': data.signType,
-            'paySign': data.paySign,
-            success: function (e) {
-              wx.switchTab({
-                url: '/pages/order/order',
-              })
-              wx.showToast({
-                title: '结算成功',
-                icon: 'success',
-                duration: 2000
-              })
-            },
-            fail: function (e) {
-              wx.switchTab({
-                url: '/pages/order/order',
-              })
-              wx.showToast({
-                title: '已取消付款',
-                icon: 'success',
-                duration: 4000
-              })
-            },
-            complete: function() {
-              wx.hideLoading()
-              setTimeout(function(){ 
-                app.globalData.cacheMenuDataAll = [[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]]
-                app.globalData.selectedFoods = []
-                app.globalData.totalCount = 0
-                app.globalData.totalMoney = 0
-                _this.setData({  
-                  cacheMenuDataAll: [[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]],
-                  selectedFoods : [],
-                  totalCount: 0,
-                  totalMoney: 0,
-                  totalMoneyDeduction:0, 
-                  realMoney:0
-                })
-              },2000) 
-            }
+        setTimeout(function(){ //提示结算成功，两秒后跳转到首页
+/*           wx.switchTab({
+            url: '/pages/home/home',
+          }) */
+          wx.hideLoading() //【防止狂点3】
+          wx.showToast({
+            title: '结算成功',
+            icon: 'success',
+            duration: 2000
           })
-        }
+        },2000) 
       }else{
         wx.showToast({
           title: res.msg,
@@ -184,5 +136,6 @@ Page({
     setTimeout(function(){ 
       _this.data.canClick = true
     },300)
+    wx.hideLoading()
   },
 })

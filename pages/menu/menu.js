@@ -67,7 +67,6 @@ Page({
       timeDesActive:e.currentTarget.dataset.arrangetime
     })
     this.getMenuData()
-    console.log('vvvvvvv',e.currentTarget.dataset.timeindex,this.data.timeActiveFlag)
   },
   handleChangeFoodtypeActive: function(e){
     let tmp = parseInt(e.currentTarget.dataset.foodtypeindex)//传过来的字符串，要转化成number格式
@@ -490,16 +489,8 @@ Page({
     }
     menuModel.getMenuData(param,(res)=>{
       let resData = res
-/*       resData.day = parseInt(_this.data.timeActiveFlag)  //新增加的两项，加上后面会出现的foodCount，一共新增加三项
-      resData.foodType = parseInt(_this.data.foodtypeActiveFlag) */
-
       let tmp_cacheMenuDataAll = app.globalData.cacheMenuDataAll
       tmp_cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]= resData
-/*       _this.setData({   
-        cacheMenuDataAll : tmp_cacheMenuDataAll,
-        mealLabelUsedActive: resData.mealLabelUsed,
-        organizeMealLabelActive: resData.organizeMealLabel
-      })  */
       //下面 标签数组本地化
       if(_this.data.foodLabels==null){
         let tmp_foodLabels = []
@@ -592,7 +583,6 @@ Page({
       totalMoneyDeduction:0, 
       realMoney:0
     })
-    _this.getMenuDataByResponse() //重新请求是为了清空数据中的各种foodCount
     setTimeout(function(){
       _this.setData({   
         boxActiveFlag : !_this.data.boxActiveFlag

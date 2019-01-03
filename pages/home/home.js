@@ -7,6 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    showDaliFlag:true,
     registered: false,
     userInfo:null,
     wel: "",
@@ -117,6 +118,11 @@ Page({
       title: '注销成功',
       icon: 'success',
       duration: 2000
+    })
+  },
+  closeDali:function(){
+    this.setData({
+      showDaliFlag:false
     })
   }
 

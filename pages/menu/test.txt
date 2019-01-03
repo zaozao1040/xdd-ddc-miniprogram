@@ -1,24 +1,38 @@
-    timeInfo: [],
-    top_0: 0,
-    top_1: 0,
-    top_2: 0,
-    windowHeight: 0,
-    timeActiveFlag:0, //默认今天
-    timeDesActive:'', //选中的日期描述，如‘2018-12-22’
-    foodtypeActiveFlag:1, //默认餐别是该用户所在企业拥有餐标数组中的第一个
-    foodtypeDesActive:'', //选中的餐别描述，如‘LUNCH’
-    menutypeActiveFlag:0, 
-    boxActiveFlag: false,//默认关闭
-    loading: false,
-    canClick:true,
-    //四个重要的数据
-    selectedFoods:[],
-    cacheMenuDataAll:[[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]], //7行4列数组，用于存所有选中的数据---当前所有数据
-    totalMoney: 0,
-    totalCount:0,
+    /* **********模板数字响应式 + 存储下来点击的具体餐品的下标以及对应类别下标********** */
+    let day = e.currentTarget.dataset.day
+    let foodType = e.currentTarget.dataset.foodtype
+    let menutypeIndex = e.currentTarget.dataset.menutypeindex
+    let foodIndex = e.currentTarget.dataset.foodindex 
+    let tmp_menuData = _this.data.cacheMenuDataAll[day][foodType] //一、这个数据结构是为了数字响应式显示
+    if(!tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount){
+      tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount = 1
+    }else{
+      tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount ++
+    }
+    tmp_menuData.day = e.currentTarget.dataset.day  //这两行是为了更新这个临时menuData的day和foodType
+    tmp_menuData.foodType = e.currentTarget.dataset.foodtype
+    tmp_menuData.foods[menutypeIndex].foods[foodIndex].__food_index = foodIndex  //这两行是为了存储两个下标,foodIndex表示这个food在后台数据中的餐类（左侧分类）中的下标
+    tmp_menuData.foods[menutypeIndex].foods[foodIndex].__menutype_index = menutypeIndex //menutypeIndex表示这个food在后台数据中的餐类（左侧分类）在餐类列表中的下标
+    console.log('e:',e.currentTarget.dataset)
+    console.log('e menuData:',_this.data.menuData)
+
+
+
+
+        /* **********数字响应式********** */
+    let day = e.currentTarget.dataset.day
+    let foodType = e.currentTarget.dataset.foodtype
+    let menutypeIndex = e.currentTarget.dataset.menutypeindex
+    let foodIndex = e.currentTarget.dataset.foodindex
+    let tmp_menuData = _this.data.cacheMenuDataAll[day][foodType] //一、这个数据结构是为了数字响应式显示
+    if(tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount>0){
+      tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount --
+    }else{
+      tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount = 0
+    }
+
+
+    _this.data.cacheMenuDataAll
+
+
     
-    mapMenutype: ['早餐','午餐','晚餐','夜宵'],
-    mapMenutypeIconName: ['zaocan1','wucan','canting','xiaoye-'],
-    scrollToView: 'id_0',
-    listHeight: [], //这个数组记录每个餐类的"之前所有餐类描述+所有具体餐品"的占用高度值
-    timer: null

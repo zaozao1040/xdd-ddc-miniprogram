@@ -73,11 +73,6 @@
     border-radius: 50rpx;
 }
 
-.newuser-wrapper{
-    display: flex;
-    margin-top:15rpx;
-}
-
 .promotion-wrapper{
   display: flex;
 }
@@ -90,16 +85,37 @@
   width: 100%;
   height: 240rpx;
 }
-/* 
-.promotion-title{
-  padding: 10rpx 10rpx 0 10rpx;
-  color:#cb2222;
-  font-size: 30rpx;
+/* 新人大礼 */
+.newuser-wrapper{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 99;
+  background: rgba(13, 21, 31, 0.2);
+  margin: auto;
 }
-.promotion-des{
-  padding: 5rpx 10rpx 0 10rpx;
-  font-size: 25rpx;
-} */
+.img-wrapper{
+  margin: 200rpx 0 80rpx 0;
+  padding-left:100rpx;
+  padding-right:100rpx;
+  box-sizing: border-box;
+  overflow: hidden;
+  width:100%;
+  height: 0;
+  padding-bottom: 50%;
+}
+.image-dali{
+ width:100%; 
+}
+.icon-dacha1{
+  text-align: center;
+  height: 100rpx;
+  line-height: 100rpx;
+  font-size: 100rpx;
+  color:#fff;
+}
 
 
 

@@ -19,7 +19,6 @@
             登录
           </view>       
         </navigator>
-
       </view>
     </view>
     <!-- 轮播图 -->
@@ -46,10 +45,6 @@
         </view>
       </navigator>
     </view>
-    <!-- 新人大礼 -->
-    <view class="newuser-wrapper">
-
-    </view>
     <!-- 活动 -->
     <view class="promotion-wrapper">
       <view class="promotionItem" wx:for="{{swiperList}}" wx:for-index="promotionListIndex" wx:for-item="promotionListItem" wx:key="promotionListIndex">
@@ -59,7 +54,16 @@
       </view>
     </view>
 
+    <!-- 新人大礼 -->
+    <view class="newuser-wrapper" wx:if="{{!userInfo&&showDaliFlag}}">
+      <navigator url="/pages/login/login">
+        <view class="img-wrapper">
+          <image class="image-dali" src="../../images/home/dali.jpeg" ></image>
+        </view>        
+      </navigator>  
 
+      <view class="iconfont icon-dacha1" bindtap="closeDali"></view>
+    </view>
 
 
 

@@ -9,8 +9,8 @@
           {{name}}  {{phoneNumber}}
         </view>        
       </view>
-      <view style="flex:0 0 40rpx;">
-        <text class='iconfont icon-icon_on_the_right' style="font-size:40rpx;color:seagreen;height: 90rpx;line-height: 90rpx;"></text>
+      <view style="flex:0 0 40rpx;margin: auto">
+        <text class='iconfont icon-icon_on_the_right' style="font-size:40rpx;color:seagreen;"></text>
       </view>
     </view>
     <!-- 已选菜单 -->
@@ -81,7 +81,9 @@
                 企业总抵扣
               </view>
               <view class="" >
-                <text style="font-size: 25rpx;color:red;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:red;">-{{totalMoneyDeduction}}</text>
+                <text style="font-size: 25rpx;color:red;" decode>￥&nbsp;</text>
+                <text wx:if="{{totalMoneyDeduction!=0}}" style="font-size: 35rpx;color:red;">-{{totalMoneyDeduction}}</text>
+                <text wx:else style="font-size: 35rpx;color:red;">0</text>
               </view>
             </view>          
             <view class="total-right-line line3" >
@@ -98,6 +100,6 @@
     </view>
     <!-- button -->
     <view class="button-wrapper c_buttonPosition_forCalculate">
-      <view loading="{{loading}}" class="button" bindtap="handleCommitMenu">去付款</view>
+      <view loading="{{loading}}" class="button" bindtap="handleCommitPay">去付款</view>
     </view>
 </view>

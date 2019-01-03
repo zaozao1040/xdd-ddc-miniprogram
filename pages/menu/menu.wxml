@@ -213,7 +213,9 @@
                 企业总抵扣
               </view>
               <view class="" >
-                <text style="font-size: 25rpx;color:red;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:red;">-{{totalMoneyDeduction}}</text>
+                <text style="font-size: 25rpx;color:red;" decode>￥&nbsp;</text>
+                <text wx:if="{{totalMoneyDeduction!=0}}" style="font-size: 35rpx;color:red;">-{{totalMoneyDeduction}}</text>
+                <text wx:else style="font-size: 35rpx;color:red;">0</text>
               </view>
             </view>          
             <view class="total-right-line line3" >
@@ -259,9 +261,9 @@
         </view>
       </view>
       <view wx:else class="footer-middle" style="display: flex;">
-        <view class="middle-2" wx:if="{{!mealLabelUsedActive}}">
+        <view class="middle-2" wx:if="{{!cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].mealLabelUsed}}">
           企业将抵扣:<text style="font-size: 30rpx;color:rgb(255, 180, 180);" decode>￥&nbsp;</text>
-          <text style="color:rgb(255, 180, 180);font-weight: 500;font-size:35rpx;">{{organizeMealLabelActive}}</text>
+          <text style="color:rgb(255, 180, 180);font-weight: 500;font-size:35rpx;">{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].organizeMealLabel}}</text>
         </view>
         <view class="middle-2 notUse" wx:else>
           当前额度已被使用
