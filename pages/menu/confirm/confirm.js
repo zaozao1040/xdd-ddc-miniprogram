@@ -5,6 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    loading: false,
+    canClick:true,
     address:wx.getStorageSync('userInfo').address,
     name:wx.getStorageSync('userInfo').name,
     phoneNumber:wx.getStorageSync('userInfo').phoneNumber,
@@ -55,30 +57,69 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面卸载
+   * 付款 提交菜单
    */
-  onUnload: function () {
+  handleCommitMenu: function(){
+    let _this = this
+    if(!_this.data.canClick){
+      return
+    }
+    _this.data.canClick = false
+    wx.showLoading({ 
+      title: '结算中',
+      mask: true
+    })
+    let param = {   //这个参数相当庞大
+      userCode:wx.getStorageSync('userInfo').userCode,
+      organizeCode:wx.getStorageSync('userInfo').organizeCode,
+      deliveryAddressCode:wx.getStorageSync('userInfo').addressCode,
+      totalAllPrice:_this.data.totalMoney,//总价
+      standardAllPrice:_this.data.totalMoneyDeduction,//餐标总价格
+      payAllPrice:_this.data.realMoney,//需要付款总价
+      payType: "WECHAT_PAY",//支付方式
 
+
+      code: res.code, //微信code
+      validation: _this.data.code, //短信验证码
+      phoneNumber: _this.data.phone,
+      nickName: userInfo.nickName,
+      headImage: userInfo.avatarUrl,
+      sex: userInfo.gender,
+      name: _this.data.name,
+      userType: "B_USER", //企业用户还是个人用户 B_USER  VISITOR
+      organizeCode: _this.data.organizeCode //B_USER模式下需要改字段    
+    }
+    menuModel.commitMenuData(param,function(res){
+      console.log('收到请求(结算菜单):',res)
+      if(res.code === 0){
+        wx.setStorageSync('userInfo', res.data)
+        setTimeout(function(){ //提示结算成功，两秒后跳转到首页
+          wx.switchTab({
+            url: '/pages/home/home',
+          })
+          wx.hideLoading() //【防止狂点3】
+          wx.showToast({
+            title: '结算成功',
+            icon: 'success',
+            duration: 2000
+          })
+        },2000) 
+      }else{
+        wx.showToast({
+          title: res.msg,
+          icon: 'none',
+          duration: 2000
+        })  
+      }
+    })
+
+
+
+
+
+    setTimeout(function(){ 
+      _this.data.canClick = true
+    },300)
+    wx.hideLoading()
   },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

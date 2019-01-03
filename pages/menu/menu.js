@@ -47,10 +47,11 @@ Page({
   getMenuData: function(){  //setData设置menuData为缓存数据，这样可以同步到模板渲染
     //console.log('cacheMenuDataAll',this.data.cacheMenuDataAll)
     let _this = this
-    let tmp = _this.data.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
+    //let tmp = _this.data.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
+    let tmp = app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag] //取全局，取完后setData更新本地
     if(tmp!=null){
       _this.setData({
-        menuData: tmp
+        cacheMenuDataAll: app.globalData.cacheMenuDataAll
       }) 
       _this.refreshLabelActiveList()      
     }else{
@@ -66,6 +67,7 @@ Page({
       timeDesActive:e.currentTarget.dataset.arrangetime
     })
     this.getMenuData()
+    console.log('vvvvvvv',e.currentTarget.dataset.timeindex,this.data.timeActiveFlag)
   },
   handleChangeFoodtypeActive: function(e){
     let tmp = parseInt(e.currentTarget.dataset.foodtypeindex)//传过来的字符串，要转化成number格式
@@ -100,13 +102,13 @@ Page({
   },
   selectedFoodsAdd: function(e){
     let _this = this
-    var selectedFoods = _this.data.selectedFoods 
+    var selectedFoods = app.globalData.selectedFoods //取全局，取完后setData更新本地
     var a_selectedFoods = {
-      day: _this.data.timeActiveFlag,
-      dayDes: _this.data.timeDesActive,
+      day: e.currentTarget.dataset.day,
+      dayDes: e.currentTarget.dataset.daydes,
       dayInfo: [{
-        foodType: _this.data.foodtypeActiveFlag,
-        foodTypeDes: _this.data.foodtypeDesActive,
+        foodType: e.currentTarget.dataset.foodtype,
+        foodTypeDes: e.currentTarget.dataset.foodtypedes,
         mealLabelUsed: _this.data.mealLabelUsedActive,
         organizeMealLabel: _this.data.organizeMealLabelActive,
         foodTypeInfo:[{
@@ -115,7 +117,7 @@ Page({
           foodTotalPrice: e.currentTarget.dataset.foodprice,//这个总价实在是因为微信小程序模板中不识别parseFloat，只能这里转换
           foodName:  e.currentTarget.dataset.foodname,
           image: e.currentTarget.dataset.image,
-          __food_index: e.currentTarget.dataset.foodindex,
+          __food_index: e.currentTarget.dataset.foodindex,//
           __menutype_index: e.currentTarget.dataset.menutypeindex,
           foodCount: 1
         }]
@@ -127,12 +129,12 @@ Page({
     }else{ 
       tmp_length = selectedFoods.length //缓存length，提升性能
       for(var i=0;i<tmp_length;i++){
-        if(selectedFoods[i].day == _this.data.timeActiveFlag){
+        if(selectedFoods[i].day == e.currentTarget.dataset.day){
         //if(selectedFoods[i].day == _this.data.timeActiveFlag){
           tmp_length = selectedFoods[i].dayInfo.length //缓存length，提升性能
           for(var j=0;j<tmp_length;j++){
             //if(selectedFoods[i].dayInfo[j].foodType == _this.data.foodtypeActiveFlag){  //-----这里出过问题，
-            if(selectedFoods[i].dayInfo[j].foodType == _this.data.foodtypeActiveFlag){
+            if(selectedFoods[i].dayInfo[j].foodType == e.currentTarget.dataset.foodtype){
               tmp_length = selectedFoods[i].dayInfo[j].foodTypeInfo.length  //缓存length，提升性能
               for(var k=0;k<tmp_length;k++){
                 console.log(tmp_length)
@@ -159,8 +161,8 @@ Page({
             }else{
               if(j == tmp_length-1){   //便利到最后一个了，还没有相等的，就push进这个新的
                 selectedFoods[i].dayInfo.push({
-                  foodType: _this.data.foodtypeActiveFlag,
-                  foodTypeDes: _this.data.foodtypeDesActive,
+                  foodType: e.currentTarget.dataset.foodtype,
+                  foodTypeDes: e.currentTarget.dataset.foodtypedes,
                   mealLabelUsed: _this.data.mealLabelUsedActive,
                   organizeMealLabel: _this.data.organizeMealLabelActive,
                   foodTypeInfo:[{
@@ -181,11 +183,11 @@ Page({
         }else{
           if(i == tmp_length-1){   //便利到最后一个了，还没有相等的，就push进这个新的
             selectedFoods.push({
-              day: _this.data.timeActiveFlag,
-              dayDes: _this.data.timeDesActive,
+              day: e.currentTarget.dataset.day,
+              dayDes: e.currentTarget.dataset.daydes,
               dayInfo: [{
-                foodType: _this.data.foodtypeActiveFlag,
-                foodTypeDes: _this.data.foodtypeDesActive,
+                foodType: e.currentTarget.dataset.foodtype,
+                foodTypeDes: e.currentTarget.dataset.foodtypedes,
                 mealLabelUsed: _this.data.mealLabelUsedActive,
                 organizeMealLabel: _this.data.organizeMealLabelActive,
                 foodTypeInfo:[{
@@ -215,13 +217,13 @@ Page({
 
   selectedFoodsMinus: function(e){
     let _this = this
-    var selectedFoods = _this.data.selectedFoods 
+    var selectedFoods = app.globalData.selectedFoods //取全局，取完后setData更新本地
     var tmp_length = selectedFoods.length //缓存length，提升性能
     for(var i=0;i<tmp_length;i++){
-      if(selectedFoods[i].day == _this.data.timeActiveFlag){
+      if(selectedFoods[i].day == e.currentTarget.dataset.day){
         tmp_length = selectedFoods[i].dayInfo.length //缓存length，提升性能
         for(var j=0;j<tmp_length;j++){
-          if(selectedFoods[i].dayInfo[j].foodType == _this.data.foodtypeActiveFlag){
+          if(selectedFoods[i].dayInfo[j].foodType == e.currentTarget.dataset.foodtype){
             tmp_length = selectedFoods[i].dayInfo[j].foodTypeInfo.length  //缓存length，提升性能
             for(var k=0;k<tmp_length;k++){
               if(selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodCode == e.currentTarget.dataset.foodcode){
@@ -264,31 +266,33 @@ Page({
     wx.showLoading({ 
       title: '添加中',
       mask: true
-    })
+    })  
     /* **********模板数字响应式 + 存储下来点击的具体餐品的下标以及对应类别下标********** */
+    let day = e.currentTarget.dataset.day
+    let foodType = e.currentTarget.dataset.foodtype
     let menutypeIndex = e.currentTarget.dataset.menutypeindex
     let foodIndex = e.currentTarget.dataset.foodindex 
-    let tmp_menuData = _this.data.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag] //一、这个数据结构是为了数字响应式显示
+    let tmp_menuData = app.globalData.cacheMenuDataAll[day][foodType] //一、这个数据结构是为了数字响应式显示
     if(!tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount){
       tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount = 1
     }else{
       tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount ++
     }
-    tmp_menuData.day = _this.data.timeActiveFlag  //这两行是为了更新这个临时menuData的day和foodType
-    tmp_menuData.foodType = _this.data.foodtypeActiveFlag
-    tmp_menuData.foods[menutypeIndex].foods[foodIndex].__food_index = foodIndex  //这两行是为了存储两个下标
-    tmp_menuData.foods[menutypeIndex].foods[foodIndex].__menutype_index = menutypeIndex
+    tmp_menuData.day = e.currentTarget.dataset.day  //这两行是为了更新这个临时menuData的day和foodType
+    tmp_menuData.foodType = e.currentTarget.dataset.foodtype
+    tmp_menuData.foods[menutypeIndex].foods[foodIndex].__food_index = foodIndex  //这两行是为了存储两个下标,foodIndex表示这个food在后台数据中的餐类（左侧分类）中的下标
+    tmp_menuData.foods[menutypeIndex].foods[foodIndex].__menutype_index = menutypeIndex //menutypeIndex表示这个food在后台数据中的餐类（左侧分类）在餐类列表中的下标
     console.log('e:',e.currentTarget.dataset)
     console.log('e menuData:',_this.data.menuData)
-    /* **********cache大数组更新********** */
-    let tmp_cacheMenuDataAll = _this.data.cacheMenuDataAll
-    tmp_cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]= tmp_menuData
+    /* **********主菜单视图响应式--操作cacheMenuDataAll大数组********** */
+    let tmp_cacheMenuDataAll = app.globalData.cacheMenuDataAll
+    tmp_cacheMenuDataAll[day][foodType]= tmp_menuData
     app.globalData.cacheMenuDataAll = tmp_cacheMenuDataAll //全局更新
     _this.setData({   //添加或减少结束后，setData一定要把全局的赋给他
       cacheMenuDataAll : app.globalData.cacheMenuDataAll
     })
     console.log('全局大数组cacheMenuDataAll:',app.globalData.cacheMenuDataAll)
-    /* **********购物车响应式********** */
+    /* **********购物车视图响应式--操作selectedFoods********** */
     _this.selectedFoodsAdd(e)
     //总计数
     app.globalData.totalCount = app.globalData.totalCount + 1
@@ -318,23 +322,28 @@ Page({
       mask: true
     })
     /* **********数字响应式********** */
+    let day = e.currentTarget.dataset.day
+    let foodType = e.currentTarget.dataset.foodtype
     let menutypeIndex = e.currentTarget.dataset.menutypeindex
     let foodIndex = e.currentTarget.dataset.foodindex
-    let tmp_menuData = _this.data.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag] //一、这个数据结构是为了数字响应式显示
+    let tmp_menuData = app.globalData.cacheMenuDataAll[day][foodType] //一、这个数据结构是为了数字响应式显示
     if(tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount>0){
       tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount --
     }else{
       tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount = 0
     }
-    /* **********cache大数组更新********** */
-    let tmp_cacheMenuDataAll = _this.data.cacheMenuDataAll
-    tmp_cacheMenuDataAll[1][1]= tmp_menuData
+    console.log('rrrrrr:',day,foodType,tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount)
+    console.log('e:',e.currentTarget.dataset)
+    console.log('e menuData:',_this.data.menuData)
+    /* **********主菜单视图响应式--操作cacheMenuDataAll大数组********** */
+    let tmp_cacheMenuDataAll = app.globalData.cacheMenuDataAll
+    tmp_cacheMenuDataAll[day][foodType]= tmp_menuData
     app.globalData.cacheMenuDataAll = tmp_cacheMenuDataAll //全局更新
     _this.setData({   //添加或减少结束后，setData一定要把全局的赋给他
       cacheMenuDataAll : app.globalData.cacheMenuDataAll
     })
     console.log('大数组cacheMenuDataAll:',_this.data.cacheMenuDataAll)
-    /* **********购物车响应式********** */
+    /* **********购物车视图响应式--操作selectedFoods********** */
     _this.selectedFoodsMinus(e)  
     //总计数
     app.globalData.totalCount = app.globalData.totalCount - 1
@@ -369,6 +378,7 @@ Page({
       })
     }
   },
+  /* 菜品详情 */
   handleShowFoodDetail:function(e){
     console.log('eeeee',e.currentTarget.dataset)
     let _this = this
@@ -483,7 +493,7 @@ Page({
 /*       resData.day = parseInt(_this.data.timeActiveFlag)  //新增加的两项，加上后面会出现的foodCount，一共新增加三项
       resData.foodType = parseInt(_this.data.foodtypeActiveFlag) */
 
-      let tmp_cacheMenuDataAll = _this.data.cacheMenuDataAll
+      let tmp_cacheMenuDataAll = app.globalData.cacheMenuDataAll
       tmp_cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]= resData
 /*       _this.setData({   
         cacheMenuDataAll : tmp_cacheMenuDataAll,
@@ -516,7 +526,7 @@ Page({
   /* 刷新标签的显示列表 */
   refreshLabelActiveList:function(){
     let _this = this
-    let tmp_cacheMenuDataCurrent = _this.data.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
+    let tmp_cacheMenuDataCurrent = app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
     let tmp_selectedFoodLabelsIdsArr = [] //用于存储选中状态的标签id，例如：[2,3] 注意是选中的
     _this.data.foodLabels.forEach((element)=>{
       if(element.active==true){
@@ -545,7 +555,7 @@ Page({
         }
       })
     })
-    let tmp_cacheMenuDataAll = _this.data.cacheMenuDataAll  //cache大数组更新
+    let tmp_cacheMenuDataAll = app.globalData.cacheMenuDataAll  //cache大数组更新
     tmp_cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]= tmp_cacheMenuDataCurrent
     app.globalData.cacheMenuDataAll = tmp_cacheMenuDataAll //全局更新
     _this.setData({   //添加或减少结束后，setData一定要把全局的赋给他
@@ -570,10 +580,12 @@ Page({
   },
   handleClearFoods: function(){
     let _this = this
+    app.globalData.cacheMenuDataAll = [[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]]
     app.globalData.selectedFoods = []
     app.globalData.totalCount = 0
     app.globalData.totalMoney = 0
-    _this.setData({   
+    _this.setData({  
+      cacheMenuDataAll: [[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]],
       selectedFoods : [],
       totalCount: 0,
       totalMoney: 0,
@@ -618,67 +630,7 @@ Page({
         +this.data.realMoney,
     })
   },
-  /* 提交菜单 */
-  handleCommitMenu: function(){
-    let _this = this
-    if(!_this.data.canClick){
-      return
-    }
-    _this.data.canClick = false
-    wx.showLoading({ 
-      title: '结算中',
-      mask: true
-    })
-    let param = {   //这个参数相当庞大
-      userCode:wx.getStorageSync('userInfo').userCode,
-      organizeCode:wx.getStorageSync('userInfo').organizeCode,
-      
 
-
-
-      code: res.code, //微信code
-      validation: _this.data.code, //短信验证码
-      phoneNumber: _this.data.phone,
-      nickName: userInfo.nickName,
-      headImage: userInfo.avatarUrl,
-      sex: userInfo.gender,
-      name: _this.data.name,
-      userType: "B_USER", //企业用户还是个人用户 B_USER  VISITOR
-      organizeCode: _this.data.organizeCode //B_USER模式下需要改字段    
-    }
-    menuModel.commitMenuData(param,function(res){
-      console.log('收到请求(结算菜单):',res)
-      if(res.code === 0){
-        wx.setStorageSync('userInfo', res.data)
-        setTimeout(function(){ //提示结算成功，两秒后跳转到首页
-          wx.switchTab({
-            url: '/pages/home/home',
-          })
-          wx.hideLoading() //【防止狂点3】
-          wx.showToast({
-            title: '结算成功',
-            icon: 'success',
-            duration: 2000
-          })
-        },2000) 
-      }else{
-        wx.showToast({
-          title: res.msg,
-          icon: 'none',
-          duration: 2000
-        })  
-      }
-    })
-
-
-
-
-
-    setTimeout(function(){ 
-      _this.data.canClick = true
-    },300)
-    wx.hideLoading()
-  },
   /**
    * 生命周期函数--监听页面加载
    */

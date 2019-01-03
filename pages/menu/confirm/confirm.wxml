@@ -18,7 +18,7 @@
       <view class="cart-content-empty" wx:if="{{selectedFoods.length==0}}">
         您的购物车空空如也~
       </view>
-      <scroll-view class="cart-content" scroll-y style="height: {{buttonTop - scrollTop}}px;" >
+      <scroll-view wx:else class="cart-content" scroll-y style="height: {{buttonTop - scrollTop}}px;" >
         <view class="cart-day-wrapper" wx:for="{{selectedFoods}}" wx:for-item="selectedfoodsItem" wx:for-index="selectedfoodsIndex" wx:key="selectedfoodsIndex">
           <view class="cart-day-title" >
             {{selectedfoodsItem.dayDes}}
@@ -89,32 +89,15 @@
                 实际支付
               </view>
               <view class="" >
-                <text style="font-size: 25rpx;color:red;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:red;font-weight: 700;">{{realMoney}}</text>
+                <text style="font-size: 30rpx;color:red;" decode>￥&nbsp;</text><text style="font-size: 40rpx;color:red;font-weight: 700;">{{realMoney}}</text>
               </view>
             </view> 
           </view>
         </view>
-<!--         <view class="organizeItem-wrapper" wx:for="{{organizeList}}" wx:for-index="organizeIndex" wx:for-item="organizeItem" wx:key="organizeIndex"
-          catchtap="selectOrganize" data-organizename="{{organizeItem.organizeName}}" data-organizecode="{{organizeItem.organizeCode}}">
-          <view class="organizeItem-left">
-            <view class="organizeName">
-              {{organizeItem.organizeName}}
-            </view>
-            <view class="organizeAddress">
-              {{organizeItem.address}}
-            </view>
-          </view>
-          <view class="organizeItem-right">
-            {{organizeItem.distance/1000}}公里
-          </view>
-        </view>
-        <view wx:if="{{organizeListNoResult}}" class="noResult">
-          未查询到企业..
-        </view> -->
       </scroll-view>
     </view>
     <!-- button -->
     <view class="button-wrapper c_buttonPosition_forCalculate">
-      <view loading="{{loading}}" class="button" catchtap="changeOrganize">去付款</view>
+      <view loading="{{loading}}" class="button" bindtap="handleCommitMenu">去付款</view>
     </view>
 </view>

@@ -100,8 +100,6 @@
                 <view  class="num-control" >
                   <view wx:if="{{foodItem.foodCount>0}}" style="display: inline-block;font-size:40rpx;" class='iconfont icon-jian-xianxingyuankuang'  
                     data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}"
-                    data-day="{{timeActiveFlag}}" data-daydes="{{timeDesActive}}" 
-                    data-foodtype="{{foodtypeActiveFlag}}" data-foodtypedes="{{foodtypeDesActive}}"
                     data-foodcode="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}" data-image="{{foodItem.image}}" catchtap="handleMinusfood">
                   </view>
                   <view wx:if="{{foodItem.foodCount>0}}" style="display: inline-block;font-size:40rpx;width:60rpx;text-align: center;" class="num" >
@@ -109,8 +107,6 @@
                   </view>
                   <view style="display: inline-block;font-size:40rpx;" class='iconfont icon-jia-yuankuang' 
                     data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}"
-                    data-day="{{timeActiveFlag}}" data-daydes="{{timeDesActive}}" 
-                    data-foodtype="{{foodtypeActiveFlag}}" data-foodtypedes="{{foodtypeDesActive}}"
                     data-foodcode="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}" data-image="{{foodItem.image}}" catchtap="handleAddfood">
                   </view>
                 </view>
@@ -161,18 +157,14 @@
                     <!-- ***************  + - 添加、减掉餐品的小控件(购物车中) *************** -->
                     <view  class="num-control-cart" >
                       <view wx:if="{{foodtypeinfoItem.foodCount>=0}}" style="display: inline-block;font-size:40rpx;float: right" class='iconfont icon-jia-yuankuang' 
-                        data-menutypeindex="{{foodtypeinfoItem.__menutype_index}}" data-foodindex="{{foodtypeinfoItem.__food_index}}" 
-                        data-day="{{selectedfoodsItem.day}}" data-daydes="{{selectedfoodsItem.dayDes}}" 
-                        data-foodtype="{{foodtypeItem.foodType}}" data-foodtypedes="{{foodtypeItem.foodTypeDes}}"
+                        data-menutypeindex="{{foodtypeinfoItem.__menutype_index}}" data-foodindex="{{foodtypeinfoItem.__food_index}}" data-day="{{selectedfoodsItem.day}}" data-foodtype="{{foodtypeItem.foodType}}" data-daydes="{{selectedfoodsItem.dayDes}}" data-foodtypedes="{{foodtypeItem.foodTypeDes}}"
                         data-foodcode="{{foodtypeinfoItem.foodCode}}" data-foodprice="{{foodtypeinfoItem.foodPrice}}" data-foodname="{{foodtypeinfoItem.foodName}}" data-image="{{foodtypeinfoItem.image}}" catchtap="handleAddfood">
                       </view>
                       <view wx:if="{{foodtypeinfoItem.foodCount>0}}" style="display: inline-block;font-size:40rpx;width:60rpx;text-align: center;float: right" class="num" >
                         {{foodtypeinfoItem.foodCount}}
                       </view>
                       <view wx:if="{{foodtypeinfoItem.foodCount>0}}" style="display: inline-block;font-size:40rpx;float: right" class='iconfont icon-jian-xianxingyuankuang'
-                        data-menutypeindex="{{foodtypeinfoItem.__menutype_index}}" data-foodindex="{{foodtypeinfoItem.__food_index}}" 
-                        data-day="{{selectedfoodsItem.day}}" data-daydes="{{selectedfoodsItem.dayDes}}" 
-                        data-foodtype="{{foodtypeItem.foodType}}" data-foodtypedes="{{foodtypeItem.foodTypeDes}}"
+                        data-menutypeindex="{{foodtypeinfoItem.__menutype_index}}" data-foodindex="{{foodtypeinfoItem.__food_index}}" data-day="{{selectedfoodsItem.day}}" data-foodtype="{{foodtypeItem.foodType}}" data-daydes="{{selectedfoodsItem.dayDes}}" data-foodtypedes="{{foodtypeItem.foodTypeDes}}"
                         data-foodcode="{{foodtypeinfoItem.foodCode}}" data-foodprice="{{foodtypeinfoItem.foodPrice}}" data-foodname="{{foodtypeinfoItem.foodName}}" data-image="{{foodtypeinfoItem.image}}" catchtap="handleMinusfood">
                       </view>
                     </view>

@@ -59,15 +59,21 @@ Page({
   },
   handleChangeTimeActive: function(e){
     let tmp = parseInt(e.currentTarget.dataset.timeindex)//传过来的字符串，要转化成number格式
+    this.data.timeActiveFlag = tmp
+    this.data.timeDesActive = e.currentTarget.dataset.arrangetime
     this.setData({
-      timeActiveFlag: tmp
+      timeActiveFlag: tmp,
+      timeDesActive:e.currentTarget.dataset.arrangetime
     })
     this.getMenuData()
   },
   handleChangeFoodtypeActive: function(e){
     let tmp = parseInt(e.currentTarget.dataset.foodtypeindex)//传过来的字符串，要转化成number格式
+    this.data.foodtypeActiveFlag = tmp
+    this.data.foodtypeDesActive = e.currentTarget.dataset.mealtype
     this.setData({
-      foodtypeActiveFlag: tmp
+      foodtypeActiveFlag: tmp,
+      foodtypeDesActive:e.currentTarget.dataset.mealtype,
     })
     this.getMenuData()
   },
@@ -109,7 +115,7 @@ Page({
           foodTotalPrice: e.currentTarget.dataset.foodprice,//这个总价实在是因为微信小程序模板中不识别parseFloat，只能这里转换
           foodName:  e.currentTarget.dataset.foodname,
           image: e.currentTarget.dataset.image,
-          __food_index: e.currentTarget.dataset.foodindex,
+          __food_index: e.currentTarget.dataset.foodindex,//
           __menutype_index: e.currentTarget.dataset.menutypeindex,
           foodCount: 1
         }]
@@ -270,8 +276,8 @@ Page({
     }
     tmp_menuData.day = _this.data.timeActiveFlag  //这两行是为了更新这个临时menuData的day和foodType
     tmp_menuData.foodType = _this.data.foodtypeActiveFlag
-    tmp_menuData.foods[menutypeIndex].foods[foodIndex].__food_index = foodIndex  //这两行是为了存储两个下标
-    tmp_menuData.foods[menutypeIndex].foods[foodIndex].__menutype_index = menutypeIndex
+    tmp_menuData.foods[menutypeIndex].foods[foodIndex].__food_index = foodIndex  //这两行是为了存储两个下标,foodIndex表示这个food在后台数据中的餐类（左侧分类）中的下标
+    tmp_menuData.foods[menutypeIndex].foods[foodIndex].__menutype_index = menutypeIndex //menutypeIndex表示这个food在后台数据中的餐类（左侧分类）在餐类列表中的下标
     console.log('e:',e.currentTarget.dataset)
     console.log('e menuData:',_this.data.menuData)
     /* **********cache大数组更新********** */
@@ -468,14 +474,9 @@ Page({
     let _this = this
     //获取后台数据
     let param = {
-      //timeActiveFlag:_this.data.timeDesActive,
-      //foodtypeActiveFlag:_this.data.foodtypeActiveFlag, ---以前俩参数
-      //arrangeTime:_this.data.timeDesActive,
-      //mealType:_this.data.foodtypeDesActive,
-      //userCode:wx.getStorageSync('userInfo').userCode,
-      arrangeTime:'2018-12-29',
-      mealType:'BREAKFAST',
-      userCode:'v0SkecAJ'
+      arrangeTime:_this.data.timeDesActive,
+      mealType:_this.data.foodtypeDesActive,
+      userCode:wx.getStorageSync('userInfo').userCode,
     }
     menuModel.getMenuData(param,(res)=>{
       let resData = res
@@ -569,10 +570,12 @@ Page({
   },
   handleClearFoods: function(){
     let _this = this
+    app.globalData.cacheMenuDataAll = [[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]]
     app.globalData.selectedFoods = []
     app.globalData.totalCount = 0
     app.globalData.totalMoney = 0
-    _this.setData({   
+    _this.setData({  
+      cacheMenuDataAll: [[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]],
       selectedFoods : [],
       totalCount: 0,
       totalMoney: 0,
@@ -609,6 +612,15 @@ Page({
       }
     },50)
   },
+  goToMenuCommit(){
+    wx.navigateTo({
+      url: '/pages/menu/confirm/confirm?totalMoney='
+        +this.data.totalMoney+'&totalMoneyDeduction='
+        +this.data.totalMoneyDeduction+'&realMoney='
+        +this.data.realMoney,
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
