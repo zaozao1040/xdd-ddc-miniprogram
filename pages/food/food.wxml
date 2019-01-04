@@ -1,0 +1,105 @@
+<!--pages/food/food.wxml-->
+<view class="food-wrapper" >
+  <!-- 基本信息 -->
+  <view class="basic-info">
+    <view class="img-wrapper" >
+      <image class="foodImg" src="{{foodInfo.foodSliders}}" style="width:100%;"></image>
+    </view>
+    <view class="food-info-wrapper" >
+      <view class="foodName" >
+        {{foodInfo.foodName}}
+      </view>
+      <view class="tag-wrapper">
+        <view class="tag-item" wx:if="{{foodInfo.foodTags}}" wx:for="{{foodInfo.foodTags}}" wx:for-item="tagItem" wx:for-index="tagIndex" wx:key="tagIndex">
+          {{tagItem.labelName}}
+        </view>
+      </view>
+      <view class="price" >
+        <view class="price-real">
+          <text style="font-size: 25rpx;">￥</text>{{foodInfo.foodPrice}}
+        </view> 
+        <view wx:if="{{foodInfo.foodOriginal}}" class="price-original">
+          <text style="font-size: 25rpx;">￥</text>{{foodInfo.foodOriginal}}
+        </view>  
+      </view>
+      <view class="merchant">
+        <text class='iconfont icon-merchant' decode>&nbsp;</text>
+        <view class="merchantName" >
+          {{foodInfo.merchantName}}
+        </view>
+      </view>
+      <view class="foodDes" >
+          这是一个好吃的这是一个好吃的这是一个好吃的这是一个好吃的这是一个好吃的
+      </view>
+    </view>  
+  </view>
+  <!-- 标题 -->
+  <view class="content-header" >
+    <view class="content-header-item {{itemStatusActiveFlag==true?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="detail">
+      菜品详情
+    </view>
+    <view class="content-header-item {{itemStatusActiveFlag==false?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="ratings">
+      评价列表
+    </view>
+  </view>
+  <!-- 菜品详情 -->
+  <view wx:if="{{itemStatusActiveFlag==true}}" class="img-wrapper" >
+    <image class="foodImg" src="{{foodInfo.foodDetail}}" style="width:100%;" mode="widthFix"></image>
+  </view>
+  <!-- 评价列表 -->
+  <view  wx:else>
+<!--     <view class="ratingsContent" >
+      <view class="btn {{btnFlag=='all'?'active':''}}" catchtap="changeBtnActiveFlag" data-flag="all">全部</view>
+      <view class="btn {{btnFlag=='fivestar'?'active':''}}" catchtap="changeBtnActiveFlag" data-flag="advice">五星</view>
+    </view>
+    <view class="tab-wrapper" >
+      <view class="tab">
+        <text class="iconfont icon-gouxuan1" wx:if="{{!hasContentFlag}}" catchtap="changeHasContentFlag"></text>
+        <text class="iconfont icon-gouxuan" wx:else catchtap="changeHasContentFlag"></text>
+        <text class="tab-des" decode>&nbsp;有内容</text>
+      </view>
+      <view class="tab">
+        <text class="iconfont icon-gouxuan1" wx:if="{{!hasImgFlag}}" catchtap="changeHasImgFlag"></text>
+        <text class="iconfont icon-gouxuan" wx:else catchtap="changeHasImgFlag"></text>
+        <text class="tab-des" decode>&nbsp;有图</text>
+      </view>    
+    </view> -->
+    <view class="ratingsDetailList-wrapper" wx:if="{{ratingsInfo.length!=0}}">
+      <view class="ratingsItem" wx:for="{{ratingsInfo}}" wx:for-item="ratingItem" wx:for-index="ratingIndex" wx:key="ratingIndex">
+        <view class="left" >
+          <image class="left-image" src="/images/food/user.png"></image>
+        </view>
+        <view class="right" >
+          <view class="line1" >
+            <view class="user" >
+              {{ratingItem.userNickName}}
+            </view>
+            <view class="time" >
+              {{ratingItem.evaluateTime}}
+            </view>
+          </view>
+          <view class="line2" >
+            <block wx:for="{{ratingItem.star}}" wx:key="index">
+              <text class='iconfont icon-xingxing' decode>&nbsp;</text>
+            </block>
+          </view>
+          <view class="line3" >
+            {{ratingItem.content}}
+          </view>
+          <view class="line4" wx:if="{{ratingItem.images}}">
+            <swiper class="ratings-swiper" indicatorActiveColor="#fff" indicatorColor="rgb(212, 203, 201)" indicatorDots interval="5000" >
+              <swiper-item wx:for="{{ratingItem.images}}" wx:for-index="imageIndex" wx:for-item="imageItem" wx:key="imageIndex">
+                <image class="swiper-img" src="{{imageItem}}"></image>
+              </swiper-item>
+            </swiper>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view style="text-align: center;" wx:else>
+      暂无评论..
+    </view>
+  </view>
+ 
+
+</view>

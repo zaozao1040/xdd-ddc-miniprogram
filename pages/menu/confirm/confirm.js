@@ -136,7 +136,7 @@ Page({
             'paySign': data.paySign,
             success: function (e) {
               wx.switchTab({
-                url: '/pages/order/order',
+                url: '/pages/order-list/order-list',
               })
               wx.showToast({
                 title: '结算成功',
@@ -146,7 +146,7 @@ Page({
             },
             fail: function (e) {
               wx.switchTab({
-                url: '/pages/order/order',
+                url: '/pages/order-list/order-list',
               })
               wx.showToast({
                 title: '已取消付款',

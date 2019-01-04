@@ -1,0 +1,146 @@
+<view class="page">
+    <view class="page__bd">
+        <view class="weui-tab">
+            <view class="weui-navbar">
+                <block wx:for="{{tabs}}" wx:key="*this">
+                    <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+                        <view class="weui-navbar__title">{{item}}</view>
+                    </view>
+                </block>
+                <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
+            </view>
+            <view class="weui-tab__panel">
+                <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
+                    <view>
+
+                        <scroll-view scroll-y="true" bindscrolltolower="searchScrollLower" style='height:{{contentHeight - 26}}px;'>
+                            <block wx:for="{{todayOrders}}" wx:key="index">
+                                <block wx:if="{{item.orderStatus  != 'NO_PAY' && item.orderStatus  != 'USER_CANCEL' && item.orderStatus  != 'SYSTEM_CANCE'}}">
+                                    <view class="order-list">
+                                        <view class="order-title">
+                                            <view class="title-between">
+                                                <view wx:if="{{item.mealType  == 'BREAKFAST' }}">早餐</view>
+                                                <view wx:elif="{{item.mealType  == 'LUNCH' }}">午餐</view>
+                                                <view wx:elif="{{item.mealType  == 'DINNER' }}">晚餐</view>
+                                                <view wx:elif="{{item.mealType  == 'NIGHT' }}">夜宵</view>
+                                                <!-- orderStatus -->
+                                                <view wx:if="{{item.orderStatus  == 'NO_PAY' }}">未支付</view>
+                                                <view wx:elif="{{item.orderStatus  == 'PAYED_WAITINT_CONFIRM' }}">已支付</view>
+                                                <view wx:elif="{{item.orderStatus  == 'CONFIRM_WAITING_MAKE' }}">待制作</view>
+                                                <view wx:elif="{{item.orderStatus  == 'MAKING' }}">开始制作</view>
+                                                <view wx:elif="{{item.orderStatus  == 'MAKED_WAITING_DELIVERY' }}">待配送</view>
+                                                <view wx:elif="{{item.orderStatus  == 'DELIVERING' }}">配送中</view>
+                                                <view wx:elif="{{item.orderStatus  == 'DELIVERED_WAITING_PICK' }}">待取货</view>
+                                                <view wx:elif="{{item.orderStatus  == 'PICKED_WAITING_EVALUATE' }}">待评价</view>
+                                                <view wx:elif="{{item.orderStatus  == 'NO_PICK_WAITING_BACK' }}">超时未取货待取回</view>
+                                            </view>
+                                            <view class="title-between">
+                                                <view>就餐日期</view>
+                                                <view>{{item.mealDate}}</view>
+                                            </view>
+                                            <view>订单编号</view>
+                                            <text class="order-code">{{item.orderCode}}</text>
+                                        </view>
+                                        <view class="order-food-list">
+                                            <block wx:for="{{item.orderFoodList}}" wx:for-item="food" wx:key="{{food.index}}">
+                                                <view class="food-between">
+                                                    <view class="food-name">{{food.name}}</view>
+                                                    <view>×{{food.quantity}}</view>
+                                                </view>
+                                            </block>
+                                        </view>
+                                        <view class="order-food-summary">
+                                            <view class="food-between">
+                                                <view>共{{item.orderFoodList.length}}件商品，总计：
+                                                    <text style="font-weight:blod;color:#000;"> ￥{{item.totalPrice}}</text>，实付
+                                                    <text style="font-weight:blod;color:#000;">￥{{item.payPrice}}</text>
+                                                </view>
+                                            </view>
+                                        </view>
+                                        <view class="operation-list">
+                                            <view class="cancel-order" wx:if="{{item.orderStatus  == 'PAYED_WAITINT_CONFIRM' || item.orderStatus  == 'NO_PAY'}}" data-order-code="{{item.orderCode}}" catchtap='cancelOrder' data-pay-price="{{item.payPrice}}"  data-order-status="{{item.orderStatus}}">取消订单</view>
+                                            <view class="evaluate" wx:if="{{item.orderStatus  == 'PICKED_WAITING_EVALUATE' || item.orderStatus  == 'NO_PICK_WAITING_BACK' || item.orderStatus  == 'COMPLETED_BACK' || item.orderStatus  == 'COMPLETED_NO_EVALUATE'}}">去评价</view>
+
+                                            <view class="take-meal" wx:if="{{item.orderStatus  == 'DELIVERING' || item.orderStatus  == 'DELIVERED_WAITING_PICK' || item.orderStatus  == 'PICKED_WAITING_EVALUATE' || item.orderStatus  == 'NO_PICK_WAITING_BACK' ||item.orderStatus  == 'COMPLETED_NO_EVALUATE'}}">取餐</view>
+                                            <view class="go-pay" wx:if="{{item.orderStatus  == 'NO_PAY' }}" data-order-code="{{item.orderCode}}" catchtap='goPay'>去付款</view>
+                                        </view>
+                                    </view>
+                                    <view class='line'></view>
+                                </block>
+                            </block>
+                            <view class="loading" hidden="{{!searchLoading}}">正在载入更多...</view>
+                            <view class="bottom-more" hidden="{{!searchLoadingComplete}}">
+                                没有更多了
+                            </view>
+                        </scroll-view>
+                    </view>
+                </view>
+                <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
+                    <scroll-view scroll-y="true" bindscrolltolower="searchScrollLower" style='height:{{contentHeight - 26}}px;'>
+                        <block wx:for="{{orders}}" wx:key="index">
+                            <view class="order-list">
+                                <view class="order-title">
+                                    <view class="title-between">
+                                        <view wx:if="{{item.mealType  == 'BREAKFAST' }}">早餐</view>
+                                        <view wx:elif="{{item.mealType  == 'LUNCH' }}">午餐</view>
+                                        <view wx:elif="{{item.mealType  == 'DINNER' }}">晚餐</view>
+                                        <view wx:elif="{{item.mealType  == 'NIGHT' }}">夜宵</view>
+                                        <!-- orderStatus -->
+                                        <view wx:if="{{item.orderStatus  == 'NO_PAY' }}">未支付</view>
+                                        <view wx:elif="{{item.orderStatus  == 'USER_CANCEL' }}">已取消</view>
+                                        <view wx:elif="{{item.orderStatus  == 'SYSTEM_CANCEL' }}">系统已取消</view>
+                                        <view wx:elif="{{item.orderStatus  == 'PAYED_WAITINT_CONFIRM' }}">已支付</view>
+                                        <view wx:elif="{{item.orderStatus  == 'CONFIRM_WAITING_MAKE' }}">待制作</view>
+                                        <view wx:elif="{{item.orderStatus  == 'MAKING' }}">开始制作</view>
+                                        <view wx:elif="{{item.orderStatus  == 'MAKED_WAITING_DELIVERY' }}">待配送</view>
+                                        <view wx:elif="{{item.orderStatus  == 'DELIVERING' }}">配送中</view>
+                                        <view wx:elif="{{item.orderStatus  == 'DELIVERED_WAITING_PICK' }}">待取货</view>
+                                        <view wx:elif="{{item.orderStatus  == 'PICKED_WAITING_EVALUATE' }}">待评价</view>
+                                        <view wx:elif="{{item.orderStatus  == 'NO_PICK_WAITING_BACK' }}">超时未取货待取回</view>
+                                        <view wx:elif="{{item.orderStatus  == 'COMPLETED_BACK' }}">已取回</view>
+                                        <view wx:elif="{{item.orderStatus  == 'COMPLETED_NO_EVALUATE' }}">待评价</view>
+                                        <view wx:elif="{{item.orderStatus  == 'COMPLETED_EVALUATED' }}">已完成</view>
+                                    </view>
+                                    <view class="title-between">
+                                        <view>就餐日期</view>
+                                        <view>{{item.mealDate}}</view>
+                                    </view>
+                                </view>
+                                <view class="order-food-list">
+                                    <block wx:for="{{item.orderFoodList}}" wx:for-item="food" wx:key="{{food.index}}">
+                                        <view class="food-between">
+                                            <view class="food-name">{{food.name}}</view>
+                                            <view>×{{food.quantity}}</view>
+                                        </view>
+                                    </block>
+                                </view>
+                                <view class="order-food-summary">
+                                    <view class="food-between">
+                                        <view>共{{item.orderFoodList.length}}件商品，总计：
+                                            <text style="font-weight:blod;color:#000;"> ￥{{item.totalPrice}}</text>，实付
+                                            <text style="font-weight:blod;color:#000;">￥{{item.payPrice}}</text>
+                                        </view>
+                                    </view>
+                                </view>
+                                <view class="operation-list">
+                                    <view class="cancel-order" wx:if="{{item.orderStatus  == 'PAYED_WAITINT_CONFIRM' || item.orderStatus  == 'NO_PAY'}}" data-order-code="{{item.orderCode}}" catchtap='cancelOrder' data-pay-price="{{item.payPrice}}" data-order-status="{{item.orderStatus}}">取消订单</view>
+                                    <view class="evaluate" wx:if="{{item.orderStatus  == 'PICKED_WAITING_EVALUATE' || item.orderStatus  == 'NO_PICK_WAITING_BACK' || item.orderStatus  == 'COMPLETED_BACK' || item.orderStatus  == 'COMPLETED_NO_EVALUATE'}}">去评价</view>
+
+                                    <view class="take-meal" wx:if="{{item.orderStatus  == 'DELIVERING' || item.orderStatus  == 'DELIVERED_WAITING_PICK' || item.orderStatus  == 'PICKED_WAITING_EVALUATE' || item.orderStatus  == 'NO_PICK_WAITING_BACK' ||item.orderStatus  == 'COMPLETED_NO_EVALUATE'}}">取餐</view>
+                                    <view class="go-pay" wx:if="{{item.orderStatus  == 'NO_PAY' }}" data-order-code="{{item.orderCode}}" catchtap='goPay'>去付款</view>
+                                </view>
+                            </view>
+                            <view class='line'></view>
+                        </block>
+                        <view class="loading" hidden="{{!searchLoading}}">正在载入更多...</view>
+                        <view class="bottom-more" hidden="{{!searchLoadingComplete}}">
+                            没有更多了
+                        </view>
+                    </scroll-view>
+
+                </view>
+
+            </view>
+        </view>
+    </view>
+</view>

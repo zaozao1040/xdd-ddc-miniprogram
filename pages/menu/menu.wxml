@@ -71,7 +71,7 @@
             </view>
             <!-- 单个食物 -->
             <view class="food-wrapper" wx:if="{{foodItem.active}}" wx:for="{{menutypeItem.foods}}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex"
-              bindtap="handleShowFoodDetail" data-foodcode="{{foodItem.foodCode}}" >
+              bindtap="handleGotoFoodDetail" data-dateid="{{foodItem.dateId}}" >
               <view class="img-wrapper">
                 <image class="food-img" src="{{foodItem.image}}"></image>    
               </view>
@@ -229,17 +229,7 @@
           </view>
         </view>
       </scroll-view>
-      
     </view> 
-    <!-- 【【另一个页面】】 单菜品详情 -->
-  <!--   <view class="foodDetail-wrapper" wx:if="{{showFoodDetailFlag}}">
-      <view class="detail-img-wrapper" >
-        <image class="detail-img" src="#" />
-      </view>
-      <view class="detail-img" >
-        @@@@@
-      </view>
-    </view> -->
    
     <!-- 【第五排】底部状态栏 -->
     <view class="footer-wrapper c_scrollPosition_2_forCalculate">

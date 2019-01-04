@@ -1,0 +1,201 @@
+/* 基本信息 */
+.basic-info{
+  background: #ddd;
+  border-bottom-left-radius: 50rpx;
+  border-bottom-right-radius: 50rpx;
+}
+.food-wrapper{
+  padding:10rpx 20rpx;
+  background: #eee;
+}
+.img-wrapper{
+  width: 100%;
+}
+.food-info-wrapper{
+  padding: 20rpx;
+}
+.foodName{
+  font-size: 40rpx;
+  font-weight: 600;
+  color:#222;
+}
+.tag-wrapper{
+  display: flex;
+}
+.tag-item{
+  margin-right: 20rpx;
+  padding:5rpx 10rpx;
+  height: 30rpx;
+  line-height: 30rpx;
+  font-size: 25rpx;
+  font-weight: 600;
+  color:#eee;
+  background: forestgreen;
+  border-radius: 7rpx;
+}
+
+.price{
+}
+.price-real{
+  display: inline-block;
+  color: red;
+  font-size: 35rpx;
+}
+.price-original{
+  display: inline-block;
+  margin-left:30rpx;
+  font-style:italic;
+  text-decoration: line-through;
+}
+.merchant{
+  display: table;
+  padding: 2rpx 0;
+}
+.icon-merchant{
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 35rpx;
+  color:seagreen;
+  height: 40rpx;
+  line-height: 40rpx;
+}
+.merchantName{
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 25rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  padding: 0 20rpx;
+  color: #111;
+  background: rgb(209, 231, 247);
+  border-radius: 6rpx;
+}
+.foodDes{
+  font-size: 30rpx;
+  color:#666;
+}
+
+/* 评价 */
+.ratingsContent{
+  overflow: hidden;
+}
+.btn{
+  display: inline-block;
+  margin: 30rpx 30rpx 20rpx 20rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color:#fff;
+  background: seagreen;
+  padding: 5rpx 20rpx;
+  border-radius: 10rpx;
+}
+.active{
+	box-shadow: 7px 4px 7px #666;
+	position: relative;
+  top: -3rpx;
+  left:-7rpx;
+	color: #fff200!important;
+}
+.tab-wrapper{
+  display:flex;
+}
+.tab{
+  flex:0 0 200rpx;
+  padding: 0 10rpx 20rpx 10rpx;
+  font-size: 30rpx;
+}
+.icon-gouxuan{
+  color:seagreen;
+}
+.tab-des{
+  color: #666;
+}
+/* 每个具体评论 */
+.ratingsDetailList-wrapper{
+
+}
+.ratingsItem{
+  display: flex;
+  margin: 0 10rpx;
+  padding: 10rpx 0;
+  border-top:solid 1rpx #bbb;
+}
+.left{
+  flex: 0 0 100rpx;
+  height: 100rpx;
+  width: 100rpx;
+}
+.left-image{
+  width: 100%;
+  height: 100%;
+}
+.right{
+  flex:1;
+}
+.line1{
+  display: flex;
+  justify-content: space-between;
+  height: 30rpx;
+  line-height: 30rpx;
+  margin: 0 0 10rpx 10rpx;
+}
+.user{
+  font-size: 30rpx;
+  font-weight: 500;
+  color:#666;
+}
+.time{
+  font-size: 30rpx;
+  font-weight: 500;
+  color:#666;
+}
+.line2{
+  height: 30rpx;
+  line-height: 30rpx;
+  margin: 0 0 10rpx 10rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: goldenrod;
+}
+.line3{
+  height: 30rpx;
+  line-height: 30rpx;
+  margin: 0 0 10rpx 10rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+  color:#222;
+}
+.line4{
+  height: 200rpx;
+/*   margin: 0 0 10rpx 10rpx; */
+}
+.ratings-swiper{
+  margin: 5rpx 20rpx;
+  height: 200rpx;
+}
+.swiper-img{
+  width: 100%;
+}
+
+
+/* 标题 */
+.content-header{
+  display: flex;
+  height: 100rpx;
+  line-height: 100rpx;
+  border-bottom: 1rpx solid #666;
+}
+.content-header-item{
+  flex:1;
+  text-align: center;
+  font-size: 40rpx;
+  font-weight: 600;
+  color:#666;
+  margin: 0 70rpx;
+}
+.content-header-item-active{
+  border-bottom: 10rpx solid seagreen;
+  color:seagreen;
+}

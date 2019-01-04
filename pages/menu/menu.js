@@ -40,8 +40,6 @@ Page({
     listHeight: [], //这个数组记录每个餐类的"之前所有餐类描述+所有具体餐品"的占用高度值
     timer: null,
 
-    showFoodDetailFlag: false, //展示单菜品详情
-    /* foodLabelArr:[] */
     foodLabels:null,
   },
   getMenuData: function(){  //setData设置menuData为缓存数据，这样可以同步到模板渲染
@@ -378,11 +376,10 @@ Page({
     }
   },
   /* 菜品详情 */
-  handleShowFoodDetail:function(e){
-    console.log('eeeee',e.currentTarget.dataset)
-    let _this = this
-    _this.setData({
-      showFoodDetailFlag: true
+  handleGotoFoodDetail:function(e){
+    console.log('eeeee',e.currentTarget.dataset.dateid)
+    wx.navigateTo({
+      url: '/pages/food/food?dateId='+e.currentTarget.dataset.dateid,
     })
   },
   /* 标签过滤 */

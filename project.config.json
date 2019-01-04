@@ -37,7 +37,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 13,
+			"current": 14,
 			"list": [
 				{
 					"id": -1,
@@ -121,6 +121,12 @@
 					"id": 13,
 					"name": "confirm",
 					"pathName": "pages/menu/confirm/confirm",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "food",
+					"pathName": "pages/food/food",
 					"query": ""
 				}
 			]

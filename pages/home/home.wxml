@@ -64,8 +64,5 @@
 
       <view class="iconfont icon-dacha1" bindtap="closeDali"></view>
     </view>
-
-
-
   </view>
 </scroll-view>
