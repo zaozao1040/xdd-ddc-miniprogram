@@ -10,7 +10,7 @@
         </view>        
       </view>
       <view style="flex:0 0 40rpx;margin: auto">
-        <text class='iconfont icon-icon_on_the_right' style="font-size:40rpx;color:#43964e;"></text>
+        <text class='iconfont icon-icon_on_the_right' style="font-size:40rpx;color:#e79b37;"></text>
       </view>
     </view>
     <!-- 已选菜单 -->

@@ -66,7 +66,7 @@
   margin-top: 25rpx;
   height: 100rpx;
   text-align: center;
-  background-color: #43964e;
+  background-color: #e79b37;
   border-radius: 15rpx;
   line-height: 100rpx;
   color: #FFF;
@@ -88,13 +88,13 @@
   text-align: center;
   margin-right: 28rpx;
   border-radius: 10rpx;
-  color: #43964e;
+  color: #e79b37;
 }
 .section-6 {
   display: flex;
   justify-content: flex-end;
   font-size: 18rpx;
-  color: #43964e;
+  color: #e79b37;
   text-align: right;
   margin: 13rpx 0;
 }
@@ -151,7 +151,7 @@
   height: 100rpx;
   line-height: 100rpx;
   border-radius: 50rpx;
-  background: #43964e;
+  background: #e79b37;
   text-align: center;
   font-size: 60rpx;
   color: #fff;

@@ -210,7 +210,7 @@
   width: 100%;
   height: 100rpx;
   text-align: center;
-  background-color: #43964e;
+  background-color: #e79b37;
   border-radius: 15rpx;
   line-height: 100rpx;
   color: #FFF;

@@ -15,10 +15,10 @@
 }
 .timeActive{
   background-color:  rgb(233, 233, 233);
-  color: #43964e!important;
+  color: #e79b37!important;
   font-weight: 700;
-  box-shadow: 5rpx -3rpx 8rpx #666;
-  text-shadow:2rpx 4rpx 3rpx #666;
+/*   box-shadow: 5rpx -3rpx 8rpx #666;
+  text-shadow:2rpx 4rpx 3rpx #666; */
 }
 .time-2-item{
   flex:1;
@@ -54,10 +54,10 @@
 }
 .foodtypeActive{
   background-color: white;
-  color: #43964e!important;
+  color: #e79b37!important;
   font-weight: 500;
-  box-shadow: 5rpx -3rpx 8rpx #666;
-  text-shadow:2rpx 4rpx 3rpx #666;
+/*   box-shadow: 5rpx -3rpx 8rpx #666;
+  text-shadow:2rpx 4rpx 3rpx #666; */
 }
 .iconfont-foodType{
   font-size:35rpx;
@@ -89,11 +89,11 @@
 }
 .menutypeActive{
   background-color: white;
-  color:#43964e;
+  color:#e79b37;
   font-size: 30rpx;
   font-weight: 500;
-  box-shadow: 5rpx -3rpx 8rpx #666;
-  text-shadow:2rpx 4rpx 3rpx #666;
+/*   box-shadow: 5rpx -3rpx 8rpx #666;
+  text-shadow:2rpx 4rpx 3rpx #666; */
 }
 .menu-right{
   width:80%;
@@ -117,12 +117,12 @@
   color:#666;
 }
 .labelActive{
-  background: #43964e;
+  background: #e79b37;
   font-size: 28rpx;
   font-weight: 600;
   color:#fff;
-  box-shadow: 5rpx -3rpx 8rpx #666;
-  text-shadow:2rpx 4rpx 3rpx #666;
+/*   box-shadow: 5rpx -3rpx 8rpx #666;
+  text-shadow:2rpx 4rpx 3rpx #666; */
 }
 .right-item-text{
   padding: 10rpx 30rpx;
@@ -196,7 +196,7 @@
   display: table-cell;
   vertical-align: middle;
   font-size: 30rpx;
-  color:#43964e;
+  color:#e79b37;
   height: 35rpx;
   line-height: 35rpx;
 }
@@ -235,7 +235,7 @@
   right: 30rpx;
   bottom: -5rpx;
   font-size: 0;
-  color: #43964e;
+  color: #e79b37;
 } 
 
 
@@ -261,7 +261,7 @@
 }
 .footer-right{
   flex: 1;
-  background-color: #43964e;
+  background-color: #e79b37;
   text-align: center;
   height: 90rpx;
   line-height: 90rpx;
@@ -290,7 +290,7 @@
   padding: 20rpx;
 }
 .boxActive{
-  background-color: #43964e;
+  background-color: #e79b37;
 }
 .label{
   width: 60rpx;
@@ -370,7 +370,7 @@
   height: 80rpx;
   line-height: 60rpx;
   font-weight: 500;
-  background-color: #43964e;
+  background-color: #e79b37;
   padding:10rpx 50rpx;
   box-sizing:border-box;
 }
@@ -390,7 +390,7 @@
   background-color: #eee;
   border-radius:10rpx;
   margin-top:10rpx;
-  box-shadow:2rpx 10rpx 10rpx #666;
+/*   box-shadow:2rpx 10rpx 10rpx #666; */
   margin-bottom:15rpx;  
 }
 .cart-day-title{
@@ -502,7 +502,7 @@
   background: lightyellow;
   margin:20rpx 0;
   border-radius:20rpx;
-  box-shadow:2rpx 13rpx 13rpx #666;
+/*   box-shadow:2rpx 13rpx 13rpx #666; */
   position: sticky;
   bottom: 0;
 }
@@ -534,7 +534,7 @@
   height: 60rpx;
   line-height: 60rpx;
   font-size: 0;
-  color: #43964e;
+  color: #e79b37;
   padding-right: 20rpx;
 }
 .cart-amount{

@@ -30,7 +30,7 @@
   font-size: 25rpx;
   font-weight: 600;
   color:#eee;
-  background: #43964e;
+  background: #e79b37;
   border-radius: 7rpx;
 }
 
@@ -55,7 +55,7 @@
   display: table-cell;
   vertical-align: middle;
   font-size: 35rpx;
-  color:#43964e;
+  color:#e79b37;
   height: 40rpx;
   line-height: 40rpx;
 }
@@ -87,7 +87,7 @@
   font-size: 30rpx;
   font-weight: 600;
   color:#fff;
-  background: #43964e;
+  background: #e79b37;
   padding: 5rpx 20rpx;
   border-radius: 10rpx;
 }
@@ -107,7 +107,7 @@
   font-size: 30rpx;
 }
 .icon-gouxuan{
-  color:#43964e;
+  color:#e79b37;
 }
 .tab-des{
   color: #666;
@@ -196,6 +196,6 @@
   margin: 0 70rpx;
 }
 .content-header-item-active{
-  border-bottom: 10rpx solid #43964e;
-  color:#43964e;
+  border-bottom: 10rpx solid #e79b37;
+  color:#e79b37;
 }

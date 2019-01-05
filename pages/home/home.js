@@ -10,6 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    canClick:true,
     newUserFlag:false,
     showDaliFlag:false,
     redirectToFlag:1,
@@ -75,6 +76,11 @@ Page({
     })
   },
   handleGotoMenu:function(){
+    let _this = this
+    if(!_this.data.canClick){
+      return
+    }
+    _this.data.canClick = false
     wx.login({
       success: function(res){
         console.log(res)
@@ -111,8 +117,9 @@ Page({
         }
       }
     })
-
-
+    setTimeout(function(){ 
+      _this.data.canClick = true
+    },500)
   },
 
   /**

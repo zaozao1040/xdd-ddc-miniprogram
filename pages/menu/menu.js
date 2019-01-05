@@ -52,7 +52,9 @@ Page({
       _this.setData({
         cacheMenuDataAll: app.globalData.cacheMenuDataAll
       }) 
-      _this.refreshLabelActiveList()      
+      if(tmp.foodLabels!=null){
+        _this.refreshLabelActiveList()  
+      }
     }else{
       _this.getMenuDataByResponse()
     }
@@ -417,10 +419,12 @@ Page({
     query_0.select('.c_scrollPosition_forCalculate').boundingClientRect()
     query_0.selectViewport().scrollOffset()
     query_0.exec(function (res) {
-      //console.log('top_0',res)
-      _this.setData({
-        top_0: res[0].top // #the-id节点的占用高度
-      })
+      console.log('top_0',res)
+      if(res[0]!=null){
+        _this.setData({
+          top_0: res[0].top // #the-id节点的占用高度
+        })
+      }
       //console.log('top_0',_this.data.top_0)
     })
     const query_2 = wx.createSelectorQuery()
@@ -485,24 +489,27 @@ Page({
       userCode:wx.getStorageSync('userInfo').userCode,
     }
     menuModel.getMenuData(param,(res)=>{
+      console.log('00000',res)
       let resData = res
       let tmp_cacheMenuDataAll = app.globalData.cacheMenuDataAll
       tmp_cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]= resData
-      //下面 标签数组本地化
-      if(_this.data.foodLabels==null){
-        let tmp_foodLabels = []
-        resData.foodLabels.forEach((element)=>{
-          tmp_foodLabels.push({
-            id:element.id,
-            labelName:element.labelName,
-            active:false //true代表激活状态 false代表普通状态  默认普通状态
+      if(resData.foodLabels!=null){
+        //下面 标签数组本地化
+        if(_this.data.foodLabels==null){
+          let tmp_foodLabels = []
+          resData.foodLabels.forEach((element)=>{
+            tmp_foodLabels.push({
+              id:element.id,
+              labelName:element.labelName,
+              active:false //true代表激活状态 false代表普通状态  默认普通状态
+            })
           })
-        })
-        _this.setData({
-          foodLabels: tmp_foodLabels
-        })    
+          _this.setData({
+            foodLabels: tmp_foodLabels
+          })    
+        }
+        _this.refreshLabelActiveList()
       }
-      _this.refreshLabelActiveList()
       _this.calculateHeight()
       _this.setData({   //这里放在最后，是为了让异步setData最后再刷新，防止页面闪动
         cacheMenuDataAll : tmp_cacheMenuDataAll,
@@ -665,6 +672,7 @@ Page({
   //菜单页面离开后重置cacheMenuDataAll和selectedFoods，是因为菜品列表会变，用户再次进入menu菜单后能从后台获取最新菜品列表
   //（onUnload即重定向方法wx.redirectTo(OBJECT)或关闭当前页返回上一页wx.navigateBack()），这里是指点击左上角的返回上一页
   onUnload: function () {
+    let _this = this
     app.globalData.cacheMenuDataAll = [[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]]
     app.globalData.selectedFoods = []
     app.globalData.totalCount = 0

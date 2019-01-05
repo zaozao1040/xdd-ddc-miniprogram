@@ -20,9 +20,9 @@
   margin: 10rpx auto;
 }
 .orderStatusActive{
-  color: #43964e;
+  color: #e79b37;
   font-weight: 600;
-  border-bottom: 5rpx solid #43964e;
+  border-bottom: 5rpx solid #e79b37;
 }
 /*************每个订单*************/
 .order-wrapper{

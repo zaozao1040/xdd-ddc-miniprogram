@@ -50,7 +50,7 @@
 .icon-propaganda{
   font-size:35rpx;
   font-weight: 300;
-  color:#43964e;
+  color:#e79b37;
   vertical-align: middle;
 }
 .propaganda-title{
@@ -68,7 +68,7 @@
     font-size: 36rpx;
     font-weight: bold;
     color: #fff;
-    background-color: #43964e;
+    background-color: #e79b37;
     text-align: center;
     border-radius: 50rpx;
 }
@@ -117,7 +117,7 @@
   height: 100rpx;
   line-height: 100rpx;
   font-size: 100rpx;
-  color:#43964e;
+  color:#e79b37;
 }
 
 
