@@ -1,4 +1,5 @@
 var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
+const baseUrl = getApp().globalData.baseUrl
 Page({
     data: {
         tabs: ["今日待取", "全部订单"],
@@ -36,7 +37,8 @@ Page({
             success: function(smRes){
                 if(smRes.confirm){
                     wx.request({
-                        url: 'http://192.168.1.123:8080/order/cancelOrder',
+                        //url: 'https://ddc.vpans.cn/order/cancelOrder',
+                        url: baseUrl+'/order/cancelOrder',
                         data: {},
                         method: "PUT",
                         header: {
@@ -73,7 +75,8 @@ Page({
         let orderCode = e.target.dataset.orderCode;
         let userCode = "USER530120044101763072";
         wx.request({
-            url: 'http://192.168.1.123:8080/order/takeMeal',
+            //url: 'https://ddc.vpans.cn/order/takeMeal',
+            url: baseUrl+'/order/takeMeal',
             data: {},
             method: "Get",
             header: {
@@ -124,7 +127,8 @@ Page({
         }, 1000);
         let userCode = "USER530120044101763072";
         wx.request({
-            url: 'http://192.168.1.123:8080/order/orderPayOnceAgain',
+            //url: 'https://ddc.vpans.cn/order/orderPayOnceAgain',
+            url: baseUrl+'/order/orderPayOnceAgain',
             data: {},
             method: "POST",
             header: {
@@ -213,7 +217,8 @@ Page({
             today = true;
         }
         wx.request({
-            url: 'http://192.168.1.123:8080/order/orderList',
+            //url: 'https://ddc.vpans.cn/order/orderList',
+            url: baseUrl+'/order/orderList',
             method: "GET",
             header: {
                 'content-type': 'application/json'

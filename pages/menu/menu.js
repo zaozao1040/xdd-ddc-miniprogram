@@ -47,6 +47,7 @@ Page({
     let _this = this
     //let tmp = _this.data.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
     let tmp = app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag] //取全局，取完后setData更新本地
+    console.log('&&&&&&&&&&&')
     if(tmp!=null){
       _this.setData({
         cacheMenuDataAll: app.globalData.cacheMenuDataAll
@@ -437,7 +438,6 @@ Page({
     let _this = this
     let param = {
       userCode:wx.getStorageSync('userInfo').userCode
-      //userCode:'dvueQMBj'
     }
     menuModel.getTimeData(param,function(res){ //回调获取七天列表，赋给本地timeInfo
       let resData = res
@@ -473,7 +473,7 @@ Page({
       }else{
         //所有餐标都是false，则设置为4
       }
-      _this.getMenuData()
+      _this.getMenuDataByResponse()
     })
   },
   getMenuDataByResponse: function(){
@@ -626,15 +626,15 @@ Page({
     //初始化，获取一些必要参数，如高度
     _this.initMenu()
     _this.getTimeDataByResponse()
-    if(app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]){
+/*     if(app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]){
       _this.setData({   
         cacheMenuDataAll : app.globalData.cacheMenuDataAll,
         selectedFoods : app.globalData.selectedFoods
       })
     }else{
       _this.getMenuDataByResponse() //获取后台数据并setData响应式模板
-    }
-    if(app.globalData.totalCount){
+    } */
+/*     if(app.globalData.totalCount){
       _this.setData({   
         totalCount : app.globalData.totalCount
       })
@@ -643,7 +643,7 @@ Page({
       _this.setData({   
         totalMoney : app.globalData.totalMoney
       })
-    }
+    } */
   },
 
   /**

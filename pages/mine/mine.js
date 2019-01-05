@@ -63,8 +63,7 @@ Page({
     let _this = this
     //初始化，获取一些必要参数，如高度
     _this.initMine()
-
-
+    console.log('999')
     wx.login({
       success: function(res){
         if(res.code){

@@ -2,6 +2,8 @@ import { home } from '../home/home-model.js'
 let homeModel = new home()
 import { myPublic } from '../public/public-model.js'
 let myPublicModel = new myPublic()
+import { mine } from '../mine/mine-model.js'
+let mineModel = new mine()
 Page({
 
   /**
@@ -73,14 +75,44 @@ Page({
     })
   },
   handleGotoMenu:function(){
-    let userStatus = myPublicModel.getUserStatus()
-    console.log(userStatus)
-    if(userStatus!=0){
-      return
-    }
-    wx.navigateTo({
-      url: '/pages/menu/menu',
+    wx.login({
+      success: function(res){
+        console.log(res)
+        if(res.code){
+          if(wx.getStorageSync('userInfo')){ //已经登录
+            let param = {
+              code: res.code, //微信code
+              phoneNumber: wx.getStorageSync('userInfo').phoneNumber
+            }
+            mineModel.getMineData(param,(res)=>{
+              if(res.code == 0){
+                wx.setStorageSync('userInfo', res.data) //更新缓存的userInfo
+                let userStatus = myPublicModel.getUserStatus()
+                //console.log('userStatus:',userStatus)
+                if(userStatus==0){
+                  wx.navigateTo({
+                    url: '/pages/menu/menu',
+                  })
+                }
+              }
+            })
+          }else{
+            wx.showToast({
+              title: '未登录 请先登录',
+              icon: 'none',
+              duration: 500
+            }) 
+            setTimeout(function(){ 
+              wx.navigateTo({
+                url: '/pages/login/login',
+              }) 
+            },500) 
+          }
+        }
+      }
     })
+
+
   },
 
   /**

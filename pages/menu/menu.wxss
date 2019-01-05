@@ -70,6 +70,10 @@
   display: flex;
   border: white 5rpx solid;
 }
+.menu-wrapper-cannotorder{
+  width: 100%;
+  text-align: center;
+}
 /* 左边菜单 */
 .menu-left{
   width:20%;

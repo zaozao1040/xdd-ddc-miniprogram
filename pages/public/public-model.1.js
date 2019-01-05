@@ -6,15 +6,15 @@ class myPublic extends base{
     let tmp_userInfo = wx.getStorageSync('userInfo')
     let msg = ''
     let code = 100
-    //console.log('xxxx',tmp_userInfo)
+    console.log('xxxx',tmp_userInfo)
     if(tmp_userInfo==''){
-/*       msg = '未登录 请先登录'
+      msg = '未登录 请先登录'
       code = 1
       wx.showToast({
         title: msg,
         icon: 'none',
         duration: 5000
-      }) */
+      })
     }else{
       if(tmp_userInfo.userStatus=='NO_CHECK'){
         msg = '待审核中 请先审核通过'

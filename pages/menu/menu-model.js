@@ -46,6 +46,7 @@ class menu extends base{
   }
   /* 获取后台菜单信息 */
   getMenuData(param,callback){
+    console.log('@@@@@@@@@@@@@')
     let allParams = {
       url: baseUrl+'/food/foods',
       type: 'get',

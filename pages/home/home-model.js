@@ -41,19 +41,19 @@ class home extends base{
     }
     this.request(allParams)
   }
-    /* 领取新人红包 */
-    getNewUserGift(param,callback){
-      let allParams = {
-        url: baseUrl+'/user/newUser/balance',
-        type: 'post',
-        data: param,
-        sCallback: function (data) {
-          callback && callback(data);
-        },
-        eCallback: function () { }
-      }
-      this.request(allParams)
+  /* 领取新人红包 */
+  getNewUserGift(param,callback){
+    let allParams = {
+      url: baseUrl+'/user/newUser/balance',
+      type: 'post',
+      data: param,
+      sCallback: function (data) {
+        callback && callback(data);
+      },
+      eCallback: function () { }
     }
+    this.request(allParams)
+  }
 
 
 

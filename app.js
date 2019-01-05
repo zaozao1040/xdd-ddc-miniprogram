@@ -1,6 +1,7 @@
 App({
   globalData: {
-    baseUrl: 'http://192.168.1.123:8080',
+    baseUrl: 'https://wx.api.vpans.cn',
+    //baseUrl: 'http://192.168.1.123:8080',
     userInfo: null,
     selectedFoods:[],
     cacheMenuDataAll:[[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],
