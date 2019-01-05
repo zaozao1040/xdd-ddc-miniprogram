@@ -131,6 +131,9 @@ page, .page, .page__bd {
     display: flex;
     justify-content: flex-end;
 }
+.cabinet,.cabinet view{
+    color: #ff0000;
+}
 .food-name{
     margin-right: 100rpx;
 }
@@ -141,7 +144,7 @@ page, .page, .page__bd {
     padding: 20rpx 10rpx 0rpx 10rpx;
 }
 .line{
-    height: 5px;
+    height: 8px;
     background: #ddd;
     width: 100%;
 }

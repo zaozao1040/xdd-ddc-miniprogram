@@ -1,4 +1,4 @@
-// pages/wallet/wallet.js
+// pages/mine/integral/integral.js
 Page({
 
   /**

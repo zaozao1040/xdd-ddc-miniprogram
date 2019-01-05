@@ -9,7 +9,7 @@
       ¥&nbsp;
     </text>
     <view class="header-item">
-      0.00
+      {{userInfo.balance}}
     </view>
 
   </view>
@@ -25,41 +25,61 @@
     </view>
     <view class="content-content" >
       <!-- 充值的内容区域 -->
-      <view wx:if="{{itemStatusActiveFlag}}" class="chongzhi-wrapper" >
-        <view class="chongzhi-item-line" wx:for="{{moneyList}}" wx:for-index="moneyIndex_line" wx:for-item="moneyItem_line" wx:key="moneyIndex_line">
-          <view wx:for="{{moneyItem_line}}" wx:for-index="moneyIndex" wx:for-item="moneyItem" wx:key="moneyIndex"
-                class="chongzhi-item {{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex?'chongzhi-item-active':''}}"
-                catchtap="changeMoneyActiveFlag" data-activeflag1="{{moneyIndex_line}}" data-activeflag2="{{moneyIndex}}" data-selectedmoney="{{moneyItem}}">
-            <text class="chongzhi-label" decode>¥&nbsp;</text>
-            <text class="chongzhi-money" decode>{{moneyItem}}</text>
-          </view>
-        </view>
-        <view class="explain-wrapper" >
-          <view class="explain-title">充值说明</view>
-          <text class="explain-des">1.{{explainDes.one}}</text>
-          <text class="explain-des">2.{{explainDes.two}}</text>
-<!--           <text class="explain-des">3.{{explainDes.three}}</text> -->
-        </view>
-        <view class="explain-title" style="margin-left: 20rpx;">充值方式</view>
-        <view class="wxRecharge-wrapper" >
-          <view class='iconfont icon-weixin'></view>
-          <view class="wxRecharge-des-wrapper" >
-            <view class="wxRecharge-des-1" >
-              微信支付
-            </view>
-            <view class="wxRecharge-des-2" >
-              亿万用户的选择，快捷更安全
+      <scroll-view wx:if="{{itemStatusActiveFlag}}" scroll-y style="height: {{buttonTop - scrollTop}}px;" class="c_scrollPosition_forCalculate">
+        <view class="chongzhi-wrapper" >
+          <view class="chongzhi-item-line" wx:for="{{moneyList}}" wx:for-index="moneyIndex_line" wx:for-item="moneyItem_line" wx:key="moneyIndex_line">
+            <view wx:for="{{moneyItem_line}}" wx:for-index="moneyIndex" wx:for-item="moneyItem" wx:key="moneyIndex"
+                  class="chongzhi-item {{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex?'chongzhi-item-active':''}}"
+                  catchtap="changeMoneyActiveFlag" data-activeflag1="{{moneyIndex_line}}" data-activeflag2="{{moneyIndex}}" data-selectedmoney="{{moneyItem}}">
+              <text class="chongzhi-label" decode>¥&nbsp;</text>
+              <text class="chongzhi-money" decode>{{moneyItem}}</text>
             </view>
           </view>
-          <view class='iconfont icon-dagou' ></view>
+          <view class="explain-wrapper" >
+            <view class="explain-title">充值说明</view>
+            <text class="explain-des">1.{{explainDes.one}}</text>
+  <!--           <text class="explain-des">2.{{explainDes.two}}</text> -->
+  <!--           <text class="explain-des">3.{{explainDes.three}}</text> -->
+          </view>
+          <view class="explain-title" style="margin-left: 20rpx;">充值方式</view>
+          <view class="wxRecharge-wrapper" >
+            <view class='iconfont icon-weixin'></view>
+            <view class="wxRecharge-des-wrapper" >
+              <view class="wxRecharge-des-1" >
+                微信支付
+              </view>
+              <view class="wxRecharge-des-2" >
+                亿万用户的选择，快捷更安全
+              </view>
+            </view>
+            <view class='iconfont icon-dagou' ></view>
+          </view>
+          <view class="c_buttonPosition_forCalculate">
+            <button catchtap="handleRecharge" loading="{{loading}}" class="button">立即充值</button>
+          </view>        
         </view>
-        <button catchtap="handleRecharge" loading="{{loading}}" class="button">立即充值</button>        
-      </view>
+      </scroll-view>
       <!-- 交易记录的内容区域 -->
-      <view wx:else class="jilu-wrapper" >
-
-
-      </view>      
+      <scroll-view wx:else scroll-y style="height: {{windowHeight - scrollTop}}px;">
+        <view class="jilu-wrapper" >
+          <view class="recharge-item" wx:for="{{rechargeList}}" wx:for-index="rechargeIndex" wx:for-item="rechargeItem" wx:key="rechargeIndex">
+            <view class="rechargeMoney">
+              {{rechargeItem.balance}}
+            </view>
+            <view class="rechargeType">
+              {{rechargeItem.recordTypeDes}}
+            </view>
+            <view class="rechargeTime">
+              {{rechargeItem.operateTimeDes}}
+            </view>
+          </view>
+          
+        </view>  
+        <view wx:if="{{rechargeListNoResult}}" class="noResult">
+          未查询到充值记录..
+        </view>            
+      </scroll-view>
+    
     </view>
 
   </view>

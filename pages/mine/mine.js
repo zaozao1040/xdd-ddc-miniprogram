@@ -1,5 +1,6 @@
-// pages/mine/mine.js
-const app = getApp()
+import { mine } from './mine-model.js'
+let mineModel = new mine()
+
 Page({
 
   /**
@@ -13,8 +14,10 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     userInfo:null,
     //
-    labelList:['换绑手机','绑定企业','地址管理','浏览记录','下单闹钟','客户服务','推荐有奖','更多'],
-    labelIconArr: ['shouji1','qiye1','dizhi','zuji','naozhong','kefu','bajiefuli','gengduo'],
+    //labelList:['换绑手机','绑定企业','地址管理','浏览记录','下单闹钟','客户服务','推荐有奖','更多'],
+    //labelIconArr: ['shouji1','qiye1','dizhi','zuji','naozhong','kefu','bajiefuli','gengduo'],
+    labelList:['换绑手机','绑定企业','地址管理'],
+    labelIconArr: ['shouji1','qiye1','dizhi'],
     navigatorUrl:['/pages/mine/phone/phone','/pages/mine/organize/organize','/pages/mine/address/address']
   },
   initMine: function(){
@@ -60,6 +63,35 @@ Page({
     let _this = this
     //初始化，获取一些必要参数，如高度
     _this.initMine()
+
+
+    wx.login({
+      success: function(res){
+        if(res.code){
+          let param = {
+            code: res.code, //微信code
+            phoneNumber: wx.getStorageSync('userInfo').phoneNumber
+          }
+          wx.showLoading({ //【防止狂点2】
+            title: '加载中',
+            mask: true
+          })
+          mineModel.getMineData(param,(res)=>{
+            console.log('收到请求(我的):',res)
+            if(res.code === 0){
+              wx.setStorageSync('userInfo', res.data) //更新缓存的userInfo
+              wx.hideLoading() //【防止狂点3】
+            }else{
+              wx.showToast({
+                title: res.msg,
+                icon: 'none',
+                duration: 2000
+              })  
+            }
+          })
+        }
+      }
+    })
   },
 
   /**

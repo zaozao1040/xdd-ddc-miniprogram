@@ -15,7 +15,7 @@
 }
 .timeActive{
   background-color:  rgb(233, 233, 233);
-  color: green!important;
+  color: #43964e!important;
   font-weight: 700;
   box-shadow: 5rpx -3rpx 8rpx #666;
   text-shadow:2rpx 4rpx 3rpx #666;
@@ -54,7 +54,7 @@
 }
 .foodtypeActive{
   background-color: white;
-  color: green!important;
+  color: #43964e!important;
   font-weight: 500;
   box-shadow: 5rpx -3rpx 8rpx #666;
   text-shadow:2rpx 4rpx 3rpx #666;
@@ -85,7 +85,7 @@
 }
 .menutypeActive{
   background-color: white;
-  color:green;
+  color:#43964e;
   font-size: 30rpx;
   font-weight: 500;
   box-shadow: 5rpx -3rpx 8rpx #666;
@@ -113,7 +113,7 @@
   color:#666;
 }
 .labelActive{
-  background: seagreen;
+  background: #43964e;
   font-size: 28rpx;
   font-weight: 600;
   color:#fff;
@@ -192,7 +192,7 @@
   display: table-cell;
   vertical-align: middle;
   font-size: 30rpx;
-  color:seagreen;
+  color:#43964e;
   height: 35rpx;
   line-height: 35rpx;
 }
@@ -231,7 +231,7 @@
   right: 30rpx;
   bottom: -5rpx;
   font-size: 0;
-  color: green;
+  color: #43964e;
 } 
 
 
@@ -257,7 +257,7 @@
 }
 .footer-right{
   flex: 1;
-  background-color: green;
+  background-color: #43964e;
   text-align: center;
   height: 90rpx;
   line-height: 90rpx;
@@ -286,7 +286,7 @@
   padding: 20rpx;
 }
 .boxActive{
-  background-color: green;
+  background-color: #43964e;
 }
 .label{
   width: 60rpx;
@@ -366,7 +366,7 @@
   height: 80rpx;
   line-height: 60rpx;
   font-weight: 500;
-  background-color: forestgreen;
+  background-color: #43964e;
   padding:10rpx 50rpx;
   box-sizing:border-box;
 }
@@ -530,7 +530,7 @@
   height: 60rpx;
   line-height: 60rpx;
   font-size: 0;
-  color: green;
+  color: #43964e;
   padding-right: 20rpx;
 }
 .cart-amount{

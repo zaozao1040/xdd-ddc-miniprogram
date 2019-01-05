@@ -9,7 +9,7 @@
 }
 .header{
   display: flex;
-  background: darkseagreen;
+  background: #43964e;
   padding: 30rpx 40rpx;
 }
 .left{
@@ -110,7 +110,7 @@
 }
 .iconfont-offertitle{
   font-size: 30rpx;
-  color:forestgreen;
+  color:#43964e;
   font-weight: 400;
 }
 /* 地址 浏览记录 下单闹钟 客服等 */
@@ -168,6 +168,6 @@
 }
 .iconfont-label-right{
   float: right;
-  color:forestgreen;
+  color:#43964e;
   font-weight: 400;
 }

@@ -1,13 +1,16 @@
 import { home } from '../home/home-model.js'
 let homeModel = new home()
-
+import { myPublic } from '../public/public-model.js'
+let myPublicModel = new myPublic()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    newUserFlag:false,
     showDaliFlag:true,
+    redirectToFlag:1,
     registered: false,
     userInfo:null,
     wel: "",
@@ -69,13 +72,35 @@ Page({
       }
     })
   },
+  handleGotoMenu:function(){
+    let userStatus = myPublicModel.getUserStatus()
+    console.log(userStatus)
+    if(userStatus!=0){
+      return
+    }
+    wx.navigateTo({
+      url: '/pages/menu/menu',
+    })
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+    let userStatus = myPublicModel.getUserStatus()
+    console.log(userStatus)
+    if(userStatus!=0){
+      wx.hideTabBar({})
+    }
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
 
   onLoad: function (options) {
-    this.initHome()
+    let _this = this
+    _this.initHome()
   },
 
   /**
@@ -83,6 +108,25 @@ Page({
    */
   onShow: function () {
     let _this = this
+    if(wx.getStorageSync('userInfo')==''){
+      _this.setData({
+        newUserFlag:true,
+        showDaliFlag:true
+      })
+    }else{
+      if(wx.getStorageSync('userInfo').newUser==true){
+        _this.setData({
+          newUserFlag:true,
+          showDaliFlag:true,
+          redirectToFlag:2
+        })
+      }/* else{
+        console.log('777')
+        _this.setData({
+          newUserFlag:false
+        })
+      } */
+    }
     /* **********判断是否已注册********** */
     wx.login({
       success: function(res){
@@ -124,6 +168,46 @@ Page({
     this.setData({
       showDaliFlag:false
     })
+  },
+  handleGotoLogin:function(){
+    let _this = this
+    if(_this.data.redirectToFlag==1){
+      wx.navigateTo({
+        url: '/pages/login/login',
+      })
+    }else{
+      //请求后端接口，领取新人礼包
+      let param = {
+        userCode: wx.getStorageSync('userInfo').userCode
+      }
+      homeModel.getNewUserGift(param,(res)=>{
+        console.log('获取新人礼包后台反馈:',res)
+        if(res.code === 0){
+          let tmp_userInfo = wx.getStorageSync('userInfo')
+          tmp_userInfo.newUser = false
+          wx.setStorageSync('userInfo', tmp_userInfo)
+          wx.showToast({
+            title: '领取成功',
+            icon: 'success',
+            duration: 2000
+          })
+          _this.setData({
+            showDaliFlag:false
+          })
+        }else{
+          wx.showToast({
+            title: res.msg,
+            icon: 'none',
+            duration: 2000
+          })  
+          setTimeout(function(){ 
+            _this.setData({
+              showDaliFlag:false
+            })
+          },2000) 
+        }
+      })
+    }
   }
 
 

@@ -416,7 +416,7 @@ Page({
     query_0.select('.c_scrollPosition_forCalculate').boundingClientRect()
     query_0.selectViewport().scrollOffset()
     query_0.exec(function (res) {
-      console.log('top_0',res)
+      //console.log('top_0',res)
       _this.setData({
         top_0: res[0].top // #the-id节点的占用高度
       })
@@ -426,7 +426,7 @@ Page({
     query_2.select('.c_scrollPosition_2_forCalculate').boundingClientRect()
     query_2.selectViewport().scrollOffset()
     query_2.exec(function (res) {
-      console.log('top_2',res)
+      //console.log('top_2',res)
       _this.setData({
         top_2: res[0].top // #the-id节点的上边界坐标
       })
@@ -659,5 +659,23 @@ Page({
   onShow: function () {
 
   },
-
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  //菜单页面离开后重置cacheMenuDataAll和selectedFoods，是因为菜品列表会变，用户再次进入menu菜单后能从后台获取最新菜品列表
+  //（onUnload即重定向方法wx.redirectTo(OBJECT)或关闭当前页返回上一页wx.navigateBack()），这里是指点击左上角的返回上一页
+  onUnload: function () {
+    app.globalData.cacheMenuDataAll = [[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]]
+    app.globalData.selectedFoods = []
+    app.globalData.totalCount = 0
+    app.globalData.totalMoney = 0
+    _this.setData({  
+      cacheMenuDataAll: [[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]],
+      selectedFoods : [],
+      totalCount: 0,
+      totalMoney: 0,
+      totalMoneyDeduction:0, 
+      realMoney:0
+    })
+  },
 })

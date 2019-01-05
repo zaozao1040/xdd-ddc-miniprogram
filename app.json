@@ -7,7 +7,6 @@
     "pages/logs/logs",
     "pages/loginInfo/loginInfo",
     "pages/coupon/coupon",
-    "pages/wallet/wallet",
     "pages/order/order",
     "pages/order-list/order-list",
     "pages/promotion/promotion",
@@ -20,7 +19,9 @@
     "pages/mine/organize/organize",
     "pages/mine/address/address",
     "pages/mine/wallet/wallet",
-    "pages/food/food"
+    "pages/food/food",
+    "pages/mine/integral/integral",
+    "pages/mine/discount/discount"
   ],
   "window": {
     "navigationBarBackgroundColor": "#000000",
@@ -36,7 +37,7 @@
   },
   "debug": true,
   "tabBar": {
-    "selectedColor": "forestgreen",
+    "selectedColor": "#43964e",
     "color": "#999",
     "backgroundColor": "#fff",
     "list": [

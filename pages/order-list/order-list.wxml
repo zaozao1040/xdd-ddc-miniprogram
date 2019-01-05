@@ -13,7 +13,7 @@
                 <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
                     <view>
 
-                        <scroll-view scroll-y="true" bindscrolltolower="searchScrollLower" style='height:{{contentHeight - 26}}px;'>
+                        <scroll-view scroll-y="true" bindscrolltolower="searchScrollLower" bindscrolltoupper="refresh" style='height:{{contentHeight - 26}}px;'>
                             <block wx:for="{{todayOrders}}" wx:key="index">
                                 <block wx:if="{{item.orderStatus  != 'NO_PAY' && item.orderStatus  != 'USER_CANCEL' && item.orderStatus  != 'SYSTEM_CANCE'}}">
                                     <view class="order-list">
@@ -38,8 +38,12 @@
                                                 <view>就餐日期</view>
                                                 <view>{{item.mealDate}}</view>
                                             </view>
-                                            <view>订单编号</view>
-                                            <text class="order-code">{{item.orderCode}}</text>
+                                            <block wx:if="{{item.cabinet != null}}">
+                                                <view class="title-between cabinet">
+                                                    <view>柜子编号</view>
+                                                    <view>{{item.cabinet}}</view>
+                                                </view>
+                                            </block>
                                         </view>
                                         <view class="order-food-list">
                                             <block wx:for="{{item.orderFoodList}}" wx:for-item="food" wx:key="{{food.index}}">
@@ -76,7 +80,7 @@
                     </view>
                 </view>
                 <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
-                    <scroll-view scroll-y="true" bindscrolltolower="searchScrollLower" style='height:{{contentHeight - 26}}px;'>
+                    <scroll-view scroll-y="true" bindscrolltolower="searchScrollLower" bindscrolltoupper="refresh" style='height:{{contentHeight - 26}}px;'>
                         <block wx:for="{{orders}}" wx:key="index">
                             <view class="order-list">
                                 <view class="order-title">
@@ -105,6 +109,12 @@
                                         <view>就餐日期</view>
                                         <view>{{item.mealDate}}</view>
                                     </view>
+                                    <block wx:if="{{item.cabinet != null}}">
+                                        <view class="title-between cabinet">
+                                            <view>柜子编号</view>
+                                            <view>{{item.cabinet}}</view>
+                                        </view>
+                                    </block>
                                 </view>
                                 <view class="order-food-list">
                                     <block wx:for="{{item.orderFoodList}}" wx:for-item="food" wx:key="{{food.index}}">
@@ -144,3 +154,4 @@
         </view>
     </view>
 </view>
+<loading hidden="{{loading}}">加载中</loading>

@@ -1,4 +1,6 @@
 var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
+import { myPublic } from '../public/public-model.js'
+let myPublicModel = new myPublic()
 Page({
     data: {
         tabs: ["今日待取", "全部订单"],
@@ -12,6 +14,7 @@ Page({
         searchLoadingComplete: false,
         searchLoading: false, //"上拉加载"的变量，默认false，隐藏
         orders: [],
+        loading:false,
         todayOrders: []
     },
     /**
@@ -27,8 +30,7 @@ Page({
             console.log(111);
             tipsContent = tipsContent + ",实际付款金额将会退到到用户余额"
         }
-        //let userCode = "USER530120044101763072";
-        let userCode = wx.getStorageSync('userInfo').userCode
+        let userCode = "USER530120044101763072";
         wx.showModal({
             title: '提示',
             content: tipsContent,
@@ -74,7 +76,7 @@ Page({
      */
     goPay: function(e){
         let orderCode = e.target.dataset.orderCode;
-        let userCode = wx.getStorageSync('userInfo').userCode
+        let userCode = "USER530120044101763072";
         wx.request({
             url: 'http://192.168.1.123:8080/order/orderPayOnceAgain',
             data: {},
@@ -130,9 +132,26 @@ Page({
             });
         }
     },
-    onShow: function(){
+    refresh: function(){
         this.setData({
-            page:1
+            loading: false,
+            orders: [],
+            todayOrders: [],
+        })
+        this.onShow();
+    },
+    onShow: function(){
+/*         let userStatus = myPublicModel.getUserStatus()
+        console.log(userStatus)
+        if(userStatus!=0){
+            wx.switchTab({
+                url: '/pages/home/home',
+            })
+            return
+        } */
+
+        this.setData({
+            page:1,
         })
         this.getOrderList();
     },
@@ -161,7 +180,7 @@ Page({
                 'content-type': 'application/json'
             },
             data: {
-                "userCode": wx.getStorageSync('userInfo').userCode,
+                "userCode": "USER530120044101763072",
                 "orderStatus": "",
                 "today": today,
                 "page": page,
@@ -177,18 +196,21 @@ Page({
                     if (today) {
                         that.setData({
                             todayOrders: ordersBack,
-                            searchLoading: true
+                            searchLoading: true,
+                            loading: true
                         })
                     }else{
                         that.setData({
                             orders: ordersBack,
-                            searchLoading: true
+                            searchLoading: true,
+                            loading: true
                         })
                     }
                 }else{
                     that.setData({
                         searchLoadingComplete: true, //把“没有数据”设为true，显示
-                        searchLoading: false  //把"上拉加载"的变量设为false，隐藏
+                        searchLoading: false,  //把"上拉加载"的变量设为false，隐藏
+                        loading: true
                     });
                 }
             },
@@ -220,7 +242,8 @@ Page({
             searchLoadingComplete: false,
             page: 1,
             orders: [],
-            todayOrders: []
+            todayOrders: [],
+            loading: false
         });
         this.onShow();
     }

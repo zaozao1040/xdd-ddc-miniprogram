@@ -66,7 +66,7 @@
     margin-top: 25rpx;
     height: 100rpx;
     text-align: center;
-    background-color: forestgreen;
+    background-color: #43964e;
     border-radius: 15rpx;
     line-height: 100rpx;
     color: #FFF;
@@ -88,13 +88,13 @@
     text-align: center;
     margin-right: 28rpx;
     border-radius: 10rpx;
-    color: forestgreen;
+    color: #43964e;
   }
   .section-6 {
     display: flex;
     justify-content: flex-end;
     font-size: 18rpx;
-    color: forestgreen;
+    color: #43964e;
     text-align: right;
     margin: 13rpx 0;
   }
@@ -103,5 +103,5 @@
     line-height: 80rpx;
     font-size: 30rpx;
     font-weight: 700;
-    color:forestgreen;
+    color:#43964e;
   }

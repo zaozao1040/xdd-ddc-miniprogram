@@ -10,22 +10,22 @@
       <view class="userName" >
         {{userInfo.name}}
       </view>
-      <view class="userPhone" >
-        <text class='iconfont icon-shouji1' style="font-size: 30rpx;" decode>&nbsp;</text>
+      <view class="userPhone" wx:if="{{userInfo.phoneNumber}}">
+        <text class='iconfont icon-shouji1' style="font-size: 30rpx;color:#fff;" decode>&nbsp;</text>
         <text>{{userInfo.phoneNumber}}</text>  
       </view>
-      <view class="userPhone" >
-        <text class='iconfont icon-qiye1' style="font-size: 30rpx;" decode>&nbsp;</text>
+      <view class="userPhone" wx:if="{{userInfo.organizeName}}">
+        <text class='iconfont icon-qiye1' style="font-size: 30rpx;color:#fff;" decode>&nbsp;</text>
         <text>{{userInfo.organizeName}}</text>  
       </view>
-      <view class="userPhone" >
-        <text class='iconfont icon-dizhi' style="font-size: 30rpx;" decode>&nbsp;</text>
+      <view class="userPhone" wx:if="{{userInfo.address}}">
+        <text class='iconfont icon-dizhi' style="font-size: 30rpx;color:#fff;" decode>&nbsp;</text>
         <text>{{userInfo.address}}</text>  
       </view>
     </view>
   </view>
   <!-- 钱包 优惠券 积分 -->
-  <view class="offer-wrapper">
+  <view wx:if="{{userInfo}}" class="offer-wrapper">
     <navigator url="/pages/mine/wallet/wallet" class="offerItem-wrapper">
       <view>
         <text class="money-1" >{{userInfo.balance}}</text>
@@ -36,7 +36,7 @@
         <text class='iconfont icon-icon_on_the_right iconfont-offertitle'></text>
       </view>
     </navigator>
-    <navigator url="#" class="offerItem-wrapper">
+    <navigator url="/pages/mine/discount/discount" class="offerItem-wrapper">
       <view>
         <text class="youhui-1" >{{userInfo.discountSize}}</text>
         <text class="youhui-2" >张</text>
@@ -46,7 +46,7 @@
         <text class='iconfont icon-icon_on_the_right iconfont-offertitle'></text>
       </view>
     </navigator>
-    <navigator url="#" class="offerItem-wrapper">
+    <navigator url="/pages/mine/integral/integral" class="offerItem-wrapper">
       <view>
         <text class="point-1" >{{userInfo.integral}}</text>
         <text class="point-2" >分</text>
