@@ -1,6 +1,4 @@
 var sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
-import { myPublic } from '../public/public-model.js'
-let myPublicModel = new myPublic()
 Page({
     data: {
         tabs: ["今日待取", "全部订单"],
@@ -14,8 +12,8 @@ Page({
         searchLoadingComplete: false,
         searchLoading: false, //"上拉加载"的变量，默认false，隐藏
         orders: [],
-        loading:false,
-        todayOrders: []
+        todayOrders: [],
+        disable: false
     },
     /**
      * 取消订单
@@ -71,11 +69,59 @@ Page({
             }
         })
     },
+    takeMeal: function (e) {
+        let orderCode = e.target.dataset.orderCode;
+        let userCode = "USER530120044101763072";
+        wx.request({
+            url: 'http://192.168.1.123:8080/order/takeMeal',
+            data: {},
+            method: "Get",
+            header: {
+                'content-type': 'application/json'
+            },
+            data: {
+                "userCode": userCode,
+                "orderCode": orderCode
+            },
+            success: function (res) {
+                let data = res.data;
+                if (data.code == 0) {
+                    wx.showToast({
+                        title: '取餐成功',
+                        icon: 'none'
+                    })
+                }else{
+                    wx.showToast({
+                        title: data.msg,
+                        icon: 'none'
+                    })
+                }
+            },
+            fail: function (res) {
+                wx.showToast({
+                    title: data.msg,
+                    icon: 'none'
+                })
+            }
+        })
+    },
     /**
      * 订单再次支付
      */
     goPay: function(e){
+        let that = this;
         let orderCode = e.target.dataset.orderCode;
+        if (this.data.disable) {
+            return;
+        }
+        this.setData({
+            disable: true
+        })
+        setTimeout(() => {
+            that.setData({
+                disable: false
+            });
+        }, 1000);
         let userCode = "USER530120044101763072";
         wx.request({
             url: 'http://192.168.1.123:8080/order/orderPayOnceAgain',
@@ -132,7 +178,21 @@ Page({
             });
         }
     },
-    refresh: function(){
+    onShow: function(){
+        let that = this;
+        this.setData({
+            page:1,
+            loading:false
+        })
+        this.getOrderList((res)=>{
+            wx.stopPullDownRefresh();
+        });
+    },
+    
+    /**
+    * 页面相关事件处理函数--监听用户下拉动作
+    */
+    onPullDownRefresh: function () {
         this.setData({
             loading: false,
             orders: [],
@@ -140,31 +200,10 @@ Page({
         })
         this.onShow();
     },
-    onShow: function(){
-/*         let userStatus = myPublicModel.getUserStatus()
-        console.log(userStatus)
-        if(userStatus!=0){
-            wx.switchTab({
-                url: '/pages/home/home',
-            })
-            return
-        } */
-
-        this.setData({
-            page:1,
-        })
-        this.getOrderList();
-    },
-    /**
-    * 页面相关事件处理函数--监听用户下拉动作
-    */
-    onPullDownRefresh: function () {
-        console.log(111);
-    },
     /**
      * 获取订单列表
      */
-    getOrderList: function(){
+    getOrderList: function (callback){
         let that = this;
         let page = that.data.page;
         let limit = that.data.limit;
@@ -196,7 +235,7 @@ Page({
                     if (today) {
                         that.setData({
                             todayOrders: ordersBack,
-                            searchLoading: true,
+                            searchLoading: false,
                             loading: true
                         })
                     }else{
@@ -219,6 +258,7 @@ Page({
                 console.log(res);
             }
         })
+        callback && callback();
     },
     onLoad: function () {
         var that = this;

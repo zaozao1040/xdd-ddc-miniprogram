@@ -13,7 +13,7 @@
                 <view class="weui-tab__content" hidden="{{activeIndex != 0}}">
                     <view>
 
-                        <scroll-view scroll-y="true" bindscrolltolower="searchScrollLower" bindscrolltoupper="refresh" style='height:{{contentHeight - 26}}px;'>
+                        <scroll-view scroll-y="true" bindscrolltolower="searchScrollLower"  style='height:{{contentHeight - 110}}px;'>
                             <block wx:for="{{todayOrders}}" wx:key="index">
                                 <block wx:if="{{item.orderStatus  != 'NO_PAY' && item.orderStatus  != 'USER_CANCEL' && item.orderStatus  != 'SYSTEM_CANCE'}}">
                                     <view class="order-list">
@@ -65,7 +65,7 @@
                                             <view class="cancel-order" wx:if="{{item.orderStatus  == 'PAYED_WAITINT_CONFIRM' || item.orderStatus  == 'NO_PAY'}}" data-order-code="{{item.orderCode}}" catchtap='cancelOrder' data-pay-price="{{item.payPrice}}"  data-order-status="{{item.orderStatus}}">取消订单</view>
                                             <view class="evaluate" wx:if="{{item.orderStatus  == 'PICKED_WAITING_EVALUATE' || item.orderStatus  == 'NO_PICK_WAITING_BACK' || item.orderStatus  == 'COMPLETED_BACK' || item.orderStatus  == 'COMPLETED_NO_EVALUATE'}}">去评价</view>
 
-                                            <view class="take-meal" wx:if="{{item.orderStatus  == 'DELIVERING' || item.orderStatus  == 'DELIVERED_WAITING_PICK' || item.orderStatus  == 'PICKED_WAITING_EVALUATE' || item.orderStatus  == 'NO_PICK_WAITING_BACK' ||item.orderStatus  == 'COMPLETED_NO_EVALUATE'}}">取餐</view>
+                                            <view class="take-meal" wx:if="{{item.orderStatus  == 'DELIVERING' || item.orderStatus  == 'DELIVERED_WAITING_PICK' || item.orderStatus  == 'PICKED_WAITING_EVALUATE' || item.orderStatus  == 'NO_PICK_WAITING_BACK' ||item.orderStatus  == 'COMPLETED_NO_EVALUATE'}}" data-order-code="{{item.orderCode}}" catchtap="takeMeal">取餐</view>
                                             <view class="go-pay" wx:if="{{item.orderStatus  == 'NO_PAY' }}" data-order-code="{{item.orderCode}}" catchtap='goPay'>去付款</view>
                                         </view>
                                     </view>
@@ -80,7 +80,7 @@
                     </view>
                 </view>
                 <view class="weui-tab__content" hidden="{{activeIndex != 1}}">
-                    <scroll-view scroll-y="true" bindscrolltolower="searchScrollLower" bindscrolltoupper="refresh" style='height:{{contentHeight - 26}}px;'>
+                    <scroll-view scroll-y="true" bindscrolltolower="searchScrollLower" style='height:{{contentHeight - 110}}px;'>
                         <block wx:for="{{orders}}" wx:key="index">
                             <view class="order-list">
                                 <view class="order-title">
@@ -136,7 +136,7 @@
                                     <view class="cancel-order" wx:if="{{item.orderStatus  == 'PAYED_WAITINT_CONFIRM' || item.orderStatus  == 'NO_PAY'}}" data-order-code="{{item.orderCode}}" catchtap='cancelOrder' data-pay-price="{{item.payPrice}}" data-order-status="{{item.orderStatus}}">取消订单</view>
                                     <view class="evaluate" wx:if="{{item.orderStatus  == 'PICKED_WAITING_EVALUATE' || item.orderStatus  == 'NO_PICK_WAITING_BACK' || item.orderStatus  == 'COMPLETED_BACK' || item.orderStatus  == 'COMPLETED_NO_EVALUATE'}}">去评价</view>
 
-                                    <view class="take-meal" wx:if="{{item.orderStatus  == 'DELIVERING' || item.orderStatus  == 'DELIVERED_WAITING_PICK' || item.orderStatus  == 'PICKED_WAITING_EVALUATE' || item.orderStatus  == 'NO_PICK_WAITING_BACK' ||item.orderStatus  == 'COMPLETED_NO_EVALUATE'}}">取餐</view>
+                                    <view class="take-meal" wx:if="{{item.orderStatus  == 'DELIVERING' || item.orderStatus  == 'DELIVERED_WAITING_PICK' || item.orderStatus  == 'PICKED_WAITING_EVALUATE' || item.orderStatus  == 'NO_PICK_WAITING_BACK' ||item.orderStatus  == 'COMPLETED_NO_EVALUATE'}}" data-order-code="{{item.orderCode}}" catchtap="takeMeal">取餐</view>
                                     <view class="go-pay" wx:if="{{item.orderStatus  == 'NO_PAY' }}" data-order-code="{{item.orderCode}}" catchtap='goPay'>去付款</view>
                                 </view>
                             </view>
@@ -154,4 +154,6 @@
         </view>
     </view>
 </view>
-<loading hidden="{{loading}}">加载中</loading>
+<loading hidden="{{loading}}">
+        加载中...
+</loading>

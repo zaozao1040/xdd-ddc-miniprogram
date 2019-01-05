@@ -14,7 +14,7 @@
             注册
           </view>          
         </navigator>
-        |
+        <text wx:if="{{!registered}}">|</text>
         <navigator url="/pages/login/login" style="display: inline-block">
           <view class="" style="display: inline-block;width:90rpx;height: 50rpx;line-height: 50rpx;text-align: center;" bindtap="login" decode>
             登录

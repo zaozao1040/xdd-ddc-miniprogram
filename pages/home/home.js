@@ -9,7 +9,7 @@ Page({
    */
   data: {
     newUserFlag:false,
-    showDaliFlag:true,
+    showDaliFlag:false,
     redirectToFlag:1,
     registered: false,
     userInfo:null,
@@ -87,11 +87,6 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    let userStatus = myPublicModel.getUserStatus()
-    console.log(userStatus)
-    if(userStatus!=0){
-      wx.hideTabBar({})
-    }
   },
 
   /**
@@ -108,25 +103,30 @@ Page({
    */
   onShow: function () {
     let _this = this
-    if(wx.getStorageSync('userInfo')==''){
-      _this.setData({
-        newUserFlag:true,
-        showDaliFlag:true
-      })
+    let userStatus = myPublicModel.getUserStatus()
+    console.log(userStatus)
+    if(userStatus!=0){
+      wx.hideTabBar({})
     }else{
-      if(wx.getStorageSync('userInfo').newUser==true){
+      wx.showTabBar({})
+    }
+    let tag = undefined 
+    if(wx.getStorageSync('userInfo')==''){ //未登录
+      tag = true
+    }else{ //已登录
+      if(wx.getStorageSync('userInfo').newUser==true){ 
+        tag = true
         _this.setData({
-          newUserFlag:true,
-          showDaliFlag:true,
           redirectToFlag:2
         })
-      }/* else{
-        console.log('777')
-        _this.setData({
-          newUserFlag:false
-        })
-      } */
+      }else{
+        tag = false
+      } 
     }
+    _this.setData({
+      newUserFlag:tag,
+      showDaliFlag:tag
+    })
     /* **********判断是否已注册********** */
     wx.login({
       success: function(res){
@@ -169,11 +169,15 @@ Page({
       showDaliFlag:false
     })
   },
+  /* 跳转到首页 */
   handleGotoLogin:function(){
     let _this = this
     if(_this.data.redirectToFlag==1){
       wx.navigateTo({
         url: '/pages/login/login',
+      })
+      _this.setData({
+        showDaliFlag:false
       })
     }else{
       //请求后端接口，领取新人礼包

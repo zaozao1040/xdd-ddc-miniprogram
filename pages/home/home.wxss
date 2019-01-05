@@ -99,16 +99,17 @@
 .img-wrapper{
   display:flex;                  
   justify-content: center;
+  margin: 150rpx auto;
 }
 .image-dali{
-  width:900rpx;
-  height:1100rpx;
+  width:600rpx;
+  height:745rpx;
 }
 .icon-wrapper{
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 100rpx;
+  bottom: 150rpx;
   margin: auto;
 }
 .icon-dacha1{
@@ -116,7 +117,7 @@
   height: 100rpx;
   line-height: 100rpx;
   font-size: 100rpx;
-  color:#fff;
+  color:#43964e;
 }
 
 

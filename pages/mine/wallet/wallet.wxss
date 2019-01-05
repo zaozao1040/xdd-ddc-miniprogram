@@ -152,23 +152,23 @@
   margin: 20rpx;
 }
 .recharge-item{
-  border-bottom: solid 1rpx #999;
+  border-bottom: solid 1rpx #ccc;
 }
 .rechargeType{
-  font-size: 40rpx;
+  font-size: 35rpx;
   font-weight: 500;
   color:#222;
 }
 .rechargeMoney{
   float: right;
-  font-size: 40rpx;
+  font-size: 35rpx;
   font-weight: 500;
   color:#000;
   text-align: center;
   color: red;
 }
 .rechargeTime{
-  font-size: 40rpx;
+  font-size: 30rpx;
   font-weight: 500;
   color:#666;
 }
