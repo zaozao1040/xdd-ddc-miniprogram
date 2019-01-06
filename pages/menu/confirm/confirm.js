@@ -197,6 +197,7 @@ Page({
         }else if(param.payType=='STANDARD_PAY'){
           console.log('&&&&&',res)
           if(res.code==0){
+            _this.clearCache() //清空缓存
             wx.hideLoading()
             wx.switchTab({
               url: '/pages/order-list/order-list',

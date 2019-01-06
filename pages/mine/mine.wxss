@@ -9,7 +9,7 @@
 }
 .header{
   display: flex;
-  background: #e79b37;
+  background: #43964e;
   padding: 30rpx 40rpx;
 }
 .left{
@@ -81,27 +81,27 @@
 }
 .money-1{
   font-size: 60rpx;
-  color: #e79b37;
+  color: #43964e;
 }
 .money-2{
   font-size: 20rpx;
-  color:#e79b37;
+  color:#43964e;
 }
 .youhui-1{
   font-size: 60rpx;
-  color: #e79b37;
+  color: #43964e;
 }
 .youhui-2{
   font-size: 20rpx;
-  color:#e79b37;
+  color:#43964e;
 }
 .point-1{
   font-size: 60rpx;
-  color: #e79b37;
+  color: #43964e;
 }
 .point-2{
   font-size: 20rpx;
-  color:#e79b37;
+  color:#43964e;
 }
 .offer-title{
   font-size: 30rpx;

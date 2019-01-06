@@ -50,7 +50,7 @@
                   </view>
                 </view>
               </view> 
-              <view class="cart-amount" >   
+              <view class="cart-amount" wx:if="{{foodtypeItem.organizeMealLabel!=0}}">   
                 <view wx:if="{{foodtypeItem.mealLabelUsed==false}}" 
                   style="display:inline-block;font-size:25rpx;margin-right: 10rpx;color:#666;">
                   企业将减免额度¥
@@ -79,7 +79,7 @@
                 <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:#fff;">{{totalMoney}}</text>
               </view>
             </view>
-            <view class="total-right-line line2" >
+            <view class="total-right-line line2" wx:if="{{totalMoneyDeduction!=0}}">
               <view class="" >
                 企业总抵扣
               </view>
