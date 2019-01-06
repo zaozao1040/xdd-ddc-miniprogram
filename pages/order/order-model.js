@@ -1,8 +1,11 @@
 import { base } from '../../comm/public/base'
+const app = getApp()  
+const baseUrl = app.globalData.baseUrl
 class order extends base{
-  getOrderData(param,callback){
+  /* 获取全部订单列表 */
+  getOrderList(param,callback){
     let allParams = {
-      url: 'http://localhost:8888/xddRequest/order.json',
+      url: baseUrl+'/order/orderList',
       type: 'get',
       data: param,
       sCallback: function (data) {

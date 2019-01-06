@@ -2,14 +2,17 @@
     <!-- 默认地址 -->
     <view class="address-wrapper" >
       <view style="flex:1;">
-        <view class="address-line1" >
-          <text class='iconfont icon-dizhi' decode>&nbsp;{{address}}</text>
-        </view>
+          <view class="address-line1" wx:if="{{address}}">
+            <text class='iconfont icon-dizhi' decode>&nbsp;{{address}}</text>
+          </view>
+          <view class="address-line1" wx:else>
+            <text class='iconfont icon-dizhi' decode style="color:red;">&nbsp;请选择送餐地址</text>
+          </view>
         <view class="address-line2" >
           {{name}}  {{phoneNumber}}
         </view>        
       </view>
-      <view style="flex:0 0 40rpx;margin: auto">
+      <view style="flex:0 0 70rpx;margin: auto;text-align: center;" bindtap="handleSelectAddress">
         <text class='iconfont icon-icon_on_the_right' style="font-size:40rpx;color:#e79b37;"></text>
       </view>
     </view>
@@ -73,7 +76,7 @@
                 总额
               </view>
               <view class="" >
-                <text style="font-size: 25rpx;color:red;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:red;">{{totalMoney}}</text>
+                <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:#fff;">{{totalMoney}}</text>
               </view>
             </view>
             <view class="total-right-line line2" >
@@ -81,9 +84,9 @@
                 企业总抵扣
               </view>
               <view class="" >
-                <text style="font-size: 25rpx;color:red;" decode>￥&nbsp;</text>
-                <text wx:if="{{totalMoneyDeduction!=0}}" style="font-size: 35rpx;color:red;">-{{totalMoneyDeduction}}</text>
-                <text wx:else style="font-size: 35rpx;color:red;">0</text>
+                <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text>
+                <text wx:if="{{totalMoneyDeduction!=0}}" style="font-size: 35rpx;color:#fff;">-{{totalMoneyDeduction}}</text>
+                <text wx:else style="font-size: 35rpx;color:#fff;">0</text>
               </view>
             </view>          
             <view class="total-right-line line3" >
@@ -91,7 +94,7 @@
                 实际支付
               </view>
               <view class="" >
-                <text style="font-size: 30rpx;color:red;" decode>￥&nbsp;</text><text style="font-size: 40rpx;color:red;font-weight: 700;">{{realMoney}}</text>
+                <text style="font-size: 30rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 40rpx;color:#fff;font-weight: 700;">{{realMoney}}</text>
               </view>
             </view> 
           </view>

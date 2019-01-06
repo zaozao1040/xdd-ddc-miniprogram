@@ -1,8 +1,8 @@
 /* 基本信息 */
 .basic-info{
-  background: #ddd;
-  border-bottom-left-radius: 50rpx;
-  border-bottom-right-radius: 50rpx;
+  background: #fff;
+/*   border-bottom-left-radius: 50rpx;
+  border-bottom-right-radius: 50rpx; */
 }
 .food-wrapper{
   padding:10rpx 20rpx;

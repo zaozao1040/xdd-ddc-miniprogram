@@ -117,8 +117,22 @@
   height: 100rpx;
   line-height: 100rpx;
   font-size: 100rpx;
-  color:#e79b37;
+  color:#fff;
 }
+
+/* 刷新用户的按钮 */
+.userStatus-wrapper{
+  background: #43964e;
+  text-align: center;
+  padding:20rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 20rpx;
+}
+
+
+
 
 
 

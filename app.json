@@ -21,7 +21,9 @@
     "pages/mine/wallet/wallet",
     "pages/food/food",
     "pages/mine/integral/integral",
-    "pages/mine/discount/discount"
+    "pages/mine/discount/discount",
+    "pages/evaluate/evaluate",
+    "pages/menu/address/address"
   ],
   "window": {
     "navigationBarBackgroundColor": "#000000",

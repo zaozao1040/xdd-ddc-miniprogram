@@ -1,81 +1,86 @@
 /* pages/order/order.wxss */
 .wrapper{
-  display: fixed;
-  top:0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgb(233, 233, 233);
-  padding: 0 10rpx;
-}
-.title-wrapper{
-  display: flex;
-}
-.titleItem{
-  flex: 1;
-  font-size: 30rpx;
-  height: 40rpx;
-  line-height: 40rpx;
-  text-align: center;
-  margin: 10rpx auto;
-}
-.orderStatusActive{
-  color: #e79b37;
-  font-weight: 600;
-  border-bottom: 5rpx solid #e79b37;
-}
-/*************每个订单*************/
-.order-wrapper{
-  display: flex;
-  padding: 10rpx;
-}
-.img-wrapper{
-  position: relative;
-  width: 20%;
-  height: 0;
-  padding-bottom: 20%;
-}
-.order-img{
-  position: absolute;
+  position: fixed;
   top:0;
   left:0;
-  width:100%;
-  height: 100%;
-  border-radius: 30rpx;
+  right:0;
+  bottom: 0;
+  background: #eee;
 }
-.orderInfo-wrapper{
-  width: 80%;
-  padding-left:10rpx;
-  padding-right: 10rpx;
-  flex: 0 0 auto;
+
+/********** 标题 **********/
+.header-wrapper{
+  display: flex;
+  height: 100rpx;
+  line-height: 100rpx;
+  border-bottom: 1rpx solid #666;
 }
-.order-name{
+.header-item{
+  flex:1;
+  text-align: center;
+  font-size: 35rpx;
+  font-weight: 600;
+  color:#666;
+  margin: 0 100rpx;
+}
+.header-item-active{
+  border-bottom: 10rpx solid #e79b37;
+  color:#e79b37;
+}
+
+/********** 内容 **********/
+.order-wrapper{
+  box-sizing: border-box;
+  padding: 20rpx;
+  overflow: hidden;
+}
+.order-item{
+  border-bottom: #aaa solid 1rpx;
+}
+.order-item:last-child{
+  border-bottom: none;
+}
+.order-type{
   font-size: 40rpx;
-}
-.order-selfpayprice{
-  font-size: 40rpx;
-  color: red;
-}
-.order-mealtime{
-  font-size: 30rpx;
-}
-.order-count{
-  font-size: 30rpx;
+  font-weight: 500;
+  color:#222;
+  
 }
 .order-status{
   font-size: 30rpx;
+  font-weight: 500;
+  color:#222;
 }
-/* 
-.img-wrapper{
-  position: relative;
-  width: 25%;
-  height: 0;
-  padding-bottom: 25%;
+.order-time{
+  margin:auto 20rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  color:#666;
 }
-.food-img{
-  position: absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height: 100%;
-} */
+.foods-wrapper{
+  margin:auto 20rpx;
+}
+.food-item{
+  margin:auto 20rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  color:#666;
+}
+.food-name{
+  margin:auto 20rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  color:#222;
+}
+.food-count{
+  margin:auto 50rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  color:#222;
+}
+
+
+
+
+
+

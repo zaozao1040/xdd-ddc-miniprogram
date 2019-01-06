@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    frontPageFlag:null, //代表前一个页面的标志
     scrollTop: 0,
     buttonTop: 0,
     loading: false,
@@ -25,6 +26,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let tmp_frontPageFlag = options.frontPageFlag
+    this.setData({
+      frontPageFlag: tmp_frontPageFlag
+    })
+    console.log('oload......',options)
   },
 
   /**
@@ -96,12 +102,18 @@ Page({
           tmp_userInfo.city = _this.data.city */
           wx.setStorageSync('userInfo', tmp_userInfo)
           setTimeout(function(){
-            wx.switchTab({
-              url: '/pages/mine/mine',
-            })
+            if(_this.data.frontPageFlag=='confirm'){
+              wx.navigateBack({
+                delta: 1, // 回退前 delta(默认为1) 页面
+              })
+            }else{
+              wx.switchTab({
+                url: '/pages/mine/mine',
+              })
+            }
             wx.hideLoading() 
             wx.showToast({
-              title: '地址提交成功',
+              title: '地址选择成功',
               icon: 'success',
               duration: 2000
             })

@@ -21,7 +21,7 @@ Page({
     navigatorUrl:['/pages/mine/phone/phone','/pages/mine/organize/organize','/pages/mine/address/address']
   },
   initMine: function(){
-    let _this = this;
+    let _this = this
     wx.getSystemInfo({
       success: function(res) {
         _this.setData({
@@ -41,6 +41,28 @@ Page({
     _this.setData({
       userInfo:tmp_userInfo
     })
+  },
+  /* 跳转 */
+  handleClickLabel:function(e){
+    let _this = this
+    let url = _this.data.navigatorUrl[e.currentTarget.dataset.labelindex]
+    if(e.currentTarget.dataset.labelindex!=1){ //不是绑定企业按钮 则直接跳转
+      wx.navigateTo({
+        url: url
+      })
+    }else{ //是绑定企业按钮 则判断
+      if(wx.getStorageSync('userInfo').bindOrganize == false){
+        wx.showToast({
+          title: '已成功绑定企业',
+          icon: 'none',
+          duration: 2000
+        })  
+      }else{
+        wx.navigateTo({
+          url: url
+        })
+      }      
+    }
   },
   /**
    * 生命周期函数--监听页面加载

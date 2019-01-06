@@ -37,10 +37,10 @@ class menu extends base{
       },
       eCallback: function () { }
     }
-    wx.showLoading({ 
+/*     wx.showLoading({ 
       title: '日期加载中',
       mask: true
-    })
+    }) */
     /* 发送请求到后端 */
     this.request(allParams)
   }

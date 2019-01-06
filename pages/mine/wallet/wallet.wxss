@@ -52,7 +52,7 @@
 }
 .content-header-item-active{
   border-bottom: 10rpx solid #e79b37;
-  color:#222;
+  color:#e79b37;
 }
 .content-content{
 

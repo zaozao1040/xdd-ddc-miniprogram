@@ -10,6 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    userType: '普通用户',
     canClick:true,
     newUserFlag:false,
     showDaliFlag:false,
@@ -81,45 +82,26 @@ Page({
       return
     }
     _this.data.canClick = false
-    wx.login({
-      success: function(res){
-        console.log(res)
-        if(res.code){
-          if(wx.getStorageSync('userInfo')){ //已经登录
-            let param = {
-              code: res.code, //微信code
-              phoneNumber: wx.getStorageSync('userInfo').phoneNumber
-            }
-            mineModel.getMineData(param,(res)=>{
-              if(res.code == 0){
-                wx.setStorageSync('userInfo', res.data) //更新缓存的userInfo
-                let userStatus = myPublicModel.getUserStatus()
-                //console.log('userStatus:',userStatus)
-                if(userStatus==0){
-                  wx.navigateTo({
-                    url: '/pages/menu/menu',
-                  })
-                }
-              }
-            })
-          }else{
-            wx.showToast({
-              title: '未登录 请先登录',
-              icon: 'none',
-              duration: 500
-            }) 
-            setTimeout(function(){ 
-              wx.navigateTo({
-                url: '/pages/login/login',
-              }) 
-            },500) 
-          }
-        }
-      }
-    })
+    if(wx.getStorageSync('userInfo')){
+      if(wx.getStorageSync('userInfo').userStatus == 'NO_CHECK'){
+        wx.showToast({
+          title: '审核中,请继续尝试',
+          icon: 'none',
+          duration: 500
+        }) 
+      }else{
+        wx.navigateTo({
+          url: '/pages/menu/menu',
+        })
+      }     
+    }else{
+      wx.navigateTo({
+        url: '/pages/login/login',
+      })
+    }
     setTimeout(function(){ 
       _this.data.canClick = true
-    },500)
+    },2000)
   },
 
   /**
@@ -142,17 +124,22 @@ Page({
    */
   onShow: function () {
     let _this = this
-    let userStatus = myPublicModel.getUserStatus()
+/*     let userStatus = myPublicModel.getUserStatus()
     console.log(userStatus)
     if(userStatus!=0){
       wx.hideTabBar({})
     }else{
       wx.showTabBar({})
-    }
+    } */
     let tag = undefined 
     if(wx.getStorageSync('userInfo')==''){ //未登录
       tag = true
     }else{ //已登录
+      if(wx.getStorageSync('userInfo').userStatus == 'NO_CHECK'){
+        _this.setData({
+          userType:'待审核,点击刷新'
+        })        
+      }
       if(wx.getStorageSync('userInfo').newUser==true){ 
         tag = true
         _this.setData({
@@ -191,6 +178,7 @@ Page({
         }
       }
     })
+
   },
   logout:function(){
     wx.removeStorageSync('userInfo')
@@ -251,6 +239,51 @@ Page({
         }
       })
     }
+  },
+  /* 刷新用户状态信息 */
+  handleRefreshUser:function(){
+    let _this = this
+    if(!_this.data.canClick){
+      return
+    }
+    _this.data.canClick = false
+    wx.login({
+      success: function(res){
+        console.log(res)
+        if(res.code){
+          if(wx.getStorageSync('userInfo')){ //已经登录
+            let param = {
+              code: res.code, //微信code
+              phoneNumber: wx.getStorageSync('userInfo').phoneNumber
+            }
+            mineModel.getMineData(param,(res)=>{
+              if(res.code == 0){
+                wx.setStorageSync('userInfo', res.data)
+                _this.setData({
+                  userInfo:res.data
+                })
+                if(wx.getStorageSync('userInfo').userStatus == 'NO_CHECK'){
+                  wx.showToast({
+                    title: '审核中,请继续尝试',
+                    icon: 'none',
+                    duration: 2000
+                  })                   
+                }
+              }
+            })
+          }else{
+            setTimeout(function(){ 
+              wx.navigateTo({
+                url: '/pages/login/login',
+              }) 
+            },500) 
+          }
+        }
+      }
+    })
+    setTimeout(function(){ 
+      _this.data.canClick = true
+    },500)
   }
 
 

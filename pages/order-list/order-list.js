@@ -16,6 +16,22 @@ Page({
         todayOrders: [],
         disable: false
     },
+    /* 去评价 */
+    handleRating:function(e){
+        let orderCode = e.target.dataset.orderCode;
+        wx.navigateTo({
+            url: '/pages/evaluate/evaluate?orderCode='+orderCode,
+            success: function(res){
+                // success
+            },
+            fail: function() {
+                // fail
+            },
+            complete: function() {
+                // complete
+            }
+        })
+    },
     /**
      * 取消订单
      */
@@ -29,7 +45,8 @@ Page({
             console.log(111);
             tipsContent = tipsContent + ",实际付款金额将会退到到用户余额"
         }
-        let userCode = "USER530120044101763072";
+        let userCode = wx.getStorageSync('userInfo').userCode
+        //let userCode = "USER530120044101763072";
         wx.showModal({
             title: '提示',
             content: tipsContent,
@@ -73,7 +90,8 @@ Page({
     },
     takeMeal: function (e) {
         let orderCode = e.target.dataset.orderCode;
-        let userCode = "USER530120044101763072";
+        let userCode = wx.getStorageSync('userInfo').userCode
+        //let userCode = "USER530120044101763072";
         wx.request({
             //url: 'https://ddc.vpans.cn/order/takeMeal',
             url: baseUrl+'/order/takeMeal',
@@ -125,7 +143,8 @@ Page({
                 disable: false
             });
         }, 1000);
-        let userCode = "USER530120044101763072";
+        let userCode = wx.getStorageSync('userInfo').userCode
+        //let userCode = "USER530120044101763072";
         wx.request({
             //url: 'https://ddc.vpans.cn/order/orderPayOnceAgain',
             url: baseUrl+'/order/orderPayOnceAgain',
@@ -186,7 +205,9 @@ Page({
         let that = this;
         this.setData({
             page:1,
-            loading:false
+            loading:false,
+            orders: [],
+            todayOrders: [],
         })
         this.getOrderList((res)=>{
             wx.stopPullDownRefresh();
@@ -224,13 +245,14 @@ Page({
                 'content-type': 'application/json'
             },
             data: {
-                "userCode": "USER530120044101763072",
+                "userCode":  wx.getStorageSync('userInfo').userCode,
                 "orderStatus": "",
                 "today": today,
                 "page": page,
                 "limit": limit
             },
             success: function (res) {
+                console.log(res)
                 let data = res.data.data;
                 let ordersBack = [];
                 let todayBack = [];

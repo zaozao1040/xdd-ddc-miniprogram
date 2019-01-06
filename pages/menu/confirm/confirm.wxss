@@ -37,7 +37,7 @@
 .foods-wrapper{
   background: #FFF;
   margin-top: 10rpx;
-  border-radius: 20rpx;
+/*   border-radius: 20rpx; */
   padding: 10rpx 20rpx;
 }
 
@@ -49,9 +49,9 @@
 }
 .cart-day-wrapper{
   background-color: #eee;
-  border-radius:10rpx;
+/*   border-radius:10rpx; */
   margin-top:10rpx;
-  box-shadow:2rpx 10rpx 10rpx #666;
+/*   box-shadow:2rpx 10rpx 10rpx #666; */
   margin-bottom:15rpx;  
 }
 .cart-day-title{
@@ -120,7 +120,7 @@
 .cart-menuItem{
   display: flex;
   border: 1px solid #ccc;
-  border-radius: 20rpx;
+/*   border-radius: 20rpx; */
   margin-bottom: 4rpx;
   background-color: #fff;
 }
@@ -131,8 +131,8 @@
 .cart-menuItem-img{
   width: 120rpx;
   height: 120rpx;
-  border-top-left-radius: 20rpx;
-  border-bottom-left-radius: 20rpx;
+/*   border-top-left-radius: 20rpx;
+  border-bottom-left-radius: 20rpx; */
 }
 .cart-menuItem-right{
   flex:1;
@@ -166,10 +166,10 @@
   display: table;
   width:100%;
   height:80px;
-  background: lightyellow;
+  background: #e79b37;
   margin:20rpx 0;
-  border-radius:20rpx;
-  box-shadow:2rpx 13rpx 13rpx #666;
+/*   border-radius:20rpx; */
+/*   box-shadow:2rpx 13rpx 13rpx #666; */
   position: sticky;
   bottom: 0;
 }

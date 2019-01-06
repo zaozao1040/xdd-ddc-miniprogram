@@ -1,6 +1,9 @@
 <!--pages/home/home.wxml-->
 <scroll-view>
   <view class="home-container">
+    <view class="userStatus-wrapper" wx:if="{{userInfo.userStatus == 'NO_CHECK'}}" bindtap="handleRefreshUser">
+      {{userType}}    
+    </view>
     <view class="h-v1" wx:if="{{userInfo}}">
       <view class="has-login">{{wel}} <block wx:if="{{userInfo.nickName}}">{{userInfo.nickName}}</block>
         <open-data wx:else type="userNickName"></open-data>
@@ -39,7 +42,7 @@
     </view>
     <!-- 开始点餐 -->
     <view class="h-v3">
-      <view class="h-v3-1" bindtap="handleGotoMenu">
+      <view class="h-v3-1" catchtap="handleGotoMenu">
       <text class='iconfont icon-canting'></text>
         开始点餐
       </view>

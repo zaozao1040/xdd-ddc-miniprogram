@@ -56,12 +56,40 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    let _this = this
+    let tmp_address = wx.getStorageSync('userInfo').address
+    _this.setData({  
+      address: tmp_address
+    })
   },
-
+  /* 清空缓存 */
+  clearCache:function(){
+    let _this = this
+    app.globalData.cacheMenuDataAll = [[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]]
+    app.globalData.selectedFoods = []
+    app.globalData.totalCount = 0
+    app.globalData.totalMoney = 0
+    _this.setData({  
+      cacheMenuDataAll: [[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]],
+      selectedFoods : [],
+      totalCount: 0,
+      totalMoney: 0,
+      totalMoneyDeduction:0, 
+      realMoney:0
+    })
+  },
   /**
    * 付款 提交菜单
    */
   handleCommitPay: function(){
+    if(!wx.getStorageSync('userInfo').addressCode){
+      wx.showToast({
+        title: '请先选择地址',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }
     let _this = this
     if(!_this.data.canClick){
       return
@@ -123,59 +151,78 @@ Page({
     })
     console.log('提交菜单请求参数:',tmp_param)
     let param = tmp_param
+    if(param.payAllPrice=='0.00'||param.payAllPrice==0||param.payAllPrice=='0'){
+      param.payType='STANDARD_PAY'//支付方式
+    }
     confirmModel.commitConfirmMenuData(param,function(res){
       console.log('支付结果返回：',res)
       if(res.code === 0){
-        let data = res.data.payData;
-        if (data.timeStamp) {
-          wx.requestPayment({
-            'timeStamp': data.timeStamp.toString(),
-            'nonceStr': data.nonceStr,
-            'package': data.packageValue,
-            'signType': data.signType,
-            'paySign': data.paySign,
-            success: function (e) {
-              wx.switchTab({
-                url: '/pages/order-list/order-list',
-              })
-              wx.showToast({
-                title: '结算成功',
-                icon: 'success',
-                duration: 2000
-              })
-            },
-            fail: function (e) {
-              wx.switchTab({
-                url: '/pages/order-list/order-list',
-              })
-              wx.showToast({
-                title: '已取消付款',
-                icon: 'success',
-                duration: 4000
-              })
-            },
-            complete: function() {
-              wx.hideLoading()
-              setTimeout(function(){ 
-                app.globalData.cacheMenuDataAll = [[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]]
-                app.globalData.selectedFoods = []
-                app.globalData.totalCount = 0
-                app.globalData.totalMoney = 0
-                _this.setData({  
-                  cacheMenuDataAll: [[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]],
-                  selectedFoods : [],
-                  totalCount: 0,
-                  totalMoney: 0,
-                  totalMoneyDeduction:0, 
-                  realMoney:0
+        let data = res.data.payData
+        if(param.payType=='WECHAT_PAY'){ //微信支付
+          if (data.timeStamp) {
+            wx.requestPayment({
+              'timeStamp': data.timeStamp.toString(),
+              'nonceStr': data.nonceStr,
+              'package': data.packageValue,
+              'signType': data.signType,
+              'paySign': data.paySign,
+              success: function (e) {
+                wx.switchTab({
+                  url: '/pages/order-list/order-list',
                 })
-              },2000) 
-            }
-          })
+                wx.showToast({
+                  title: '结算成功',
+                  icon: 'success',
+                  duration: 2000
+                })
+              },
+              fail: function (e) {
+                wx.switchTab({
+                  url: '/pages/order-list/order-list',
+                })
+                wx.showToast({
+                  title: '已取消付款',
+                  icon: 'success',
+                  duration: 4000
+                })
+              },
+              complete: function() {
+                wx.hideLoading()
+                setTimeout(function(){ 
+                  _this.clearCache() //清空缓存
+                },2000) 
+              }
+            })
+          }          
+        }else if(param.payType=='STANDARD_PAY'){
+          console.log('&&&&&',res)
+          if(res.code==0){
+            wx.hideLoading()
+            wx.switchTab({
+              url: '/pages/order-list/order-list',
+            })
+            wx.showToast({
+              title: '下单成功',
+              icon: 'success',
+              duration: 4000
+            })
+          }else{
+            wx.hideLoading()
+            wx.showToast({
+              title: res.msg,
+              icon: 'none',
+              duration: 4000
+            })
+          }
+        }else{
+          wx.hideLoading()
+          //      其他支付方式，待开发
         }
       }else{
+        _this.clearCache() //清空缓存
+        wx.hideLoading()
         wx.showToast({
-          title: res.msg,
+          title: '菜品变更,请重新下单',
           icon: 'none',
           duration: 2000
         })  
@@ -185,4 +232,13 @@ Page({
       _this.data.canClick = true
     },300)
   },
+
+  /* 重新选择默认地址 */
+  handleSelectAddress:function(){
+    wx.navigateTo({
+      url: '/pages/mine/address/address?frontPageFlag=confirm',
+    }) 
+  }
 })
+
+

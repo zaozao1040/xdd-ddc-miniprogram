@@ -81,27 +81,27 @@
 }
 .money-1{
   font-size: 60rpx;
-  color: red;
+  color: #e79b37;
 }
 .money-2{
   font-size: 20rpx;
-  color:red;
+  color:#e79b37;
 }
 .youhui-1{
   font-size: 60rpx;
-  color: blue;
+  color: #e79b37;
 }
 .youhui-2{
   font-size: 20rpx;
-  color:blue;
+  color:#e79b37;
 }
 .point-1{
   font-size: 60rpx;
-  color: goldenrod;
+  color: #e79b37;
 }
 .point-2{
   font-size: 20rpx;
-  color:goldenrod;
+  color:#e79b37;
 }
 .offer-title{
   font-size: 30rpx;

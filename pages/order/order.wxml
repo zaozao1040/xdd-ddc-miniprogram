@@ -1,40 +1,45 @@
 <!--pages/order/order.wxml-->
 
 <view class="wrapper">
-  <view class="title-wrapper">
-    <view wx:for="{{orderStatus}}" wx:for-item="statusItem" wx:for-index="statusIndex" wx:key="statusIndex"
-      class="titleItem {{orderStatusActiveFlag==statusIndex?'orderStatusActive':''}}" data-orderstatusindex="{{statusIndex}}" bindtap="handleChangeOrderStatusActive">
-        {{statusItem}}
+  <!-- 标题 -->
+  <view class="header-wrapper" >
+    <view class="header-item {{itemStatusActiveFlag==true?'header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="jinridaiqu">
+      今日待取
+    </view>
+    <view class="header-item {{itemStatusActiveFlag==false?'header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="quanbudingdan">
+      全部订单
     </view>
   </view>
-  <view class="order-wrapper" wx:for="{{orderDataAll}}" wx:for-item="orderItem" wx:for-index="orderIndex" wx:key="orderIndex">
-    <view class="img-wrapper">
-      <image class="order-img" src="{{orderItem.img}}"></image>    
-    </view>
-    <view class="orderInfo-wrapper">
-      <view style="display: flex;justify-content: space-between;">
-        <view class="order-name">
-          {{orderItem.order_goods.goods_name}}
+  <!-- 内容 -->
+  <scroll-view class="order-wrapper c_scrollPosition_forCalculate"  scroll-y style="height: {{windowHeight - scrollTop}}px;" >
+    <view class="order-item" wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
+      <view style="display:flex;justify-content: space-between;">
+        <view class="order-type" >
+          {{orderItem.mealTypeDes}}
         </view>
-        <view class="order-selfpayprice">
-          ¥{{orderItem.order_goods.cost_price}}
-        </view>       
+        <view class="order-status" >
+          {{orderItem.orderStatusDes}}
+        </view>        
       </view>
-      <view style="display: flex;justify-content: space-between;">
-          <view class="order-mealtime">
-              取餐时间:{{orderItem.add_time}}
+      <view class="order-time" >
+        <text class='iconfont icon-shijian' decode>&nbsp;</text>{{orderItem.orderTimeDes}}用餐
+      </view> 
+      <view class="foods-wrapper" >
+        <view class="food-item" wx:for="{{orderItem.orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem" wx:key="foodIndex">
+          <view style="display:flex;justify-content: space-between;">
+            <view class="food-name" >
+                {{foodItem.name}}
             </view>
-            <view class="order-count">
-                x1
-              </view>     
+            <view class="food-count" >
+                x{{foodItem.quantity}}
+            </view>              
+          </view>
+
         </view>
-
-      <view class="order-status">
-        状态{{orderItem.order_goods.pay_status}}
       </view>
-
     </view>
-  </view>
+  </scroll-view>
+
 </view>
 
 

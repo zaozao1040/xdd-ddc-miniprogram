@@ -61,11 +61,11 @@
   <!-- 各种标签 -->
   <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;" class="c_scrollPosition_forCalculate">
     <view class="label-wrapper">
-      <navigator url="{{navigatorUrl[labelIndex]}}" class='label-itemwrapper' wx:for="{{labelList}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex">
+      <view bindtap="handleClickLabel" data-labelindex="{{labelIndex}}" class='label-itemwrapper' wx:for="{{labelList}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex">
         <text class='iconfont icon-{{labelIconArr[labelIndex]}}' ></text>
         <text class='label-title' decode>&nbsp;&nbsp;{{labelItem}}</text>
         <text class='iconfont icon-icon_on_the_right iconfont-label-right'></text>
-      </navigator>
+      </view>  
     </view>
   </scroll-view>
 
