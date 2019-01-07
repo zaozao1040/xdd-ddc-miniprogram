@@ -22,6 +22,9 @@ Page({
     totalMoneyDeduction:0, //额度总金额
     realMoney:0,//实际总价格，也就是自费价格
 
+    mapMenutype: ['早餐','午餐','晚餐','夜宵'],
+    mapMenutypeIconName: ['zaocan1','wucan','canting','xiaoye-'],
+
     balance:0,
     walletSelectedFlag: false,//勾选是否使用余额  默认不勾选
     finalMoney:0,
@@ -148,7 +151,7 @@ Page({
         let orderDetail_item = {
           mealDate:dayDes,
           mealType:foodTypeDes,
-          mark:"我是备注",
+          mark:"",
           totalPrice: undefined,//先占位
           //standardPrice:organizeMealLabel,
           standardPrice:undefined,//先占位
@@ -157,13 +160,14 @@ Page({
         }
         let tmp_totalPrice = 0
         element2.foodTypeInfo.forEach(element3=>{
-          tmp_totalPrice += element3.foodCount * element3.foodPrice
+          //tmp_totalPrice += element3.foodCount * element3.foodPrice
+          tmp_totalPrice = (parseFloat(tmp_totalPrice) + element3.foodCount * parseFloat(element3.foodPrice)).toFixed(2)
           let orderFood_item = {
             foodCode : element3.foodCode,
             name : element3.foodName,
             quantity : element3.foodCount,
             price : element3.foodPrice,
-            mark : "我是备注"
+            mark : ""
           }
           orderDetail_item.orderFood.push(orderFood_item)
         })
@@ -172,7 +176,8 @@ Page({
           orderDetail_item.payPrice = tmp_totalPrice 
           orderDetail_item.standardPrice = 0 
         }else{
-          orderDetail_item.payPrice = tmp_totalPrice - organizeMealLabel
+          //orderDetail_item.payPrice = tmp_totalPrice - organizeMealLabel
+          orderDetail_item.payPrice = (parseFloat(tmp_totalPrice) - parseFloat(organizeMealLabel)).toFixed(2)
           orderDetail_item.standardPrice = organizeMealLabel 
         }
         tmp_param.orderDetail.push(orderDetail_item)
@@ -229,9 +234,9 @@ Page({
               },
               complete: function() {
                 wx.hideLoading()
-                setTimeout(function(){ 
+/*                 setTimeout(function(){ 
                   _this.clearCache() //清空缓存
-                },2000) 
+                },2000)  */
               }
             })
           }          
@@ -255,14 +260,17 @@ Page({
           //      其他支付方式，待开发
         }
       }else{
-        _this.clearCache() //清空缓存
+/*         _this.clearCache() //清空缓存 */
         wx.hideLoading()
         wx.showToast({
-          title: '菜品变更,请重新下单',
+          title: res.msg,
           icon: 'none',
           duration: 2000
         })  
       }
+      setTimeout(function(){ 
+        _this.clearCache() //清空缓存
+      },1000) 
     })
     setTimeout(function(){ 
       _this.data.canClick = true

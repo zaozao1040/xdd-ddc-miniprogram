@@ -133,6 +133,7 @@ Page({
   onLoad: function (options) {
     let _this = this
     _this.initHome()
+    _this.handleRefreshUser() //每次onload都强制刷新用户状态
   },
 
   /**
@@ -181,7 +182,6 @@ Page({
       _this.setData({  //既然已经注册，就直接自动登录，即从缓存读信息
         userInfo:tmp_userInfo
       })
-
       if(tmp_userInfo.userStatus == 'NO_CHECK'){
         _this.setData({
           userType:'待审核,点击刷新'

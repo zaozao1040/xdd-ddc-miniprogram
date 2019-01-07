@@ -275,7 +275,6 @@ Page({
     let menutypeIndex = e.currentTarget.dataset.menutypeindex
     let foodIndex = e.currentTarget.dataset.foodindex 
     let tmp_menuData = app.globalData.cacheMenuDataAll[day][foodType] //一、这个数据结构是为了数字响应式显示
-   // console.log("******",day,foodType,app.globalData.cacheMenuDataAll,app.globalData.cacheMenuDataAll[day][foodType],tmp_menuData)
     if(!tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount){
       tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount = 1
     }else{
@@ -335,6 +334,7 @@ Page({
     }else{
       tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount = 0
     }
+    console.log('rrrrrr:',day,foodType,tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount)
     console.log('e:',e.currentTarget.dataset)
     console.log('e menuData:',_this.data.menuData)
     /* **********主菜单视图响应式--操作cacheMenuDataAll大数组********** */
@@ -382,6 +382,7 @@ Page({
   },
   /* 菜品详情 */
   handleGotoFoodDetail:function(e){
+    console.log('eeeee',e.currentTarget.dataset.dateid)
     wx.navigateTo({
       url: '/pages/food/food?dateId='+e.currentTarget.dataset.dateid,
     })

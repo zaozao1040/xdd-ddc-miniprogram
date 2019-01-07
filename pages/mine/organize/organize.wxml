@@ -19,9 +19,9 @@
           <view class="organizeName">
             {{organizeItem.organizeName}}
           </view>
-          <view class="organizeAddress">
+<!--           <view class="organizeAddress">  安全考虑，先不考虑地址
             {{organizeItem.address}}
-          </view>
+          </view> -->
         </view>
         <view class="organizeItem-right">
           {{organizeItem.distance/1000}}公里

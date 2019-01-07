@@ -122,8 +122,8 @@
   margin-left: 40rpx;
   margin-right:40rpx;
   border-bottom: 1rpx solid #eee;
-  height: 80rpx;
-  line-height: 80rpx;
+  height: 100rpx;
+  line-height: 100rpx;
 }
 .label-itemwrapper:last-child{
   border-bottom: none;

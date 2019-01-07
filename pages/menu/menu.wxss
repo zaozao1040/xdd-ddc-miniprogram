@@ -17,7 +17,7 @@
   background-color:  rgb(233, 233, 233);
   color: #e79b37!important;
   font-weight: 700;
-  box-shadow: 5rpx -3rpx 8rpx #666;
+  box-shadow: 5rpx -3rpx 4rpx #666;
 /*   text-shadow:2rpx 4rpx 3rpx #666; */
 }
 .time-2-item{
@@ -56,7 +56,7 @@
   background-color: white;
   color: #e79b37!important;
   font-weight: 500;
-  box-shadow: 5rpx -3rpx 8rpx #666;
+  box-shadow: 5rpx -3rpx 4rpx #666;
 /*   text-shadow:2rpx 4rpx 3rpx #666; */
 }
 .iconfont-foodType{
@@ -92,7 +92,7 @@
   color:#e79b37;
   font-size: 30rpx;
   font-weight: 500;
-  box-shadow: 5rpx -3rpx 8rpx #666;
+  box-shadow: 5rpx -3rpx 4rpx #666;
 /*  text-shadow:2rpx 4rpx 3rpx #666; */
 }
 .menu-right{

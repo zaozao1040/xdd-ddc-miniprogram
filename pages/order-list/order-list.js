@@ -16,27 +16,12 @@ Page({
         todayOrders: [],
         disable: false
     },
-    /* 去评价 */
-    handleRating:function(e){
-        let orderCode = e.target.dataset.orderCode;
-        wx.navigateTo({
-            url: '/pages/evaluate/evaluate?orderCode='+orderCode,
-            success: function(res){
-                // success
-            },
-            fail: function() {
-                // fail
-            },
-            complete: function() {
-                // complete
-            }
-        })
-    },
     /**
      * 取消订单
      */
     cancelOrder: function(e){
         let that = this;
+        let index = e.target.dataset.index;
         let orderCode = e.target.dataset.orderCode;
         let payPrice = e.target.dataset.payPrice;
         let orderStatus = e.target.dataset.orderStatus;
@@ -45,17 +30,24 @@ Page({
             console.log(111);
             tipsContent = tipsContent + ",实际付款金额将会退到到用户余额"
         }
+        let orders = this.data.orders;
+        let todayOrders = this.data.todayOrders;
+        let activeIndex = this.data.activeIndex;
         let userCode = wx.getStorageSync('userInfo').userCode
-        //let userCode = "USER530120044101763072";
+        // let userCode = "USER531912225330429952";
         wx.showModal({
             title: '提示',
             content: tipsContent,
             confirmText: "取消订单",
             success: function(smRes){
                 if(smRes.confirm){
+                    wx.showLoading({
+                        title: '操作中',
+                    })
                     wx.request({
                         //url: 'https://ddc.vpans.cn/order/cancelOrder',
-                        url: baseUrl+'/order/cancelOrder',
+                        url: baseUrl + '/order/cancelOrder',
+                        data: {},
                         method: "PUT",
                         header: {
                             'content-type': 'application/json'
@@ -65,22 +57,38 @@ Page({
                             "orderCode": orderCode
                         },
                         success: function (res) {
-                            if(res.data.data){
-                                wx.showToast({
-                                    title: '取消成功',
-                                    icon: "none"
-                                })
-                                that.setData({
-                                    orders: [],
-                                    todayOrders: [],
-                                    searchLoadingComplete: false,
-                                })
-                                that.onShow();
+                            console.log(res);
+                            if(res.data){
+                                if (res.data.code == 0) {
+                                    wx.showToast({
+                                        title: '取消成功',
+                                        icon: "none"
+                                    })
+                                    if (activeIndex == 1) {//全部订单
+                                        orders[index].orderStatus = "USER_CANCEL";
+                                    } else {//今日订单
+                                        todayOrders[index].orderStatus = "USER_CANCEL";
+                                    }
+                                    that.setData({
+                                        orders: orders,
+                                        todayOrders: todayOrders,
+                                        searchLoadingComplete: false,
+                                    })
+                                }else{
+                                    wx.showToast({
+                                        title: res.data.msg,
+                                        icon: 'none'
+                                    })
+                                }
+                                
                             }
                         },
                         fail: function (res) {
                             console.log("fail");
                             console.log(res);
+                        },
+                        complete: function(){
+                            wx.hideLoading();
                         }
                     })
                 }
@@ -93,7 +101,7 @@ Page({
         //let userCode = "USER530120044101763072";
         wx.request({
             //url: 'https://ddc.vpans.cn/order/takeMeal',
-            url: baseUrl+'/order/takeMeal',
+            url: baseUrl + '/order/takeMeal',
             data: {},
             method: "Get",
             header: {
@@ -143,10 +151,9 @@ Page({
             });
         }, 1000);
         let userCode = wx.getStorageSync('userInfo').userCode
-        //let userCode = "USER530120044101763072";
         wx.request({
             //url: 'https://ddc.vpans.cn/order/orderPayOnceAgain',
-            url: baseUrl+'/order/orderPayOnceAgain',
+            url: baseUrl + '/order/orderPayOnceAgain',
             data: {},
             method: "POST",
             header: {
@@ -238,20 +245,19 @@ Page({
         }
         wx.request({
             //url: 'https://ddc.vpans.cn/order/orderList',
-            url: baseUrl+'/order/orderList',
+            url: baseUrl + '/order/orderList',
             method: "GET",
             header: {
                 'content-type': 'application/json'
             },
             data: {
-                "userCode":  wx.getStorageSync('userInfo').userCode,
+                "userCode": wx.getStorageSync('userInfo').userCode,
                 "orderStatus": "",
                 "today": today,
                 "page": page,
                 "limit": limit
             },
             success: function (res) {
-                console.log(res)
                 let data = res.data.data;
                 let ordersBack = [];
                 let todayBack = [];
@@ -261,7 +267,6 @@ Page({
                     if (today) {
                         that.setData({
                             todayOrders: ordersBack,
-                            searchLoading: false,
                             loading: true
                         })
                     }else{
@@ -274,7 +279,6 @@ Page({
                 }else{
                     that.setData({
                         searchLoadingComplete: true, //把“没有数据”设为true，显示
-                        searchLoading: false,  //把"上拉加载"的变量设为false，隐藏
                         loading: true
                     });
                 }
@@ -282,6 +286,11 @@ Page({
             fail: function (res) {
                 console.log("fail");
                 console.log(res);
+            },
+            complete: function(){
+                that.setData({
+                    searchLoading: false,  //把"上拉加载"的变量设为false，隐藏
+                });
             }
         })
         callback && callback();

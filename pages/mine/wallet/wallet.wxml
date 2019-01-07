@@ -38,8 +38,6 @@
           <view class="explain-wrapper" >
             <view class="explain-title">充值说明</view>
             <text class="explain-des">1.{{explainDes.one}}</text>
-  <!--           <text class="explain-des">2.{{explainDes.two}}</text> -->
-  <!--           <text class="explain-des">3.{{explainDes.three}}</text> -->
           </view>
           <view class="explain-title" style="margin-left: 20rpx;">充值方式</view>
           <view class="wxRecharge-wrapper" >
@@ -53,10 +51,7 @@
               </view>
             </view>
             <view class='iconfont icon-dagou' ></view>
-          </view>
-          <view class="c_buttonPosition_forCalculate">
-            <button catchtap="handleRecharge" loading="{{loading}}" class="button">立即充值</button>
-          </view>        
+          </view>     
         </view>
       </scroll-view>
       <!-- 交易记录的内容区域 -->
@@ -79,7 +74,9 @@
           未查询到充值记录..
         </view>            
       </scroll-view>
-    
+      <view class="c_buttonPosition_forCalculate" wx:if="{{itemStatusActiveFlag}}">
+        <button catchtap="handleRecharge" loading="{{loading}}" class="button">立即充值</button>
+      </view>   
     </view>
 
   </view>

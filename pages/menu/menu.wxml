@@ -82,13 +82,12 @@
             </view>
           </view>
           <!-- 单个食物 -->
-          <view class="food-wrapper" wx:if="{{foodItem.active}}" wx:for="{{menutypeItem.foods}}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex"
-            bindtap="handleGotoFoodDetail" data-dateid="{{foodItem.dateId}}" >
-            <view class="img-wrapper">
+          <view class="food-wrapper" wx:if="{{foodItem.active}}" wx:for="{{menutypeItem.foods}}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex">
+            <view class="img-wrapper" bindtap="handleGotoFoodDetail" data-dateid="{{foodItem.dateId}}">
               <image class="food-img" src="{{foodItem.image}}"></image>    
             </view>
             <view class="food-info-wrapper">
-              <view class="food-name">
+              <view class="food-name" bindtap="handleGotoFoodDetail" data-dateid="{{foodItem.dateId}}" >
                 {{foodItem.foodName}}
               </view>
               <view class="food-desc" wx:if="{{foodItem.description}}">

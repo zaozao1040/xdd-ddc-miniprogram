@@ -111,9 +111,11 @@ Page({
         tmp_rechargeList.forEach(element => {
           element.recordTypeDes = typeMap[element.recordType]
           if(element.recordType=='CONSUMPTION'){
-            element.balance = ''+(parseFloat(element.newBalance) - parseFloat(element.oldBalance)).toFixed(2)
+            //element.balance = ''+(parseFloat(element.newBalance) - parseFloat(element.oldBalance)).toFixed(2)
+            element.balance = ''+(100*element.newBalance - 100*element.oldBalance)/100
           }else{
-            element.balance = '+'+(parseFloat(element.newBalance) - parseFloat(element.oldBalance)).toFixed(2)
+            //element.balance = '+'+(parseFloat(element.newBalance) - parseFloat(element.oldBalance)).toFixed(2)
+            element.balance = '+'+(100*element.newBalance - 100*element.oldBalance)/100
           }
           element.recordTypeDes = typeMap[element.recordType]
           element.operateTimeDes = moment(element.operateTime).format('YYYY-MM-DD HH:mm:ss')

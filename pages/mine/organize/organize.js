@@ -143,8 +143,8 @@ Page({
         tmp_userInfo.organizeName = _this.data.organize
         wx.setStorageSync('userInfo', tmp_userInfo)
         setTimeout(function(){
-          wx.switchTab({
-            url: '/pages/mine/mine',
+          wx.reLaunch({  //销毁所有页面后跳转到首页，销毁页面是为了防止个人用户登录后再次换绑企业可以点击订单导航，而导航栏应该隐藏才对
+            url: '/pages/home/home',
           })
           wx.hideLoading() 
           wx.showToast({
