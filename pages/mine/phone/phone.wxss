@@ -87,20 +87,6 @@
   text-align: center;
   margin-right: 28rpx;
   border-radius: 10rpx;
-  color: forestgreen;
+  color: #43964e;
 }
-.section-6 {
-  display: flex;
-  justify-content: flex-end;
-  font-size: 18rpx;
-  color: forestgreen;
-  text-align: right;
-  margin: 13rpx 0;
-}
-.register{
-  height: 80rpx;
-  line-height: 80rpx;
-  font-size: 30rpx;
-  font-weight: 700;
-  color:forestgreen;
-}
+

@@ -34,9 +34,25 @@
                 x{{foodItem.quantity}}
             </view>              
           </view>
-
         </view>
       </view>
+      <view class="button-wrapper" >
+        <view class="button quccan" >
+          取餐
+        </view>
+        <view class="button fukuan" >
+          去付款
+        </view>
+        <view class="button pingjia" >
+          去评价
+        </view>
+        <view class="button quxiao" bindtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
+              wx:if="{{orderItem.orderStatus  == 'PAYED_WAITINT_CONFIRM' || orderItem.orderStatus  == 'NO_PAY'}}">
+          取消
+        </view>
+        
+      </view>
+
     </view>
   </scroll-view>
 

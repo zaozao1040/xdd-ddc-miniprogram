@@ -1,5 +1,8 @@
 import { confirm } from './confirm-model.js'
+import { wallet } from '../../mine/wallet/wallet-model.js'
 let confirmModel = new confirm()
+
+let walletModel = new wallet()
 const app = getApp()
 Page({
 
@@ -7,6 +10,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    payType: 'WECHAT_PAY',//支付方式,默认微信支付
+
     loading: false,
     canClick:true,
     address:wx.getStorageSync('userInfo').address,
@@ -16,6 +21,10 @@ Page({
     totalMoney: 0,
     totalMoneyDeduction:0, //额度总金额
     realMoney:0,//实际总价格，也就是自费价格
+
+    balance:0,
+    walletSelectedFlag: false,//勾选是否使用余额  默认不勾选
+    finalMoney:0,
   },
 
   initAddress: function(){
@@ -60,6 +69,26 @@ Page({
     let tmp_address = wx.getStorageSync('userInfo').address
     _this.setData({  
       address: tmp_address
+    })
+    //从后端获取钱包余额
+    _this.getWallet()
+  },
+  /* 从后端获取钱包余额 */
+  getWallet:function(){
+    let _this = this
+    let param = {
+      userCode:wx.getStorageSync('userInfo').userCode,
+    }
+    walletModel.getWalletData(param,function(res){
+      console.log('收到请求(钱包信息):',res)
+      if(res.code === 0){
+        let tmp_userInfo = wx.getStorageSync('userInfo')
+        tmp_userInfo.balance = _this.data.balance
+        wx.setStorageSync('userInfo', tmp_userInfo)
+        _this.setData({
+          balance: res.data
+        })                
+      }
     })
   },
   /* 清空缓存 */
@@ -107,7 +136,7 @@ Page({
       totalAllPrice:_this.data.totalMoney,//总价格：所有
       standardAllPrice:_this.data.totalMoneyDeduction,//额度的总价格
       payAllPrice:_this.data.realMoney,//自费的总价格
-      payType:'WECHAT_PAY',//支付方式
+      payType:_this.data.payType,//支付方式
       orderDetail: []
     }
     getApp().globalData.selectedFoods.forEach(element1 => {
@@ -152,7 +181,7 @@ Page({
     console.log('提交菜单请求参数:',tmp_param)
     let param = tmp_param
     if(param.payAllPrice=='0.00'||param.payAllPrice==0||param.payAllPrice=='0'){
-      param.payType='STANDARD_PAY'//支付方式
+      param.payType='STANDARD_PAY'//支付方式改为标准支付
     }
     confirmModel.commitConfirmMenuData(param,function(res){
       console.log('支付结果返回：',res)
@@ -167,23 +196,35 @@ Page({
               'signType': data.signType,
               'paySign': data.paySign,
               success: function (e) {
-                wx.switchTab({
-                  url: '/pages/order-list/order-list',
-                })
-                wx.showToast({
-                  title: '结算成功',
-                  icon: 'success',
-                  duration: 2000
+                wx.hideLoading()
+                wx.showModal({
+                  title: '提示',
+                  content: '订单已生成',
+                  showCancel: false,
+                  confirmText: '查看订单',
+                  success(res) {
+                    if (res.confirm) {
+                      wx.switchTab({
+                        url: '/pages/order-list/order-list',
+                      })
+                    } 
+                  }
                 })
               },
               fail: function (e) {
-                wx.switchTab({
-                  url: '/pages/order-list/order-list',
-                })
-                wx.showToast({
-                  title: '已取消付款',
-                  icon: 'success',
-                  duration: 4000
+                wx.hideLoading()
+                wx.showModal({
+                  title: '提示',
+                  content: '订单已生成,请尽快支付',
+                  showCancel: false,
+                  confirmText: '查看订单',
+                  success(res) {
+                    if (res.confirm) {
+                      wx.switchTab({
+                        url: '/pages/order-list/order-list',
+                      })
+                    } 
+                  }
                 })
               },
               complete: function() {
@@ -194,27 +235,21 @@ Page({
               }
             })
           }          
-        }else if(param.payType=='STANDARD_PAY'){
-          console.log('&&&&&',res)
-          if(res.code==0){
-            _this.clearCache() //清空缓存
-            wx.hideLoading()
-            wx.switchTab({
-              url: '/pages/order-list/order-list',
-            })
-            wx.showToast({
-              title: '下单成功',
-              icon: 'success',
-              duration: 4000
-            })
-          }else{
-            wx.hideLoading()
-            wx.showToast({
-              title: res.msg,
-              icon: 'none',
-              duration: 4000
-            })
-          }
+        }else if(param.payType=='BALANCE_PAY'||param.payType=='STANDARD_PAY'){
+          wx.hideLoading()
+          wx.showModal({
+            title: '提示',
+            content: '订单已生成',
+            showCancel: false,
+            confirmText: '查看订单',
+            success(res) {
+              if (res.confirm) {
+                wx.switchTab({
+                  url: '/pages/order-list/order-list',
+                })
+              } 
+            }
+          })
         }else{
           wx.hideLoading()
           //      其他支付方式，待开发
@@ -239,7 +274,24 @@ Page({
     wx.navigateTo({
       url: '/pages/mine/address/address?frontPageFlag=confirm',
     }) 
-  }
+  },
+  /* 勾选余额付款的按钮 */
+  handleChangeWalletSelectedFlag:function(){
+    let _this = this
+    if(_this.data.balance<_this.data.realMoney){ //如果用户余额少于用户需要支付的价格，不允许用余额,也就是禁止打开switch
+      wx.showToast({
+        title: '余额不足,请充值',
+        icon: 'none',
+        duration: 2000
+      })
+      return
+    }else{  //使用余额支付方式
+      _this.setData({  
+        walletSelectedFlag: !_this.data.walletSelectedFlag,
+        payType: 'BALANCE_PAY'
+      })  
+    }  
+  },
 })
 
 

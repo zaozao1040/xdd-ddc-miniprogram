@@ -56,7 +56,6 @@ Page({
                     wx.request({
                         //url: 'https://ddc.vpans.cn/order/cancelOrder',
                         url: baseUrl+'/order/cancelOrder',
-                        data: {},
                         method: "PUT",
                         header: {
                             'content-type': 'application/json'

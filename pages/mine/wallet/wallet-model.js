@@ -28,5 +28,19 @@ class wallet extends base{
     }
     this.request(allParams)
   }
+  /* 获取钱包信息 */
+  getWalletData(param,callback){
+    let allParams = {
+      url: baseUrl+'/user/balance',
+      type: 'get',
+      data: param,
+      sCallback: function (data) {
+        callback && callback(data);
+      },
+      eCallback: function () { }
+    }
+    this.request(allParams)
+  }  
+
 }
 export { wallet }

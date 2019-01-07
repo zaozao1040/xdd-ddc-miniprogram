@@ -65,40 +65,54 @@
             </view>
           </view>
         </view>
-        <!-- 统计 -->
+        <!-- 合计 -->
         <view class="total-wrapper">
-          <view class="total-left" >
-            统计
-          </view>
-          <view class="total-right" >
-            <view class="total-right-line line1" >
-              <view class="" >
-                总额
-              </view>
-              <view class="" >
-                <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:#fff;">{{totalMoney}}</text>
-              </view>
+          <view class="total-wrapper-top">
+            <view class="total-left" >
+              合计
             </view>
-            <view class="total-right-line line2" wx:if="{{totalMoneyDeduction!=0}}">
-              <view class="" >
-                企业总抵扣
-              </view>
-              <view class="" >
-                <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text>
-                <text wx:if="{{totalMoneyDeduction!=0}}" style="font-size: 35rpx;color:#fff;">-{{totalMoneyDeduction}}</text>
-                <text wx:else style="font-size: 35rpx;color:#fff;">0</text>
-              </view>
-            </view>          
-            <view class="total-right-line line3" >
-              <view class="" >
-                实际支付
-              </view>
-              <view class="" >
-                <text style="font-size: 30rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 40rpx;color:#fff;font-weight: 700;">{{realMoney}}</text>
-              </view>
-            </view> 
-          </view>
+            <view class="total-right" >
+              <view class="total-right-line line1" >
+                <view class="" >
+                  总额
+                </view>
+                <view class="" >
+                  <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:#fff;">{{totalMoney}}</text>
+                </view>
+              </view>            
+              <block wx:if="{{totalMoneyDeduction!=0}}">
+                <view class="total-right-line line2" >
+                  <view class="" >
+                    企业总抵扣
+                  </view>
+                  <view class="" >
+                    <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text>
+                    <text wx:if="{{totalMoneyDeduction!=0}}" style="font-size: 35rpx;color:#fff;">-{{totalMoneyDeduction}}</text>
+                    <text wx:else style="font-size: 35rpx;color:#fff;">0</text>
+                  </view>
+                </view> 
+              </block>  
+              <view class="total-right-line line3" >
+                <view class="" >
+                  实际支付
+                </view>
+                <view class="" >
+                  <text style="font-size: 30rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 40rpx;color:#fff;font-weight: 700;">{{realMoney}}</text>
+                </view>
+              </view>                        
+            </view>
+          </view>  
+          <view class="total-wrapper-bottom">
+            <view class="bottom-des" >
+              余额支付(余额￥{{balance}})
+            </view>
+            <view class="bottom-icon" >
+              <view bindtap="handleChangeWalletSelectedFlag" wx:if="{{walletSelectedFlag}}" class='iconfont icon-kaiguan-copy' style="font-size: 40rpx;color:#e79b37;"></view>
+              <view bindtap="handleChangeWalletSelectedFlag" wx:else class='iconfont icon-kaiguan-copy1' style="font-size: 40rpx;color:#666;"></view>
+            </view>
+          </view>       
         </view>
+
       </scroll-view>
     </view>
     <!-- button -->

@@ -15,5 +15,6 @@ class confirm extends base{
     }
     this.request(allParams)
   }  
+
 }
 export { confirm }

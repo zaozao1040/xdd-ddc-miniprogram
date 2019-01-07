@@ -88,7 +88,7 @@
     text-align: center;
     margin-right: 28rpx;
     border-radius: 10rpx;
-    color: #e79b37;
+    color: #43964e;
   }
   .section-6 {
     display: flex;

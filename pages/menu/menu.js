@@ -43,6 +43,7 @@ Page({
     timer: null,
 
     foodLabels:null,
+
   },
   getMenuData: function(){  //setData设置menuData为缓存数据，这样可以同步到模板渲染
     //console.log('cacheMenuDataAll',this.data.cacheMenuDataAll)
@@ -640,6 +641,7 @@ Page({
         +this.data.realMoney,
     })
   },
+
 
   /**
    * 生命周期函数--监听页面加载

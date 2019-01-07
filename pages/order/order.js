@@ -9,6 +9,8 @@ Page({
    */
   data: {
     //
+    canClick:true,
+    //
     windowHeight: 0,
     scrollTop: 0,
     //
@@ -17,6 +19,25 @@ Page({
     itemStatusActiveFlag:true, //默认今日待取
     orderList:null,
     orderListNoResult: false,
+    //
+    orderStatusMap : {
+      NO_PAY:'未支付',
+      PAYED_WAITINT_CONFIRM:'已支付',
+      CONFIRM_WAITING_MAKE:'待制作',
+      MAKING:'开始制作',
+      MAKED_WAITING_DELIVERY:'待配送',
+      DELIVERING:'配送中',
+      DELIVERED_WAITING_PICK:'待取货',
+      PICKED_WAITING_EVALUATE:'待评价',
+      NO_PICK_WAITING_BACK:'超时未取货待取回',
+      USER_CANCEL:'已取消'
+    },
+    mealTypeMap : {
+      BREAKFAST:'早餐',
+      LUNCH:'午餐',
+      DINNER:'晚餐',
+      NIGHT:'夜宵'
+    }
   },
   getOrderDataByResponse: function(){
     let that = this
@@ -121,27 +142,10 @@ Page({
       console.log('收到请求(订单列表):',res)
       wx.hideLoading() 
       if(res.code === 0){
-        let orderStatusMap = {
-          NO_PAY:'未支付',
-          PAYED_WAITINT_CONFIRM:'已支付',
-          CONFIRM_WAITING_MAKE:'待制作',
-          MAKING:'开始制作',
-          MAKED_WAITING_DELIVERY:'待配送',
-          DELIVERING:'配送中',
-          DELIVERED_WAITING_PICK:'待取货',
-          PICKED_WAITING_EVALUATE:'待评价',
-          NO_PICK_WAITING_BACK:'超时未取货待取回'
-        }
-        let mealTypeMap = {
-          BREAKFAST:'早餐',
-          LUNCH:'午餐',
-          DINNER:'晚餐',
-          NIGHT:'夜宵'
-        }
         let tmp_orderList = res.data.list
         tmp_orderList.forEach(element => {
-          element.mealTypeDes = mealTypeMap[element.mealType]
-          element.orderStatusDes = orderStatusMap[element.orderStatus]
+          element.mealTypeDes = _this.data.mealTypeMap[element.mealType]
+          element.orderStatusDes = _this.data.orderStatusMap[element.orderStatus]
           element.orderTimeDes = moment(element.orderTime).format('YYYY-MM-DD HH:mm:ss')
         })
         console.log(this.data.tmp_orderList)
@@ -166,4 +170,68 @@ Page({
       }
     })
   }, 
+  /* 取消订单 */
+  handleCancelOrder:function(e){
+    console.log(e)
+    let _this = this
+    if(!_this.data.canClick){
+      return
+    }
+    _this.data.canClick = false
+    wx.showModal({
+      title: '提示',
+      content: '是否取消订单？',
+      success(res) {
+        if (res.confirm) {
+          let param = {
+            userCode: wx.getStorageSync('userInfo').userCode, 
+            orderCode: e.currentTarget.dataset.ordercode 
+          }
+          wx.showLoading({ //【防止狂点2】
+            title: '加载中',
+            mask: true
+          })
+          orderModel.cancelOrder(param,(res)=>{
+            console.log('收到请求(取消订单):',res)
+            if(res.code === 0){
+              wx.hideLoading() 
+              //刷新订单列表中该订单的状态值，使用setData响应式模板
+              let tmp_orderList = _this.data.orderList
+              tmp_orderList[e.currentTarget.dataset.orderindex].orderStatus = 'USER_CANCEL'
+              tmp_orderList[e.currentTarget.dataset.orderindex].orderStatusDes = '已取消'
+              _this.setData({
+                orderList: tmp_orderList
+              })  
+              wx.showToast({
+                title: '成功取消订单',
+                icon: 'success',
+                duration: 2000
+              }) 
+            }else{
+              wx.showToast({
+                title: res.msg,
+                icon: 'none',
+                duration: 2000
+              })  
+            }
+          })
+        } 
+      }
+    })
+    setTimeout(function(){ 
+      _this.data.canClick = true
+    },2000)
+  },
+  /* 去付款 */
+  handleSecondpayOrder:function(){
+
+  },
+  /* 去取餐 */
+  handleTakeOrder:function(){
+
+  },
+  /* 去评价 */
+  handleEvaluateOrder:function(){
+
+  },
 })

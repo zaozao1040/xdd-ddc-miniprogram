@@ -50,7 +50,7 @@
 .icon-propaganda{
   font-size:35rpx;
   font-weight: 300;
-  color:#e79b37;
+  color:#43964e;
   vertical-align: middle;
 }
 .propaganda-title{
