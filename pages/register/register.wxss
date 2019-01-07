@@ -10,7 +10,52 @@
   left:0;
   right:0;
 }
+/* 企业用户 个人用户 */
+.selectUserTypeTitle{
+  margin-top: 250rpx;
+  text-align: center;
+  color: #222;
+  font-weight: bold;
+  font-size: 40rpx;
+}
+.selectUserType-wrapper{
+  margin-top: 30rpx;
+  width: 100%;
+  display: flex;
+}
+.selectUserType{
+  flex: 1;
+  margin: 40rpx;
+  height: 300rpx;
+  line-height: 300rpx;
+  text-align: center;
+  background-color: #e79b37;
+  border-radius: 15rpx;
+  color: #FFF;
+  font-weight: bold;
+  font-size: 40rpx;
+}
+.selectUserTypeDes{
+  margin-top: 30rpx;
+  color: #666;
+  font-weight: bold;
+  font-size: 30rpx;
+}
 
+.fanhui-warpper{
+  position: fixed;
+  top:20rpx;
+  left:20rpx;
+  height: 60rpx;
+  width: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+}
+.icon-fanhui1{
+  color: #e79b37;
+  font-weight: bold;
+  font-size: 60rpx;  
+}
 .section-1 {
   width: 100%;
   height: 134rpx;
@@ -32,7 +77,11 @@
   padding: 5rpx 0;
   font-size: 32rpx;
 }
-
+.userType{
+  font-size:30rpx;
+  font-weight: 500;
+  color:#444;
+}
 .section-3 {
   border: 1rpx solid #bbbbbb;
   height: 100rpx;

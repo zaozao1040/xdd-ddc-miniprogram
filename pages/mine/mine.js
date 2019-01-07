@@ -101,6 +101,9 @@ Page({
             console.log('收到请求(我的):',res)
             if(res.code === 0){
               wx.setStorageSync('userInfo', res.data) //更新缓存的userInfo
+              _this.setData({
+                userInfo:res.data
+              })
               wx.hideLoading() //【防止狂点3】
             }else{
               wx.showToast({

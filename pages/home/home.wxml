@@ -12,17 +12,20 @@
     </view>
     <view class="h-v1" wx:else>
       <view bindtap="login" class="h-v1-1">
-        <navigator wx:if="{{!registered}}" url="/pages/register/register" style="display: inline-block">
-          <view class="" style="display: inline-block;width:90rpx;height: 50rpx;line-height: 50rpx;text-align: center;" bindtap="register">
-            注册
-          </view>          
-        </navigator>
-        <text wx:if="{{!registered}}">|</text>
-        <navigator url="/pages/login/login" style="display: inline-block">
-          <view class="" style="display: inline-block;width:90rpx;height: 50rpx;line-height: 50rpx;text-align: center;" bindtap="login" decode>
-            登录
-          </view>       
-        </navigator>
+        <block wx:if="{{!registered}}">
+          <navigator url="/pages/register/register" style="display: inline-block">
+            <view class="" style="display: inline-block;width:90rpx;height: 50rpx;font-size:40rpx;line-height: 45rpx;text-align: center;" bindtap="register">
+              注册
+            </view>          
+          </navigator>       
+        </block>
+        <block wx:else>
+          <navigator url="/pages/login/login" style="display: inline-block">
+            <view class="" style="display: inline-block;width:90rpx;height: 50rpx;font-size:40rpx;line-height: 45rpx;text-align: center;" bindtap="login" decode>
+              登录
+            </view>       
+          </navigator>          
+        </block>
       </view>
     </view>
     <!-- 轮播图 -->

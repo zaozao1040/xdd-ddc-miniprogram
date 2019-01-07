@@ -14,7 +14,7 @@ Page({
     canClick:true,
     newUserFlag:false,
     showDaliFlag:false,
-    redirectToFlag:1, //跳转到登录页  默认
+    redirectToFlag:1,
     registered: false,
     userInfo:null,
     wel: "",
@@ -95,25 +95,9 @@ Page({
         })
       }     
     }else{
-      if(_this.data.redirectToFlag==1){ //未登录状态
-        wx.navigateTo({
-          url: '/pages/login/login',
-        })
-        wx.showToast({
-          title: '请先登录再点餐',
-          icon: 'none',
-          duration: 2000
-        }) 
-      }else if(_this.data.redirectToFlag==3){ //未注册状态
-        wx.navigateTo({
-          url: '/pages/register/register',
-        })
-        wx.showToast({
-          title: '请先注册再点餐',
-          icon: 'none',
-          duration: 2000
-        }) 
-      }      
+      wx.navigateTo({
+        url: '/pages/login/login',
+      })
     }
     setTimeout(function(){ 
       _this.data.canClick = true
@@ -140,57 +124,26 @@ Page({
    */
   onShow: function () {
     let _this = this
-    let userStatus = myPublicModel.getUserStatus()
+/*     let userStatus = myPublicModel.getUserStatus()
     console.log(userStatus)
     if(userStatus!=0){
       wx.hideTabBar({})
     }else{
       wx.showTabBar({})
-    }
+    } */
     let tag = undefined 
-    let tmp_userInfo = wx.getStorageSync('userInfo')
-    if(tmp_userInfo==''){ //未登录状态，判断是否注册过
+    if(wx.getStorageSync('userInfo')==''){ //未登录
       tag = true
-      //判断是否已注册
-      wx.login({  
-        success: function(res){
-          if(res.code){
-            let param = {
-              code: res.code   
-            }
-            homeModel.getRegisteredFlag(param,(res)=>{
-              console.log('是否已注册:',res)
-              if(res.code === 0){
-                if(res.data === true){ //已注册
-                  _this.setData({
-                    registered:true
-                  })
-                }else{ //未注册
-                  _this.setData({
-                    userInfo:null,
-                    registered:false,
-                    redirectToFlag:3 //3代表跳转到注册页
-                  })
-                }
-              }
-            })
-          }
-        }
-      })
-    }else{ //已登录状态，直接登录
-      _this.setData({  //既然已经注册，就直接自动登录，即从缓存读信息
-        userInfo:tmp_userInfo
-      })
-
-      if(tmp_userInfo.userStatus == 'NO_CHECK'){
+    }else{ //已登录
+      if(wx.getStorageSync('userInfo').userStatus == 'NO_CHECK'){
         _this.setData({
           userType:'待审核,点击刷新'
         })        
       }
-      if(tmp_userInfo.newUser==true){ 
+      if(wx.getStorageSync('userInfo').newUser==true){ 
         tag = true
         _this.setData({
-          redirectToFlag:2 //新用户  不跳转
+          redirectToFlag:2
         })
       }else{
         tag = false
@@ -200,7 +153,31 @@ Page({
       newUserFlag:tag,
       showDaliFlag:tag
     })
-
+    /* **********判断是否已注册********** */
+    wx.login({
+      success: function(res){
+        if(res.code){
+          let param = {
+            code: res.code   
+          }
+          homeModel.getRegisteredFlag(param,(res)=>{
+            console.log('是否已注册:',res)
+            if(res.code === 0){
+              if(res.data === true){
+                _this.setData({
+                  registered:true
+                })
+                //既然已经注册，就直接自动登录，即从缓存读信息
+                let tmp_userInfo = wx.getStorageSync('userInfo')
+                _this.setData({
+                  userInfo:tmp_userInfo
+                })
+              }
+            }
+          })
+        }
+      }
+    })
 
   },
   logout:function(){
@@ -225,13 +202,6 @@ Page({
     if(_this.data.redirectToFlag==1){
       wx.navigateTo({
         url: '/pages/login/login',
-      })
-      _this.setData({
-        showDaliFlag:false
-      })
-    }else if(_this.data.redirectToFlag==3){
-      wx.navigateTo({
-        url: '/pages/register/register',
       })
       _this.setData({
         showDaliFlag:false
@@ -298,8 +268,6 @@ Page({
                     icon: 'none',
                     duration: 2000
                   })                   
-                }else{
-                  wx.showTabBar({})
                 }
               }
             })

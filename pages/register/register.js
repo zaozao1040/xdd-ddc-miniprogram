@@ -9,6 +9,11 @@ Page({
    * 页面的初始数据
    */
   data: {
+    //
+    //showSelectUserTypeFlag: false,
+    showSelectUserTypeFlag: true,
+    userTypeFlag:'"B_USER"', //默认企业用户，也就是说视图上默认展示选择企业的input
+    //
     windowHeight: 0,
     loading: false,
     showAddressFlag:false,
@@ -33,6 +38,18 @@ Page({
    */
   onLoad: function (options) {
   
+  },
+  handleGotoRegister:function(e){
+    let _this = this
+    _this.setData({
+      showSelectUserTypeFlag: false,
+      userTypeFlag:e.currentTarget.dataset.usertype
+    })
+  },
+  handleGoBacktoSelectUserType:function(){
+    this.setData({
+      showSelectUserTypeFlag: true
+    })
   },
   initRegister: function(){
     let _this = this;
@@ -211,7 +228,8 @@ Page({
                 headImage: userInfo.avatarUrl,
                 sex: userInfo.gender,
                 name: _this.data.name,
-                userType: "B_USER", //企业用户还是个人用户 B_USER  VISITOR
+                userType: _this.data.userTypeFlag, //企业用户还是个人用户 B_USER  VISITOR
+                //userType: "B_USER", 
                 organizeCode: _this.data.organizeCode //B_USER模式下需要改字段    
               }
               _this.setData({ //【防止狂点1】
