@@ -36,7 +36,7 @@
   font-size: 40rpx;
 }
 .selectUserTypeDes{
-  margin-top: 30rpx;
+  margin-top: 10rpx;
   color: #666;
   font-weight: bold;
   font-size: 30rpx;

@@ -13,14 +13,17 @@
       </view>      
     </view>
     <view class="selectUserTypeDes">
-      注:企业用户，需要管理员审核通过后才可以订餐
+      1:企业用户，指和点点餐签约过的公司的员工
+    </view>
+    <view class="selectUserTypeDes">
+      2:企业用户，需要管理员审核通过后才可以订餐
     </view>
   </block>
   <block wx:else>
     <view class="fanhui-warpper" bindtap="handleGoBacktoSelectUserType">
       <text class='iconfont icon-fanhui1'></text>
     </view>
-    <view class='section-1' style="background: url('../../images/login/icon-avatar.png') no-repeat top center;background-size: 134rpx 134rpx;"></view>
+    <image class='section-1' src="../../images/login/icon-avatar.png" style="width: 134rpx;height: 134rpx;margin:30rpx auto;"></image>
     <view class="section-2" style="background: url('../../images/login/icon-star2.png') no-repeat center center;background-size: 363rpx 23rpx;">
       <text class="section-2-1">您想要的员工餐</text>
       <text class="section-2-1">都在这里</text>
@@ -32,22 +35,38 @@
       用户类型: 个人用户
     </view>
     <view class="section-3">
-        <view class="section-3-1" style="background: url('../../images/login/shouji.png') no-repeat center center;background-size: 40rpx 40rpx;"></view>
+        <view class="section-3-1" style="text-align: center;display: table;">
+          <view style="display: table-cell;vertical-align: middle;">
+            <text style="font-size:40rpx;color:#43964e;" class='iconfont icon-shouji'></text>
+          </view>
+        </view>
         <input bindinput="phoneInput" class="section-3-2" maxlength="11" placeholder="请输入您的手机号" type="number"></input>
     </view>
     <view class="section-3">
-      <view class="section-3-3" style="background: url('../../images/login/yanzhengma.png') no-repeat center center;background-size: 40rpx 40rpx;"></view>
+      <view class="section-3-1" style="text-align: center;display: table;">
+        <view style="display: table-cell;vertical-align: middle;">
+          <text style="font-size:40rpx;color:#43964e;" class='iconfont icon-mimayanzhengma'></text>
+        </view>
+      </view>
       <input bindinput="codeInput" class="section-3-2" placeholder="请输入短信验证码" type="number"></input>
       <view catchtap="sendCode" class="rg-section-v5" wx:if="{{firstCode}}">获取验证码</view>
       <view class="rg-section-v5 rg-section-v6" wx:if="{{waitTime>0}}">{{waitTime}}s</view>
       <view catchtap="sendCode" class="rg-section-v5" wx:if="{{waitTime==0}}">重新发送</view>
     </view>
     <view class="section-3">
-      <view class="section-3-1" style="background: url('../../images/login/wode.png') no-repeat center center;background-size: 40rpx 40rpx;"></view>
+      <view class="section-3-1" style="text-align: center;display: table;">
+        <view style="display: table-cell;vertical-align: middle;">
+          <text style="font-size:40rpx;color:#43964e;" class='iconfont icon-wode'></text>
+        </view>
+      </view>
       <input bindinput="nameInput" class="section-3-2" placeholder="请输入真实姓名" type="string"></input>
     </view>
     <view wx:if="{{userTypeFlag=='B_USER'}}" class="section-3" catchtap="showAddress">
-      <view class="section-3-1" style="background: url('../../images/login/qiye.png') no-repeat center center;background-size: 40rpx 40rpx;"></view>
+      <view class="section-3-1" style="text-align: center;display: table;">
+        <view style="display: table-cell;vertical-align: middle;">
+          <text style="font-size:40rpx;color:#43964e;" class='iconfont icon-qiye'></text>
+        </view>
+      </view>
       <input bindinput="organizeInput" value="{{organize}}" placeholder="请选择企业" data-organizecode="{{organizeCode}}" class="section-3-2" type="string" disabled></input>
     </view>
     <button loading="{{loading}}" class="section-4" open-type="getUserInfo" bindgetuserinfo="register">注册</button>

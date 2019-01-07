@@ -1,4 +1,5 @@
 // pages/evaluate/evaluate.js
+const baseUrl = getApp().globalData.baseUrl
 Page({
 
     /**
@@ -72,7 +73,8 @@ Page({
         }
         console.log(params);
         wx.request({
-            url: 'http://192.168.1.123:9082/order/evaluate',
+            url: baseUrl+'/order/evaluate',
+            //url: 'http://192.168.1.123:9082/order/evaluate',
             data: params,
             method: "post",
             success: function(res){
@@ -150,7 +152,8 @@ Page({
             orderCode: orderCode
         }
         wx.request({
-            url: 'http://192.168.1.123:9082/order/orderDetail',
+            url: baseUrl+'/order/orderDetail',
+            //url: 'http://192.168.1.123:9082/order/orderDetail',
             method: 'get',
             data: params,
             success: function(res) {

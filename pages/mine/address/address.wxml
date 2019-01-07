@@ -1,6 +1,10 @@
 <view class="address-wrapper" >
     <view class="section-3">
-      <view class="section-3-1" style="background: url('../../../images/address/address.png') no-repeat center center;background-size: 40rpx 40rpx;"></view>
+      <view class="section-3-1" style="text-align: center;display: table;">
+        <view style="display: table-cell;vertical-align: middle;">
+          <text style="font-size:40rpx;color:#43964e;" class='iconfont icon-dizhi'></text>
+        </view>
+      </view>
       <input value="{{addressDes}}" placeholder="请选择企业默认地址" class="section-3-2" type="string" disabled></input>
     </view>
     <view class="addressList-wrapper" >

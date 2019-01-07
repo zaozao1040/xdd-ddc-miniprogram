@@ -2,11 +2,19 @@
 
 <view class="login-container">
   <view class="section-3">
-      <view class="section-3-1" style="background: url('../../../images/login/shouji.png') no-repeat center center;background-size: 40rpx 40rpx;"></view>
-      <input bindinput="phoneInput" class="section-3-2" maxlength="11" placeholder="请输入新的手机号" type="number"></input>
+    <view class="section-3-1" style="text-align: center;display: table;">
+      <view style="display: table-cell;vertical-align: middle;">
+        <text style="font-size:40rpx;color:#43964e;" class='iconfont icon-shouji'></text>
+      </view>
+    </view>
+    <input bindinput="phoneInput" class="section-3-2" maxlength="11" placeholder="请输入新的手机号" type="number"></input>
   </view>
   <view class="section-3">
-    <view class="section-3-3" style="background: url('../../../images/login/yanzhengma.png') no-repeat center center;background-size: 40rpx 40rpx;"></view>
+    <view class="section-3-1" style="text-align: center;display: table;">
+      <view style="display: table-cell;vertical-align: middle;">
+        <text style="font-size:40rpx;color:#43964e;" class='iconfont icon-mimayanzhengma'></text>
+      </view>
+    </view>
     <input bindinput="codeInput" class="section-3-2" placeholder="请输入短信验证码" type="number"></input>
     <view catchtap="sendCode" class="rg-section-v5" wx:if="{{firstCode}}">获取验证码</view>
     <view class="rg-section-v5 rg-section-v6" wx:if="{{waitTime>0}}">{{waitTime}}s</view>

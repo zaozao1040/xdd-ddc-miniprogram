@@ -16,7 +16,8 @@
       </view>
       <view class="userPhone" wx:if="{{userInfo.organizeName}}">
         <text class='iconfont icon-qiye1' style="font-size: 30rpx;color:#fff;" decode>&nbsp;</text>
-        <text>{{userInfo.organizeName}}</text>  
+        <text wx:if="{{userInfo.organizeName=='NGO'}}">非企业用户</text>  
+        <text wx:else>{{userInfo.organizeName}}</text>  
       </view>
       <view class="userPhone" wx:if="{{userInfo.address}}">
         <text class='iconfont icon-dizhi' style="font-size: 30rpx;color:#fff;" decode>&nbsp;</text>

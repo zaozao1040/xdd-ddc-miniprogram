@@ -51,7 +51,7 @@ Page({
         url: url
       })
     }else{ //是绑定企业按钮 则判断
-      if(wx.getStorageSync('userInfo').bindOrganize == false){
+      if(wx.getStorageSync('userInfo').bindOrganized == true){
         wx.showToast({
           title: '已成功绑定企业',
           icon: 'none',
