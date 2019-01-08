@@ -9,6 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    canClick:true,
     loading: false,
     phone:'',
     code:'',
@@ -34,6 +35,13 @@ Page({
   },
   sendCode: function () {
     let _this = this
+    if(!_this.data.canClick){
+      return
+    }
+    _this.data.canClick = false
+    setTimeout(function(){ 
+      _this.data.canClick = true
+    },5000)
     //获取短信验证码
     let param = {
       phoneNumber:_this.data.phone

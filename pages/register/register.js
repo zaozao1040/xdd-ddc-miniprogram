@@ -10,6 +10,7 @@ Page({
    */
   data: {
     //
+    canClick:true,
     //showSelectUserTypeFlag: false,
     showSelectUserTypeFlag: true,
     userTypeFlag:'"B_USER"', //默认企业用户，也就是说视图上默认展示选择企业的input
@@ -21,10 +22,13 @@ Page({
     location: {},
     organizeList:[],
     organize: '',
+    employeeNumber:'',//是否需要填写企业员工的工号  true需要 false不需要
     organizeCode: '',
     search: '',
     phone:'',
     code:'',
+    name:'',
+    usernumber:'',
 /*     target:'', */
     firstCode: true,
     waitTime: -1,
@@ -108,10 +112,11 @@ Page({
   },
   selectOrganize:function(e){
     this.setData({
-      organize: e.currentTarget.dataset.organizename
+      organize: e.currentTarget.dataset.organizename,
+      employeeNumber: e.currentTarget.dataset.employeenumber
     });
     this.data.organizeCode = e.currentTarget.dataset.organizecode
-    console.log(this.data.organizeCode)
+    //console.log(this.data.organizeCode)
     this.changeShowAddressFlag()
   },
   phoneInput: function (e) {
@@ -127,6 +132,11 @@ Page({
   nameInput: function(e) {
     this.setData({
       name: e.detail.value
+    });
+  },
+  usernumberInput: function(e) {
+    this.setData({
+      usernumber: e.detail.value
     });
   },
   organizeInput: function(e) {
@@ -167,6 +177,13 @@ Page({
   },
   sendCode: function () {
     let _this = this
+    if(!_this.data.canClick){
+      return
+    }
+    _this.data.canClick = false
+    setTimeout(function(){ 
+      _this.data.canClick = true
+    },5000)
     //获取短信验证码
     let param = {
       phoneNumber:_this.data.phone
@@ -228,6 +245,7 @@ Page({
                 headImage: userInfo.avatarUrl,
                 sex: userInfo.gender,
                 name: _this.data.name,
+                userOrganizeCode: _this.data.usernumber,
                 userType: _this.data.userTypeFlag, //企业用户还是个人用户 B_USER  VISITOR
                 //userType: "B_USER", 
                 organizeCode: _this.data.organizeCode //B_USER模式下需要改字段    

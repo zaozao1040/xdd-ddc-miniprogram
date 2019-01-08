@@ -46,6 +46,8 @@
 }
 .foodType-item{
   flex:1;
+  height: 60rpx;
+  line-height: 60rpx;
   font-size: 35rpx;
   text-align: center;
   border-top-left-radius: 20rpx;

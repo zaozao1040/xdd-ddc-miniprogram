@@ -35,12 +35,10 @@
       用户类型: 个人用户
     </view>
     <view class="section-3">
-        <view class="section-3-1" style="text-align: center;display: table;">
-          <view style="display: table-cell;vertical-align: middle;">
-            <text style="font-size:40rpx;color:#43964e;" class='iconfont icon-shouji'></text>
-          </view>
-        </view>
-        <input bindinput="phoneInput" class="section-3-2" maxlength="11" placeholder="请输入您的手机号" type="number"></input>
+      <view class="section-3-1" style="text-align: center;display: table;">
+        <text style="font-size:40rpx;color:#43964e;" class='iconfont icon-shouji goback'></text>
+      </view>
+      <input bindinput="phoneInput" class="section-3-2" maxlength="11" placeholder="请输入您的手机号" type="number"></input>
     </view>
     <view class="section-3">
       <view class="section-3-1" style="text-align: center;display: table;">
@@ -69,16 +67,29 @@
       </view>
       <input bindinput="organizeInput" value="{{organize}}" placeholder="请选择企业" data-organizecode="{{organizeCode}}" class="section-3-2" type="string" disabled></input>
     </view>
+    <view class="section-3" wx:if="{{employeeNumber}}">
+      <view class="section-3-1" style="text-align: center;display: table;">
+        <view style="display: table-cell;vertical-align: middle;">
+          <text style="font-size:40rpx;color:#43964e;" class='iconfont icon-dingdanbianhao'></text>
+        </view>
+      </view>
+      <input bindinput="usernumberInput" class="section-3-2" placeholder="请输入企业工号(可不填)" type="string"></input>
+    </view>
     <button loading="{{loading}}" class="section-4" open-type="getUserInfo" bindgetuserinfo="register">注册</button>
     <!-- 企业选择 -->
     <view wx:if="{{showAddressFlag}}" class="organize-wrapper" >
       <view class="inputSearch-wrapper">
-        <input bindinput="searchInput"  class="inputSearch" maxlength="11" placeholder="搜索企业名..."></input>
-      </view>
+        <view class="inputSearch-left-wrapper" hover-class="none" hover-stop-propagation="false">
+          <view catchtap="changeShowAddressFlag" class="iconfont icon-fanhui1 goback"></view>
+        </view>
+        <view class="inputSearch-right-wrapper" hover-class="none" hover-stop-propagation="false">
+          <input bindinput="searchInput"  class="inputSearch" maxlength="11" placeholder="搜索企业名..."></input>
+        </view>
+        </view>
       <view style="height:30rpx;background: #ddd;"></view>
       <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;" class="c_scrollPosition_forCalculate">
         <view class="organizeItem-wrapper" wx:for="{{organizeList}}" wx:for-index="organizeIndex" wx:for-item="organizeItem" wx:key="organizeIndex"
-          catchtap="selectOrganize" data-organizename="{{organizeItem.organizeName}}" data-organizecode="{{organizeItem.organizeCode}}">
+          catchtap="selectOrganize" data-employeenumber="{{organizeItem.employeeNumber}}" data-organizename="{{organizeItem.organizeName}}" data-organizecode="{{organizeItem.organizeCode}}">
           <view class="organizeItem-left">
             <view class="organizeName">
               {{organizeItem.organizeName}}
@@ -95,7 +106,6 @@
           未查询到企业..
         </view>
       </scroll-view>
-      <view wx-if="{{showGobackFlag}}" catchtap="changeShowAddressFlag" class="iconfont icon-fanhui goback"></view>
     </view>    
   </block>
 

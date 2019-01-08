@@ -97,10 +97,10 @@ Page({
   /* 清空缓存 */
   clearCache:function(){
     let _this = this
-    app.globalData.cacheMenuDataAll = [[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]]
-    app.globalData.selectedFoods = []
-    app.globalData.totalCount = 0
-    app.globalData.totalMoney = 0
+    getApp().globalData.cacheMenuDataAll = [[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]]
+    getApp().globalData.selectedFoods = []
+    getApp().globalData.totalCount = 0
+    getApp().globalData.totalMoney = 0
     _this.setData({  
       cacheMenuDataAll: [[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]],
       selectedFoods : [],
@@ -214,6 +214,7 @@ Page({
                   confirmText: '查看订单',
                   success(res) {
                     if (res.confirm) {
+                      //_this.clearCache() //清空缓存
                       wx.switchTab({
                         url: '/pages/order-list/order-list',
                       })
@@ -230,6 +231,7 @@ Page({
                   confirmText: '查看订单',
                   success(res) {
                     if (res.confirm) {
+                      //_this.clearCache() //清空缓存
                       wx.switchTab({
                         url: '/pages/order-list/order-list',
                       })
@@ -239,9 +241,6 @@ Page({
               },
               complete: function() {
                 wx.hideLoading()
-/*                 setTimeout(function(){ 
-                  _this.clearCache() //清空缓存
-                },2000)  */
               }
             })
           }          
@@ -265,7 +264,6 @@ Page({
           //      其他支付方式，待开发
         }
       }else{
-/*         _this.clearCache() //清空缓存 */
         wx.hideLoading()
         wx.showToast({
           title: res.msg,
@@ -273,9 +271,6 @@ Page({
           duration: 2000
         })  
       }
-      setTimeout(function(){ 
-        _this.clearCache() //清空缓存
-      },1000) 
     })
     setTimeout(function(){ 
       _this.data.canClick = true
