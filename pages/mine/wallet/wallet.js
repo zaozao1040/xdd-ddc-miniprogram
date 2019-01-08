@@ -9,7 +9,7 @@ Page({
   data: {
     //分页
     currentPage: 1, // 设置加载的第几次，默认是第一次
-    pageSize: 20, // 每页条数
+    pageSize: 5, // 每页条数
     hasMoreDataFlag: true,//是否还有更多数据  默认还有
     //
     windowHeight: 0,
@@ -104,7 +104,7 @@ Page({
         itemStatusActiveFlag: false,
         rechargeList: [], // 这四个要重置，为了交易记录的分页，因为交易记录、在线重置俩页面是通过点击按钮切换的
         currentPage: 1,
-        pageSize: 20,
+        pageSize: 5,
         hasMoreDataFlag: true,
       })
       this.getRechargeList()

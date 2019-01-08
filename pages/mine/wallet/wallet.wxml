@@ -54,24 +54,32 @@
         </view>
       </scroll-view>
       <!-- 交易记录的内容区域 -->
-      <scroll-view wx:else scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower="gotoNextPage">
-        <view class="jilu-wrapper" >
-          <view class="recharge-item" wx:for="{{rechargeList}}" wx:for-index="rechargeIndex" wx:for-item="rechargeItem" wx:key="rechargeIndex">
-            <view class="rechargeMoney">
-              {{rechargeItem.balance}}
-            </view>
-            <view class="rechargeType">
-              {{rechargeItem.recordTypeDes}}
-            </view>
-            <view class="rechargeTime">
-              {{rechargeItem.operateTimeDes}}
-            </view>
-          </view>
-          
-        </view>  
-        <view wx:if="{{rechargeListNoResult}}" class="noResult">
+      <scroll-view wx:else scroll-y style="height: {{windowHeight - scrollTop}}px;" >
+        <view wx:if="{{rechargeListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
           未查询到充值记录..
-        </view>            
+        </view> 
+        <view wx:else class="jilu-wrapper" >
+          <view class="" hover-class="none" hover-stop-propagation="false">
+            <view class="recharge-item" wx:for="{{rechargeList}}" wx:for-index="rechargeIndex" wx:for-item="rechargeItem" wx:key="rechargeIndex">
+              <view class="rechargeMoney">
+                {{rechargeItem.balance}}
+              </view>
+              <view class="rechargeType">
+                {{rechargeItem.recordTypeDes}}
+              </view>
+              <view class="rechargeTime">
+                {{rechargeItem.operateTimeDes}}
+              </view>
+            </view>   
+            <view class="hasMore-wrapper" wx:if="{{hasMoreDataFlag}}" bindtap="gotoNextPage"
+                  style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+              加载更多
+            </view>  
+            <view wx:else class="hasMore-wrapper" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+              没有更多了..
+            </view>                        
+          </view>
+        </view>
       </scroll-view>
       <view class="c_buttonPosition_forCalculate" wx:if="{{itemStatusActiveFlag}}">
         <button catchtap="handleRecharge" loading="{{loading}}" class="button">立即充值</button>
