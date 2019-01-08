@@ -18,8 +18,6 @@ Page({
     organizeCode: '',
     search: '',
     addressListNoResult: false
-
-
   },
 
   /**

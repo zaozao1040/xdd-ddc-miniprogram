@@ -23,8 +23,8 @@
     "pages/evaluate/evaluate"
   ],
   "window": {
-    "navigationBarBackgroundColor": "#000000",
-    "navigationBarTextStyle": "white",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTextStyle": "black",
     "navigationBarTitleText": "点点餐",
     "backgroundColor": "#fff",
     "backgroundTextStyle": "dark",

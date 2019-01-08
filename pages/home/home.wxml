@@ -2,7 +2,7 @@
 <scroll-view>
   <view class="home-container">
     <view class="userStatus-wrapper" wx:if="{{userInfo.userStatus == 'NO_CHECK'}}" bindtap="handleRefreshUser">
-      刷新用户  
+      刷新用户
     </view>
     <view class="h-v1" wx:if="{{userInfo}}">
       <view class="has-login">{{wel}} <block wx:if="{{userInfo.nickName}}">{{userInfo.nickName}}</block>
@@ -14,31 +14,37 @@
       <view bindtap="login" class="h-v1-1">
         <block wx:if="{{!registered}}">
           <navigator url="/pages/register/register" style="display: inline-block">
-            <view class="" style="display: inline-block;width:90rpx;height: 50rpx;font-size:40rpx;line-height: 45rpx;text-align: center;" bindtap="register">
+            <view class="" style="display: inline-block;width:90rpx;height: 50rpx;font-size:30rpx;color:2b2b2b;line-height: 45rpx;text-align: center;"
+              bindtap="register">
               注册
-            </view>          
-          </navigator>       
+            </view>
+          </navigator>
         </block>
         <block wx:else>
           <navigator url="/pages/login/login" style="display: inline-block">
-            <view class="" style="display: inline-block;width:90rpx;height: 50rpx;font-size:40rpx;line-height: 45rpx;text-align: center;" bindtap="login" decode>
+            <view class="" style="display: inline-block;width:90rpx;height: 50rpx;font-size:30rpx;color:2b2b2b;line-height: 45rpx;text-align: center;"
+              bindtap="login" decode>
               登录
-            </view>       
-          </navigator>          
+            </view>
+          </navigator>
         </block>
       </view>
     </view>
     <!-- 轮播图 -->
-    <swiper autoplay="true" class="h-v2-swiper" circular="true"  duration="500" indicatorActiveColor="#fff" indicatorColor="rgb(212, 203, 201)" indicatorDots interval="5000" >
-      <swiper-item bindtap="navigateTo" wx:for="{{swiperList}}" wx:for-index="swiperListIndex" wx:for-item="swiperListItem" wx:key="swiperListIndex">
-        <navigator url="/pages/home/link?extendUrl={{swiperListItem.url}}">
-          <image class="home-image-bk" src="{{swiperListItem.image}}"></image>
-        </navigator>
-      </swiper-item>
+    <swiper autoplay="true" class="h-v2-swiper-item" circular="true" duration="500" indicatorActiveColor="#fff"
+      indicatorColor="rgb(212, 203, 201)" indicatorDots interval="5000">
+      <block wx:for="{{swiperList}}" wx:for-index="swiperListIndex" wx:for-item="swiperListItem" wx:key="swiperListIndex">
+        <swiper-item bindtap="navigateTo">
+          <navigator url="/pages/home/link?extendUrl={{swiperListItem.url}}">
+            <image mode="widthFix" src="{{swiperListItem.image}}" style="width:100%;"></image>
+          </navigator>
+        </swiper-item>
+      </block>
     </swiper>
     <!-- 宣传语 -->
     <view class="propaganda-wrapper">
-      <view class='propaganda-itemwrapper' wx:for="{{propagandaList}}" wx:for-index="propagandaIndex" wx:for-item="propagandaItem" wx:key="propagandaIndex">
+      <view class='propaganda-itemwrapper' wx:for="{{propagandaList}}" wx:for-index="propagandaIndex" wx:for-item="propagandaItem"
+        wx:key="propagandaIndex">
         <text class='iconfont icon-{{propagandaIconArr[propagandaIndex]}} icon-propaganda' decode>&nbsp;</text>
         <text class='propaganda-title'>{{propagandaItem}}</text>
       </view>
@@ -46,25 +52,44 @@
     <!-- 开始点餐 -->
     <view class="h-v3">
       <view class="h-v3-1" catchtap="handleGotoMenu">
-      <text class='iconfont icon-canting'></text>
+        <text class='iconfont icon-canting'></text>
         开始点餐
+      </view>
+    </view>
+    <!-- 3个图标 -->
+    <view class="label-wrapper" >
+      <view class="labelItem" bindtap="handleGotoLabel" data-type="qianbao">
+        <view class='iconLabel iconfont icon-qianbao'></view>
+        <view class="labelDes" >钱包</view>
+      </view>
+      <view class="labelItem" bindtap="handleGotoLabel" data-type="youhuiquan">
+        <view class='iconLabel iconfont icon-youhuiquan1'></view>
+        <view class="labelDes" >优惠券</view>
+      </view>
+      <view class="labelItem" bindtap="handleGotoLabel" data-type="jifen">
+        <view class='iconLabel iconfont icon-jifen'></view>
+        <view class="labelDes" >积分</view>
       </view>
     </view>
     <!-- 活动 -->
     <view class="promotion-wrapper">
-      <view class="promotionItem" wx:for="{{swiperList}}" wx:for-index="promotionListIndex" wx:for-item="promotionListItem" wx:key="promotionListIndex">
+      <view class="promotionItem" wx:for="{{promotionList}}" wx:for-index="promotionListIndex" wx:for-item="promotionListItem"
+        wx:key="promotionListIndex">
         <navigator url="/pages/home/link?extendUrl={{promotionListItem.url}}">
-          <image class="promotion-img" src="{{promotionListItem.image}}"/>
-        </navigator>        
+          <image class="promotion-img" src="{{promotionListItem.image}}" />
+        </navigator>
       </view>
     </view>
-
-    <!-- 新人大礼 -->
+    <!-- 新人大礼  -->
+    <view class="newuser-wrapper-2">
+      <image mode="widthFix" style="width:100%;" src="../../images/home/newuser.png"></image>
+    </view>
+    <!-- 新人大礼 弹出 -->
     <view class="newuser-wrapper" wx:if="{{newUserFlag&&showDaliFlag}}">
       <view class="img-wrapper" bindtap="handleGotoLogin">
-        <image class="image-dali"  src="../../images/home/dali.png" ></image>
-      </view>        
-      <view class="icon-wrapper" >
+        <image class="image-dali" src="../../images/home/dali.png"></image>
+      </view>
+      <view class="icon-wrapper">
         <view class="iconfont icon-dacha1" bindtap="closeDali"></view>
       </view>
     </view>

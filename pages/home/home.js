@@ -10,6 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    imageWidth: wx.getSystemInfoSync().windowWidth,
     userType: '普通用户',
     canClick:true,
     newUserFlag:false,
@@ -22,6 +23,44 @@ Page({
     propagandaIconArr:['bianyihuo2','peisong','shipinanquan-','tuikuan'],
     swiperList:[],
     promotionList:[]
+  },
+  handleGotoLabel:function(e){
+    let _this = this
+    if(!_this.data.canClick){
+      return
+    }
+    _this.data.canClick = false
+    setTimeout(function(){ 
+      _this.data.canClick = true
+    },2000)
+    let flag =  e.currentTarget.dataset.type
+    let url = ''
+    if(flag=='qianbao'){
+      url = '/pages/mine/wallet/wallet'
+    }else if(flag=='youhuiquan'){
+      url = '/pages/mine/discount/discount'
+    }else if(flag=='jifen'){
+      url = '/pages/mine/integral/integral'
+    }
+    if(wx.getStorageSync('userInfo')){
+      if(wx.getStorageSync('userInfo').userStatus == 'NO_CHECK'){
+        wx.showToast({
+          title: '审核中,请继续尝试',
+          icon: 'none',
+          duration: 2000
+        }) 
+      }else{
+        wx.navigateTo({
+          url: url,
+        })
+      }     
+    }else{
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none',
+        duration: 2000
+      }) 
+    }
   },
   initHome:function(){
     let _this = this
@@ -82,6 +121,9 @@ Page({
       return
     }
     _this.data.canClick = false
+    setTimeout(function(){ 
+      _this.data.canClick = true
+    },2000)
     if(wx.getStorageSync('userInfo')){
       if(wx.getStorageSync('userInfo').userStatus == 'NO_CHECK'){
         wx.showToast({
@@ -115,9 +157,6 @@ Page({
         }) 
       }      
     }
-    setTimeout(function(){ 
-      _this.data.canClick = true
-    },2000)
   },
 
   /**

@@ -19,9 +19,7 @@
     font-size: 26rpx;
     flex: 1;
 }
-.propaganda-wrapper{
-    margin-top: 10rpx;
-}
+
 .has-login {
     flex: 1;
     margin-right: 44rpx;
@@ -31,16 +29,14 @@
     color: #cb2222;
     margin-left: 50rpx;
 }
-.h-v2-swiper{
-    width: 100%;
-    height: 356rpx;
+.h-v2-swiper-item{
+  width: 100%;
+  height:200rpx;
 }
-.home-image-bk {
-    width: 750rpx;
-    height: 356rpx;
-}
+
 .propaganda-wrapper{
   display: flex;
+  margin-top: 10rpx;
 }
 .propaganda-itemwrapper{
   font-size: 0;
@@ -50,12 +46,13 @@
 .icon-propaganda{
   font-size:35rpx;
   font-weight: 300;
-  color:#43964e;
+  color:#f2993c;
   vertical-align: middle;
 }
 .propaganda-title{
   font-size:25rpx;
   vertical-align: middle;
+  color:#6b6b6b;
 }
 .h-v3 {
     width: 100%;
@@ -68,9 +65,10 @@
     font-size: 36rpx;
     font-weight: bold;
     color: #fff;
-    background-color: #e79b37;
+    background-color: #f2993c;
     text-align: center;
     border-radius: 50rpx;
+    box-shadow: 0px 10px 10px #a7835c;
 }
 
 .promotion-wrapper{
@@ -78,9 +76,11 @@
 }
 .promotionItem{
   flex:1;
-  margin: 10rpx;
+  margin: 10rpx 20rpx 10rpx 0;
 }
-
+.promotionItem:last-child{
+  margin-right: 0;
+}
 .promotion-img{
   width: 100%;
   height: 240rpx;
@@ -119,7 +119,13 @@
   font-size: 100rpx;
   color:#fff;
 }
-
+.newuser-wrapper-2{
+  width:100%;
+  height: 320rpx;
+}
+.newuserimg{
+  width:100%;
+}
 /* 刷新用户的按钮 */
 .userStatus-wrapper{
   background: #43964e;
@@ -130,6 +136,30 @@
   color: #fff;
   border-radius: 20rpx;
 }
+
+/* 三个标签 */
+.label-wrapper{
+  display: flex;
+}
+.labelItem{
+  flex:1;
+  margin: 10rpx auto;
+}
+.iconLabel{
+  margin: 30rpx 0 0 0;
+  text-align: center;
+  font-size: 60rpx;
+  font-weight: 500;
+  color:#f2993c;
+}
+.labelDes{
+  text-align: center;
+  margin-bottom: 30rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  color:#6b6b6b;
+}
+
 
 
 

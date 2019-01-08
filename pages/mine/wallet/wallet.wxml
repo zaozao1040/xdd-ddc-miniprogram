@@ -54,7 +54,7 @@
         </view>
       </scroll-view>
       <!-- 交易记录的内容区域 -->
-      <scroll-view wx:else scroll-y style="height: {{windowHeight - scrollTop}}px;">
+      <scroll-view wx:else scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower="gotoNextPage">
         <view class="jilu-wrapper" >
           <view class="recharge-item" wx:for="{{rechargeList}}" wx:for-index="rechargeIndex" wx:for-item="rechargeItem" wx:key="rechargeIndex">
             <view class="rechargeMoney">

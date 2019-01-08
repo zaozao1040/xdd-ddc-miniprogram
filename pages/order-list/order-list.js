@@ -198,7 +198,8 @@ Page({
         if (!that.data.searchLoadingComplete) {
             that.setData({
                 page: that.data.page + 1,  //每次触发上拉事件，把searchPageNum+1
-                emptyOrders: false  //触发到上拉事件，把isFromSearch设为为false
+                emptyOrders: false,  //触发到上拉事件，把isFromSearch设为为false
+                searchLoading:true
             });
             that.getOrderList();
         }else{
@@ -214,6 +215,7 @@ Page({
             loading:false,
             orders: [],
             todayOrders: [],
+            searchLoadingComplete: false,
         })
         this.getOrderList((res)=>{
             wx.stopPullDownRefresh();
@@ -321,5 +323,21 @@ Page({
             loading: false
         });
         this.onShow();
-    }
+    },
+    /* 去评价 */
+    handleRating:function(e){
+        let orderCode = e.target.dataset.orderCode;
+        wx.navigateTo({
+            url: '/pages/evaluate/evaluate?orderCode='+orderCode,
+            success: function(res){
+                // success
+            },
+            fail: function() {
+                // fail
+            },
+            complete: function() {
+                // complete
+            }
+        })
+    },
 });

@@ -73,7 +73,7 @@
           <text style="font-size:40rpx;color:#43964e;" class='iconfont icon-dingdanbianhao'></text>
         </view>
       </view>
-      <input bindinput="usernumberInput" class="section-3-2" placeholder="请输入企业工号(可不填)" type="string"></input>
+      <input bindinput="usernumberInput" class="section-3-2" placeholder="请输入企业工号" type="string"></input>
     </view>
     <button loading="{{loading}}" class="section-4" open-type="getUserInfo" bindgetuserinfo="register">注册</button>
     <!-- 企业选择 -->

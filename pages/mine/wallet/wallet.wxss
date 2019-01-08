@@ -23,13 +23,13 @@
   display: inline-block;
   font-size: 30rpx;
   font-weight: 500;
-  color:#222;
+  color:#fff;
 }
 .header-item{
   display: inline-block;
   font-size: 80rpx;
   font-weight: 800;
-  color:black;
+  color:#fff;
 }
 /********** 内容 **********/
 /* 标题 */

@@ -9,33 +9,33 @@ Page({
   data: {
     //分页
     currentPage: 1, // 设置加载的第几次，默认是第一次
-    pageSize: 12, // 每页条数
+    pageSize: 20, // 每页条数
     hasMoreDataFlag: true,//是否还有更多数据  默认还有
     //
     windowHeight: 0,
     scrollTop: 0,
     buttonTop: 0,
     //
-    canClick:true,
-    itemStatusActiveFlag:true,
-    moneyList:[[0.01,12,68],[108,218,318],[468,618,888]],
-    itemMoneyActiveFlag:[0,2],//默认0行2列，也就是人民币68
-    activeFlag1:undefined,
-    activeFlag2:undefined,
-    selectedMoney:0,
-    explainDes:{
-      one:'充值金额暂不支持跨平台使用，暂不支持退款、提现、转赠他人',
-      two:'若充值遇到问题请联系1855748732',
-      three:'若充值遇到问题请联系1855748732',
+    canClick: true,
+    itemStatusActiveFlag: true,
+    moneyList: [[6, 12, 68], [108, 218, 318], [468, 618, 888]],
+    itemMoneyActiveFlag: [0, 2],//默认0行2列，也就是人民币68
+    activeFlag1: undefined,
+    activeFlag2: undefined,
+    selectedMoney: 0,
+    explainDes: {
+      one: '充值金额暂不支持跨平台使用，暂不支持退款、提现、转赠他人',
+      two: '若充值遇到问题请联系1855748732',
+      three: '若充值遇到问题请联系1855748732',
     },
-    userInfo:null,
+    userInfo: null,
     rechargeList: [],
     rechargeListNoResult: false,
   },
-  initWallet: function(){
+  initWallet: function () {
     let _this = this
     wx.getSystemInfo({
-      success: function(res) {
+      success: function (res) {
         _this.setData({
           windowHeight: res.windowHeight
         })
@@ -59,7 +59,7 @@ Page({
     })
     let tmp_userInfo = wx.getStorageSync('userInfo')
     _this.setData({
-      userInfo:tmp_userInfo
+      userInfo: tmp_userInfo
     })
   },
 
@@ -79,85 +79,69 @@ Page({
     _this.initWallet()
   },
 
-  /**
-  * 页面上拉触底事件的处理函数
-  */
-/*   onReachBottom: function () {
+  /* scroll-view触底事件监听，改为手动点击触发 */
+  gotoNextPage: function () {
     console.log('触底')
-    if (this.data.hasMoreData) {
-      this.getCaseData()
+    if (this.data.hasMoreDataFlag) {
+      this.getRechargeList()
       wx.showLoading({
         title: '加载更多数据',
       })
     } else {
-    wx.showToast({
-      icon:"none",
-      title: '没有更多数据'
-      })
-    }
-  }, */
-/* 触底事件监听，改为手动点击触发---需要修改 */
-  showMore: function () {
-    console.log('触底')
-    if (this.data.hasMoreData) {
-      this.getCaseData()
-      wx.showLoading({
-        title: '加载更多数据',
-      })
-    } else {
-    wx.showToast({
-      icon:"none",
-      title: '没有更多数据'
+      wx.showToast({
+        icon: "none",
+        title: '没有更多数据'
       })
     }
   },
-  changeItemStatusActiveFlag:function(e){
-    if(e.currentTarget.dataset.flag=='chongzhi'){
-      this.setData({ 
+  changeItemStatusActiveFlag: function (e) {
+    if (e.currentTarget.dataset.flag == 'chongzhi') {
+      this.setData({
         itemStatusActiveFlag: true
       })
-    }else if(e.currentTarget.dataset.flag=='jiaoyi'){
-      this.setData({ 
+    } else if (e.currentTarget.dataset.flag == 'jiaoyi') {
+      this.setData({
         itemStatusActiveFlag: false,
         rechargeList: [], // 这四个要重置，为了交易记录的分页，因为交易记录、在线重置俩页面是通过点击按钮切换的
-        currentPage: 1, 
-        pageSize: 12, 
+        currentPage: 1,
+        pageSize: 20,
         hasMoreDataFlag: true,
-      })   
+      })
       this.getRechargeList()
-    }else{
+    } else {
 
     }
   },
   /* 获取交易记录列表 */
-  getRechargeList:function(){
+  getRechargeList: function () {
     let _this = this
     let param = {
       userCode: wx.getStorageSync('userInfo').userCode,
-      limit:_this.data.pageSize,
-      page:_this.data.currentPage
+      limit: _this.data.pageSize,
+      page: _this.data.currentPage
     }
-    wx.showLoading({ 
+    wx.showLoading({
       title: '加载中',
     })
-    walletModel.getRechargeList(param,(res)=>{
-      console.log('收到请求(交易记录列表):',res)
-      wx.hideLoading() 
-      if(res.code === 0){
+    console.log('发送请求:', param)
+    walletModel.getRechargeList(param, (res) => {
+      console.log('收到响应(交易记录列表):', res)
+      wx.hideLoading()
+      if (res.code === 0) {
         let typeMap = {
-          RECHARGE:'充值',
-          CONSUMPTION:'消费',
-          CANCEL_ORDER:'取消订单返还',
-          PRESENT:'赠送'
+          RECHARGE: '充值',
+          CONSUMPTION: '消费',
+          CANCEL_ORDER: '取消订单返还',
+          PRESENT: '赠送'
         }
         let tmp_rechargeList = res.data
         tmp_rechargeList.forEach(element => {
           element.recordTypeDes = typeMap[element.recordType]
-          if(element.recordType=='CONSUMPTION'){
-            element.balance = ''+(parseFloat(element.newBalance) - parseFloat(element.oldBalance)).toFixed(2)
+          if (element.recordType == 'CONSUMPTION') {
+            element.balance = '' + (parseFloat(element.newBalance) - parseFloat(element.oldBalance)).toFixed(2)
             //element.balance = ''+(100*element.newBalance - 100*element.oldBalance)/100
-          }else{
-            element.balance = '+'+(parseFloat(element.newBalance) - parseFloat(element.oldBalance)).toFixed(2)
+          } else {
+            element.balance = '+' + (parseFloat(element.newBalance) - parseFloat(element.oldBalance)).toFixed(2)
             //element.balance = '+'+(100*element.newBalance - 100*element.oldBalance)/100
           }
           element.recordTypeDes = typeMap[element.recordType]
@@ -165,9 +149,9 @@ Page({
         })
         console.log(this.data.tmp_rechargeList)
         //下面开始分页
-        if(tmp_rechargeList.length<_this.data.pageSize){
+        if (tmp_rechargeList.length < _this.data.pageSize) {
           console.log('1')
-          if(tmp_rechargeList.length === 0){
+          if (tmp_rechargeList.length === 0) {
             wx.showToast({
               icon: "none",
               title: '没有更多数据'
@@ -175,80 +159,80 @@ Page({
             _this.setData({
               hasMoreDataFlag: false
             })
-          }else{
+          } else {
             _this.setData({
               rechargeList: tmp_rechargeList.concat(_this.data.rechargeList), //concat是拆开数组参数，一个元素一个元素地加进去
               hasMoreDataFlag: false
             })
           }
-        }else{
+        } else {
           console.log('2')
           _this.setData({
             rechargeList: tmp_rechargeList.concat(_this.data.rechargeList), //concat是拆开数组参数，一个元素一个元素地加进去
             hasMoreDataFlag: true,
             currentPage: _this.data.currentPage + 1
           })
-        } 
-/*         if(res.data.length==0){
-          _this.setData({
-            rechargeListNoResult: true //查到企业列表无结果，则相应视图
-          })   
-        } else {
-          _this.setData({
-            rechargeListNoResult: false
-          })  
-        }  */                    
-      }else{
+        }
+        /*         if(res.data.length==0){
+                  _this.setData({
+                    rechargeListNoResult: true //查到企业列表无结果，则相应视图
+                  })   
+                } else {
+                  _this.setData({
+                    rechargeListNoResult: false
+                  })  
+                }  */
+      } else {
         wx.showToast({
           title: res.msg,
           icon: 'none',
           duration: 2000
-        }) 
+        })
       }
     })
   },
   /* click更改选中的金额 */
-  changeMoneyActiveFlag:function(e){
-    this.setData({ 
+  changeMoneyActiveFlag: function (e) {
+    this.setData({
       activeFlag1: e.currentTarget.dataset.activeflag1
     })
-    this.setData({ 
+    this.setData({
       activeFlag2: e.currentTarget.dataset.activeflag2
     })
-    this.setData({ 
+    this.setData({
       selectedMoney: e.currentTarget.dataset.selectedmoney
     })
   },
   /* 立即充值 */
-  handleRecharge:function(){
+  handleRecharge: function () {
     let _this = this
     console.log(this.data.selectedMoney)
-    if (_this.data.selectedMoney==0){
+    if (_this.data.selectedMoney == 0) {
       wx.showToast({
         title: "请选择充值金额",
         icon: "none",
         duration: 2000
       })
-    }else{
-      if(!_this.data.canClick){
+    } else {
+      if (!_this.data.canClick) {
         return
       }
       _this.data.canClick = false
-      wx.showLoading({ 
+      wx.showLoading({
         title: '添加中',
         mask: true
       })
       let param = {
-        userCode:wx.getStorageSync('userInfo').userCode,
-        rechargeMoney:_this.data.selectedMoney
+        userCode: wx.getStorageSync('userInfo').userCode,
+        rechargeMoney: _this.data.selectedMoney
       }
-      wx.showLoading({ 
+      wx.showLoading({
         title: '加载中',
         mask: true
       })
-      walletModel.RechargeBalance(param,(res)=>{
-        console.log('收到请求(充值):',res)
-        if(res.code === 0){
+      walletModel.RechargeBalance(param, (res) => {
+        console.log('收到请求(充值):', res)
+        if (res.code === 0) {
           let data = res.data
           if (data.timeStamp) {
             wx.requestPayment({
@@ -274,22 +258,22 @@ Page({
                   duration: 4000
                 })
               },
-              complete: function() {
+              complete: function () {
                 wx.hideLoading()
               }
             })
           }
-        }else{
+        } else {
           wx.showToast({
             title: res.msg,
             icon: 'none',
             duration: 2000
-          })  
+          })
         }
       })
-      setTimeout(function(){ 
+      setTimeout(function () {
         _this.data.canClick = true
-      },300)
-    } 
-  }, 
+      }, 300)
+    }
+  },
 })

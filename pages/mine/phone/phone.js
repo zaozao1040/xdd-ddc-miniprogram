@@ -11,7 +11,7 @@ Page({
   data: {
     canClick:true,
     loading: false,
-    phone: wx.getStorageSync('userInfo').phoneNumber,
+    phone: '',
     code:'',
     firstCode: true,
     waitTime: -1,
