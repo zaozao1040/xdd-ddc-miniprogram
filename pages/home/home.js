@@ -270,7 +270,7 @@ Page({
       })
     }
   },
-  /* 刷新用户状态信息 */
+  /* 刷新用户状态信息 用于用户注册登录后，此时后台还没有审核该企业用户，当前小程序home页最上面显示button“刷新用户”*/
   handleRefreshUser:function(){
     let _this = this
     if(!_this.data.canClick){
@@ -303,13 +303,13 @@ Page({
                 }
               }
             })
-          }else{
+          }/* else{
             setTimeout(function(){ 
               wx.navigateTo({
                 url: '/pages/login/login',
               }) 
             },500) 
-          }
+          } */
         }
       }
     })

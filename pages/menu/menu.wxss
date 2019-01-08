@@ -78,6 +78,7 @@
 .menu-left{
   width:20%;
   background-color:rgb(233, 233, 233);
+
 }
 
 .left-item{
@@ -90,7 +91,8 @@
 .menutypeActive{
   background-color: white;
   color:#e79b37;
-  font-size: 30rpx;
+  text-align: center;
+/*   font-size: 30rpx; */
   font-weight: 500;
   box-shadow: 5rpx -3rpx 4rpx #666;
 /*  text-shadow:2rpx 4rpx 3rpx #666; */

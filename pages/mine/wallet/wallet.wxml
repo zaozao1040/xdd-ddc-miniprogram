@@ -11,7 +11,6 @@
     <view class="header-item">
       {{userInfo.balance}}
     </view>
-
   </view>
   <!-- 内容 -->
   <view class="content" >
@@ -78,7 +77,6 @@
         <button catchtap="handleRecharge" loading="{{loading}}" class="button">立即充值</button>
       </view>   
     </view>
-
   </view>
 </view>
 

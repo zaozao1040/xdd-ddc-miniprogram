@@ -177,7 +177,12 @@ Page({
           orderDetail_item.standardPrice = 0 
         }else{
           //orderDetail_item.payPrice = tmp_totalPrice - organizeMealLabel
-          orderDetail_item.payPrice = (parseFloat(tmp_totalPrice) - parseFloat(organizeMealLabel)).toFixed(2)
+          //orderDetail_item.payPrice = (parseFloat(tmp_totalPrice) - parseFloat(organizeMealLabel)).toFixed(2)
+          let tmp_payPrice = (parseFloat(tmp_totalPrice) - parseFloat(organizeMealLabel)).toFixed(2)
+          if(tmp_payPrice<0){ //需要处理这个额度大于实际付款的情况，虽然几乎不可能发生，但是还要容错
+            tmp_payPrice = 0
+          }
+          orderDetail_item.payPrice = tmp_payPrice
           orderDetail_item.standardPrice = organizeMealLabel 
         }
         tmp_param.orderDetail.push(orderDetail_item)

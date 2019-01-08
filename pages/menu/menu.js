@@ -304,7 +304,16 @@ Page({
     })
     //总价格
     app.globalData.totalMoney = (parseFloat(app.globalData.totalMoney)+ parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2)
-    app.globalData.realMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyDeduction)).toFixed(2)
+    //app.globalData.realMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyDeduction)).toFixed(2)
+    let tmp_realMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyDeduction)).toFixed(2) //-------相减错误
+    if(tmp_realMoney<0){ //需要处理这个额度大于实际付款的情况，虽然几乎不可能发生，但是还要容错
+      tmp_realMoney = 0
+    }
+    app.globalData.realMoney = tmp_realMoney
+    _this.setData({  
+      totalMoney : app.globalData.totalMoney,
+      realMoney : app.globalData.realMoney
+    })
     _this.setData({  
       totalMoney : app.globalData.totalMoney,
       realMoney : app.globalData.realMoney
@@ -354,7 +363,12 @@ Page({
     })
     //总价格
     app.globalData.totalMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2)
-    app.globalData.realMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyDeduction)).toFixed(2)
+    //app.globalData.realMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyDeduction)).toFixed(2)
+    let tmp_realMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyDeduction)).toFixed(2)
+    if(tmp_realMoney<0){ //需要处理这个额度大于实际付款的情况，虽然几乎不可能发生，但是还要容错
+      tmp_realMoney = 0
+    }
+    app.globalData.realMoney = tmp_realMoney
     _this.setData({  
       totalMoney : app.globalData.totalMoney,
       realMoney : app.globalData.realMoney
