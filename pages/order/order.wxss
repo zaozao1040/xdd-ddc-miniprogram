@@ -82,19 +82,23 @@
 /* 各种按钮 */
 .button-wrapper{
   display: flex;
+  justify-content: right;
 }
 .button{
-  flex: 1;
+  flex: 0 0 150rpx;
   width: 50rpx;
   margin: 5rpx 0 10rpx 10rpx;
-  height: 40rpx;
+  height:70rpx;
+  line-height: 70rpx;
   text-align: center;
   background-color: #e79b37;
   border-radius: 15rpx;
-  line-height: 40rpx;
   color: #FFF;
   font-weight: bold;
   font-size: 30rpx;
+}
+.quxiao{
+  background-color: #999;
 }
 
 

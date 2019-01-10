@@ -10,16 +10,20 @@ Page({
   data: {
     //
     canClick:true,
+    //分页
+    page: 1, // 设置加载的第几次，默认是第一次
+    limit: 20, // 每页条数
+    hasMoreDataFlag: true,//是否还有更多数据  默认还有
+    orderListNoResult: false,
     //
     windowHeight: 0,
     scrollTop: 0,
     //
-    page:1,//页数
-    limit:10,//加载个数
     itemStatusActiveFlag:true, //默认今日待取
-    orderList:null,
+    orderList:[],
     orderListNoResult: false,
     //
+    showRatingsFlag: false,
     orderStatusMap : {
       NO_PAY:'未支付',
       PAYED_WAITINT_CONFIRM:'已支付',
@@ -30,14 +34,16 @@ Page({
       DELIVERED_WAITING_PICK:'待取货',
       PICKED_WAITING_EVALUATE:'待评价',
       NO_PICK_WAITING_BACK:'超时未取货待取回',
-      USER_CANCEL:'已取消'
+      USER_CANCEL:'已取消',
+      SYSTEM_CANCEL:'系统自动取消'
     },
     mealTypeMap : {
       BREAKFAST:'早餐',
       LUNCH:'午餐',
       DINNER:'晚餐',
       NIGHT:'夜宵'
-    }
+    },
+    orderCode:''
   },
   getOrderDataByResponse: function(){
     let that = this
@@ -67,13 +73,20 @@ Page({
 
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
+  /* 手动点击触发下一页 */
+  gotoNextPage: function () {
+    if (this.data.hasMoreDataFlag) {
+      this.getOrderList()
+      wx.showLoading({
+        title: '加载更多数据',
+      })
+    } else {
+      wx.showToast({
+        icon: "none",
+        title: '没有更多数据'
+      })
+    }
   },
-
   /**
    * 生命周期函数--监听页面显示
    */
@@ -91,10 +104,16 @@ Page({
       this.setData({ 
         itemStatusActiveFlag: false
       })   
-      this.getOrderList()
     }else{
 
     }
+    this.setData({
+      orderList: [], // 这四个要重置，为了交易记录的分页，因为交易记录、在线重置俩页面是通过点击按钮切换的
+      page: 1,
+      limit: 20,
+      hasMoreDataFlag: true,
+    })
+    this.getOrderList()
   },
   initOrder: function(){
     let _this = this
@@ -119,7 +138,7 @@ Page({
     })
   },
   /* 获取订单列表 */
-  getOrderList:function(){
+  getOrderList: function () {
     let _this = this
     let todayFlag = true
     if (_this.data.itemStatusActiveFlag == true) {
@@ -129,47 +148,60 @@ Page({
     }
     let param = {
       userCode: wx.getStorageSync('userInfo').userCode,
-      orderStatus: "",
       today: todayFlag,
-      today: false,
       page: _this.data.page,
       limit: _this.data.limit,
     }
-    wx.showLoading({ 
+    wx.showLoading({
       title: '加载中',
     })
-    orderModel.getOrderList(param,(res)=>{
-      console.log('收到请求(订单列表):',res)
-      wx.hideLoading() 
-      if(res.code === 0){
+    console.log('发送请求:', param)
+    orderModel.getOrderList(param, (res) => {
+      console.log('收到响应(订单列表):', res)
+      wx.hideLoading()
+      if (res.code === 0) {
         let tmp_orderList = res.data.list
         tmp_orderList.forEach(element => {
           element.mealTypeDes = _this.data.mealTypeMap[element.mealType]
           element.orderStatusDes = _this.data.orderStatusMap[element.orderStatus]
           element.orderTimeDes = moment(element.orderTime).format('YYYY-MM-DD HH:mm:ss')
         })
-        console.log(this.data.tmp_orderList)
-        _this.setData({
-          orderList: tmp_orderList
-        }) 
-        if(res.data.length==0){
-          _this.setData({
-            orderListNoResult: true //查到订单列表无结果，则相应视图
-          })   
+        //下面开始分页
+        if (tmp_orderList.length < _this.data.limit) {
+          console.log('1')
+          if (tmp_orderList.length === 0) {
+            wx.showToast({
+              icon: "none",
+              title: '没有更多数据'
+            })
+            _this.setData({
+              hasMoreDataFlag: false
+            })
+          } else {
+            _this.setData({
+              orderList: tmp_orderList.concat(_this.data.orderList), //concat是拆开数组参数，一个元素一个元素地加进去
+              hasMoreDataFlag: false
+            })
+          }
         } else {
+          console.log('2')
+          console.log(_this.data.orderList)
           _this.setData({
-            orderListNoResult: false
-          })  
-        }                     
-      }else{
+            orderList: tmp_orderList.concat(_this.data.orderList), //concat是拆开数组参数，一个元素一个元素地加进去
+            hasMoreDataFlag: true,
+            page: _this.data.page + 1
+          })
+        }
+        console.log('changdu:',_this.data.orderList.length)
+      } else {
         wx.showToast({
           title: res.msg,
           icon: 'none',
           duration: 2000
-        }) 
+        })
       }
     })
-  }, 
+  },
   /* 取消订单 */
   handleCancelOrder:function(e){
     console.log(e)
@@ -178,6 +210,9 @@ Page({
       return
     }
     _this.data.canClick = false
+    setTimeout(function(){ 
+      _this.data.canClick = true
+    },2000)
     wx.showModal({
       title: '提示',
       content: '是否取消订单？',
@@ -208,6 +243,110 @@ Page({
                 duration: 2000
               }) 
             }else{
+              wx.hideLoading() 
+              wx.showToast({
+                title: res.msg,
+                icon: 'none',
+                duration: 2000
+              })  
+            }
+          })
+        } 
+      }
+    })
+  },
+  /* 去付款 */
+  handleSecondpayOrder:function(e){
+    let _this = this
+    if(!_this.data.canClick){
+      return
+    }
+    _this.data.canClick = false
+    setTimeout(function(){ 
+      _this.data.canClick = true
+    },2000)
+    let param = {
+      userCode: wx.getStorageSync('userInfo').userCode, 
+      orderCode: e.currentTarget.dataset.ordercode 
+    }
+    orderModel.secondpayOrder(param,(res)=>{
+      console.log('收到响应(再次付款):', res)
+      if (res.code === 0) {
+        let data = res.data
+        if (data.timeStamp) {
+          wx.requestPayment({
+            'timeStamp': data.timeStamp.toString(),
+            'nonceStr': data.nonceStr,
+            'package': data.packageValue,
+            'signType': data.signType,
+            'paySign': data.paySign,
+            success: function (e) {
+              //刷新订单列表中该订单的状态值，使用setData响应式模板
+              let tmp_orderList = _this.data.orderList
+              tmp_orderList[e.currentTarget.dataset.orderindex].orderStatus = 'PAYED_WAITINT_CONFIRM'
+              tmp_orderList[e.currentTarget.dataset.orderindex].orderStatusDes = '已支付'
+              _this.setData({
+                orderList: tmp_orderList
+              })  
+              wx.showToast({
+                title: '成功支付订单',
+                icon: 'success',
+                duration: 2000
+              }) 
+            },
+            fail: function (e) {
+              wx.showToast({
+                title: '已取消支付',
+                icon: 'success',
+                duration: 4000
+              })
+            },
+            complete: function () {
+              wx.hideLoading()
+            }
+          })
+        }
+      } else {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none',
+          duration: 2000
+        })
+      }
+    })
+  },
+  /* 去取餐 */
+  handleTakeOrder:function(e){
+    console.log(e)
+    let _this = this
+    if(!_this.data.canClick){
+      return
+    }
+    _this.data.canClick = false
+    wx.showModal({
+      title: '提示',
+      content: '是否取餐？',
+      success(res) {
+        if (res.confirm) {
+          let param = {
+            userCode: wx.getStorageSync('userInfo').userCode, 
+            orderCode: e.currentTarget.dataset.ordercode 
+          }
+          wx.showLoading({ //【防止狂点2】
+            title: '加载中',
+            mask: true
+          })
+          orderModel.takeOrder(param,(res)=>{
+            console.log('收到请求(取餐):',res)
+            if(res.code === 0){
+              wx.hideLoading() 
+              wx.showToast({
+                title: '成功取餐',
+                icon: 'success',
+                duration: 2000
+              }) 
+            }else{
+              wx.hideLoading() 
               wx.showToast({
                 title: res.msg,
                 icon: 'none',
@@ -222,16 +361,12 @@ Page({
       _this.data.canClick = true
     },2000)
   },
-  /* 去付款 */
-  handleSecondpayOrder:function(){
-
-  },
-  /* 去取餐 */
-  handleTakeOrder:function(){
-
-  },
   /* 去评价 */
-  handleEvaluateOrder:function(){
-
+  handleEvaluateOrder:function(e){
+    let _this = this
+    _this.setData({
+      showRatingsFlag: true,
+      orderCode:e.currentTarget.dataset.ordercode
+    }) 
   },
 })

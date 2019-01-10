@@ -2,60 +2,77 @@
 
 <view class="wrapper">
   <!-- 标题 -->
-  <view class="header-wrapper" >
-    <view class="header-item {{itemStatusActiveFlag==true?'header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="jinridaiqu">
+  <view class="header-wrapper">
+    <view class="header-item {{itemStatusActiveFlag==true?'header-item-active':''}}" catchtap="changeItemStatusActiveFlag"
+      data-flag="jinridaiqu">
       今日待取
     </view>
-    <view class="header-item {{itemStatusActiveFlag==false?'header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="quanbudingdan">
+    <view class="header-item {{itemStatusActiveFlag==false?'header-item-active':''}}" catchtap="changeItemStatusActiveFlag"
+      data-flag="quanbudingdan">
       全部订单
     </view>
   </view>
   <!-- 内容 -->
-  <scroll-view class="order-wrapper c_scrollPosition_forCalculate"  scroll-y style="height: {{windowHeight - scrollTop}}px;" >
-    <view class="order-item" wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
-      <view style="display:flex;justify-content: space-between;">
-        <view class="order-type" >
-          {{orderItem.mealTypeDes}}
+  <scroll-view class="order-wrapper c_scrollPosition_forCalculate" scroll-y style="height: {{windowHeight - scrollTop}}px;">
+    <view wx:if="{{orderListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+      未查询到充值记录..
+    </view>
+    <view wx:else >
+      <view class="order-item" wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
+        <view style="display:flex;justify-content: space-between;">
+          <view class="order-type">
+            {{orderItem.mealTypeDes}}
+          </view>
+          <view class="order-status">
+            {{orderItem.orderStatusDes}}
+          </view>
         </view>
-        <view class="order-status" >
-          {{orderItem.orderStatusDes}}
-        </view>        
-      </view>
-      <view class="order-time" >
-        <text class='iconfont icon-shijian' decode>&nbsp;</text>{{orderItem.orderTimeDes}}用餐
-      </view> 
-      <view class="foods-wrapper" >
-        <view class="food-item" wx:for="{{orderItem.orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem" wx:key="foodIndex">
-          <view style="display:flex;justify-content: space-between;">
-            <view class="food-name" >
+        <view class="order-time">
+          <text class='iconfont icon-shijian' decode>&nbsp;</text>{{orderItem.orderTimeDes}}用餐
+        </view>
+        <view class="foods-wrapper">
+          <view class="food-item" wx:for="{{orderItem.orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem"
+            wx:key="foodIndex">
+            <view style="display:flex;justify-content: space-between;">
+              <view class="food-name">
                 {{foodItem.name}}
-            </view>
-            <view class="food-count" >
+              </view>
+              <view class="food-count">
                 x{{foodItem.quantity}}
-            </view>              
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="button-wrapper">
+          <view class="button quccan" bindtap="handleTakeOrder" data-ordercode="{{orderItem.orderCode}}"
+            wx:if="{{orderItem.orderStatus  == 'DELIVERING' || orderItem.orderStatus  == 'DELIVERED_WAITING_PICK' || orderItem.orderStatus  == 'PICKED_WAITING_EVALUATE' || orderItem.orderStatus  == 'NO_PICK_WAITING_BACK' ||orderItem.orderStatus  == 'COMPLETED_NO_EVALUATE'}}"> 
+            取餐
+          </view>
+          <view class="button fukuan" bindtap="handleSecondpayOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
+            wx:if="{{orderItem.orderStatus  == 'NO_PAY' }}">
+            去付款
+          </view>
+          <view class="button pingjia" bindtap="evaluateOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
+            >
+            去评价
+          </view>
+          <view class="button quxiao" bindtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
+            wx:if="{{orderItem.orderStatus  == 'PAYED_WAITINT_CONFIRM' || orderItem.orderStatus  == 'NO_PAY'}}">
+            取消
           </view>
         </view>
       </view>
-      <view class="button-wrapper" >
-        <view class="button quccan" >
-          取餐
-        </view>
-        <view class="button fukuan" >
-          去付款
-        </view>
-        <view class="button pingjia" >
-          去评价
-        </view>
-        <view class="button quxiao" bindtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
-              wx:if="{{orderItem.orderStatus  == 'PAYED_WAITINT_CONFIRM' || orderItem.orderStatus  == 'NO_PAY'}}">
-          取消
-        </view>
-        
+      <view class="hasMore-wrapper" wx:if="{{hasMoreDataFlag}}" bindtap="gotoNextPage" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+        加载更多
       </view>
-
+      <view wx:else class="hasMore-wrapper" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+        没有更多了..
+      </view>      
     </view>
+
   </scroll-view>
-
 </view>
-
-
+<!-- 评价页面 -->
+<view class="ratings-wrapper" hover-class="none" hover-stop-propagation="false">
+  
+</view>

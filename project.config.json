@@ -37,7 +37,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 12,
 			"list": [
 				{
 					"id": -1,
@@ -109,6 +109,12 @@
 					"id": -1,
 					"name": "food",
 					"pathName": "pages/food/food",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "evaluate",
+					"pathName": "pages/evaluate/evaluate",
 					"query": ""
 				}
 			]

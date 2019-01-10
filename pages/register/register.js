@@ -13,7 +13,7 @@ Page({
     canClick:true,
     //showSelectUserTypeFlag: false,
     showSelectUserTypeFlag: true,
-    userTypeFlag:'"B_USER"', //默认企业用户，也就是说视图上默认展示选择企业的input
+    userTypeFlag:'B_USER', //默认企业用户，也就是说视图上默认展示选择企业的input
     //
     windowHeight: 0,
     loading: false,
@@ -28,7 +28,7 @@ Page({
     phone:'',
     code:'',
     name:'',
-    usernumber:'',
+    usernumber:'', //工号
 /*     target:'', */
     firstCode: true,
     waitTime: -1,
@@ -43,6 +43,7 @@ Page({
   onLoad: function (options) {
   
   },
+
   handleGotoRegister:function(e){
     let _this = this
     _this.setData({
@@ -52,7 +53,15 @@ Page({
   },
   handleGoBacktoSelectUserType:function(){
     this.setData({
-      showSelectUserTypeFlag: true
+      showSelectUserTypeFlag: true,
+      organizeList:[], //除了上面一行的设置标签 下面这几个数据也要重置初始值
+      organize: '',
+      employeeNumber:'',
+      phone:'',
+      code:'',
+      name:'',
+      usernumber:'',
+      userTypeFlag:'B_USER' 
     })
   },
   initRegister: function(){
@@ -199,8 +208,8 @@ Page({
         _this.setData({
           firstCode: false
         })
-        let countdown = 30
-        for (var i = 30; i >= 0; i--){
+        let countdown = 60
+        for (var i = 60; i >= 0; i--){
           setTimeout(function(){
             _this.setData({
               waitTime: countdown
@@ -226,9 +235,33 @@ Page({
       gender:res.detail.userInfo.gender
     }  
     if (t._validCellPhone(_this.data.phone)){
-      if(_this.data.code == ''){
+      if(_this.data.phone == ''){
+        wx.showToast({
+          title: "请输入手机号",
+          icon: "none",
+          duration: 2000
+        })
+      }else if(_this.data.code==''){
         wx.showToast({
           title: "请输入手机验证码",
+          icon: "none",
+          duration: 2000
+        })
+      }else if(_this.data.name==''){
+        wx.showToast({
+          title: "请输入姓名",
+          icon: "none",
+          duration: 2000
+        }) 
+      }else if(_this.data.userTypeFlag=='B_USER'&&_this.data.organize==''){
+        wx.showToast({
+          title: "请选择企业",
+          icon: "none",
+          duration: 2000
+        })
+      }else if(_this.data.employeeNumber==true&&_this.data.usernumber==''){
+        wx.showToast({
+          title: "请输入工号",
           icon: "none",
           duration: 2000
         })

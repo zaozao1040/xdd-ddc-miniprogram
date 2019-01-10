@@ -8,8 +8,8 @@ Page({
    */
   data: {
     //分页
-    currentPage: 1, // 设置加载的第几次，默认是第一次
-    pageSize: 5, // 每页条数
+    page: 1, // 设置加载的第几次，默认是第一次
+    limit: 20, // 每页条数
     hasMoreDataFlag: true,//是否还有更多数据  默认还有
     //
     windowHeight: 0,
@@ -79,9 +79,8 @@ Page({
     _this.initWallet()
   },
 
-  /* scroll-view触底事件监听，改为手动点击触发 */
+  /* 手动点击触发下一页 */
   gotoNextPage: function () {
-    console.log('触底')
     if (this.data.hasMoreDataFlag) {
       this.getRechargeList()
       wx.showLoading({
@@ -103,8 +102,8 @@ Page({
       this.setData({
         itemStatusActiveFlag: false,
         rechargeList: [], // 这四个要重置，为了交易记录的分页，因为交易记录、在线重置俩页面是通过点击按钮切换的
-        currentPage: 1,
-        pageSize: 5,
+        page: 1,
+        limit: 20,
         hasMoreDataFlag: true,
       })
       this.getRechargeList()
@@ -117,8 +116,8 @@ Page({
     let _this = this
     let param = {
       userCode: wx.getStorageSync('userInfo').userCode,
-      limit: _this.data.pageSize,
-      page: _this.data.currentPage
+      limit: _this.data.limit,
+      page: _this.data.page
     }
     wx.showLoading({
       title: '加载中',
@@ -149,8 +148,7 @@ Page({
         })
         console.log(this.data.tmp_rechargeList)
         //下面开始分页
-        if (tmp_rechargeList.length < _this.data.pageSize) {
-          console.log('1')
+        if (tmp_rechargeList.length < _this.data.limit) {
           if (tmp_rechargeList.length === 0) {
             wx.showToast({
               icon: "none",
@@ -166,22 +164,12 @@ Page({
             })
           }
         } else {
-          console.log('2')
           _this.setData({
             rechargeList: tmp_rechargeList.concat(_this.data.rechargeList), //concat是拆开数组参数，一个元素一个元素地加进去
             hasMoreDataFlag: true,
-            currentPage: _this.data.currentPage + 1
+            page: _this.data.page + 1
           })
         }
-        /*         if(res.data.length==0){
-                  _this.setData({
-                    rechargeListNoResult: true //查到企业列表无结果，则相应视图
-                  })   
-                } else {
-                  _this.setData({
-                    rechargeListNoResult: false
-                  })  
-                }  */
       } else {
         wx.showToast({
           title: res.msg,
@@ -218,10 +206,6 @@ Page({
         return
       }
       _this.data.canClick = false
-      wx.showLoading({
-        title: '添加中',
-        mask: true
-      })
       let param = {
         userCode: wx.getStorageSync('userInfo').userCode,
         rechargeMoney: _this.data.selectedMoney

@@ -57,8 +57,8 @@ Page({
         _this.setData({
           firstCode: false
         })
-        let countdown = 30
-        for (var i = 30; i >= 0; i--){
+        let countdown = 60
+        for (var i = 60; i >= 0; i--){
           setTimeout(function(){
             _this.setData({
               waitTime: countdown
