@@ -14,7 +14,7 @@
 .selectUserTypeTitle{
   margin-top: 250rpx;
   text-align: center;
-  color: #222;
+  color: #666;
   font-weight: bold;
   font-size: 40rpx;
 }

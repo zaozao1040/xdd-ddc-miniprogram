@@ -1,7 +1,8 @@
+const mtjwxsdk = require('./utils/mtj-wx-sdk.js');
 App({
   globalData: {
-    //baseUrl: 'https://wx.api.vpans.cn',
-    baseUrl: 'http://192.168.2.107:9082',
+    baseUrl: 'https://wx.api.vpans.cn',
+    //baseUrl: 'http://192.168.2.107:9082',
     userInfo: null,
     selectedFoods:[],
     cacheMenuDataAll:[[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],

@@ -6,17 +6,17 @@
     </view>
     <view class="selectUserType-wrapper">
       <view class="selectUserType" bindtap="handleGotoRegister" data-usertype="VISITOR">
-        个人用户
+        个人支付     
       </view>
       <view class="selectUserType" bindtap="handleGotoRegister" data-usertype="B_USER">
-        企业用户
+        企业支付
       </view>
     </view>
     <view class="selectUserTypeDes">
-      1:企业用户，指和点点餐签约过的公司的员工
+      1:企业支付，指和点点餐签约过的公司的员工
     </view>
     <view class="selectUserTypeDes">
-      2:企业用户，需要管理员审核通过后才可以订餐
+      2:企业支付，需要管理员审核通过后才可以订餐
     </view>
   </block>
   <block wx:else>
@@ -29,10 +29,10 @@
       <text class="section-2-1">都在这里</text>
     </view>
     <view wx:if="{{userTypeFlag=='B_USER'}}" class="userType">
-      用户类型: 企业用户
+      用户类型: 企业支付用户
     </view>
     <view wx:else class="userType">
-      用户类型: 个人用户
+      用户类型: 个人支付用户
     </view>
     <view class="section-3">
       <view class="section-3-1" style="text-align: center;display: table;">

@@ -476,7 +476,7 @@ Page({
       })
       resData.userOrderDateVO.forEach(element => {
         element.dateShort = element.date.substring(8)
-        element.dateWeak = ['星期天','星期一','星期二','星期三','星期四','星期五','星期六'][moment(element.date).format('d')]
+        element.dateWeak = ['周日','周一','周二','周三','周四','周五','周六'][moment(element.date).format('d')]
       })
       _this.setData({
         timeInfo: resData
