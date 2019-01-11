@@ -193,38 +193,70 @@ Page({
     setTimeout(function(){ 
       _this.data.canClick = true
     },5000)
-    //获取短信验证码
-    let param = {
-      phoneNumber:_this.data.phone
-    }
-    registerModel.getVerificationCode(param,(res)=>{
-      console.log('收到请求(获取验证码):',res)
-      if(res.code === 0){
-        wx.showToast({
-          title: '发送成功',
-          icon: 'success',
-          duration: 2000
-        })
-        _this.setData({
-          firstCode: false
-        })
-        let countdown = 60
-        for (var i = 60; i >= 0; i--){
-          setTimeout(function(){
-            _this.setData({
-              waitTime: countdown
-            })
-            countdown--
-          },1000*i)      
-        }
-      }else{
-        wx.showToast({
-          title: res.msg,
-          icon: 'none',
-          duration: 2000
-        })  
+    if(_this.data.name==''){
+      wx.showToast({
+        title: "请输入姓名",
+        icon: "none",
+        duration: 2000
+      }) 
+    }else if(_this.data.userTypeFlag=='B_USER'&&_this.data.organize==''){
+      wx.showToast({
+        title: "请选择企业",
+        icon: "none",
+        duration: 2000
+      })
+    }else if(_this.data.employeeNumber==true&&_this.data.usernumber==''){
+      wx.showToast({
+        title: "请输入工号",
+        icon: "none",
+        duration: 2000
+      })
+    }else if(_this.data.phone == ''){
+      wx.showToast({
+        title: "请输入手机号",
+        icon: "none",
+        duration: 2000
+      })
+    }else if(_this.data.code==''){
+      wx.showToast({
+        title: "请输入手机验证码",
+        icon: "none",
+        duration: 2000
+      })
+    }else{
+      //获取短信验证码
+      let param = {
+        phoneNumber:_this.data.phone
       }
-    })
+      registerModel.getVerificationCode(param,(res)=>{
+        console.log('收到请求(获取验证码):',res)
+        if(res.code === 0){
+          wx.showToast({
+            title: '发送成功',
+            icon: 'success',
+            duration: 2000
+          })
+          _this.setData({
+            firstCode: false
+          })
+          let countdown = 60
+          for (var i = 60; i >= 0; i--){
+            setTimeout(function(){
+              _this.setData({
+                waitTime: countdown
+              })
+              countdown--
+            },1000*i)      
+          }
+        }else{
+          wx.showToast({
+            title: res.msg,
+            icon: 'none',
+            duration: 2000
+          })  
+        }
+      })      
+    }
   },
   /* 注册 */
   register:function(res){ //点击注册，先获取个人信息，这个是微信小程序的坑，只能通过这个button来实现

@@ -10,7 +10,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    payType: 'WECHAT_PAY',//支付方式,默认微信支付
+    payType: 'BALANCE_PAY',//'WECHAT_PAY' 支付方式,余额大于付款额则默认余额支付   小于的话则默认微信支付
 
     loading: false,
     canClick:true,
@@ -26,7 +26,7 @@ Page({
     mapMenutypeIconName: ['zaocan1','wucan','canting','xiaoye-'],
 
     balance:0,
-    walletSelectedFlag: false,//勾选是否使用余额  默认不勾选
+    walletSelectedFlag: true,//勾选是否使用余额  默认不勾选
     finalMoney:0,
   },
 
@@ -90,7 +90,13 @@ Page({
         wx.setStorageSync('userInfo', tmp_userInfo)
         _this.setData({
           balance: res.data
-        })                
+        })    
+        if(res.data < _this.data.realMoney){ //余额小于实际付款，则改为微信付款
+          _this.setData({  
+            walletSelectedFlag: !_this.data.walletSelectedFlag,
+            payType: 'WECHAT_PAY'
+          })  
+        }            
       }
     })
   },
