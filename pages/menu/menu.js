@@ -33,7 +33,7 @@ Page({
     cacheMenuDataAll:[[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null],[null,null,null,null]], //7行4列数组，用于存所有选中的数据---当前所有数据
     totalMoney: 0,
     totalCount:0,
-    totalMoneyDeduction:0, //额度总金额
+    totalMoneyRealDeduction:0, //实际额度总金额
     realMoney:0,//实际总价格，也就是自费价格
 
     mapMenutype: ['早餐','午餐','晚餐','夜宵'],
@@ -88,18 +88,22 @@ Page({
     })
     //console.log(this.data.scrollToView)
   },
-  calculateTotalMoneyDeduction:function(){
+  calculatetotalMoneyRealDeduction:function(){
     let _this = this
-    let tmp_totalMoneyDeduction = 0
+    let tmp_totalMoneyRealDeduction = 0
     _this.data.selectedFoods.forEach((element1)=>{
       element1.dayInfo.forEach((element2)=>{
         if(element2.mealLabelUsed==false){
-          tmp_totalMoneyDeduction = (parseFloat(tmp_totalMoneyDeduction) + parseFloat(element2.organizeMealLabel)).toFixed(2)
+          if(parseFloat(element2.foodTypeTotalRealMoney)<parseFloat(element2.organizeMealLabel)){ //该天该餐的自费总额比餐标还小
+            tmp_totalMoneyRealDeduction = parseFloat((parseFloat(tmp_totalMoneyRealDeduction) + parseFloat(element2.foodTypeTotalRealMoney)).toFixed(2))
+          }else{
+            tmp_totalMoneyRealDeduction = parseFloat((parseFloat(tmp_totalMoneyRealDeduction) + parseFloat(element2.organizeMealLabel)).toFixed(2))
+          }
         }
       })
     })
     this.setData({
-      totalMoneyDeduction: tmp_totalMoneyDeduction
+      totalMoneyRealDeduction: tmp_totalMoneyRealDeduction
     })
   },
   selectedFoodsAdd: function(e){
@@ -113,10 +117,11 @@ Page({
         foodTypeDes: e.currentTarget.dataset.foodtypedes,
         mealLabelUsed: _this.data.mealLabelUsedActive,
         organizeMealLabel: _this.data.organizeMealLabelActive,
+        foodTypeTotalRealMoney: parseFloat(e.currentTarget.dataset.foodprice),//【兼容修改】该天该餐时的自费总额
         foodTypeInfo:[{
           foodCode: e.currentTarget.dataset.foodcode,
-          foodPrice:  e.currentTarget.dataset.foodprice,
-          foodTotalPrice: e.currentTarget.dataset.foodprice,//这个总价实在是因为微信小程序模板中不识别parseFloat，只能这里转换
+          foodPrice:  parseFloat(e.currentTarget.dataset.foodprice),
+          foodTotalPrice: parseFloat(e.currentTarget.dataset.foodprice),//这个总价实在是因为微信小程序模板中不识别parseFloat，只能这里转换
           foodName:  e.currentTarget.dataset.foodname,
           image: e.currentTarget.dataset.image,
           __food_index: e.currentTarget.dataset.foodindex,//
@@ -142,20 +147,24 @@ Page({
                 console.log(tmp_length)
                 if(selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodCode == e.currentTarget.dataset.foodcode){
                   selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodCount++ //这种情况直接 计数器+1
-                  selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodTotalPrice = (parseFloat(selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodTotalPrice) + parseFloat(selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodPrice)).toFixed(2)
+                  selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodTotalPrice = parseFloat((parseFloat(selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodTotalPrice) + parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2))
+                  //【兼容修改】计算：该天该餐时的自费总额
+                  selectedFoods[i].dayInfo[j].foodTypeTotalRealMoney = parseFloat((parseFloat(selectedFoods[i].dayInfo[j].foodTypeTotalRealMoney) + parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2))
                   k= tmp_length //跳出循环，提升性能
                 }else{
                   if(k == tmp_length-1){  //便利到最后一个了，还没有相等的，就push进这个新的
                     selectedFoods[i].dayInfo[j].foodTypeInfo.push({
                       foodCode: e.currentTarget.dataset.foodcode,
-                      foodPrice:  e.currentTarget.dataset.foodprice,
-                      foodTotalPrice: e.currentTarget.dataset.foodprice,
+                      foodPrice:  parseFloat(e.currentTarget.dataset.foodprice),
+                      foodTotalPrice: parseFloat(e.currentTarget.dataset.foodprice),
                       foodName:  e.currentTarget.dataset.foodname,
                       image: e.currentTarget.dataset.image,
                       __food_index: e.currentTarget.dataset.foodindex,
                       __menutype_index: e.currentTarget.dataset.menutypeindex,
                       foodCount: 1
                     })
+                    //【兼容修改】计算：该天该餐时的自费总额
+                    selectedFoods[i].dayInfo[j].foodTypeTotalRealMoney = parseFloat((parseFloat(selectedFoods[i].dayInfo[j].foodTypeTotalRealMoney) + parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2))
                   }
                 }
               }
@@ -167,10 +176,11 @@ Page({
                   foodTypeDes: e.currentTarget.dataset.foodtypedes,
                   mealLabelUsed: _this.data.mealLabelUsedActive,
                   organizeMealLabel: _this.data.organizeMealLabelActive,
+                  foodTypeTotalRealMoney: parseFloat(e.currentTarget.dataset.foodprice),//【兼容修改】
                   foodTypeInfo:[{
                     foodCode: e.currentTarget.dataset.foodcode,
-                    foodPrice:  e.currentTarget.dataset.foodprice,
-                    foodTotalPrice: e.currentTarget.dataset.foodprice,
+                    foodPrice:  parseFloat(e.currentTarget.dataset.foodprice),
+                    foodTotalPrice: parseFloat(e.currentTarget.dataset.foodprice),
                     foodName:  e.currentTarget.dataset.foodname,
                     image: e.currentTarget.dataset.image,
                     __food_index: e.currentTarget.dataset.foodindex,
@@ -192,10 +202,11 @@ Page({
                 foodTypeDes: e.currentTarget.dataset.foodtypedes,
                 mealLabelUsed: _this.data.mealLabelUsedActive,
                 organizeMealLabel: _this.data.organizeMealLabelActive,
+                foodTypeTotalRealMoney: parseFloat(e.currentTarget.dataset.foodprice),//【兼容修改】
                 foodTypeInfo:[{
                   foodCode: e.currentTarget.dataset.foodcode,
-                  foodPrice:  e.currentTarget.dataset.foodprice,
-                  foodTotalPrice: e.currentTarget.dataset.foodprice,
+                  foodPrice:  parseFloat(e.currentTarget.dataset.foodprice),
+                  foodTotalPrice: parseFloat(e.currentTarget.dataset.foodprice),
                   foodName:  e.currentTarget.dataset.foodname,
                   image: e.currentTarget.dataset.image,
                   __food_index: e.currentTarget.dataset.foodindex,
@@ -214,7 +225,7 @@ Page({
     })
     console.log('全局selectedFoods:',app.globalData.selectedFoods)
     //console.log('selectedFoods:',JSON.stringify(this.data.selectedFoods))
-    _this.calculateTotalMoneyDeduction()
+    _this.calculatetotalMoneyRealDeduction()
   },
 
   selectedFoodsMinus: function(e){
@@ -230,7 +241,9 @@ Page({
             for(var k=0;k<tmp_length;k++){
               if(selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodCode == e.currentTarget.dataset.foodcode){
                 selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodCount-- //这种情况直接 计数器-1
-                selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodTotalPrice = (parseFloat(selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodTotalPrice) - parseFloat(selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodPrice)).toFixed(2)
+                selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodTotalPrice = parseFloat((parseFloat(selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodTotalPrice) - parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2))
+                //【兼容修改】该天该餐时的自费总额
+                selectedFoods[i].dayInfo[j].foodTypeTotalRealMoney = parseFloat((parseFloat(selectedFoods[i].dayInfo[j].foodTypeTotalRealMoney) - parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2))
                 if(selectedFoods[i].dayInfo[j].foodTypeInfo[k].foodCount == 0){ //如果count降到0 则直接删掉这个结构
                   selectedFoods[i].dayInfo[j].foodTypeInfo.splice(k,1)
                   //console.log('selectedFoods[i].dayInfo[j].foodTypeInfo',selectedFoods[i].dayInfo[j].foodTypeInfo)
@@ -256,7 +269,7 @@ Page({
     this.setData({   //添加或减少结束后，setData一定要把全局的赋给他
       selectedFoods : app.globalData.selectedFoods
     })
-    _this.calculateTotalMoneyDeduction()
+    _this.calculatetotalMoneyRealDeduction()
   },
 
   handleAddfood: function(e){
@@ -303,9 +316,9 @@ Page({
       totalCount : app.globalData.totalCount
     })
     //总价格
-    app.globalData.totalMoney = (parseFloat(app.globalData.totalMoney)+ parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2)
-    //app.globalData.realMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyDeduction)).toFixed(2)
-    let tmp_realMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyDeduction)).toFixed(2) //-------相减错误
+    app.globalData.totalMoney = parseFloat((parseFloat(app.globalData.totalMoney)+ parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2))
+    //app.globalData.realMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyRealDeduction)).toFixed(2)
+    let tmp_realMoney = parseFloat((parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyRealDeduction)).toFixed(2)) //-------相减错误
     if(tmp_realMoney<0){ //需要处理这个额度大于实际付款的情况，虽然几乎不可能发生，但是还要容错
       tmp_realMoney = 0
     }
@@ -362,9 +375,9 @@ Page({
       totalCount : app.globalData.totalCount
     })
     //总价格
-    app.globalData.totalMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2)
-    //app.globalData.realMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyDeduction)).toFixed(2)
-    let tmp_realMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyDeduction)).toFixed(2)
+    app.globalData.totalMoney = parseFloat((parseFloat(app.globalData.totalMoney) - parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2))
+    //app.globalData.realMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyRealDeduction)).toFixed(2)
+    let tmp_realMoney = parseFloat((parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyRealDeduction)).toFixed(2))
     if(tmp_realMoney<0){ //需要处理这个额度大于实际付款的情况，虽然几乎不可能发生，但是还要容错
       tmp_realMoney = 0
     }
@@ -475,8 +488,8 @@ Page({
         timeDesActive: res.userOrderDateVO[0].date //第一天的日期，保存下来
       })
       resData.userOrderDateVO.forEach(element => {
-        element.dateShort = element.date.substring(8)
-        element.dateWeak = ['周日','周一','周二','周三','周四','周五','周六'][moment(element.date).format('d')]
+        element.dateShort = element.date.substring(8)   
+        element.dateWeak = moment(element.date).format('dddd')
       })
       _this.setData({
         timeInfo: resData
@@ -517,6 +530,7 @@ Page({
     }
     menuModel.getMenuData(param,(res)=>{
       let resData = res
+      resData.deadlineDes = moment(resData.deadline).calendar()
       let tmp_cacheMenuDataAll = app.globalData.cacheMenuDataAll
       tmp_cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]= resData
       if(resData.foodLabels!=null){
@@ -549,8 +563,6 @@ Page({
     let _this = this
     
     let tmp_cacheMenuDataCurrent = app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
-    console.log('%%%%%%%',tmp_cacheMenuDataCurrent)
-    console.log('%%%%%%%@@@',_this.data.foodLabels)
     let tmp_selectedFoodLabelsIdsArr = [] //用于存储选中状态的标签id，例如：[2,3] 注意是选中的
     if(_this.data.foodLabels!=null){
       _this.data.foodLabels.forEach((element)=>{
@@ -558,8 +570,8 @@ Page({
           tmp_selectedFoodLabelsIdsArr.push(element.id)        
         }
       })
-      console.log('tmp_selectedFoodLabelsIdsArr',tmp_selectedFoodLabelsIdsArr)
-      console.log('tmp_cacheMenuDataCurrent',tmp_cacheMenuDataCurrent)
+      //console.log('tmp_selectedFoodLabelsIdsArr',tmp_selectedFoodLabelsIdsArr)
+      //console.log('tmp_cacheMenuDataCurrent',tmp_cacheMenuDataCurrent)
       tmp_cacheMenuDataCurrent.foods.forEach((element1)=>{
         element1.foods.forEach((element2)=>{
           //tmp_foodLabelsIdsArr标签数组是tagId数组的子集，则该food就要设置active：true
@@ -614,7 +626,7 @@ Page({
       selectedFoods : [],
       totalCount: 0,
       totalMoney: 0,
-      totalMoneyDeduction:0, 
+      totalMoneyRealDeduction:0, 
       realMoney:0
     })
     _this.getMenuDataByResponse() //必须刷新一下，否则原来menu页面上的视图都没有数据了
@@ -650,8 +662,8 @@ Page({
   goToMenuCommit(){
     wx.navigateTo({
       url: '/pages/menu/confirm/confirm?totalMoney='
-        +this.data.totalMoney+'&totalMoneyDeduction='
-        +this.data.totalMoneyDeduction+'&realMoney='
+        +this.data.totalMoney+'&totalMoneyRealDeduction='
+        +this.data.totalMoneyRealDeduction+'&realMoney='
         +this.data.realMoney,
     })
   },
@@ -714,7 +726,7 @@ Page({
       selectedFoods : [],
       totalCount: 0,
       totalMoney: 0,
-      totalMoneyDeduction:0, 
+      totalMoneyRealDeduction:0, 
       realMoney:0
     })
   },

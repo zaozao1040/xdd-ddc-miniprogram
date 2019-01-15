@@ -7,6 +7,97 @@
   bottom: 0;
   background: #eee;
 }
+/********** 去付款弹出的选择支付方式对话框 **********/
+.selectPayType-wrapper{
+  position: fixed;
+  top:0;
+  bottom:0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(102, 102, 102, 0.5);
+}
+.selectPayType{
+  position: absolute;
+  height: 350rpx;
+  width: 350rpx;
+  top:0;
+  bottom:0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background: #fff;
+  border-radius: 20rpx;
+}
+/********** 去评价弹出的对话框 **********/
+.ratings-wrapper{
+  position: fixed;
+  top:0;
+  bottom:0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: #eee;
+}
+.ratings-wrapper-content{
+  position: absolute;
+  height: 800rpx;
+  width: 100%;
+  top:0;
+  bottom:0;
+  left: 0;
+  right: 0;
+  margin: auto;  
+}
+.foodList-wrapper{
+  padding:10rpx;
+}
+.fooditem-wrapper{
+  margin:10rpx;
+}
+.foodname{
+  text-align: center;
+}
+.foodstar{
+  text-align: center;
+  margin-top: 40rpx;
+  margin-bottom: 40rpx;
+  color:#999;
+}
+.icon-xingxing{
+  font-size:50rpx;
+}
+.foodstar-active{
+  color:#e79b37;
+}
+.foodratingcontent-wrapper{
+  padding: 10rpx;
+  border: 1rpx solid#999;
+  border-radius: 10rpx;
+}
+.foodratingcontent{
+  height: 250rpx;
+  width: 100%;
+}
+/* 上传图片 */
+.img-wrapper{
+  display: flex;
+  margin-top: 20rpx;
+  width:100%;
+  height: 120rpx;
+
+}
+.image{
+  margin: 10rpx;
+  height: 120rpx;
+  width:120rpx;
+  color:#999;
+}
+
+
+
+
+
 
 /********** 标题 **********/
 .header-wrapper{
@@ -35,7 +126,18 @@
   overflow: hidden;
 }
 .order-item{
-  border-bottom: #aaa solid 1rpx;
+  margin-bottom: 15rpx;
+/*   border-bottom: #aaa solid 1rpx; */
+}
+.order-item-header{
+  padding:10rpx 10rpx;
+  background: #e79b37;
+  border-top-left-radius: 20rpx;
+  border-top-right-radius: 20rpx;
+}
+.order-item-content{
+  padding:5rpx 10rpx;
+  background: #fff;
 }
 .order-item:last-child{
   border-bottom: none;
@@ -43,19 +145,19 @@
 .order-type{
   font-size: 40rpx;
   font-weight: 500;
-  color:#222;
+  color:#fff;
   
 }
 .order-status{
   font-size: 30rpx;
   font-weight: 500;
-  color:#222;
+  color:#fff;
 }
 .order-time{
   margin:auto 20rpx;
   font-size: 30rpx;
   font-weight: 500;
-  color:#666;
+  color:#fff;
 }
 .foods-wrapper{
   margin:auto 20rpx;

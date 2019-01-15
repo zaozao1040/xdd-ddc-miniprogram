@@ -32,7 +32,7 @@ class order extends base{
   secondpayOrder(param,callback){
     let allParams = {
       url: baseUrl+'/order/orderPayOnceAgain',
-      type: 'get',
+      type: 'post',
       data: param,
       sCallback: function (data) {
         callback && callback(data);

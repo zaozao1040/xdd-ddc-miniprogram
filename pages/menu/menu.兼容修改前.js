@@ -475,8 +475,8 @@ Page({
         timeDesActive: res.userOrderDateVO[0].date //第一天的日期，保存下来
       })
       resData.userOrderDateVO.forEach(element => {
-        element.dateShort = element.date.substring(8)
-        element.dateWeak = ['周日','周一','周二','周三','周四','周五','周六'][moment(element.date).format('d')]
+        element.dateShort = element.date.substring(8)   
+        element.dateWeak = moment(element.date).format('dddd')
       })
       _this.setData({
         timeInfo: resData
@@ -517,6 +517,7 @@ Page({
     }
     menuModel.getMenuData(param,(res)=>{
       let resData = res
+      resData.deadlineDes = moment(resData.deadline).calendar()
       let tmp_cacheMenuDataAll = app.globalData.cacheMenuDataAll
       tmp_cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]= resData
       if(resData.foodLabels!=null){
@@ -549,8 +550,6 @@ Page({
     let _this = this
     
     let tmp_cacheMenuDataCurrent = app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
-    console.log('%%%%%%%',tmp_cacheMenuDataCurrent)
-    console.log('%%%%%%%@@@',_this.data.foodLabels)
     let tmp_selectedFoodLabelsIdsArr = [] //用于存储选中状态的标签id，例如：[2,3] 注意是选中的
     if(_this.data.foodLabels!=null){
       _this.data.foodLabels.forEach((element)=>{

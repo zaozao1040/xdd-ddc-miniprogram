@@ -1,3 +1,24 @@
+.selectPayType-wrapper{
+    position: fixed;
+    top:0;
+    bottom:0;
+    left: 0;
+    right: 0;
+    z-index: 2000;
+    background: rgba(102, 102, 102, 0.438);
+}
+.selectPayType{
+    position: absolute;
+    height: 350rpx;
+    width: 350rpx;
+    top:100rpx;
+    bottom:0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background: #fff;
+
+}
 page, .page, .page__bd {
     height: 100%;
     

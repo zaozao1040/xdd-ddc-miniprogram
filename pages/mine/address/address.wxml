@@ -5,6 +5,7 @@
           <text style="font-size:40rpx;color:#43964e;" class='iconfont icon-dizhi'></text>
         </view>
       </view>
+      <text wx:if="{{addressDes}}" style="font-size:40rpx;color:#43964e;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text>
       <input value="{{addressDes}}" placeholder="请选择企业默认地址" class="section-3-2" type="string" disabled></input>
     </view>
     <view class="addressList-wrapper" >

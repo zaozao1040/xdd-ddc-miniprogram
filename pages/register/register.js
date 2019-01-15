@@ -23,12 +23,12 @@ Page({
     organizeList:[],
     organize: '',
     employeeNumber:'',//是否需要填写企业员工的工号  true需要 false不需要
+    usernumber:'', //工号
     organizeCode: '',
     search: '',
     phone:'',
     code:'',
     name:'',
-    usernumber:'', //工号
 /*     target:'', */
     firstCode: true,
     waitTime: -1,
@@ -217,12 +217,6 @@ Page({
         icon: "none",
         duration: 2000
       })
-    }else if(_this.data.code==''){
-      wx.showToast({
-        title: "请输入手机验证码",
-        icon: "none",
-        duration: 2000
-      })
     }else{
       //获取短信验证码
       let param = {
@@ -313,7 +307,8 @@ Page({
                 userOrganizeCode: _this.data.usernumber,
                 userType: _this.data.userTypeFlag, //企业用户还是个人用户 B_USER  VISITOR
                 //userType: "B_USER", 
-                organizeCode: _this.data.organizeCode //B_USER模式下需要改字段    
+                organizeCode: _this.data.organizeCode, //B_USER模式下需要改字段    
+                userOrganizeCode: _this.data.usernumber //工号
               }
               _this.setData({ //【防止狂点1】
                 loading: true

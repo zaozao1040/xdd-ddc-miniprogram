@@ -2,7 +2,7 @@
 <scroll-view>
   <view class="home-container">
     <view class="userStatus-wrapper" wx:if="{{userInfo.userStatus == 'NO_CHECK'}}" bindtap="handleRefreshUser">
-      审核中,点击重试
+      企业审核中,点击刷新
     </view>
     <view class="h-v1" wx:if="{{userInfo}}">
       <view class="has-login">{{wel}} <block wx:if="{{userInfo.nickName}}">{{userInfo.nickName}}</block>

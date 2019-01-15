@@ -19,14 +19,14 @@ Page({
     phoneNumber:wx.getStorageSync('userInfo').phoneNumber,
     selectedFoods:[],
     totalMoney: 0,
-    totalMoneyDeduction:0, //额度总金额
+    totalMoneyRealDeduction:0, //额度总金额
     realMoney:0,//实际总价格，也就是自费价格
 
     mapMenutype: ['早餐','午餐','晚餐','夜宵'],
     mapMenutypeIconName: ['zaocan1','wucan','canting','xiaoye-'],
 
     balance:0,
-    walletSelectedFlag: true,//勾选是否使用余额  默认不勾选
+    walletSelectedFlag: true,//勾选是否使用余额  默认勾选    true开启    false关闭
     finalMoney:0,
   },
 
@@ -58,7 +58,7 @@ Page({
     _this.setData({   
       selectedFoods : getApp().globalData.selectedFoods,
       totalMoney: options.totalMoney,
-      totalMoneyDeduction: options.totalMoneyDeduction,
+      totalMoneyRealDeduction: options.totalMoneyRealDeduction,
       realMoney: options.realMoney
     })
     console.log('selectedFoods',this.data.selectedFoods)
@@ -112,7 +112,7 @@ Page({
       selectedFoods : [],
       totalCount: 0,
       totalMoney: 0,
-      totalMoneyDeduction:0, 
+      totalMoneyRealDeduction:0, 
       realMoney:0
     })
   },
@@ -143,7 +143,7 @@ Page({
       organizeCode:wx.getStorageSync('userInfo').organizeCode,
       deliveryAddressCode:wx.getStorageSync('userInfo').addressCode,
       totalAllPrice:_this.data.totalMoney,//总价格：所有
-      standardAllPrice:_this.data.totalMoneyDeduction,//额度的总价格
+      standardAllPrice:_this.data.totalMoneyRealDeduction,//额度的总价格
       payAllPrice:_this.data.realMoney,//自费的总价格
       payType:_this.data.payType,//支付方式
       orderDetail: []
@@ -292,6 +292,30 @@ Page({
   /* 勾选余额付款的按钮 */
   handleChangeWalletSelectedFlag:function(){
     let _this = this
+    if(_this.data.walletSelectedFlag){ //如果原来是开启余额支付，则本次点击会切换成关闭，同时切换成微信支付
+      _this.setData({  
+        walletSelectedFlag: !_this.data.walletSelectedFlag,
+        payType: 'WECHAT_PAY'
+      })  
+    }else{ //如果原来是关闭余额支付，则首先判断余额是否充足
+      if(_this.data.balance<_this.data.realMoney){ //如果用户余额少于用户需要支付的价格，不允许用余额,也就是禁止打开switch
+        wx.showToast({
+          title: '余额不足,请充值',
+          icon: 'none',
+          duration: 2000
+        })
+        return
+      }else{  //使用余额支付方式
+        _this.setData({  
+          walletSelectedFlag: !_this.data.walletSelectedFlag,
+          payType: 'WECHAT_PAY'
+        })  
+      } 
+    } 
+  },
+
+/*   handleChangeWalletSelectedFlag:function(){
+    let _this = this
     if(_this.data.balance<_this.data.realMoney){ //如果用户余额少于用户需要支付的价格，不允许用余额,也就是禁止打开switch
       wx.showToast({
         title: '余额不足,请充值',
@@ -305,7 +329,7 @@ Page({
         payType: 'BALANCE_PAY'
       })  
     }  
-  },
+  }, */
 })
 
 

@@ -40,14 +40,14 @@
     </view>
   </view>
   <!-- 【第三排】 截止时间 -->
-  <view class="time-deadline" wx:if="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].canOrder}}">
-    <text class="iconfont icon-shijian" style="font-size:25rpx;color:#666;vertical-align: middle;">
-      <text style="font-size:30rpx;color:#666;vertical-align: middle;" decode>&nbsp;订餐截止时间:&nbsp;&nbsp;</text>
-    </text>
-    <text style="font-size:30rpx;color:red;vertical-align: middle;">{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].deadline}}</text>
+  <view class="time-deadline" wx:if="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].canOrder}}" style="font-size: 0;">
+    <text class="iconfont icon-shijian" style="font-size:30rpx;color:#666;vertical-align: middle;"></text>
+    <text style="font-size:30rpx;color:#666;vertical-align: middle;" decode>&nbsp;截止订餐:&nbsp;&nbsp;</text>
+    <text style="font-size:30rpx;color:red;vertical-align: middle;">{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].deadlineDes}}</text>
   </view>
-  <view class="time-deadline" wx:else>
-    <text style="font-size:30rpx;color:red;vertical-align: middle;" decode>已超过订餐截止时间</text>
+  <view class="time-deadline" wx:else style="font-size: 0;">
+    <text class="iconfont icon-chaoshi" style="font-size:30rpx;color:red;vertical-align: middle;"></text>
+    <text style="font-size:30rpx;color:red;vertical-align: middle;" decode>&nbsp;已截止订餐</text>
   </view>
   <view class="menu-wrapper c_scrollPosition_forCalculate">
     <!-- 不可订餐情况下展示一张大图 -->
@@ -206,11 +206,21 @@
               </view>
             </view>
             <view class="cart-amount" wx:if="{{foodtypeItem.organizeMealLabel!=0}}">
-              <view wx:if="{{foodtypeItem.mealLabelUsed==false}}" style="display:inline-block;font-size:25rpx;margin-right: 10rpx;color:#666;">
+              <view wx:if="{{foodtypeItem.mealLabelUsed==false}}" style="display:inline-block;font-size:30rpx;margin-right: 10rpx;color:#666;">
                 企业将减免额度¥
-                <view style="display:inline-block;color:red;font-size:30rpx;margin-right: 10rpx;">
-                  -{{foodtypeItem.organizeMealLabel}}
-                </view>
+                <block wx:if="{{foodtypeItem.organizeMealLabel > foodtypeItem.foodTypeTotalRealMoney}}">
+                  <view style="display:inline-block;color:red;font-size:30rpx;margin-right: 10rpx;">
+                    -{{foodtypeItem.foodTypeTotalRealMoney}}
+                  </view>
+                  <view style="display:inline-block;color:#666;font-size:30rpx;margin-right: 10rpx;">
+                    (最高减免¥<text sytle="color:#222;">{{foodtypeItem.organizeMealLabel}}</text>)
+                  </view>
+                </block>
+                <block wx:else>
+                  <view style="display:inline-block;color:red;font-size:30rpx;margin-right: 10rpx;">
+                    -{{foodtypeItem.organizeMealLabel}}
+                  </view>
+                </block>
               </view>
               <view style="display:inline-block;color:red;font-size:30rpx;margin-right: 10rpx;" wx:else>
                 当前额度已被使用
@@ -233,14 +243,14 @@
               <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:#fff;">{{totalMoney}}</text>
             </view>
           </view>
-          <block wx:if="{{totalMoneyDeduction!=0}}">
+          <block wx:if="{{totalMoneyRealDeduction!=0}}">
             <view class="total-right-line line2">
               <view class="">
                 企业总抵扣
               </view>
               <view class="">
                 <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text>
-                <text wx:if="{{totalMoneyDeduction!=0}}" style="font-size: 35rpx;color:#fff;">-{{totalMoneyDeduction}}</text>
+                <text wx:if="{{totalMoneyRealDeduction!=0}}" style="font-size: 35rpx;color:#fff;">-{{totalMoneyRealDeduction}}</text>
                 <text wx:else style="font-size: 35rpx;color:#fff;">0</text>
               </view>
             </view>

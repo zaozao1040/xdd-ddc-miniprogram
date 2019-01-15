@@ -16,11 +16,11 @@ Page({
     location: {},
     organizeList:[],
     organize: '',
+    employeeNumber:'',//是否需要填写企业员工的工号  true需要 false不需要
+    usernumber:'', //工号
     organizeCode: '',
     search: '',
     organizeListNoResult: false
-
-
   },
 
   /**
@@ -41,6 +41,7 @@ Page({
       success: function(res){
         console.log('地理位置：',res)
         let param = {
+          userCode: wx.getStorageSync('userInfo').userCode, 
           myLongitude: res.longitude, 
           myLatitude: res.latitude
         }
@@ -81,10 +82,16 @@ Page({
   },
   selectOrganize:function(e){
     this.setData({
-      organize: e.currentTarget.dataset.organizename
+      organize: e.currentTarget.dataset.organizename,
+      employeeNumber: e.currentTarget.dataset.employeenumber
     });
     this.data.organizeCode = e.currentTarget.dataset.organizecode
-    console.log(this.data.organizeCode)
+    console.log(this.data.employeeNumber)
+  },
+  usernumberInput: function(e) {
+    this.setData({
+      usernumber: e.detail.value
+    });
   },
   organizeInput: function(e) {
     this.setData({
@@ -97,6 +104,7 @@ Page({
       search: e.detail.value
     });
     let param = {
+      userCode: wx.getStorageSync('userInfo').userCode, 
       organizeName: e.detail.value
     }
     wx.showLoading({ 
@@ -122,47 +130,63 @@ Page({
       }
     })
   },
+  /* button的绑定企业 */
   changeOrganize:function(){
     let _this = this
-    let param = {
-      userCode: wx.getStorageSync('userInfo').userCode, 
-      organizeCode: this.data.organizeCode
-    }
-    _this.setData({ //【防止狂点1】
-      loading: true
-    })
-    wx.showLoading({ //【防止狂点2】
-      title: '加载中',
-      mask: true
-    })
-    organizeModel.changeOrganize(param,(res)=>{
-      console.log('收到请求(更换组织):',res)
-      if(res.code === 0){
-        let tmp_userInfo = wx.getStorageSync('userInfo')
-        tmp_userInfo.organizeCode = _this.data.organizeCode
-        tmp_userInfo.organizeName = _this.data.organize
-        wx.setStorageSync('userInfo', tmp_userInfo)
-        setTimeout(function(){
-          wx.reLaunch({  //销毁所有页面后跳转到首页，销毁页面是为了防止个人用户登录后再次换绑企业可以点击订单导航，而导航栏应该隐藏才对
-            url: '/pages/home/home',
-          })
-          wx.hideLoading() 
-          wx.showToast({
-            title: '企业更换成功',
-            icon: 'success',
-            duration: 2000
-          })
-        },2000) 
-      }else{
-        wx.showToast({
-          title: res.msg,
-          icon: 'none',
-          duration: 2000
-        })  
-        _this.setData({
-          loading: false
-        })
+    if(_this.data.organize==''){
+      wx.showToast({
+        title: "请从下拉列表选择企业",
+        icon: "none",
+        duration: 2000
+      })
+    }else if(_this.data.employeeNumber==true&&_this.data.usernumber==''){
+      wx.showToast({
+        title: "请输入工号",
+        icon: "none",
+        duration: 2000
+      })
+    }else{
+      let param = {
+        userCode: wx.getStorageSync('userInfo').userCode, 
+        organizeCode: this.data.organizeCode,
+        userOrganizeCode: _this.data.usernumber //工号
       }
-    })
+      _this.setData({ //【防止狂点1】
+        loading: true
+      })
+      wx.showLoading({ //【防止狂点2】
+        title: '加载中',
+        mask: true
+      })
+      organizeModel.changeOrganize(param,(res)=>{
+        console.log('收到请求(更换组织):',res)
+        if(res.code === 0){
+          let tmp_userInfo = wx.getStorageSync('userInfo')
+          tmp_userInfo.organizeCode = _this.data.organizeCode
+          tmp_userInfo.organizeName = _this.data.organize
+          wx.setStorageSync('userInfo', tmp_userInfo)
+          setTimeout(function(){
+            wx.reLaunch({  //销毁所有页面后跳转到首页，销毁页面是为了防止个人用户登录后再次换绑企业可以点击订单导航，而导航栏应该隐藏才对
+              url: '/pages/home/home',
+            })
+            wx.hideLoading() 
+            wx.showToast({
+              title: '企业更换成功',
+              icon: 'success',
+              duration: 2000
+            })
+          },2000) 
+        }else{
+          wx.showToast({
+            title: res.msg,
+            icon: 'none',
+            duration: 2000
+          })  
+          _this.setData({
+            loading: false
+          })
+        }
+      })      
+    }
   },
 })

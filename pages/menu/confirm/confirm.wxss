@@ -4,55 +4,72 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 20rpx;
+/*   padding: 20rpx; */
   background: #ddd;
 }
 /* 默认地址 */
 .address-wrapper{
   display: flex;
   background: #fff;
-  border-radius: 20rpx;
   padding:10rpx 20rpx;
 }
-.foods-wrapper{
-
-}
 .address-line1{
-  font-size:40rpx;
+  display: flex;
+  justify-content: space-between;
+  margin:10rpx 0;
+  height: 35rpx;
+  line-height: 35rpx;
+  font-size:35rpx;
   font-weight: 500;
   color:#222;
 }
 .address-line2{
   margin:10rpx 0;
-  float: right;
+  height: 35rpx;
+  line-height: 35rpx;
+  font-size:35rpx;
+  font-weight: 500;
+  color:#222;
+  overflow:hidden; 
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+/* .address-line1{
+  margin:10rpx 0;
   height: 30rpx;
   line-height: 30rpx;
   font-size:30rpx;
   font-weight: 500;
   color:#666;
 }
+.address-line2{
+  font-size:40rpx;
+  font-weight: 500;
+  color:#222;
+} */
 /*
 * 选中的菜单
 */
 .foods-wrapper{
-  background: #FFF;
+/*   background: #FFF; */
   margin-top: 10rpx;
 /*   border-radius: 20rpx; */
-  padding: 10rpx 20rpx;
+/*   padding: 10rpx 20rpx; */
 }
 
 
 /* 拷贝自购物车，所以都是cart的开头*/
 .cart-content{
-  padding:0 10rpx;
+/*   padding:0 10rpx; */
   box-sizing:border-box;
 }
 .cart-day-wrapper{
   background-color: #eee;
+  border-bottom: 1rpx solid #aaa;
 /*   border-radius:10rpx; */
-  margin-top:10rpx;
+/*   margin-top:10rpx; */
 /*   box-shadow:2rpx 10rpx 10rpx #666; */
-  margin-bottom:15rpx;  
+/*   margin-bottom:15rpx;   */
 }
 .cart-day-title{
   margin-left:10rpx;
@@ -124,6 +141,9 @@
   margin-bottom: 4rpx;
   background-color: #fff;
 }
+.cart-amount{
+  float: right;
+}
 .cart-menuItem-left{
   flex: 0 0 120rpx;
   height: 120rpx;
@@ -172,7 +192,7 @@
   width:100%;
 /*   height:80px; */
   background: #43964e;
-  margin:20rpx 0;
+/*   margin:20rpx 0; */
 /*   border-radius:20rpx; */
 /*   box-shadow:2rpx 13rpx 13rpx #666; */
 }
@@ -193,7 +213,7 @@
   justify-content:space-between;
   height:40rpx;
   line-height:40rpx;
-  margin:10rpx 20rpx;
+  margin:10rpx 30rpx;
   font-size:30rpx;
   font-weight:500;
   color:black;
@@ -201,7 +221,7 @@
 .total-wrapper-bottom{
   display: flex;
   justify-content: space-between;
-
+  padding:10rpx 30rpx;
 }
 .bottom-des{
   font-size: 30rpx;

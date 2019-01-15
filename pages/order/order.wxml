@@ -1,6 +1,67 @@
 <!--pages/order/order.wxml-->
-
 <view class="wrapper">
+  <!-- 去付款弹出的选择支付方式对话框 -->
+  <view class="selectPayType-wrapper" wx:if="{{showPayTypeFlag}}">
+    <view class="selectPayType">
+      <view class="selectPayType_line1" style="margin:20rpx 10rpx 30rpx 20rpx;font-size: 40rpx;color:#666;">
+        请选择支付方式
+      </view>
+      <radio-group class="radio-group" style="margin:10rpx 40rpx;" bindchange="radioChange">
+        <label class="radio" style="display: block;margin-bottom: 40rpx;">
+          <radio value="WECHAT_PAY" checked="{{payType=='WECHAT_PAY'}}" />
+          <text style="font-size: 35rpx;" decode>&nbsp;微信支付</text>
+        </label>
+        <label class="radio" style="display: block;margin-bottom: 40rpx;">
+          <radio value="BALANCE_PAY" checked="{{payType=='BALANCE_PAY'}}" />
+          <text style="font-size: 35rpx;" decode>&nbsp;余额支付</text>
+        </label>
+      </radio-group>
+      <view style="display:flex;justify-content: space-between;margin:30rpx 20rpx;">
+        <button size="mini" class="selectPayType_line3" bindtap="buttonClickNo">
+          取消
+        </button>
+        <button size="mini" class="selectPayType_line3" bindtap="buttonClickYes" style="background:#e79b37;color:#fff;">
+          确定
+        </button>
+      </view>
+    </view>
+  </view>
+  <!-- 去评价弹出的对话框 -->
+  <view class="ratings-wrapper" wx:if="{{showRatingsFlag}}">
+    <view class="ratings-wrapper-content" >
+      <view class="foodList-wrapper" wx:for="{{orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem" wx:key="foodIndex">
+        <!-- 单个菜品的评价 -->
+        <view class="fooditem-wrapper">
+          <view class="foodname">
+            {{foodItem.name}}
+          </view>
+          <view class="foodstar">
+            <block wx:for="{{starNum}}" wx:for-index="starIndex" wx:for-item="starItem" wx:key="starIndex">
+              <text class="iconfont icon-xingxing {{starIndex+1<=starActiveNum?'foodstar-active':''}}" decode bindtap="handleClickStar" data-num="{{starIndex+1}}"
+              >&nbsp;</text>
+            </block>
+          </view>
+          <view class="foodratingcontent-wrapper">
+            <textarea class="foodratingcontent" bindinput="ratingsInput" placeholder="我要提出建议..." maxlength="60" focus />          
+          </view>
+          <view class="img-wrapper">
+            <image class="image" src="{{tempFilePaths}}" style="width:100%;" bindtap="handlePreviewImage" data-index="{{index}}"
+            wx:for="{{currentUploadImgs}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex"></image>
+            <image class="image" src="/images/order/shangchuantupian.png" bindtap="handleClickAddImg"></image>
+          </view>
+        </view>
+      </view>
+      <view style="display:flex;justify-content: space-between;margin:30rpx 20rpx;">
+        <button style="width:200rpx;" bindtap="buttonClickNo_ratings">
+          取消
+        </button>
+        <button style="width:200rpx;background:#e79b37;color:#fff;" bindtap="buttonClickYes_ratings">
+          确定
+        </button>
+      </view>      
+    </view>
+
+  </view>
   <!-- 标题 -->
   <view class="header-wrapper">
     <view class="header-item {{itemStatusActiveFlag==true?'header-item-active':''}}" catchtap="changeItemStatusActiveFlag"
@@ -17,48 +78,51 @@
     <view wx:if="{{orderListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
       未查询到充值记录..
     </view>
-    <view wx:else >
+    <view wx:else>
       <view class="order-item" wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
-        <view style="display:flex;justify-content: space-between;">
-          <view class="order-type">
-            {{orderItem.mealTypeDes}}
+        <view class="order-item-header">
+          <view style="display:flex;justify-content: space-between;">
+            <view class="order-type">
+              {{orderItem.mealTypeDes}}
+            </view>
+            <view class="order-status">
+              {{orderItem.orderStatusDes}}
+            </view>
           </view>
-          <view class="order-status">
-            {{orderItem.orderStatusDes}}
+          <view class="order-time">
+            <text class='iconfont icon-shijian' decode>&nbsp;</text>{{orderItem.orderTimeDes}}用餐
           </view>
         </view>
-        <view class="order-time">
-          <text class='iconfont icon-shijian' decode>&nbsp;</text>{{orderItem.orderTimeDes}}用餐
-        </view>
-        <view class="foods-wrapper">
-          <view class="food-item" wx:for="{{orderItem.orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem"
-            wx:key="foodIndex">
-            <view style="display:flex;justify-content: space-between;">
-              <view class="food-name">
-                {{foodItem.name}}
-              </view>
-              <view class="food-count">
-                x{{foodItem.quantity}}
+        <view class="order-item-content">
+          <view class="foods-wrapper">
+            <view class="food-item" wx:for="{{orderItem.orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem"
+              wx:key="foodIndex">
+              <view style="display:flex;justify-content: space-between;">
+                <view class="food-name">
+                  {{foodItem.name}}
+                </view>
+                <view class="food-count">
+                  x{{foodItem.quantity}}
+                </view>
               </view>
             </view>
           </view>
-        </view>
-        <view class="button-wrapper">
-          <view class="button quccan" bindtap="handleTakeOrder" data-ordercode="{{orderItem.orderCode}}"
-            wx:if="{{orderItem.orderStatus  == 'DELIVERING' || orderItem.orderStatus  == 'DELIVERED_WAITING_PICK' || orderItem.orderStatus  == 'PICKED_WAITING_EVALUATE' || orderItem.orderStatus  == 'NO_PICK_WAITING_BACK' ||orderItem.orderStatus  == 'COMPLETED_NO_EVALUATE'}}"> 
-            取餐
-          </view>
-          <view class="button fukuan" bindtap="handleSecondpayOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
-            wx:if="{{orderItem.orderStatus  == 'NO_PAY' }}">
-            去付款
-          </view>
-          <view class="button pingjia" bindtap="evaluateOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
-            >
-            去评价
-          </view>
-          <view class="button quxiao" bindtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
-            wx:if="{{orderItem.orderStatus  == 'PAYED_WAITINT_CONFIRM' || orderItem.orderStatus  == 'NO_PAY'}}">
-            取消
+          <view class="button-wrapper">
+            <view class="button quccan" bindtap="handleTakeOrder" data-ordercode="{{orderItem.orderCode}}" wx:if="{{orderItem.orderStatus  == 'DELIVERING' || orderItem.orderStatus  == 'DELIVERED_WAITING_PICK' || orderItem.orderStatus  == 'PICKED_WAITING_EVALUATE' || orderItem.orderStatus  == 'NO_PICK_WAITING_BACK' ||orderItem.orderStatus  == 'COMPLETED_NO_EVALUATE'}}">
+              取餐
+            </view>
+            <view class="button fukuan" bindtap="handleSecondpayOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
+              wx:if="{{orderItem.orderStatus  == 'NO_PAY' }}">
+              去付款
+            </view>
+            <view class="button pingjia" bindtap="handleEvaluateOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
+              data-orderfoodlist="{{orderItem.orderFoodList}}">
+              去评价
+            </view>
+            <view class="button quxiao" bindtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
+              wx:if="{{orderItem.orderStatus  == 'PAYED_WAITINT_CONFIRM' || orderItem.orderStatus  == 'NO_PAY'}}">
+              取消
+            </view>
           </view>
         </view>
       </view>
@@ -67,12 +131,8 @@
       </view>
       <view wx:else class="hasMore-wrapper" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
         没有更多了..
-      </view>      
+      </view>
     </view>
 
   </scroll-view>
-</view>
-<!-- 评价页面 -->
-<view class="ratings-wrapper" hover-class="none" hover-stop-propagation="false">
-  
 </view>
