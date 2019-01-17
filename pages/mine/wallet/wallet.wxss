@@ -12,7 +12,7 @@
   margin: 30rpx 30rpx 0 30rpx;
   padding-top:20rpx;
   border-radius: 30rpx;
-  background: #43964e;
+  background: #e79b37;
 }
 .header-des{
   font-size: 30rpx;
@@ -51,8 +51,8 @@
   margin: 0 100rpx;
 }
 .content-header-item-active{
-  border-bottom: 10rpx solid #43964e;
-  color:#43964e;
+  border-bottom: 10rpx solid #e79b37;
+  color:#e79b37;
 }
 .content-content{
 
@@ -119,7 +119,7 @@
   display: inline-block;
   font-size:60rpx;
   font-weight: 500;
-  color:#43964e;
+  color:#e79b37;
   text-align: center;
   height: 80rpx;
   line-height: 80rpx;
@@ -143,7 +143,7 @@
   float: right;
   font-size:60rpx;
   font-weight: 500;
-  color:#43964e;
+  color:#e79b37;
   height: 80rpx;
   line-height: 80rpx;
 }

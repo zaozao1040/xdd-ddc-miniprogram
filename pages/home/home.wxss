@@ -128,7 +128,7 @@
 }
 /* 刷新用户的按钮 */
 .userStatus-wrapper{
-  background: #43964e;
+  background: #e79b37;
   text-align: center;
   padding:20rpx;
   font-size: 30rpx;

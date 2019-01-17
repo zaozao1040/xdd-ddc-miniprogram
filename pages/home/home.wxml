@@ -12,22 +12,18 @@
     </view>
     <view class="h-v1" wx:else>
       <view bindtap="login" class="h-v1-1">
-        <block wx:if="{{!registered}}">
-          <navigator url="/pages/register/register" style="display: inline-block">
-            <view class="" style="display: inline-block;width:90rpx;height: 50rpx;font-size:30rpx;color:2b2b2b;line-height: 45rpx;text-align: center;"
-              bindtap="register">
-              注册
-            </view>
-          </navigator>
-        </block>
-        <block wx:else>
-          <navigator url="/pages/login/login" style="display: inline-block">
-            <view class="" style="display: inline-block;width:90rpx;height: 50rpx;font-size:30rpx;color:2b2b2b;line-height: 45rpx;text-align: center;"
-              bindtap="login" decode>
-              登录
-            </view>
-          </navigator>
-        </block>
+        <navigator url="/pages/register/register" style="display: inline-block">
+          <view class="" style="display: inline-block;width:90rpx;height: 50rpx;font-size:30rpx;color:2b2b2b;line-height: 45rpx;text-align: center;"
+            bindtap="register">
+            注册
+          </view>
+        </navigator>
+        <navigator url="/pages/login/login" style="display: inline-block">
+          <view class="" style="display: inline-block;width:90rpx;height: 50rpx;font-size:30rpx;color:2b2b2b;line-height: 45rpx;text-align: center;"
+            bindtap="login" decode>
+            登录
+          </view>
+        </navigator>
       </view>
     </view>
     <!-- 轮播图 -->
@@ -57,18 +53,18 @@
       </view>
     </view>
     <!-- 3个图标 -->
-    <view class="label-wrapper" >
+    <view class="label-wrapper">
       <view class="labelItem" bindtap="handleGotoLabel" data-type="qianbao">
         <view class='iconLabel iconfont icon-qianbao'></view>
-        <view class="labelDes" >钱包</view>
+        <view class="labelDes">钱包</view>
       </view>
       <view class="labelItem" bindtap="handleGotoLabel" data-type="youhuiquan">
         <view class='iconLabel iconfont icon-youhuiquan1'></view>
-        <view class="labelDes" >优惠券</view>
+        <view class="labelDes">优惠券</view>
       </view>
       <view class="labelItem" bindtap="handleGotoLabel" data-type="jifen">
         <view class='iconLabel iconfont icon-jifen'></view>
-        <view class="labelDes" >积分</view>
+        <view class="labelDes">积分</view>
       </view>
     </view>
     <!-- 活动 -->

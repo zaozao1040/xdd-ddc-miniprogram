@@ -2,16 +2,16 @@
   <view class="section-3" catchtap="showAddress">
     <view class="section-3-1" style="text-align: center;display: table;">
       <view style="display: table-cell;vertical-align: middle;">
-        <text style="font-size:40rpx;color:#43964e;" class='iconfont icon-qiye'></text>
+        <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-qiye'></text>
       </view>
     </view>
-    <text wx:if="{{organize}}" style="font-size:40rpx;color:#43964e;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text>
+    <text wx:if="{{organize}}" style="font-size:40rpx;color:#e79b37;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text>
     <input value="{{organize}}" bindinput="searchInput" placeholder="搜索企业名..." data-organizecode="{{organizeCode}}" class="section-3-2" type="string" ></input>
   </view>
   <view class="section-3" wx:if="{{employeeNumber}}">
     <view class="section-3-1" style="text-align: center;display: table;">
       <view style="display: table-cell;vertical-align: middle;">
-        <text style="font-size:40rpx;color:#43964e;" class='iconfont icon-dingdanbianhao'></text>
+        <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-dingdanbianhao'></text>
       </view>
     </view>
     <input bindinput="usernumberInput" class="section-3-2" placeholder="请输入企业工号" type="string"></input>

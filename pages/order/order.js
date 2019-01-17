@@ -27,13 +27,9 @@ Page({
     starActiveNum: 0,
     ratingsContent: '',
     currentUploadImgs:null,
-    tempFilePaths:null,
-    /*     temp:{
-          order:{
-            orderCode:undefined,
-          },
-          foods:[]
-        }, */
+    tempFilePaths:[],
+    imagesArr:[],//评价上传图片时 存储参数
+    foodCode:'',
     //
     windowHeight: 0,
     scrollTop: 0,
@@ -187,7 +183,6 @@ Page({
         })
         //下面开始分页
         if (tmp_orderList.length < _this.data.limit) {
-          console.log('1')
           if (tmp_orderList.length === 0) {
             wx.showToast({
               icon: "none",
@@ -203,7 +198,6 @@ Page({
             })
           }
         } else {
-          console.log('2')
           console.log(_this.data.orderList)
           _this.setData({
             orderList: tmp_orderList.concat(_this.data.orderList), //concat是拆开数组参数，一个元素一个元素地加进去
@@ -282,7 +276,6 @@ Page({
   /* 去付款的对话框的确定 */
   buttonClickYes: function () {
     let _this = this;
-    console.log('0000', _this.data.payType)
     if (_this.data.payType == 'WECHAT_PAY') {
       _this.payNowByWx(_this.data.e)
     } else {
@@ -460,44 +453,41 @@ Page({
     _this.setData({
       showRatingsFlag: true,
       orderCode: e.currentTarget.dataset.ordercode,
-      //orderFoodList: e.currentTarget.dataset.orderfoodlist  ----暂时只做成评价一个菜品
-      orderFoodList: [e.currentTarget.dataset.orderfoodlist[0]] //暂时只做成评价一个菜品，取数组第一个
+      foodCode:e.currentTarget.dataset.foodcode,
+      orderFoodList: [e.currentTarget.dataset.orderfoodlist[0]] //---------暂时只做成评价一个菜品，取数组第一个
     })
-    /*    //组装temp大数据   ------后边改成针对每道菜的评价
-        _this.data.temp.orderCode = e.currentTarget.dataset.ordercode
-        let tmp_orderFoodList = e.currentTarget.dataset.orderfoodlist
-         tmp_orderFoodList.forEach(element=>{
-          let a_food = {
-            foodCode: element.foodCode,
-            star: ,
-            content: 
-          },
-          _this.data.temp.foods
-        }) */
   },
 
   /* 去评价的对话框的确定 */
-  buttonClickYes_ratings: function () {
+  buttonClickYes_ratings: function (e) {
     let _this = this;
-    console.log(_this.data.ratingsContent, _this.data.starActiveNum)
+    console.log(_this.data.ratingsContent, _this.data.starActiveNum,_this.data.imagesArr)
     let param = {
-      userCode: wx.getStorageSync('userInfo').userCode,
-      orderCode: e.currentTarget.dataset.ordercode
-    }
+      order:{
+        orderCode: _this.data.orderCode,
+        star:0,
+        images:[],
+        wechatFormId:''        
+      },
+      foods:[{
+        foodCode: _this.data.foodCode,
+        star:_this.data.starActiveNum,
+        content:_this.data.ratingsContent,
+        wechatFormId:e.detail.formId,
+        images:_this.data.imagesArr
+      }]
+    } 
+    console.log('评价请求的参数：',param)
     wx.showLoading({ //【防止狂点2】
       title: '加载中',
       mask: true
-    })
+    }) 
     orderModel.evaluateOrder(param, (res) => {
       console.log('收到请求(评价):', res)
       if (res.code === 0) {
         wx.hideLoading()
-        //刷新订单列表中该订单的状态值，使用setData响应式模板
-        let tmp_orderList = _this.data.orderList
-        tmp_orderList[e.currentTarget.dataset.orderindex].orderStatus = 'COMPLETED_EVALUATED'
-        tmp_orderList[e.currentTarget.dataset.orderindex].orderStatusDes = '已评价'
-        _this.setData({
-          orderList: tmp_orderList
+        wx.redirectTo({
+          url: '/pages/order/order'
         })
         wx.showToast({
           title: '成功评价',
@@ -512,7 +502,7 @@ Page({
           duration: 2000
         })
       }
-    })
+    }) 
 
   },
   /* 去评价的对话框的取消 */
@@ -557,29 +547,39 @@ Page({
       count: 1, //最多可以选择的图片数，默认为9
       sizeType: ['orignal', 'compressed'], //original 原图，compressed 压缩图，默认二者都有
       sourceType: ['album', 'camera'], //album 从相册选图，camera 使用相机，默认二者都有
-      success: function (res) {
-        console.log(res)
+      success: function (res_0) {
         wx.showToast({
           title: '正在上传...',
           icon: 'loading',
           mask: true,
           duration: 1000
         }) 
-        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-        _this.setData({
-          tempFilePaths: res.tempFilePaths
-        })
         wx.uploadFile({
           url: baseUrl+'/file/uploadFile',//开发者服务器 url
-          filePath: res.tempFilePaths[0],//要上传文件资源的路径
+          filePath: res_0.tempFilePaths[0],//要上传文件资源的路径
           name: 'file', //文件对应的 key , 开发者在服务器端通过这个 key 可以获取到文件二进制内容
           formData:{ //HTTP 请求中其他额外的 form data
-            'user': 'test'
+            userCode: wx.getStorageSync('userInfo').userCode,
+            type: 'EVALUATE'
           },
           success: function(res){
-            console.log('5555',res)
-            let tmp_currentUploadImgs = _this.data.currentUploadImgs
-            //tmp_currentUploadImgs.push()
+            let tmp_data = JSON.parse(res.data)
+            console.log('rrrr',tmp_data)
+            if(tmp_data.code == 0 ){
+              // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+              let tmp_tempFilePaths = _this.data.tempFilePaths
+              tmp_tempFilePaths.push(res_0.tempFilePaths[0])
+              _this.setData({
+                tempFilePaths: tmp_tempFilePaths //预览图片响应式
+              })
+              _this.data.imagesArr.push(tmp_data.data)
+            }else{
+              wx.showToast({
+                title: tmp_data.msg,
+                icon: 'none',
+                duration: 2000
+              }) 
+            }
           }
         })
       }, 

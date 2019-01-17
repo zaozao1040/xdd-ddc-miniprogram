@@ -27,41 +27,43 @@
     </view>
   </view>
   <!-- 去评价弹出的对话框 -->
-  <view class="ratings-wrapper" wx:if="{{showRatingsFlag}}">
-    <view class="ratings-wrapper-content" >
-      <view class="foodList-wrapper" wx:for="{{orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem" wx:key="foodIndex">
-        <!-- 单个菜品的评价 -->
-        <view class="fooditem-wrapper">
-          <view class="foodname">
-            {{foodItem.name}}
-          </view>
-          <view class="foodstar">
-            <block wx:for="{{starNum}}" wx:for-index="starIndex" wx:for-item="starItem" wx:key="starIndex">
-              <text class="iconfont icon-xingxing {{starIndex+1<=starActiveNum?'foodstar-active':''}}" decode bindtap="handleClickStar" data-num="{{starIndex+1}}"
-              >&nbsp;</text>
-            </block>
-          </view>
-          <view class="foodratingcontent-wrapper">
-            <textarea class="foodratingcontent" bindinput="ratingsInput" placeholder="我要提出建议..." maxlength="60" focus />          
-          </view>
-          <view class="img-wrapper">
-            <image class="image" src="{{tempFilePaths}}" style="width:100%;" bindtap="handlePreviewImage" data-index="{{index}}"
-            wx:for="{{currentUploadImgs}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex"></image>
-            <image class="image" src="/images/order/shangchuantupian.png" bindtap="handleClickAddImg"></image>
+  <form bindsubmit="buttonClickYes_ratings" report-submit="true">
+    <view class="ratings-wrapper" wx:if="{{showRatingsFlag}}">
+      <view class="ratings-wrapper-content" >
+        <view class="foodList-wrapper" wx:for="{{orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem" wx:key="foodIndex">
+          <!-- 单个菜品的评价 -->
+          <view class="fooditem-wrapper">
+            <view class="foodname">
+              {{foodItem.name}}
+            </view>
+            <view class="foodstar">
+              <block wx:for="{{starNum}}" wx:for-index="starIndex" wx:for-item="starItem" wx:key="starIndex">
+                <text class="iconfont icon-xingxing {{starIndex+1<=starActiveNum?'foodstar-active':''}}" decode bindtap="handleClickStar" data-num="{{starIndex+1}}"
+                >&nbsp;</text>
+              </block>
+            </view>
+            <view class="foodratingcontent-wrapper">
+              <textarea class="foodratingcontent" bindinput="ratingsInput" placeholder="我要提出建议..." maxlength="60" focus />          
+            </view>
+            <view class="img-wrapper">
+              <image class="image" src="{{imgItem}}" wx:for="{{tempFilePaths}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex" 
+              bindtap="handlePreviewImage" data-index="{{imgIndex}}"></image>
+              <image class="image" wx:if="{{tempFilePaths.length<3}}" src="/images/order/shangchuantupian.png" bindtap="handleClickAddImg"></image>
+            </view>
           </view>
         </view>
+        <view style="display:flex;justify-content: space-between;margin:30rpx 20rpx;">
+          <button style="width:200rpx;" bindtap="buttonClickNo_ratings">
+            取消
+          </button>
+          <button style="width:200rpx;background:#e79b37;color:#fff;" formType="submit" bindtap="buttonClickYes_ratings">
+            确定
+          </button>
+        </view>      
       </view>
-      <view style="display:flex;justify-content: space-between;margin:30rpx 20rpx;">
-        <button style="width:200rpx;" bindtap="buttonClickNo_ratings">
-          取消
-        </button>
-        <button style="width:200rpx;background:#e79b37;color:#fff;" bindtap="buttonClickYes_ratings">
-          确定
-        </button>
-      </view>      
     </view>
+  </form>
 
-  </view>
   <!-- 标题 -->
   <view class="header-wrapper">
     <view class="header-item {{itemStatusActiveFlag==true?'header-item-active':''}}" catchtap="changeItemStatusActiveFlag"
@@ -93,10 +95,10 @@
             <text class='iconfont icon-shijian' decode>&nbsp;</text>{{orderItem.orderTimeDes}}用餐
           </view>
         </view>
-        <view class="order-item-content">
+        <view class="order-item-content" >
           <view class="foods-wrapper">
             <view class="food-item" wx:for="{{orderItem.orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem"
-              wx:key="foodIndex">
+              wx:key="foodIndex" >
               <view style="display:flex;justify-content: space-between;">
                 <view class="food-name">
                   {{foodItem.name}}
@@ -107,21 +109,32 @@
               </view>
             </view>
           </view>
-          <view class="button-wrapper">
+          <view style="float: right;">
+            <view class="food-des" style="display: inline-block;margin-right: 10rpx;">
+              共{{orderItem.orderFoodList.length}}件商品 
+            </view>
+            <view class="food-des" style="display: inline-block;margin-right: 10rpx;">
+              总价¥<text style="color:red;">{{orderItem.totalPrice}}</text>
+            </view>
+            <view class="food-des" style="display: inline-block;">
+              自费<text style="color:red;">{{orderItem.payPrice}}</text>
+            </view>
+          </view>
+          <view class="button-wrapper" style="clear: both;">
             <view class="button quccan" bindtap="handleTakeOrder" data-ordercode="{{orderItem.orderCode}}" wx:if="{{orderItem.orderStatus  == 'DELIVERING' || orderItem.orderStatus  == 'DELIVERED_WAITING_PICK' || orderItem.orderStatus  == 'PICKED_WAITING_EVALUATE' || orderItem.orderStatus  == 'NO_PICK_WAITING_BACK' ||orderItem.orderStatus  == 'COMPLETED_NO_EVALUATE'}}">
-              取餐
+              点我取餐
             </view>
             <view class="button fukuan" bindtap="handleSecondpayOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
               wx:if="{{orderItem.orderStatus  == 'NO_PAY' }}">
               去付款
             </view>
-            <view class="button pingjia" bindtap="handleEvaluateOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
-              data-orderfoodlist="{{orderItem.orderFoodList}}">
+            <view class="button pingjia" bindtap="handleEvaluateOrder" wx:if="{{orderItem.orderStatus  == 'PICKED_WAITING_EVALUATE' || orderItem.orderStatus  == 'NO_PICK_WAITING_BACK' || orderItem.orderStatus  == 'COMPLETED_BACK' || orderItem.orderStatus  == 'COMPLETED_NO_EVALUATE'}}" 
+              data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-foodcode="{{orderItem.orderFoodList[0].foodCode}}" data-orderfoodlist="{{orderItem.orderFoodList}}">
               去评价
             </view>
             <view class="button quxiao" bindtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
               wx:if="{{orderItem.orderStatus  == 'PAYED_WAITINT_CONFIRM' || orderItem.orderStatus  == 'NO_PAY'}}">
-              取消
+              取消订单
             </view>
           </view>
         </view>

@@ -221,8 +221,8 @@ Page({
                   success(res) {
                     if (res.confirm) {
                       //_this.clearCache() //清空缓存
-                      wx.switchTab({
-                        url: '/pages/order-list/order-list',
+                      wx.reLaunch({
+                        url: '/pages/order/order',
                       })
                     } 
                   }
@@ -238,8 +238,8 @@ Page({
                   success(res) {
                     if (res.confirm) {
                       //_this.clearCache() //清空缓存
-                      wx.switchTab({
-                        url: '/pages/order-list/order-list',
+                      wx.reLaunch({
+                        url: '/pages/order/order',
                       })
                     } 
                   }
@@ -259,8 +259,8 @@ Page({
             confirmText: '查看订单',
             success(res) {
               if (res.confirm) {
-                wx.switchTab({
-                  url: '/pages/order-list/order-list',
+                wx.reLaunch({
+                  url: '/pages/order/order',
                 })
               } 
             }

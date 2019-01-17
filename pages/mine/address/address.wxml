@@ -1,16 +1,26 @@
 <view class="address-wrapper" >
-    <view class="section-3">
-      <view class="section-3-1" style="text-align: center;display: table;">
-        <view style="display: table-cell;vertical-align: middle;">
-          <text style="font-size:40rpx;color:#43964e;" class='iconfont icon-dizhi'></text>
-        </view>
+  <view class="section-3">
+    <view class="section-3-1" style="text-align: center;display: table;">
+      <view style="display: table-cell;vertical-align: middle;">
+        <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-dizhi'></text>
       </view>
-      <text wx:if="{{addressDes}}" style="font-size:40rpx;color:#43964e;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text>
-      <input value="{{addressDes}}" placeholder="请选择企业默认地址" class="section-3-2" type="string" disabled></input>
     </view>
+    <text wx:if="{{addressDes}}" style="font-size:40rpx;color:#e79b37;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text>
+    <input value="{{addressDes}}" placeholder="请选择企业默认地址" class="section-3-2" type="string" disabled></input>
+  </view>
+  <view class="section-3" wx:if="{{showRoomNumberFlag}}">
+    <view class="section-3-1" style="text-align: center;display: table;">
+      <view style="display: table-cell;vertical-align: middle;">
+        <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-dingdanbianhao'></text>
+      </view>
+    </view>
+    <text wx:if="{{roomNumber}}" style="font-size:40rpx;color:#e79b37;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text>
+    <input bindinput="roomNumberInput" value="{{roomNumber}}" placeholder="请填写宿舍号" class="section-3-2" type="string"></input>
+  </view>
     <view class="addressList-wrapper" >
       <view class="addressItem-wrapper" wx:for="{{addressList}}" wx:for-index="addressIndex" wx:for-item="addressItem" wx:key="addressIndex"
-        catchtap="selectDefaultAddress" data-addressdes="{{addressItem.address}}" data-addresscode="{{addressItem.addressCode}}">
+        catchtap="selectDefaultAddress" data-addressdes="{{addressItem.address}}" data-addresscode="{{addressItem.addressCode}}"
+        data-useraddaddress="{{addressItem.userAddAddress}}" data-adorm="{{addressItem.adorm}}">
         <view class="address">
           {{addressItem.province}}{{addressItem.city}}{{addressItem.district}}{{addressItem.address}}
         </view>

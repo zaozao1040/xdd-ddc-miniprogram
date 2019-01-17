@@ -17,7 +17,9 @@ Page({
     addressDes: '',
     organizeCode: '',
     search: '',
-    addressListNoResult: false
+    addressListNoResult: false,
+    showRoomNumberFlag:false,
+    roomNumber:'', //银利体育 宿舍号
   },
 
   /**
@@ -25,10 +27,13 @@ Page({
    */
   onLoad: function (options) {
     let tmp_frontPageFlag = options.frontPageFlag
-    this.setData({
-      frontPageFlag: tmp_frontPageFlag
-    })
-    console.log('oload......',options)
+    if(tmp_frontPageFlag){
+      this.setData({
+        frontPageFlag: tmp_frontPageFlag
+      })
+      console.log('oload......',options)      
+    }
+
   },
 
   /**
@@ -63,10 +68,17 @@ Page({
       }
     }) 
   },
+  roomNumberInput: function (e) {
+    this.setData({
+      roomNumber: e.detail.value
+    })
+  },
   selectDefaultAddress:function(e){
     this.setData({
-      addressDes: e.currentTarget.dataset.addressdes
-    });
+      addressDes: e.currentTarget.dataset.addressdes,
+      showRoomNumberFlag: e.currentTarget.dataset.useraddaddress,
+      roomNumber: e.currentTarget.dataset.adorm
+    })
     this.data.addressCode = e.currentTarget.dataset.addresscode
   },
   changeDefaultAddress:function(){
@@ -78,55 +90,73 @@ Page({
         duration: 2000
       })
     }else{
-      let param = {
-        userCode: wx.getStorageSync('userInfo').userCode, 
-        addressCode: this.data.addressCode
-      }
-      _this.setData({ //【防止狂点1】
-        loading: true
-      })
-      wx.showLoading({ //【防止狂点2】
-        title: '加载中',
-        mask: true
-      })
-      addressModel.commitDefaultAddress(param,(res)=>{
-        console.log('收到请求(提交默认地址):',res)
-        if(res.code === 0){
-          let tmp_userInfo = wx.getStorageSync('userInfo')
-          tmp_userInfo.addressCode = _this.data.addressCode
-          tmp_userInfo.address = _this.data.addressDes
-/*           tmp_userInfo.district = _this.data.district
-          tmp_userInfo.province = _this.data.province
-          tmp_userInfo.city = _this.data.city */
-          wx.setStorageSync('userInfo', tmp_userInfo)
-          setTimeout(function(){
-            if(_this.data.frontPageFlag=='confirm'){
-              wx.navigateBack({
-                delta: 1, // 回退前 delta(默认为1) 页面
-              })
-            }else{
-              wx.switchTab({
-                url: '/pages/mine/mine',
-              })
-            }
-            wx.hideLoading() 
-            wx.showToast({
-              title: '地址选择成功',
-              icon: 'success',
-              duration: 2000
-            })
-          },2000) 
-        }else{
-          wx.showToast({
-            title: res.msg,
-            icon: 'none',
-            duration: 2000
-          })  
-          _this.setData({
-            loading: false
-          })
+      if(_this.data.showRoomNumberFlag && !_this.data.roomNumber){
+        wx.showToast({
+          title: "请填写宿舍号",
+          icon: "none",
+          duration: 2000
+        })
+      }else{
+        let param = {
+          userCode: wx.getStorageSync('userInfo').userCode, 
+          addressCode: _this.data.addressCode,
+          adorm:_this.data.roomNumber
         }
-      })
+        _this.setData({ //【防止狂点1】
+          loading: true
+        })
+        wx.showLoading({ //【防止狂点2】
+          title: '加载中',
+          mask: true
+        })
+        addressModel.commitDefaultAddress(param,(res)=>{
+          console.log('收到请求(提交默认地址):',res)
+          if(res.code === 0){
+            if(_this.data.frontPageFlag=='confirm' && _this.data.showRoomNumberFlag){  //这里要区分上一个页面来源，然后设置缓存
+              let tmp_userInfo = wx.getStorageSync('userInfo')
+              tmp_userInfo.addressCode = _this.data.addressCode
+              tmp_userInfo.address = _this.data.addressDes + _this.data.roomNumber
+              wx.setStorageSync('userInfo', tmp_userInfo)
+            }else{
+              let tmp_userInfo = wx.getStorageSync('userInfo')
+              tmp_userInfo.addressCode = _this.data.addressCode
+              tmp_userInfo.address = _this.data.addressDes
+              wx.setStorageSync('userInfo', tmp_userInfo)              
+            }
+            setTimeout(function(){
+              if(_this.data.frontPageFlag=='confirm'){
+                wx.navigateBack({
+                  delta: 1, // 回退前 delta(默认为1) 页面
+                })
+              }else{
+                wx.switchTab({
+                  url: '/pages/mine/mine',
+                })
+              }
+              wx.hideLoading() 
+              wx.showToast({
+                title: '地址选择成功',
+                icon: 'success',
+                duration: 2000
+              })
+            },2000) 
+          }else{
+            wx.showToast({
+              title: res.msg,
+              icon: 'none',
+              duration: 2000
+            })  
+            _this.setData({
+              loading: false
+            })
+          }
+        })
+      }
+
+
+
+
+ 
     }
   },
 })

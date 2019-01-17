@@ -126,7 +126,7 @@
   overflow: hidden;
 }
 .order-item{
-  margin-bottom: 15rpx;
+  margin-bottom: 25rpx;
 /*   border-bottom: #aaa solid 1rpx; */
 }
 .order-item-header{
@@ -136,20 +136,20 @@
   border-top-right-radius: 20rpx;
 }
 .order-item-content{
-  padding:5rpx 10rpx;
+  padding:15rpx 10rpx;
   background: #fff;
 }
 .order-item:last-child{
   border-bottom: none;
 }
 .order-type{
-  font-size: 40rpx;
+  font-size: 35rpx;
   font-weight: 500;
   color:#fff;
-  
+  padding-left: 10rpx;
 }
 .order-status{
-  font-size: 30rpx;
+  font-size: 35rpx;
   font-weight: 500;
   color:#fff;
 }
@@ -170,17 +170,21 @@
 }
 .food-name{
   margin:auto 20rpx;
-  font-size: 30rpx;
+  font-size: 35rpx;
   font-weight: 500;
   color:#222;
 }
 .food-count{
   margin:auto 50rpx;
+  font-size: 35rpx;
+  font-weight: 500;
+  color:#222;
+}
+.food-des{
   font-size: 30rpx;
   font-weight: 500;
   color:#222;
 }
-
 /* 各种按钮 */
 .button-wrapper{
   display: flex;
@@ -198,9 +202,6 @@
   color: #FFF;
   font-weight: bold;
   font-size: 30rpx;
-}
-.quxiao{
-  background-color: #999;
 }
 
 

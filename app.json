@@ -48,7 +48,7 @@
       {
         "selectedIconPath": "/images/footer/order_selected.png",
         "iconPath": "/images/footer/order.png",
-        "pagePath": "pages/order-list/order-list",
+        "pagePath": "pages/order/order",
         "text": "订单"
       },
       {

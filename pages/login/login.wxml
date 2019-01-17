@@ -8,7 +8,7 @@
   <view class="section-3">
       <view class="section-3-1" style="text-align: center;display: table;">
         <view style="display: table-cell;vertical-align: middle;">
-          <text style="font-size:40rpx;color:#43964e;" class='iconfont icon-shouji'></text>
+          <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-shouji'></text>
         </view>
       </view>
       <input bindinput="phoneInput" class="section-3-2" maxlength="11" placeholder="请输入您的手机号" type="number"></input>
@@ -16,7 +16,7 @@
   <view class="section-3">
     <view class="section-3-1" style="text-align: center;display: table;">
       <view style="display: table-cell;vertical-align: middle;">
-        <text style="font-size:40rpx;color:#43964e;" class='iconfont icon-mimayanzhengma'></text>
+        <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-mimayanzhengma'></text>
       </view>
     </view>
     <input bindinput="codeInput" class="section-3-2" placeholder="请输入短信验证码" type="number"></input>
