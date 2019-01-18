@@ -108,6 +108,10 @@ Page({
   onShow: function () {
     let _this = this
     _this.initOrder()
+    this.setData({
+      page: 1,
+      limit: 20
+    })
     _this.getOrderList()
   },
   changeItemStatusActiveFlag: function (e) {

@@ -127,6 +127,7 @@
 }
 .order-item{
   margin-bottom: 25rpx;
+  box-shadow:0rpx 5rpx 8rpx #ccc;
 /*   border-bottom: #aaa solid 1rpx; */
 }
 .order-item-header{
@@ -193,12 +194,12 @@
 .button{
   flex: 0 0 150rpx;
   width: 50rpx;
-  margin: 5rpx 0 10rpx 10rpx;
+  margin: 5rpx 0 0 10rpx;
   height:70rpx;
   line-height: 70rpx;
   text-align: center;
   background-color: #e79b37;
-  border-radius: 15rpx;
+  border-radius: 10rpx;
   color: #FFF;
   font-weight: bold;
   font-size: 30rpx;

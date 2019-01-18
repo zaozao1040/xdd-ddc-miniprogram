@@ -117,18 +117,21 @@
               总价¥<text style="color:red;">{{orderItem.totalPrice}}</text>
             </view>
             <view class="food-des" style="display: inline-block;">
-              自费<text style="color:red;">{{orderItem.payPrice}}</text>
+              自费¥<text style="color:red;">{{orderItem.payPrice}}</text>
             </view>
           </view>
+          <view style="clear:both;float: right;height: 30rpx;line-height: 30rpx;">
+            <text class="iconfont icon-dingdanbianhao" style="font-size: 25rpx;color:#e79b37;" decode>&nbsp;{{orderItem.orderCode}}</text>
+          </view>
           <view class="button-wrapper" style="clear: both;">
-            <view class="button quccan" bindtap="handleTakeOrder" data-ordercode="{{orderItem.orderCode}}" wx:if="{{orderItem.orderStatus  == 'DELIVERING' || orderItem.orderStatus  == 'DELIVERED_WAITING_PICK' || orderItem.orderStatus  == 'PICKED_WAITING_EVALUATE' || orderItem.orderStatus  == 'NO_PICK_WAITING_BACK' ||orderItem.orderStatus  == 'COMPLETED_NO_EVALUATE'}}">
+            <view class="button quccan" bindtap="handleTakeOrder" data-ordercode="{{orderItem.orderCode}}" wx:if="{{orderItem.canTake}}">
               点我取餐
             </view>
             <view class="button fukuan" bindtap="handleSecondpayOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
               wx:if="{{orderItem.orderStatus  == 'NO_PAY' }}">
               去付款
             </view>
-            <view class="button pingjia" bindtap="handleEvaluateOrder" wx:if="{{orderItem.orderStatus  == 'PICKED_WAITING_EVALUATE' || orderItem.orderStatus  == 'NO_PICK_WAITING_BACK' || orderItem.orderStatus  == 'COMPLETED_BACK' || orderItem.orderStatus  == 'COMPLETED_NO_EVALUATE'}}" 
+            <view class="button pingjia" bindtap="handleEvaluateOrder" wx:if="{{orderItem.canEvaluate}}" 
               data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-foodcode="{{orderItem.orderFoodList[0].foodCode}}" data-orderfoodlist="{{orderItem.orderFoodList}}">
               去评价
             </view>
@@ -146,6 +149,5 @@
         没有更多了..
       </view>
     </view>
-
   </scroll-view>
 </view>

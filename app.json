@@ -7,7 +7,6 @@
     "pages/logs/logs",
     "pages/coupon/coupon",
     "pages/order/order",
-    "pages/order-list/order-list",
     "pages/promotion/promotion",
     "pages/menu/menu",
     "pages/menu/confirm/confirm",
@@ -18,8 +17,7 @@
     "pages/mine/wallet/wallet",
     "pages/food/food",
     "pages/mine/integral/integral",
-    "pages/mine/discount/discount",
-    "pages/evaluate/evaluate"
+    "pages/mine/discount/discount"
   ],
   "window": {
     "navigationBarBackgroundColor": "#fff",
