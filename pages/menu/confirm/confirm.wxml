@@ -1,6 +1,6 @@
 <view class="wrapper">
   <!-- 默认地址 -->
-  <view class="address-wrapper">
+  <view class="address-wrapper" bindtap="handleSelectAddress">
     <view style="flex:1;width:80%;">
       <view class="address-line1">
         <view >
@@ -17,7 +17,7 @@
         <text class='iconfont icon-dizhi' decode style="color:red;">&nbsp;请选择送餐地址</text>
       </view>
     </view>
-    <view style="flex:0 0 70rpx;margin: auto;text-align: center;" bindtap="handleSelectAddress">
+    <view style="flex:0 0 70rpx;margin: auto;text-align: center;" >
       <text class='iconfont icon-icon_on_the_right' style="font-size:40rpx;color:#e79b37;"></text>
     </view>
   </view>

@@ -75,7 +75,7 @@
         </view>
         <scroll-view class="menu-right-item-wrapper" scroll-y scroll-with-animation="true" bindscroll="handleScroll"
           style="height: {{top_2 - top_0 - 30 - 30}}px;" scroll-into-view="{{scrollToView}}">
-          <view class="right-item" wx:for="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].foods}}" wx:for-item="menutypeItem"
+          <view class="c_foodPosition_forCalculate right-item" wx:for="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].foods}}" wx:for-item="menutypeItem"
             wx:for-index="menutypeIndex" wx:key="menutypeIndex">
             <view id="order{{menutypeIndex}}" class="right-item-text">
               <text class="iconfont icon-jiageprice1" decode style="font-size: 25rpx;color:#555;">&nbsp;&nbsp;</text>{{menutypeItem.category}}

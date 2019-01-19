@@ -40,7 +40,7 @@
           </view>
           <view class="explain-title" style="margin-left: 20rpx;">充值方式</view>
           <view class="wxRecharge-wrapper" >
-            <view class='iconfont icon-weixin'></view>
+            <view class='iconfont icon-weixin' style="color:#43964e;"></view>
             <view class="wxRecharge-des-wrapper" >
               <view class="wxRecharge-des-1" >
                 微信支付
@@ -49,7 +49,7 @@
                 亿万用户的选择，快捷更安全
               </view>
             </view>
-            <view class='iconfont icon-dagou' ></view>
+            <view class='iconfont icon-dagou'></view>
           </view>     
         </view>
       </scroll-view>
@@ -73,7 +73,7 @@
             </view>   
             <view class="hasMore-wrapper" wx:if="{{hasMoreDataFlag}}" bindtap="gotoNextPage"
                   style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
-              加载更多
+                  点击加载更多
             </view>  
             <view wx:else class="hasMore-wrapper" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
               没有更多了..

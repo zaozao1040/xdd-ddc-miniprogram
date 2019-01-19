@@ -7,6 +7,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    canClick: true,
+    listCanGet: true,
     //分页
     page: 1, // 设置加载的第几次，默认是第一次
     limit: 20, // 每页条数
@@ -16,7 +18,6 @@ Page({
     scrollTop: 0,
     buttonTop: 0,
     //
-    canClick: true,
     itemStatusActiveFlag: true,
     moneyList: [[6, 12, 68], [108, 218, 318], [468, 618, 888]],
     itemMoneyActiveFlag: [0, 2],//默认0行2列，也就是人民币68
@@ -77,6 +78,11 @@ Page({
   onShow: function () {
     let _this = this
     _this.initWallet()
+    this.setData({
+      page: 1,
+      limit: 20,
+      rechargeList: [] //列表必须清空，否则分页会无限叠加
+    })
   },
 
   /* 手动点击触发下一页 */
@@ -84,7 +90,7 @@ Page({
     if (this.data.hasMoreDataFlag) {
       this.getRechargeList()
       wx.showLoading({
-        title: '加载更多数据',
+        title: '点击加载更多',
       })
     } else {
       wx.showToast({
@@ -94,26 +100,36 @@ Page({
     }
   },
   changeItemStatusActiveFlag: function (e) {
+    let _this = this
+    if (!_this.data.canClick) {
+      return
+    }
+    _this.data.canClick = false
+    setTimeout(function () {
+      _this.data.canClick = true
+    }, 500)
     if (e.currentTarget.dataset.flag == 'chongzhi') {
-      this.setData({
+      _this.setData({
         itemStatusActiveFlag: true
       })
     } else if (e.currentTarget.dataset.flag == 'jiaoyi') {
-      this.setData({
+      _this.setData({
         itemStatusActiveFlag: false,
         rechargeList: [], // 这四个要重置，为了交易记录的分页，因为交易记录、在线重置俩页面是通过点击按钮切换的
         page: 1,
         limit: 20,
         hasMoreDataFlag: true,
       })
-      this.getRechargeList()
-    } else {
-
-    }
+      _this.getRechargeList()
+    } else { }
   },
   /* 获取交易记录列表 */
   getRechargeList: function () {
     let _this = this
+    if (!_this.data.listCanGet) {
+      return
+    }
+    _this.data.listCanGet = false
     let param = {
       userCode: wx.getStorageSync('userInfo').userCode,
       limit: _this.data.limit,
@@ -131,7 +147,10 @@ Page({
           RECHARGE: '充值',
           CONSUMPTION: '消费',
           CANCEL_ORDER: '取消订单返还',
-          PRESENT: '赠送'
+          PRESENT: '赠送',
+          PRE_RECHARGE: '预充',
+          ACTIVITY_PRESENT: '活动赠送',
+          RECHARGE_PRESENT: '充值赠送'
         }
         let tmp_rechargeList = res.data
         tmp_rechargeList.forEach(element => {
@@ -159,13 +178,13 @@ Page({
             })
           } else {
             _this.setData({
-              rechargeList: tmp_rechargeList.concat(_this.data.rechargeList), //concat是拆开数组参数，一个元素一个元素地加进去
+              rechargeList: _this.data.rechargeList.concat(tmp_rechargeList), //concat是拆开数组参数，一个元素一个元素地加进去
               hasMoreDataFlag: false
             })
           }
         } else {
           _this.setData({
-            rechargeList: tmp_rechargeList.concat(_this.data.rechargeList), //concat是拆开数组参数，一个元素一个元素地加进去
+            rechargeList: _this.data.rechargeList.concat(tmp_rechargeList), //concat是拆开数组参数，一个元素一个元素地加进去
             hasMoreDataFlag: true,
             page: _this.data.page + 1
           })
@@ -177,6 +196,7 @@ Page({
           duration: 2000
         })
       }
+      _this.data.listCanGet = true
     })
   },
   /* click更改选中的金额 */

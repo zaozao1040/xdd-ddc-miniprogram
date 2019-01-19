@@ -136,9 +136,15 @@
   border-top-left-radius: 20rpx;
   border-top-right-radius: 20rpx;
 }
+.order-item-header-old{
+  background: #999;
+}
 .order-item-content{
-  padding:15rpx 10rpx;
+  padding:10rpx 20rpx 20rpx 20rpx;
   background: #fff;
+}
+.order-item-content-old{
+  background: #ccc;
 }
 .order-item:last-child{
   border-bottom: none;
@@ -148,6 +154,11 @@
   font-weight: 500;
   color:#fff;
   padding-left: 10rpx;
+}
+.order-cabinet{
+  font-size: 35rpx;
+  font-weight: 500;
+  color: #43964e;
 }
 .order-status{
   font-size: 35rpx;
@@ -160,6 +171,7 @@
   font-weight: 500;
   color:#fff;
 }
+
 .foods-wrapper{
   margin:auto 20rpx;
 }
@@ -189,12 +201,14 @@
 /* 各种按钮 */
 .button-wrapper{
   display: flex;
-  justify-content: right;
+  justify-content:flex-end;
+  padding-top: 10rpx;
 }
 .button{
   flex: 0 0 150rpx;
   width: 50rpx;
-  margin: 5rpx 0 0 10rpx;
+  margin: 5rpx 0 0 20rpx;
+  padding: 0 5rpx;
   height:70rpx;
   line-height: 70rpx;
   text-align: center;

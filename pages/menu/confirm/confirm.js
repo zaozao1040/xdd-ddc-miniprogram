@@ -93,7 +93,7 @@ Page({
         })    
         if(res.data < _this.data.realMoney){ //余额小于实际付款，则改为微信付款
           _this.setData({  
-            walletSelectedFlag: !_this.data.walletSelectedFlag,
+            walletSelectedFlag: false,
             payType: 'WECHAT_PAY'
           })  
         }            
@@ -314,22 +314,6 @@ Page({
     } 
   },
 
-/*   handleChangeWalletSelectedFlag:function(){
-    let _this = this
-    if(_this.data.balance<_this.data.realMoney){ //如果用户余额少于用户需要支付的价格，不允许用余额,也就是禁止打开switch
-      wx.showToast({
-        title: '余额不足,请充值',
-        icon: 'none',
-        duration: 2000
-      })
-      return
-    }else{  //使用余额支付方式
-      _this.setData({  
-        walletSelectedFlag: !_this.data.walletSelectedFlag,
-        payType: 'BALANCE_PAY'
-      })  
-    }  
-  }, */
 })
 
 

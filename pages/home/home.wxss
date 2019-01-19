@@ -65,10 +65,10 @@
     font-size: 36rpx;
     font-weight: bold;
     color: #fff;
-    background-color: #f2993c;
+    background-color: #ff9514;
     text-align: center;
     border-radius: 50rpx;
-    box-shadow: 0px 10px 10px #a7835c;
+    box-shadow: 0px 10px 15px #aaa;
 }
 
 .promotion-wrapper{
@@ -128,13 +128,14 @@
 }
 /* 刷新用户的按钮 */
 .userStatus-wrapper{
-  background: #e79b37;
+  background: #43964e;
   text-align: center;
   padding:20rpx;
   font-size: 30rpx;
   font-weight: 600;
   color: #fff;
-  border-radius: 20rpx;
+  border-radius: 50rpx;
+  box-shadow: 0px 10px 15px #aaa;
 }
 
 /* 三个标签 */

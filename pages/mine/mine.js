@@ -16,9 +16,9 @@ Page({
     //
     //labelList:['换绑手机','绑定企业','地址管理','浏览记录','下单闹钟','客户服务','推荐有奖','更多'],
     //labelIconArr: ['shouji1','qiye1','dizhi','zuji','naozhong','kefu','bajiefuli','gengduo'],
-    labelList:['换绑手机','绑定企业','地址管理'],
-    labelIconArr: ['shouji1','qiye1','dizhi'],
-    navigatorUrl:['/pages/mine/phone/phone','/pages/mine/organize/organize','/pages/mine/address/address']
+    labelList:['换绑手机','绑定企业','地址管理','客户服务'],
+    labelIconArr: ['shouji1','qiye1','dizhi','kefu'],
+    navigatorUrl:['/pages/mine/phone/phone','/pages/mine/organize/organize','/pages/mine/address/address','/pages/mine/service/service']
   },
   initMine: function(){
     let _this = this

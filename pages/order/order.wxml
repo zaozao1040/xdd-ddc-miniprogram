@@ -27,10 +27,11 @@
     </view>
   </view>
   <!-- 去评价弹出的对话框 -->
-  <form bindsubmit="buttonClickYes_ratings" report-submit="true">
+  <form report-submit="true" bindsubmit="buttonClickYes_ratings">
     <view class="ratings-wrapper" wx:if="{{showRatingsFlag}}">
-      <view class="ratings-wrapper-content" >
-        <view class="foodList-wrapper" wx:for="{{orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem" wx:key="foodIndex">
+      <view class="ratings-wrapper-content">
+        <view class="foodList-wrapper" wx:for="{{orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem"
+          wx:key="foodIndex">
           <!-- 单个菜品的评价 -->
           <view class="fooditem-wrapper">
             <view class="foodname">
@@ -38,13 +39,13 @@
             </view>
             <view class="foodstar">
               <block wx:for="{{starNum}}" wx:for-index="starIndex" wx:for-item="starItem" wx:key="starIndex">
-                <text class="iconfont icon-xingxing {{starIndex+1<=starActiveNum?'foodstar-active':''}}" decode bindtap="handleClickStar" data-num="{{starIndex+1}}"
-                >&nbsp;</text>
+                <text class="iconfont icon-xingxing {{starIndex+1<=starActiveNum?'foodstar-active':''}}" decode bindtap="handleClickStar"
+                  data-num="{{starIndex+1}}">&nbsp;</text>
               </block>
             </view>
             <view class="foodratingcontent-wrapper">
-              <textarea class="foodratingcontent" bindinput="ratingsInput" placeholder="我要提出建议..." maxlength="60" focus />          
-            </view>
+              <textarea class="foodratingcontent" bindinput="ratingsInput" placeholder="我要提出建议..." maxlength="60" focus />
+              </view>
             <view class="img-wrapper">
               <image class="image" src="{{imgItem}}" wx:for="{{tempFilePaths}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex" 
               bindtap="handlePreviewImage" data-index="{{imgIndex}}"></image>
@@ -56,7 +57,7 @@
           <button style="width:200rpx;" bindtap="buttonClickNo_ratings">
             取消
           </button>
-          <button style="width:200rpx;background:#e79b37;color:#fff;" formType="submit" bindtap="buttonClickYes_ratings">
+          <button style="width:200rpx;background:#e79b37;color:#fff;" formType="submit">
             确定
           </button>
         </view>      
@@ -82,20 +83,23 @@
     </view>
     <view wx:else>
       <view class="order-item" wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
-        <view class="order-item-header">
+        <view class="order-item-header {{orderItem.expired?'order-item-header-old':''}}">
           <view style="display:flex;justify-content: space-between;">
             <view class="order-type">
               {{orderItem.mealTypeDes}}
+            </view>
+            <view class="order-cabinet" wx:if="{{orderItem.cabinet}}">
+              <text class='iconfont icon-jigui' decode>&nbsp;</text>{{orderItem.cabinet}}
             </view>
             <view class="order-status">
               {{orderItem.orderStatusDes}}
             </view>
           </view>
           <view class="order-time">
-            <text class='iconfont icon-shijian' decode>&nbsp;</text>{{orderItem.orderTimeDes}}用餐
+            <text class='iconfont icon-shijian' decode>&nbsp;</text>{{orderItem.mealDate}}用餐
           </view>
         </view>
-        <view class="order-item-content" >
+        <view class="order-item-content {{orderItem.expired?'order-item-content-old':''}}" >
           <view class="foods-wrapper">
             <view class="food-item" wx:for="{{orderItem.orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem"
               wx:key="foodIndex" >
@@ -114,36 +118,56 @@
               共{{orderItem.orderFoodList.length}}件商品 
             </view>
             <view class="food-des" style="display: inline-block;margin-right: 10rpx;">
-              总价¥<text style="color:red;">{{orderItem.totalPrice}}</text>
+              总价
+              <block wx:if="{{orderItem.expired}}">
+                ¥{{orderItem.totalPrice}}
+              </block>
+              <block wx:else>
+                <text style="color:red;">¥{{orderItem.totalPrice}}</text>
+              </block>
             </view>
             <view class="food-des" style="display: inline-block;">
-              自费¥<text style="color:red;">{{orderItem.payPrice}}</text>
+              自费
+              <block wx:if="{{orderItem.expired}}">
+                ¥{{orderItem.payPrice}}
+              </block>
+              <block wx:else>
+                <text style="color:red;">¥{{orderItem.payPrice}}</text>
+              </block>
             </view>
           </view>
           <view style="clear:both;float: right;height: 30rpx;line-height: 30rpx;">
-            <text class="iconfont icon-dingdanbianhao" style="font-size: 25rpx;color:#e79b37;" decode>&nbsp;{{orderItem.orderCode}}</text>
+            <block wx:if="{{orderItem.expired}}">
+              <text class="iconfont icon-dingdanbianhao" style="font-size: 25rpx;" decode>&nbsp;{{orderItem.orderCode}}</text>
+            </block>
+            <block wx:else>
+              <text class="iconfont icon-dingdanbianhao" style="font-size: 25rpx;color:#e79b37;" decode>&nbsp;{{orderItem.orderCode}}</text>
+            </block>
           </view>
           <view class="button-wrapper" style="clear: both;">
-            <view class="button quccan" bindtap="handleTakeOrder" data-ordercode="{{orderItem.orderCode}}" wx:if="{{orderItem.canTake}}">
-              点我取餐
-            </view>
-            <view class="button fukuan" bindtap="handleSecondpayOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
-              wx:if="{{orderItem.orderStatus  == 'NO_PAY' }}">
-              去付款
-            </view>
-            <view class="button pingjia" bindtap="handleEvaluateOrder" wx:if="{{orderItem.canEvaluate}}" 
-              data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-foodcode="{{orderItem.orderFoodList[0].foodCode}}" data-orderfoodlist="{{orderItem.orderFoodList}}">
-              去评价
-            </view>
-            <view class="button quxiao" bindtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
-              wx:if="{{orderItem.orderStatus  == 'PAYED_WAITINT_CONFIRM' || orderItem.orderStatus  == 'NO_PAY'}}">
-              取消订单
-            </view>
+            <block wx:if="{{!orderItem.expired}}">
+              <view class="button quxiao" style="" bindtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
+                wx:if="{{orderItem.orderStatus  == 'PAYED_WAITINT_CONFIRM' || orderItem.orderStatus  == 'NO_PAY'}}">
+                取消订单
+              </view>
+              <view class="button pingjia" style="" bindtap="handleEvaluateOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-foodcode="{{orderItem.orderFoodList[0].foodCode}}" data-orderfoodlist="{{orderItem.orderFoodList}}"
+                wx:if="{{orderItem.canEvaluate}}">
+                评价领积分
+              </view>
+              <view class="button quccan" style="background: #43964e;" bindtap="handleTakeOrder" data-ordercode="{{orderItem.orderCode}}" data-cabinet="{{orderItem.cabinet}}" 
+                wx:if="{{orderItem.canTake}}">
+                点我取餐
+              </view>
+              <view class="button fukuan" style="background: #43964e;" bindtap="handleSecondpayOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
+                wx:if="{{orderItem.orderStatus  == 'NO_PAY' }}">
+                去付款
+              </view>            
+            </block>
           </view>
         </view>
       </view>
       <view class="hasMore-wrapper" wx:if="{{hasMoreDataFlag}}" bindtap="gotoNextPage" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
-        加载更多
+        点击加载更多
       </view>
       <view wx:else class="hasMore-wrapper" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
         没有更多了..
