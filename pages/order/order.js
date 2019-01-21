@@ -52,6 +52,11 @@ Page({
       USER_CANCEL: '已取消',
       SYSTEM_CANCEL: '系统自动取消'
     },
+    payStatusMap: {
+      THIRD_PAYED: '第三方支付',
+      NO_PAYED: '未支付',
+      STANDARD_PAYED: '标准支付'
+    },
     mealTypeMap: {
       BREAKFAST: '早餐',
       LUNCH: '午餐',
@@ -199,6 +204,7 @@ Page({
         tmp_orderList.forEach(element => {
           element.mealTypeDes = _this.data.mealTypeMap[element.mealType]
           element.orderStatusDes = _this.data.orderStatusMap[element.orderStatus]
+          element.payStatusDes = _this.data.payStatusMap[element.payStatus]
           element.orderTimeDes = moment(element.orderTime).format('YYYY-MM-DD HH:mm:ss')
         })
         //下面开始分页
@@ -275,13 +281,15 @@ Page({
                 icon: 'success',
                 duration: 2000
               })
-              setTimeout(function() {
-                wx.showToast({
-                  title: '余额已退还到您的钱包',
-                  icon: 'none',
-                  duration: 4000
-                })
-              }, 2000)
+              if(e.currentTarget.dataset.payprice){
+                setTimeout(function() {
+                  wx.showToast({
+                    title: '余额已退还到您的钱包',
+                    icon: 'none',
+                    duration: 4000
+                  })
+                }, 2000)                
+              }
             } else {
               wx.hideLoading()
               wx.showToast({

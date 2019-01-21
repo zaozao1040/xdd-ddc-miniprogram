@@ -690,6 +690,16 @@ Page({
       }
     }
   },
+  /* 滚动到底部事件监听 */
+  handleScrolltolower: function (e) {
+    if (this.data.scrollLintenFlag) { //允许触发滚动事件，才执行滚动事件
+      let _this = this
+      let listHeightLength = _this.data.listHeight.length
+      _this.setData({
+        menutypeActiveFlag: listHeightLength - 1
+      })
+    }
+  },
   goToMenuCommit() {
     wx.navigateTo({
       url: '/pages/menu/confirm/confirm?totalMoney='

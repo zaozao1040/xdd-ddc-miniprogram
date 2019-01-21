@@ -56,7 +56,7 @@
     <view class="label-wrapper">
       <view class="labelItem" bindtap="handleGotoLabel" data-type="qianbao">
         <view class='iconLabel iconfont icon-qianbao'></view>
-        <view class="labelDes">钱包</view>
+        <view class="labelDes">余额</view>
       </view>
       <view class="labelItem" bindtap="handleGotoLabel" data-type="youhuiquan">
         <view class='iconLabel iconfont icon-youhuiquan1'></view>

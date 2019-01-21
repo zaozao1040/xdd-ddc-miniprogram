@@ -33,7 +33,7 @@
         <text class="money-2" >元</text>
       </view>
       <view class='offer-title' >
-        <text decode>钱包&nbsp;</text>
+        <text decode>余额&nbsp;</text>
         <text class='iconfont icon-icon_on_the_right iconfont-offertitle'></text>
       </view>
     </navigator>

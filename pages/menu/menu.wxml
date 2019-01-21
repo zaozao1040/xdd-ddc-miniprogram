@@ -73,7 +73,7 @@
             {{foodLabelItem.labelName}}
           </view>
         </view>
-        <scroll-view class="menu-right-item-wrapper" scroll-y scroll-with-animation="true" bindscroll="handleScroll"
+        <scroll-view class="menu-right-item-wrapper" scroll-y scroll-with-animation="true" bindscroll="handleScroll" bindscrolltolower="handleScrolltolower"
           style="height: {{top_2 - top_0 - 30 - 30}}px;" scroll-into-view="{{scrollToView}}">
           <view class="c_foodPosition_forCalculate right-item" wx:for="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].foods}}" wx:for-item="menutypeItem"
             wx:for-index="menutypeIndex" wx:key="menutypeIndex">

@@ -136,17 +136,23 @@
               </block>
             </view>
           </view>
-          <view style="clear:both;float: right;height: 30rpx;line-height: 30rpx;">
-            <block wx:if="{{orderItem.expired}}">
-              <text class="iconfont icon-dingdanbianhao" style="font-size: 25rpx;" decode>&nbsp;{{orderItem.orderCode}}</text>
-            </block>
-            <block wx:else>
-              <text class="iconfont icon-dingdanbianhao" style="font-size: 25rpx;color:#e79b37;" decode>&nbsp;{{orderItem.orderCode}}</text>
-            </block>
+
+          <view class="" style="clear:both;display: flex;justify-content: space-between;">
+            <view style="height: 30rpx;line-height: 30rpx;">
+              <block wx:if="{{orderItem.expired}}">
+                <text class="iconfont icon-dingdanbianhao" style="font-size: 25rpx;" decode>&nbsp;{{orderItem.orderCode}}</text>
+              </block>
+              <block wx:else>
+                <text class="iconfont icon-dingdanbianhao" style="font-size: 25rpx;color:#e79b37;" decode>&nbsp;{{orderItem.orderCode}}</text>
+              </block>
+            </view>  
+            <view style="height: 30rpx;line-height: 30rpx;font-size: 25rpx;">
+              {{orderItem.payStatusDes}}
+            </view>          
           </view>
           <view class="button-wrapper" style="clear: both;">
             <block wx:if="{{!orderItem.expired}}">
-              <view class="button quxiao" style="" bindtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
+              <view class="button quxiao" style="" bindtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-payprice="{{orderItem.payPrice}}"
                 wx:if="{{orderItem.orderStatus  == 'PAYED_WAITINT_CONFIRM' || orderItem.orderStatus  == 'NO_PAY'}}">
                 取消订单
               </view>
