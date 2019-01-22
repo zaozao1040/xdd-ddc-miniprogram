@@ -18,7 +18,7 @@ class integral extends base {
   /* 积分兑换 */
   handleExchange(param, callback) {
     let allParams = {
-      url: baseUrl + '/user/balanceRecords',
+      url: baseUrl + '/user/integralExchangeBalance',
       type: 'post',
       data: param,
       sCallback: function (data) {

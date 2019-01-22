@@ -31,7 +31,7 @@
           <view wx:for="{{pointItem_line}}" wx:for-index="pointIndex" wx:for-item="pointItem" wx:key="pointIndex"
             class="duihuan-item {{activeFlag1==pointIndex_line&&activeFlag2==pointIndex?'duihuan-item-active':''}}"
             catchtap="changePointActiveFlag" data-activeflag1="{{pointIndex_line}}" data-activeflag2="{{pointIndex}}"
-            data-selectedmoney="{{pointItem.money}}">
+            data-selectedpoint="{{pointItem}}">
             <view class="">
               <text class="duihuan-point" decode>{{pointItem}}</text>
               <text class="duihuan-label" decode>&nbsp;分</text>

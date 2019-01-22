@@ -196,6 +196,7 @@ Page({
   },
   /* click更改选中的金额 */
   changePointActiveFlag: function (e) {
+    console.log(e)
     this.setData({
       activeFlag1: e.currentTarget.dataset.activeflag1
     })
@@ -203,7 +204,7 @@ Page({
       activeFlag2: e.currentTarget.dataset.activeflag2
     })
     this.setData({
-      selectedPoint: e.currentTarget.dataset.selectedPoint
+      selectedPoint: e.currentTarget.dataset.selectedpoint
     })
   },
   /* 积分兑换 */
@@ -223,45 +224,26 @@ Page({
       _this.data.canClick = false
       let param = {
         userCode: wx.getStorageSync('userInfo').userCode,
-        rechargeMoney: _this.data.selectedPoint
+        integral: _this.data.selectedPoint
       }
       wx.showLoading({
         title: '加载中',
         mask: true
       })
-      walletModel.RechargeBalance(param, (res) => {
-        console.log('收到请求(充值):', res)
+      integralModel.handleExchange(param, (res) => {
+        console.log('收到请求(积分兑换):', res)
         if (res.code === 0) {
-          let data = res.data
-          if (data.timeStamp) {
-            wx.requestPayment({
-              'timeStamp': data.timeStamp.toString(),
-              'nonceStr': data.nonceStr,
-              'package': data.packageValue,
-              'signType': data.signType,
-              'paySign': data.paySign,
-              success: function (e) {
-                wx.switchTab({
-                  url: '/pages/mine/wallet/wallet',
-                })
-                wx.showToast({
-                  title: '充值成功',
-                  icon: 'success',
-                  duration: 2000
-                })
-              },
-              fail: function (e) {
-                wx.showToast({
-                  title: '已取消充值',
-                  icon: 'success',
-                  duration: 4000
-                })
-              },
-              complete: function () {
-                wx.hideLoading()
-              }
+          wx.showToast({
+            title: '积分兑换成功',
+            icon: 'success',
+            duration: 2000
+          })
+          setTimeout(function(){ 
+            wx.switchTab({
+              url: '/pages/mine/mine',
             })
-          }
+            wx.hideLoading() //【防止狂点3】
+          },2000) 
         } else {
           wx.showToast({
             title: res.msg,
