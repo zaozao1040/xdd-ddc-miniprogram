@@ -37,7 +37,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 13,
+			"current": 15,
 			"list": [
 				{
 					"id": -1,
@@ -121,6 +121,18 @@
 					"id": -1,
 					"name": "order-list",
 					"pathName": "pages/order-list/order-list",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "mine-service",
+					"pathName": "pages/mine/service/service",
+					"query": ""
+				},
+				{
+					"id": 15,
+					"name": "mine-integral",
+					"pathName": "pages/mine/integral/integral",
 					"query": ""
 				}
 			]

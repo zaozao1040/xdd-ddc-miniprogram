@@ -1,11 +1,24 @@
 import { base } from '../../../comm/public/base'
-const app = getApp()  
+const app = getApp()
 const baseUrl = app.globalData.baseUrl
-class wallet extends base{
-  /* 充值 */
-  RechargeBalance(param,callback){
+class wallet extends base {
+  /* 请求充值返送列表 */
+  getGiftList(param, callback) {
     let allParams = {
-      url: baseUrl+'/user/RechargeOfBalance',
+      url: baseUrl + '/user/balanceRecords',
+      type: 'get',
+      data: param,
+      sCallback: function (data) {
+        callback && callback(data);
+      },
+      eCallback: function () { }
+    }
+    this.request(allParams)
+  }
+  /* 充值 */
+  RechargeBalance(param, callback) {
+    let allParams = {
+      url: baseUrl + '/user/RechargeOfBalance',
       type: 'POST',
       data: param,
       sCallback: function (data) {
@@ -16,9 +29,9 @@ class wallet extends base{
     this.request(allParams)
   }
   /* 获取交易记录列表 */
-  getRechargeList(param,callback){
+  getRechargeList(param, callback) {
     let allParams = {
-      url: baseUrl+'/user/balanceRecords',
+      url: baseUrl + '/user/balanceRecords',
       type: 'get',
       data: param,
       sCallback: function (data) {
@@ -29,9 +42,9 @@ class wallet extends base{
     this.request(allParams)
   }
   /* 获取钱包信息 */
-  getWalletData(param,callback){
+  getWalletData(param, callback) {
     let allParams = {
-      url: baseUrl+'/user/balance',
+      url: baseUrl + '/user/balance',
       type: 'get',
       data: param,
       sCallback: function (data) {
@@ -40,7 +53,7 @@ class wallet extends base{
       eCallback: function () { }
     }
     this.request(allParams)
-  }  
+  }
 
 }
 export { wallet }

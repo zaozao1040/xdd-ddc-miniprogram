@@ -108,8 +108,8 @@
                   <view class="price-real">
                     <text style="font-size: 25rpx;">￥</text>{{foodItem.foodPrice}}
                   </view>
-                  <view wx:if="{{foodItem.foodOriginal}}" class="price-original">
-                    <text style="font-size: 25rpx;">￥</text>{{foodItem.foodOriginal}}
+                  <view wx:if="{{foodItem.originalPrice!=foodItem.foodPrice}}" class="price-original">
+                    <text style="font-size: 25rpx;">￥</text>{{foodItem.originalPrice}}
                   </view>
                 </view>
                 <!-- ***************  + - 添加、减掉餐品的小控件(菜单中) *************** -->

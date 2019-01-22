@@ -1,4 +1,5 @@
-// pages/mine/service/service.js
+import { service } from './service-model.js'
+let serviceModel = new service()
 Page({
 
   /**
@@ -26,7 +27,30 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    let _this = this
+    //初始化
+    //_this.initService()
+    let param = { }
+/*     wx.showLoading({ //【防止狂点2】
+      title: '加载中',
+      mask: true
+    }) */
+    serviceModel.getServiceList(param,(res)=>{
+      console.log('收到请求(客服列表):',res)
+/*       if(res.code === 0){
+        wx.setStorageSync('userInfo', res.data) //更新缓存的userInfo
+        _this.setData({
+          userInfo:res.data
+        })
+        wx.hideLoading() //【防止狂点3】
+      }else{
+        wx.showToast({
+          title: res.msg,
+          icon: 'none',
+          duration: 2000
+        })  
+      } */
+    })
   },
 
   /**

@@ -1,2 +1,89 @@
-<!--pages/mine/integral/integral.wxml-->
-<text>即将开放，敬请期待~~</text>
+<view class="integral-wrapper">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="header-des">
+      我的积分
+    </view>
+    <view class="header-item">
+      {{userInfo.integral}}
+    </view>
+    <text class="header-label" decode>
+      &nbsp;分
+    </text>
+  </view>
+  <!-- 内容 -->
+  <view class="content">
+    <view class="content-header">
+      <view class="content-header-item {{itemStatusActiveFlag==true?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag"
+        data-flag="duihuan">
+        积分兑换
+      </view>
+      <view class="content-header-item {{itemStatusActiveFlag==false?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag"
+        data-flag="jilu">
+        积分记录
+      </view>
+    </view>
+    <view class="content-content c_scrollPosition_forCalculate">
+      <!-- 积分的内容区域 -->
+      <view wx:if="{{itemStatusActiveFlag}}" class="duihuan-wrapper">
+        <view class="duihuan-item-line" wx:for="{{pointsList}}" wx:for-index="pointIndex_line" wx:for-item="pointItem_line"
+          wx:key="pointIndex_line">
+          <view wx:for="{{pointItem_line}}" wx:for-index="pointIndex" wx:for-item="pointItem" wx:key="pointIndex"
+            class="duihuan-item {{activeFlag1==pointIndex_line&&activeFlag2==pointIndex?'duihuan-item-active':''}}"
+            catchtap="changePointActiveFlag" data-activeflag1="{{pointIndex_line}}" data-activeflag2="{{pointIndex}}"
+            data-selectedmoney="{{pointItem.money}}">
+            <view class="">
+              <text class="duihuan-point" decode>{{pointItem}}</text>
+              <text class="duihuan-label" decode>&nbsp;分</text>
+            </view>
+            <view style="height: 30rpx;line-height: 30rpx;margin-bottom: 20rpx;">
+              <block wx:if="{{moneyItem.gift==0}}">
+                <text style="font-size: 30rpx;"></text>
+              </block>
+              <block wx:else>
+                <text style="font-size: 30rpx;">兑换<text style="font-size: 20rpx;">¥</text></text>
+                <text class="chongzhi-money-mini" decode>{{pointItem/100}}</text>
+              </block>
+            </view>
+          </view>
+        </view>
+        <view class="explain-wrapper">
+          <view class="explain-title">兑换说明</view>
+          <text class="explain-des">1.{{explainDes.one}}</text>
+          <text class="explain-des">2.{{explainDes.two}}</text>
+        </view>
+      </view>
+      <!-- 交易记录的内容区域 -->
+      <scroll-view wx:else scroll-y style="height: {{windowHeight - scrollTop}}px;">
+        <view wx:if="{{exchangeListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+          未查询到积分记录..
+        </view>
+        <view wx:else class="jilu-wrapper">
+          <view class="" hover-class="none" hover-stop-propagation="false">
+            <view class="exchange-item" wx:for="{{exchangeList}}" wx:for-index="exchangeIndex" wx:for-item="exchangeItem"
+              wx:key="exchangeIndex">
+              <view class="exchangeMoney">
+                {{exchangeItem.balance}}
+              </view>
+              <view class="exchangeType">
+                {{exchangeItem.recordTypeDes}}
+              </view>
+              <view class="exchangeTime">
+                {{exchangeItem.operateTimeDes}}
+              </view>
+            </view>
+            <view class="hasMore-wrapper" wx:if="{{hasMoreDataFlag}}" bindtap="gotoNextPage" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+              点击加载更多
+            </view>
+            <view wx:else class="hasMore-wrapper" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+              没有更多了..
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+      <view class="c_buttonPosition_forCalculate" wx:if="{{itemStatusActiveFlag}}">
+        <button catchtap="handleExchange" loading="{{loading}}" class="button">立即兑换</button>
+      </view>
+    </view>
+  </view>
+</view>

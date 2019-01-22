@@ -1,10 +1,9 @@
-
-<view class="wallet-wrapper" >
+<view class="wallet-wrapper">
   <!-- 头部 -->
-  <view class="header" >
+  <view class="header">
     <view class="header-des">
       账户余额
-    </view>  
+    </view>
     <text class="header-label" decode>
       ¥&nbsp;
     </text>
@@ -13,54 +12,70 @@
     </view>
   </view>
   <!-- 内容 -->
-  <view class="content" >
-    <view class="content-header" >
-      <view class="content-header-item {{itemStatusActiveFlag==true?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="chongzhi">
+  <view class="content">
+    <view class="content-header">
+      <view class="content-header-item {{itemStatusActiveFlag==true?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag"
+        data-flag="chongzhi">
         在线充值
       </view>
-      <view class="content-header-item {{itemStatusActiveFlag==false?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="jiaoyi">
+      <view class="content-header-item {{itemStatusActiveFlag==false?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag"
+        data-flag="jiaoyi">
         交易记录
       </view>
     </view>
-    <view class="content-content" >
+    <view class="content-content">
       <!-- 充值的内容区域 -->
       <scroll-view wx:if="{{itemStatusActiveFlag}}" scroll-y style="height: {{buttonTop - scrollTop}}px;" class="c_scrollPosition_forCalculate">
-        <view class="chongzhi-wrapper" >
-          <view class="chongzhi-item-line" wx:for="{{moneyList}}" wx:for-index="moneyIndex_line" wx:for-item="moneyItem_line" wx:key="moneyIndex_line">
+        <view class="chongzhi-wrapper">
+          <view class="chongzhi-item-line" wx:for="{{moneyList}}" wx:for-index="moneyIndex_line" wx:for-item="moneyItem_line"
+            wx:key="moneyIndex_line">
             <view wx:for="{{moneyItem_line}}" wx:for-index="moneyIndex" wx:for-item="moneyItem" wx:key="moneyIndex"
-                  class="chongzhi-item {{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex?'chongzhi-item-active':''}}"
-                  catchtap="changeMoneyActiveFlag" data-activeflag1="{{moneyIndex_line}}" data-activeflag2="{{moneyIndex}}" data-selectedmoney="{{moneyItem}}">
-              <text class="chongzhi-label" decode>¥&nbsp;</text>
-              <text class="chongzhi-money" decode>{{moneyItem}}</text>
+              class="chongzhi-item {{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex?'chongzhi-item-active':''}}"
+              catchtap="changeMoneyActiveFlag" data-activeflag1="{{moneyIndex_line}}" data-activeflag2="{{moneyIndex}}"
+              data-selectedmoney="{{moneyItem.money}}">
+              <view class="">
+                <text class="chongzhi-label" decode>¥&nbsp;</text>
+                <text class="chongzhi-money" decode>{{moneyItem.money}}</text>
+              </view>
+              <view style="height: 30rpx;line-height: 30rpx;margin-bottom: 20rpx;">
+                <block wx:if="{{moneyItem.gift==0}}">
+                  <text style="font-size: 30rpx;"></text>
+                </block>
+                <block wx:else>
+                  <text style="font-size: 30rpx;">赠<text style="font-size: 20rpx;">¥</text></text>
+                  <text class="chongzhi-money-mini" decode>{{moneyItem.gift}}</text>
+                </block>
+              </view>
             </view>
           </view>
-          <view class="explain-wrapper" >
+          <view class="explain-wrapper">
             <view class="explain-title">充值说明</view>
             <text class="explain-des">1.{{explainDes.one}}</text>
           </view>
           <view class="explain-title" style="margin-left: 20rpx;">充值方式</view>
-          <view class="wxRecharge-wrapper" >
+          <view class="wxRecharge-wrapper">
             <view class='iconfont icon-weixin' style="color:#43964e;"></view>
-            <view class="wxRecharge-des-wrapper" >
-              <view class="wxRecharge-des-1" >
+            <view class="wxRecharge-des-wrapper">
+              <view class="wxRecharge-des-1">
                 微信支付
               </view>
-              <view class="wxRecharge-des-2" >
+              <view class="wxRecharge-des-2">
                 亿万用户的选择，快捷更安全
               </view>
             </view>
             <view class='iconfont icon-dagou'></view>
-          </view>     
+          </view>
         </view>
       </scroll-view>
       <!-- 交易记录的内容区域 -->
-      <scroll-view wx:else scroll-y style="height: {{windowHeight - scrollTop}}px;" >
+      <scroll-view wx:else scroll-y style="height: {{windowHeight - scrollTop}}px;">
         <view wx:if="{{rechargeListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
           未查询到充值记录..
-        </view> 
-        <view wx:else class="jilu-wrapper" >
+        </view>
+        <view wx:else class="jilu-wrapper">
           <view class="" hover-class="none" hover-stop-propagation="false">
-            <view class="recharge-item" wx:for="{{rechargeList}}" wx:for-index="rechargeIndex" wx:for-item="rechargeItem" wx:key="rechargeIndex">
+            <view class="recharge-item" wx:for="{{rechargeList}}" wx:for-index="rechargeIndex" wx:for-item="rechargeItem"
+              wx:key="rechargeIndex">
               <view class="rechargeMoney">
                 {{rechargeItem.balance}}
               </view>
@@ -70,21 +85,19 @@
               <view class="rechargeTime">
                 {{rechargeItem.operateTimeDes}}
               </view>
-            </view>   
-            <view class="hasMore-wrapper" wx:if="{{hasMoreDataFlag}}" bindtap="gotoNextPage"
-                  style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
-                  点击加载更多
-            </view>  
+            </view>
+            <view class="hasMore-wrapper" wx:if="{{hasMoreDataFlag}}" bindtap="gotoNextPage" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+              点击加载更多
+            </view>
             <view wx:else class="hasMore-wrapper" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
               没有更多了..
-            </view>                        
+            </view>
           </view>
         </view>
       </scroll-view>
       <view class="c_buttonPosition_forCalculate" wx:if="{{itemStatusActiveFlag}}">
         <button catchtap="handleRecharge" loading="{{loading}}" class="button">立即充值</button>
-      </view>   
+      </view>
     </view>
   </view>
 </view>
-

@@ -9,6 +9,7 @@ Page({
   data: {
     canClick: true,
     listCanGet: true,
+    userInfo: null,
     //分页
     page: 1, // 设置加载的第几次，默认是第一次
     limit: 20, // 每页条数
@@ -19,8 +20,10 @@ Page({
     buttonTop: 0,
     //
     itemStatusActiveFlag: true,
-    moneyList: [[6, 12, 68], [108, 218, 318], [468, 618, 888]],
-    itemMoneyActiveFlag: [0, 2],//默认0行2列，也就是人民币68
+    /*     moneyList: [[6, 12, 68], [108, 218, 318], [468, 618, 888]], */
+    moneyList: [
+      [{ money: 10, gift: 0 }, { money: 20, gift: 2 }, { money: 50, gift: 10 }],
+      [{ money: 100, gift: 30 }, { money: 200, gift: 70 }, { money: 500, gift: 200 }]],
     activeFlag1: undefined,
     activeFlag2: undefined,
     selectedMoney: 0,
@@ -29,7 +32,6 @@ Page({
       two: '若充值遇到问题请联系1855748732',
       three: '若充值遇到问题请联系1855748732',
     },
-    userInfo: null,
     rechargeList: [],
     rechargeListNoResult: false,
   },
@@ -78,6 +80,7 @@ Page({
   onShow: function () {
     let _this = this
     _this.initWallet()
+    _this.getGiftList()
     this.setData({
       page: 1,
       limit: 20,
@@ -85,6 +88,22 @@ Page({
     })
   },
 
+  /* 获取充多少送多少的list */
+  getGiftList: function () {
+    wx.showLoading({ 
+      title: '加载中'
+    })
+    //请求充值返送列表
+    walletModel.getGiftList(param,(res)=>{
+      console.log('收到请求(充值返送列表):',res)
+      wx.hideLoading() 
+      if(res.code === 0){
+        _this.setData({
+          moneyList: res.data
+        })                       
+      }
+    }) 
+  },
   /* 手动点击触发下一页 */
   gotoNextPage: function () {
     if (this.data.hasMoreDataFlag) {
