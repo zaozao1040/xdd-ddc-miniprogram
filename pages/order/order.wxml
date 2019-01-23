@@ -88,8 +88,8 @@
             <view class="order-type">
               {{orderItem.mealTypeDes}}
             </view>
-            <view class="order-cabinet" wx:if="{{orderItem.cabinet}}">
-              <text class='iconfont icon-jigui' decode>&nbsp;</text>{{orderItem.cabinet}}
+            <view class="order-cabinet {{orderItem.expired?'order-cabinet-old':''}}" wx:if="{{orderItem.cabinet}}">
+              柜号:{{orderItem.cabinet}}
             </view>
             <view class="order-status">
               {{orderItem.orderStatusDes}}

@@ -157,8 +157,16 @@
 }
 .order-cabinet{
   font-size: 35rpx;
-  font-weight: 500;
+  font-weight: 800;
   color: #43964e;
+  background: #FFF;
+  border-radius: 10rpx;
+  padding:2rpx 8rpx 2rpx 8rpx;
+}
+.order-cabinet-old{
+  color: #FFF;
+  font-weight: 500;
+  background: #ccc;
 }
 .order-status{
   font-size: 35rpx;

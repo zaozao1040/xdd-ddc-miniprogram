@@ -78,7 +78,7 @@
     </view>
     <!-- 新人大礼  -->
     <view class="newuser-wrapper-2">
-      <image mode="widthFix" style="width:100%;" src="../../images/home/newuser.png"></image>
+      <image mode="widthFix" style="width:100%;" src="../../images/home/newuser.png" bindtap="getNewUserGift"></image>
     </view>
     <!-- 新人大礼 弹出 -->
     <view class="newuser-wrapper" wx:if="{{newUserFlag&&showDaliFlag}}">

@@ -318,7 +318,7 @@ Page({
                 mask: true
               })
               registerModel.register(param,(res)=>{
-                console.log('收到请求(登录):',res)
+                console.log('收到请求(注册):',res)
                 if(res.code === 0){
                   wx.setStorageSync('userInfo', res.data)
                   setTimeout(function(){ //提示注册成功，两秒后跳转到首页
