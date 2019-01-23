@@ -40,7 +40,7 @@
   display: flex;
   height: 100rpx;
   line-height: 100rpx;
-  border-bottom: 1rpx solid #666;
+  border-bottom: 1rpx solid #bbb;
 }
 .content-header-item{
   flex:1;
@@ -48,11 +48,13 @@
   font-size: 35rpx;
   font-weight: 600;
   color:#666;
-  margin: 0 100rpx;
+  margin: 0 80rpx;
 }
 .content-header-item-active{
+  padding:0 10rpx;
   border-bottom: 10rpx solid #e79b37;
   color:#e79b37;
+  font-size:40rpx;
 }
 .content-content{
 

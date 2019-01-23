@@ -32,18 +32,18 @@
             <view wx:for="{{moneyItem_line}}" wx:for-index="moneyIndex" wx:for-item="moneyItem" wx:key="moneyIndex"
               class="chongzhi-item {{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex?'chongzhi-item-active':''}}"
               catchtap="changeMoneyActiveFlag" data-activeflag1="{{moneyIndex_line}}" data-activeflag2="{{moneyIndex}}"
-              data-selectedmoney="{{moneyItem.money}}">
+              data-selectedmoney="{{moneyItem.rechargeAmount}}">
               <view class="">
                 <text class="chongzhi-label" decode>¥&nbsp;</text>
-                <text class="chongzhi-money" decode>{{moneyItem.money}}</text>
+                <text class="chongzhi-money" decode>{{moneyItem.rechargeAmount}}</text>
               </view>
               <view style="height: 30rpx;line-height: 30rpx;margin-bottom: 20rpx;">
-                <block wx:if="{{moneyItem.gift==0}}">
+                <block wx:if="{{moneyItem.presentAmount==0}}">
                   <text style="font-size: 30rpx;"></text>
                 </block>
                 <block wx:else>
                   <text style="font-size: 30rpx;">赠<text style="font-size: 20rpx;">¥</text></text>
-                  <text class="chongzhi-money-mini" decode>{{moneyItem.gift}}</text>
+                  <text class="chongzhi-money-mini" decode>{{moneyItem.presentAmount}}</text>
                 </block>
               </view>
             </view>

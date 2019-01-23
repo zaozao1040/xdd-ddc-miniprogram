@@ -21,9 +21,7 @@ Page({
     //
     itemStatusActiveFlag: true,
     /*     moneyList: [[6, 12, 68], [108, 218, 318], [468, 618, 888]], */
-    moneyList: [
-      [{ money: 10, gift: 0 }, { money: 20, gift: 2 }, { money: 50, gift: 10 }],
-      [{ money: 100, gift: 30 }, { money: 200, gift: 70 }, { money: 500, gift: 200 }]],
+    moneyList: [],
     activeFlag1: undefined,
     activeFlag2: undefined,
     selectedMoney: 0,
@@ -90,20 +88,41 @@ Page({
 
   /* 获取充多少送多少的list */
   getGiftList: function () {
+    let _this = this
     wx.showLoading({ 
       title: '加载中'
     })
     let param = {
-      organizeCode: wx.getStorageSync('userInfo').organizeCode
+      userCode: wx.getStorageSync('userInfo').userCode
     }
     //请求充值返送列表
     walletModel.getGiftList(param,(res)=>{
       console.log('收到请求(充值返送列表):',res)
       wx.hideLoading() 
       if(res.code === 0){
-        _this.setData({
-          moneyList: res.data
-        })                       
+        if(res.data.length!=6){
+          wx.showToast({
+            icon: "none",
+            title: '获取的充值数据不是六组'
+          })
+          return
+        }else{
+          let tmp_1 = []
+          tmp_1.push(res.data[0])
+          tmp_1.push(res.data[1])
+          tmp_1.push(res.data[2])
+          let tmp_2 = []
+          tmp_2.push(res.data[3])
+          tmp_2.push(res.data[4])
+          tmp_2.push(res.data[5])
+          let tmp_moneyList = []
+          tmp_moneyList.push(tmp_1)
+          tmp_moneyList.push(tmp_2)
+          console.log('六组数据:',tmp_moneyList)
+          _this.setData({
+            moneyList: tmp_moneyList
+          })   
+        }            
       }
     }) 
   },
@@ -172,7 +191,8 @@ Page({
           PRESENT: '赠送',
           PRE_RECHARGE: '预充',
           ACTIVITY_PRESENT: '活动赠送',
-          RECHARGE_PRESENT: '充值赠送'
+          RECHARGE_PRESENT: '充值赠送',
+          INTEGRAL_RECHARGE: '积分兑换'
         }
         let tmp_rechargeList = res.data
         tmp_rechargeList.forEach(element => {

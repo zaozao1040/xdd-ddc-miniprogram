@@ -5,8 +5,8 @@ class wallet extends base {
   /* 请求充值返送列表 */
   getGiftList(param, callback) {
     let allParams = {
-      url: baseUrl + '/organizeSet/getOrganizeSet',
-      type: 'post',
+      url: baseUrl + '/user/rechageList',
+      type: 'get',
       data: param,
       sCallback: function (data) {
         callback && callback(data);
