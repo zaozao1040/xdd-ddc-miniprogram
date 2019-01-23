@@ -5,7 +5,7 @@ class integral extends base {
   /* 获取交易记录列表 */
   getIntegralList(param, callback) {
     let allParams = {
-      url: baseUrl + '/user/balanceRecords',
+      url: baseUrl + '/user/integralRecords?',
       type: 'get',
       data: param,
       sCallback: function (data) {

@@ -55,21 +55,21 @@
       </view>
       <!-- 交易记录的内容区域 -->
       <scroll-view wx:else scroll-y style="height: {{windowHeight - scrollTop}}px;">
-        <view wx:if="{{exchangeListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+        <view wx:if="{{integralListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
           未查询到积分记录..
         </view>
         <view wx:else class="jilu-wrapper">
           <view class="" hover-class="none" hover-stop-propagation="false">
-            <view class="exchange-item" wx:for="{{exchangeList}}" wx:for-index="exchangeIndex" wx:for-item="exchangeItem"
-              wx:key="exchangeIndex">
-              <view class="exchangeMoney">
-                {{exchangeItem.balance}}
+            <view class="integral-item" wx:for="{{integralList}}" wx:for-index="integralIndex" wx:for-item="integralItem"
+              wx:key="integralIndex">
+              <view class="IntegralValue">
+                {{integralItem.integral}}
               </view>
-              <view class="exchangeType">
-                {{exchangeItem.recordTypeDes}}
+              <view class="integralType">
+                {{integralItem.recordTypeDes}}
               </view>
-              <view class="exchangeTime">
-                {{exchangeItem.operateTimeDes}}
+              <view class="integralTime">
+                {{integralItem.operateTimeDes}}
               </view>
             </view>
             <view class="hasMore-wrapper" wx:if="{{hasMoreDataFlag}}" bindtap="gotoNextPage" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">

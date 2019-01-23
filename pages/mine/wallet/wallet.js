@@ -93,6 +93,9 @@ Page({
     wx.showLoading({ 
       title: '加载中'
     })
+    let param = {
+      organizeCode: wx.getStorageSync('userInfo').organizeCode
+    }
     //请求充值返送列表
     walletModel.getGiftList(param,(res)=>{
       console.log('收到请求(充值返送列表):',res)

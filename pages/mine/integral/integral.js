@@ -120,7 +120,7 @@ Page({
   },
   /* 获取交易记录列表 */
   getIntegralList: function () {
-    /*    let _this = this
+        let _this = this
        if (!_this.data.listCanGet) {
          return
        }
@@ -139,23 +139,20 @@ Page({
          wx.hideLoading()
          if (res.code === 0) {
            let typeMap = {
-             RECHARGE: '充值',
-             CONSUMPTION: '消费',
-             CANCEL_ORDER: '取消订单返还',
-             PRESENT: '赠送',
-             PRE_RECHARGE: '预充',
-             ACTIVITY_PRESENT: '活动赠送',
-             RECHARGE_PRESENT: '充值赠送'
+            ORDER: '下单送积分',
+            CONSUMPTION: '消费',
+            CANCEL_ORDER: '取消订单返还积分',
+            EVALUATE: '评价送积分'
            }
            let tmp_integralList = res.data
            tmp_integralList.forEach(element => {
              element.recordTypeDes = typeMap[element.recordType]
              if (element.recordType == 'CONSUMPTION') {
-               element.balance = '' + (parseFloat(element.newBalance) - parseFloat(element.oldBalance)).toFixed(2)
-               //element.balance = ''+(100*element.newBalance - 100*element.oldBalance)/100
+               element.integral = '' + (parseFloat(element.newIntegral) - parseFloat(element.oldIntegral)).toFixed(2)
+               //element.integral = ''+(100*element.newIntegral - 100*element.oldIntegral)/100
              } else {
-               element.balance = '+' + (parseFloat(element.newBalance) - parseFloat(element.oldBalance)).toFixed(2)
-               //element.balance = '+'+(100*element.newBalance - 100*element.oldBalance)/100
+               element.integral = '+' + (parseFloat(element.newIntegral) - parseFloat(element.oldIntegral)).toFixed(2)
+               //element.integral = '+'+(100*element.newIntegral - 100*element.oldIntegral)/100
              }
              element.recordTypeDes = typeMap[element.recordType]
              element.operateTimeDes = moment(element.operateTime).format('YYYY-MM-DD HH:mm:ss')
@@ -192,7 +189,7 @@ Page({
            })
          }
          _this.data.listCanGet = true
-       }) */
+       }) 
   },
   /* click更改选中的金额 */
   changePointActiveFlag: function (e) {

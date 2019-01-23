@@ -125,7 +125,31 @@
 
 
 
-
+/* 积分记录的内容区域 */
+.jilu-wrapper{
+  margin: 20rpx;
+}
+.integral-item{
+  border-bottom: solid 1rpx #ccc;
+}
+.integralType{
+  font-size: 35rpx;
+  font-weight: 500;
+  color:#222;
+}
+.IntegralValue{
+  float: right;
+  font-size: 35rpx;
+  font-weight: 500;
+  color:#000;
+  text-align: center;
+  color: red;
+}
+.integralTime{
+  font-size: 30rpx;
+  font-weight: 500;
+  color:#666;
+}
 
 .noResult{
   padding:10rpx 20rpx;
