@@ -543,12 +543,14 @@ Page({
         if (res.code === 0) {
           wx.hideLoading()
           wx.reLaunch({
-            url: '/pages/order/order'
-          })
-          wx.showToast({
-            title: '成功评价,已送您' + res.data + '积分',
-            icon: 'none',
-            duration: 2000
+            url: '/pages/order/order',
+            success: function(res){
+              wx.showToast({
+                title: '成功评价,已送您' + res.data + '积分',
+                icon: 'none',
+                duration: 2000
+              })
+            }
           })
         } else {
           wx.hideLoading()
@@ -618,6 +620,7 @@ Page({
           filePath: res_0.tempFilePaths[0],//要上传文件资源的路径
           name: 'file', //文件对应的 key , 开发者在服务器端通过这个 key 可以获取到文件二进制内容
           formData: { //HTTP 请求中其他额外的 form data
+            orderCode: _this.data.orderCode,
             userCode: wx.getStorageSync('userInfo').userCode,
             type: 'EVALUATE'
           },

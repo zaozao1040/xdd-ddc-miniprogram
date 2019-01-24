@@ -52,6 +52,11 @@
           <text class="explain-des">1.{{explainDes.one}}</text>
           <text class="explain-des">2.{{explainDes.two}}</text>
         </view>
+        <view class="explain-wrapper">
+          <view class="explain-title">赠送规则</view>
+          <text class="explain-des">1.{{explainRulesDes.one}}</text>
+          <text class="explain-des">2.{{explainRulesDes.two}}</text>
+        </view>
       </view>
       <!-- 交易记录的内容区域 -->
       <scroll-view wx:else scroll-y style="height: {{windowHeight - scrollTop}}px;">

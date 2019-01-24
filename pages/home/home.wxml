@@ -29,7 +29,7 @@
     <!-- 轮播图 -->
     <swiper autoplay="true" class="h-v2-swiper-item" circular="true" duration="500" indicatorActiveColor="#fff"
       indicatorColor="rgb(212, 203, 201)" indicatorDots interval="5000">
-      <block wx:for="{{swiperList}}" wx:for-index="swiperListIndex" wx:for-item="swiperListItem" wx:key="swiperListIndex">
+      <block wx:for="{{imagesList.banner}}" wx:for-index="swiperListIndex" wx:for-item="swiperListItem" wx:key="swiperListIndex">
         <swiper-item bindtap="navigateTo">
           <navigator url="/pages/home/link?extendUrl={{swiperListItem.url}}">
             <image mode="widthFix" src="{{swiperListItem.image}}" style="width:100%;"></image>
@@ -69,7 +69,7 @@
     </view>
     <!-- 活动 -->
     <view class="promotion-wrapper">
-      <view class="promotionItem" wx:for="{{promotionList}}" wx:for-index="promotionListIndex" wx:for-item="promotionListItem"
+      <view class="promotionItem" wx:for="{{imagesList.center}}" wx:for-index="promotionListIndex" wx:for-item="promotionListItem"
         wx:key="promotionListIndex">
         <navigator url="/pages/home/link?extendUrl={{promotionListItem.url}}">
           <image class="promotion-img" src="{{promotionListItem.image}}" />
@@ -78,16 +78,29 @@
     </view>
     <!-- 新人大礼  -->
     <view class="newuser-wrapper-2">
-      <image mode="widthFix" style="width:100%;" src="../../images/home/newuser.png" bindtap="getNewUserGift"></image>
+      <image mode="widthFix" style="width:100%;" src="{{imagesList.foot.image}}" bindtap="getNewUserGift"></image>
     </view>
     <!-- 新人大礼 弹出 -->
     <view class="newuser-wrapper" wx:if="{{newUserFlag&&showDaliFlag}}">
       <view class="img-wrapper" bindtap="handleGotoLogin">
-        <image class="image-dali" src="../../images/home/dali.png"></image>
-      </view>
-      <view class="icon-wrapper">
-        <view class="iconfont icon-dacha1" bindtap="closeDali"></view>
+        <view class="icon-wrapper">
+          <view class="iconfont icon-dacha1" bindtap="closeDali"></view>
+        </view>
+        <image class="image-dali" src="{{imagesList.alert.image}}"></image>
       </view>
     </view>
+    <!-- 提示取餐 弹出 -->
+<!--     <view class="newuser-wrapper">
+      <view class="img-wrapper" bindtap="handleGotoLogin">
+        <view class="icon-wrapper">
+          <view class="iconfont icon-dacha1" bindtap="closeDali"></view>
+        </view>
+        <view class="reminder-wrapper" hover-class="none" hover-stop-propagation="false">
+          <view class="" hover-class="none" hover-stop-propagation="false">
+            // -----------待开发
+          </view>
+        </view>
+      </view>
+    </view> -->
   </view>
 </scroll-view>

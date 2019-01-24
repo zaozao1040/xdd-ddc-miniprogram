@@ -21,8 +21,7 @@ Page({
     wel: "",
     propagandaList: ['比外卖便宜', '全程保温', '食品更安全', '急速退款'],
     propagandaIconArr: ['bianyihuo2', 'peisong', 'shipinanquan-', 'tuikuan'],
-    swiperList: [],
-    promotionList: []
+    imagesList: []
   },
   handleGotoLabel: function (e) {
     let _this = this
@@ -75,36 +74,15 @@ Page({
     }) : this.setData({
       wel: "晚上好"
     });
-    /* **********获取轮播图********** */
-    let paramSwiper = {
-      limit: 5,
-      page: 1
+    // 获取首页图片
+    let param = {
+      userCode: wx.getStorageSync('userInfo').userCode
     }
-    homeModel.getSwiperList(paramSwiper, (res) => {
-      console.log('获取轮播图:', res)
+    homeModel.getImages(param, (res) => {
+      console.log('获取首页图片:', res)
       if (res.code === 0) {
-        _this.setData({
-          swiperList: res.data
-        })
-      } else {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none',
-          duration: 2000
-        })
-      }
-    })
-
-    /* **********获取推荐活动********** */
-    let paramPromotion = {
-      limit: 5,
-      page: 1
-    }
-    homeModel.getPromotionList(paramPromotion, (res) => {
-      console.log('获取推荐活动:', res)
-      if (res.code === 0) {
-        _this.setData({
-          promotionList: res.data
+        this.setData({
+          imagesList: res.data
         })
       } else {
         wx.showToast({
@@ -170,9 +148,6 @@ Page({
    */
 
   onLoad: function (options) {
-    let _this = this
-    _this.initHome()
-    _this.handleRefreshUser() //每次onload都强制刷新用户状态
   },
 
   /**
@@ -180,6 +155,8 @@ Page({
    */
   onShow: function () {
     let _this = this
+    _this.initHome()
+    _this.handleRefreshUser() //每次onload都强制刷新用户状态
     let userStatus = myPublicModel.getUserStatus()
     console.log(userStatus)
     if (userStatus != 0) {
@@ -239,8 +216,6 @@ Page({
       newUserFlag: tag,
       showDaliFlag: tag
     })
-
-
   },
   logout: function () {
     wx.removeStorageSync('userInfo')
@@ -260,7 +235,7 @@ Page({
   },
   /* 领取新人大礼 */
   getNewUserGift: function () {
-    //请求后端接口，领取新人礼包
+    let _this = this
     let param = {
       userCode: wx.getStorageSync('userInfo').userCode
     }
