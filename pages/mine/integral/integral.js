@@ -123,76 +123,73 @@ Page({
   },
   /* 获取交易记录列表 */
   getIntegralList: function () {
-        let _this = this
-       if (!_this.data.listCanGet) {
-         return
-       }
-       _this.data.listCanGet = false
-       let param = {
-         userCode: wx.getStorageSync('userInfo').userCode,
-         limit: _this.data.limit,
-         page: _this.data.page
-       }
-       wx.showLoading({
-         title: '加载中',
-       })
-       console.log('发送请求:', param)
-       integralModel.getIntegralList(param, (res) => {
-         console.log('收到响应(积分记录列表):', res)
-         wx.hideLoading()
-         if (res.code === 0) {
-           let typeMap = {
-            ORDER: '下单送积分',
-            CONSUMPTION: '消费',
-            CANCEL_ORDER: '取消订单返还积分',
-            EVALUATE: '评价送积分'
-           }
-           let tmp_integralList = res.data
-           tmp_integralList.forEach(element => {
-             element.recordTypeDes = typeMap[element.recordType]
-             if (element.recordType == 'CONSUMPTION') {
-               element.integral = '' + (parseFloat(element.newIntegral) - parseFloat(element.oldIntegral)).toFixed(2)
-               //element.integral = ''+(100*element.newIntegral - 100*element.oldIntegral)/100
-             } else {
-               element.integral = '+' + (parseFloat(element.newIntegral) - parseFloat(element.oldIntegral)).toFixed(2)
-               //element.integral = '+'+(100*element.newIntegral - 100*element.oldIntegral)/100
-             }
-             element.recordTypeDes = typeMap[element.recordType]
-             element.operateTimeDes = moment(element.operateTime).format('YYYY-MM-DD HH:mm:ss')
-           })
-           console.log(this.data.tmp_integralList)
-           //下面开始分页
-           if (tmp_integralList.length < _this.data.limit) {
-             if (tmp_integralList.length === 0) {
-               wx.showToast({
-                 icon: "none",
-                 title: '没有更多数据'
-               })
-               _this.setData({
-                 hasMoreDataFlag: false
-               })
-             } else {
-               _this.setData({
-                 integralList: _this.data.integralList.concat(tmp_integralList), //concat是拆开数组参数，一个元素一个元素地加进去
-                 hasMoreDataFlag: false
-               })
-             }
-           } else {
-             _this.setData({
-               integralList: _this.data.integralList.concat(tmp_integralList), //concat是拆开数组参数，一个元素一个元素地加进去
-               hasMoreDataFlag: true,
-               page: _this.data.page + 1
-             })
-           }
-         } else {
-           wx.showToast({
-             title: res.msg,
-             icon: 'none',
-             duration: 2000
-           })
-         }
-         _this.data.listCanGet = true
-       }) 
+    let _this = this
+    if (!_this.data.listCanGet) {
+      return
+    }
+    _this.data.listCanGet = false
+    let param = {
+      userCode: wx.getStorageSync('userInfo').userCode,
+      limit: _this.data.limit,
+      page: _this.data.page
+    }
+    wx.showLoading({
+      title: '加载中',
+    })
+    console.log('发送请求:', param)
+    integralModel.getIntegralList(param, (res) => {
+      console.log('收到响应(积分记录列表):', res)
+      wx.hideLoading()
+      if (res.code === 0) {
+        let typeMap = {
+          ORDER: '下单送积分',
+          CONSUMPTION: '消费',
+          CANCEL_ORDER: '取消订单返还积分',
+          EVALUATE: '评价送积分'
+        }
+        let tmp_integralList = res.data
+        tmp_integralList.forEach(element => {
+          element.recordTypeDes = typeMap[element.recordType]
+          element.integral = (parseFloat(element.newIntegral) - parseFloat(element.oldIntegral)).toFixed(2)
+          if (element.integral > 0) {
+            element.integral = '+' + element.integral
+          }
+          element.recordTypeDes = typeMap[element.recordType]
+          element.operateTimeDes = moment(element.operateTime).format('YYYY-MM-DD HH:mm:ss')
+        })
+        console.log(this.data.tmp_integralList)
+        //下面开始分页
+        if (tmp_integralList.length < _this.data.limit) {
+          if (tmp_integralList.length === 0) {
+            wx.showToast({
+              icon: "none",
+              title: '没有更多数据'
+            })
+            _this.setData({
+              hasMoreDataFlag: false
+            })
+          } else {
+            _this.setData({
+              integralList: _this.data.integralList.concat(tmp_integralList), //concat是拆开数组参数，一个元素一个元素地加进去
+              hasMoreDataFlag: false
+            })
+          }
+        } else {
+          _this.setData({
+            integralList: _this.data.integralList.concat(tmp_integralList), //concat是拆开数组参数，一个元素一个元素地加进去
+            hasMoreDataFlag: true,
+            page: _this.data.page + 1
+          })
+        }
+      } else {
+        wx.showToast({
+          title: res.msg,
+          icon: 'none',
+          duration: 2000
+        })
+      }
+      _this.data.listCanGet = true
+    })
   },
   /* click更改选中的金额 */
   changePointActiveFlag: function (e) {
@@ -238,12 +235,12 @@ Page({
             icon: 'success',
             duration: 2000
           })
-          setTimeout(function(){ 
+          setTimeout(function () {
             wx.switchTab({
               url: '/pages/mine/mine',
             })
             wx.hideLoading() //【防止狂点3】
-          },2000) 
+          }, 2000)
         } else {
           wx.showToast({
             title: res.msg,

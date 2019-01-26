@@ -179,7 +179,9 @@
   font-weight: 500;
   color:#fff;
 }
-
+.order-time-warnning{
+  color:yellow;
+}
 .foods-wrapper{
   margin:auto 20rpx;
 }

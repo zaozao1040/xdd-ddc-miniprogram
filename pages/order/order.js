@@ -206,6 +206,10 @@ Page({
           element.orderStatusDes = _this.data.orderStatusMap[element.orderStatus]
           element.payStatusDes = _this.data.payStatusMap[element.payStatus]
           element.orderTimeDes = moment(element.orderTime).format('YYYY-MM-DD HH:mm:ss')
+          
+          element.mealDateDes = moment(element.mealDate).format('MM月DD日')
+          element.takeMealEndTimeDes = moment(element.takeMealEndTimeDes).format('HH:mm')
+          element.takeMealStartTimeDes = moment(element.takeMealStartTime).format('HH:mm')
         })
         //下面开始分页
         if (tmp_orderList.length < _this.data.limit) {
@@ -284,7 +288,7 @@ Page({
               if(e.currentTarget.dataset.payprice){
                 setTimeout(function() {
                   wx.showToast({
-                    title: '余额已退还到您的钱包',
+                    title: e.currentTarget.dataset.payprice+'元已退还到您的余额',
                     icon: 'none',
                     duration: 4000
                   })

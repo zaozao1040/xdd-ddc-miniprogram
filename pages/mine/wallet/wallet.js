@@ -15,6 +15,8 @@ Page({
     limit: 20, // 每页条数
     hasMoreDataFlag: true,//是否还有更多数据  默认还有
     //
+    canRechargeFlag:true,//充值通道开启状态，默认开启
+    //
     windowHeight: 0,
     scrollTop: 0,
     buttonTop: 0,
@@ -123,7 +125,15 @@ Page({
             moneyList: tmp_moneyList
           })   
         }            
-      }
+      }else if(res.code === 2006){ //充值通道未开启情况
+        _this.setData({
+          canRechargeFlag: false,
+        })
+        wx.showToast({
+          icon: "none",
+          title: res.msg
+        })
+      }else{}
     }) 
   },
   /* 手动点击触发下一页 */
