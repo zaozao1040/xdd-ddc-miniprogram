@@ -18,7 +18,8 @@
     "pages/food/food",
     "pages/mine/integral/integral",
     "pages/mine/discount/discount",
-    "pages/mine/service/service"
+    "pages/mine/service/service",
+    "pages/order/detail"
   ],
   "permission": {
     "scope.userLocation": {

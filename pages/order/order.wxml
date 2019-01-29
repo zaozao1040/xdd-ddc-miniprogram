@@ -82,7 +82,7 @@
       未查询到充值记录..
     </view>
     <view wx:else>
-      <view class="order-item" wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
+      <view bindtap="handleGotoOrderDetail" data-ordercode="{{orderItem.orderCode}}" class="order-item" wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
         <view class="order-item-header {{orderItem.expired?'order-item-header-old':''}}">
           <view style="display:flex;justify-content: space-between;">
             <view class="order-type">
@@ -98,7 +98,7 @@
           <view class="order-time">
             <text class='iconfont icon-shijian' decode>&nbsp;</text>{{orderItem.mealDateDes}}用餐 
             <view class="{{orderItem.expired?'':'order-time-warnning'}}" style="text-align:center;font-size:30rpx;">
-              <text class="iconfont icon-tixing1"></text>取餐时间:{{orderItem.takeMealEndTimeDes}}~{{orderItem.takeMealStartTimeDes}}(过期作废)
+              <text class="iconfont icon-tixing1"></text>取餐时间:{{orderItem.takeMealStartTimeDes}}~{{orderItem.takeMealEndTimeDes}}
             </view>
           </view>
         </view>
@@ -139,7 +139,6 @@
               </block>
             </view>
           </view>
-
           <view class="" style="clear:both;display: flex;justify-content: space-between;">
             <view style="height: 30rpx;line-height: 30rpx;">
               <block wx:if="{{orderItem.expired}}">
@@ -155,19 +154,19 @@
           </view>
           <view class="button-wrapper" style="clear: both;">
             <block wx:if="{{!orderItem.expired}}">
-              <view class="button quxiao" style="" bindtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-payprice="{{orderItem.payPrice}}"
+              <view class="button quxiao" style="" catchtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-payprice="{{orderItem.payPrice}}"
                 wx:if="{{orderItem.orderStatus  == 'PAYED_WAITINT_CONFIRM' || orderItem.orderStatus  == 'NO_PAY'}}">
                 取消订单
               </view>
-              <view class="button pingjia" style="" bindtap="handleEvaluateOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-foodcode="{{orderItem.orderFoodList[0].foodCode}}" data-orderfoodlist="{{orderItem.orderFoodList}}"
+              <view class="button pingjia" style="" catchtap="handleEvaluateOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-foodcode="{{orderItem.orderFoodList[0].foodCode}}" data-orderfoodlist="{{orderItem.orderFoodList}}"
                 wx:if="{{orderItem.canEvaluate}}">
                 评价领积分
               </view>
-              <view class="button quccan" style="background: #43964e;" bindtap="handleTakeOrder" data-ordercode="{{orderItem.orderCode}}" data-cabinet="{{orderItem.cabinet}}" 
+              <view class="button quccan" style="background: #43964e;" catchtap="handleTakeOrder" data-ordercode="{{orderItem.orderCode}}" data-cabinet="{{orderItem.cabinet}}" 
                 wx:if="{{orderItem.canTake}}">
                 点我取餐
               </view>
-              <view class="button fukuan" style="background: #43964e;" bindtap="handleSecondpayOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
+              <view class="button fukuan" style="background: #43964e;" catchtap="handleSecondpayOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
                 wx:if="{{orderItem.orderStatus  == 'NO_PAY' }}">
                 去付款
               </view>            

@@ -68,7 +68,7 @@
             <view class="integral-item" wx:for="{{integralList}}" wx:for-index="integralIndex" wx:for-item="integralItem"
               wx:key="integralIndex">
               <view class="IntegralValue">
-                {{integralItem.integral}}
+                {{integralItem.integral}}分
               </view>
               <view class="integralType">
                 {{integralItem.recordTypeDes}}

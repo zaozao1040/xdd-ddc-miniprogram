@@ -150,7 +150,8 @@ Page({
         let tmp_integralList = res.data
         tmp_integralList.forEach(element => {
           element.recordTypeDes = typeMap[element.recordType]
-          element.integral = (parseFloat(element.newIntegral) - parseFloat(element.oldIntegral)).toFixed(2)
+          //element.integral = (parseFloat(element.newIntegral) - parseFloat(element.oldIntegral)).toFixed(2)  --积分不需要小数点后两位
+          element.integral = element.newIntegral - element.oldIntegral
           if (element.integral > 0) {
             element.integral = '+' + element.integral
           }

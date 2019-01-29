@@ -43,7 +43,7 @@
               {{foodInfo.merchantName}}
             </view>
           </view>
-          <view class="foodDes">
+          <view wx:if="{{foodInfo.foodDesc}}" class="foodDes">
             {{foodInfo.foodDesc}}
           </view>
         </view>

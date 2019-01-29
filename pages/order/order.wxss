@@ -180,7 +180,7 @@
   color:#fff;
 }
 .order-time-warnning{
-  color:yellow;
+  color: lightyellow;
 }
 .foods-wrapper{
   margin:auto 20rpx;

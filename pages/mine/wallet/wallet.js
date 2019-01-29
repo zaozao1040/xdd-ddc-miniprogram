@@ -217,7 +217,7 @@ Page({
           element.recordTypeDes = typeMap[element.recordType]
           element.operateTimeDes = moment(element.operateTime).format('YYYY-MM-DD HH:mm:ss')
         })
-        console.log(this.data.tmp_rechargeList)
+        console.log(tmp_rechargeList)
         //下面开始分页
         if (tmp_rechargeList.length < _this.data.limit) {
           if (tmp_rechargeList.length === 0) {

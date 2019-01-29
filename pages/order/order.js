@@ -66,16 +66,22 @@ Page({
     orderCode: '',
     doOnHideFlag: true //是否执行生命周期函数onhide 默认当然是执行，只有在点击上传图片时，修改这个值为false不允许
   },
+  /* 跳转订单详情 */
+  handleGotoOrderDetail: function (e) {
+    wx.navigateTo({
+      url: '/pages/order/detail?orderCode=' + e.currentTarget.dataset.ordercode,
+    })
+  },
   getOrderDataByResponse: function () {
-    let that = this
+    let _this = this
     //获取后台数据
     let param = {
-      userId: that.data.userId
+      userId: _this.data.userId
     }
     orderModel.getOrderData(param, (res) => {
       let resData = res.data
       let tmp_data = resData
-      that.setData({   //添加结束后，setData设置一下，模板就能同步刷新
+      _this.setData({   //添加结束后，setData设置一下，模板就能同步刷新
         orderDataAll: tmp_data
       })
     })
@@ -206,10 +212,10 @@ Page({
           element.orderStatusDes = _this.data.orderStatusMap[element.orderStatus]
           element.payStatusDes = _this.data.payStatusMap[element.payStatus]
           element.orderTimeDes = moment(element.orderTime).format('YYYY-MM-DD HH:mm:ss')
-          
+
           element.mealDateDes = moment(element.mealDate).format('MM月DD日')
-          element.takeMealEndTimeDes = moment(element.takeMealEndTimeDes).format('HH:mm')
-          element.takeMealStartTimeDes = moment(element.takeMealStartTime).format('HH:mm')
+          element.takeMealEndTimeDes = moment(element.takeMealEndTime).format('MM月DD日HH:mm')
+          element.takeMealStartTimeDes = moment(element.takeMealStartTime).format('MM月DD日HH:mm')
         })
         //下面开始分页
         if (tmp_orderList.length < _this.data.limit) {
@@ -228,7 +234,6 @@ Page({
             })
           }
         } else {
-          console.log(_this.data.orderList)
           _this.setData({
             orderList: _this.data.orderList.concat(tmp_orderList), //concat是拆开数组参数，一个元素一个元素地加进去
             hasMoreDataFlag: true,
@@ -242,6 +247,7 @@ Page({
           duration: 2000
         })
       }
+      console.log('收到响应并重新封装(订单列表):', _this.data.orderList)
       _this.data.listCanGet = true
     })
   },
@@ -285,14 +291,14 @@ Page({
                 icon: 'success',
                 duration: 2000
               })
-              if(e.currentTarget.dataset.payprice){
-                setTimeout(function() {
+              if (e.currentTarget.dataset.payprice) {
+                setTimeout(function () {
                   wx.showToast({
-                    title: e.currentTarget.dataset.payprice+'元已退还到您的余额',
+                    title: e.currentTarget.dataset.payprice + '元已退还到您的余额',
                     icon: 'none',
                     duration: 4000
                   })
-                }, 2000)                
+                }, 2000)
               }
             } else {
               wx.hideLoading()
@@ -548,7 +554,7 @@ Page({
           wx.hideLoading()
           wx.reLaunch({
             url: '/pages/order/order',
-            success: function(res){
+            success: function (res) {
               wx.showToast({
                 title: '成功评价,已送您' + res.data + '积分',
                 icon: 'none',
