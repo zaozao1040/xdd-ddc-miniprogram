@@ -126,7 +126,7 @@
                 ¥{{orderItem.totalPrice}}
               </block>
               <block wx:else>
-                <text style="color:red;">¥{{orderItem.totalPrice}}</text>
+                <text style="color:#F56C6C;">¥{{orderItem.totalPrice}}</text>
               </block>
             </view>
             <view class="food-des" style="display: inline-block;">
@@ -135,7 +135,7 @@
                 ¥{{orderItem.payPrice}}
               </block>
               <block wx:else>
-                <text style="color:red;">¥{{orderItem.payPrice}}</text>
+                <text style="color:#F56C6C;">¥{{orderItem.payPrice}}</text>
               </block>
             </view>
           </view>

@@ -40,32 +40,32 @@ class home extends base {
     }
     this.request(allParams)
   }
-/*   // 获取轮播图 
-  getSwiperList(param, callback) {
-    let allParams = {
-      url: baseUrl + '/home/banner',
-      type: 'GET',
-      data: param,
-      sCallback: function (data) {
-        callback && callback(data);
-      },
-      eCallback: function () { }
+  /*   // 获取轮播图 
+    getSwiperList(param, callback) {
+      let allParams = {
+        url: baseUrl + '/home/banner',
+        type: 'GET',
+        data: param,
+        sCallback: function (data) {
+          callback && callback(data);
+        },
+        eCallback: function () { }
+      }
+      this.request(allParams)
     }
-    this.request(allParams)
-  }
-  // 获取推荐活动 
-  getPromotionList(param, callback) {
-    let allParams = {
-      url: baseUrl + '/home/banner?adType=CENTER',
-      type: 'GET',
-      data: param,
-      sCallback: function (data) {
-        callback && callback(data);
-      },
-      eCallback: function () { }
-    }
-    this.request(allParams)
-  } */
+    // 获取推荐活动 
+    getPromotionList(param, callback) {
+      let allParams = {
+        url: baseUrl + '/home/banner?adType=CENTER',
+        type: 'GET',
+        data: param,
+        sCallback: function (data) {
+          callback && callback(data);
+        },
+        eCallback: function () { }
+      }
+      this.request(allParams)
+    } */
   /* 领取新人红包 */
   getNewUserGift(param, callback) {
     let allParams = {

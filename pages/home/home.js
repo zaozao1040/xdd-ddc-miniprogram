@@ -11,11 +11,10 @@ Page({
    */
   data: {
     imageWidth: wx.getSystemInfoSync().windowWidth,
-    userType: '普通用户',
     canClick: true,
-    newUserFlag: false,
-    showDaliFlag: false,
-    redirectToFlag: 1, //跳转到登录页  默认
+    showDaliFlag: false, //显示新人大礼的标志 默认不显示
+    showCheckFlag: false, //显示审核状态框标志 默认不显示
+    showUserAuthFlag: false, //显示用户授权框标志 默认不显示
     registered: false,
     userInfo: null,
     wel: "",
@@ -102,45 +101,9 @@ Page({
     setTimeout(function () {
       _this.data.canClick = true
     }, 2000)
-    if (wx.getStorageSync('userInfo')) {
-      if (wx.getStorageSync('userInfo').userStatus == 'NO_CHECK') {
-        wx.showToast({
-          title: '审核中,请继续尝试',
-          icon: 'none',
-          duration: 500
-        })
-      } else {
-        wx.navigateTo({
-          url: '/pages/menu/menu',
-        })
-      }
-    } else {
-      if (_this.data.redirectToFlag == 1) { //未登录状态
-        wx.navigateTo({
-          url: '/pages/login/login',
-        })
-        wx.showToast({
-          title: '请先登录再点餐',
-          icon: 'none',
-          duration: 2000
-        })
-      } else if (_this.data.redirectToFlag == 3) { //未注册状态
-        wx.navigateTo({
-          url: '/pages/register/register',
-        })
-        wx.showToast({
-          title: '请先注册再点餐',
-          icon: 'none',
-          duration: 2000
-        })
-      }
-    }
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
+    wx.navigateTo({
+      url: '/pages/menu/menu',
+    })
   },
 
   /**
@@ -156,75 +119,40 @@ Page({
   onShow: function () {
     let _this = this
     _this.initHome()
-    _this.handleRefreshUser() //每次onload都强制刷新用户状态
-    let userStatus = myPublicModel.getUserStatus()
-    console.log(userStatus)
-    if (userStatus != 0) {
-      wx.hideTabBar({})
-    } else {
-      wx.showTabBar({})
-    }
-    let tag = undefined
+
     let tmp_userInfo = wx.getStorageSync('userInfo')
-    if (tmp_userInfo == '') { //未登录状态，判断是否注册过
-      tag = true
-      //判断是否已注册
-      wx.login({
-        success: function (res) {
-          if (res.code) {
-            let param = {
-              code: res.code
-            }
-            homeModel.getRegisteredFlag(param, (res) => {
-              console.log('是否已注册:', res)
-              if (res.code === 0) {
-                if (res.data === true) { //已注册
-                  _this.setData({
-                    registered: true
-                  })
-                } else { //未注册
-                  _this.setData({
-                    userInfo: null,
-                    registered: false,
-                    redirectToFlag: 3 //3代表跳转到注册页
-                  })
-                }
-              }
-            })
-          }
-        }
+    if (tmp_userInfo == '') { //未登录状态，弹出授权框，隐藏底部状态栏
+      _this.setData({
+        showUserAuthFlag: true
       })
+      wx.hideTabBar({})
     } else { //已登录状态，直接登录
       _this.setData({  //既然已经注册，就直接自动登录，即从缓存读信息
         userInfo: tmp_userInfo
       })
-      if (tmp_userInfo.userStatus == 'NO_CHECK') {
+      wx.showTabBar({})
+      if (tmp_userInfo.userStatus == 'NO_CHECK') { //企业用户的'审核中'状态,而其他的状态无需隐藏
         _this.setData({
-          userType: '待审核,点击刷新'
+          showCheckFlag: true
         })
+        wx.hideTabBar({})
       }
-      if (tmp_userInfo.newUser == true) {
-        tag = true
+      if ((tmp_userInfo.bindOrganized == false || tmp_userInfo.bindOrganized == true && tmp_userInfo.userStatus == 'NORMAL') && (tmp_userInfo.canTakeDiscount == true)) {   //在登录状态下判断用户类型，企业用户的normal状态显示新人大礼，一般用户的登录状态显示新人大礼
         _this.setData({
-          redirectToFlag: 2 //新用户  不跳转
+          showDaliFlag: true
         })
-      } else {
-        tag = false
       }
     }
-    _this.setData({
-      newUserFlag: tag,
-      showDaliFlag: tag
-    })
   },
   logout: function () {
     wx.removeStorageSync('userInfo')
-    wx.navigateTo({
-      url: '/pages/login/login',
+    wx.removeStorageSync('getWxUserInfo')
+    wx.reLaunch({
+      url: '/pages/home/home',
     })
     wx.showToast({
       title: '注销成功',
-      icon: 'success',
+      image: '../../images/msg/success.png',
       duration: 2000
     })
   },
@@ -247,7 +175,7 @@ Page({
         wx.setStorageSync('userInfo', tmp_userInfo)
         wx.showToast({
           title: '领取成功',
-          icon: 'success',
+          image: '../../images/msg/success.png',
           duration: 2000
         })
         _this.setData({
@@ -256,7 +184,7 @@ Page({
       } else {
         wx.showToast({
           title: res.msg,
-          icon: 'none',
+          image: '../../images/msg/error.png',
           duration: 2000
         })
         setTimeout(function () {
@@ -267,27 +195,6 @@ Page({
       }
     })
   },
-  /* 跳转到首页 */
-  handleGotoLogin: function () {
-    let _this = this
-    if (_this.data.redirectToFlag == 1) {
-      wx.navigateTo({
-        url: '/pages/login/login',
-      })
-      _this.setData({
-        showDaliFlag: false
-      })
-    } else if (_this.data.redirectToFlag == 3) {
-      wx.navigateTo({
-        url: '/pages/register/register',
-      })
-      _this.setData({
-        showDaliFlag: false
-      })
-    } else {
-      _this.getNewUserGift()
-    }
-  },
   /* 刷新用户状态信息 用于用户注册登录后，此时后台还没有审核该企业用户，当前小程序home页最上面显示button“刷新用户”*/
   handleRefreshUser: function () {
     let _this = this
@@ -297,44 +204,51 @@ Page({
     _this.data.canClick = false
     wx.login({
       success: function (res) {
-        console.log(res)
         if (res.code) {
           if (wx.getStorageSync('userInfo')) { //已经登录
             let param = {
               code: res.code, //微信code
-              phoneNumber: wx.getStorageSync('userInfo').phoneNumber
+              userCode: wx.getStorageSync('userInfo').userCode
             }
-            mineModel.getMineData(param, (res) => {
+            mineModel.getMineData(param, (res) => { //刷新用户信息后再跳转到首页
               if (res.code == 0) {
-                wx.setStorageSync('userInfo', res.data)
-                _this.setData({
-                  userInfo: res.data
-                })
-                if (wx.getStorageSync('userInfo').userStatus == 'NO_CHECK') {
+                if (res.data.userStatus == 'NORMAL') {
+                  wx.setStorageSync('userInfo', res.data)
+                  wx.reLaunch({  //销毁所有页面后跳转到首页，销毁页面是为了防止个人用户登录后再次换绑企业可以点击订单导航，而导航栏应该隐藏才对
+                    url: '/pages/home/home',
+                  })
                   wx.showToast({
-                    title: '审核中,请继续尝试',
-                    icon: 'none',
+                    title: '登录成功',
+                    image: '../../images/msg/success.png',
                     duration: 2000
                   })
                 } else {
-                  wx.showTabBar({})
+                  wx.showToast({
+                    title: '企业审核中..',
+                    image: '../../images/msg/warning.png',
+                    duration: 3000
+                  })
                 }
               }
             })
-          }/* else{
-            setTimeout(function(){ 
-              wx.navigateTo({
-                url: '/pages/login/login',
-              }) 
-            },500) 
-          } */
+          }
         }
       }
     })
     setTimeout(function () {
       _this.data.canClick = true
     }, 500)
-  }
+  },
+  /*   用户授权弹框-获取微信授权 */
+  getWxUserInfo(e) {
+    console.log(e)
+    if (e.detail.iv) { //这个字段存在，代表授权成功
+      wx.setStorageSync('getWxUserInfo', e.detail.userInfo)
+      wx.redirectTo({
+        url: '/pages/login/selectPhone/selectPhone',
+      })
+    }
+  },
 
 
 })

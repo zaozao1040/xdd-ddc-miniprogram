@@ -225,7 +225,7 @@
 }
 .price-real{
   display: inline-block;
-  color: red;
+  color: #F56C6C;
   font-size: 30rpx;
 }
 .price-original{
@@ -301,7 +301,7 @@
   width: 60rpx;
   height:40rpx;
   border-radius: 25rpx;
-  background: red;
+  background: #F56C6C;
   position: absolute;
   right:-10rpx;
   top:-10rpx;
@@ -321,7 +321,7 @@
   text-align: right;
   margin: auto;
   font-size:40rpx;
-  color: red;
+  color: #F56C6C;
   font-weight: 700;
   display: table;
 }
@@ -344,7 +344,7 @@
   font-size:40rpx;
   height: 50rpx;
   line-height: 50rpx;
-  color: red;
+  color: #F56C6C;
   border-right: #666666 1rpx solid;
   font-weight: 700;
 }

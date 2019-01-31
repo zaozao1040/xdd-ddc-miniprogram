@@ -1,0 +1,51 @@
+.bg-wrapper{
+  background-color: #eee;
+  position: fixed;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+}
+.wrapper{
+  position: absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  margin: auto;
+  height: 650rpx;
+}
+.img-wrapper{
+  margin: auto;
+  width: 60%;
+  height:200rpx;
+}
+
+.button{
+  margin: 80rpx 20rpx 20rpx 20rpx;
+  height: 100rpx;
+  text-align: center;
+  background-color: #e79b37;
+  border-radius: 15rpx;
+  line-height: 100rpx;
+  color: #FFF;
+  font-weight: bold;
+  font-size: 36rpx;
+}
+.button-space{
+  margin: 20rpx;
+  height: 100rpx;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 15rpx;
+  line-height: 100rpx;
+  color: #222;
+  font-weight: bold;
+  font-size: 36rpx;
+}
+.des{
+  text-align: center;
+  color:#666;
+  font-size: 30rpx;
+  margin-top: 50rpx;
+}

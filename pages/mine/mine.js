@@ -53,9 +53,9 @@ Page({
     }else{ //是绑定企业按钮 则判断
       if(wx.getStorageSync('userInfo').bindOrganized == true){
         wx.showToast({
-          title: '已成功绑定企业',
-          icon: 'none',
-          duration: 2000
+          title: '已绑定过企业',
+          image: '../../images/msg/warning.png',
+          duration: 3000
         })  
       }else{
         wx.navigateTo({
@@ -90,7 +90,7 @@ Page({
         if(res.code){
           let param = {
             code: res.code, //微信code
-            phoneNumber: wx.getStorageSync('userInfo').phoneNumber
+            userCode: wx.getStorageSync('userInfo').userCode
           }
           wx.showLoading({ //【防止狂点2】
             title: '加载中',

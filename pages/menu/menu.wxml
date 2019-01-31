@@ -43,11 +43,11 @@
   <view class="time-deadline" wx:if="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].canOrder}}" style="font-size: 0;">
     <text class="iconfont icon-shijian" style="font-size:30rpx;color:#666;vertical-align: middle;"></text>
     <text style="font-size:30rpx;color:#666;vertical-align: middle;" decode>&nbsp;截止订餐:&nbsp;&nbsp;</text>
-    <text style="font-size:30rpx;color:red;vertical-align: middle;">{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].deadlineDes}}</text>
+    <text style="font-size:30rpx;color:#F56C6C;vertical-align: middle;">{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].deadlineDes}}</text>
   </view>
   <view class="time-deadline" wx:else style="font-size: 0;">
-    <text class="iconfont icon-chaoshi" style="font-size:30rpx;color:red;vertical-align: middle;"></text>
-    <text style="font-size:30rpx;color:red;vertical-align: middle;" decode>&nbsp;已截止订餐</text>
+    <text class="iconfont icon-chaoshi" style="font-size:30rpx;color:#F56C6C;vertical-align: middle;"></text>
+    <text style="font-size:30rpx;color:#F56C6C;vertical-align: middle;" decode>&nbsp;已截止订餐</text>
   </view>
   <view class="menu-wrapper c_scrollPosition_forCalculate">
     <!-- 不可订餐情况下展示一张大图 -->
@@ -177,7 +177,7 @@
                     {{foodtypeinfoItem.foodName}}
                   </view>
                   <view class="cart-menuItemTotalmoney" wx:if="{{foodtypeinfoItem.foodCount>0}}">
-                    <text style="color:red;font-size:40rpx;">¥{{foodtypeinfoItem.foodTotalPrice}}</text>
+                    <text style="color:#F56C6C;font-size:40rpx;">¥{{foodtypeinfoItem.foodTotalPrice}}</text>
                   </view>
                   <!-- ***************  + - 添加、减掉餐品的小控件(购物车中) *************** -->
                   <view class="num-control-cart">
@@ -209,7 +209,7 @@
               <view wx:if="{{foodtypeItem.mealLabelUsed==false}}" style="display:inline-block;font-size:30rpx;margin-right: 10rpx;color:#666;">
                 企业将减免额度¥
                 <block wx:if="{{foodtypeItem.organizeMealLabel > foodtypeItem.foodTypeTotalRealMoney}}">
-                  <view style="display:inline-block;color:red;font-size:30rpx;margin-right: 10rpx;">
+                  <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;">
                     -{{foodtypeItem.foodTypeTotalRealMoney}}
                   </view>
                   <view style="display:inline-block;color:#666;font-size:30rpx;margin-right: 10rpx;">
@@ -217,12 +217,12 @@
                   </view>
                 </block>
                 <block wx:else>
-                  <view style="display:inline-block;color:red;font-size:30rpx;margin-right: 10rpx;">
+                  <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;">
                     -{{foodtypeItem.organizeMealLabel}}
                   </view>
                 </block>
               </view>
-              <view style="display:inline-block;color:red;font-size:30rpx;margin-right: 10rpx;" wx:else>
+              <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;" wx:else>
                 当前额度已被使用
               </view>
             </view>

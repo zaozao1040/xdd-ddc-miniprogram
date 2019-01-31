@@ -1,0 +1,11 @@
+<view class="bg-wrapper">
+  <view class="wrapper">
+    <view class="img-wrapper">
+      <image src="../../../images/login/logo.png" mode="widthFix" style="width:100%;"></image>
+    </view>
+    <button class="button" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">微信手机号快捷登录</button>
+    <view class="des">
+      温馨提示:未注册点点餐的用户,首次登录时将完成注册
+    </view> 
+  </view>
+</view>

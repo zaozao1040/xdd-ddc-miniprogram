@@ -1,9 +1,6 @@
 <!--pages/home/home.wxml-->
 <scroll-view>
   <view class="home-container">
-    <view class="userStatus-wrapper" wx:if="{{userInfo.userStatus == 'NO_CHECK'}}" bindtap="handleRefreshUser">
-      企业审核中,点击刷新
-    </view>
     <view class="h-v1" wx:if="{{userInfo}}">
       <view class="has-login">{{wel}} <block wx:if="{{userInfo.nickName}}">{{userInfo.nickName}}</block>
         <open-data wx:else type="userNickName"></open-data>
@@ -12,12 +9,6 @@
     </view>
     <view class="h-v1" wx:else>
       <view bindtap="login" class="h-v1-1">
-        <navigator url="/pages/register/register" style="display: inline-block">
-          <view class="" style="display: inline-block;width:90rpx;height: 50rpx;font-size:30rpx;color:2b2b2b;line-height: 45rpx;text-align: center;"
-            bindtap="register">
-            注册
-          </view>
-        </navigator>
         <navigator url="/pages/login/login" style="display: inline-block">
           <view class="" style="display: inline-block;width:90rpx;height: 50rpx;font-size:30rpx;color:2b2b2b;line-height: 45rpx;text-align: center;"
             bindtap="login" decode>
@@ -76,27 +67,51 @@
         </navigator>
       </view>
     </view>
-    <!-- 新人大礼  -->
-    <view class="newuser-wrapper-2">
-      <image mode="widthFix" style="width:100%;" src="{{imagesList.foot.image}}" bindtap="getNewUserGift"></image>
+    <!-- 用户授权框 弹出 -->
+    <view class="modulebox-background-wrapper" wx:if="{{showUserAuthFlag}}">
+      <view class="modulebox-wrapper">
+        <view class="modulebox-img-wrapper">
+          <image class="modulebox-img" src="../../images/login/logo.png" mode="widthFix" style="width:100%;"></image>
+        </view>
+        <view class="modulebox-des">
+          欢迎来到点点餐订餐小程序
+        </view>
+        <button class="modulebox-button" open-type="getUserInfo" bindgetuserinfo="getWxUserInfo">微信授权</button>
+      </view>
     </view>
-    <!-- 新人大礼 弹出 -->
-    <view class="newuser-wrapper" wx:if="{{newUserFlag&&showDaliFlag}}">
-      <view class="img-wrapper" bindtap="handleGotoLogin">
+    <!-- 审核状态框 弹出 -->
+    <view class="modulebox-background-wrapper" wx:if="{{showCheckFlag}}">
+      <view class="modulebox-wrapper">
+        <view class="modulebox-img-wrapper">
+          <image class="modulebox-img" src="../../images/login/logo.png"  mode="widthFix" style="width:100%;"></image>
+        </view>
+        <view class="modulebox-des">
+          企业审核中..
+        </view>
+        <button class="modulebox-button" bindtap="handleRefreshUser" >点击刷新</button>
+      </view>
+    </view>
+    <!-- foot 图片  -->
+    <view class="newuser-wrapper-2">
+      <image mode="widthFix" style="width:100%;" src="{{imagesList.foot.image}}"></image>
+    </view>
+    <!-- 新人大礼  -->
+    <view class="newuser-wrapper" wx:if="{{showDaliFlag}}">
+      <view class="img-wrapper">
         <view class="icon-wrapper">
           <view class="iconfont icon-dacha1" bindtap="closeDali"></view>
         </view>
-        <image class="image-dali" src="{{imagesList.alert.image}}"></image>
+        <image class="image-dali" src="{{imagesList.alert.image}}" bindtap="getNewUserGift"></image>
       </view>
     </view>
     <!-- 提示取餐 弹出 -->
-<!--     <view class="newuser-wrapper">
+    <!--     <view class="newuser-wrapper">
       <view class="img-wrapper" bindtap="handleGotoLogin">
         <view class="icon-wrapper">
           <view class="iconfont icon-dacha1" bindtap="closeDali"></view>
         </view>
-        <view class="reminder-wrapper" hover-class="none" hover-stop-propagation="false">
-          <view class="" hover-class="none" hover-stop-propagation="false">
+        <view class="reminder-wrapper" >
+          <view class="" >
             // -----------待开发
           </view>
         </view>

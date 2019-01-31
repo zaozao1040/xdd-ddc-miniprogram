@@ -1,23 +1,63 @@
 <view class="wrapper">
+  <!-- 弹出层 填写取餐人 送餐地址 -->
+  <view class="modulebox-background-wrapper" wx:if="{{showSelectFlag}}">
+    <view class="modulebox-wrapper">
+      <view class="modulebox-des">
+        您的姓名
+      </view>
+      <view class="section-3 {{name?'':'section-3-empty'}}">
+        <view class="section-3-1" style="text-align: center;display: table;">
+          <view style="display: table-cell;vertical-align: middle;">
+            <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-wode'></text>
+          </view>
+        </view>
+        <text wx:if="{{name}}" style="font-size:30rpx;color:#e79b37;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text>
+        <input bindinput="nameInput" value="{{name}}" class="section-3-2" placeholder="请输入真实姓名" type="string"></input>
+      </view>
+      <view class="modulebox-des">
+        您的取餐地址
+      </view>
+      <view class="section-3 {{address?'':'section-3-empty'}}" catchtap="showAddress">
+        <view class="section-3-1" style="text-align: center;display: table;">
+          <view style="display: table-cell;vertical-align: middle;">
+            <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-dizhi'></text>
+          </view>
+        </view>
+        <text wx:if="{{address}}" style="font-size:30rpx;color:#e79b37;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text>
+        <input bindinput="addressInput" value="{{address}}" placeholder="请选择取餐地址" class="section-3-2" type="string"
+          disabled bindtap="handleSelectAddress"></input>
+      </view>
+      <view class="modulebox-button-wrapper">
+        <button class="modulebox-button-quxiao" bindtap="handleChangeSelectFlag">取消</button>
+        <button class="modulebox-button-queding" bindtap="handleCheckParams">确定</button>        
+      </view>
+    </view>
+  </view>
   <!-- 默认地址 -->
-  <view class="address-wrapper" bindtap="handleSelectAddress">
+  <view class="address-wrapper" bindtap="handleChangeSelectFlag">
     <view style="flex:1;width:80%;">
       <view class="address-line1">
-        <view >
-          <text style="color:#666;">取餐人:</text>{{name}}
+        <view>
+          <text style="color:#666;">取餐人:</text>
+          <block wx:if="{{name}}">
+            {{name}}
+          </block>
+          <block wx:else>
+            <text style="color:#F56C6C;">请填写真实姓名</text>
+          </block>
         </view>
-        <view >
+        <view>
           {{phoneNumber}}
         </view>
       </view>
-      <view class="address-line2" wx:if="{{address}}">
+      <view class="address-line2" wx:if="{{address}}" >
         <text class='iconfont icon-dizhi' decode>&nbsp;{{address}}</text>
       </view>
       <view class="address-line2" wx:else>
-        <text class='iconfont icon-dizhi' decode style="color:red;">&nbsp;请选择送餐地址</text>
+        <text class='iconfont icon-dizhi' decode style="color:#F56C6C;">&nbsp;请选择送餐地址</text>
       </view>
     </view>
-    <view style="flex:0 0 70rpx;margin: auto;text-align: center;" >
+    <view style="flex:0 0 70rpx;margin: auto;text-align: center;">
       <text class='iconfont icon-icon_on_the_right' style="font-size:40rpx;color:#e79b37;"></text>
     </view>
   </view>
@@ -50,7 +90,7 @@
                     {{foodtypeinfoItem.foodName}}
                   </view>
                   <view class="cart-menuItemTotalmoney">
-                    <text style="color:red;font-size:40rpx;">¥{{foodtypeinfoItem.foodTotalPrice}}</text>
+                    <text style="color:#F56C6C;font-size:40rpx;">¥{{foodtypeinfoItem.foodTotalPrice}}</text>
                   </view>
                   <view class="cart-menuItemCount">
                     <text style="color:#222;font-size:40rpx;"><text style="color:#666;font-size:30rpx;">x</text>{{foodtypeinfoItem.foodCount}}</text>
@@ -62,7 +102,7 @@
               <view wx:if="{{foodtypeItem.mealLabelUsed==false}}" style="display:inline-block;font-size:30rpx;margin-right: 10rpx;color:#666;">
                 企业将减免额度¥
                 <block wx:if="{{foodtypeItem.organizeMealLabel > foodtypeItem.foodTypeTotalRealMoney}}">
-                  <view style="display:inline-block;color:red;font-size:30rpx;margin-right: 10rpx;">
+                  <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;">
                     -{{foodtypeItem.foodTypeTotalRealMoney}}
                   </view>
                   <view style="display:inline-block;color:#666;font-size:30rpx;margin-right: 10rpx;">
@@ -70,12 +110,12 @@
                   </view>
                 </block>
                 <block wx:else>
-                  <view style="display:inline-block;color:red;font-size:30rpx;margin-right: 10rpx;">
+                  <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;">
                     -{{foodtypeItem.organizeMealLabel}}
                   </view>
                 </block>
               </view>
-              <view style="display:inline-block;color:red;font-size:30rpx;margin-right: 10rpx;" wx:else>
+              <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;" wx:else>
                 当前额度已被使用
               </view>
             </view>

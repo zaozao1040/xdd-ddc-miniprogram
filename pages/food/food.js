@@ -106,7 +106,7 @@ Page({
         if (tmp_ratingsInfoList.length < _this.data.limit) {
           if (tmp_ratingsInfoList.length === 0) {
             wx.showToast({
-              icon: "none",
+              image: '../../images/msg/warning.png',
               title: '没有更多数据'
             })
             _this.setData({

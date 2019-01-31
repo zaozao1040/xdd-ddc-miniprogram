@@ -41,7 +41,7 @@
 }
 .price-real{
   display: inline-block;
-  color: red;
+  color: #F56C6C;
   font-size: 35rpx;
 }
 .price-original{

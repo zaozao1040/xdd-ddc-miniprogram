@@ -177,7 +177,7 @@
   font-weight: 500;
   color:#000;
   text-align: center;
-  color: red;
+  color: #F56C6C;
 }
 .rechargeTime{
   font-size: 30rpx;

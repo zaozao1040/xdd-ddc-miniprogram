@@ -1,7 +1,7 @@
 var t = require("../../../comm/script/helper")
-import { register } from '../../register/register-model.js'
+import { mine } from '../mine-model.js'
 import { phone } from './phone-model.js'
-let registerModel = new register()
+let mineModel = new mine()
 let phoneModel = new phone()
 Page({
 
@@ -46,12 +46,12 @@ Page({
     let param = {
       phoneNumber:_this.data.phone
     }
-    registerModel.getVerificationCode(param,(res)=>{
+    mineModel.getVerificationCode(param,(res)=>{
       console.log('收到请求(获取验证码):',res)
       if(res.code === 0){
         wx.showToast({
           title: '发送成功',
-          icon: 'success',
+          image: '../../../images/msg/success.png',
           duration: 2000
         })
         _this.setData({
@@ -69,7 +69,7 @@ Page({
       }else{
         wx.showToast({
           title: res.msg,
-          icon: 'none',
+          image: '../../../images/msg/error.png',
           duration: 2000
         })  
       }
@@ -80,8 +80,8 @@ Page({
     if (t._validCellPhone(_this.data.phone)){
       if(_this.data.code == ''){
         wx.showToast({
-          title: "请输入手机验证码",
-          icon: "none",
+          title: "请输入验证码",
+          image: '../../../images/msg/error.png',
           duration: 2000
         })
       }else{
@@ -113,14 +113,14 @@ Page({
                     wx.hideLoading() //【防止狂点3】
                     wx.showToast({
                       title: '手机更换成功',
-                      icon: 'success',
+                      image: '../../../images/msg/success.png',
                       duration: 2000
                     })
                   },2000) 
                 }else{
                   wx.showToast({
                     title: res.msg,
-                    icon: 'none',
+                    image: '../../../images/msg/error.png',
                     duration: 2000
                   })  
                   _this.setData({
@@ -135,8 +135,8 @@ Page({
       }
     } else {
       wx.showToast({
-        title: "手机号必须11位数字",
-        icon: "none",
+        title: "手机必须11位数字",
+        image: '../../../images/msg/error.png',
         duration: 2000
       })   
     }

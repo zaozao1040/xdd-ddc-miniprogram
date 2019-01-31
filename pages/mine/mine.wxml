@@ -1,27 +1,32 @@
 <!--pages/mine/mine.wxml-->
-<view class="mine-wrapper" >
+<view class="mine-wrapper">
   <!--头部-->
   <view class="header">
-    <view class="left" >
+    <view class="left">
       <image wx:if="{{userInfo.headImage}}" class="left-image" src="{{userInfo.headImage}}"></image>
       <image wx:else class="left-image" src="/images/mine/huiyuan.png" alt=""></image>
     </view>
-    <view class="middle" >
-      <view class="userName" >
-        {{userInfo.name}}
+    <view class="middle">
+      <view class="userName">
+        <block wx:if="{{userInfo.name}}">
+          {{userInfo.name}}
+        </block>
+        <block wx:else>
+          {{userInfo.nickName}}
+        </block>
       </view>
       <view class="userPhone" wx:if="{{userInfo.phoneNumber}}">
         <text class='iconfont icon-shouji1' style="font-size: 30rpx;color:#fff;" decode>&nbsp;</text>
-        <text>{{userInfo.phoneNumber}}</text>  
+        <text>{{userInfo.phoneNumber}}</text>
       </view>
       <view class="userPhone" wx:if="{{userInfo.organizeName}}">
         <text class='iconfont icon-qiye1' style="font-size: 30rpx;color:#fff;" decode>&nbsp;</text>
-        <text wx:if="{{userInfo.organizeName=='NGO'}}">非企业用户</text>  
-        <text wx:else>{{userInfo.organizeName}}</text>  
+        <text wx:if="{{userInfo.organizeName=='NGO'}}">非企业用户</text>
+        <text wx:else>{{userInfo.organizeName}}</text>
       </view>
       <view class="userPhone" wx:if="{{userInfo.address}}">
         <text class='iconfont icon-dizhi' style="font-size: 30rpx;color:#fff;" decode>&nbsp;</text>
-        <text>{{userInfo.address}}</text>  
+        <text>{{userInfo.address}}</text>
       </view>
     </view>
   </view>
@@ -29,30 +34,30 @@
   <view wx:if="{{userInfo}}" class="offer-wrapper">
     <navigator url="/pages/mine/wallet/wallet" class="offerItem-wrapper">
       <view>
-        <text class="money-1" >{{userInfo.balance}}</text>
-        <text class="money-2" >元</text>
+        <text class="money-1">{{userInfo.balance}}</text>
+        <text class="money-2">元</text>
       </view>
-      <view class='offer-title' >
+      <view class='offer-title'>
         <text decode>余额&nbsp;</text>
         <text class='iconfont icon-icon_on_the_right iconfont-offertitle'></text>
       </view>
     </navigator>
     <navigator url="/pages/mine/discount/discount" class="offerItem-wrapper">
       <view>
-        <text class="youhui-1" >{{userInfo.discountSize}}</text>
-        <text class="youhui-2" >张</text>
+        <text class="youhui-1">{{userInfo.discountSize}}</text>
+        <text class="youhui-2">张</text>
       </view>
-      <view class='offer-title' >
+      <view class='offer-title'>
         <text decode>优惠券&nbsp;</text>
         <text class='iconfont icon-icon_on_the_right iconfont-offertitle'></text>
       </view>
     </navigator>
     <navigator url="/pages/mine/integral/integral" class="offerItem-wrapper">
       <view>
-        <text class="point-1" >{{userInfo.integral}}</text>
-        <text class="point-2" >分</text>
+        <text class="point-1">{{userInfo.integral}}</text>
+        <text class="point-2">分</text>
       </view>
-      <view class='offer-title' >
+      <view class='offer-title'>
         <text decode>积分&nbsp;</text>
         <text class='iconfont icon-icon_on_the_right iconfont-offertitle'></text>
       </view>
@@ -62,15 +67,12 @@
   <!-- 各种标签 -->
   <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;" class="c_scrollPosition_forCalculate">
     <view class="label-wrapper">
-      <view bindtap="handleClickLabel" data-labelindex="{{labelIndex}}" class='label-itemwrapper' wx:for="{{labelList}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex">
-        <text class='iconfont icon-{{labelIconArr[labelIndex]}}' ></text>
+      <view bindtap="handleClickLabel" data-labelindex="{{labelIndex}}" class='label-itemwrapper' wx:for="{{labelList}}"
+        wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex">
+        <text class='iconfont icon-{{labelIconArr[labelIndex]}}'></text>
         <text class='label-title' decode>&nbsp;&nbsp;{{labelItem}}</text>
         <text class='iconfont icon-icon_on_the_right iconfont-label-right'></text>
-      </view>  
+      </view>
     </view>
   </scroll-view>
-
-
-
-
 </view>

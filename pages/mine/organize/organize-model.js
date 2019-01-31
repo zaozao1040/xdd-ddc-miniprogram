@@ -2,8 +2,8 @@ import { base } from '../../../comm/public/base'
 const app = getApp()  
 const baseUrl = app.globalData.baseUrl
 class organize extends base{
-  /* 更换企业 */
-  changeOrganize(param,callback){
+  /* 首次绑定企业/更换企业 */
+  bindOrganize(param,callback){
     let allParams = {
       url: baseUrl+'/user/organize',
       type: 'POST',
