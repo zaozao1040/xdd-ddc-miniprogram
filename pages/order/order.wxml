@@ -154,7 +154,7 @@
           </view>
           <view class="button-wrapper" style="clear: both;">
             <block wx:if="{{!orderItem.expired}}">
-              <view class="button quxiao" style="" catchtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-payprice="{{orderItem.payPrice}}"
+              <view class="button quxiao" style="" catchtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-payprice="{{orderItem.payPrice}}" data-paystatus="{{orderItem.payStatus}}"
                 wx:if="{{orderItem.orderStatus  == 'PAYED_WAITINT_CONFIRM' || orderItem.orderStatus  == 'NO_PAY'}}">
                 取消订单
               </view>

@@ -67,12 +67,24 @@
   <!-- 各种标签 -->
   <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;" class="c_scrollPosition_forCalculate">
     <view class="label-wrapper">
-      <view bindtap="handleClickLabel" data-labelindex="{{labelIndex}}" class='label-itemwrapper' wx:for="{{labelList}}"
-        wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex">
+      <view bindtap="handleClickLabel" data-labelindex="{{labelIndex}}" data-labelitem="{{labelItem}}" class='label-itemwrapper'
+        wx:for="{{labelList}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex">
         <text class='iconfont icon-{{labelIconArr[labelIndex]}}'></text>
         <text class='label-title' decode>&nbsp;&nbsp;{{labelItem}}</text>
         <text class='iconfont icon-icon_on_the_right iconfont-label-right'></text>
       </view>
     </view>
   </scroll-view>
+  <!-- 客户服务 弹出 -->
+  <view class="modulebox-background-wrapper" wx:if="{{showServiceFlag}}">
+    <view class="modulebox-wrapper">
+      <view class="modulebox-img-wrapper">
+        <image class="modulebox-img" src="../../images/login/logo.png" mode="widthFix" style="width:100%;"></image>
+      </view>
+      <view class="modulebox-des">
+        欢迎来到点点餐订餐小程序
+      </view>
+      <button class="modulebox-button" open-type="getUserInfo" bindgetuserinfo="getWxUserInfo">微信授权</button>
+    </view>
+  </view>
 </view>

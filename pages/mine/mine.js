@@ -18,7 +18,8 @@ Page({
     //labelIconArr: ['shouji1','qiye1','dizhi','zuji','naozhong','kefu','bajiefuli','gengduo'],
     labelList:['换绑手机','绑定企业','地址管理','客户服务'],
     labelIconArr: ['shouji1','qiye1','dizhi','kefu'],
-    navigatorUrl:['/pages/mine/phone/phone','/pages/mine/organize/organize','/pages/mine/address/address','/pages/mine/service/service']
+    navigatorUrl:['/pages/mine/phone/phone','/pages/mine/organize/organize','/pages/mine/address/address','/pages/mine/service/service'],
+
   },
   initMine: function(){
     let _this = this
@@ -46,11 +47,7 @@ Page({
   handleClickLabel:function(e){
     let _this = this
     let url = _this.data.navigatorUrl[e.currentTarget.dataset.labelindex]
-    if(e.currentTarget.dataset.labelindex!=1){ //不是绑定企业按钮 则直接跳转
-      wx.navigateTo({
-        url: url
-      })
-    }else{ //是绑定企业按钮 则判断
+    if(e.currentTarget.dataset.labelitem=='绑定企业'){ 
       if(wx.getStorageSync('userInfo').bindOrganized == true){
         wx.showToast({
           title: '已绑定过企业',
@@ -61,7 +58,22 @@ Page({
         wx.navigateTo({
           url: url
         })
-      }      
+      } 
+    }else if(e.currentTarget.dataset.labelitem=='客户服务'){
+      wx.showModal({
+        title: '是否拨打客户电话?',
+        confirmText: '拨打',
+        cancelText: '返回',
+        success(res) {
+          if (res.confirm) {
+            
+          }
+        }
+      }) 
+    }else{
+      wx.navigateTo({
+        url: url
+      })
     }
   },
   /**

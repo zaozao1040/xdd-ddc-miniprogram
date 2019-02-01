@@ -291,7 +291,7 @@ Page({
                 icon: 'success',
                 duration: 2000
               })
-              if (e.currentTarget.dataset.payprice) {
+              if (e.currentTarget.dataset.paystatus=='THIRD_PAYED') {
                 setTimeout(function () {
                   wx.showToast({
                     title: e.currentTarget.dataset.payprice + '元已退还到您的余额',
