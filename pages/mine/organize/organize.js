@@ -15,7 +15,7 @@ Page({
     location: {},
     organizeList: [],
     organize: '',
-    showNameFlag: wx.getStorageSync('userInfo').name, //这个标志表示选择绑定企业时，展示不展示需要输入姓名
+    showNameFlag: '', //这个标志表示选择绑定企业时，展示不展示需要输入姓名
     name: '',
     employeeNumber: '',//是否需要填写企业员工的工号  true需要 false不需要
     usernumber: '', //工号
@@ -36,6 +36,9 @@ Page({
    */
   onShow: function () {
     let _this = this
+    _this.setData({
+      showNameFlag: wx.getStorageSync('userInfo').name
+    })
     //请求经纬度信息，以便注册
     wx.getLocation({
       type: 'gcj02',

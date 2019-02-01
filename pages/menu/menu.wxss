@@ -419,44 +419,44 @@
   font-size:25rpx;
 }
 .iconfont-title-zaocan1{
-  color:  rgb(83, 124, 0);
+  color:  #537c00;
 }
 .iconfont-zaocan1{
   font-size:50rpx;
   font-weight:100;
   height:40rpx;
   line-height:40rpx;
-  color: rgb(83, 124, 0);
+  color: #537c00;
 }
 .iconfont-title-wucan{
-  color: rgb(128, 83, 0);
+  color: #805300;
 }
 .iconfont-wucan{
   font-size:50rpx;
   font-weight:100;
   height:40rpx;
   line-height:40rpx;
-  color:  rgb(128, 83, 0);
+  color:  #805300;
 }
 .iconfont-title-canting{
-  color: dodgerblue;
+  color: #1e90ff;
 }
 .iconfont-canting{
   font-size:50rpx;
   font-weight:100;
   height:40rpx;
   line-height:40rpx;
-  color: dodgerblue;
+  color: #1e90ff;
 }
 .iconfont-title-xiaoye-{
-  color: darkslateblue;
+  color: #483d8b;
 }
 .iconfont-xiaoye-{
   font-size:50rpx;
   font-weight:100;
   height:40rpx;
   line-height:40rpx;
-  color: darkslateblue;
+  color: #483d8b;
 }
 .cart-menu{
   flex: 1;

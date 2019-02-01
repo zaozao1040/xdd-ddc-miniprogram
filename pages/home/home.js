@@ -1,9 +1,10 @@
 import { home } from '../home/home-model.js'
 let homeModel = new home()
-import { myPublic } from '../public/public-model.js'
-let myPublicModel = new myPublic()
 import { mine } from '../mine/mine-model.js'
 let mineModel = new mine()
+import { order } from '../order/order-model.js'
+let orderModel = new order()
+import moment from "../../comm/script/moment"
 Page({
 
   /**
@@ -20,7 +21,36 @@ Page({
     wel: "",
     propagandaList: ['比外卖便宜', '全程保温', '食品更安全', '急速退款'],
     propagandaIconArr: ['bianyihuo2', 'peisong', 'shipinanquan-', 'tuikuan'],
-    imagesList: []
+    imagesList: [],
+    //
+    homeOrderList: null, //首页取餐列表
+    orderStatusMap: {
+      NO_PAY: '未支付',
+      PAYED_WAITINT_CONFIRM: '已支付',
+      CONFIRM_WAITING_MAKE: '待制作',
+      MAKING: '开始制作',
+      MAKED_WAITING_DELIVERY: '待配送',
+      DELIVERING: '配送中',
+      DELIVERED_WAITING_PICK: '待取货',
+      PICKED_WAITING_EVALUATE: '待评价',
+      COMPLETED_EVALUATED: '已评价',
+      NO_PICK_WAITING_BACK: '超时未取货待取回',
+      USER_CANCEL: '已取消',
+      SYSTEM_CANCEL: '系统自动取消'
+    },
+    mealTypeMap: {
+      BREAKFAST: '早餐',
+      LUNCH: '午餐',
+      DINNER: '晚餐',
+      NIGHT: '夜宵'
+    },
+    mapMenutypeIconName: {
+      BREAKFAST: 'zao',
+      LUNCH: 'wu1',
+      DINNER: 'night',
+      NIGHT: 'shenye'
+    },
+
   },
   handleGotoLabel: function (e) {
     let _this = this
@@ -142,11 +172,96 @@ Page({
           showDaliFlag: true
         })
       }
+      /* 获取首页取餐信息 */
+      _this.getTakeMealInfo()
     }
+  },
+  /* 获取首页取餐信息 */
+  getTakeMealInfo: function () {
+    let _this = this
+    let param = {
+      userCode: wx.getStorageSync('userInfo').userCode
+    }
+    homeModel.getTakeMealInfo(param, (res) => {
+      console.log('获取首页取餐信息后台反馈:', res)
+      if (res.code === 0) {
+        let tmp_homeOrderList = res.data
+        tmp_homeOrderList.forEach(element => {
+          element.mealTypeDes = _this.data.mealTypeMap[element.mealType]
+          element.orderStatusDes = _this.data.orderStatusMap[element.orderStatus]
+          //element.takeMealEndTimeDes = moment(element.takeMealEndTime).format('MM月DD日HH:mm')
+          element.takeMealStartTimeDes = moment(element.takeMealStartTime).calendar()
+          element.takeMealEndTimeDes = moment(element.takeMealEndTime).calendar()
+          //element.takeMealStartTimeDes = moment(element.takeMealStartTime).format('MM月DD日HH:mm')
+        })
+        _this.setData({
+          homeOrderList: tmp_homeOrderList
+        })
+      }
+    })
+  },
+  /* 取餐 */
+  handleTakeOrder: function (e) {
+    console.log(e.currentTarget.dataset)
+    let _this = this
+    if (!_this.data.canClick) {
+      return
+    }
+    _this.data.canClick = false
+    let tmp_content = ''
+    if (e.currentTarget.dataset.cabinet.length>0) {
+      let item = ''
+      e.currentTarget.dataset.cabinet.forEach(element=>{
+        item = item + element.cabinetOrder + element.serialNum + ' '
+      })
+      tmp_content = '当前柜号为：' + item + ',请确认本人在柜子旁边'
+    }
+    console.log(tmp_content)
+    wx.showModal({
+      title: '是否取餐?',
+      content: tmp_content,
+      success(res) {
+        if (res.confirm) {
+          let param = {
+            userCode: wx.getStorageSync('userInfo').userCode,
+            orderCode: e.currentTarget.dataset.ordercode
+          }
+          wx.showLoading({ //【防止狂点2】
+            title: '加载中',
+            mask: true
+          })
+          orderModel.takeOrder(param, (res) => {
+            console.log('收到请求(取餐):', res)
+            if (res.code === 0) {
+              wx.hideLoading()
+              wx.showToast({
+                title: '成功取餐',
+                image: '../../images/msg/success.png',
+                duration: 2000
+              })
+              wx.reLaunch({
+                url: '/pages/home/home'
+              })
+            } else {
+              wx.hideLoading()
+              wx.showToast({
+                title: res.msg,
+                image: '../../images/msg/error.png',
+                duration: 2000
+              })
+            }
+          })
+        }
+      }
+    }) 
+    setTimeout(function () {
+      _this.data.canClick = true
+    }, 2000)
   },
   logout: function () {
     wx.removeStorageSync('userInfo')
     wx.removeStorageSync('getWxUserInfo')
+    wx.removeStorageSync('tmp_storage')
     wx.reLaunch({
       url: '/pages/home/home',
     })

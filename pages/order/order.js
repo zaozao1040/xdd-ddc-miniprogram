@@ -452,7 +452,7 @@ Page({
     //console.log(e)
     let _this = this
     if (!_this.data.canClick) {
-      returncabinet
+      return
     }
     _this.data.canClick = false
     let tmp_content = ''

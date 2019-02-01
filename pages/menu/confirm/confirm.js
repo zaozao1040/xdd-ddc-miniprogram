@@ -15,9 +15,12 @@ Page({
 
     loading: false,
     canClick: true,
-    address: wx.getStorageSync('userInfo').address,
-    name: wx.getStorageSync('userInfo').name,
-    phoneNumber: wx.getStorageSync('userInfo').phoneNumber,
+    //这四个记录缓存的值
+    address: '',
+    name: '',
+    bindOrganized: '',
+    phoneNumber: '',
+
     selectedFoods: [],
     totalMoney: 0,
     totalMoneyRealDeduction: 0, //额度总金额
@@ -72,13 +75,22 @@ Page({
    */
   onShow: function () {
     let _this = this
-
-    if (!_this.data.name || !_this.data.address) {
+    _this.setData({
+      address: wx.getStorageSync('userInfo').address,
+      //name: _this.data.name.length<=0 ? wx.getStorageSync('userInfo').name : _this.data.name,
+      name: wx.getStorageSync('userInfo').name ? wx.getStorageSync('userInfo').name : wx.getStorageSync('tmp_storage'),
+      phoneNumber: wx.getStorageSync('userInfo').phoneNumber,
+      bindOrganized: wx.getStorageSync('userInfo').bindOrganized
+    })
+    console.log(!_this.data.name || !_this.data.address,
+      (_this.data.name==null )|| (_this.data.address==null),
+      _this.data.name,
+      _this.data.address)
+    if ((_this.data.name==null )|| (_this.data.address==null)) {
       _this.setData({
         showSelectFlag: true
       })
     }
-
     let tmp_address = wx.getStorageSync('userInfo').address
     _this.setData({
       address: tmp_address
@@ -126,11 +138,19 @@ Page({
       realMoney: 0
     })
   },
-
+  /* 企业用户点击弹窗中的姓名 不允许修改 */
+  handleClickName: function () {
+    wx.showToast({
+      title: '不可修改',
+      image: '../../../images/msg/error.png',
+      duration: 2000
+    })
+  },
   nameInput: function (e) {
+    wx.setStorageSync('tmp_storage', e.detail.value)
     this.setData({
       name: e.detail.value
-    });
+    })
   },
   addressInput: function (e) {
     this.setData({
@@ -342,7 +362,7 @@ Page({
         wx.hideLoading()
         wx.showToast({
           title: res.msg,
-          icon: 'none',
+          image: '../../../images/msg/error.png',
           duration: 2000
         })
       }
@@ -370,7 +390,7 @@ Page({
       if (_this.data.balance < _this.data.realMoney) { //如果用户余额少于用户需要支付的价格，不允许用余额,也就是禁止打开switch
         wx.showToast({
           title: '余额不足,请充值',
-          icon: 'none',
+          image: '../../../images/msg/error.png',
           duration: 2000
         })
         return

@@ -79,8 +79,19 @@ class home extends base {
     }
     this.request(allParams)
   }
-
-
+  /* 获取首页取餐信息 */
+  getTakeMealInfo(param, callback) {
+    let allParams = {
+      url: baseUrl + '/home/orders',
+      type: 'get',
+      data: param,
+      sCallback: function (data) {
+        callback && callback(data);
+      },
+      eCallback: function () { }
+    }
+    this.request(allParams)
+  }
 
 
 }

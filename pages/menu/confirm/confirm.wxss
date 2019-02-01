@@ -82,6 +82,9 @@
   align-items: center;
   margin-top: 10rpx;
 }
+.section-3-cannotChange{
+  background: #eee;
+}
 .section-3-empty{
   border: 1rpx solid #F56C6C;
 }

@@ -92,7 +92,7 @@ Page({
       })
     } else {
       wx.showToast({
-        icon: "none",
+        image: '../../../images/msg/warning.png',
         title: '没有更多数据'
       })
     }

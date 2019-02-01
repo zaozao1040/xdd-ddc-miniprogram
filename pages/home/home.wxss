@@ -215,7 +215,88 @@
   font-size: 36rpx;
 }
 
-
+/* 首页提示取餐 */
+.homeOrder-wrapper{
+  padding: 10rpx;
+  background: #eee;
+  border-radius: 10rpx;
+}
+.homeOrder-item{
+  display: flex;
+  background: #fff;
+  border-bottom: #eee solid 1rpx;
+}
+.homeOrder-item:last-child{
+  border-bottom: none;
+}
+.homeOrder-left-wrapper{
+  position: relative;
+	width: 100rpx;
+	height: 0;
+  padding-bottom: 100rpx;
+}
+.homeOrder-img{
+  position: absolute;
+	top:0;
+	left:0;
+	width:100%;
+  height: 100%;
+}
+.homeOrder-middle-wrapper{
+  flex: 1;
+}
+.homeOrder-middle-line1{
+  padding:0 10rpx 0 10rpx;
+  height: 50rpx;
+  line-height: 60rpx;
+  display: flex;
+  justify-content: space-between;
+}
+.homeOrder-middle-line1-foodName{
+  font-size: 30rpx;
+  color:#222;
+  font-weight: 500;
+}
+.icon-zao{
+  color:#537c00;
+}
+.icon-wu1{
+  color:#805300;
+}
+.icon-night{
+  color:#1e90ff;
+}
+.icon-shenye{
+  color:#483d8b;
+}
+.homeOrder-middle-line1-cabinet{
+  font-size: 30rpx;
+  color:#222;
+  font-weight: 500;
+  color:#43964e;
+}
+.homeOrder-middle-line2{
+  padding:0 10rpx 0 10rpx;
+  height: 50rpx;
+  line-height: 60rpx;
+  display: flex;
+  justify-content: space-between;
+  font-size: 25rpx;
+  color:#666;
+  font-weight: 0;
+}
+.homeOrder-right-wrapper{
+  margin:10rpx;
+  width:80rpx;
+  height: 80rpx;
+  border-radius: 50rpx;
+  background: #43964e;
+  text-align: center;
+  line-height: 80rpx;
+  font-size: 30rpx;
+  color:#fff;
+  font-weight: 500;
+}
 
 
 

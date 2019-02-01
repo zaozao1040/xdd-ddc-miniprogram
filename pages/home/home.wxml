@@ -58,6 +58,36 @@
         <view class="labelDes">积分</view>
       </view>
     </view>
+    <!-- 首页提示取餐 弹出 -->
+    <view class="homeOrder-wrapper" v-if="{{homeOrderList}}" bindtap="">
+      <view class="homeOrder-item" wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem"
+        wx:key="homeOrderIndex">
+        <view class="homeOrder-left-wrapper">
+          <image class="homeOrder-img" src="{{homeOrderItem.foods[0].img}}"></image>
+        </view>
+        <view class="homeOrder-middle-wrapper">
+          <view class="homeOrder-middle-line1">
+            <view class="homeOrder-middle-line1-foodName">
+              <text class="iconfont icon-{{mapMenutypeIconName[homeOrderItem.mealType]}}"></text>
+              {{homeOrderItem.foods[0].foodName}}
+              <text style="font-size:25rpx;" wx:if="{{homeOrderItem.foods.length>1}}">等{{homeOrderItem.foods.length}}件商品</text>
+            </view>
+            <view class="homeOrder-middle-line1-cabinet" wx:if="{{homeOrderItem.cabinetNums.length>0}}">
+              <block wx:for="{{homeOrderItem.cabinetNums}}" wx:for-index="cabinetIndex"
+                wx:for-item="cabinetItem" wx:key="cabinetIndex">
+                {{cabinetItem.cabinetOrder}}{{cabinetItem.serialNum}}
+              </block>柜
+            </view>
+          </view>
+          <view class="homeOrder-middle-line2">
+            取餐:{{homeOrderItem.takeMealStartTimeDes}}~{{homeOrderItem.takeMealEndTimeDes}}
+          </view>
+        </view>
+        <view wx:if="{{homeOrderItem.cabinetNums.length>0}}" class="homeOrder-right-wrapper" bindtap="handleTakeOrder"data-ordercode="{{homeOrderItem.orderCode}}" data-cabinet="{{homeOrderItem.cabinetNums}}">
+          取餐
+        </view>
+      </view>
+    </view>
     <!-- 活动 -->
     <view class="promotion-wrapper">
       <view class="promotionItem" wx:for="{{imagesList.center}}" wx:for-index="promotionListIndex" wx:for-item="promotionListItem"
@@ -83,12 +113,12 @@
     <view class="modulebox-background-wrapper" wx:if="{{showCheckFlag}}">
       <view class="modulebox-wrapper">
         <view class="modulebox-img-wrapper">
-          <image class="modulebox-img" src="../../images/login/logo.png"  mode="widthFix" style="width:100%;"></image>
+          <image class="modulebox-img" src="../../images/login/logo.png" mode="widthFix" style="width:100%;"></image>
         </view>
         <view class="modulebox-des">
           企业审核中..
         </view>
-        <button class="modulebox-button" bindtap="handleRefreshUser" >点击刷新</button>
+        <button class="modulebox-button" bindtap="handleRefreshUser">点击刷新</button>
       </view>
     </view>
     <!-- foot 图片  -->
