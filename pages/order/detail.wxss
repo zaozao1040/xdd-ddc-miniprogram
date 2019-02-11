@@ -1,1 +1,59 @@
 /* pages/order/detail.wxss */
+.wrapper{
+  background:#ddd;
+
+
+}
+/* 基本信息 */
+.orderItem-wrapper{
+  background:#fff;
+  padding:0 20rpx 0 20rpx;
+  margin:20rpx 0 0 0;
+}
+.orderItem{
+  display: flex;
+  justify-content: space-between;
+  height: 60rpx;
+  line-height: 60rpx;
+  border-bottom: #eee solid 1rpx;
+}
+.leftLabel{
+  flex: 0 0 200rpx;
+  font-size: 30rpx;
+  color:#666;
+  font-weight: 500;
+}
+.rightContent{
+  font-size: 30rpx;
+  color:#222;
+  font-weight: 500;
+}
+.orderStatus{
+  
+}
+
+/* 根据订单状态不同的差异信息 */
+.wrapper{
+  
+}
+.wrapper{
+  
+}
+.wrapper{
+  
+}
+.wrapper{
+  
+}
+.wrapper{
+  
+}
+.wrapper{
+  
+}
+.wrapper{
+  
+}
+.wrapper{
+  
+}

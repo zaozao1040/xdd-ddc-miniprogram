@@ -59,7 +59,7 @@
       </view>
     </view>
     <!-- 首页提示取餐 弹出 -->
-    <view class="homeOrder-wrapper" v-if="{{homeOrderList}}" bindtap="">
+    <view class="{{homeOrderList.length==0?'':'homeOrder-wrapper'}}" wx:if="{{homeOrderList}}"><!--  这里class不加判断的话 页面因为渲染了这个dom而产生样式 -->
       <view class="homeOrder-item" wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem"
         wx:key="homeOrderIndex">
         <view class="homeOrder-left-wrapper">
@@ -87,7 +87,8 @@
           取餐
         </view>
       </view>
-    </view>
+    </view>     
+
     <!-- 活动 -->
     <view class="promotion-wrapper">
       <view class="promotionItem" wx:for="{{imagesList.center}}" wx:for-index="promotionListIndex" wx:for-item="promotionListItem"

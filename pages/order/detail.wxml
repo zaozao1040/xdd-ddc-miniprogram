@@ -1,2 +1,54 @@
 <!--pages/order/detail.wxml-->
-<text>pages/order/detail.wxml</text>
+<view class="wrapper">
+  <!-- 基本信息 -->
+  <view class="orderItem-wrapper">
+    <view class="orderItem orderStatus">
+      <view class="leftLabel">
+        订单状态
+      </view>
+      <view class="rightContent">
+        {{detailInfo.orderStatusDes}}
+      </view>
+    </view>
+    <view class="orderItem orderCode">
+      <view class="leftLabel">
+        订单编号
+      </view>
+      <view class="rightContent">
+        {{detailInfo.orderCode}}
+      </view>
+    </view>
+    <view class="orderItem orderTime">
+      <view class="leftLabel">
+        下单时间
+      </view>
+      <view class="rightContent">
+        {{detailInfo.orderTimeDes}}
+      </view>
+    </view>
+  </view>
+  <!-- 根据订单状态不同的差异信息 -->
+  <view class="orderItem-wrapper">
+    <view class="orderItem mealDate">
+      <view class="leftLabel">
+        取餐时间
+      </view>
+      <view class="rightContent">
+        {{detailInfo.mealTypeDes}}{{detailInfo.mealDate}}
+      </view>
+    </view>
+    <view class="orderItem orderAddress">
+      <view class="leftLabel">
+        取餐地址
+      </view>
+      <view class="rightContent">
+        {{detailInfo.provinceName}}{{detailInfo.cityName}}{{detailInfo.districtName}}{{detailInfo.address}}
+      </view>
+    </view>
+
+    
+  </view>
+  <view class="orderItem-wrapper">
+
+  </view>
+</view>

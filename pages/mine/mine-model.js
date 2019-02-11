@@ -26,5 +26,18 @@ class mine extends base {
     }
     this.request(allParams)
   }
+  /* 获取客服电话 */
+  getServicePhoneData(param, callback) {
+    let allParams = {
+      url: baseUrl + '/help/help',
+      type: 'GET',
+      data: param,
+      sCallback: function (data) {
+        callback && callback(data);
+      },
+      eCallback: function () { }
+    }
+    this.request(allParams)
+  }
 }
 export { mine }

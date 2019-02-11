@@ -149,6 +149,10 @@
   font-size: 40rpx;
   color:rgb(202, 124, 52);
 }
+.icon-canting{
+  font-size: 40rpx;
+  color:rgb(136, 160, 28);
+}
 .icon-kefu{
   font-size: 40rpx;
   color:rgb(128, 95, 218);

@@ -197,6 +197,7 @@ Page({
         _this.setData({
           homeOrderList: tmp_homeOrderList
         })
+        console.log('xx',_this.data.homeOrderList)
       }
     })
   },
