@@ -1,15 +1,18 @@
 <!--pages/order/detail.wxml-->
 <view class="wrapper">
-  <!-- 基本信息 -->
+  <!-- 标题 -->
   <view class="orderItem-wrapper">
-    <view class="orderItem orderStatus">
-      <view class="leftLabel">
-        订单状态
+    <view class="orderItem-header">
+      <view class="header-left">
+        {{detailInfo.mealDate}} {{detailInfo.mealTypeDes}}
       </view>
-      <view class="rightContent">
+      <view class="header-right">
         {{detailInfo.orderStatusDes}}
       </view>
     </view>
+  </view>
+  <!-- 基本信息 -->
+  <view class="orderItem-wrapper">
     <view class="orderItem orderCode">
       <view class="leftLabel">
         订单编号
@@ -31,10 +34,10 @@
   <view class="orderItem-wrapper">
     <view class="orderItem mealDate">
       <view class="leftLabel">
-        取餐时间
+        取餐截止时间
       </view>
       <view class="rightContent">
-        {{detailInfo.mealTypeDes}}{{detailInfo.mealDate}}
+        {{detailInfo.takeMealStartTimeDes}}~{{detailInfo.takeMealEndTimeDes}}
       </view>
     </view>
     <view class="orderItem orderAddress">
@@ -45,10 +48,126 @@
         {{detailInfo.provinceName}}{{detailInfo.cityName}}{{detailInfo.districtName}}{{detailInfo.address}}
       </view>
     </view>
+    <view class="orderItem orderAddress">
+      <view class="leftLabel">
+        柜号信息
+      </view>
+      <view class="rightContent">
+        <view class="" wx:for="{{detailInfo.cabinetList}}" wx:for-index="cabinetIndex" wx:for-item="cabinetItem" wx:key="cabinetIndex">
+          {{cabinetItem.cabinetOrder}}{{cabinetItem.serialNum}}
+        </view>
+      </view>
+    </view>
+    <view class="orderItem pickTimeDes">
+      <view class="leftLabel">
+        实际取餐时间
+      </view>
+      <view class="rightContent">
+        {{detailInfo.pickTimeDes}}
+      </view>
+    </view>
 
-    
   </view>
+  <!-- 金额相关 -->
   <view class="orderItem-wrapper">
+    <view class="orderItem payStatusDes">
+      <view class="leftLabel">
+        支付状态
+      </view>
+      <view class="rightContent">
+        {{detailInfo.payStatusDes}}
+      </view>
+    </view>
+    <view class="orderItem payCode">
+      <view class="leftLabel">
+        支付编号
+      </view>
+      <view class="rightContent">
+        {{detailInfo.payCode}}
+      </view>
+    </view>
+    <view class="orderItem payTimeDes">
+      <view class="leftLabel">
+        支付时间
+      </view>
+      <view class="rightContent">
+        {{detailInfo.payTimeDes}}
+      </view>
+    </view>
+    <view class="orderItem payTypeDes">
+      <view class="leftLabel">
+        支付类型
+      </view>
+      <view class="rightContent">
+        {{detailInfo.payTypeDes}}
+      </view>
+    </view>
+    <view class="orderItem payPrice">
+      <view class="leftLabel">
+        支付金额
+      </view>
+      <view class="rightContent">
+        ¥{{detailInfo.payPrice}}
+      </view>
+    </view>
+    <view class="orderItem totalPrice">
+      <view class="leftLabel">
+        总价格
+      </view>
+      <view class="rightContent">
+        ¥{{detailInfo.totalPrice}}
+      </view>
+    </view>
+    <view class="orderItem payPrice">
+      <view class="leftLabel">
+        自费价格
+      </view>
+      <view class="rightContent">
+        ¥{{detailInfo.payPrice}}
+      </view>
+    </view>
+    <view class="orderItem standardPrice">
+      <view class="leftLabel">
+        企业额度
+      </view>
+      <view class="rightContent">
+        ¥{{detailInfo.standardPrice}}
+      </view>
+    </view>
+    <view class="orderItem payPrice">
+      <view class="leftLabel">
+        支付金额
+      </view>
+      <view class="rightContent">
+        ¥{{detailInfo.payPrice}}
+      </view>
+    </view>
+  </view>
+  <!-- 餐品相关 -->
+  <view class="orderItem-wrapper" style="padding-top:10rpx;">
+    <view class="orderItem-plus" wx:for="{{detailInfo.orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem"
+      wx:key="foodIndex">
+      <view class="img-wrapper">
+        <image class="img" mode="widthFix" src="{{foodItem.img}}"></image>
+      </view>
+      <view class="foodItem-lines">
+        <view class="foodItem-line">
+          <view class="name">
+            {{foodItem.name}}
+          </view>
+          <view class="price">
+            ¥{{foodItem.price}} (x{{foodItem.quantity}}份)
+          </view>
+        </view>
+        <view class="foodItem-line">
+          <view class="foodCode">
+            {{foodItem.foodCode}}
+          </view>
+        </view>
+      </view>
+
+    </view>
+
 
   </view>
 </view>

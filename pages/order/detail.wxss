@@ -4,6 +4,28 @@
 
 
 }
+/* 标题 */
+.orderItem-wrapper{
+  background:#fff;
+  padding:0 20rpx 0 20rpx;
+  margin:20rpx 0 0 0;
+}
+.orderItem-header{
+  display: flex;
+  justify-content: space-between;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+.header-left{
+  font-size: 35rpx;
+  color:#222;
+  font-weight: 500;
+}
+.header-right{
+  font-size: 35rpx;
+  color:#222;
+  font-weight: 500;
+}
 /* 基本信息 */
 .orderItem-wrapper{
   background:#fff;
@@ -31,6 +53,45 @@
 .orderStatus{
   
 }
+/* 餐品相关 */
+.orderItem-plus{
+  background:#fff;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: #eee solid 1rpx;
+}
+.img-wrapper{
+flex: 0 0 100rpx;
+}
+.img{
+	width:100%;
+height: 100%;
+border-radius: 10rpx;
+}
+.foodItem-lines{
+  flex:1;
+  font-size: 30rpx;
+  color:#222;
+  font-weight: 500;
+}
+.foodItem-line{
+  display: flex;
+  justify-content: space-between;
+  padding-left:20rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+}
+.name{
+  font-size: 35rpx;
+}
+.price{
+
+}
+.foodCode{
+
+}
+
+
 
 /* 根据订单状态不同的差异信息 */
 .wrapper{

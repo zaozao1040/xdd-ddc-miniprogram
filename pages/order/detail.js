@@ -30,6 +30,12 @@ Page({
           NO_PAYED: '未支付',
           STANDARD_PAYED: '标准支付'
         },
+        payTypeMap: {
+          ALI_PAY: '支付宝支付',
+          WECHAT_PAY: '微信支付',
+          BALANCE_PAY: '余额支付',
+          STANDARD_PAY: '标准支付'
+        },
         mealTypeMap: {
           BREAKFAST: '早餐',
           LUNCH: '午餐',
@@ -47,10 +53,10 @@ Page({
       orderCode: options.orderCode
     })
     let param = {
-/*       orderCode: options.orderCode, 
-      userCode: wx.getStorageSync('userInfo').userCode */
-      orderCode: 'DDC540922057089744896',
-      userCode: 'USER540619295831490560'
+      orderCode: options.orderCode, 
+      userCode: wx.getStorageSync('userInfo').userCode
+/*       orderCode: 'DDC540922057089744896',
+      userCode: 'USER540619295831490560' */
     }
     wx.showLoading({ //【防止狂点2】
       title: '加载中',
@@ -62,8 +68,10 @@ Page({
       tmpData.mealTypeDes = _this.data.mealTypeMap[res.data.mealType]
       tmpData.orderStatusDes = _this.data.orderStatusMap[res.data.orderStatus]
       tmpData.payStatusDes = _this.data.payStatusMap[res.data.payStatus]
+      tmpData.payTypeDes = _this.data.payTypeMap[res.data.payType]
+      tmpData.payTimeDes = moment(res.data.payTime).format('YYYY-MM-DD HH:mm:ss')
+      tmpData.pickTimeDes = moment(res.data.pickTime).format('YYYY-MM-DD HH:mm:ss')
       tmpData.orderTimeDes = moment(res.data.orderTime).format('YYYY-MM-DD HH:mm:ss')
-
       tmpData.mealDateDes = moment(res.data.mealDate).format('MM月DD日')
       tmpData.takeMealEndTimeDes = moment(res.data.takeMealEndTime).format('MM月DD日HH:mm')
       tmpData.takeMealStartTimeDes = moment(res.data.takeMealStartTime).format('MM月DD日HH:mm')
