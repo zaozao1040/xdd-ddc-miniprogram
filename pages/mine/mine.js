@@ -16,9 +16,15 @@ Page({
     //
     //labelList:['换绑手机','绑定企业','地址管理','浏览记录','下单闹钟','客户服务','推荐有奖','更多'],
     //labelIconArr: ['shouji1','qiye1','dizhi','zuji','naozhong','kefu','bajiefuli','gengduo'],
-    labelList: ['换绑手机', '绑定企业', '地址管理', '加班餐/补餐', '客户服务'],
-    labelIconArr: ['shouji1', 'qiye1', 'dizhi', 'canting', 'kefu'],
-    navigatorUrl: ['/pages/mine/phone/phone', '/pages/mine/organize/organize', '/pages/mine/address/address', '/pages/mine/addfood/addfood', '/pages/mine/service/service'],
+    labelList: ['加班餐/补餐', '换绑手机', '绑定企业', '地址管理', '客户服务'],
+    labelIconArr: ['canting', 'shouji1', 'qiye1', 'dizhi', 'kefu'],
+    navigatorUrl: [
+      '/pages/mine/addfood/addfood',
+      '/pages/mine/phone/phone',
+      '/pages/mine/organize/organize',
+      '/pages/mine/address/address',
+      '/pages/mine/service/service'
+    ],
     //客服电话
     servicePhone: null,
   },
@@ -62,32 +68,33 @@ Page({
       }
     } else if (e.currentTarget.dataset.labelitem == '客户服务') {
       //请求客服电话
-      let param={
+      let param = {
 
       }
       wx.showLoading({ //【防止狂点2】
         title: '获取电话中',
         mask: true
-      }) 
+      })
       mineModel.getServicePhoneData(param, (res) => {
         console.log('收到请求(客服电话):', res)
         if (res.code === 0) {
+          wx.hideLoading()
           _this.setData({
             servicePhone: res.data.contactPhone
           })
-          wx.hideLoading() 
-        }
-      })
-      wx.showModal({
-        title: '是否拨打客户电话?',
-        confirmText: '拨打',
-        cancelText: '返回',
-        success(res) {
-          if (res.confirm) {
-            wx.makePhoneCall({
-              phoneNumber: _this.data.servicePhone
-            })
-          }
+          wx.showModal({
+            title: '是否拨打客户电话?',
+            content: res.data.contactPhone,
+            confirmText: '拨打',
+            cancelText: '返回',
+            success(res) {
+              if (res.confirm) {
+                wx.makePhoneCall({
+                  phoneNumber: _this.data.servicePhone
+                })
+              }
+            }
+          })          
         }
       })
     } else {

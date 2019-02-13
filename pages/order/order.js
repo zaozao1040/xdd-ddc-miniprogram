@@ -103,7 +103,7 @@ Page({
       })
     } else {
       wx.showToast({
-        icon: "none",
+        image: '../../images/msg/warning.png',
         title: '没有更多数据'
       })
     }
@@ -221,7 +221,7 @@ Page({
         if (tmp_orderList.length < _this.data.limit) {
           if (tmp_orderList.length === 0) {
             wx.showToast({
-              icon: "none",
+              image: '../../images/msg/warning.png',
               title: '没有更多数据'
             })
             _this.setData({
@@ -243,7 +243,7 @@ Page({
       } else {
         wx.showToast({
           title: res.msg,
-          icon: 'none',
+          image: '../../images/msg/error.png',
           duration: 2000
         })
       }
@@ -288,14 +288,14 @@ Page({
               })
               wx.showToast({
                 title: '成功取消订单',
-                icon: 'success',
+                image: '../../images/msg/success.png',
                 duration: 2000
               })
               if (e.currentTarget.dataset.paystatus=='THIRD_PAYED') {
                 setTimeout(function () {
                   wx.showToast({
-                    title: e.currentTarget.dataset.payprice + '元已退还到您的余额',
-                    icon: 'none',
+                    title: e.currentTarget.dataset.payprice + '元已退还',
+                    image: '../../images/msg/warning.png',
                     duration: 4000
                   })
                 }, 2000)
@@ -304,7 +304,7 @@ Page({
               wx.hideLoading()
               wx.showToast({
                 title: res.msg,
-                icon: 'none',
+                image: '../../images/msg/error.png',
                 duration: 2000
               })
             }
@@ -383,14 +383,14 @@ Page({
               })
               wx.showToast({
                 title: '成功支付订单',
-                icon: 'success',
+                image: '../../images/msg/success.png',
                 duration: 2000
               })
             },
             fail: function (e) {
               wx.showToast({
                 title: '已取消支付',
-                icon: 'success',
+                image: '../../images/msg/success.png',
                 duration: 4000
               })
             },
@@ -402,7 +402,7 @@ Page({
       } else {
         wx.showToast({
           title: res.msg,
-          icon: 'none',
+          image: '../../images/msg/error.png',
           duration: 2000
         })
       }
@@ -435,13 +435,13 @@ Page({
         })
         wx.showToast({
           title: '成功支付订单',
-          icon: 'success',
+          image: '../../images/msg/success.png',
           duration: 2000
         })
       } else {
         wx.showToast({
           title: res.msg,
-          icon: 'none',
+          image: '../../images/msg/error.png',
           duration: 2000
         })
       }
@@ -478,14 +478,14 @@ Page({
               wx.hideLoading()
               wx.showToast({
                 title: '成功取餐',
-                icon: 'success',
+                image: '../../images/msg/success.png',
                 duration: 2000
               })
             } else {
               wx.hideLoading()
               wx.showToast({
                 title: res.msg,
-                icon: 'none',
+                image: '../../images/msg/error.png',
                 duration: 2000
               })
             }
@@ -517,14 +517,14 @@ Page({
     if (!_this.data.starActiveNum) {
       wx.showToast({
         title: '请选择星级',
-        icon: 'none',
+        image: '../../images/msg/warning.png',
         duration: 2000
       })
     } else if (_this.data.tempFilePaths != [] && _this.data.ratingsContent == '') {
       console.log(_this.data.tempFilePaths, _this.data.ratingsContent, _this.data.tempFilePaths && !_this.data.ratingsContent)
       wx.showToast({
         title: '请填写评价',
-        icon: 'none',
+        image: '../../images/msg/warning.png',
         duration: 2000
       })
     } else {
@@ -557,7 +557,7 @@ Page({
             success: function (res) {
               wx.showToast({
                 title: '成功评价,已送您' + res.data + '积分',
-                icon: 'none',
+                image: '../../images/msg/success.png',
                 duration: 2000
               })
             }
@@ -566,7 +566,7 @@ Page({
           wx.hideLoading()
           wx.showToast({
             title: res.msg,
-            icon: 'none',
+            image: '../../images/msg/error.png',
             duration: 2000
           })
         }
@@ -647,7 +647,7 @@ Page({
             } else {
               wx.showToast({
                 title: tmp_data.msg,
-                icon: 'none',
+                image: '../../images/msg/error.png',
                 duration: 2000
               })
             }

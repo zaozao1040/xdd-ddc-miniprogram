@@ -1,0 +1,104 @@
+.discountItem-wrapper{
+  margin: 10px 0;
+  position: relative;
+}
+.top{
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: flex;
+  background: #ffe2b9;
+}
+.left{
+  flex:1;
+  text-align: center;
+}
+.h3{
+/*   padding: 10rpx 0 0 0; */
+  font-size: 50rpx;
+  color: #F56C6C;
+}
+.left-des{
+  font-size: 27rpx;
+  color: #666;
+  padding: 0 10rpx 10rpx 10rpx;
+  text-align: center;
+}
+.middle{
+  flex:2;
+}
+.h4{
+  font-size: 35rpx;
+  color:#222;
+  padding: 10rpx 0 10rpx 0;
+}
+.middle-name{
+  font-size: 30rpx;
+  color: #666;
+  padding-bottom: 10rpx;
+}
+.right{
+  flex:1;
+  text-align: center;
+}
+.h6{
+  font-size: 30rpx;
+  color: #F56C6C;
+  padding: 20rpx 0 10rpx 0;
+}
+.btn{
+  padding: 3rpx 20rpx;
+  background-color: #F56C6C;
+  border-radius: 60rpx;
+  border: 1rpx solid #F56C6C;
+  font-size: 30rpx;
+  color: #fff;
+  text-align: center;
+  display: inline-block;
+  height: 60rpx;
+  line-height: 60rpx;
+}
+.bottom{
+  height: 40rpx;
+  line-height: 40rpx;
+  margin-top: 5rpx;
+  padding-left: 30rpx;
+  background: #fbe59a;
+  border-bottom-left-radius: 10rpx;
+  border-bottom-right-radius: 10rpx;
+  font-size:25rpx;
+  color:#666;
+}
+.hock_1{
+  position: absolute;
+  width: 30rpx;
+  height: 30rpx;
+  bottom: 30rpx;
+  left: -10rpx;
+  border-top-right-radius: 40rpx;
+  border-bottom-right-radius: 40rpx;
+  background: #eee;
+}
+/* 过期的 */
+.top-expire{
+  background: #bbb;
+}
+.bottom-expire{
+  background: #ccc;
+}
+.font-expire{
+  color:#666;
+}
+.icon-guoqi2{
+  font-size: 50rpx;
+  display: block;
+  color:red;
+  height:20rpx;
+  height:20rpx;
+}
+.icon-canting{
+  font-size: 50rpx;
+  display: block;
+  color:red;
+  height:20rpx;
+  height:20rpx;
+}

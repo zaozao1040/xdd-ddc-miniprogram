@@ -39,7 +39,7 @@
     <!-- 开始点餐 -->
     <view class="h-v3">
       <view class="h-v3-1" catchtap="handleGotoMenu">
-        <text class='iconfont icon-canting'></text>
+          <text class='iconfont icon-canting'></text>
         开始点餐
       </view>
     </view>

@@ -1,8 +1,6 @@
 /* pages/order/detail.wxss */
 .wrapper{
-  background:#ddd;
-
-
+  background:#eee;
 }
 /* 标题 */
 .orderItem-wrapper{
@@ -59,6 +57,10 @@
   display: flex;
   justify-content: space-between;
   border-bottom: #eee solid 1rpx;
+  margin-bottom:10rpx;
+}
+.orderItem-plus:last-child{
+  border-bottom:none;
 }
 .img-wrapper{
 flex: 0 0 100rpx;
@@ -94,27 +96,4 @@ border-radius: 10rpx;
 
 
 /* 根据订单状态不同的差异信息 */
-.wrapper{
-  
-}
-.wrapper{
-  
-}
-.wrapper{
-  
-}
-.wrapper{
-  
-}
-.wrapper{
-  
-}
-.wrapper{
-  
-}
-.wrapper{
-  
-}
-.wrapper{
-  
-}
+

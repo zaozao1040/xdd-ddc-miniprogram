@@ -1,6 +1,6 @@
 /* pages/mine/mine.wxss */
 .mine-wrapper{
-  background: #ddd;
+  background: #eee;
   position: fixed;
   top:0;
   bottom:0;
@@ -121,14 +121,16 @@
 .label-itemwrapper{
   margin-left: 40rpx;
   margin-right:40rpx;
-  border-bottom: 1rpx solid #eee;
   height: 100rpx;
   line-height: 100rpx;
 }
-.label-itemwrapper:last-child{
+.label-itemwrapper-borderbottom{
+  border-bottom: 1rpx solid #eee;  
+}
+/* .label-itemwrapper:last-child{
   border-bottom: none;
 }
-
+ */
 .icon-shouji1{
   font-size: 40rpx;
   color:rgb(66, 76, 83);

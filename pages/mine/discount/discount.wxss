@@ -1,1 +1,61 @@
-/* pages/mine/discount/discount.wxss */
+.discount-wrapper{
+  position: fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom: 0;
+  background: #eee;
+}
+/********** 头部 **********/
+.header{
+  text-align: center;
+/*   margin: 30rpx 30rpx 0 30rpx; */
+  padding:20rpx 0 20rpx 0;
+/*   border-radius: 30rpx; */
+  background: #e79b37;
+}
+.header-des{
+  font-size: 30rpx;
+  font-weight: 500;
+  color:#222;
+}
+.header-label{
+  display: inline-block;
+  font-size: 30rpx;
+  font-weight: 500;
+  color:#fff;
+}
+.header-item{
+  display: inline-block;
+  font-size: 80rpx;
+  font-weight: 800;
+  color:#fff;
+}
+/********** 内容 **********/
+/* 标题 */
+.content{
+
+}
+.content-header{
+  display: flex;
+  height: 100rpx;
+  line-height: 100rpx;
+  border-bottom: 1rpx solid #bbb;
+}
+.content-header-item{
+  flex:1;
+  text-align: center;
+  font-size: 35rpx;
+  font-weight: 600;
+  color:#666;
+  margin: 0 20rpx;
+}
+.content-header-item-active{
+  padding:0 10rpx;
+  border-bottom: 10rpx solid #e79b37;
+  color:#e79b37;
+  font-size:40rpx;
+}
+.content-content{
+
+}

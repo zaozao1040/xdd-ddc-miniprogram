@@ -37,7 +37,7 @@
         取餐截止时间
       </view>
       <view class="rightContent">
-        {{detailInfo.takeMealStartTimeDes}}~{{detailInfo.takeMealEndTimeDes}}
+        {{detailInfo.takeMealStartTimeDes}} ~ {{detailInfo.takeMealEndTimeDes}}
       </view>
     </view>
     <view class="orderItem orderAddress">
@@ -48,17 +48,17 @@
         {{detailInfo.provinceName}}{{detailInfo.cityName}}{{detailInfo.districtName}}{{detailInfo.address}}
       </view>
     </view>
-    <view class="orderItem orderAddress">
+    <view class="orderItem orderAddress" wx:if="{{detailInfo.cabinetList.length>0}}">
       <view class="leftLabel">
         柜号信息
       </view>
       <view class="rightContent">
-        <view class="" wx:for="{{detailInfo.cabinetList}}" wx:for-index="cabinetIndex" wx:for-item="cabinetItem" wx:key="cabinetIndex">
+        <view style="display: inline-block;" wx:for="{{detailInfo.cabinetList}}" wx:for-index="cabinetIndex" wx:for-item="cabinetItem" wx:key="cabinetIndex">
           {{cabinetItem.cabinetOrder}}{{cabinetItem.serialNum}}
         </view>
       </view>
     </view>
-    <view class="orderItem pickTimeDes">
+    <view class="orderItem pickTimeDes" wx:if="{{detailInfo.pickTimeDes}}">
       <view class="leftLabel">
         实际取餐时间
       </view>
@@ -78,7 +78,7 @@
         {{detailInfo.payStatusDes}}
       </view>
     </view>
-    <view class="orderItem payCode">
+    <view class="orderItem payCode" wx:if="{{detailInfo.payCode}}">
       <view class="leftLabel">
         支付编号
       </view>
@@ -86,7 +86,7 @@
         {{detailInfo.payCode}}
       </view>
     </view>
-    <view class="orderItem payTimeDes">
+    <view class="orderItem payTimeDes" wx:if="{{detailInfo.payTimeDes}}">
       <view class="leftLabel">
         支付时间
       </view>
@@ -94,20 +94,12 @@
         {{detailInfo.payTimeDes}}
       </view>
     </view>
-    <view class="orderItem payTypeDes">
+    <view class="orderItem payTypeDes" wx:if="{{detailInfo.payType}}">
       <view class="leftLabel">
         支付类型
       </view>
       <view class="rightContent">
         {{detailInfo.payTypeDes}}
-      </view>
-    </view>
-    <view class="orderItem payPrice">
-      <view class="leftLabel">
-        支付金额
-      </view>
-      <view class="rightContent">
-        ¥{{detailInfo.payPrice}}
       </view>
     </view>
     <view class="orderItem totalPrice">
@@ -160,8 +152,8 @@
           </view>
         </view>
         <view class="foodItem-line">
-          <view class="foodCode">
-            {{foodItem.foodCode}}
+          <view class="mark">
+            {{foodItem.mark}}
           </view>
         </view>
       </view>

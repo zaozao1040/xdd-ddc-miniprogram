@@ -2,11 +2,11 @@ import { base } from '../../../comm/public/base'
 const app = getApp()  
 const baseUrl = app.globalData.baseUrl
 class discount extends base{
-  /* 获取我的参数 */
-  getMineData(param,callback){
+  /* 获取优惠券列表 */
+  getDiscountList(param,callback){
     let allParams = {
-      url: baseUrl+'/login/refreshUser',
-      type: 'POST',
+      url: baseUrl+'/user/discount/discounts',
+      type: 'GET',
       data: param,
       sCallback: function (data) {
         callback && callback(data);

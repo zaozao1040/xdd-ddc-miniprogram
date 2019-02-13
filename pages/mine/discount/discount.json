@@ -1,1 +1,6 @@
-{}
+{
+  "navigationBarTitleText": "我的优惠券",
+  "usingComponents": {
+    "c-discount": "../../components/discount/discount"
+  }
+}

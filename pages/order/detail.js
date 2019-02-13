@@ -69,12 +69,12 @@ Page({
       tmpData.orderStatusDes = _this.data.orderStatusMap[res.data.orderStatus]
       tmpData.payStatusDes = _this.data.payStatusMap[res.data.payStatus]
       tmpData.payTypeDes = _this.data.payTypeMap[res.data.payType]
-      tmpData.payTimeDes = moment(res.data.payTime).format('YYYY-MM-DD HH:mm:ss')
-      tmpData.pickTimeDes = moment(res.data.pickTime).format('YYYY-MM-DD HH:mm:ss')
-      tmpData.orderTimeDes = moment(res.data.orderTime).format('YYYY-MM-DD HH:mm:ss')
-      tmpData.mealDateDes = moment(res.data.mealDate).format('MM月DD日')
-      tmpData.takeMealEndTimeDes = moment(res.data.takeMealEndTime).format('MM月DD日HH:mm')
-      tmpData.takeMealStartTimeDes = moment(res.data.takeMealStartTime).format('MM月DD日HH:mm')
+      tmpData.payTimeDes = res.data.payTime?moment(res.data.payTime).format('YYYY-MM-DD HH:mm:ss'):res.data.payTime
+      tmpData.pickTimeDes = res.data.pickTime?moment(res.data.pickTime).format('YYYY-MM-DD HH:mm:ss'):res.data.pickTime
+      tmpData.orderTimeDes = res.data.orderTime?moment(res.data.orderTime).format('YYYY-MM-DD HH:mm:ss'):res.data.orderTime
+      tmpData.mealDateDes = res.data.mealDate?moment(res.data.mealDate).format('MM月DD日'):res.data.mealDate
+      tmpData.takeMealEndTimeDes = res.data.takeMealEndTime?moment(res.data.takeMealEndTime).format('MM月DD日HH:mm'):res.data.takeMealEndTime
+      tmpData.takeMealStartTimeDes = res.data.takeMealStartTime?moment(res.data.takeMealStartTime).format('MM月DD日HH:mm'):res.data.takeMealStartTime
       if (res.code === 0) {
         _this.setData({ 
           detailInfo: res.data
