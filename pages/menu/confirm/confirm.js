@@ -1,10 +1,13 @@
 import { confirm } from './confirm-model.js'
 import { wallet } from '../../mine/wallet/wallet-model.js'
 import { mine } from '../../mine/mine-model.js'
+import { discount } from '../../mine/discount/discount-model.js'
+let discountModel = new discount()
 let mineModel = new mine()
 let confirmModel = new confirm()
 let walletModel = new wallet()
-const app = getApp()
+import moment from "../../../comm/script/moment"
+
 Page({
 
   /**
@@ -12,6 +15,11 @@ Page({
    */
   data: {
     payType: 'BALANCE_PAY',//'WECHAT_PAY' 支付方式,余额大于付款额则默认余额支付   小于的话则默认微信支付
+
+    //
+    windowHeight: 0,
+    scrollTop: 0,
+    buttonTop: 0,
 
     loading: false,
     canClick: true,
@@ -25,6 +33,16 @@ Page({
     totalMoney: 0,
     totalMoneyRealDeduction: 0, //额度总金额
     realMoney: 0,//实际总价格，也就是自费价格
+    realMoney_save: 0,//实际总价格，也就是自费价格(从menu传过来的，不含减去优惠券的价格--保存下来用于选择不同优惠券)
+
+    showSelectDiscountFlag: false, //展示选择优惠券的页面，默认不展示
+    canusedDiscountList: null,//可用的优惠券列表
+    adviceDiscountObj: null, //推荐的优惠券
+    useDiscountFlag: true,//使用优惠券的标志,默认使用
+    discountTypeMap: {
+      DISCOUNT: '折扣券',
+      REDUCTION: '满减券'
+    },
 
     mapMenutype: ['早餐', '午餐', '晚餐', '夜宵'],
     mapMenutypeIconName: ['zaocan1', 'wucan', 'canting', 'xiaoye-'],
@@ -33,11 +51,18 @@ Page({
     walletSelectedFlag: true,//勾选是否使用余额  默认勾选    true开启    false关闭
     finalMoney: 0,
 
-    showSelectFlag: false //展示填写姓名和配送地址的弹出框，默认不展示
+    showSelectFlag: false, //展示填写姓名和配送地址的弹出框，默认不展示
   },
 
   initAddress: function () {
-    let _this = this;
+    let _this = this
+    wx.getSystemInfo({
+      success: function (res) {
+        _this.setData({
+          windowHeight: res.windowHeight
+        })
+      }
+    })
     const query = wx.createSelectorQuery()
     query.select('.c_scrollPosition_forCalculate').boundingClientRect()
     query.selectViewport().scrollOffset()
@@ -65,7 +90,8 @@ Page({
       selectedFoods: getApp().globalData.selectedFoods,
       totalMoney: options.totalMoney,
       totalMoneyRealDeduction: options.totalMoneyRealDeduction,
-      realMoney: options.realMoney
+      realMoney: options.realMoney,
+      realMoney_save: options.realMoney
     })
     console.log('selectedFoods', this.data.selectedFoods)
     console.log('options', options)
@@ -83,10 +109,10 @@ Page({
       bindOrganized: wx.getStorageSync('userInfo').bindOrganized
     })
     console.log(!_this.data.name || !_this.data.address,
-      (_this.data.name==null )|| (_this.data.address==null),
+      (_this.data.name == null) || (_this.data.address == null),
       _this.data.name,
       _this.data.address)
-    if ((_this.data.name==null )|| (_this.data.address==null)) {
+    if ((_this.data.name == null) || (_this.data.address == null)) {
       _this.setData({
         showSelectFlag: true
       })
@@ -97,6 +123,8 @@ Page({
     })
     //从后端获取钱包余额
     _this.getWallet()
+    //从后端获取优惠券信息
+    _this.getDiscount()
   },
   /* 从后端获取钱包余额 */
   getWallet: function () {
@@ -118,6 +146,73 @@ Page({
             walletSelectedFlag: false,
             payType: 'WECHAT_PAY'
           })
+        }
+      }
+    })
+  },
+  /* 用户点击不使用优惠券 */
+  handleNotUseDiscount: function () {
+    this.setData({
+      useDiscountFlag: !this.data.useDiscountFlag,
+      showSelectDiscountFlag: !this.data.showSelectDiscountFlag,
+      adviceDiscountObj:{
+        discountPrice:0,
+        discountStandardPrice:0
+      },
+      realMoney:this.data.realMoney_save 
+    })
+  },
+  /* 改变现实优惠券选择页的展示状态 */
+  handleChangeSelectDiscountFlag: function () {
+    this.setData({
+      showSelectDiscountFlag: !this.data.showSelectDiscountFlag
+    })
+  },
+  /* 监听子组件：改变现实优惠券选择页的展示状态 */
+  onChangeSelectDiscountFlag: function (e) {
+    let _this = this
+    console.log('选中的优惠券信息:', e.detail)
+    this.setData({
+      showSelectDiscountFlag: !this.data.showSelectDiscountFlag,
+      useDiscountFlag:true,
+      adviceDiscountObj: e.detail,
+      realMoney:parseFloat((parseFloat(_this.data.realMoney_save) - parseFloat(e.detail.discountPrice)).toFixed(2)) 
+    })
+  },
+  /* 从后端获取优惠券信息 */
+  getDiscount: function () {
+    let _this = this
+    let param = {
+      userCode: wx.getStorageSync('userInfo').userCode,
+      useType: 0,  //0表示未使用
+      discountType: '',  //DISCOUNT 折扣，REDUCTION 满减
+      limit: 20,
+      page: 1
+    }
+    discountModel.getDiscountList(param, function (res) {
+      console.log('收到响应(优惠券列表):', res)
+      if (res.code === 0) {
+        if (res.data.discounts.length > 0) {
+          let tmp_canusedDiscountList = []
+          res.data.discounts.forEach(element => {
+            if (_this.data.realMoney >= element.discountStandardPrice) {
+              element.discountTypeDes = _this.data.discountTypeMap[element.discountType]
+              element.endTimeDes = element.endTime ? moment(element.endTime).format('YYYY/MM/DD HH:mm') : element.endTime
+              element.startTimeDes = element.startTime ? moment(element.startTime).format('YYYY/MM/DD HH:mm') : element.startTime
+              tmp_canusedDiscountList.push(element)
+            }
+          })
+          if (tmp_canusedDiscountList.length > 0) {
+            _this.setData({
+              canusedDiscountList: tmp_canusedDiscountList,
+              adviceDiscountObj: tmp_canusedDiscountList[0], //推荐的就取第一个
+              realMoney:parseFloat((parseFloat(_this.data.realMoney_save) - parseFloat(tmp_canusedDiscountList[0].discountPrice)).toFixed(2))
+            })
+          }
+/*           console.log('金额信息',_this.data.canusedDiscountList, _this.data.adviceDiscountObj,
+            _this.data.realMoney_save,tmp_canusedDiscountList[0].discountStandardPrice,
+            parseFloat((parseFloat(_this.data.realMoney_save) - parseFloat(tmp_canusedDiscountList[0].discountStandardPrice)).toFixed(2)))
+             */
         }
       }
     })
@@ -158,13 +253,13 @@ Page({
     });
   },
   /* 展示弹窗(选择姓名和取餐低脂) */
-  handleChangeSelectFlag: function(){
+  handleChangeSelectFlag: function () {
     this.setData({
       showSelectFlag: !this.data.showSelectFlag
     })
   },
   /* 校验参数(选择姓名和取餐低脂) */
-  handleCheckParams: function(){
+  handleCheckParams: function () {
     if (!this.data.name) {
       wx.showToast({
         title: '请填写姓名',
@@ -177,7 +272,7 @@ Page({
         image: '../../../images/msg/error.png',
         duration: 2000
       })
-    }else{
+    } else {
       wx.showToast({
         title: '填写成功',
         image: '../../../images/msg/success.png',
@@ -226,7 +321,8 @@ Page({
       standardAllPrice: _this.data.totalMoneyRealDeduction,//额度的总价格
       payAllPrice: _this.data.realMoney,//自费的总价格
       payType: _this.data.payType,//支付方式
-      orderDetail: []
+      orderDetail: [],
+      discountCode: _this.data.adviceDiscountObj.discountCode
     }
     getApp().globalData.selectedFoods.forEach(element1 => {
       let dayDes = element1.dayDes

@@ -6,7 +6,9 @@
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   display: flex;
-  background: #ffe2b9;
+  background: #2f6836;
+  border-bottom-style: dashed;
+  border-bottom-color: #eee;
 }
 .left{
   flex:1;
@@ -15,11 +17,11 @@
 .h3{
 /*   padding: 10rpx 0 0 0; */
   font-size: 50rpx;
-  color: #F56C6C;
+  color: #fff;
 }
 .left-des{
   font-size: 27rpx;
-  color: #666;
+  color: #fff;
   padding: 0 10rpx 10rpx 10rpx;
   text-align: center;
 }
@@ -28,28 +30,35 @@
 }
 .h4{
   font-size: 35rpx;
-  color:#222;
+  color:#fff;
   padding: 10rpx 0 10rpx 0;
 }
 .middle-name{
   font-size: 30rpx;
-  color: #666;
+  color: #fff;
   padding-bottom: 10rpx;
 }
 .right{
   flex:1;
   text-align: center;
 }
+.img{
+  width:160rpx;
+  height:160rpx;
+  position:absolute;
+  right:20rpx;
+  top:0;
+}
 .h6{
   font-size: 30rpx;
-  color: #F56C6C;
+  color: #fff;
   padding: 20rpx 0 10rpx 0;
 }
 .btn{
   padding: 3rpx 20rpx;
-  background-color: #F56C6C;
+  background-color: #e79b37;
   border-radius: 60rpx;
-  border: 1rpx solid #F56C6C;
+  border: 1rpx solid #e79b37;
   font-size: 30rpx;
   color: #fff;
   text-align: center;
@@ -60,19 +69,19 @@
 .bottom{
   height: 40rpx;
   line-height: 40rpx;
-  margin-top: 5rpx;
+/*   margin-top: 5rpx; */
   padding-left: 30rpx;
-  background: #fbe59a;
+  background: #43964e;
   border-bottom-left-radius: 10rpx;
   border-bottom-right-radius: 10rpx;
   font-size:25rpx;
-  color:#666;
+  color:#fff;
 }
 .hock_1{
   position: absolute;
   width: 30rpx;
-  height: 30rpx;
-  bottom: 30rpx;
+  height:20rpx;
+  bottom:34rpx;  
   left: -10rpx;
   border-top-right-radius: 40rpx;
   border-bottom-right-radius: 40rpx;
@@ -101,4 +110,12 @@
   color:red;
   height:20rpx;
   height:20rpx;
+}
+/* 选择优惠券 */
+.gouxuan-img{
+  width:50rpx;
+  height:50rpx;
+  position:absolute;
+  top:30rpx;
+  right:30rpx;
 }

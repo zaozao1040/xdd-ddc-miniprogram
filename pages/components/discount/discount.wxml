@@ -3,14 +3,19 @@
   <view class="top {{useType==2?'top-expire':''}}">
     <view class="left">
       <view class="h3 {{useType==2?'font-expire':''}}"><text style="font-size:30rpx;" decode>¥&nbsp;</text>{{discountItem.discountPrice}}</view>
-      <view class="left-des">满{{discountItem.discountStandardPrice}}元可用</view>
+      <view class="left-des {{useType==2?'font-expire':''}}">满{{discountItem.discountStandardPrice}}元可用</view>
     </view>
     <view class="middle">
       <view class="h4 {{useType==2?'font-expire':''}}">{{discountItem.name}}</view>
-      <view class="middle-name">{{discountItem.organizeName}}</view>
+      <view class="middle-name {{useType==2?'font-expire':''}}">{{discountItem.organizeName}}</view>
     </view>
     <view class="right" style="padding:20rpx;" wx:if="{{useType==2}}">
-      <image src="../../../images/mine/guoqi.png" mode="widthFix" style="width:100%;height: 80rpx;" ></image>
+      <image src="../../../images/mine/guoqi.png" mode="widthFix" class="img"></image>
+    </view>
+    <!-- 设置useType为100，代表选择优惠券 -->
+    <view class="right" wx:elif="{{useType==100}}" bindtap="handleSelectDiscount" data-advicediscountobj="{{discountItem}}">
+      <image wx:if="{{discountItem.discountCode==adviceDiscountObj.discountCode}}" src="../../../images/mine/gouxuan.png" class="gouxuan-img"></image>
+      <image wx:else src="../../../images/mine/weigouxuan.png"  class="gouxuan-img"></image>
     </view>
     <view class="right" wx:else>
       <view class="h6">{{discountItem.limit3}}</view>
@@ -21,7 +26,7 @@
       </view>
     </view>
   </view>
-  <view class="bottom {{useType==2?'bottom-expire':''}}">使用日期:{{discountItem.startTimeDes}} ~
+  <view class="bottom {{useType==2?'bottom-expire font-expire':''}}">使用日期:{{discountItem.startTimeDes}} ~
     {{discountItem.endTimeDes}}</view>
   <view class="hock_1"></view>
 </view>

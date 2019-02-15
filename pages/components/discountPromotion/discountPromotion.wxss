@@ -1,0 +1,103 @@
+.wrapper{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 99;
+  background: rgba(13, 21, 31, 0.5);
+  margin: auto;
+}
+.bg{
+  position: absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  margin:auto ;
+  height: 700rpx;
+  width: 70%;
+  background: #ff347f;
+  border-radius: 15rpx;
+}
+.title{
+  height: 150rpx;
+  line-height: 150rpx;
+  font-size: 40rpx;
+  font-weight: 600;
+  color:#fff;
+  text-align: center;
+}
+.discount-wrapper{
+  padding: 0 auto;
+}
+.discountItem{
+  position: relative;
+  display: flex;
+  height: 150rpx;
+  text-align: center;
+  background: #fff;
+  border-radius: 20rpx;
+  margin:0 70rpx 20rpx 70rpx;
+}
+.left{
+  width: 110rpx;
+  height: 150rpx;
+  line-height: 150rpx;
+  text-align: right;
+  padding-right: 20rpx;
+  font-size: 50rpx;
+  font-weight: 600;
+  color:#F56C6C;
+  border-right: #ff347f dashed 4rpx;
+}
+.right{
+  padding-left:20rpx;
+}
+.top{
+  height: 75rpx;
+  line-height: 105rpx;
+  text-align: left;
+  font-size: 35rpx;
+  color:#222;
+}
+.bottom{
+  height: 75rpx;
+  line-height: 45rpx;
+  text-align: left;
+  font-size: 30rpx;
+  color:#666;
+}
+.hock{
+  width: 30rpx;
+  height:30rpx;
+  border-radius: 15rpx;
+  position: absolute;
+  background: #ff347f;
+  top:60rpx;
+  left:-15rpx;
+}
+.des{
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  bottom:40rpx;
+  font-size: 25rpx;
+  color:#fff;
+}
+.close{
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left:0;
+  right:0;
+}
+.img{
+  width: 80rpx;
+  height:80rpx;
+  position: absolute;
+  top:30rpx;
+  left:0;
+  right:0;
+  margin: auto;
+}

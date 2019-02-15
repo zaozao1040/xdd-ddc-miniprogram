@@ -39,7 +39,7 @@
     <!-- 开始点餐 -->
     <view class="h-v3">
       <view class="h-v3-1" catchtap="handleGotoMenu">
-          <text class='iconfont icon-canting'></text>
+        <text class='iconfont icon-canting'></text>
         开始点餐
       </view>
     </view>
@@ -59,7 +59,8 @@
       </view>
     </view>
     <!-- 首页提示取餐 弹出 -->
-    <view class="{{homeOrderList.length==0?'':'homeOrder-wrapper'}}" wx:if="{{homeOrderList}}"><!--  这里class不加判断的话 页面因为渲染了这个dom而产生样式 -->
+    <view class="{{homeOrderList.length==0?'':'homeOrder-wrapper'}}" wx:if="{{homeOrderList}}">
+      <!--  这里class不加判断的话 页面因为渲染了这个dom而产生样式 -->
       <view class="homeOrder-item" wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem"
         wx:key="homeOrderIndex">
         <view class="homeOrder-left-wrapper">
@@ -73,8 +74,8 @@
               <text style="font-size:25rpx;" wx:if="{{homeOrderItem.foods.length>1}}">等{{homeOrderItem.foods.length}}件商品</text>
             </view>
             <view class="homeOrder-middle-line1-cabinet" wx:if="{{homeOrderItem.cabinetNums.length>0}}">
-              <block wx:for="{{homeOrderItem.cabinetNums}}" wx:for-index="cabinetIndex"
-                wx:for-item="cabinetItem" wx:key="cabinetIndex">
+              <block wx:for="{{homeOrderItem.cabinetNums}}" wx:for-index="cabinetIndex" wx:for-item="cabinetItem"
+                wx:key="cabinetIndex">
                 {{cabinetItem.cabinetOrder}}{{cabinetItem.serialNum}}
               </block>柜
             </view>
@@ -83,11 +84,12 @@
             取餐:{{homeOrderItem.takeMealStartTimeDes}}~{{homeOrderItem.takeMealEndTimeDes}}
           </view>
         </view>
-        <view wx:if="{{homeOrderItem.cabinetNums.length>0}}" class="homeOrder-right-wrapper" bindtap="handleTakeOrder"data-ordercode="{{homeOrderItem.orderCode}}" data-cabinet="{{homeOrderItem.cabinetNums}}">
+        <view wx:if="{{homeOrderItem.cabinetNums.length>0}}" class="homeOrder-right-wrapper" bindtap="handleTakeOrder"
+          data-ordercode="{{homeOrderItem.orderCode}}" data-cabinet="{{homeOrderItem.cabinetNums}}">
           取餐
         </view>
       </view>
-    </view>     
+    </view>
 
     <!-- 活动 -->
     <view class="promotion-wrapper">
@@ -135,6 +137,8 @@
         <image class="image-dali" src="{{imagesList.alert.image}}" bindtap="getNewUserGift"></image>
       </view>
     </view>
+    <!-- 优惠券活动 弹出  -->
+    <c-discountPromotion wx:if="{{showLayerFlag}}" bind:closelayer="onCloseLayer"></c-discountPromotion>
     <!-- 提示取餐 弹出 -->
     <!--     <view class="newuser-wrapper">
       <view class="img-wrapper" bindtap="handleGotoLogin">

@@ -22,7 +22,8 @@
     "pages/mine/service/service",
     "pages/order/detail",
     "pages/mine/addfood/addfood",
-    "pages/components/discount/discount"
+    "pages/components/discount/discount",
+    "pages/components/discountPromotion/discountPromotion"
   ],
   "permission": {
     "scope.userLocation": {

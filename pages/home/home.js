@@ -51,6 +51,9 @@ Page({
       NIGHT: 'shenye'
     },
 
+    //
+    showLayerFlag: false, //弹出层（用于优惠券领取），默认不展示
+
   },
   handleGotoLabel: function (e) {
     let _this = this
@@ -197,7 +200,7 @@ Page({
         _this.setData({
           homeOrderList: tmp_homeOrderList
         })
-        console.log('xx',_this.data.homeOrderList)
+        console.log('xx', _this.data.homeOrderList)
       }
     })
   },
@@ -210,9 +213,9 @@ Page({
     }
     _this.data.canClick = false
     let tmp_content = ''
-    if (e.currentTarget.dataset.cabinet.length>0) {
+    if (e.currentTarget.dataset.cabinet.length > 0) {
       let item = ''
-      e.currentTarget.dataset.cabinet.forEach(element=>{
+      e.currentTarget.dataset.cabinet.forEach(element => {
         item = item + element.cabinetOrder + element.serialNum + ' '
       })
       tmp_content = '当前柜号为：' + item + ',请确认本人在柜子旁边'
@@ -254,7 +257,7 @@ Page({
           })
         }
       }
-    }) 
+    })
     setTimeout(function () {
       _this.data.canClick = true
     }, 2000)
@@ -275,6 +278,12 @@ Page({
   closeDali: function () {
     this.setData({
       showDaliFlag: false
+    })
+  },
+  /* 监听子组件：改变弹出层的展示状态 */
+  onCloseLayer: function () {
+    this.setData({
+      showLayerFlag: false
     })
   },
   /* 领取新人大礼 */

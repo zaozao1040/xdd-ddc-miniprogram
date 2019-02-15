@@ -40,7 +40,7 @@
         {{detailInfo.takeMealStartTimeDes}} ~ {{detailInfo.takeMealEndTimeDes}}
       </view>
     </view>
-    <view class="orderItem orderAddress">
+    <view class="orderItem orderAddress" wx:if="{{detailInfo.address}}">
       <view class="leftLabel">
         取餐地址
       </view>
@@ -152,14 +152,11 @@
           </view>
         </view>
         <view class="foodItem-line">
-          <view class="mark">
+          <view class="mark" wx:if="{{foodItem.mark}}">
             {{foodItem.mark}}
           </view>
         </view>
       </view>
-
     </view>
-
-
   </view>
 </view>

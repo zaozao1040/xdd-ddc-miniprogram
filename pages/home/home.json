@@ -1,1 +1,6 @@
-{}
+{
+  "navigationBarTitleText": "点点餐",
+  "usingComponents": {
+    "c-discountPromotion": "../components/discountPromotion/discountPromotion"
+  }
+}

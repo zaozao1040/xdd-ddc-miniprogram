@@ -1,4 +1,23 @@
 <view class="wrapper">
+  <!-- 弹出层 选择优惠券 -->
+  <block wx:if="{{showSelectDiscountFlag}}">
+    <scroll-view class="discountBg-wrapper" scroll-y style="height: {{windowHeight}}px;">
+      <view class="discountBg-headder">
+        <view class="">
+          请选择优惠券
+        </view>
+        <view class="discountBg-headder-right" bindtap="handleNotUseDiscount">
+          <text style="font-size:30rpx;color:#222;">不使用优惠券</text>
+          <image src="../../../images/mine/weigouxuan.png" wx:if="{{useDiscountFlag}}" class="discountBg-headder-right-img"></image>
+          <image src="../../../images/mine/gouxuan.png" wx:else class="discountBg-headder-right-img"></image>
+        </view>
+      </view>
+      <view class="discountBg-content">
+        <c-discount discountList="{{canusedDiscountList}}" useType="100" adviceDiscountObj="{{adviceDiscountObj}}"
+          bind:changeselectdiscountflag="onChangeSelectDiscountFlag"></c-discount>
+      </view>
+    </scroll-view>
+  </block>
   <!-- 弹出层 填写取餐人 送餐地址 -->
   <view class="modulebox-background-wrapper" wx:if="{{showSelectFlag}}">
     <view class="modulebox-wrapper">
@@ -131,10 +150,26 @@
       </view>
       <!-- 合计 -->
       <view class="total-wrapper">
-        <view class="total-wrapper-top">
-          <view class="total-left">
-            合计
+        <!-- 优惠券 -->
+        <view class="discount-wrapper" wx:if="{{adviceDiscountObj}}" bindtap="handleChangeSelectDiscountFlag">
+          <view class="discount-left">
+            <view class="discount-title">优惠券</view>
+            <block wx:if="{{useDiscountFlag}}">
+              <view class="discount-des">
+                满<text style="font-size:20rpx;">¥</text>{{adviceDiscountObj.discountStandardPrice}}减<text style="font-size:20rpx;">¥</text>{{adviceDiscountObj.discountPrice}}
+              </view>
+              <view class="discount-tuijian">推荐</view>              
+            </block>
+            <block wx:else>
+              <view class="discount-des" style="color:#F56C6C;">
+                {{canusedDiscountList.length}}张可用
+              </view>
+            </block>
           </view>
+          <view class='discount-right iconfont icon-icon_on_the_right'></view>
+        </view>
+        <view class="total-wrapper-top">
+          <view class="total-left">合计</view>
           <view class="total-right">
             <view class="total-right-line line1">
               <view class="">
@@ -156,6 +191,16 @@
                 </view>
               </view>
             </block>
+            <block wx:if="{{adviceDiscountObj&&adviceDiscountObj.discountPrice!=0}}">
+              <view class="total-right-line line2">
+                <view class="">
+                  优惠券抵扣
+                </view>
+                <view class="">
+                  <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:#fff;">-{{adviceDiscountObj.discountPrice}}</text>
+                </view>
+              </view>
+            </block>
             <view class="total-right-line line3">
               <view class="">
                 实际支付
@@ -168,7 +213,7 @@
         </view>
         <view class="total-wrapper-bottom">
           <view class="bottom-des">
-            余额支付(余额￥{{balance}})
+            余额支付(余额<text style="font-size:25rpx;">￥</text><text style="color:#222;">{{balance}}</text>)
           </view>
           <view class="bottom-icon">
             <view bindtap="handleChangeWalletSelectedFlag" wx:if="{{walletSelectedFlag}}" class='iconfont icon-kaiguan-copy'
