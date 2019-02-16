@@ -203,6 +203,12 @@
   font-weight: 500;
   color:#222;
 }
+.food-item-count{
+  text-align: right;
+  font-size: 30rpx;
+  font-weight: 500;
+  color:#222;
+}
 .food-des{
   font-size: 30rpx;
   font-weight: 500;

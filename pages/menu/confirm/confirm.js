@@ -39,6 +39,7 @@ Page({
     canusedDiscountList: null,//可用的优惠券列表
     adviceDiscountObj: null, //推荐的优惠券
     useDiscountFlag: true,//使用优惠券的标志,默认使用
+    discountMoney:0,//打折的金额（满减券就是本身 折扣券就是x百分比）
     discountTypeMap: {
       DISCOUNT: '折扣券',
       REDUCTION: '满减券'
@@ -155,11 +156,11 @@ Page({
     this.setData({
       useDiscountFlag: !this.data.useDiscountFlag,
       showSelectDiscountFlag: !this.data.showSelectDiscountFlag,
-      adviceDiscountObj:{
-        discountPrice:0,
-        discountStandardPrice:0
+      adviceDiscountObj: {
+        discountPrice: 0,
+        discountStandardPrice: 0
       },
-      realMoney:this.data.realMoney_save 
+      realMoney: this.data.realMoney_save
     })
   },
   /* 改变现实优惠券选择页的展示状态 */
@@ -172,12 +173,28 @@ Page({
   onChangeSelectDiscountFlag: function (e) {
     let _this = this
     console.log('选中的优惠券信息:', e.detail)
-    this.setData({
-      showSelectDiscountFlag: !this.data.showSelectDiscountFlag,
-      useDiscountFlag:true,
+    //然后计算折扣掉的金额discountMoney
+    let tmp_realMoney = 0
+    if (e.detail.discountType == 'REDUCTION') {
+      tmp_realMoney = parseFloat((parseFloat(_this.data.realMoney_save) - parseFloat(e.detail.discountPrice)).toFixed(2))
+      _this.setData({
+        discountMoney: e.detail.discountPrice
+      })
+    } else if (e.detail.discountType == 'DISCOUNT') {
+      tmp_realMoney = parseFloat(parseFloat(_this.data.realMoney_save) * e.detail.discountPrice).toFixed(2)
+      _this.setData({
+        discountMoney: parseFloat(parseFloat(_this.data.realMoney_save) * (1 - e.detail.discountPrice)).toFixed(2)
+      })
+    } else {
+      tmp_realMoney = 0
+    }
+    _this.setData({
+      showSelectDiscountFlag: !_this.data.showSelectDiscountFlag,
+      useDiscountFlag: true,
       adviceDiscountObj: e.detail,
-      realMoney:parseFloat((parseFloat(_this.data.realMoney_save) - parseFloat(e.detail.discountPrice)).toFixed(2)) 
+      realMoney: tmp_realMoney
     })
+    console.log(_this.data.realMoney)
   },
   /* 从后端获取优惠券信息 */
   getDiscount: function () {
@@ -203,16 +220,22 @@ Page({
             }
           })
           if (tmp_canusedDiscountList.length > 0) {
+            //推荐的就取第一个
+            let tmp_adviceDiscountObj = tmp_canusedDiscountList[0] 
+            //然后计算折扣掉的金额discountMoney
+            let tmp_discountMoney = 0
+            if (tmp_adviceDiscountObj.discountType == 'REDUCTION') {
+              tmp_discountMoney = tmp_adviceDiscountObj.discountPrice
+            } else if (tmp_adviceDiscountObj.discountType == 'DISCOUNT') {
+              tmp_discountMoney = parseFloat(parseFloat(_this.data.realMoney_save) * (1 - tmp_adviceDiscountObj.discountPrice)).toFixed(2)
+            } else { }
             _this.setData({
               canusedDiscountList: tmp_canusedDiscountList,
-              adviceDiscountObj: tmp_canusedDiscountList[0], //推荐的就取第一个
-              realMoney:parseFloat((parseFloat(_this.data.realMoney_save) - parseFloat(tmp_canusedDiscountList[0].discountPrice)).toFixed(2))
-            })
+              adviceDiscountObj: tmp_adviceDiscountObj, 
+              discountMoney: tmp_discountMoney,
+              realMoney: parseFloat((parseFloat(_this.data.realMoney_save) - parseFloat(tmp_discountMoney)).toFixed(2))
+            })            
           }
-/*           console.log('金额信息',_this.data.canusedDiscountList, _this.data.adviceDiscountObj,
-            _this.data.realMoney_save,tmp_canusedDiscountList[0].discountStandardPrice,
-            parseFloat((parseFloat(_this.data.realMoney_save) - parseFloat(tmp_canusedDiscountList[0].discountStandardPrice)).toFixed(2)))
-             */
         }
       }
     })

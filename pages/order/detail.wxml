@@ -53,7 +53,8 @@
         柜号信息
       </view>
       <view class="rightContent">
-        <view style="display: inline-block;" wx:for="{{detailInfo.cabinetList}}" wx:for-index="cabinetIndex" wx:for-item="cabinetItem" wx:key="cabinetIndex">
+        <view style="display: inline-block;" wx:for="{{detailInfo.cabinetList}}" wx:for-index="cabinetIndex"
+          wx:for-item="cabinetItem" wx:key="cabinetIndex">
           {{cabinetItem.cabinetOrder}}{{cabinetItem.serialNum}}
         </view>
       </view>
@@ -110,6 +111,14 @@
         ¥{{detailInfo.totalPrice}}
       </view>
     </view>
+    <view class="orderItem discountPrice" wx:if="{{detailInfo.discount}}">
+      <view class="leftLabel">
+        优惠券抵扣价格
+      </view>
+      <view class="rightContent">
+        -¥{{detailInfo.orderDiscount.discountPrice}}
+      </view>
+    </view>
     <view class="orderItem payPrice">
       <view class="leftLabel">
         自费价格
@@ -123,7 +132,7 @@
         企业额度
       </view>
       <view class="rightContent">
-        ¥{{detailInfo.standardPrice}}
+        -¥{{detailInfo.standardPrice}}
       </view>
     </view>
     <view class="orderItem payPrice">

@@ -2,7 +2,14 @@
   wx:key="discountIndex">
   <view class="top {{useType==2?'top-expire':''}}">
     <view class="left">
-      <view class="h3 {{useType==2?'font-expire':''}}"><text style="font-size:30rpx;" decode>¥&nbsp;</text>{{discountItem.discountPrice}}</view>
+      <view class="h3 {{useType==2?'font-expire':''}}">
+        <block wx:if="{{discountItem.discountType=='REDUCTION'}}">
+          <text style="font-size:30rpx;" decode>¥&nbsp;</text>{{discountItem.discountPrice}}
+        </block>
+        <block wx:if="{{discountItem.discountType=='DISCOUNT'}}">
+          {{10*discountItem.discountPrice}}<text style="font-size:30rpx;" decode>折&nbsp;</text>
+        </block>
+      </view>
       <view class="left-des {{useType==2?'font-expire':''}}">满{{discountItem.discountStandardPrice}}元可用</view>
     </view>
     <view class="middle">
@@ -14,16 +21,20 @@
     </view>
     <!-- 设置useType为100，代表选择优惠券 -->
     <view class="right" wx:elif="{{useType==100}}" bindtap="handleSelectDiscount" data-advicediscountobj="{{discountItem}}">
-      <image wx:if="{{discountItem.discountCode==adviceDiscountObj.discountCode}}" src="../../../images/mine/gouxuan.png" class="gouxuan-img"></image>
-      <image wx:else src="../../../images/mine/weigouxuan.png"  class="gouxuan-img"></image>
+      <image wx:if="{{discountItem.discountCode==adviceDiscountObj.discountCode}}" src="../../../images/mine/gouxuan.png"
+        class="gouxuan-img"></image>
+      <image wx:else src="../../../images/mine/weigouxuan.png" class="gouxuan-img"></image>
+      <view class="right-label" style="background: rgb(153, 79, 79);" wx:if="{{discountItem.discountType=='DISCOUNT'}}">折</view>
+      <view class="right-label" style="background: rgb(212, 47, 110);" wx:if="{{discountItem.discountType=='REDUCTION'}}">减</view>
     </view>
     <view class="right" wx:else>
       <view class="h6">{{discountItem.limit3}}</view>
-      <view class="advice">
-        <view class="btn">
-          去使用
-        </view>
-      </view>
+      <navigator url="/pages/menu/menu" wx:if="{{useType==0}}">
+        <view class="btn">去使用</view>
+      </navigator>
+      <image wx:elif="{{useType==1}}" src="../../../images/mine/yishiyong.png" mode="widthFix" class="img"></image>
+      <view class="right-label" style="background: rgb(153, 79, 79);" wx:if="{{discountItem.discountType=='DISCOUNT'}}">折</view>
+      <view class="right-label" style="background: rgb(212, 47, 110);" wx:if="{{discountItem.discountType=='REDUCTION'}}">减</view>
     </view>
   </view>
   <view class="bottom {{useType==2?'bottom-expire font-expire':''}}">使用日期:{{discountItem.startTimeDes}} ~

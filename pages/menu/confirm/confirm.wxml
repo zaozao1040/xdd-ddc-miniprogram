@@ -156,9 +156,14 @@
             <view class="discount-title">优惠券</view>
             <block wx:if="{{useDiscountFlag}}">
               <view class="discount-des">
-                满<text style="font-size:20rpx;">¥</text>{{adviceDiscountObj.discountStandardPrice}}减<text style="font-size:20rpx;">¥</text>{{adviceDiscountObj.discountPrice}}
+                <block wx:if="{{adviceDiscountObj.discountType=='REDUCTION'}}">
+                  满<text style="font-size:20rpx;">¥</text>{{adviceDiscountObj.discountStandardPrice}}减<text style="font-size:20rpx;">¥</text>{{adviceDiscountObj.discountPrice}}
+                </block>
+                <block wx:if="{{adviceDiscountObj.discountType=='DISCOUNT'}}">
+                  满<text style="font-size:20rpx;">¥</text>{{adviceDiscountObj.discountStandardPrice}}打{{10*adviceDiscountObj.discountPrice}}折
+                </block>
               </view>
-              <view class="discount-tuijian">推荐</view>              
+              <view class="discount-tuijian">推荐</view>
             </block>
             <block wx:else>
               <view class="discount-des" style="color:#F56C6C;">
@@ -197,7 +202,7 @@
                   优惠券抵扣
                 </view>
                 <view class="">
-                  <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:#fff;">-{{adviceDiscountObj.discountPrice}}</text>
+                  <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:#fff;">-{{discountMoney}}</text>
                 </view>
               </view>
             </block>

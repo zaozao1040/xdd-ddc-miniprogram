@@ -116,26 +116,35 @@
               </view>
             </view>
           </view>
+          <view class="food-item-count" wx:if="{{orderItem.orderFoodList.length>1}}">
+            共{{orderItem.orderFoodList.length}}件商品 
+          </view>
           <view style="float: right;">
-            <view class="food-des" style="display: inline-block;margin-right: 10rpx;">
-              共{{orderItem.orderFoodList.length}}件商品 
-            </view>
             <view class="food-des" style="display: inline-block;margin-right: 10rpx;">
               总价
               <block wx:if="{{orderItem.expired}}">
-                ¥{{orderItem.totalPrice}}
+                  <text style="font-size:25rpx;">¥</text>{{orderItem.totalPrice}}
               </block>
               <block wx:else>
-                <text style="color:#F56C6C;">¥{{orderItem.totalPrice}}</text>
+                  <text style="font-size:25rpx;">¥</text><text style="color:#F56C6C;">{{orderItem.totalPrice}}</text>
+              </block>
+            </view>
+            <view class="food-des" style="display: inline-block;margin-right: 10rpx;">
+              优惠券抵扣
+              <block wx:if="{{orderItem.expired}}">
+                  <text style="font-size:25rpx;">-¥</text>{{orderItem.discountPrice}}
+              </block>
+              <block wx:else>
+                  <text style="font-size:25rpx;">-¥</text><text style="color:#F56C6C;">{{orderItem.discountPrice}}</text>
               </block>
             </view>
             <view class="food-des" style="display: inline-block;">
               自费
               <block wx:if="{{orderItem.expired}}">
-                ¥{{orderItem.payPrice}}
+                  <text style="font-size:25rpx;">¥</text>{{orderItem.payPrice}}
               </block>
               <block wx:else>
-                <text style="color:#F56C6C;">¥{{orderItem.payPrice}}</text>
+                  <text style="font-size:25rpx;">¥</text><text style="color:#F56C6C;">{{orderItem.payPrice}}</text>
               </block>
             </view>
           </view>
