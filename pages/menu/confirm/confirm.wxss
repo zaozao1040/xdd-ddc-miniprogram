@@ -5,7 +5,7 @@
   left: 0;
   right: 0;
 /*   padding: 20rpx; */
-  background: #ddd;
+  background: #eee;
 }
 /* 弹出层 选择优惠券 */
 .discountBg-wrapper{
@@ -183,7 +183,7 @@
 * 选中的菜单
 */
 .foods-wrapper{
-/*   background: #FFF; */
+/*   background: #eee; */
   margin-top: 10rpx;
 /*   border-radius: 20rpx; */
 /*   padding: 10rpx 20rpx; */
@@ -196,7 +196,7 @@
   box-sizing:border-box;
 }
 .cart-day-wrapper{
-  background-color: #eee;
+  background-color: #fff;
   border-bottom: 1rpx solid #aaa;
 /*   border-radius:10rpx; */
 /*   margin-top:10rpx; */
@@ -269,7 +269,7 @@
 .cart-menuItem{
   display: flex;
   border: 1px solid #ccc;
-/*   border-radius: 20rpx; */
+  border-radius: 10rpx; 
   margin-bottom: 4rpx;
   background-color: #fff;
 }

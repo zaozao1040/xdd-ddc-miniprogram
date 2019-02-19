@@ -1,14 +1,13 @@
 <view class="wallet-wrapper">
   <!-- 头部 -->
-  <view class="header">
-    <view class="header-des">
-      账户余额
-    </view>
-    <text class="header-label" decode>
-      ¥&nbsp;
-    </text>
-    <view class="header-item">
-      {{userInfo.balance}}
+  <view class="header-wrapper">
+    <view class="header">
+      <view class="header-item">
+        {{userInfo.balance}}
+      </view>
+      <text class="header-label" decode>
+        ¥&nbsp;
+      </text>
     </view>
   </view>
   <!-- 内容 -->

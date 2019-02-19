@@ -6,7 +6,7 @@
       </view>
       <view class="discount-wrapper">
         <view class="discountItem" wx:for="{{discountList}}" wx:for-item="discountItem" wx:for-index="discountIndex"
-          wx:key="discountIndex" bindtap="{{handleTakeDiscount}}" data-discountcode="{{discountItem.discountCode}}">
+          wx:key="discountIndex" bindtap="handleTakeDiscount" data-discountcode="{{discountItem.discountCode}}">
           <view class="left">
             <text style="font-size: 30rpx;">¥</text>{{discountItem.dis}}
           </view>

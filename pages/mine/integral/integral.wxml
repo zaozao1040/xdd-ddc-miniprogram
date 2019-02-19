@@ -1,15 +1,14 @@
 <view class="integral-wrapper">
   <!-- 头部 -->
-  <view class="header">
-    <view class="header-des">
-      我的积分
-    </view>
-    <view class="header-item">
-      {{userInfo.integral}}
-    </view>
-    <text class="header-label" decode>
-      &nbsp;分
-    </text>
+  <view class="header-wrapper">
+    <view class="header">
+      <view class="header-item">
+        {{userInfo.integral}}
+      </view>
+      <text class="header-label" decode>
+        &nbsp;分
+      </text>
+    </view>    
   </view>
   <!-- 内容 -->
   <view class="content">

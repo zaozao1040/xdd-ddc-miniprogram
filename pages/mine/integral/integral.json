@@ -1,3 +1,5 @@
 {
-  "navigationBarTitleText": "我的积分"
+  "navigationBarTitleText": "我的积分",
+  "navigationBarBackgroundColor": "#e79b37",
+  "navigationBarTextStyle":"white"
 }

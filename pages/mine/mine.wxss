@@ -7,10 +7,16 @@
   left: 0;
   right: 0;
 }
+.header-wrapper{
+  padding:0 30rpx;  
+  background: linear-gradient(#e79b37, #eee);
+}
 .header{
   display: flex;
-  background: #e79b37;
+  background: #fff;
   padding: 30rpx 40rpx;
+  border-top-left-radius: 20rpx;
+  border-top-right-radius: 20rpx;
 }
 .left{
   margin: auto 30rpx;
@@ -27,14 +33,23 @@
   padding-left: 30rpx;
   margin: auto;
 }
+.middle-line1{
+  display: flex;
+  justify-content: space-between;
+}
 .userName{
   font-size: 40rpx;
-  color: #fff;
+  color: #222;
   font-weight: 500;
 }
 .userPhone{
   font-size: 30rpx;
-  color: #fff;
+  color: #666;
+  padding-top:10rpx;
+}
+.userDes{
+  font-size: 30rpx;
+  color: #666;
 }
 .right{
   margin: auto;
@@ -68,13 +83,14 @@
 .offer-wrapper{
   display: flex;
   background: #fff;
+  border-bottom-left-radius: 20rpx;
+  border-bottom-right-radius: 20rpx;
 }
 .offerItem-wrapper{
   flex:1;
   text-align: center;
-  padding-top: 30rpx;
-  padding-bottom: 30rpx;
-  border-right:1px solid #ddd;
+  margin-bottom: 30rpx;
+  border-right:1px solid #eee;
 }
 .offerItem-wrapper:last-child{
   border:none; 

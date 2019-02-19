@@ -53,7 +53,14 @@ Page({
 
     //
     showLayerFlag: false, //弹出层（用于优惠券领取），默认不展示
-
+    //
+    swiperCurrentIndex: 0,//当前轮播图active的index
+  },
+  //监听轮播图切换图片，获取图片的下标
+  onSwiperChange:function(e){
+    this.setData({
+      swiperCurrentIndex: e.detail.current
+    })
   },
   handleGotoLabel: function (e) {
     let _this = this

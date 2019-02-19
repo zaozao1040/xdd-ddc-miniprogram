@@ -1,3 +1,5 @@
 {
-  "navigationBarTitleText": "我的余额"
+  "navigationBarTitleText": "我的余额",
+  "navigationBarBackgroundColor": "#e79b37",
+  "navigationBarTextStyle":"white"
 }

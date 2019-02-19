@@ -7,12 +7,15 @@
   background: #eee;
 }
 /********** 头部 **********/
+.header-wrapper{
+  text-align: center;
+  background: linear-gradient(#e79b37, #eee);
+  padding: 30rpx 40rpx;
+}
 .header{
   text-align: center;
-/*   margin: 30rpx 30rpx 0 30rpx; */
-  padding:20rpx 0 20rpx 0;
-/*   border-radius: 30rpx; */
-  background: #e79b37;
+/*   background: #fff; */
+  border-radius: 20rpx;
 }
 .header-des{
   font-size: 30rpx;
@@ -28,7 +31,6 @@
 .header-item{
   display: inline-block;
   font-size: 80rpx;
-  font-weight: 800;
   color:#fff;
 }
 /********** 内容 **********/

@@ -20,7 +20,12 @@ Component({
         adviceDiscountObj:e.currentTarget.dataset.advicediscountobj
       })    */
       this.triggerEvent('changeselectdiscountflag', e.currentTarget.dataset.advicediscountobj)
+    },
+    /* 点击优惠券触发的事件 */
+    handleClickDiscount: function(e){
+      console.log(e.currentTarget.dataset)
     }
+
   },
   /* 生命周期 */
   pageLifetimes: {

@@ -44,6 +44,7 @@ Page({
 
     foodLabels: null,
     scrollLintenFlag: true, //默认允许触发滚动事件
+    showBackToTopFlag: false, //显示返回scroll顶部的标志
   },
   getMenuData: function () {  //setData设置menuData为缓存数据，这样可以同步到模板渲染
     //console.log('cacheMenuDataAll',this.data.cacheMenuDataAll)
@@ -671,8 +672,18 @@ Page({
     }, */
   /* 滚动事件监听 */
   handleScroll: function (e) {
+    //console.log('scrollview滚动距离:',e.detail.scrollTop)
+    let _this = this
+    if(e.detail.scrollTop>300){
+      _this.setData({
+        showBackToTopFlag: true
+      })
+    }else{
+      _this.setData({
+        showBackToTopFlag: false
+      })
+    }
     if (this.data.scrollLintenFlag) { //允许触发滚动事件，才执行滚动事件
-      let _this = this
       let scrollY = e.detail.scrollTop
       //console.log(e.detail.scrollTop)
       let listHeightLength = _this.data.listHeight.length
@@ -690,16 +701,30 @@ Page({
       }
     }
   },
+  //返回页面顶端
+  backToTop:function(){
+    wx.pageScrollTo({ //外层scrollview返回顶端
+      scrollTop: 0,
+    })
+    this.setData({ //内层scrollview返回顶端（这样设置就可以）
+      menutypeActiveFlag: 0,
+      scrollToView: 'order0'
+    })
+  },
   /* 滚动到底部事件监听 */
   handleScrolltolower: function (e) {
-    if (this.data.scrollLintenFlag) { //允许触发滚动事件，才执行滚动事件
+/*    暂时先注释掉了，体验不太好
+     if (this.data.scrollLintenFlag) { //允许触发滚动事件，才执行滚动事件
       let _this = this
       let listHeightLength = _this.data.listHeight.length
       _this.setData({
         menutypeActiveFlag: listHeightLength - 1
       })
-    }
+    } */
   },
+
+
+  
   goToMenuCommit() {
     wx.navigateTo({
       url: '/pages/menu/confirm/confirm?totalMoney='

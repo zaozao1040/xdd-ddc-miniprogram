@@ -123,19 +123,19 @@
             <view class="food-des" style="display: inline-block;margin-right: 10rpx;">
               总价
               <block wx:if="{{orderItem.expired}}">
-                  <text style="font-size:25rpx;">¥</text>{{orderItem.totalPrice}}
+                  <text style="font-size:25rpx;">¥</text>{{orderItem.totalPrice}} <text style="color:#ccc;" decode>&nbsp;/</text>
               </block>
               <block wx:else>
-                  <text style="font-size:25rpx;">¥</text><text style="color:#F56C6C;">{{orderItem.totalPrice}}</text>
+                  <text style="font-size:25rpx;">¥</text><text style="color:#F56C6C;">{{orderItem.totalPrice}}</text> <text style="color:#ccc;" decode>&nbsp;/</text>
               </block>
             </view>
-            <view class="food-des" style="display: inline-block;margin-right: 10rpx;">
+            <view wx:if="{{orderItem.discountPrice}}" class="food-des" style="display: inline-block;margin-right: 10rpx;">
               优惠券抵扣
               <block wx:if="{{orderItem.expired}}">
-                  <text style="font-size:25rpx;">-¥</text>{{orderItem.discountPrice}}
+                  <text style="font-size:25rpx;">-¥</text>{{orderItem.discountPrice}} <text style="color:#ccc;" decode>&nbsp;/</text>
               </block>
               <block wx:else>
-                  <text style="font-size:25rpx;">-¥</text><text style="color:#F56C6C;">{{orderItem.discountPrice}}</text>
+                  <text style="font-size:25rpx;">-¥</text><text style="color:#F56C6C;">{{orderItem.discountPrice}}</text> <text style="color:#ccc;" decode>&nbsp;/</text>
               </block>
             </view>
             <view class="food-des" style="display: inline-block;">

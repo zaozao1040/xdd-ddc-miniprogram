@@ -336,6 +336,10 @@ Page({
       mask: true
     })
     /**** 拼接这个庞大的参数 ****/
+    let tmp_discountCode = null
+    if(_this.data.adviceDiscountObj){
+      tmp_discountCode = _this.data.adviceDiscountObj.discountCode
+    }
     let tmp_param = {
       userCode: wx.getStorageSync('userInfo').userCode,
       organizeCode: wx.getStorageSync('userInfo').organizeCode,
@@ -345,7 +349,7 @@ Page({
       payAllPrice: _this.data.realMoney,//自费的总价格
       payType: _this.data.payType,//支付方式
       orderDetail: [],
-      discountCode: _this.data.adviceDiscountObj.discountCode
+      discountCode: tmp_discountCode
     }
     getApp().globalData.selectedFoods.forEach(element1 => {
       let dayDes = element1.dayDes

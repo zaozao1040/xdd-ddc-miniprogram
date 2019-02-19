@@ -1,17 +1,23 @@
-// pages/components/discountPromotion/discountPromotion.js
+import { discountPromotion } from './discountPromotion-model.js'
+let discountPromotionModel = new discountPromotion()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    discountList:[{
-        total:59,
-        dis:15
-      },{
-        total:40,
-        dis:5
-      }
+    //
+    canClick: true,
+    //
+    discountList: [{
+      total: 59,
+      dis: 15,
+      discountCode: '123'
+    }, {
+      total: 40,
+      dis: 5,
+      discountCode: '345'
+    }
     ]
   },
 
@@ -36,7 +42,44 @@ Page({
 
   /* 领取优惠券 */
   handleTakeDiscount: function (e) {
-    //e.currentTarget.dataset.discountcode
+    console.log(e.currentTarget.dataset.discountcode)
+    let _this = this
+    if (!_this.data.canClick) {
+      return
+    }
+    _this.data.canClick = false
+    let param = {
+      userCode: wx.getStorageSync('userInfo').userCode,
+      discountcode: e.currentTarget.dataset.discountcode
+    }
+    wx.showLoading({ 
+      title: '处理中',
+      mask: true
+    })
+    discountPromotionModel.takeDiscount(param, (res) => {
+      console.log('收到请求(领取优惠券):', res)
+      if (res.code === 0) {
+        wx.hideLoading()
+        wx.showToast({
+          title: '成功领取',
+          image: '../../images/msg/success.png',
+          duration: 2000
+        })
+        wx.reLaunch({
+          url: '/pages/home/home'
+        })
+      } else {
+        wx.hideLoading()
+        wx.showToast({
+          title: res.msg,
+          image: '../../images/msg/error.png',
+          duration: 2000
+        })
+      }
+    })
+    setTimeout(function () {
+      _this.data.canClick = true
+    }, 2000)
   },
 
   /**

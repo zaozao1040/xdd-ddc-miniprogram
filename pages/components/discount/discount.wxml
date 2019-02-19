@@ -1,5 +1,5 @@
 <view class="discountItem-wrapper" wx:for="{{discountList}}" wx:for-index="discountIndex" wx:for-item="discountItem"
-  wx:key="discountIndex">
+  wx:key="discountIndex" bindtap="handleClickDiscount" data-usetype="{{useType}}">
   <view class="top {{useType==2?'top-expire':''}}">
     <view class="left">
       <view class="h3 {{useType==2?'font-expire':''}}">
@@ -37,7 +37,7 @@
       <view class="right-label" style="background: rgb(212, 47, 110);" wx:if="{{discountItem.discountType=='REDUCTION'}}">减</view>
     </view>
   </view>
-  <view class="bottom {{useType==2?'bottom-expire font-expire':''}}">使用日期:{{discountItem.startTimeDes}} ~
+  <view class="bottom {{useType==2?'bottom-expire font-expire':''}}">使用范围:{{discountItem.startTimeDes}} ~
     {{discountItem.endTimeDes}}</view>
   <view class="hock_1"></view>
 </view>

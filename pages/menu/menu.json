@@ -1,3 +1,5 @@
 {
-  "navigationBarTitleText": "开始订餐"
+  "navigationBarTitleText": "开始订餐",
+  "navigationBarBackgroundColor": "#e79b37",
+  "navigationBarTextStyle":"white"
 }
