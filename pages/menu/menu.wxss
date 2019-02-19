@@ -159,9 +159,9 @@
 }
 .img-wrapper{
   position: relative;
-  width: 25%;
+  width: 30%;
   height: 0;
-  padding-bottom: 25%;
+  padding-bottom: 30%;
 }
 .food-img{
   position: absolute;
@@ -175,7 +175,7 @@
 }
 .food-info-wrapper{
   position: relative;
-  width:75%;
+  width:70%;
   padding: 0 20rpx;
   box-sizing: border-box;
 }
@@ -186,7 +186,7 @@
   line-height: 30rpx;
 }
 .food-desc{
-  padding-top: 10rpx;
+/*   padding-top: 10rpx; */
   font-size: 25rpx;
   color: #666666;
   overflow:hidden; 
@@ -212,9 +212,25 @@
   height: 35rpx;
   line-height: 35rpx;
   padding: 0 20rpx;
-  color: #444;
+  color: #666;
   background: rgb(209, 231, 247);
   border-radius: 6rpx;
+}
+.foodLimitNum{
+  display: flex;
+}
+.surplusNum{
+  font-size: 25rpx;
+  height: 35rpx;
+  line-height: 35rpx;
+  color: #666;
+}
+.quotaNum{
+  font-size: 25rpx;
+  height: 35rpx;
+  line-height: 35rpx;
+  padding-left: 10rpx;
+  color: #666;
 }
 .price{
   position: absolute;

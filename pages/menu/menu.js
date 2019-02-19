@@ -282,6 +282,14 @@ Page({
 
   handleAddfood: function (e) {
     let _this = this
+    if (e.currentTarget.dataset.surplusnum == 0) {
+      wx.showToast({
+        title: '库存不足',
+        image: '../../images/msg/error.png',
+        duration: 2000
+      })
+      return
+    }
     if (!_this.data.canClick) {
       return
     }
@@ -297,48 +305,57 @@ Page({
     let foodIndex = e.currentTarget.dataset.foodindex
     let tmp_menuData = app.globalData.cacheMenuDataAll[day][foodType] //一、这个数据结构是为了数字响应式显示
     // console.log("******",day,foodType,app.globalData.cacheMenuDataAll,app.globalData.cacheMenuDataAll[day][foodType],tmp_menuData)
-    if (!tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount) {
-      tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount = 1
+    let tmp_foodCount = tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount
+    if ( tmp_foodCount === e.currentTarget.dataset.quotanum) {
+      wx.showToast({
+        title: '已超限购',
+        image: '../../images/msg/error.png',
+        duration: 2000
+      })
     } else {
-      tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount++
+      if (!tmp_foodCount) {
+        tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount = 1
+      } else {
+        tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount++
+      }
+      tmp_menuData.day = e.currentTarget.dataset.day  //这两行是为了更新这个临时menuData的day和foodType
+      tmp_menuData.foodType = e.currentTarget.dataset.foodtype
+      tmp_menuData.foods[menutypeIndex].foods[foodIndex].__food_index = foodIndex  //这两行是为了存储两个下标,foodIndex表示这个food在后台数据中的餐类（左侧分类）中的下标
+      tmp_menuData.foods[menutypeIndex].foods[foodIndex].__menutype_index = menutypeIndex //menutypeIndex表示这个food在后台数据中的餐类（左侧分类）在餐类列表中的下标
+      console.log('e:', e.currentTarget.dataset)
+      console.log('e menuData:', _this.data.menuData)
+      /* **********主菜单视图响应式--操作cacheMenuDataAll大数组********** */
+      let tmp_cacheMenuDataAll = app.globalData.cacheMenuDataAll
+      tmp_cacheMenuDataAll[day][foodType] = tmp_menuData
+      app.globalData.cacheMenuDataAll = tmp_cacheMenuDataAll //全局更新
+      _this.setData({   //添加或减少结束后，setData一定要把全局的赋给他
+        cacheMenuDataAll: app.globalData.cacheMenuDataAll
+      })
+      console.log('全局大数组cacheMenuDataAll:', app.globalData.cacheMenuDataAll)
+      /* **********购物车视图响应式--操作selectedFoods********** */
+      _this.selectedFoodsAdd(e)
+      //总计数
+      app.globalData.totalCount = app.globalData.totalCount + 1
+      _this.setData({
+        totalCount: app.globalData.totalCount
+      })
+      //总价格
+      app.globalData.totalMoney = parseFloat((parseFloat(app.globalData.totalMoney) + parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2))
+      //app.globalData.realMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyRealDeduction)).toFixed(2)
+      let tmp_realMoney = parseFloat((parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyRealDeduction)).toFixed(2)) //-------相减错误
+      if (tmp_realMoney < 0) { //需要处理这个额度大于实际付款的情况，虽然几乎不可能发生，但是还要容错
+        tmp_realMoney = 0
+      }
+      app.globalData.realMoney = tmp_realMoney
+      _this.setData({
+        totalMoney: app.globalData.totalMoney,
+        realMoney: app.globalData.realMoney
+      })
+      _this.setData({
+        totalMoney: app.globalData.totalMoney,
+        realMoney: app.globalData.realMoney
+      })
     }
-    tmp_menuData.day = e.currentTarget.dataset.day  //这两行是为了更新这个临时menuData的day和foodType
-    tmp_menuData.foodType = e.currentTarget.dataset.foodtype
-    tmp_menuData.foods[menutypeIndex].foods[foodIndex].__food_index = foodIndex  //这两行是为了存储两个下标,foodIndex表示这个food在后台数据中的餐类（左侧分类）中的下标
-    tmp_menuData.foods[menutypeIndex].foods[foodIndex].__menutype_index = menutypeIndex //menutypeIndex表示这个food在后台数据中的餐类（左侧分类）在餐类列表中的下标
-    console.log('e:', e.currentTarget.dataset)
-    console.log('e menuData:', _this.data.menuData)
-    /* **********主菜单视图响应式--操作cacheMenuDataAll大数组********** */
-    let tmp_cacheMenuDataAll = app.globalData.cacheMenuDataAll
-    tmp_cacheMenuDataAll[day][foodType] = tmp_menuData
-    app.globalData.cacheMenuDataAll = tmp_cacheMenuDataAll //全局更新
-    _this.setData({   //添加或减少结束后，setData一定要把全局的赋给他
-      cacheMenuDataAll: app.globalData.cacheMenuDataAll
-    })
-    console.log('全局大数组cacheMenuDataAll:', app.globalData.cacheMenuDataAll)
-    /* **********购物车视图响应式--操作selectedFoods********** */
-    _this.selectedFoodsAdd(e)
-    //总计数
-    app.globalData.totalCount = app.globalData.totalCount + 1
-    _this.setData({
-      totalCount: app.globalData.totalCount
-    })
-    //总价格
-    app.globalData.totalMoney = parseFloat((parseFloat(app.globalData.totalMoney) + parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2))
-    //app.globalData.realMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyRealDeduction)).toFixed(2)
-    let tmp_realMoney = parseFloat((parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyRealDeduction)).toFixed(2)) //-------相减错误
-    if (tmp_realMoney < 0) { //需要处理这个额度大于实际付款的情况，虽然几乎不可能发生，但是还要容错
-      tmp_realMoney = 0
-    }
-    app.globalData.realMoney = tmp_realMoney
-    _this.setData({
-      totalMoney: app.globalData.totalMoney,
-      realMoney: app.globalData.realMoney
-    })
-    _this.setData({
-      totalMoney: app.globalData.totalMoney,
-      realMoney: app.globalData.realMoney
-    })
     setTimeout(function () {
       _this.data.canClick = true
     }, 300)
@@ -674,11 +691,11 @@ Page({
   handleScroll: function (e) {
     //console.log('scrollview滚动距离:',e.detail.scrollTop)
     let _this = this
-    if(e.detail.scrollTop>300){
+    if (e.detail.scrollTop > 300) {
       _this.setData({
         showBackToTopFlag: true
       })
-    }else{
+    } else {
       _this.setData({
         showBackToTopFlag: false
       })
@@ -702,7 +719,7 @@ Page({
     }
   },
   //返回页面顶端
-  backToTop:function(){
+  backToTop: function () {
     wx.pageScrollTo({ //外层scrollview返回顶端
       scrollTop: 0,
     })
@@ -713,18 +730,18 @@ Page({
   },
   /* 滚动到底部事件监听 */
   handleScrolltolower: function (e) {
-/*    暂时先注释掉了，体验不太好
-     if (this.data.scrollLintenFlag) { //允许触发滚动事件，才执行滚动事件
-      let _this = this
-      let listHeightLength = _this.data.listHeight.length
-      _this.setData({
-        menutypeActiveFlag: listHeightLength - 1
-      })
-    } */
+    /*    暂时先注释掉了，体验不太好
+         if (this.data.scrollLintenFlag) { //允许触发滚动事件，才执行滚动事件
+          let _this = this
+          let listHeightLength = _this.data.listHeight.length
+          _this.setData({
+            menutypeActiveFlag: listHeightLength - 1
+          })
+        } */
   },
 
 
-  
+
   goToMenuCommit() {
     wx.navigateTo({
       url: '/pages/menu/confirm/confirm?totalMoney='

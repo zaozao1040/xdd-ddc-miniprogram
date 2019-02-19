@@ -163,7 +163,7 @@ Page({
         if (tmp_integralList.length < _this.data.limit) {
           if (tmp_integralList.length === 0) {
             wx.showToast({
-              icon: "none",
+              image: '../../../images/msg/warning.png',
               title: '没有更多数据'
             })
             _this.setData({
@@ -185,7 +185,7 @@ Page({
       } else {
         wx.showToast({
           title: res.msg,
-          icon: 'none',
+          image: '../../../images/msg/error.png',
           duration: 2000
         })
       }
@@ -212,7 +212,7 @@ Page({
     if (_this.data.selectedPoint == 0) {
       wx.showToast({
         title: "请选择兑换积分",
-        icon: "none",
+        image: '../../../images/msg/error.png',
         duration: 2000
       })
     } else {
@@ -233,7 +233,7 @@ Page({
         if (res.code === 0) {
           wx.showToast({
             title: '积分兑换成功',
-            icon: 'success',
+            image: '../../../images/msg/success.png',
             duration: 2000
           })
           setTimeout(function () {
@@ -245,7 +245,7 @@ Page({
         } else {
           wx.showToast({
             title: res.msg,
-            icon: 'none',
+            image: '../../../images/msg/error.png',
             duration: 2000
           })
         }

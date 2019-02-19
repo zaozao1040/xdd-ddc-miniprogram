@@ -105,6 +105,14 @@
                       {{foodItem.merchantName}}
                     </view>
                   </view>
+                  <view class="foodLimitNum">
+                    <view class="surplusNum" wx:if="{{foodItem.surplusNum}}">
+                      库存:<text style="color:#222;">{{foodItem.surplusNum}}</text>
+                    </view>
+                    <view class="quotaNum" wx:if="{{foodItem.quotaNum}}">
+                      限购:<text style="color:#222;">{{foodItem.quotaNum}}</text>
+                    </view>
+                  </view>
                   <view class="price">
                     <view class="price-real">
                       <text style="font-size: 25rpx;">￥</text>{{foodItem.foodPrice}}
@@ -119,6 +127,7 @@
                       data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}" data-day="{{timeActiveFlag}}"
                       data-daydes="{{timeDesActive}}" data-foodtype="{{foodtypeActiveFlag}}" data-foodtypedes="{{foodtypeDesActive}}"
                       data-foodcode="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}"
+                      data-surplusnum="{{foodItem.surplusNum}}" data-quotanum="{{foodItem.quotaNum}}"
                       data-image="{{foodItem.image}}" catchtap="handleMinusfood">
                     </view>
                     <view wx:if="{{foodItem.foodCount>0}}" style="display: inline-block;font-size:50rpx;width:60rpx;text-align: center;color:#222;"
@@ -129,6 +138,7 @@
                       data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}" data-day="{{timeActiveFlag}}"
                       data-daydes="{{timeDesActive}}" data-foodtype="{{foodtypeActiveFlag}}" data-foodtypedes="{{foodtypeDesActive}}"
                       data-foodcode="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}"
+                      data-surplusnum="{{foodItem.surplusNum}}" data-quotanum="{{foodItem.quotaNum}}"
                       data-image="{{foodItem.image}}" catchtap="handleAddfood">
                     </view>
                   </view>

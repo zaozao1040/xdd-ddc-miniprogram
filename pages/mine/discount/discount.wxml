@@ -35,7 +35,7 @@
         未查询到优惠券记录..
       </view>
       <view wx:else style="padding:20rpx;background: #eee;">
-        <c-discount discountList="{{discountList}}" useType="{{param.useType}}"></c-discount>
+        <c-discount discountList="{{discountList}}" useType="{{useType}}"></c-discount>
       </view>
     </scroll-view>
   </view>

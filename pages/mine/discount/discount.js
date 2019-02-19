@@ -19,19 +19,13 @@ Page({
     page: 1, // 设置加载的第几次，默认是第一次
     limit: 20, // 每页条数
     hasMoreDataFlag: true,//是否还有更多数据  默认还有
+    useType: 0,  //0表示未使用(去除过期的)，1表示已使用，2表示过期 3全部
     //标题
     itemStatusActiveFlag: 'weishiyong',
     //
     discountList: [],
     discountListNoResult: false,
-    //查询参数
-    param: {
-      userCode: wx.getStorageSync('userInfo').userCode,
-      useType: 0,  //0表示未使用(去除过期的)，1表示已使用，2表示过期 3全部
-      discountType: '',  //DISCOUNT 折扣，REDUCTION 满减
-      limit: 20,
-      page: 1
-    },
+    //
     discountTypeMap: {
       DISCOUNT: '折扣券',
       REDUCTION: '满减券'
@@ -117,13 +111,7 @@ Page({
       itemStatusActiveFlag: e.currentTarget.dataset.flag,
       discountListNoResult: false,
       discountList: [], 
-      param: {
-        userCode: wx.getStorageSync('userInfo').userCode,
-        useType: tmp_useType,  
-        discountType: '',  //DISCOUNT 折扣，REDUCTION 满减
-        limit: 20,
-        page: 1
-      },
+      useType: tmp_useType, 
     })
     _this.getDiscountList()
   },
@@ -134,7 +122,13 @@ Page({
       return
     }
     _this.data.listCanGet = false
-    let param = _this.data.param
+    let param =  {
+      userCode: wx.getStorageSync('userInfo').userCode,
+      useType: _this.data.useType,
+      discountType: '',  //DISCOUNT 折扣，REDUCTION 满减
+      limit: _this.data.limit,
+      page: _this.data.page
+    }
     wx.showLoading({
       title: '加载中',
     })
@@ -150,7 +144,7 @@ Page({
             element.startTimeDes = element.startTime ? moment(element.startTime).format('YYYY/MM/DD HH:mm') : element.startTime
           })
           //下面开始分页
-          if (tmp_discountList.length < _this.data.param.limit) {
+          if (tmp_discountList.length < _this.data.limit) {
             if (tmp_discountList.length === 0) {
               wx.showToast({
                 image: '../../../images/msg/warning.png',
@@ -166,12 +160,10 @@ Page({
               })
             }
           } else {
-            let tmp_param = _this.data.param
-            tmp_param.page = tmp_param.page + 1
             _this.setData({
               discountList: _this.data.discountList.concat(tmp_discountList), //concat是拆开数组参数，一个元素一个元素地加进去
               hasMoreDataFlag: true,
-              param: tmp_param
+              page: _this.data.page + 1
             })
           }          
         }else{
