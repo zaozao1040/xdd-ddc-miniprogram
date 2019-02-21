@@ -13,7 +13,7 @@ class wallet extends base {
       },
       eCallback: function () { }
     }
-    this.request(allParams)
+    this.requestWithCatch(allParams)
   }
   /* 充值 */
   RechargeBalance(param, callback) {

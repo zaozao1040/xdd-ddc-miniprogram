@@ -7,6 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    timer:null,
     canClick: true,
     listCanGet: true,
     userInfo: null,
@@ -81,11 +82,20 @@ Page({
     let _this = this
     _this.initWallet()
     _this.getGiftList()
-    this.setData({
-      page: 1,
-      limit: 20,
+    _this.data.page = 1
+    _this.data.limit = 20
+    _this.setData({
+/*       page: 1,
+      limit: 20, */
       rechargeList: [] //列表必须清空，否则分页会无限叠加
     })
+  },
+
+  /* 页面隐藏后回收定时器指针 */
+  onHide: function () {
+    if (this.data.timer) {
+      clearTimeout(this.data.timer)
+    }
   },
 
   /* 获取充多少送多少的list */
@@ -156,7 +166,10 @@ Page({
       return
     }
     _this.data.canClick = false
-    setTimeout(function () {
+    if(_this.data.timer){
+      clearTimeout(_this.data.timer)      
+    }
+    _this.data.timer = setTimeout(function () {
       _this.data.canClick = true
     }, 500)
     if (e.currentTarget.dataset.flag == 'chongzhi') {
@@ -164,11 +177,13 @@ Page({
         itemStatusActiveFlag: true
       })
     } else if (e.currentTarget.dataset.flag == 'jiaoyi') {
+      _this.data.page = 1
+      _this.data.limit = 20
       _this.setData({
         itemStatusActiveFlag: false,
         rechargeList: [], // 这四个要重置，为了交易记录的分页，因为交易记录、在线重置俩页面是通过点击按钮切换的
-        page: 1,
-        limit: 20,
+/*         page: 1,
+        limit: 20, */
         hasMoreDataFlag: true,
       })
       _this.getRechargeList()
@@ -235,10 +250,11 @@ Page({
             })
           }
         } else {
+          _this.data.page = _this.data.page + 1
           _this.setData({
             rechargeList: _this.data.rechargeList.concat(tmp_rechargeList), //concat是拆开数组参数，一个元素一个元素地加进去
             hasMoreDataFlag: true,
-            page: _this.data.page + 1
+/*             page: _this.data.page + 1 */
           })
         }
       } else {
@@ -327,7 +343,8 @@ Page({
           })
         }
       })
-      setTimeout(function () {
+      clearTimeout(_this.data.timer)
+      _this.data.timer = setTimeout(function () {
         _this.data.canClick = true
       }, 300)
     }

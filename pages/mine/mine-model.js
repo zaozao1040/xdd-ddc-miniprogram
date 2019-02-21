@@ -15,6 +15,19 @@ class mine extends base {
     }
     this.request(allParams)
   }
+  /* 获取短信验证码 */
+  getVerificationCode(param,callback){
+    let allParams = {
+      url: baseUrl+'/utils/phone/verify',
+      type: 'POST',
+      data: param,
+      sCallback: function (data) {
+        callback && callback(data);
+      },
+      eCallback: function () { }
+    }
+    this.request(allParams)
+  }
   /* 获取企业列表- 根据经纬度 */
   getOrganizeListByLocation(param, callback) {
     let allParams = {
@@ -24,7 +37,7 @@ class mine extends base {
       sCallback: function (data) { callback && callback(data) },
       eCallback: function () { }
     }
-    this.request(allParams)
+    this.requestWithCatch(allParams)
   }
   /* 获取客服电话 */
   getServicePhoneData(param, callback) {
@@ -37,7 +50,7 @@ class mine extends base {
       },
       eCallback: function () { }
     }
-    this.request(allParams)
+    this.requestWithCatch(allParams)
   }
 }
 export { mine }

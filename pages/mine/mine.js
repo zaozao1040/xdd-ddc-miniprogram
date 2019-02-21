@@ -79,9 +79,10 @@ Page({
         console.log('收到请求(客服电话):', res)
         if (res.code === 0) {
           wx.hideLoading()
-          _this.setData({
+          _this.data.servicePhone = res.data.contactPhone
+/*           _this.setData({
             servicePhone: res.data.contactPhone
-          })
+          }) */
           wx.showModal({
             title: '是否拨打客户电话?',
             content: res.data.contactPhone,

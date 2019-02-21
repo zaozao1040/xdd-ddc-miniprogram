@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    timer: null,
     canClick: true,
     listCanGet: true,
     userInfo: null,
@@ -75,13 +76,21 @@ Page({
   onShow: function () {
     let _this = this
     _this.initIntegral()
+    _this.data.page = 1
+    _this.data.limit = 20
     this.setData({
-      page: 1,
-      limit: 20,
+/*       page: 1,
+      limit: 20, */
       integralList: [] //列表必须清空，否则分页会无限叠加
     })
   },
 
+  /* 页面隐藏后回收定时器指针 */
+  onHide: function () {
+    if (this.data.timer) {
+      clearTimeout(this.data.timer)
+    }
+  },
 
   /* 手动点击触发下一页 */
   gotoNextPage: function () {
@@ -103,7 +112,10 @@ Page({
       return
     }
     _this.data.canClick = false
-    setTimeout(function () {
+    if(_this.data.timer){
+      clearTimeout(_this.data.timer)      
+    }
+    _this.data.timer = setTimeout(function () {
       _this.data.canClick = true
     }, 500)
     if (e.currentTarget.dataset.flag == 'duihuan') {
@@ -111,11 +123,13 @@ Page({
         itemStatusActiveFlag: true
       })
     } else if (e.currentTarget.dataset.flag == 'jilu') {
+      _this.data.page = 1
+      _this.data.limit = 20
       _this.setData({
         itemStatusActiveFlag: false,
         integralList: [], // 这四个要重置，为了交易记录的分页，因为交易记录、在线重置俩页面是通过点击按钮切换的
-        page: 1,
-        limit: 20,
+/*         page: 1,
+        limit: 20, */
         hasMoreDataFlag: true,
       })
       _this.getIntegralList()
@@ -176,10 +190,11 @@ Page({
             })
           }
         } else {
+          _this.data.page = _this.data.page + 1
           _this.setData({
             integralList: _this.data.integralList.concat(tmp_integralList), //concat是拆开数组参数，一个元素一个元素地加进去
             hasMoreDataFlag: true,
-            page: _this.data.page + 1
+/*             page: _this.data.page + 1 */
           })
         }
       } else {
@@ -236,7 +251,10 @@ Page({
             image: '../../../images/msg/success.png',
             duration: 2000
           })
-          setTimeout(function () {
+          if(_this.data.timer){
+            clearTimeout(_this.data.timer)      
+          }
+          _this.data.timer = setTimeout(function () {
             wx.switchTab({
               url: '/pages/mine/mine',
             })
@@ -250,7 +268,10 @@ Page({
           })
         }
       })
-      setTimeout(function () {
+      if(_this.data.timer){
+        clearTimeout(_this.data.timer)      
+      }
+      _this.data.timer = setTimeout(function () {
         _this.data.canClick = true
       }, 300)
     }

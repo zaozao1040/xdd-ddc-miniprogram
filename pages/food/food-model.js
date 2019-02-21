@@ -13,7 +13,7 @@ class food extends base{
       },
       eCallback: function () { }
     }
-    this.request(allParams)
+    this.requestWithCatch(allParams)
   }  
   /* 获取评价列表 */
   getRatingsData(param,callback){
@@ -26,7 +26,7 @@ class food extends base{
       },
       eCallback: function () { }
     }
-    this.request(allParams)
+    this.requestWithCatch(allParams)
   }  
   
 }

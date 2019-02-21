@@ -13,7 +13,7 @@ class service extends base{
       },
       eCallback: function () { }
     }
-    this.request(allParams)
+    this.requestWithCatch(allParams)
   }
 
 

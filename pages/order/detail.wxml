@@ -113,7 +113,7 @@
     </view>
     <view class="orderItem discountPrice" wx:if="{{detailInfo.discount}}">
       <view class="leftLabel">
-        优惠券抵扣价格
+        优惠券抵扣价
       </view>
       <view class="rightContent">
         -¥{{detailInfo.orderDiscount.discountPrice}}

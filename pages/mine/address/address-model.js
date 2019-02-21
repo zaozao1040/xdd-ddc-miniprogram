@@ -13,7 +13,7 @@ class address extends base{
       },
       eCallback: function () { }
     }
-    this.request(allParams)
+    this.requestWithCatch(allParams)
   }
   /* 默认地址选择 */
   commitDefaultAddress(param,callback){

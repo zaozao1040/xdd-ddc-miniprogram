@@ -26,7 +26,7 @@ class home extends base {
       },
       eCallback: function () { }
     }
-    this.request(allParams)
+    this.requestWithCatch(allParams)
   }
   getImages(param, callback) {
     let allParams = {
@@ -38,7 +38,7 @@ class home extends base {
       },
       eCallback: function () { }
     }
-    this.request(allParams)
+    this.requestWithCatch(allParams)
   }
   /*   // 获取轮播图 
     getSwiperList(param, callback) {

@@ -9,10 +9,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    canClick:true,
+    timer: null,
+    canClick: true,
     loading: false,
     phone: '',
-    code:'',
+    code: '',
     firstCode: true,
     waitTime: -1,
   },
@@ -23,32 +24,41 @@ Page({
   onLoad: function (options) {
 
   },
+  /* 页面隐藏后回收定时器指针 */
+  onHide: function () {
+    if (this.data.timer) {
+      clearTimeout(this.data.timer)
+    }
+  },
   phoneInput: function (e) {
     this.setData({
       phone: e.detail.value
     });
   },
-  codeInput: function(e) {
+  codeInput: function (e) {
     this.setData({
       code: e.detail.value
     });
   },
   sendCode: function () {
     let _this = this
-    if(!_this.data.canClick){
+    if (!_this.data.canClick) {
       return
     }
     _this.data.canClick = false
-    setTimeout(function(){ 
+    if (_this.data.timer) {
+      clearTimeout(_this.data.timer)
+    }
+    _this.data.timer = setTimeout(function () {
       _this.data.canClick = true
-    },5000)
+    }, 5000)
     //获取短信验证码
     let param = {
-      phoneNumber:_this.data.phone
+      phoneNumber: _this.data.phone
     }
-    mineModel.getVerificationCode(param,(res)=>{
-      console.log('收到请求(获取验证码):',res)
-      if(res.code === 0){
+    mineModel.getVerificationCode(param, (res) => {
+      console.log('收到请求(获取验证码):', res)
+      if (res.code === 0) {
         wx.showToast({
           title: '发送成功',
           image: '../../../images/msg/success.png',
@@ -58,38 +68,38 @@ Page({
           firstCode: false
         })
         let countdown = 60
-        for (var i = 60; i >= 0; i--){
-          setTimeout(function(){
+        for (var i = 60; i >= 0; i--) {
+          setTimeout(function () {
             _this.setData({
               waitTime: countdown
             })
             countdown--
-          },1000*i)      
+          }, 1000 * i)
         }
-      }else{
+      } else {
         wx.showToast({
           title: res.msg,
           image: '../../../images/msg/error.png',
           duration: 2000
-        })  
+        })
       }
     })
   },
-  changePhone:function(){
+  changePhone: function () {
     let _this = this
-    if (t._validCellPhone(_this.data.phone)){
-      if(_this.data.code == ''){
+    if (t._validCellPhone(_this.data.phone)) {
+      if (_this.data.code == '') {
         wx.showToast({
           title: "请输入验证码",
           image: '../../../images/msg/error.png',
           duration: 2000
         })
-      }else{
+      } else {
         wx.login({
-          success: function(res){
-            if(res.code){
+          success: function (res) {
+            if (res.code) {
               let param = {
-                userCode: wx.getStorageSync('userInfo').userCode, 
+                userCode: wx.getStorageSync('userInfo').userCode,
                 validation: _this.data.code, //短信验证码
                 phoneNumber: _this.data.phone
               }
@@ -100,13 +110,13 @@ Page({
                 title: '加载中',
                 mask: true
               })
-              phoneModel.changePhone(param,(res)=>{
-                console.log('收到请求(更换手机):',res)
-                if(res.code === 0){
+              phoneModel.changePhone(param, (res) => {
+                console.log('收到请求(更换手机):', res)
+                if (res.code === 0) {
                   let tmp_userInfo = wx.getStorageSync('userInfo')
                   tmp_userInfo.phoneNumber = _this.data.phone
                   wx.setStorageSync('userInfo', tmp_userInfo)
-                  setTimeout(function(){ //提示修改手机号成功，两秒后跳转到’我的‘
+                  setTimeout(function () { //提示修改手机号成功，两秒后跳转到’我的‘
                     wx.switchTab({
                       url: '/pages/mine/mine',
                     })
@@ -116,13 +126,13 @@ Page({
                       image: '../../../images/msg/success.png',
                       duration: 2000
                     })
-                  },2000) 
-                }else{
+                  }, 2000)
+                } else {
                   wx.showToast({
                     title: res.msg,
                     image: '../../../images/msg/error.png',
                     duration: 2000
-                  })  
+                  })
                   _this.setData({
                     loading: false
                   })
@@ -138,7 +148,7 @@ Page({
         title: "手机必须11位数字",
         image: '../../../images/msg/error.png',
         duration: 2000
-      })   
+      })
     }
   },
 

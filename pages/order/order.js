@@ -10,6 +10,7 @@ Page({
    */
   data: {
     //
+    timer: null,
     canClick: true,
     listCanGet: true,
     //分页
@@ -93,7 +94,12 @@ Page({
   onLoad: function (options) {
 
   },
-
+  /* 页面隐藏后回收定时器指针 */
+  onHide: function () {
+    if (this.data.timer) {
+      clearTimeout(this.data.timer)
+    }
+  },
   /* 手动点击触发下一页 */
   gotoNextPage: function () {
     if (this.data.hasMoreDataFlag) {
@@ -114,19 +120,22 @@ Page({
   onShow: function () {
     let _this = this
     _this.initOrder()
-    this.setData({
-      page: 1,
-      limit: 20,
+    _this.data.page = 1
+    _this.data.limit = 20
+    _this.setData({
+/*       page: 1,
+      limit: 20, */
       orderList: [] //列表必须清空，否则分页会无限叠加
     })
     _this.getOrderList()
   },
   onHide: function () {
     if (this.data.doOnHideFlag) { //执行onhide前先判断一下这个标志，允许不允许执行清空
+      this.data.ratingsContent = ''
       this.setData({
         showRatingsFlag: false,
         starActiveNum: 0,
-        ratingsContent: '',
+/*         ratingsContent: '', */
         tempFilePaths: [],
       })
     }
@@ -137,7 +146,10 @@ Page({
       return
     }
     _this.data.canClick = false
-    setTimeout(function () {
+    if(_this.data.timer){
+      clearTimeout(_this.data.timer)      
+    }
+    _this.data.timer = setTimeout(function () {
       _this.data.canClick = true
     }, 500)
     if (e.currentTarget.dataset.flag == 'jinridaiqu') {
@@ -149,10 +161,12 @@ Page({
         itemStatusActiveFlag: false
       })
     } else { }
+    _this.data.page = 1
+    _this.data.limit = 20
     _this.setData({
       orderList: [], // 这四个要重置，为了交易记录的分页，因为交易记录、在线重置俩页面是通过点击按钮切换的
-      page: 1,
-      limit: 20,
+/*       page: 1,
+      limit: 20, */
       hasMoreDataFlag: true,
     })
     _this.getOrderList()
@@ -234,10 +248,11 @@ Page({
             })
           }
         } else {
+          _this.data.page = _this.data.page + 1
           _this.setData({
             orderList: _this.data.orderList.concat(tmp_orderList), //concat是拆开数组参数，一个元素一个元素地加进去
             hasMoreDataFlag: true,
-            page: _this.data.page + 1
+/*             page: _this.data.page + 1 */
           })
         }
       } else {
@@ -259,7 +274,10 @@ Page({
       return
     }
     _this.data.canClick = false
-    setTimeout(function () {
+    if(_this.data.timer){
+      clearTimeout(_this.data.timer)      
+    }
+    _this.data.timer = setTimeout(function () {
       _this.data.canClick = true
     }, 2000)
     wx.showModal({
@@ -292,7 +310,10 @@ Page({
                 duration: 2000
               })
               if (e.currentTarget.dataset.paystatus=='THIRD_PAYED') {
-                setTimeout(function () {
+                if(_this.data.timer){
+                  clearTimeout(_this.data.timer)      
+                }
+                _this.data.timer = setTimeout(function () {
                   wx.showToast({
                     title: e.currentTarget.dataset.payprice + '元已退还',
                     image: '../../images/msg/warning.png',
@@ -354,7 +375,10 @@ Page({
       return
     }
     _this.data.canClick = false
-    setTimeout(function () {
+    if(_this.data.timer){
+      clearTimeout(_this.data.timer)      
+    }
+    _this.data.timer = setTimeout(function () {
       _this.data.canClick = true
     }, 2000)
     let param = {
@@ -415,7 +439,10 @@ Page({
       return
     }
     _this.data.canClick = false
-    setTimeout(function () {
+    if(_this.data.timer){
+      clearTimeout(_this.data.timer)      
+    }
+    _this.data.timer = setTimeout(function () {
       _this.data.canClick = true
     }, 2000)
     let param = {
@@ -493,17 +520,21 @@ Page({
         }
       }
     })
-    setTimeout(function () {
+    if(_this.data.timer){
+      clearTimeout(_this.data.timer)      
+    }
+    _this.data.timer = setTimeout(function () {
       _this.data.canClick = true
     }, 2000)
   },
   /* 去评价 */
   handleEvaluateOrder: function (e) {
     let _this = this
+    this.data.ratingsContent = ''
     _this.setData({
       showRatingsFlag: true,
       starActiveNum: 0, //这三个都要清空
-      ratingsContent: '',
+/*       ratingsContent: '', */
       tempFilePaths: [],
       orderCode: e.currentTarget.dataset.ordercode,
       foodCode: e.currentTarget.dataset.foodcode,
@@ -582,9 +613,10 @@ Page({
   },
 
   ratingsInput: function (e) {
-    this.setData({
+/*     this.setData({
       ratingsContent: e.detail.value
-    })
+    }) */
+    this.data.ratingsContent = e.detail.value
   },
 
   handleClickStar: function (e) {
@@ -611,9 +643,10 @@ Page({
   /* 点击上传图片 */
   handleClickAddImg: function () {
     let _this = this
-    _this.setData({ //置为false，onhide里面的代码不允许执行
+    _this.data.doOnHideFlag = false
+/*     _this.setData({ //置为false，onhide里面的代码不允许执行
       doOnHideFlag: false
-    })
+    }) */
     wx.chooseImage({
       count: 1, //最多可以选择的图片数，默认为9
       sizeType: ['orignal', 'compressed'], //original 原图，compressed 压缩图，默认二者都有
@@ -656,9 +689,10 @@ Page({
       },
       fail: function () { }, //接口调用失败的回调函数
       complete: function () {
-        _this.setData({ //还原为true，onhide里面的代码允许执行
+        _this.data.doOnHideFlag = false
+/*         _this.setData({ //还原为true，onhide里面的代码允许执行
           doOnHideFlag: true
-        })
+        }) */
       } //接口调用结束的回调函数（调用成功、失败都会执行）
     })
   }

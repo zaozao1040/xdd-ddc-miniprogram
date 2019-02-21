@@ -22,6 +22,7 @@ Page({
     buttonTop: 0,
 
     loading: false,
+    timer: null,
     canClick: true,
     //这四个记录缓存的值
     address: '',
@@ -39,7 +40,7 @@ Page({
     canusedDiscountList: null,//可用的优惠券列表
     adviceDiscountObj: null, //推荐的优惠券
     useDiscountFlag: true,//使用优惠券的标志,默认使用
-    discountMoney:0,//打折的金额（满减券就是本身 折扣券就是x百分比）
+    discountMoney: 0,//打折的金额（满减券就是本身 折扣券就是x百分比）
     discountTypeMap: {
       DISCOUNT: '折扣券',
       REDUCTION: '满减券'
@@ -126,6 +127,12 @@ Page({
     _this.getWallet()
     //从后端获取优惠券信息
     _this.getDiscount()
+  },
+  /* 页面隐藏后回收定时器指针 */
+  onHide: function () {
+    if (this.data.timer) {
+      clearTimeout(this.data.timer)
+    }
   },
   /* 从后端获取钱包余额 */
   getWallet: function () {
@@ -221,7 +228,7 @@ Page({
           })
           if (tmp_canusedDiscountList.length > 0) {
             //推荐的就取第一个
-            let tmp_adviceDiscountObj = tmp_canusedDiscountList[0] 
+            let tmp_adviceDiscountObj = tmp_canusedDiscountList[0]
             //然后计算折扣掉的金额discountMoney
             let tmp_discountMoney = 0
             if (tmp_adviceDiscountObj.discountType == 'REDUCTION') {
@@ -231,10 +238,10 @@ Page({
             } else { }
             _this.setData({
               canusedDiscountList: tmp_canusedDiscountList,
-              adviceDiscountObj: tmp_adviceDiscountObj, 
+              adviceDiscountObj: tmp_adviceDiscountObj,
               discountMoney: tmp_discountMoney,
               realMoney: parseFloat((parseFloat(_this.data.realMoney_save) - parseFloat(tmp_discountMoney)).toFixed(2))
-            })            
+            })
           }
         }
       }
@@ -337,7 +344,7 @@ Page({
     })
     /**** 拼接这个庞大的参数 ****/
     let tmp_discountCode = null
-    if(_this.data.adviceDiscountObj){
+    if (_this.data.adviceDiscountObj) {
       tmp_discountCode = _this.data.adviceDiscountObj.discountCode
     }
     let tmp_param = {
@@ -490,7 +497,10 @@ Page({
         })
       }
     })
-    setTimeout(function () {
+    if (_this.data.timer) {
+      clearTimeout(_this.data.timer)
+    }
+    _this.data.timer = setTimeout(function () {
       _this.data.canClick = true
     }, 300)
   },

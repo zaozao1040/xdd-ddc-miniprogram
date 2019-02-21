@@ -9,6 +9,7 @@ Page({
    */
   data: {
     //点击
+    timer: null,
     canClick: true,
     listCanGet: true,
     userInfo: null,
@@ -53,7 +54,12 @@ Page({
       discountList: [] //列表必须清空，否则分页会无限叠加
     })
   },
-
+  /* 页面隐藏后回收定时器指针 */
+  onHide: function () {
+    if (this.data.timer) {
+      clearTimeout(this.data.timer)
+    }
+  },
   initDiscount: function () {
     let _this = this
     wx.getSystemInfo({
@@ -96,7 +102,10 @@ Page({
       return
     }
     _this.data.canClick = false
-    setTimeout(function () {
+    if (_this.data.timer) {
+      clearTimeout(_this.data.timer)
+    }
+    _this.data.timer = setTimeout(function () {
       _this.data.canClick = true
     }, 500)
     let tmp_useType = 99

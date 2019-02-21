@@ -9,6 +9,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    timer: null,
     scrollTop: 0,
     buttonTop: 0,
     loading: false,
@@ -64,6 +65,12 @@ Page({
         })
       }
     })
+  },
+  /* 页面隐藏后回收定时器指针 */
+  onHide: function () {
+    if (this.data.timer) {
+      clearTimeout(this.data.timer)
+    }
   },
   initAddress: function () {
     let _this = this;
@@ -153,7 +160,7 @@ Page({
         image: '../../../images/msg/error.png',
         duration: 2000
       })
-    }else if(_this.data.organize == '') {
+    } else if (_this.data.organize == '') {
       wx.showToast({
         title: "请选择企业",
         image: '../../../images/msg/error.png',
@@ -187,7 +194,10 @@ Page({
           tmp_userInfo.organizeName = _this.data.organize
           tmp_userInfo.name = _this.data.name
           wx.setStorageSync('userInfo', tmp_userInfo)
-          setTimeout(function () {
+          if (_this.data.timer) {
+            clearTimeout(_this.data.timer)
+          }
+          _this.data.timer = setTimeout(function () {
             wx.login({
               success: function (res) {
                 if (res.code) {
@@ -195,7 +205,7 @@ Page({
                     code: res.code, //微信code
                     userCode: wx.getStorageSync('userInfo').userCode
                   }
-                  mineModel.getMineData(param, (res) => { 
+                  mineModel.getMineData(param, (res) => {
                     if (res.code == 0) {
                       wx.setStorageSync('userInfo', res.data) //刷新用户信息--这一步是必须的
                       _this.setData({

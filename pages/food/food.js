@@ -8,6 +8,7 @@ Page({
    */
   data: {
     //
+    timer: null,
     canClick: true,
     listCanGet: true,
     page: 1, // 设置加载的第几次，默认是第一次
@@ -59,6 +60,12 @@ Page({
         })
       }
     })
+  },
+  /* 页面隐藏后回收定时器指针 */
+  onHide: function () {
+    if (this.data.timer) {
+      clearTimeout(this.data.timer)
+    }
   },
   initRatings: function () {
     let _this = this
@@ -136,20 +143,23 @@ Page({
       return
     }
     _this.data.canClick = false
-    setTimeout(function () {
+    if (_this.data.timer) {
+      clearTimeout(_this.data.timer)
+    }
+    _this.data.timer = setTimeout(function () {
       _this.data.canClick = true
     }, 500)
     if (e.currentTarget.dataset.flag == 'detail') {
       _this.setData({
         itemStatusActiveFlag: true
       })
-    } else if(e.currentTarget.dataset.flag == 'ratings') {
+    } else if (e.currentTarget.dataset.flag == 'ratings') {
       _this.setData({
         itemStatusActiveFlag: false
       })
       _this.initRatings()
       _this.getRatings() //获取该food的评论列表
-    } else {}
+    } else { }
 
   },
   /* 过滤 */

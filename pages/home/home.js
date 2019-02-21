@@ -12,6 +12,7 @@ Page({
    */
   data: {
     imageWidth: wx.getSystemInfoSync().windowWidth,
+    timer: null,
     canClick: true,
     showDaliFlag: false, //显示新人大礼的标志 默认不显示
     showCheckFlag: false, //显示审核状态框标志 默认不显示
@@ -57,7 +58,7 @@ Page({
     swiperCurrentIndex: 0,//当前轮播图active的index
   },
   //监听轮播图切换图片，获取图片的下标
-  onSwiperChange:function(e){
+  onSwiperChange: function (e) {
     this.setData({
       swiperCurrentIndex: e.detail.current
     })
@@ -68,7 +69,10 @@ Page({
       return
     }
     _this.data.canClick = false
-    setTimeout(function () {
+    if (_this.data.timer) {
+      clearTimeout(_this.data.timer)
+    }
+    _this.data.timer = setTimeout(function () {
       _this.data.canClick = true
     }, 2000)
     let flag = e.currentTarget.dataset.type
@@ -138,12 +142,15 @@ Page({
       return
     }
     _this.data.canClick = false
-    setTimeout(function () {
+    if (_this.data.timer) {
+      clearTimeout(_this.data.timer)
+    }
+    _this.data.timer = setTimeout(function () {
       _this.data.canClick = true
-    }, 2000)
-    wx.navigateTo({
-      url: '/pages/menu/menu',
-    })
+      wx.navigateTo({
+        url: '/pages/menu/menu',
+      })
+    }, 100)
   },
 
   /**
@@ -177,7 +184,7 @@ Page({
         })
         wx.hideTabBar({})
       }
-      if ((tmp_userInfo.bindOrganized == false || tmp_userInfo.bindOrganized == true && tmp_userInfo.userStatus == 'NORMAL') && (tmp_userInfo.canTakeDiscount == true)) {   //在登录状态下判断用户类型，企业用户的normal状态显示新人大礼，一般用户的登录状态显示新人大礼
+      if (tmp_userInfo.canTakeDiscount == true) {   //在登录状态下判断用户类型，企业用户的normal状态显示新人大礼，一般用户的登录状态显示新人大礼
         _this.setData({
           showDaliFlag: true
         })
@@ -186,6 +193,14 @@ Page({
       _this.getTakeMealInfo()
     }
   },
+
+  /* 页面隐藏后回收定时器指针 */
+  onHide: function () {
+    if (this.data.timer) {
+      clearTimeout(this.data.timer)
+    }
+  },
+
   /* 获取首页取餐信息 */
   getTakeMealInfo: function () {
     let _this = this
@@ -207,7 +222,6 @@ Page({
         _this.setData({
           homeOrderList: tmp_homeOrderList
         })
-        console.log('xx', _this.data.homeOrderList)
       }
     })
   },
@@ -265,7 +279,10 @@ Page({
         }
       }
     })
-    setTimeout(function () {
+    if (_this.data.timer) {
+      clearTimeout(_this.data.timer)
+    }
+    _this.data.timer = setTimeout(function () {
       _this.data.canClick = true
     }, 2000)
   },
@@ -319,7 +336,10 @@ Page({
           image: '../../images/msg/error.png',
           duration: 2000
         })
-        setTimeout(function () {
+        if (_this.data.timer) {
+          clearTimeout(_this.data.timer)
+        }
+        _this.data.timer = setTimeout(function () {
           _this.setData({
             showDaliFlag: false
           })
@@ -367,7 +387,10 @@ Page({
         }
       }
     })
-    setTimeout(function () {
+    if (_this.data.timer) {
+      clearTimeout(_this.data.timer)
+    }
+    _this.data.timer = setTimeout(function () {
       _this.data.canClick = true
     }, 500)
   },

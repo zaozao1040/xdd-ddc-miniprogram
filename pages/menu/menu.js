@@ -13,7 +13,7 @@ Page({
     top_0: 0,
     top_1: 0,
     top_2: 0,
-    height_2: 0,
+    /*     height_2: 0, */
     height_3: 0,
     windowHeight: 0,
     /* 这六个变量存储查询参数 */
@@ -27,6 +27,7 @@ Page({
     menutypeActiveFlag: 0,
     boxActiveFlag: false,//默认关闭
     loading: false,
+    timer: null,
     canClick: true,
     //6个重要的数据
     selectedFoods: [],
@@ -45,6 +46,12 @@ Page({
     foodLabels: null,
     scrollLintenFlag: true, //默认允许触发滚动事件
     showBackToTopFlag: false, //显示返回scroll顶部的标志
+  },
+  /* 页面隐藏后回收定时器指针 */
+  onHide: function () {
+    if (this.data.timer) {
+      clearTimeout(this.data.timer)
+    }
   },
   getMenuData: function () {  //setData设置menuData为缓存数据，这样可以同步到模板渲染
     //console.log('cacheMenuDataAll',this.data.cacheMenuDataAll)
@@ -89,7 +96,10 @@ Page({
       scrollToView: 'order' + e.currentTarget.dataset.menutypeindex,
       scrollLintenFlag: false, //默认不要触发滚动事件
     })
-    setTimeout(function () {
+    if (_this.data.timer) {
+      clearTimeout(_this.data.timer)
+    }
+    _this.data.timer = setTimeout(function () {
       _this.setData({
         scrollLintenFlag: true, //默认不要触发滚动事件
       })
@@ -134,7 +144,9 @@ Page({
           image: e.currentTarget.dataset.image,
           __food_index: e.currentTarget.dataset.foodindex,//
           __menutype_index: e.currentTarget.dataset.menutypeindex,
-          foodCount: 1
+          foodCount: 1,
+          surplusNum: e.currentTarget.dataset.surplusnum,
+          quotaNum: e.currentTarget.dataset.quotanum
         }]
       }]
     }
@@ -169,7 +181,9 @@ Page({
                       image: e.currentTarget.dataset.image,
                       __food_index: e.currentTarget.dataset.foodindex,
                       __menutype_index: e.currentTarget.dataset.menutypeindex,
-                      foodCount: 1
+                      foodCount: 1,
+                      surplusNum: e.currentTarget.dataset.surplusnum,
+                      quotaNum: e.currentTarget.dataset.quotanum
                     })
                     //【兼容修改】计算：该天该餐时的自费总额
                     selectedFoods[i].dayInfo[j].foodTypeTotalRealMoney = parseFloat((parseFloat(selectedFoods[i].dayInfo[j].foodTypeTotalRealMoney) + parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2))
@@ -193,7 +207,9 @@ Page({
                     image: e.currentTarget.dataset.image,
                     __food_index: e.currentTarget.dataset.foodindex,
                     __menutype_index: e.currentTarget.dataset.menutypeindex,
-                    foodCount: 1
+                    foodCount: 1,
+                    surplusNum: e.currentTarget.dataset.surplusnum,
+                    quotaNum: e.currentTarget.dataset.quotanum
                   }]
                 })
               }
@@ -219,7 +235,9 @@ Page({
                   image: e.currentTarget.dataset.image,
                   __food_index: e.currentTarget.dataset.foodindex,
                   __menutype_index: e.currentTarget.dataset.menutypeindex,
-                  foodCount: 1
+                  foodCount: 1,
+                  surplusNum: e.currentTarget.dataset.surplusnum,
+                  quotaNum: e.currentTarget.dataset.quotanum
                 }]
               }]
             })
@@ -282,22 +300,15 @@ Page({
 
   handleAddfood: function (e) {
     let _this = this
-    if (e.currentTarget.dataset.surplusnum == 0) {
-      wx.showToast({
-        title: '库存不足',
-        image: '../../images/msg/error.png',
-        duration: 2000
-      })
-      return
-    }
+    console.log('111111', e.currentTarget.dataset.surplusnum, e.currentTarget.dataset.foodcount)
     if (!_this.data.canClick) {
       return
     }
     _this.data.canClick = false
-    wx.showLoading({
-      title: '添加中',
-      mask: true
-    })
+    /*     wx.showLoading({
+          title: '添加中',
+          mask: true
+        }) */
     /* **********模板数字响应式 + 存储下来点击的具体餐品的下标以及对应类别下标********** */
     let day = e.currentTarget.dataset.day
     let foodType = e.currentTarget.dataset.foodtype
@@ -306,9 +317,15 @@ Page({
     let tmp_menuData = app.globalData.cacheMenuDataAll[day][foodType] //一、这个数据结构是为了数字响应式显示
     // console.log("******",day,foodType,app.globalData.cacheMenuDataAll,app.globalData.cacheMenuDataAll[day][foodType],tmp_menuData)
     let tmp_foodCount = tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount
-    if ( tmp_foodCount === e.currentTarget.dataset.quotanum) {
+    if (tmp_foodCount === e.currentTarget.dataset.quotanum || e.currentTarget.dataset.quotanum === 0) {
       wx.showToast({
         title: '已超限购',
+        image: '../../images/msg/error.png',
+        duration: 2000
+      })
+    } else if (tmp_foodCount === e.currentTarget.dataset.surplusnum || e.currentTarget.dataset.surplusnum === 0) {
+      wx.showToast({
+        title: '库存不足',
         image: '../../images/msg/error.png',
         duration: 2000
       })
@@ -356,10 +373,13 @@ Page({
         realMoney: app.globalData.realMoney
       })
     }
-    setTimeout(function () {
+    if (_this.data.timer) {
+      clearTimeout(_this.data.timer)
+    }
+    _this.data.timer = setTimeout(function () {
       _this.data.canClick = true
     }, 300)
-    wx.hideLoading()
+    /*     wx.hideLoading() */
   },
   handleMinusfood: function (e) {
     let _this = this
@@ -411,7 +431,10 @@ Page({
       totalMoney: app.globalData.totalMoney,
       realMoney: app.globalData.realMoney
     })
-    setTimeout(function () {
+    if (_this.data.timer) {
+      clearTimeout(_this.data.timer)
+    }
+    _this.data.timer = setTimeout(function () {
       _this.data.canClick = true
     }, 300)
     wx.hideLoading()
@@ -485,7 +508,7 @@ Page({
     query_2.exec(function (res) {
       _this.setData({
         top_2: res[0].top,
-        height_2: res[0].height
+        /*         height_2: res[0].height */
       })
       //console.log('top_2',res[0])
       //console.log('windowHeight',_this.data.windowHeight)
@@ -576,10 +599,12 @@ Page({
         _this.refreshLabelActiveList()
       }
       _this.calculateHeight()
+      _this.data.mealLabelUsedActive = resData.mealLabelUsed
+      _this.data.organizeMealLabelActive = resData.organizeMealLabel
       _this.setData({   //这里放在最后，是为了让异步setData最后再刷新，防止页面闪动
         cacheMenuDataAll: tmp_cacheMenuDataAll,
-        mealLabelUsedActive: resData.mealLabelUsed,
-        organizeMealLabelActive: resData.organizeMealLabel
+        /*         mealLabelUsedActive: resData.mealLabelUsed, 
+                organizeMealLabelActive: resData.organizeMealLabel */
       })
     })
   },
@@ -635,9 +660,10 @@ Page({
         totalHeight = totalHeight + rect[i].height
         tmp_listHeight.push(totalHeight)
       }
-      _this.setData({
-        listHeight: tmp_listHeight
-      })
+      _this.data.listHeight = tmp_listHeight
+      /*       _this.setData({
+              listHeight: tmp_listHeight
+            }) */
     }).exec()
   },
   handleClearFoods: function () {
@@ -655,7 +681,10 @@ Page({
       realMoney: 0
     })
     _this.getMenuDataByResponse() //必须刷新一下，否则原来menu页面上的视图都没有数据了
-    setTimeout(function () {
+    if (_this.data.timer) {
+      clearTimeout(_this.data.timer)
+    }
+    _this.data.timer = setTimeout(function () {
       _this.setData({
         boxActiveFlag: !_this.data.boxActiveFlag
       })
