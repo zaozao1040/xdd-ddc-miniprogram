@@ -530,7 +530,7 @@ Page({
       } else {  //使用余额支付方式
         _this.setData({
           walletSelectedFlag: !_this.data.walletSelectedFlag,
-          payType: 'WECHAT_PAY'
+          payType: 'BALANCE_PAY'
         })
       }
     }
