@@ -72,10 +72,10 @@ Page({
   handleChangeTimeActive: function (e) {
     let tmp = parseInt(e.currentTarget.dataset.timeindex)//传过来的字符串，要转化成number格式
     this.data.timeActiveFlag = tmp
-    this.data.timeDesActive = e.currentTarget.dataset.arrangetime
+    this.data.timeDesActive = e.currentTarget.dataset.arrangedate
     this.setData({
       timeActiveFlag: tmp,
-      timeDesActive: e.currentTarget.dataset.arrangetime
+      timeDesActive: e.currentTarget.dataset.arrangedate
     })
     this.getMenuData()
   },
@@ -145,8 +145,8 @@ Page({
           __food_index: e.currentTarget.dataset.foodindex,//
           __menutype_index: e.currentTarget.dataset.menutypeindex,
           foodCount: 1,
-          surplusNum: e.currentTarget.dataset.surplusnum,
-          quotaNum: e.currentTarget.dataset.quotanum
+          stockLeftNum: e.currentTarget.dataset.stockleftnum,
+          homebuyingRestrictions: e.currentTarget.dataset.homebuyingrestrictions
         }]
       }]
     }
@@ -182,8 +182,8 @@ Page({
                       __food_index: e.currentTarget.dataset.foodindex,
                       __menutype_index: e.currentTarget.dataset.menutypeindex,
                       foodCount: 1,
-                      surplusNum: e.currentTarget.dataset.surplusnum,
-                      quotaNum: e.currentTarget.dataset.quotanum
+                      stockLeftNum: e.currentTarget.dataset.stockleftnum,
+                      homebuyingRestrictions: e.currentTarget.dataset.homebuyingrestrictions
                     })
                     //【兼容修改】计算：该天该餐时的自费总额
                     selectedFoods[i].dayInfo[j].foodTypeTotalRealMoney = parseFloat((parseFloat(selectedFoods[i].dayInfo[j].foodTypeTotalRealMoney) + parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2))
@@ -208,8 +208,8 @@ Page({
                     __food_index: e.currentTarget.dataset.foodindex,
                     __menutype_index: e.currentTarget.dataset.menutypeindex,
                     foodCount: 1,
-                    surplusNum: e.currentTarget.dataset.surplusnum,
-                    quotaNum: e.currentTarget.dataset.quotanum
+                    stockLeftNum: e.currentTarget.dataset.stockleftnum,
+                    homebuyingRestrictions: e.currentTarget.dataset.homebuyingrestrictions
                   }]
                 })
               }
@@ -236,8 +236,8 @@ Page({
                   __food_index: e.currentTarget.dataset.foodindex,
                   __menutype_index: e.currentTarget.dataset.menutypeindex,
                   foodCount: 1,
-                  surplusNum: e.currentTarget.dataset.surplusnum,
-                  quotaNum: e.currentTarget.dataset.quotanum
+                  stockLeftNum: e.currentTarget.dataset.stockleftnum,
+                  homebuyingRestrictions: e.currentTarget.dataset.homebuyingrestrictions
                 }]
               }]
             })
@@ -300,7 +300,7 @@ Page({
 
   handleAddfood: function (e) {
     let _this = this
-    console.log('111111', e.currentTarget.dataset.surplusnum, e.currentTarget.dataset.foodcount)
+    console.log('111111', e.currentTarget.dataset.stockleftnum, e.currentTarget.dataset.foodcount)
     if (!_this.data.canClick) {
       return
     }
@@ -317,13 +317,13 @@ Page({
     let tmp_menuData = app.globalData.cacheMenuDataAll[day][foodType] //一、这个数据结构是为了数字响应式显示
     // console.log("******",day,foodType,app.globalData.cacheMenuDataAll,app.globalData.cacheMenuDataAll[day][foodType],tmp_menuData)
     let tmp_foodCount = tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount
-    if (tmp_foodCount === e.currentTarget.dataset.quotanum || e.currentTarget.dataset.quotanum === 0) {
+    if (tmp_foodCount === e.currentTarget.dataset.homebuyingrestrictions || e.currentTarget.dataset.homebuyingrestrictions === 0) {
       wx.showToast({
         title: '已超限购',
         image: '../../images/msg/error.png',
         duration: 2000
       })
-    } else if (tmp_foodCount === e.currentTarget.dataset.surplusnum || e.currentTarget.dataset.surplusnum === 0) {
+    } else if (tmp_foodCount === e.currentTarget.dataset.stockleftnum || e.currentTarget.dataset.stockleftnum === 0) {
       wx.showToast({
         title: '库存不足',
         image: '../../images/msg/error.png',
@@ -467,7 +467,7 @@ Page({
     let tmp_foodLabels = _this.data.foodLabels
     let tmp_length = tmp_foodLabels.length
     for (let i = 0; i < tmp_length; i++) {
-      if (tmp_foodLabels[i].id == e.currentTarget.dataset.labelid) {
+      if (tmp_foodLabels[i].labelId == e.currentTarget.dataset.labelid) {
         if (tmp_foodLabels[i].active) {
           tmp_foodLabels[i].active = false
         } else {
@@ -525,6 +525,7 @@ Page({
       console.log('height_3', res[0])
     })
   },
+  /* 获取七天日期 */
   getTimeDataByResponse: function () {
     let _this = this
     let param = {
@@ -572,7 +573,7 @@ Page({
     let _this = this
     //获取后台数据
     let param = {
-      arrangeTime: _this.data.timeDesActive,
+      arrangeDate: _this.data.timeDesActive,
       mealType: _this.data.foodtypeDesActive,
       userCode: wx.getStorageSync('userInfo').userCode,
     }
@@ -587,7 +588,7 @@ Page({
           let tmp_foodLabels = []
           resData.foodLabels.forEach((element) => {
             tmp_foodLabels.push({
-              id: element.id,
+              labelId: element.labelId,
               labelName: element.labelName,
               active: false //true代表激活状态 false代表普通状态  默认普通状态
             })
@@ -617,7 +618,7 @@ Page({
     if (_this.data.foodLabels != null) {
       _this.data.foodLabels.forEach((element) => {
         if (element.active == true) {
-          tmp_selectedFoodLabelsIdsArr.push(element.id)
+          tmp_selectedFoodLabelsIdsArr.push(element.labelId)
         }
       })
       //console.log('tmp_selectedFoodLabelsIdsArr',tmp_selectedFoodLabelsIdsArr)
@@ -631,7 +632,7 @@ Page({
           } else {
             for (let i = 0; i < tmp_length; i++) {
               //if(tmp_selectedFoodLabelsIdsArr.indexOf(element2.tagId[i])==-1){ //如果不包含
-              if (element2.tagId.indexOf(tmp_selectedFoodLabelsIdsArr[i]) == -1) { //如果不包含
+              if (element2.foodLabel.indexOf(tmp_selectedFoodLabelsIdsArr[i]) == -1) { //如果不包含
                 element2.active = false  //直接设置该food隐藏
                 break
               }

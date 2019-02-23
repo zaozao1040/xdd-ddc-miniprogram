@@ -219,13 +219,13 @@
 .foodLimitNum{
   display: flex;
 }
-.surplusNum{
+.stockLeftNum{
   font-size: 25rpx;
   height: 35rpx;
   line-height: 35rpx;
   color: #666;
 }
-.quotaNum{
+.homebuyingRestrictions{
   font-size: 25rpx;
   height: 35rpx;
   line-height: 35rpx;
