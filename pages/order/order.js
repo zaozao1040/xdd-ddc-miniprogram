@@ -220,41 +220,44 @@ Page({
       console.log('收到响应(订单列表):', res)
       wx.hideLoading()
       if (res.code === 0) {
-        let tmp_orderList = res.data.list
-        tmp_orderList.forEach(element => {
-          element.mealTypeDes = _this.data.mealTypeMap[element.mealType]
-          element.orderStatusDes = _this.data.orderStatusMap[element.orderStatus]
-          element.payStatusDes = _this.data.payStatusMap[element.payStatus]
-          element.orderTimeDes = moment(element.orderTime).format('YYYY-MM-DD HH:mm:ss')
+        let tmp_orderList = res.data
+        if(tmp_orderList){
+          tmp_orderList.forEach(element => {
+            element.mealTypeDes = _this.data.mealTypeMap[element.mealType]
+            element.orderStatusDes = _this.data.orderStatusMap[element.orderStatus]
+            element.payStatusDes = _this.data.payStatusMap[element.payStatus]
+            element.orderTimeDes = moment(element.orderTime).format('YYYY-MM-DD HH:mm:ss')
 
-          element.mealDateDes = moment(element.mealDate).format('MM月DD日')
-          element.takeMealEndTimeDes = moment(element.takeMealEndTime).format('MM月DD日HH:mm')
-          element.takeMealStartTimeDes = moment(element.takeMealStartTime).format('MM月DD日HH:mm')
-        })
-        //下面开始分页
-        if (tmp_orderList.length < _this.data.limit) {
-          if (tmp_orderList.length === 0) {
-            wx.showToast({
-              image: '../../images/msg/warning.png',
-              title: '没有更多数据'
-            })
-            _this.setData({
-              hasMoreDataFlag: false
-            })
+            element.mealDateDes = moment(element.mealDate).format('MM月DD日')
+            element.takeMealEndTimeDes = moment(element.takeMealEndTime).format('MM月DD日HH:mm')
+            element.takeMealStartTimeDes = moment(element.takeMealStartTime).format('MM月DD日HH:mm')
+          })
+          //下面开始分页
+          if (tmp_orderList.length < _this.data.limit) {
+            if (tmp_orderList.length === 0) {
+              wx.showToast({
+                image: '../../images/msg/warning.png',
+                title: '没有更多数据'
+              })
+              _this.setData({
+                hasMoreDataFlag: false
+              })
+            } else {
+              _this.setData({
+                orderList: _this.data.orderList.concat(tmp_orderList), //concat是拆开数组参数，一个元素一个元素地加进去
+                hasMoreDataFlag: false
+              })
+            }
           } else {
+            _this.data.page = _this.data.page + 1
             _this.setData({
               orderList: _this.data.orderList.concat(tmp_orderList), //concat是拆开数组参数，一个元素一个元素地加进去
-              hasMoreDataFlag: false
+              hasMoreDataFlag: true,
+  /*             page: _this.data.page + 1 */
             })
-          }
-        } else {
-          _this.data.page = _this.data.page + 1
-          _this.setData({
-            orderList: _this.data.orderList.concat(tmp_orderList), //concat是拆开数组参数，一个元素一个元素地加进去
-            hasMoreDataFlag: true,
-/*             page: _this.data.page + 1 */
-          })
+          }          
         }
+
       } else {
         wx.showToast({
           title: res.msg,

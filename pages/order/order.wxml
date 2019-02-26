@@ -83,12 +83,12 @@
     </view>
     <view wx:else>
       <view bindtap="handleGotoOrderDetail" data-ordercode="{{orderItem.orderCode}}" class="order-item" wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
-        <view class="order-item-header {{orderItem.expired?'order-item-header-old':''}}">
+        <view class="order-item-header {{orderItem.expiredFlag?'order-item-header-old':''}}">
           <view style="display:flex;justify-content: space-between;">
             <view class="order-type">
               {{orderItem.mealTypeDes}}
             </view>
-            <view class="order-cabinet {{orderItem.expired?'order-cabinet-old':''}}" wx:if="{{orderItem.cabinet}}">
+            <view class="order-cabinet {{orderItem.expiredFlag?'order-cabinet-old':''}}" wx:if="{{orderItem.cabinet}}">
               柜号:{{orderItem.cabinet}}
             </view>
             <view class="order-status">
@@ -97,12 +97,12 @@
           </view>
           <view class="order-time">
             <text class='iconfont icon-shijian' decode>&nbsp;</text>{{orderItem.mealDateDes}}用餐 
-            <view class="{{orderItem.expired?'':'order-time-warnning'}}" style="text-align:center;font-size:30rpx;">
+            <view class="{{orderItem.expiredFlag?'':'order-time-warnning'}}" style="text-align:center;font-size:30rpx;">
               <text class="iconfont icon-tixing1"></text>取餐时间:{{orderItem.takeMealStartTimeDes}}~{{orderItem.takeMealEndTimeDes}}
             </view>
           </view>
         </view>
-        <view class="order-item-content {{orderItem.expired?'order-item-content-old':''}}" >
+        <view class="order-item-content {{orderItem.expiredFlag?'order-item-content-old':''}}" >
           <view class="foods-wrapper">
             <view class="food-item" wx:for="{{orderItem.orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem"
               wx:key="foodIndex" >
@@ -122,7 +122,7 @@
           <view style="float: right;">
             <view class="food-des" style="display: inline-block;margin-right: 10rpx;">
               总价
-              <block wx:if="{{orderItem.expired}}">
+              <block wx:if="{{orderItem.expiredFlag}}">
                   <text style="font-size:25rpx;">¥</text>{{orderItem.totalPrice}} <text style="color:#ccc;" decode>&nbsp;/</text>
               </block>
               <block wx:else>
@@ -131,7 +131,7 @@
             </view>
             <view wx:if="{{orderItem.discountPrice}}" class="food-des" style="display: inline-block;margin-right: 10rpx;">
               优惠券抵扣
-              <block wx:if="{{orderItem.expired}}">
+              <block wx:if="{{orderItem.expiredFlag}}">
                   <text style="font-size:25rpx;">-¥</text>{{orderItem.discountPrice}} <text style="color:#ccc;" decode>&nbsp;/</text>
               </block>
               <block wx:else>
@@ -140,7 +140,7 @@
             </view>
             <view class="food-des" style="display: inline-block;">
               自费
-              <block wx:if="{{orderItem.expired}}">
+              <block wx:if="{{orderItem.expiredFlag}}">
                   <text style="font-size:25rpx;">¥</text>{{orderItem.payPrice}}
               </block>
               <block wx:else>
@@ -150,7 +150,7 @@
           </view>
           <view class="" style="clear:both;display: flex;justify-content: space-between;">
             <view style="height: 30rpx;line-height: 30rpx;">
-              <block wx:if="{{orderItem.expired}}">
+              <block wx:if="{{orderItem.expiredFlag}}">
                 <text class="iconfont icon-dingdanbianhao" style="font-size: 25rpx;" decode>&nbsp;{{orderItem.orderCode}}</text>
               </block>
               <block wx:else>
@@ -162,17 +162,17 @@
             </view>          
           </view>
           <view class="button-wrapper" style="clear: both;">
-            <block wx:if="{{!orderItem.expired}}">
+            <block wx:if="{{!orderItem.expiredFlag}}">
               <view class="button quxiao" style="" catchtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-payprice="{{orderItem.payPrice}}" data-paystatus="{{orderItem.payStatus}}"
                 wx:if="{{orderItem.orderStatus  == 'PAYED_WAITINT_CONFIRM' || orderItem.orderStatus  == 'NO_PAY'}}">
                 取消订单
               </view>
               <view class="button pingjia" style="" catchtap="handleEvaluateOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-foodcode="{{orderItem.orderFoodList[0].foodCode}}" data-orderfoodlist="{{orderItem.orderFoodList}}"
-                wx:if="{{orderItem.canEvaluate}}">
+                wx:if="{{orderItem.evaluateFlag}}">
                 评价领积分
               </view>
               <view class="button quccan" style="background: #43964e;" catchtap="handleTakeOrder" data-ordercode="{{orderItem.orderCode}}" data-cabinet="{{orderItem.cabinet}}" 
-                wx:if="{{orderItem.canTake}}">
+                wx:if="{{orderItem.takeMealFlag}}">
                 点我取餐
               </view>
               <view class="button fukuan" style="background: #43964e;" catchtap="handleSecondpayOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"

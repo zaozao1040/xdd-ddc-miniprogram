@@ -317,13 +317,14 @@ Page({
     let tmp_menuData = app.globalData.cacheMenuDataAll[day][foodType] //一、这个数据结构是为了数字响应式显示
     // console.log("******",day,foodType,app.globalData.cacheMenuDataAll,app.globalData.cacheMenuDataAll[day][foodType],tmp_menuData)
     let tmp_foodCount = tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount
-    if (tmp_foodCount === e.currentTarget.dataset.homebuyingrestrictions || e.currentTarget.dataset.homebuyingrestrictions === 0) {
+    console.log(tmp_foodCount,e.currentTarget.dataset.homebuyingrestrictions,e.currentTarget.dataset.stockleftnum)
+    if ((e.currentTarget.dataset.homebuyingrestrictions)&&(tmp_foodCount === e.currentTarget.dataset.homebuyingrestrictions || e.currentTarget.dataset.homebuyingrestrictions === 0)) {
       wx.showToast({
         title: '已超限购',
         image: '../../images/msg/error.png',
         duration: 2000
       })
-    } else if (tmp_foodCount === e.currentTarget.dataset.stockleftnum || e.currentTarget.dataset.stockleftnum === 0) {
+    } else if ((e.currentTarget.dataset.stockleftnum)&&(tmp_foodCount === e.currentTarget.dataset.stockleftnum || e.currentTarget.dataset.stockleftnum === 0)) {
       wx.showToast({
         title: '库存不足',
         image: '../../images/msg/error.png',

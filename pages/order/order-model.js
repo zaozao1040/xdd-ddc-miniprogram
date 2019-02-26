@@ -5,7 +5,7 @@ class order extends base {
   /* 获取全部订单列表 */
   getOrderList(param, callback) {
     let allParams = {
-      url: baseUrl + '/order/orderList',
+      url: baseUrl + '/order/orders',
       type: 'get',
       data: param,
       sCallback: function (data) {

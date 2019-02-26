@@ -349,6 +349,7 @@ Page({
     }
     let tmp_param = {
       userCode: wx.getStorageSync('userInfo').userCode,
+      userName: wx.getStorageSync('tmp_storage'),
       organizeCode: wx.getStorageSync('userInfo').organizeCode,
       deliveryAddressCode: wx.getStorageSync('userInfo').addressCode,
       totalAllPrice: _this.data.totalMoney,//总价格：所有
