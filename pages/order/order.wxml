@@ -30,7 +30,7 @@
   <form report-submit="true" bindsubmit="buttonClickYes_ratings">
     <view class="ratings-wrapper" wx:if="{{showRatingsFlag}}">
       <view class="ratings-wrapper-content">
-        <view class="foodList-wrapper" wx:for="{{orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem"
+        <view class="foodList-wrapper" wx:for="{{foods}}" wx:for-index="foodIndex" wx:for-item="foodItem"
           wx:key="foodIndex">
           <!-- 单个菜品的评价 -->
           <view class="fooditem-wrapper">
@@ -104,7 +104,7 @@
         </view>
         <view class="order-item-content {{orderItem.expiredFlag?'order-item-content-old':''}}" >
           <view class="foods-wrapper">
-            <view class="food-item" wx:for="{{orderItem.orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem"
+            <view class="food-item" wx:for="{{orderItem.foods}}" wx:for-index="foodIndex" wx:for-item="foodItem"
               wx:key="foodIndex" >
               <view style="display:flex;justify-content: space-between;">
                 <view class="food-name">
@@ -116,8 +116,8 @@
               </view>
             </view>
           </view>
-          <view class="food-item-count" wx:if="{{orderItem.orderFoodList.length>1}}">
-            共{{orderItem.orderFoodList.length}}件商品 
+          <view class="food-item-count" wx:if="{{orderItem.foods.length>1}}">
+            共{{orderItem.foods.length}}件商品 
           </view>
           <view style="float: right;">
             <view class="food-des" style="display: inline-block;margin-right: 10rpx;">
@@ -167,7 +167,7 @@
                 wx:if="{{orderItem.orderStatus  == 'PAYED_WAITINT_CONFIRM' || orderItem.orderStatus  == 'NO_PAY'}}">
                 取消订单
               </view>
-              <view class="button pingjia" style="" catchtap="handleEvaluateOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-foodcode="{{orderItem.orderFoodList[0].foodCode}}" data-orderfoodlist="{{orderItem.orderFoodList}}"
+              <view class="button pingjia" style="" catchtap="handleEvaluateOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-foodcode="{{orderItem.foods[0].foodCode}}" data-foods="{{orderItem.foods}}"
                 wx:if="{{orderItem.evaluateFlag}}">
                 评价领积分
               </view>
