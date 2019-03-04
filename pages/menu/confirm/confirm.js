@@ -364,7 +364,7 @@ Page({
       element1.dayInfo.forEach(element2 => {
         let foodTypeDes = element2.foodTypeDes
         let organizeMealLabel = element2.organizeMealLabel
-        let mealLabelUsed = element2.mealLabelUsed
+        let mealLabelFlag = element2.mealLabelFlag
         let orderDetail_item = {
           mealDate: dayDes,
           mealType: foodTypeDes,
@@ -389,7 +389,7 @@ Page({
           orderDetail_item.orderFood.push(orderFood_item)
         })
         orderDetail_item.totalPrice = tmp_totalPrice
-        if (mealLabelUsed == true) {
+        if (mealLabelFlag == false) {
           orderDetail_item.payPrice = tmp_totalPrice
           orderDetail_item.standardPrice = 0
         } else {

@@ -168,6 +168,7 @@ Page({
     _this.initHome()
 
     let tmp_userInfo = wx.getStorageSync('userInfo')
+    console.log('tmp_userInfo',tmp_userInfo)
     if (tmp_userInfo == '') { //未登录状态，弹出授权框，隐藏底部状态栏
       _this.setData({
         showUserAuthFlag: true
@@ -192,6 +193,7 @@ Page({
       /* 获取首页取餐信息 */
       _this.getTakeMealInfo()
     }
+    console.log('新人大礼标志showDaliFlag',_this.data.showDaliFlag)
   },
 
   /* 页面隐藏后回收定时器指针 */
@@ -321,6 +323,7 @@ Page({
       if (res.code === 0) {
         let tmp_userInfo = wx.getStorageSync('userInfo')
         tmp_userInfo.newUser = false
+        tmp_userInfo.canTakeDiscount = false
         wx.setStorageSync('userInfo', tmp_userInfo)
         wx.showToast({
           title: '领取成功',

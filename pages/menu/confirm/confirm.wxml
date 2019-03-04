@@ -125,7 +125,7 @@
               </view>
             </view>
             <view class="cart-amount" wx:if="{{foodtypeItem.organizeMealLabel!=0}}">
-              <view wx:if="{{foodtypeItem.mealLabelUsed==false}}" style="display:inline-block;font-size:30rpx;margin-right: 10rpx;color:#666;">
+              <view wx:if="{{foodtypeItem.mealLabelFlag==true}}" style="display:inline-block;font-size:30rpx;margin-right: 10rpx;color:#666;">
                 企业将减免额度¥
                 <block wx:if="{{foodtypeItem.organizeMealLabel > foodtypeItem.foodTypeTotalRealMoney}}">
                   <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;">

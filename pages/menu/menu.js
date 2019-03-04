@@ -109,9 +109,10 @@ Page({
   calculatetotalMoneyRealDeduction: function () {
     let _this = this
     let tmp_totalMoneyRealDeduction = 0
+    console.log('1111',_this.data.selectedFoods)
     _this.data.selectedFoods.forEach((element1) => {
       element1.dayInfo.forEach((element2) => {
-        if (element2.mealLabelUsed == false) {
+        if (element2.mealLabelFlag == true) {
           if (parseFloat(element2.foodTypeTotalRealMoney) < parseFloat(element2.organizeMealLabel)) { //该天该餐的自费总额比餐标还小
             tmp_totalMoneyRealDeduction = parseFloat((parseFloat(tmp_totalMoneyRealDeduction) + parseFloat(element2.foodTypeTotalRealMoney)).toFixed(2))
           } else {
@@ -123,6 +124,7 @@ Page({
     this.setData({
       totalMoneyRealDeduction: tmp_totalMoneyRealDeduction
     })
+    console.log('2222',_this.data.tmp_totalMoneyRealDeduction)
   },
   selectedFoodsAdd: function (e) {
     let _this = this
@@ -133,7 +135,7 @@ Page({
       dayInfo: [{
         foodType: e.currentTarget.dataset.foodtype,
         foodTypeDes: e.currentTarget.dataset.foodtypedes,
-        mealLabelUsed: _this.data.mealLabelUsedActive,
+        mealLabelFlag: _this.data.mealLabelUsedActive,
         organizeMealLabel: _this.data.organizeMealLabelActive,
         foodTypeTotalRealMoney: parseFloat(e.currentTarget.dataset.foodprice),//【兼容修改】该天该餐时的自费总额
         foodTypeInfo: [{
@@ -196,7 +198,7 @@ Page({
                 selectedFoods[i].dayInfo.push({
                   foodType: e.currentTarget.dataset.foodtype,
                   foodTypeDes: e.currentTarget.dataset.foodtypedes,
-                  mealLabelUsed: _this.data.mealLabelUsedActive,
+                  mealLabelFlag: _this.data.mealLabelUsedActive,
                   organizeMealLabel: _this.data.organizeMealLabelActive,
                   foodTypeTotalRealMoney: parseFloat(e.currentTarget.dataset.foodprice),//【兼容修改】
                   foodTypeInfo: [{
@@ -224,7 +226,7 @@ Page({
               dayInfo: [{
                 foodType: e.currentTarget.dataset.foodtype,
                 foodTypeDes: e.currentTarget.dataset.foodtypedes,
-                mealLabelUsed: _this.data.mealLabelUsedActive,
+                mealLabelFlag: _this.data.mealLabelUsedActive,
                 organizeMealLabel: _this.data.organizeMealLabelActive,
                 foodTypeTotalRealMoney: parseFloat(e.currentTarget.dataset.foodprice),//【兼容修改】
                 foodTypeInfo: [{
@@ -585,7 +587,7 @@ Page({
       tmp_cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag] = resData
       if (resData.foodLabels != null) {
         //下面 标签数组本地化
-        if (_this.data.foodLabels == null) {
+        if (_this.data.foodLabels == null || _this.data.foodLabels.length == 0) {
           let tmp_foodLabels = []
           resData.foodLabels.forEach((element) => {
             tmp_foodLabels.push({
@@ -601,11 +603,11 @@ Page({
         _this.refreshLabelActiveList()
       }
       _this.calculateHeight()
-      _this.data.mealLabelUsedActive = resData.mealLabelUsed
+      _this.data.mealLabelUsedActive = resData.mealLabelFlag
       _this.data.organizeMealLabelActive = resData.organizeMealLabel
       _this.setData({   //这里放在最后，是为了让异步setData最后再刷新，防止页面闪动
         cacheMenuDataAll: tmp_cacheMenuDataAll,
-        /*         mealLabelUsedActive: resData.mealLabelUsed, 
+        /*         mealLabelUsedActive: resData.mealLabelFlag, 
                 organizeMealLabelActive: resData.organizeMealLabel */
       })
     })

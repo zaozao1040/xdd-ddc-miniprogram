@@ -129,9 +129,12 @@
     </view>
     <view class="orderItem standardPrice">
       <view class="leftLabel">
-        企业额度
+        企业额度抵扣
       </view>
-      <view class="rightContent">
+      <view wx:if="{{detailInfo.standardPrice==0}}" class="rightContent">
+        无..
+      </view>
+      <view wx:else class="rightContent">
         -¥{{detailInfo.standardPrice}}
       </view>
     </view>
