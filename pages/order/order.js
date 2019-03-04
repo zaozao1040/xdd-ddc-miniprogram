@@ -23,7 +23,7 @@ Page({
     payType: 'BALANCE_PAY',
     //评价
     showRatingsFlag: false,
-    orderFoodList: null,
+    foods: null,
     starNum: [0, 1, 2, 3, 4],
     starActiveNum: 0,
     ratingsContent: '',
@@ -541,7 +541,7 @@ Page({
       tempFilePaths: [],
       orderCode: e.currentTarget.dataset.ordercode,
       foodCode: e.currentTarget.dataset.foodcode,
-      orderFoodList: [e.currentTarget.dataset.orderfoodlist[0]] //---------暂时只做成评价一个菜品，取数组第一个
+      foods: [e.currentTarget.dataset.foods[0]] //---------暂时只做成评价一个菜品，取数组第一个
     })
   },
 
