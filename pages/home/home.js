@@ -69,10 +69,7 @@ Page({
       return
     }
     _this.data.canClick = false
-    if (_this.data.timer) {
-      clearTimeout(_this.data.timer)
-    }
-    _this.data.timer = setTimeout(function () {
+    setTimeout(function () {
       _this.data.canClick = true
     }, 2000)
     let flag = e.currentTarget.dataset.type

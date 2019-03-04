@@ -109,7 +109,7 @@
               <view class="cart-menuItem" wx:for="{{foodtypeItem.foodTypeInfo}}" wx:for-item="foodtypeinfoItem"
                 wx:for-index="foodtypeinfoIndex" wx:key="foodtypeinfoIndex">
                 <view class="cart-menuItem-left">
-                  <image class="cart-menuItem-img" src="{{foodtypeinfoItem.image}}"></image>
+                  <image class="cart-menuItem-img" src="{{foodtypeinfoItem.foodImage}}"></image>
                 </view>
                 <view class="cart-menuItem-right">
                   <view class="cart-menuItemDes">

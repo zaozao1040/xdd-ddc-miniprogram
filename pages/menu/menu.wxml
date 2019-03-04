@@ -128,7 +128,7 @@
                       data-daydes="{{timeDesActive}}" data-foodtype="{{foodtypeActiveFlag}}" data-foodtypedes="{{foodtypeDesActive}}"
                       data-foodcode="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}"
                       data-stockleftnum="{{foodItem.stock.stockLeftNum}}" data-homebuyingrestrictions="{{foodItem.stock.homebuyingRestrictions}}" 
-                      data-image="{{foodItem.image}}" catchtap="handleMinusfood">
+                      data-foodimage="{{foodItem.foodImage}}" catchtap="handleMinusfood">
                     </view>
                     <view wx:if="{{foodItem.foodCount>0}}" style="display: inline-block;font-size:50rpx;width:60rpx;text-align: center;color:#222;"
                       class="num">
@@ -139,7 +139,7 @@
                       data-daydes="{{timeDesActive}}" data-foodtype="{{foodtypeActiveFlag}}" data-foodtypedes="{{foodtypeDesActive}}"
                       data-foodcode="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}"
                       data-stockleftnum="{{foodItem.stock.stockLeftNum}}" data-quotanum="{{foodItem.quotaNum}}" 
-                      data-image="{{foodItem.image}}" catchtap="handleAddfood">
+                      data-foodimage="{{foodItem.foodImage}}" catchtap="handleAddfood">
                     </view>
                   </view>
                 </view>
@@ -183,7 +183,7 @@
               <view class="cart-menuItem" wx:for="{{foodtypeItem.foodTypeInfo}}" wx:for-item="foodtypeinfoItem"
                 wx:for-index="foodtypeinfoIndex" wx:key="foodtypeinfoIndex">
                 <view class="cart-menuItem-left">
-                  <image class="cart-menuItem-img" src="{{foodtypeinfoItem.image}}"></image>
+                  <image class="cart-menuItem-img" src="{{foodtypeinfoItem.foodImage}}"></image>
                 </view>
                 <view class="cart-menuItem-right">
                   <view class="cart-menuItemDes">
@@ -201,7 +201,7 @@
                       data-foodtypedes="{{foodtypeItem.foodTypeDes}}" data-foodcode="{{foodtypeinfoItem.foodCode}}"
                       data-foodprice="{{foodtypeinfoItem.foodPrice}}" data-foodname="{{foodtypeinfoItem.foodName}}"
                       data-stockleftnum="{{foodItem.stock.stockLeftNum}}" data-homebuyingrestrictions="{{foodtypeinfoItem.stock.homebuyingRestrictions}}" 
-                      data-image="{{foodtypeinfoItem.image}}" catchtap="handleAddfood">
+                      data-foodimage="{{foodtypeinfoItem.foodImage}}" catchtap="handleAddfood">
                     </view>
                     <view wx:if="{{foodtypeinfoItem.foodCount>0}}" style="display: inline-block;font-size:50rpx;width:60rpx;text-align: center;float: right;color:#222;"
                       class="num">
@@ -214,7 +214,7 @@
                       data-foodtypedes="{{foodtypeItem.foodTypeDes}}" data-foodcode="{{foodtypeinfoItem.foodCode}}"
                       data-foodprice="{{foodtypeinfoItem.foodPrice}}" data-foodname="{{foodtypeinfoItem.foodName}}"
                       data-stockleftnum="{{foodItem.stock.stockLeftNum}}" data-homebuyingrestrictions="{{foodtypeinfoItem.stock.homebuyingRestrictions}}" 
-                      data-image="{{foodtypeinfoItem.image}}" catchtap="handleMinusfood">
+                      data-foodimage="{{foodtypeinfoItem.foodImage}}" catchtap="handleMinusfood">
                     </view>
                   </view>
                 </view>

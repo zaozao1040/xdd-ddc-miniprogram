@@ -37,6 +37,8 @@ Page({
     totalMoneyRealDeduction: 0, //实际额度总金额
     realMoney: 0,//实际总价格，也就是自费价格
 
+    //activeSelectedFoods: [], //当前天当前餐的选中菜单 每点击一次+ 或者 -，都记录一下这个值
+
     mapMenutype: ['早餐', '午餐', '晚餐', '夜宵'],
     mapMenutypeIconName: ['zaocan1', 'wucan', 'canting', 'xiaoye-'],
     scrollToView: 'id_0',
@@ -78,6 +80,9 @@ Page({
       timeDesActive: e.currentTarget.dataset.arrangedate
     })
     this.getMenuData()
+    //-----------------------------
+    this.checkStandardPrice()
+    
   },
   handleChangeFoodtypeActive: function (e) {
     let tmp = parseInt(e.currentTarget.dataset.foodtypeindex)//传过来的字符串，要转化成number格式
@@ -109,7 +114,6 @@ Page({
   calculatetotalMoneyRealDeduction: function () {
     let _this = this
     let tmp_totalMoneyRealDeduction = 0
-    console.log('1111',_this.data.selectedFoods)
     _this.data.selectedFoods.forEach((element1) => {
       element1.dayInfo.forEach((element2) => {
         if (element2.mealLabelFlag == true) {
@@ -124,7 +128,6 @@ Page({
     this.setData({
       totalMoneyRealDeduction: tmp_totalMoneyRealDeduction
     })
-    console.log('2222',_this.data.tmp_totalMoneyRealDeduction)
   },
   selectedFoodsAdd: function (e) {
     let _this = this
@@ -143,7 +146,7 @@ Page({
           foodPrice: parseFloat(e.currentTarget.dataset.foodprice),
           foodTotalPrice: parseFloat(e.currentTarget.dataset.foodprice),//这个总价实在是因为微信小程序模板中不识别parseFloat，只能这里转换
           foodName: e.currentTarget.dataset.foodname,
-          image: e.currentTarget.dataset.image,
+          foodImage: e.currentTarget.dataset.foodimage,
           __food_index: e.currentTarget.dataset.foodindex,//
           __menutype_index: e.currentTarget.dataset.menutypeindex,
           foodCount: 1,
@@ -180,7 +183,7 @@ Page({
                       foodPrice: parseFloat(e.currentTarget.dataset.foodprice),
                       foodTotalPrice: parseFloat(e.currentTarget.dataset.foodprice),
                       foodName: e.currentTarget.dataset.foodname,
-                      image: e.currentTarget.dataset.image,
+                      foodImage: e.currentTarget.dataset.foodimage,
                       __food_index: e.currentTarget.dataset.foodindex,
                       __menutype_index: e.currentTarget.dataset.menutypeindex,
                       foodCount: 1,
@@ -206,7 +209,7 @@ Page({
                     foodPrice: parseFloat(e.currentTarget.dataset.foodprice),
                     foodTotalPrice: parseFloat(e.currentTarget.dataset.foodprice),
                     foodName: e.currentTarget.dataset.foodname,
-                    image: e.currentTarget.dataset.image,
+                    foodImage: e.currentTarget.dataset.foodimage,
                     __food_index: e.currentTarget.dataset.foodindex,
                     __menutype_index: e.currentTarget.dataset.menutypeindex,
                     foodCount: 1,
@@ -234,7 +237,7 @@ Page({
                   foodPrice: parseFloat(e.currentTarget.dataset.foodprice),
                   foodTotalPrice: parseFloat(e.currentTarget.dataset.foodprice),
                   foodName: e.currentTarget.dataset.foodname,
-                  image: e.currentTarget.dataset.image,
+                  foodImage: e.currentTarget.dataset.foodimage,
                   __food_index: e.currentTarget.dataset.foodindex,
                   __menutype_index: e.currentTarget.dataset.menutypeindex,
                   foodCount: 1,
@@ -302,7 +305,6 @@ Page({
 
   handleAddfood: function (e) {
     let _this = this
-    console.log('111111', e.currentTarget.dataset.stockleftnum, e.currentTarget.dataset.foodcount)
     if (!_this.data.canClick) {
       return
     }
@@ -694,32 +696,6 @@ Page({
       })
     }, 1000)
   },
-  /* 滚动事件监听----这里设置了定时器 */
-  /*   handleScroll: function(e){
-      if(this.data.scrollLintenFlag){ //允许触发滚动事件，才执行滚动事件
-        let _this = this
-        if (_this.data.timer){
-          clearTimeout(_this.data.timer)
-        }
-        _this.data.timer = setTimeout(()=>{
-          let scrollY = e.detail.scrollTop
-          //console.log(e.detail.scrollTop)
-          let listHeightLength = _this.data.listHeight.length
-          for (let i = 0; i < listHeightLength; i++) {
-            let height1 = _this.data.listHeight[i]
-            let height2 = _this.data.listHeight[i + 1];//listHeight[length]返回undefined,所以可以用!height2做判断不是最后一个
-            if (scrollY >= height1 - 1 && scrollY < height2) {    
-              //console.log('当前menutypeIndex是：',i)
-              if(i!=_this.data.menutypeActiveFlag){
-                _this.setData({   
-                  menutypeActiveFlag : i
-                }) 
-              }
-            }
-          }
-        },60)      
-      }
-    }, */
   /* 滚动事件监听 */
   handleScroll: function (e) {
     //console.log('scrollview滚动距离:',e.detail.scrollTop)
@@ -773,6 +749,53 @@ Page({
         } */
   },
 
+    /* 金额低于餐标的计算检查 */
+    checkStandardPrice: function () {
+/*       let _this = this
+      console.log(_this.data.selectedFoods)
+      //从selectedFoods 获取该active time的订餐信息
+      let tmp_selectedFoods = _this.data.selectedFoods
+      let tmp_current_selectedFoods = tmp_selectedFoods.filter(element1 => {
+        if(element1.day == _this.data.timeActiveFlag){
+          return true
+          element1.dayInfo.filter(element2=>{
+            if(element2.foodType == _this.data.foodtypeActiveFlag){
+              return ture
+            }
+          })
+        }
+      })
+      console.log('hehe',currentSelectedFoods) */
+
+
+    },
+
+/*    
+    timeActiveFlag: 0, //默认今天
+    timeDesActive: '', //选中的日期描述，如‘2018-12-22’
+    foodtypeActiveFlag: 1, //默认餐别是该用户所在企业拥有餐标数组中的第一个
+    foodtypeDesActive: '', //选中的餐别描述，如‘LUNCH’
+    
+    calculatetotalMoneyRealDeduction: function () {
+      let _this = this
+      let tmp_totalMoneyRealDeduction = 0
+      console.log('1111',_this.data.selectedFoods)
+      _this.data.selectedFoods.forEach((element1) => {
+        element1.dayInfo.forEach((element2) => {
+          if (element2.mealLabelFlag == true) {
+            if (parseFloat(element2.foodTypeTotalRealMoney) < parseFloat(element2.organizeMealLabel)) { //该天该餐的自费总额比餐标还小
+              tmp_totalMoneyRealDeduction = parseFloat((parseFloat(tmp_totalMoneyRealDeduction) + parseFloat(element2.foodTypeTotalRealMoney)).toFixed(2))
+            } else {
+              tmp_totalMoneyRealDeduction = parseFloat((parseFloat(tmp_totalMoneyRealDeduction) + parseFloat(element2.organizeMealLabel)).toFixed(2))
+            }
+          }
+        })
+      })
+      this.setData({
+        totalMoneyRealDeduction: tmp_totalMoneyRealDeduction
+      })
+      console.log('2222',_this.data.tmp_totalMoneyRealDeduction)
+    }, */
 
 
   goToMenuCommit() {
@@ -793,24 +816,6 @@ Page({
     //初始化，获取一些必要参数，如高度
     _this.initMenu()
     _this.getTimeDataByResponse()
-    /*     if(app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]){
-          _this.setData({   
-            cacheMenuDataAll : app.globalData.cacheMenuDataAll,
-            selectedFoods : app.globalData.selectedFoods
-          })
-        }else{
-          _this.getMenuDataByResponse() //获取后台数据并setData响应式模板
-        } */
-    /*     if(app.globalData.totalCount){
-          _this.setData({   
-            totalCount : app.globalData.totalCount
-          })
-        }
-        if(app.globalData.totalMoney){
-          _this.setData({   
-            totalMoney : app.globalData.totalMoney
-          })
-        } */
   },
 
   /**
