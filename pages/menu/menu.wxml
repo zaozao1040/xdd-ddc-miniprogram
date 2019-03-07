@@ -3,7 +3,7 @@
     <!-- 【七天日期】 -->
     <view class="time-2">
       <view class="time-2-item {{timeActiveFlag==timeInfoIndex?'timeActive':''}}" data-timeindex="{{timeInfoIndex}}"
-        data-arrangedate="{{timeInfoItem.date}}" bindtap="handleChangeTimeActive" wx:for="{{timeInfo.userOrderDateVO}}"
+        data-arrangedate="{{timeInfoItem.date}}" data-dateweak="{{timeInfoItem.dateWeak}}" bindtap="handleChangeTimeActive" wx:for="{{timeInfo.userOrderDateVO}}"
         wx:for-index="timeInfoIndex" wx:for-item="timeInfoItem" wx:key="timeInfoIndex">
         <view class="time-2-day">
           {{timeInfoItem.dateShort}}
@@ -24,19 +24,19 @@
     <!-- 【第二排】 餐品类型 -->
     <view class="foodType-wrapper">
       <view wx:if="{{timeInfo.userOrderMealTypeVO.BREAKFAST}}" class="foodType-item {{foodtypeActiveFlag==0?'foodtypeActive':''}}"
-        data-foodtypeindex="0" data-mealtype="BREAKFAST" bindtap="handleChangeFoodtypeActive">
+        data-foodtypeindex="0" data-mealtype="BREAKFAST" data-mealtypechdes="早餐" bindtap="handleChangeFoodtypeActive">
         <text class='iconfont iconfont-foodType icon-zaocan1'></text> 早餐
       </view>
       <view wx:if="{{timeInfo.userOrderMealTypeVO.LUNCH}}" class="foodType-item {{foodtypeActiveFlag==1?'foodtypeActive':''}}"
-        data-foodtypeindex="1" data-mealtype="LUNCH" bindtap="handleChangeFoodtypeActive">
+        data-foodtypeindex="1" data-mealtype="LUNCH" data-mealtypechdes="午餐" bindtap="handleChangeFoodtypeActive">
         <text class='iconfont iconfont-foodType icon-wucan'></text> 午餐
       </view>
       <view wx:if="{{timeInfo.userOrderMealTypeVO.DINNER}}" class="foodType-item {{foodtypeActiveFlag==2?'foodtypeActive':''}}"
-        data-foodtypeindex="2" data-mealtype="DINNER" bindtap="handleChangeFoodtypeActive">
+        data-foodtypeindex="2" data-mealtype="DINNER" data-mealtypechdes="晚餐" bindtap="handleChangeFoodtypeActive">
         <text class='iconfont iconfont-foodType icon-canting'></text> 晚餐
       </view>
       <view wx:if="{{timeInfo.userOrderMealTypeVO.NIGHT}}" class="foodType-item {{foodtypeActiveFlag==3?'foodtypeActive':''}}"
-        data-foodtypeindex="3" data-mealtype="NIGHT" bindtap="handleChangeFoodtypeActive">
+        data-foodtypeindex="3" data-mealtype="NIGHT" data-mealtypechdes="夜宵" bindtap="handleChangeFoodtypeActive">
         <text class='iconfont iconfont-foodType icon-xiaoye-'></text> 夜宵
       </view>
     </view>
