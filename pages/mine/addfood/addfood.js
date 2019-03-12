@@ -188,10 +188,14 @@ Page({
             })
 
             // 给每一个菜品添加一个foodCount，用于小加号点击时加一减一
+            // 给每一个菜品添加一个foodTotalPrice，因为wxml不支持parseFloat
+            // 给每一个菜品添加一个foodTotalOriginalPrice，因为wxml不支持parseFloat
             // 给每一个菜品加一个show，表示满足标签要求时候show，初始化时都是show
             let tempfoods = resData.foods
             tempfoods.forEach(item => {
                 item.foods.forEach(foodItem => {
+                    foodItem.foodTotalPrice = 0
+                    foodItem.foodTotalOriginalPrice = 0
                     foodItem.foodCount = 0
                     foodItem.show = true
                 })
@@ -330,6 +334,14 @@ Page({
         let tempLabelFoods = _this.data.foods
         if (tempLabelFoods[menutypeIndex].foods[foodIndex].foodCount > 0) { // 如果count>0就减一
             tempLabelFoods[menutypeIndex].foods[foodIndex].foodCount -= 1
+
+            let tempFoodTotalPrice = tempLabelFoods[menutypeIndex].foods[foodIndex].foodTotalPrice
+            tempFoodTotalPrice = parseFloat(parseFloat(tempFoodTotalPrice - parseFloat(tempLabelFoods[menutypeIndex].foods[foodIndex].foodPrice)).toFixed(2))
+            tempLabelFoods[menutypeIndex].foods[foodIndex].foodTotalPrice = tempFoodTotalPrice
+
+            let tempFoodTotalOriginalPrice = tempLabelFoods[menutypeIndex].foods[foodIndex].foodTotalOriginalPrice
+            tempFoodTotalOriginalPrice = parseFloat(parseFloat(tempFoodTotalOriginalPrice - parseFloat(tempLabelFoods[menutypeIndex].foods[foodIndex].foodOriginalPrice)).toFixed(2))
+            tempLabelFoods[menutypeIndex].foods[foodIndex].foodTotalOriginalPrice = tempFoodTotalOriginalPrice
         }
         _this.setData({
             foods: tempLabelFoods
@@ -376,47 +388,76 @@ Page({
 
         console.log('_this.data.foods', _this.data.foods)
 
-        if (tempLabelFoods[menutypeIndex].foods[foodIndex].foodCount != undefined) {
-            tempLabelFoods[menutypeIndex].foods[foodIndex].foodCount += 1 // 需不需要判断库存
-        } else {
-            tempLabelFoods[menutypeIndex].foods[foodIndex].foodCount = 1 // 需不需要判断库存
+
+        // 考虑库存和限购
+        let canAddFlag = true
+
+        if (tempLabelFoods[menutypeIndex].foods[foodIndex].stock != null) { //说明有库存
+            let tempstock = tempLabelFoods[menutypeIndex].foods[foodIndex].stock
+            let tempfoodCount = tempLabelFoods[menutypeIndex].foods[foodIndex].foodCount
+            if ((tempstock.homebuyingRestrictions != null) && (tempfoodCount >= tempstock.homebuyingRestrictions)) {
+                wx.showToast({
+                    title: '限购' + tempstock.homebuyingRestrictions + '份',
+                    image: '../../../images/msg/error.png',
+                    duration: 2000
+                })
+                canAddFlag = false
+            }
+            if ((tempstock.stockLeftNum != null) && (tempfoodCount >= tempstock.stockLeftNum)) {
+                wx.showToast({
+                    title: '库存不足',
+                    image: '../../../images/msg/error.png',
+                    duration: 2000
+                })
+                canAddFlag = false
+            }
         }
 
+        if (canAddFlag) { // 说明可以再点餐
 
-        _this.setData({
-            foods: tempLabelFoods
-        })
-        console.log('_this.data.foods', tempLabelFoods)
-        let temptotalCount = _this.data.totalCount
+            tempLabelFoods[menutypeIndex].foods[foodIndex].foodCount += 1 // 需不需要判断库存
 
-        temptotalCount += 1 //购物车中总数加1
-        _this.setData({
-            totalCount: temptotalCount
-        })
+            let tempFoodTotalPrice = tempLabelFoods[menutypeIndex].foods[foodIndex].foodTotalPrice
+            tempFoodTotalPrice = parseFloat(parseFloat(tempFoodTotalPrice + parseFloat(tempLabelFoods[menutypeIndex].foods[foodIndex].foodPrice)).toFixed(2))
+            tempLabelFoods[menutypeIndex].foods[foodIndex].foodTotalPrice = tempFoodTotalPrice
 
-        // 在加1减1的时候就计算总价吗？？
-        let temptotalMoney = _this.data.totalMoney
-        temptotalMoney = parseFloat((parseFloat(temptotalMoney) + parseFloat(tempLabelFoods[menutypeIndex].foods[foodIndex].foodPrice)).toFixed(2)) //加上标签价格
-        _this.setData({
-            totalMoney: temptotalMoney
-        })
+            let tempFoodTotalOriginalPrice = tempLabelFoods[menutypeIndex].foods[foodIndex].foodTotalOriginalPrice
+            tempFoodTotalOriginalPrice = parseFloat(parseFloat(tempFoodTotalOriginalPrice + parseFloat(tempLabelFoods[menutypeIndex].foods[foodIndex].foodOriginalPrice)).toFixed(2))
+            tempLabelFoods[menutypeIndex].foods[foodIndex].foodTotalOriginalPrice = tempFoodTotalOriginalPrice
 
-
-        // 只有等于1，才添加到购物车
-        if (tempLabelFoods[menutypeIndex].foods[foodIndex].foodCount == 1) {
-            // 应该也不会添加几个的，先这么写写吧，不晓得对不对
-            let tempselectFoodsIndex = _this.data.selectedFoodsIndex
-            if (tempselectFoodsIndex[menutypeIndex] == undefined) {
-                tempselectFoodsIndex[menutypeIndex] = []
-            }
-            tempselectFoodsIndex[menutypeIndex].push(foodIndex)
             _this.setData({
-                selectedFoodsIndex: tempselectFoodsIndex
+                foods: tempLabelFoods
+            })
+            console.log('_this.data.foods', tempLabelFoods)
+            let temptotalCount = _this.data.totalCount
+
+            temptotalCount += 1 //购物车中总数加1
+            _this.setData({
+                totalCount: temptotalCount
+            })
+
+            // 在加1减1的时候就计算总价吗？？
+            let temptotalMoney = _this.data.totalMoney
+            temptotalMoney = parseFloat((parseFloat(temptotalMoney) + parseFloat(tempLabelFoods[menutypeIndex].foods[foodIndex].foodPrice)).toFixed(2)) //加上标签价格
+            _this.setData({
+                totalMoney: temptotalMoney
             })
 
 
+            // 只有等于1，才添加到购物车
+            if (tempLabelFoods[menutypeIndex].foods[foodIndex].foodCount == 1) {
+                // 应该也不会添加几个的，先这么写写吧，不晓得对不对
+                let tempselectFoodsIndex = _this.data.selectedFoodsIndex
+                if (tempselectFoodsIndex[menutypeIndex] == undefined) {
+                    tempselectFoodsIndex[menutypeIndex] = []
+                }
+                tempselectFoodsIndex[menutypeIndex].push(foodIndex)
+                _this.setData({
+                    selectedFoodsIndex: tempselectFoodsIndex
+                })
+            }
+            console.log('_this.data.selectedFoodsIndex', _this.data.selectedFoodsIndex)
         }
-        console.log('_this.data.selectedFoodsIndex', _this.data.selectedFoodsIndex)
     },
     // 点击购物车图标
     handleClickBox() {
@@ -469,20 +510,36 @@ Page({
 
     goToMenuCommit() {
         if (this.data.totalCount > 0) {
-            const order = this.getSelectedFoods()
-            wx.setStorage({
-                key: 'addfoodOrder',
-                data: order
-            })
-
-            console.log('addfoodOrder', order)
-            wx.navigateTo({
-                url: '/pages/mine/addfoodconfirm/addfoodconfirm?totalMoney=' +
-                    this.data.totalMoney + '&totalMoneyRealDeduction=' +
-                    this.data.totalMoneyRealDeduction + '&realMoney=' +
-                    parseFloat((parseFloat(this.data.totalMoney) - parseFloat(this.data.totalMoneyRealDeduction)).toFixed(2))
-            })
+            if (this.data.totalMoneyRealDeduction > this.data.totalMoney) {
+                wx.showModal({
+                    title: '未达餐标金额(¥' + this.data.totalMoneyRealDeduction + ')',
+                    content: '未达餐标金额(¥' + this.data.totalMoneyRealDeduction + ')' + ',请继续选餐',
+                    showCancel: false,
+                    confirmText: '返回'
+                })
+            } else if (this.data.totalMoneyRealDeduction == 0 && this.data.totalMoney == 0) {
+                wx.showModal({
+                    title: '价格低于0.01',
+                    content: '请继续选餐',
+                    showCancel: false,
+                    confirmText: '返回'
+                })
+            } else {
+                const order = this.getSelectedFoods()
+                wx.setStorage({
+                    key: 'addfoodOrder',
+                    data: order
+                })
+                console.log('addfoodOrder', order)
+                wx.navigateTo({
+                    url: '/pages/mine/addfoodconfirm/addfoodconfirm?totalMoney=' +
+                        this.data.totalMoney + '&totalMoneyRealDeduction=' +
+                        this.data.totalMoneyRealDeduction + '&realMoney=' +
+                        parseFloat((parseFloat(this.data.totalMoney) - parseFloat(this.data.totalMoneyRealDeduction)).toFixed(2))
+                })
+            }
         }
+
     },
     onShow: function() {
         console.log('onShow')

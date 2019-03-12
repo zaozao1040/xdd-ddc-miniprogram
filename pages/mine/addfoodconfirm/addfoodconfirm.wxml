@@ -110,9 +110,9 @@
                                         {{foodtypeinfoItem.foodName}}
                                     </view>
                                     <view class="cart-menuItemTotalmoney">
-                                        <text style="color:#F56C6C;font-size:40rpx;">¥{{foodtypeinfoItem.foodCount*foodtypeinfoItem.foodPrice}}</text>
+                                        <text style="color:#F56C6C;font-size:40rpx;">¥{{ foodtypeinfoItem.foodTotalPrice}}</text>
                                         <view wx:if="{{foodtypeinfoItem.foodOriginalPrice!=foodtypeinfoItem.foodPrice}}" class="price-original">
-                                            <text style="font-size: 25rpx;">￥</text>{{foodtypeinfoItem.foodCount*foodtypeinfoItem.foodOriginalPrice}}
+                                            <text style="font-size: 25rpx;">￥</text>{{ foodtypeinfoItem.foodTotalOriginalPrice}}
                                         </view>
                                     </view>
                                     <view class="cart-menuItemCount">

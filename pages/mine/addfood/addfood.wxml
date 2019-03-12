@@ -74,13 +74,13 @@
                                             </view>
                                             <!-- ***************  + - 添加、减掉餐品的小控件(菜单中) *************** -->
                                             <view class="num-control">
-                                                <view wx:if="{{foodItem.foodCount>0}}" style="display: inline-block;font-size:40rpx;" class='iconfont icon-jian-xianxingyuankuang' data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}" catchtap="handleMinusfood">
+                                                <view wx:if="{{foodItem.foodCount>0}}" style="display: inline-block;font-size:45rpx;" class='iconfont icon-jian-xianxingyuankuang' data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}" catchtap="handleMinusfood">
                                                 </view>
-                                                <view wx:if="{{foodItem.foodCount>0}}" style="display: inline-block;width:50rpx;text-align:center;font-size:25rpx;color:#222;" class="num">
+                                                <view wx:if="{{foodItem.foodCount>0}}" style="display: inline-block;width:50rpx;text-align:center;font-size:40rpx;color:#222;" class="num">
                                                     {{foodItem.foodCount}}
                                                     <!-- <text style="display: inline-block;bottom:8rpx;position:absolute;font-size:25rpx;">{{foodItem.foodCount}}</text> -->
                                                 </view>
-                                                <view style="display: inline-block;font-size:40rpx;" class='iconfont icon-jia-yuankuang' data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}" catchtap="handleAddfood">
+                                                <view style="display: inline-block;font-size:45rpx;" class='iconfont icon-jia-yuankuang' data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}" catchtap="handleAddfood">
                                                 </view>
                                             </view>
                                         </view>
@@ -104,7 +104,7 @@
                         <text class='iconfont icon-trash_fill'></text> 清空
                     </view>
                 </view>
-                <view class="cart-content-empty" wx:if="{{totalMoney<=0}}">
+                <view class="cart-content-empty" wx:if="{{totalCount<=0}}">
                     <!-- 购物车空 情况下展示一张大图 -->
                     <image class="" mode="widthFix" src="../../images/menu/emptycart.png" style="width:100%;height: {{top_2 - top_1}}px;"></image>
                 </view>
@@ -130,7 +130,7 @@
                                                 {{foodItem.foodName}}
                                             </view>
                                             <view class="cart-menuItemTotalmoney">
-                                                <text style="color:#F56C6C;font-size:40rpx;">¥{{foodItem.foodCount*foodItem.foodPrice}}</text>
+                                                <text style="color:#F56C6C;font-size:40rpx;">¥{{foodItem.foodTotalPrice}}</text>
                                             </view>
                                             <!-- ***************  + - 添加、减掉餐品的小控件(购物车中) *************** -->
                                             <view class="num-control-cart">
