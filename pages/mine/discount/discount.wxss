@@ -1,63 +1,71 @@
-.discount-wrapper{
-  position: fixed;
-  top:0;
-  left:0;
-  right:0;
-  bottom: 0;
-  background: #eee;
+.discount-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #eee;
 }
+
+
 /********** 头部 **********/
-.header-wrapper{
-  text-align: center;
-  background: linear-gradient(#e79b37, #eee);
-  padding: 30rpx 40rpx;
+
+.header-wrapper {
+    text-align: center;
+    background: linear-gradient(#e79b37, #eee);
+    padding: 30rpx 40rpx;
 }
-.header{
-  text-align: center;
-/*   background: #fff; */
-  border-radius: 20rpx;
+
+.header {
+    text-align: center;
+    /*   background: #fff; */
+    border-radius: 20rpx;
 }
-.header-des{
-  font-size: 30rpx;
-  font-weight: 500;
-  color:#222;
+
+.header-des {
+    font-size: 30rpx;
+    font-weight: 500;
+    color: #222;
 }
-.header-label{
-  display: inline-block;
-  font-size: 30rpx;
-  font-weight: 500;
-  color:#fff;
+
+.header-label {
+    display: inline-block;
+    font-size: 30rpx;
+    font-weight: 500;
+    color: #fff;
 }
-.header-item{
-  display: inline-block;
-  font-size: 80rpx;
-  color:#fff;
+
+.header-item {
+    display: inline-block;
+    font-size: 80rpx;
+    color: #fff;
 }
+
+
 /********** 内容 **********/
+
+
 /* 标题 */
-.content{
 
+.content-header {
+    display: flex;
+    height: 60rpx;
+    line-height: 60rpx;
+    border-bottom: 1rpx solid #bbb;
 }
-.content-header{
-  display: flex;
-  height: 100rpx;
-  line-height: 100rpx;
-  border-bottom: 1rpx solid #bbb;
-}
-.content-header-item{
-  flex:1;
-  text-align: center;
-  font-size: 35rpx;
-  font-weight: 600;
-  color:#666;
-  margin: 0 20rpx;
-}
-.content-header-item-active{
-  padding:0 10rpx;
-  border-bottom: 10rpx solid #e79b37;
-  color:#e79b37;
-  font-size:40rpx;
-}
-.content-content{
 
+.content-header-item {
+    flex: 1;
+    text-align: center;
+    font-size: 30rpx;
+    font-weight: 600;
+    color: #666;
+    margin: 0 50rpx;
+}
+
+.content-header-item-active {
+    padding: 0 10rpx;
+    border-bottom: 5rpx solid #e79b37;
+    color: #e79b37;
+    font-size: 30rpx;
 }

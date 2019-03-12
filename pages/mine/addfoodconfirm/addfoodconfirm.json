@@ -3,6 +3,6 @@
     "navigationBarBackgroundColor": "#e79b37",
     "navigationBarTextStyle": "white",
     "usingComponents": {
-        "c-discount": "../../components/discountNew/discount"
+        "c-discount": "../../components/discount/discount"
     }
 }
