@@ -1,6 +1,16 @@
 <view class="wrapper">
     <view wx:if="{{getdataalready}}">
-        <block wx:if="{{allData.orderFlag&&allData.foods.length!==0}}">
+        <block wx:if="{{allData==null}}">
+            <view class="time-deadline" style="font-size: 0;">
+                <text class="iconfont icon-chaoshi" style="font-size:15px;color:#F56C6C;vertical-align: middle;"></text>
+                <text style="font-size:15px;color:#F56C6C;vertical-align: middle;" decode>&nbsp;无可订餐列表</text>
+            </view>
+            <!-- 不可订餐情况下展示一张大图 -->
+            <block>
+                <image class="" src="../../../images/menu/notorder.png" style="width:100%;height: {{windowHeight-30 }}px;"></image>
+            </block>
+        </block>
+        <block wx:elif="{{allData.orderFlag&&allData.foods.length!==0}}">
             <view style="height: {{top_2 }}px;">
                 <view style="text-align:center;">
                     <text style="font-size:40rpx;color:#666;" decode>&nbsp;{{allData.date}}&nbsp;&nbsp; {{mealType[allData.mealType].name}}</text>
@@ -243,7 +253,7 @@
                 </view>
             </view>
         </block>
-        <block wx:elif="{{!allData.orderFlag}}">
+        <block wx:else>
             <view class="time-deadline" style="font-size: 0;">
                 <text class="iconfont icon-chaoshi" style="font-size:15px;color:#F56C6C;vertical-align: middle;"></text>
                 <text style="font-size:15px;color:#F56C6C;vertical-align: middle;" decode>&nbsp;已截止订餐</text>
@@ -253,16 +263,7 @@
                 <image class="" src="../../../images/menu/notorder.png" style="width:100%;height: {{windowHeight-30 }}px;"></image>
             </block>
         </block>
-        <block wx:else>
-            <view class="time-deadline" style="font-size: 0;">
-                <text class="iconfont icon-chaoshi" style="font-size:15px;color:#F56C6C;vertical-align: middle;"></text>
-                <text style="font-size:15px;color:#F56C6C;vertical-align: middle;" decode>&nbsp;无可订餐列表</text>
-            </view>
-            <!-- 不可订餐情况下展示一张大图 -->
-            <block>
-                <image class="" src="../../../images/menu/notorder.png" style="width:100%;height: {{windowHeight-30 }}px;"></image>
-            </block>
-        </block>
+
     </view>
 
 </view>

@@ -8,7 +8,7 @@ Page({
         foodLabels: [], // 餐品标签，大份，微辣那些 
         foods: [], //添加了每道菜根据标签显示(show)和加入购物车的个数(foodCount)的餐品列表，
         foodsCopy: [], //初始化为foods，在清空购物车时，赋值给foods
-        allData: [], // 返回的所有数据
+        allData: null, // 返回的所有数据
         mealType: { LUNCH: { name: '午餐', icon: 'wucan' }, DINNER: { name: '晚餐', icon: 'canting' }, BREAKFAST: { name: '早餐', icon: 'zaocan1' }, NIGHT: { name: '夜宵', icon: 'xiaoye-' } },
         deadLineMsg: '', // 截止订餐：显示字符串
         menutypeActiveFlag: 0, //当前被点击的餐品类别
@@ -34,6 +34,7 @@ Page({
 
     },
     onLoad: function() {
+        console.log('allData', this.data.allData)
         wx.showLoading({
             title: '加载中'
         })
@@ -47,9 +48,6 @@ Page({
 
         wx.getSystemInfo({
             success: function(res) {
-                console.log(res)
-                console.log('windowHeight', res.windowHeight)
-                console.log('screenHeight', res.screenHeight)
                 _this.setData({
                     windowHeight: res.windowHeight
                 })
@@ -168,6 +166,7 @@ Page({
         menuModel.getAddfoodData(param, function(res) { //获取加餐所有信息
             wx.hideLoading()
             let resData = res
+            console.log('res', res)
             _this.setData({
                 allData: resData, //保存下所有数据
                 getdataalready: true
@@ -230,6 +229,19 @@ Page({
                 })
             }
 
+        }, function() {
+            wx.getSystemInfo({
+                success: function(res) {
+                    _this.setData({
+                        windowHeight: res.windowHeight
+                    })
+                }
+            })
+
+            _this.setData({
+                getdataalready: true
+
+            })
         })
     },
 
