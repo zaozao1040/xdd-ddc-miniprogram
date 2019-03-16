@@ -217,7 +217,7 @@ Page({
         homeModel.getNotice(param, (res) => {
 
             if (res.code == 0) {
-                if (res.data != null) {
+                if (res.data != null && res.data.length > 0) { //后台是在没有公告的时候返回空数组
                     let temp_noticeData = res.data
                     _this.setData({
                         noticeData: temp_noticeData,

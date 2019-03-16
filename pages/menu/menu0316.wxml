@@ -1,7 +1,7 @@
 <view class="wrapper" bindtap="handleCloseTimeBar">
-    <scroll-view scroll-y style="height: {{windowHeight}}px;" scroll-into-view="{{mainView}}">
+    <scroll-view scroll-y style="height: {{windowHeight + top_0}}px;">
         <!-- 日期 -->
-        <view style="padding:24rpx 24rpx 20rpx;display:flex;justify-content: space-between;font-size:26rpx;" id="main0">
+        <view style="padding:24rpx 24rpx 20rpx;display:flex;justify-content: space-between;font-size:26rpx;">
             <view style="color:#cccccc;" wx:if="{{timeActiveFlag==0}}">上一天 </view>
             <view style="color:#333333;" bindtap="handleChangeTimeActivePrev" wx:else>上一天</view>
             <view style="color:#333333;" catchtap="handleShowTimeBar">
@@ -14,7 +14,6 @@
             <view style="color:#333333;" bindtap="handleChangeTimeActiveNext" wx:if="{{timeActiveFlag<6}}">下一天</view>
             <view style="color:#cccccc;" wx:else>下一天</view>
         </view>
-        <!-- 【七天日期】 -->
         <view style="position:absolute;left:0;right:0;margin:auto;width:550rpx;z-index:1001;border:1rpx solid #efa731;" wx:if="{{timeBarShow}}">
             <view style="height:60rpx;line-height:60rpx;color:#ffffff;background:#efa731;text-align:center;">选择日期</view>
             <view style="padding:15rpx 38rpx;display:flex;justify-content: space-between;background:#ffffff;">
@@ -36,6 +35,26 @@
                 </view>
             </view>
         </view>
+        <!-- 【七天日期】 -->
+        <!-- <view class="time-2">
+            <view class="time-2-item {{timeActiveFlag==timeInfoIndex?'timeActive':''}}" data-timeindex="{{timeInfoIndex}}" data-arrangedate="{{timeInfoItem.date}}" data-dateweak="{{timeInfoItem.dateWeak}}" bindtap="handleChangeTimeActive" wx:for="{{timeInfo.userOrderDateVO}}"
+                wx:for-index="timeInfoIndex" wx:for-item="timeInfoItem" wx:key="timeInfoIndex">
+                <view class="time-2-day">
+                    {{timeInfoItem.dateShort}}
+                </view>
+                <view class="time-2-dayDes">
+                    <block wx:if="{{timeInfoIndex==0}}" selectable="false" space="false" decode="false">
+                        今天
+                    </block>
+                    <block wx:elif="{{timeInfoItem.dateShort=='01'}}" selectable="false" space="false" decode="false">
+                        下个月
+                    </block>
+                    <block wx:else>
+                        {{timeInfoItem.dateWeak}}
+                    </block>
+                </view>
+            </view>
+        </view> -->
         <!-- 【第二排】 餐品类型 -->
         <view style="background:#f1eeef;padding:16rpx 24rpx;display:flex;justify-content: space-between;font-size:26rpx;">
             <view wx:if="{{timeInfo.userOrderMealTypeVO.BREAKFAST}}" class="foodType-item2 {{foodtypeActiveFlag==0?'foodtypeActive2':''}}" data-foodtypeindex="0" data-mealtype="BREAKFAST" data-mealtypechdes="早餐" bindtap="handleChangeFoodtypeActive">
@@ -63,12 +82,44 @@
                 夜宵
             </view>
         </view>
+        <!-- 【第二排】 餐品类型 -->
+        <!-- <view class="foodType-wrapper">
+            <view wx:if="{{timeInfo.userOrderMealTypeVO.BREAKFAST}}" class="foodType-item {{foodtypeActiveFlag==0?'foodtypeActive':''}}" data-foodtypeindex="0" data-mealtype="BREAKFAST" data-mealtypechdes="早餐" bindtap="handleChangeFoodtypeActive">
+                <text class='iconfont iconfont-foodType icon-zaocan1'></text> 早餐
+            </view>
+            <view wx:if="{{timeInfo.userOrderMealTypeVO.LUNCH}}" class="foodType-item {{foodtypeActiveFlag==1?'foodtypeActive':''}}" data-foodtypeindex="1" data-mealtype="LUNCH" data-mealtypechdes="午餐" bindtap="handleChangeFoodtypeActive">
+                <text class='iconfont iconfont-foodType icon-wucan'></text> 午餐
+            </view>
+            <view wx:if="{{timeInfo.userOrderMealTypeVO.DINNER}}" class="foodType-item {{foodtypeActiveFlag==2?'foodtypeActive':''}}" data-foodtypeindex="2" data-mealtype="DINNER" data-mealtypechdes="晚餐" bindtap="handleChangeFoodtypeActive">
+                <text class='iconfont iconfont-foodType icon-canting'></text> 晚餐
+            </view>
+            <view wx:if="{{timeInfo.userOrderMealTypeVO.NIGHT}}" class="foodType-item {{foodtypeActiveFlag==3?'foodtypeActive':''}}" data-foodtypeindex="3" data-mealtype="NIGHT" data-mealtypechdes="夜宵" bindtap="handleChangeFoodtypeActive">
+                <text class='iconfont iconfont-foodType icon-xiaoye-'></text> 夜宵
+            </view>
+        </view> -->
+        <!-- 【第三排】 截止时间 -->
 
 
-        <view class="menu-wrapper c_scrollPosition_forCalculate" id="main1">
+        <!-- 【第三排】 截止时间 -->
+        <!-- <view class="time-deadline" wx:if="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].orderFlag}}" style="font-size: 0;">
+            <text class="iconfont icon-shijian" style="font-size:30rpx;color:#666;vertical-align: middle;"></text>
+            <text style="font-size:30rpx;color:#666;vertical-align: middle;" decode>&nbsp;截止订餐:&nbsp;&nbsp;</text>
+            <text style="font-size:30rpx;color:#F56C6C;vertical-align: middle;">{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].deadlineDes}}</text>
+        </view>
+        <view class="time-deadline" wx:else style="font-size: 0;">
+            <text class="iconfont icon-chaoshi" style="font-size:30rpx;color:#F56C6C;vertical-align: middle;"></text>
+            <text style="font-size:30rpx;color:#F56C6C;vertical-align: middle;" decode>&nbsp;已截止订餐</text>
+        </view> -->
+        <view class="menu-wrapper c_scrollPosition_forCalculate">
             <!-- 不可订餐情况下展示一张大图 -->
             <view wx:if="{{!cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].orderFlag}}" style="width:100%;height: {{top_2 - top_0}}px;background:#ececec;">
-
+                <!-- <view class="time-deadline" style="font-size: 0;">
+                    <text class="iconfont icon-chaoshi" style="font-size:30rpx;color:#F56C6C;vertical-align: middle;"></text>
+                    <text style="font-size:30rpx;color:#F56C6C;vertical-align: middle;" decode>&nbsp;已截止订餐</text>
+                </view> -->
+                <!-- <view style="width:100%;">
+                    <image src="../../images/menu/notorder.png" style="width:100%;height: {{top_2 - top_0 -30 }}px;"></image>
+                </view> -->
                 <view style="padding:162rpx 0 90rpx 204rpx;">
                     <image src="../../images/menu/noorder.png" style="height:263rpx;width:340rpx;"></image>
                 </view>
@@ -110,7 +161,12 @@
                             {{foodLabelItem.labelName}}
                         </view>
                     </view>
-
+                    <!-- 标签过滤 -->
+                    <!-- <view class="menu-label-wrapper c_labelPosition_forCalculate" wx:if="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].orderFlag}}">
+                        <view class="label-item {{foodLabelItem.active?'labelActive':''}}" wx:for="{{foodLabels}}" wx:for-item="foodLabelItem" wx:for-index="foodLabelIndex" wx:key="foodLabelIndex" bindtap="handleChangeFoodLabel" data-labelid="{{foodLabelItem.labelId}}" data-labelname="{{foodLabelItem.labelName}}">
+                            {{foodLabelItem.labelName}}
+                        </view>
+                    </view> -->
                     <scroll-view class="menu-right-item-wrapper" scroll-y scroll-with-animation="true" bindscroll="handleScroll" bindscrolltolower="handleScrolltolower" style="padding-left:16rpx;height: {{top_2 - 30 }}px;" scroll-into-view="{{scrollToView}}">
                         <view class="c_foodPosition_forCalculate right-item" wx:for="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].foods}}" wx:for-item="menutypeItem" wx:for-index="menutypeIndex" wx:key="menutypeIndex">
                             <view id="order{{menutypeIndex}}" style="text-align: center;padding-bottom:18rpx;">
