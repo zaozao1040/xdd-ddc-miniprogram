@@ -1,4 +1,4 @@
-import { confirm } from './confirm-model.js'
+import { confirm } from './addfoodconfirm-model.js'
 import { wallet } from '../../mine/wallet/wallet-model.js'
 import { mine } from '../../mine/mine-model.js'
 import { discount } from '../../mine/discount/discount-model.js'

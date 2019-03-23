@@ -1,242 +1,279 @@
 /* pages/order/order.wxss */
-.wrapper{
-  position: fixed;
-  top:0;
-  left:0;
-  right:0;
-  bottom: 0;
-  background: #eee;
+
+.wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #eee;
 }
+
+
 /********** 去付款弹出的选择支付方式对话框 **********/
-.selectPayType-wrapper{
-  position: fixed;
-  top:0;
-  bottom:0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  background: rgba(102, 102, 102, 0.5);
+
+.selectPayType-wrapper {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(102, 102, 102, 0.5);
 }
-.selectPayType{
-  position: absolute;
-  height: 350rpx;
-  width: 350rpx;
-  top:0;
-  bottom:0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  background: #fff;
-  border-radius: 20rpx;
+
+.selectPayType {
+    position: absolute;
+    height: 350rpx;
+    width: 350rpx;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background: #fff;
+    border-radius: 20rpx;
 }
+
+
 /********** 去评价弹出的对话框 **********/
-.ratings-wrapper{
-  position: fixed;
-  top:0;
-  bottom:0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  background: #eee;
+
+.ratings-wrapper {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: #eee;
 }
-.ratings-wrapper-content{
-  position: absolute;
-  height: 800rpx;
-  width: 100%;
-  top:0;
-  bottom:0;
-  left: 0;
-  right: 0;
-  margin: auto;  
+
+.ratings-wrapper-content {
+    position: absolute;
+    height: 800rpx;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
-.foodList-wrapper{
-  padding:10rpx;
+
+.foodList-wrapper {
+    padding: 10rpx;
 }
-.fooditem-wrapper{
-  margin:10rpx;
+
+.fooditem-wrapper {
+    margin: 10rpx;
 }
-.foodname{
-  text-align: center;
+
+.foodname {
+    text-align: center;
 }
-.foodstar{
-  text-align: center;
-  margin-top: 40rpx;
-  margin-bottom: 40rpx;
-  color:#999;
+
+.foodstar {
+    text-align: center;
+    margin-top: 40rpx;
+    margin-bottom: 40rpx;
+    color: #999;
 }
-.icon-xingxing{
-  font-size:50rpx;
+
+.icon-xingxing {
+    font-size: 50rpx;
 }
-.foodstar-active{
-  color:#e79b37;
+
+.foodstar-active {
+    color: #e79b37;
 }
-.foodratingcontent-wrapper{
-  padding: 10rpx;
-  border: 1rpx solid#999;
-  border-radius: 10rpx;
+
+.foodratingcontent-wrapper {
+    padding: 10rpx;
+    border: 1rpx solid#999;
+    border-radius: 10rpx;
 }
-.foodratingcontent{
-  height: 250rpx;
-  width: 100%;
+
+.foodratingcontent {
+    height: 250rpx;
+    width: 100%;
 }
+
+
 /* 上传图片 */
-.img-wrapper{
-  display: flex;
-  margin-top: 20rpx;
-  width:100%;
-  height: 120rpx;
 
-}
-.image{
-  margin: 10rpx;
-  height: 120rpx;
-  width:120rpx;
-  color:#999;
+.img-wrapper {
+    display: flex;
+    margin-top: 20rpx;
+    width: 100%;
+    height: 120rpx;
 }
 
-
-
-
+.image {
+    margin: 10rpx;
+    height: 120rpx;
+    width: 120rpx;
+    color: #999;
+}
 
 
 /********** 标题 **********/
-.header-wrapper{
-  display: flex;
-  height: 100rpx;
-  line-height: 100rpx;
-  border-bottom: 1rpx solid #666;
+
+.header-wrapper {
+    display: flex;
+    height: 100rpx;
+    line-height: 100rpx;
+    border-bottom: 1rpx solid #666;
 }
-.header-item{
-  flex:1;
-  text-align: center;
-  font-size: 35rpx;
-  font-weight: 600;
-  color:#666;
-  margin: 0 100rpx;
+
+.header-item {
+    flex: 1;
+    text-align: center;
+    font-size: 35rpx;
+    font-weight: 600;
+    color: #666;
+    margin: 0 100rpx;
 }
-.header-item-active{
-  border-bottom: 10rpx solid #e79b37;
-  color:#e79b37;
+
+.header-item-active {
+    border-bottom: 10rpx solid #e79b37;
+    color: #e79b37;
 }
+
 
 /********** 内容 **********/
-.order-wrapper{
-  box-sizing: border-box;
-  padding: 20rpx;
-  overflow: hidden;
+
+.order-wrapper {
+    box-sizing: border-box;
+    padding: 20rpx;
+    overflow: hidden;
 }
-.order-item{
-  margin-bottom: 25rpx;
-  box-shadow:0rpx 5rpx 8rpx #ccc;
-/*   border-bottom: #aaa solid 1rpx; */
+
+.order-item {
+    margin-bottom: 25rpx;
+    box-shadow: 0rpx 5rpx 8rpx #ccc;
+    /*   border-bottom: #aaa solid 1rpx; */
 }
-.order-item-header{
-  padding:10rpx 10rpx;
-  background: #e79b37;
-  border-top-left-radius: 20rpx;
-  border-top-right-radius: 20rpx;
+
+.order-item-header {
+    padding: 10rpx 10rpx;
+    background: #e79b37;
+    border-top-left-radius: 20rpx;
+    border-top-right-radius: 20rpx;
 }
-.order-item-header-old{
-  background: #999;
+
+.order-item-header-old {
+    background: #999;
 }
-.order-item-content{
-  padding:10rpx 20rpx 20rpx 20rpx;
-  background: #fff;
+
+.order-item-content {
+    padding: 10rpx 20rpx 20rpx 20rpx;
+    background: #fff;
 }
-.order-item-content-old{
-  background: #ccc;
+
+.order-item-content-old {
+    background: #ccc;
 }
-.order-item:last-child{
-  border-bottom: none;
+
+.order-item:last-child {
+    border-bottom: none;
 }
-.order-type{
-  font-size: 35rpx;
-  font-weight: 500;
-  color:#fff;
-  padding-left: 10rpx;
+
+.order-type {
+    font-size: 35rpx;
+    font-weight: 500;
+    color: #fff;
+    padding-left: 10rpx;
 }
-.order-cabinet{
-  font-size: 35rpx;
-  font-weight: 800;
-  color: #43964e;
-  background: #FFF;
-  border-radius: 10rpx;
-  padding:2rpx 8rpx 2rpx 8rpx;
+
+.order-cabinet {
+    font-size: 35rpx;
+    font-weight: 800;
+    color: #43964e;
+    background: #FFF;
+    border-radius: 10rpx;
+    padding: 2rpx 8rpx 2rpx 8rpx;
 }
-.order-cabinet-old{
-  color: #FFF;
-  font-weight: 500;
-  background: #ccc;
+
+.order-cabinet-old {
+    color: #FFF;
+    font-weight: 500;
+    background: #ccc;
 }
-.order-status{
-  font-size: 35rpx;
-  font-weight: 500;
-  color:#fff;
+
+.order-status {
+    font-size: 35rpx;
+    font-weight: 500;
+    color: #fff;
 }
-.order-time{
-  margin:auto 20rpx;
-  font-size: 30rpx;
-  font-weight: 500;
-  color:#fff;
+
+.order-time {
+    margin: auto 20rpx;
+    font-size: 30rpx;
+    font-weight: 500;
+    color: #fff;
 }
-.order-time-warnning{
-  color: lightyellow;
+
+.order-time-warnning {
+    color: lightyellow;
 }
-.foods-wrapper{
-  margin:auto 20rpx;
+
+.foods-wrapper {
+    margin: auto 20rpx;
 }
-.food-item{
-  margin:auto 20rpx;
-  font-size: 30rpx;
-  font-weight: 500;
-  color:#666;
+
+.food-item {
+    margin: auto 20rpx;
+    font-size: 30rpx;
+    font-weight: 500;
+    color: #666;
 }
-.food-name{
-  margin:auto 20rpx;
-  font-size: 35rpx;
-  font-weight: 500;
-  color:#222;
+
+.food-name {
+    margin: auto 20rpx;
+    font-size: 35rpx;
+    font-weight: 500;
+    color: #222;
 }
-.food-count{
-  margin:auto 50rpx;
-  font-size: 35rpx;
-  font-weight: 500;
-  color:#222;
+
+.food-count {
+    margin: auto 50rpx;
+    font-size: 35rpx;
+    font-weight: 500;
+    color: #222;
 }
-.food-item-count{
-  text-align: right;
-  font-size: 30rpx;
-  font-weight: 500;
-  color:#222;
+
+.food-item-count {
+    text-align: right;
+    font-size: 30rpx;
+    font-weight: 500;
+    color: #222;
 }
-.food-des{
-  font-size: 30rpx;
-  font-weight: 500;
-  color:#222;
+
+.food-des {
+    font-size: 30rpx;
+    font-weight: 500;
+    color: #222;
 }
+
+
 /* 各种按钮 */
-.button-wrapper{
-  display: flex;
-  justify-content:flex-end;
-  padding-top: 10rpx;
-}
-.button{
-  flex: 0 0 150rpx;
-  width: 50rpx;
-  margin: 5rpx 0 0 20rpx;
-  padding: 0 5rpx;
-  height:70rpx;
-  line-height: 70rpx;
-  text-align: center;
-  background-color: #e79b37;
-  border-radius: 10rpx;
-  color: #FFF;
-  font-weight: bold;
-  font-size: 30rpx;
+
+.button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 10rpx;
 }
 
-
-
-
-
-
+.button {
+    /* flex: 0 0 150rpx; */
+    /* width: 50rpx; */
+    margin: 5rpx 0 0 20rpx;
+    padding: 0 10rpx;
+    height: 70rpx;
+    line-height: 70rpx;
+    /* text-align: center; */
+    background-color: #e79b37;
+    border-radius: 10rpx;
+    color: #fff;
+    /* font-weight: bold; */
+    font-size: 30rpx;
+}

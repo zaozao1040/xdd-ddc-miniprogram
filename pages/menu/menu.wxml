@@ -1,4 +1,26 @@
-<view class="wrapper" bindtap="handleCloseTimeBar">
+<view class="wrapper">
+    <view class="mask" catchtap="handleCloseTimeBarAndCart" wx:if="{{boxActiveFlag||timeBarShow}}" catchtouchmove="preventTouchMove"></view>
+    <view style="position:fixed;left:0;right:0;top:70rpx;z-index:1001;border:1rpx solid #efa731;" wx:if="{{timeBarShow}}">
+        <view style="height:60rpx;line-height:60rpx;color:#ffffff;background:#efa731;text-align:center;">选择日期</view>
+        <view style="padding:15rpx 38rpx;display:flex;justify-content: space-between;background:#f8f1e6;">
+            <view style="width:70rpx;height:70rpx; text-align:center;background:{{timeActiveFlag==timeInfoIndex?'#efa731':''}};border-radius:50%;" wx:for="{{timeInfo.userOrderDateVO}}" wx:for-index="timeInfoIndex" wx:for-item="timeInfoItem" wx:key="timeInfoIndex"
+                data-timeindex="{{timeInfoIndex}}" data-arrangedate="{{timeInfoItem.date}}" data-dateweak="{{timeInfoItem.dateWeak}}" bindtap="handleChangeTimeActive" data-dateshow="{{timeInfoItem.dateShort}}">
+                <view style="font-size:30rpx;color:#333333; "> {{timeInfoItem.dateShortShort}} </view>
+                <view style="font-size:20rpx;color:#333333;">
+                    <block wx:if="{{timeInfoIndex==0}}" selectable="false" space="false" decode="false">
+                        今天
+                    </block>
+                    <block wx:elif="{{timeInfoItem.dateShortShort=='01'}}" selectable="false" space="false" decode="false">
+                        下个月
+                    </block>
+                    <block wx:else>
+                        {{timeInfoItem.dateWeak}}
+                    </block>
+                </view>
+            </view>
+        </view>
+    </view>
+
     <scroll-view scroll-y style="height: {{windowHeight}}px;" scroll-into-view="{{mainView}}">
         <!-- 日期 -->
         <view style="padding:24rpx 24rpx 20rpx;display:flex;justify-content: space-between;font-size:26rpx;" id="main0">
@@ -14,49 +36,27 @@
             <view style="color:#333333;" bindtap="handleChangeTimeActiveNext" wx:if="{{timeActiveFlag<6}}">下一天</view>
             <view style="color:#cccccc;" wx:else>下一天</view>
         </view>
-        <!-- 【七天日期】 -->
-        <view style="position:absolute;left:0;right:0;margin:auto;width:550rpx;z-index:1001;border:1rpx solid #efa731;" wx:if="{{timeBarShow}}">
-            <view style="height:60rpx;line-height:60rpx;color:#ffffff;background:#efa731;text-align:center;">选择日期</view>
-            <view style="padding:15rpx 38rpx;display:flex;justify-content: space-between;background:#ffffff;">
-                <view style="width:70rpx;height:70rpx; text-align:center;background:{{timeActiveFlag==timeInfoIndex?'#efa731':''}};border-radius:50%;" wx:for="{{timeInfo.userOrderDateVO}}" wx:for-index="timeInfoIndex" wx:for-item="timeInfoItem" wx:key="timeInfoIndex"
-                    data-timeindex="{{timeInfoIndex}}" data-arrangedate="{{timeInfoItem.date}}" data-dateweak="{{timeInfoItem.dateWeak}}" bindtap="handleChangeTimeActive">
-                    <view style="font-size:30rpx;color:#333333; "> {{timeInfoItem.dateShortShort}} </view>
-                    <view style="font-size:20rpx;color:#333333;">
-                        <block wx:if="{{timeInfoIndex==0}}" selectable="false" space="false" decode="false">
-                            今天
-                        </block>
-                        <block wx:elif="{{timeInfoItem.dateShortShort=='01'}}" selectable="false" space="false" decode="false">
-                            下个月
-                        </block>
-                        <block wx:else>
-                            {{timeInfoItem.dateWeak}}
-                        </block>
-                    </view>
-
-                </view>
-            </view>
-        </view>
         <!-- 【第二排】 餐品类型 -->
         <view style="background:#f1eeef;padding:16rpx 24rpx;display:flex;justify-content: space-between;font-size:26rpx;">
-            <view wx:if="{{timeInfo.userOrderMealTypeVO.BREAKFAST}}" class="foodType-item2 {{foodtypeActiveFlag==0?'foodtypeActive2':''}}" data-foodtypeindex="0" data-mealtype="BREAKFAST" data-mealtypechdes="早餐" bindtap="handleChangeFoodtypeActive">
+            <view wx:if="{{timeInfo.userOrderMealTypeVO.BREAKFAST}}" class="{{foodtypeActiveFlag==0?'foodtypeActive2':'foodType-item2'}}" data-foodtypeindex="0" data-mealtype="BREAKFAST" data-mealtypechdes="早餐" bindtap="handleChangeFoodtypeActive">
                 早餐
             </view>
             <view wx:else class="foodType-item2}}" style="background:#9f9f9f;">
                 早餐
             </view>
-            <view wx:if="{{timeInfo.userOrderMealTypeVO.LUNCH}}" class="foodType-item2 {{foodtypeActiveFlag==1?'foodtypeActive2':''}}" data-foodtypeindex="1" data-mealtype="LUNCH" data-mealtypechdes="午餐" bindtap="handleChangeFoodtypeActive">
+            <view wx:if="{{timeInfo.userOrderMealTypeVO.LUNCH}}" class="{{foodtypeActiveFlag==1?'foodtypeActive2':'foodType-item2'}}" data-foodtypeindex="1" data-mealtype="LUNCH" data-mealtypechdes="午餐" bindtap="handleChangeFoodtypeActive">
                 午餐
             </view>
             <view wx:else class="foodType-item2}}" style="background:#9f9f9f;">
                 午餐
             </view>
-            <view wx:if="{{timeInfo.userOrderMealTypeVO.DINNER}}" class="foodType-item2 {{foodtypeActiveFlag==2?'foodtypeActive2':''}}" data-foodtypeindex="2" data-mealtype="DINNER" data-mealtypechdes="晚餐" bindtap="handleChangeFoodtypeActive">
+            <view wx:if="{{timeInfo.userOrderMealTypeVO.DINNER}}" class="{{foodtypeActiveFlag==2?'foodtypeActive2':'foodType-item2'}}" data-foodtypeindex="2" data-mealtype="DINNER" data-mealtypechdes="晚餐" bindtap="handleChangeFoodtypeActive">
                 晚餐
             </view>
             <view wx:else class="foodType-item2}}" style="background:#9f9f9f;">
                 晚餐
             </view>
-            <view wx:if="{{timeInfo.userOrderMealTypeVO.NIGHT}}" class="foodType-item2 {{foodtypeActiveFlag==3?'foodtypeActive2':''}}" data-foodtypeindex="3" data-mealtype="NIGHT" data-mealtypechdes="夜宵" bindtap="handleChangeFoodtypeActive">
+            <view wx:if="{{timeInfo.userOrderMealTypeVO.NIGHT}}" class="{{foodtypeActiveFlag==3?'foodtypeActive2':'foodType-item2'}}" data-foodtypeindex="3" data-mealtype="NIGHT" data-mealtypechdes="夜宵" bindtap="handleChangeFoodtypeActive">
                 夜宵
             </view>
             <view wx:else class="foodType-item2}}" style="background:#9f9f9f;">
@@ -73,45 +73,71 @@
                     <image src="../../images/menu/noorder.png" style="height:263rpx;width:340rpx;"></image>
                 </view>
                 <view style="text-align: center;width:100%;color:#707070;font-size:24rpx;"><text>* </text><text decode>我爱你就是 想把最好吃的都留给你</text><text> *</text></view>
-
-                <view style="display: flex;padding-left:160rpx;margin-top:90rpx;">
-                    <text style="line-height:70rpx;height:70rpx;width:180rpx;text-align: center;text-shadow:1rpx 1rpx 1rpx #fff;background:linear-gradient(#f1b243,#eb9726 );font-size:30rpx;margin-right:70rpx;color:#fff; border-radius:10rpx;box-shadow:0 10rpx 8rpx #d6d3ce;">预定晚餐</text>
-                    <text style="line-height:70rpx;height:70rpx;width:180rpx;text-align: center;text-shadow:1rpx 1rpx 1rpx #fff;background:linear-gradient(#f1b243,#eb9726 );font-size:30rpx;color:#fff; border-radius:10rpx;box-shadow:0 10rpx 8rpx #d6d3ce;">预定明天</text>
+                <!--我们这个逻辑总是会有预定明天的吧，不用判断预定明天吧-->
+                <!-- <view class="noorder-button-wrapper" wx:if="{{allFoodtype[foodtypeActiveFlag+1].flag|| timeActiveFlag<6 }}">
+                    <text class="noorder-button" style="margin-right:70rpx;"> 预定{{allFoodtype[foodtypeActiveFlag+1].name}} </text>
+                    <text class="noorder-button">预定明天</text>
+                </view>
+                <view class="noorder-button-wrapper" wx:elif="{{timeActiveFlag<6}}">
+                    <text class="noorder-button" style='margin-left:125rpx;'>预定明天</text>
+                </view>
+                <view class="noorder-button-wrapper" wx:elif="{{allFoodtype[foodtypeActiveFlag+1].flag}}">
+                    <text class="noorder-button" style='margin-left:125rpx;'>预定{{allFoodtype[foodtypeActiveFlag+1].name}}</text>
+                </view> -->
+                <view class="noorder-button-wrapper" wx:if="{{allFoodtype[foodtypeActiveFlag+1].flag}}">
+                    <view class="noorder-button" style="margin-right:70rpx;" data-foodtypeindex="{{foodtypeActiveFlag+1}}" data-mealtype="{{allFoodtype[foodtypeActiveFlag+1].mealtype}}" data-mealtypechdes="{{allFoodtype[foodtypeActiveFlag+1].name}}" bindtap="handleChangeFoodtypeActive">
+                        预定{{allFoodtype[foodtypeActiveFlag+1].name}} </view>
+                    <view class="noorder-button" bindtap="handleChangeTimeActiveNext">预定明天</view>
+                </view>
+                <view class="noorder-button-wrapper" wx:else>
+                    <view class="noorder-button" style='margin-left:125rpx;' bindtap="handleChangeTimeActiveNext">预定明天</view>
                 </view>
             </view>
             <block wx:else>
                 <!-- 左边菜品分类 -->
+                <!--神奇了，有购物车图标的时候，下面这个view的高度就是windowHeight，没有就比windowHeight高，就算设置了height:{{windowHeight}}px也一样-->
                 <view style="width:112rpx;flex-grow:1;">
-                    <view style="height:92rpx;width:156rpx;" wx:if="{{countDownShow}}">
-                        <view style="padding-left:14rpx; "><text style="font-size:13rpx;color:gray;">订餐</text><text style="font-size:22rpx;color:#333333;">倒计时</text></view>
-                        <view style="padding-left:1rpx; font-size:16rpx;color:#ff0000;"> {{countDownTime}}</view>
-                    </view>
-                    <view style="height:92rpx;width:156rpx;" wx:else>
-                        <view style="padding-left:14rpx; "> <text style="font-size:22rpx;color:#333333;">截止日期</text></view>
-                        <view style="padding-left:1rpx; font-size:16rpx;color:#ff0000;">{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].deadlineDes}}</view>
-                    </view>
-                    <scroll-view scroll-y style="height: {{top_2  }}px;background:#f1eeef;">
-                        <view style="margin-top:18rpx;height:100rpx;width:112rpx;text-align:center;font-size:20rpx; " class="{{menutypeActiveFlag==menutypeIndex?'menutypeActive':''}}" data-menutypeindex="{{menutypeIndex}}" bindtap="handleChangeMenutypeActive" wx:for="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].foods}}"
-                            wx:for-item="menutypeItem" wx:for-index="menutypeIndex" wx:key="menutypeIndex">
-                            <view style="padding-top:10rpx;">
-                                <!-- <image src="{{menutypeItem.categoryImage}}" style="width:50rpx;height:50rpx;"></image> -->
-                                <image src="../../images/menu/categoryImage.png" style="width:40rpx;height:40rpx;"></image>
-                            </view>
-                            <view style=" line-height: 50rpx;">{{menutypeItem.categoryName}}</view>
+                    <view class="time_c_scrollPosition_forCalculate">
+                        <view style="height:92rpx;width:156rpx;" wx:if="{{countDownShow}}">
+                            <view style="padding-left:14rpx; "><text style="font-size:13rpx;color:gray;">订餐</text><text style="font-size:22rpx;color:#333333;">倒计时</text></view>
+                            <view style="padding-left:1rpx; font-size:16rpx;color:#ff0000;"> {{countDownTime}}</view>
                         </view>
+                        <view style="height:92rpx;width:156rpx;" wx:else>
+                            <view style="padding-left:14rpx; "> <text style="font-size:22rpx;color:#333333;">截止日期</text></view>
+                            <view style="padding-left:1rpx; font-size:16rpx;color:#ff0000;">{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].deadlineDes}}</view>
+                        </view>
+                        <view style=" height:18rpx;width:112rpx;background:#f1eeef;"></view>
+                    </view>
+                    <scroll-view scroll-y style="height: {{windowHeight-time_remind_height}}px;background:#f1eeef;" scroll-into-view="category{{menutypeActiveFlag}}">
+                        <view id="category{{menutypeIndex}}" style=" padding-bottom:18rpx;height:100rpx;width:112rpx;text-align:center;font-size:20rpx;" class="{{menutypeActiveFlag==menutypeIndex?'menutypeActive':''}}" data-menutypeindex="{{menutypeIndex}}" bindtap="handleChangeMenutypeActive"
+                            wx:for="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].foods}}" wx:for-item="menutypeItem" wx:for-index="menutypeIndex" wx:key="menutypeIndex">
+                            <view style="height:25rpx;" wx:if="{{cacheMenuCountAll[timeActiveFlag][foodtypeActiveFlag][menutypeIndex]>0}}">
+                                <view style="margin-right:6rpx;float:right;font-size:20rpx;color:#fff;background: red;padding:0 6rpx;line-height: 25rpx;border-radius:40%;">{{cacheMenuCountAll[timeActiveFlag][foodtypeActiveFlag][menutypeIndex]}}</view>
+                            </view>
+                            <view wx:else style="height:25rpx;"></view>
+                            <view>
+                                <!-- <image src="{{menutypeItem.categoryImage}}" style="width:40rpx;height:40rpx;"></image> -->
+                                <image src="../../images/menu/{{menutypeItem.categoryName}}.png" style="width:40rpx;height:40rpx;"></image>
+                            </view>
+                            <view style=" line-height: 35rpx;">{{menutypeItem.categoryName}}</view>
+                        </view>
+                        <view wx:if="{{totalCount>0}}" style="margin-top:18rpx;height:100rpx;width:112rpx;">
+                        </view>
+                        <!-- <view wx:else style="margin-top:18rpx;height:10rpx;width:112rpx;background:red;">
+                        </view> -->
                     </scroll-view>
                 </view>
                 <!-- 右边具体菜品 -->
                 <view style="width:638rpx;flex-grow:1;">
                     <!-- 标签过滤 -->
-                    <view style="display:flex;padding:16rpx 28rpx 18rpx 44rpx;justify-content: space-between;" class="c_labelPosition_forCalculate" wx:if="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].orderFlag}}">
+                    <view id="label" class="label_c_labelPosition_forCalculate" style="display:flex;padding:16rpx 28rpx 18rpx 44rpx;justify-content: space-between;" class="c_labelPosition_forCalculate" wx:if="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].orderFlag}}">
                         <view style="text-align:center;line-height:40rpx;height:40rpx;width:80rpx;font-size:23rpx;color:#333333;border:1rpx solid #dedbdc;border-radius:20rpx;" class=" {{foodLabelItem.active?'foodtypeActive2':''}}" wx:for="{{foodLabels}}" wx:for-item="foodLabelItem"
                             wx:for-index="foodLabelIndex" wx:key="foodLabelIndex" bindtap="handleChangeFoodLabel" data-labelid="{{foodLabelItem.labelId}}" data-labelname="{{foodLabelItem.labelName}}">
                             {{foodLabelItem.labelName}}
                         </view>
                     </view>
 
-                    <scroll-view class="menu-right-item-wrapper" scroll-y scroll-with-animation="true" bindscroll="handleScroll" bindscrolltolower="handleScrolltolower" style="padding-left:16rpx;height: {{top_2 - 30 }}px;" scroll-into-view="{{scrollToView}}">
+                    <scroll-view class="menu-right-item-wrapper" scroll-y scroll-with-animation="true" bindscroll="handleScroll" bindscrolltolower="handleScrolltolower" style="padding-left:16rpx;height: {{top_2-30}}px;" scroll-into-view="{{scrollToView}}">
                         <view class="c_foodPosition_forCalculate right-item" wx:for="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].foods}}" wx:for-item="menutypeItem" wx:for-index="menutypeIndex" wx:key="menutypeIndex">
                             <view id="order{{menutypeIndex}}" style="text-align: center;padding-bottom:18rpx;">
                                 <text class="iconfont icon-jiageprice1" decode style="font-size:20rpx;color:#ce8306;">&nbsp;&nbsp;</text>
@@ -136,11 +162,11 @@
                                             {{foodItem.description}}
                                         </view>
 
-                                        <view style="font-size:20rpx;line-height: 20rpx;padding-bottom:12rpx;">
+                                        <!-- <view style="font-size:20rpx;line-height: 20rpx;padding-bottom:12rpx;">
                                             <image src="../../images/menu/stock.png" style="width:18rpx;height:18rpx; "></image>
                                             <text> 库存 </text><text style="font-size:18rpx; ">   15 </text>
                                             <text decode>&nbsp; &nbsp;   限购 </text><text style="font-size:18rpx; "> 15</text>
-                                        </view>
+                                        </view> -->
 
                                         <view style="font-size:20rpx;line-height: 20rpx;">
                                             <image wx:if="{{foodItem.stock.stockLeftNum!=null||foodItem.stock.homebuyingRestrictions}}" src="../../images/menu/stock.png" style="width:18rpx;height:18rpx; "></image>
@@ -153,7 +179,7 @@
                                         </view>
                                     </view>
                                     <view style="display: flex;justify-content:space-between; ">
-                                        <view style="display: flex;">
+                                        <view style="display: flex;padding-top:10rpx;">
                                             <view>
                                                 <text style="font-size: 16rpx; color:#ce8307;">￥</text><text style="font-size: 36rpx; color:#ce8307;">{{foodItem.foodPrice}}</text>
                                             </view>
@@ -163,16 +189,21 @@
                                         </view>
                                         <!-- ***************  + - 添加、减掉餐品的小控件(菜单中) *************** -->
                                         <view style="padding-right:24rpx;display: flex;">
-                                            <view wx:if="{{foodItem.foodCount>0}}" style="font-size:50rpx;color:#ce8307;" class='iconfont icon-jian-xianxingyuankuang' data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}" data-day="{{timeActiveFlag}}" data-daydes="{{timeDesActive}}"
-                                                data-foodtype="{{foodtypeActiveFlag}}" data-foodtypedes="{{foodtypeDesActive}}" data-foodcode="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}" data-stockleftnum="{{foodItem.stock.stockLeftNum}}"
-                                                data-homebuyingrestrictions="{{foodItem.stock.homebuyingRestrictions}}" data-foodimage="{{foodItem.foodImage}}" catchtap="handleMinusfood">
+
+                                            <view wx:if="{{foodItem.foodCount>0}}" style="padding-left:10rpx;padding-top:10rpx;font-size:46rpx;color:#ce8307;" class='iconfont icon-jian-xianxingyuankuang' data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}" data-day="{{timeActiveFlag}}"
+                                                data-daydes="{{timeDesActive}}" data-dayshort="{{timeDesActiveShow}}" data-dayweek="{{timeWeakDesActive}}" data-foodtype="{{foodtypeActiveFlag}}" data-foodtypedes="{{foodtypeDesActive}}" data-foodcode="{{foodItem.foodCode}}"
+                                                data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}" data-stockleftnum="{{foodItem.stock.stockLeftNum}}" data-homebuyingrestrictions="{{foodItem.stock.homebuyingRestrictions}}" data-foodimage="{{foodItem.foodImage}}"
+                                                catchtap="handleMinusfood">
                                             </view>
-                                            <view wx:if="{{foodItem.foodCount>0}}" style="font-size:50rpx;line-height:50rpx;width:60rpx;text-align: center;color:#222;">
+
+                                            <view wx:if="{{foodItem.foodCount>0}}" style="padding-top:15rpx;font-size:30rpx; width:60rpx;text-align: center;color:#333;">
                                                 {{foodItem.foodCount}}
                                             </view>
-                                            <view style="font-size:50rpx;color:#ce8307;" class='iconfont icon-jia-yuankuang' data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}" data-day="{{timeActiveFlag}}" data-daydes="{{timeDesActive}}" data-foodtype="{{foodtypeActiveFlag}}"
-                                                data-foodtypedes="{{foodtypeDesActive}}" data-foodcode="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}" data-stockleftnum="{{foodItem.stock.stockLeftNum}}"
-                                                data-quotanum="{{foodItem.quotaNum}}" data-foodimage="{{foodItem.foodImage}}" data-homebuyingrestrictions="{{foodItem.stock.homebuyingRestrictions}}" catchtap="handleAddfood">
+
+                                            <view style="padding-right:20rpx;padding-top:10rpx;font-size:46rpx;color:#ce8307;" class='iconfont icon-jia-yuankuang' data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}" data-day="{{timeActiveFlag}}" data-daydes="{{timeDesActive}}"
+                                                data-foodtype="{{foodtypeActiveFlag}}" data-dayshort="{{timeDesActiveShow}}" data-dayweek="{{timeWeakDesActive}}" data-foodtypedes="{{foodtypeDesActive}}" data-foodcode="{{foodItem.foodCode}}" data-foodprice="{{foodItem.foodPrice}}"
+                                                data-foodname="{{foodItem.foodName}}" data-stockleftnum="{{foodItem.stock.stockLeftNum}}" data-quotanum="{{foodItem.quotaNum}}" data-foodimage="{{foodItem.foodImage}}" data-homebuyingrestrictions="{{foodItem.stock.homebuyingRestrictions}}"
+                                                catchtap="handleAddfood">
                                             </view>
                                         </view>
                                     </view>
@@ -186,135 +217,77 @@
     </scroll-view>
 
 
-    <!-- 【【另一个页面】】 购物车 -->
-    <view class="cart-wrapper" wx:if="{{boxActiveFlag}}">
-        <view class="cart-title c_scrollPosition_1_forCalculate">
-            <view class="cart-title-left">
-                购物车
-            </view>
-            <view class="cart-title-right" bindtap="handleClearFoods">
-                <text class='iconfont icon-trash_fill'></text> 清空
-            </view>
-        </view>
-        <view class="cart-content-empty" wx:if="{{selectedFoods.length==0}}">
-            <!-- 购物车空 情况下展示一张大图 -->
-            <image class="" mode="widthFix" src="../../images/menu/emptycart.png" style="width:100%;height: {{top_2 - top_1}}px;"></image>
-        </view>
-        <scroll-view scroll-y class="cart-content" wx:else style="height: {{top_2 - top_1}}px;">
-            <view class="cart-day-wrapper" wx:for="{{selectedFoods}}" wx:for-item="selectedfoodsItem" wx:for-index="selectedfoodsIndex" wx:key="selectedfoodsIndex">
-                <view class="cart-day-title">
-                    {{selectedfoodsItem.dayDes}}
-                </view>
-                <view class="cart-day-content" wx:for="{{selectedfoodsItem.dayInfo}}" wx:for-item="foodtypeItem" wx:for-index="foodtypeIndex" wx:key="foodtypeIndex">
-                    <view class="cart-menutype">
-                        <text class="iconfont-title-{{mapMenutypeIconName[foodtypeItem.foodType]}}">{{mapMenutype[foodtypeItem.foodType]}}</text>
-                        <view class="iconfont iconfont-{{mapMenutypeIconName[foodtypeItem.foodType]}} icon-{{mapMenutypeIconName[foodtypeItem.foodType]}}"></view>
-                    </view>
-                    <view class="cart-menu">
-                        <view>
-                            <view class="cart-menuItem" wx:for="{{foodtypeItem.foodTypeInfo}}" wx:for-item="foodtypeinfoItem" wx:for-index="foodtypeinfoIndex" wx:key="foodtypeinfoIndex">
-                                <view class="cart-menuItem-left">
-                                    <image class="cart-menuItem-img" src="{{foodtypeinfoItem.foodImage}}"></image>
-                                </view>
-                                <view class="cart-menuItem-right">
-                                    <view class="cart-menuItemDes">
-                                        {{foodtypeinfoItem.foodName}}
-                                    </view>
-                                    <view class="cart-menuItemTotalmoney" wx:if="{{foodtypeinfoItem.foodCount>0}}">
-                                        <text style="color:#F56C6C;font-size:40rpx;">¥{{foodtypeinfoItem.foodTotalPrice}}</text>
-                                    </view>
-                                    <!-- ***************  + - 添加、减掉餐品的小控件(购物车中) *************** -->
-                                    <view class="num-control-cart">
-                                        <view wx:if="{{foodtypeinfoItem.foodCount>=0}}" style="display: inline-block;font-size:50rpx;float: right" class='iconfont icon-jia-yuankuang' data-menutypeindex="{{foodtypeinfoItem.__menutype_index}}" data-foodindex="{{foodtypeinfoItem.__food_index}}"
-                                            data-day="{{selectedfoodsItem.day}}" data-daydes="{{selectedfoodsItem.dayDes}}" data-foodtype="{{foodtypeItem.foodType}}" data-foodtypedes="{{foodtypeItem.foodTypeDes}}" data-foodcode="{{foodtypeinfoItem.foodCode}}"
-                                            data-foodprice="{{foodtypeinfoItem.foodPrice}}" data-foodname="{{foodtypeinfoItem.foodName}}" data-stockleftnum="{{foodItem.stock.stockLeftNum}}" data-homebuyingrestrictions="{{foodtypeinfoItem.stock.homebuyingRestrictions}}"
-                                            data-foodimage="{{foodtypeinfoItem.foodImage}}" catchtap="handleAddfood">
-                                        </view>
-                                        <view wx:if="{{foodtypeinfoItem.foodCount>0}}" style="display: inline-block;font-size:50rpx;width:60rpx;text-align: center;float: right;color:#222;" class="num">
-                                            {{foodtypeinfoItem.foodCount}}
-                                        </view>
-                                        <view wx:if="{{foodtypeinfoItem.foodCount>0}}" style="display: inline-block;font-size:50rpx;float: right" class='iconfont icon-jian-xianxingyuankuang' data-menutypeindex="{{foodtypeinfoItem.__menutype_index}}" data-foodindex="{{foodtypeinfoItem.__food_index}}"
-                                            data-day="{{selectedfoodsItem.day}}" data-daydes="{{selectedfoodsItem.dayDes}}" data-foodtype="{{foodtypeItem.foodType}}" data-foodtypedes="{{foodtypeItem.foodTypeDes}}" data-foodcode="{{foodtypeinfoItem.foodCode}}"
-                                            data-foodprice="{{foodtypeinfoItem.foodPrice}}" data-foodname="{{foodtypeinfoItem.foodName}}" data-stockleftnum="{{foodItem.stock.stockLeftNum}}" data-homebuyingrestrictions="{{foodtypeinfoItem.stock.homebuyingRestrictions}}"
-                                            data-foodimage="{{foodtypeinfoItem.foodImage}}" catchtap="handleMinusfood">
-                                        </view>
-                                    </view>
-                                </view>
-                            </view>
-                        </view>
-                        <view class="cart-amount" wx:if="{{foodtypeItem.organizeMealLabel!=0}}">
-                            <view wx:if="{{foodtypeItem.mealLabelFlag==true}}" style="display:inline-block;font-size:30rpx;margin-right: 10rpx;color:#666;">
-                                企业将减免额度¥
-                                <block wx:if="{{foodtypeItem.organizeMealLabel > foodtypeItem.foodTypeTotalRealMoney}}">
-                                    <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;">
-                                        -{{foodtypeItem.foodTypeTotalRealMoney}}
-                                    </view>
-                                    <view style="display:inline-block;color:#666;font-size:30rpx;margin-right: 10rpx;">
-                                        (最高减免¥<text sytle="color:#222;">{{foodtypeItem.organizeMealLabel}}</text>)
-                                    </view>
-                                </block>
-                                <block wx:else>
-                                    <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;">
-                                        -{{foodtypeItem.organizeMealLabel}}
-                                    </view>
-                                </block>
-                            </view>
-                            <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;" wx:else>
-                                当前额度已被使用
-                            </view>
-                        </view>
-                    </view>
-                </view>
-            </view>
-            <!-- 合计 -->
-            <view class="total-wrapper">
-                <view class="total-left">
-                    合计
-                </view>
-                <view class="total-right">
-                    <view class="total-right-line line1">
-                        <view class="">
-                            总额
-                        </view>
-                        <view class="">
-                            <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:#fff;">{{totalMoney}}</text>
-                        </view>
-                    </view>
-                    <block wx:if="{{totalMoneyRealDeduction!=0}}">
-                        <view class="total-right-line line2">
-                            <view class="">
-                                企业总抵扣
-                            </view>
-                            <view class="">
-                                <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text>
-                                <text wx:if="{{totalMoneyRealDeduction!=0}}" style="font-size: 35rpx;color:#fff;">-{{totalMoneyRealDeduction}}</text>
-                                <text wx:else style="font-size: 35rpx;color:#fff;">0</text>
-                            </view>
-                        </view>
-                    </block>
-                    <view class="total-right-line line3">
-                        <view class="">
-                            实际支付
-                        </view>
-                        <view class="">
-                            <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:#fff;font-weight: 700;">{{realMoney}}</text>
-                        </view>
-                    </view>
-                </view>
-            </view>
-        </scroll-view>
-    </view>
 
     <!-- 【第五排】返回顶部的按钮 -->
     <view wx:if="{{showBackToTopFlag}}" class="backToTop iconfont icon-fanhuidingduan" bindtap="backToTop"></view>
+
+    <!--  弹出 购物车 -->
+    <view class="{{boxActiveFlag?'in':'out'}}" style="position: fixed; bottom: 0; left: 0; right: 0;background:#f8f1e6;padding-bottom:120rpx;z-index:1001;" catchtouchmove="preventTouchMove">
+        <view style="display: flex;padding:20rpx 24rpx 16rpx;justify-content: space-between;">
+            <view style="color:#333333;font-size:24rpx;">
+                已选商品
+            </view>
+            <view bindtap="handleClearFoods" style="color:#ccc;font-size:22rpx;">
+                <text class='iconfont icon-trash_fill'></text> 清空购物车
+            </view>
+        </view>
+
+        <scroll-view scroll-y style="height: {{cartHeight}}px;">
+            <view class="cart_scrollPosition_forCalculate">
+                <view wx:for="{{selectedFoods}}" wx:for-item="selectedfoodsItem" wx:for-index="selectedfoodsIndex" wx:key="selectedfoodsIndex">
+                    <view style="text-align:center;padding:20rpx 0;color:#333;font-size:26rpx;border-top:1rpx solid #ccc;">
+                        <text decode>{{selectedfoodsItem.dayWeek}}&nbsp;&nbsp;({{selectedfoodsItem.dayShort}})</text>
+                    </view>
+                    <view wx:for="{{selectedfoodsItem.dayInfo}}" wx:for-item="foodtypeItem" wx:for-index="foodtypeIndex" wx:key="foodtypeIndex">
+                        <block wx:for="{{foodtypeItem.foodTypeInfo}}" wx:for-item="foodtypeinfoItem" wx:for-index="foodtypeinfoIndex" wx:key="foodtypeinfoIndex">
+                            <view style="display: flex;padding:0 24rpx;justify-content: space-between;padding-bottom:18rpx;">
+                                <view>
+                                    <view style="font-size:24rpx;color:#333;padding-bottom: 12rpx;line-height:24rpx; width:240rpx;overflow:hidden;white-space:nowrap;text-overflow: ellipsis;"> {{foodtypeinfoItem.foodName}}</view>
+                                    <!--菜名-->
+                                    <view style="font-size:20rpx;color:#333;line-height:20rpx; "> <text decode>{{selectedfoodsItem.dayWeek}}&nbsp;&nbsp;({{selectedfoodsItem.dayShort}})</text></view>
+                                </view>
+                                <view style=" padding-top:10rpx;line-height:26rpx;font-size:26rpx;color:#333;font-weight: 800;">
+                                    <!--午餐-->
+                                    {{mapMenutype[foodtypeItem.foodType]}}
+                                </view>
+
+                                <view style=" line-height:46rpx;font-size:30rpx;color:#efa731; width:140rpx;float:left;" wx:if="{{foodtypeinfoItem.foodCount>0}}">
+                                    <!--价格-->
+                                    ¥{{foodtypeinfoItem.foodTotalPrice}}
+                                </view>
+                                <!-- ***************  + - 添加、减掉餐品的小控件(购物车中) *************** -->
+                                <view class="num-control-cart">
+                                    <view wx:if="{{foodtypeinfoItem.foodCount>0}}" style="font-size:44rpx;" class='iconfont icon-jian-xianxingyuankuang' data-menutypeindex="{{foodtypeinfoItem.__menutype_index}}" data-foodindex="{{foodtypeinfoItem.__food_index}}" data-day="{{selectedfoodsItem.day}}"
+                                        data-daydes="{{selectedfoodsItem.dayDes}}" data-foodtype="{{foodtypeItem.foodType}}" data-foodtypedes="{{foodtypeItem.foodTypeDes}}" data-foodcode="{{foodtypeinfoItem.foodCode}}" data-foodprice="{{foodtypeinfoItem.foodPrice}}"
+                                        data-foodname="{{foodtypeinfoItem.foodName}}" data-stockleftnum="{{foodItem.stock.stockLeftNum}}" data-homebuyingrestrictions="{{foodtypeinfoItem.stock.homebuyingRestrictions}}" data-foodimage="{{foodtypeinfoItem.foodImage}}"
+                                        catchtap="handleMinusfoodforCart">
+                                    </view>
+
+                                    <view wx:if="{{foodtypeinfoItem.foodCount>0}}" style="font-size:30rpx;padding-top:1rpx; line-height:45rpx;width:60rpx;text-align: center; color:#222;" class="num">
+                                        {{foodtypeinfoItem.foodCount}}
+
+                                    </view>
+                                    <view wx:if="{{foodtypeinfoItem.foodCount>=0}}" style="font-size:44rpx;" class='iconfont icon-jia-yuankuang' data-menutypeindex="{{foodtypeinfoItem.__menutype_index}}" data-foodindex="{{foodtypeinfoItem.__food_index}}" data-day="{{selectedfoodsItem.day}}"
+                                        data-daydes="{{selectedfoodsItem.dayDes}}" data-foodtype="{{foodtypeItem.foodType}}" data-foodtypedes="{{foodtypeItem.foodTypeDes}}" data-foodcode="{{foodtypeinfoItem.foodCode}}" data-foodprice="{{foodtypeinfoItem.foodPrice}}"
+                                        data-foodname="{{foodtypeinfoItem.foodName}}" data-stockleftnum="{{foodItem.stock.stockLeftNum}}" data-homebuyingrestrictions="{{foodtypeinfoItem.stock.homebuyingRestrictions}}" data-foodimage="{{foodtypeinfoItem.foodImage}}"
+                                        catchtap="handleAddfood">
+                                    </view>
+                                </view>
+                            </view>
+                        </block>
+                    </view>
+                </view>
+            </view>
+
+        </scroll-view>
+    </view>
     <!-- 【第六排】底部状态栏 -->
-    <view class="footer-wrapper c_scrollPosition_2_forCalculate">
+    <view class="footer-wrapper c_scrollPosition_2_forCalculate" wx:if="{{totalCount>0}}">
         <view class="footer-left">
-            <view class="box-wrapper">
-                <view class="box {{boxActiveFlag==true?'boxActive':''}}" bindtap="handleClickBox">
-                    <text class='iconfont icon-gouwuche'></text>
-                    <view class="label" wx:if="{{totalCount>0}}">
-                        {{totalCount}}
+            <view class="{{shakeshake?'cartShake':'box-wrapper'}}">
+                <view class="{{boxActiveFlag==true? 'boxActive': 'box'}} " bindtap="handleClickBox">
+                    <image src="../../images/menu/cart.png " style="height:60rpx;width:60rpx; "></image>
+                    <view class="label" wx:if="{{totalCount>0}}"> {{totalCount}}
                     </view>
                 </view>
             </view>
@@ -322,8 +295,8 @@
         <!-- 购物车激活状态 -->
         <view wx:if="{{boxActiveFlag}}" class="footer-middle" style="display: flex;">
             <view class="middle-2" wx:if="{{totalMoney>0}}">
-                实际需支付:<text style="font-size: 30rpx;color:#fff;" decode>￥&nbsp;</text>
-                <text style="color:#fff;font-weight: 500;font-size:35rpx;">{{realMoney}}</text>
+                企业将抵扣:<text style="font-size: 30rpx;color:#fff;" decode>￥&nbsp;</text>
+                <text style="color:#fff;font-weight: 500;font-size:35rpx;">{{totalMoneyRealDeduction}}</text>
             </view>
         </view>
         <view wx:else class="footer-middle" style="display: flex;">
@@ -344,6 +317,4 @@
             去结算
         </view>
     </view>
-
-
 </view>

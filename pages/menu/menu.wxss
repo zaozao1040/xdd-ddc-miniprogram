@@ -3,9 +3,91 @@
 
 /*zhulili*/
 
-.foodtypeActive2 {
-    background: #ce8306;
-    color: #ffffff;
+.mask {
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.cartShake {
+    animation-name: cartScale;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+    width: 126rpx;
+    height: 126rpx;
+    background-color: black;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    border-radius: 63rpx;
+}
+
+@keyframes cartScale {
+    0% {
+        transform: scale(1);
+    }
+    20% {
+        transform: scale(0.9);
+    }
+    40% {
+        transform: scale(0.8);
+    }
+    60% {
+        transform: scale(1);
+    }
+    80% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.box-wrapper {
+    width: 126rpx;
+    height: 126rpx;
+    background-color: black;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    border-radius: 63rpx;
+}
+
+.in {
+    animation-name: show;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+}
+
+.out {
+    animation-name: fade;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+}
+
+@keyframes show {
+    from {
+        transform: translate(0, 100%);
+    }
+    to {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes fade {
+    from {
+        transform: translate(0, 0);
+    }
+    to {
+        transform: translate(0, 100%);
+    }
 }
 
 .foodType-item2 {
@@ -18,11 +100,48 @@
     line-height: 50rpx;
 }
 
+.foodtypeActive2 {
+    background: #ce8306;
+    color: #ffffff;
+    border-radius: 25rpx;
+    width: 150rpx;
+    height: 50rpx;
+    text-align: center;
+    line-height: 50rpx;
+}
+
+.noorder-button {
+    line-height: 70rpx;
+    height: 70rpx;
+    width: 180rpx;
+    text-align: center;
+    text-shadow: 1rpx 1rpx 1rpx #fff;
+    background: linear-gradient(#f1b243, #eb9726);
+    font-size: 30rpx;
+    color: #fff;
+    border-radius: 10rpx;
+    box-shadow: 0 10rpx 8rpx #d6d3ce;
+}
+
+.noorder-button-wrapper {
+    display: flex;
+    padding: 0 160rpx;
+    margin-top: 90rpx;
+}
+
+.category_item {
+    margin-top: 18rpx;
+    height: 100rpx;
+    width: 112rpx;
+    text-align: center;
+    font-size: 20rpx;
+}
+
 
 /*zhulili*/
 
 .wrapper {
-    padding: 0 5rpx;
+    /* padding: 0 5rpx; */
     background-color: #ffffff;
 }
 
@@ -30,158 +149,20 @@
 /* **********时间********** */
 
 
-/* .time-1{ //---暂时不需要
-  font-size: 30rpx;
-  height: 40rpx;
-} */
-
-.time-2 {
-    display: flex;
-    height: 80rpx;
-}
-
-.timeActive {
-    background-color: rgb(233, 233, 233);
-    color: #e79b37!important;
-    font-weight: 700;
-    box-shadow: 5rpx -3rpx 4rpx #666;
-    /*   text-shadow:2rpx 4rpx 3rpx #666; */
-}
-
-.time-2-item {
-    flex: 1;
-    text-align: center;
-    border-top-left-radius: 20rpx;
-    border-top-right-radius: 20rpx;
-    color: #666;
-}
-
-.time-2-day {
-    padding-bottom: 0;
-    font-size: 40rpx;
-}
-
-.time-2-dayDes {
-    height: 20rpx;
-    font-size: 20rpx;
-    line-height: 20rpx;
-}
-
-
 /* **********餐类********** */
-
-.foodType-wrapper {
-    display: flex;
-    padding-top: 10rpx;
-    background-color: rgb(233, 233, 233);
-    /*  height: 50rpx; */
-}
-
-.foodType-item {
-    flex: 1;
-    height: 60rpx;
-    line-height: 60rpx;
-    font-size: 35rpx;
-    text-align: center;
-    border-top-left-radius: 20rpx;
-    border-top-right-radius: 20rpx;
-    color: #666;
-}
-
-.foodtypeActive {
-    background-color: white;
-    color: #e79b37!important;
-    font-weight: 500;
-    box-shadow: 5rpx -3rpx 4rpx #666;
-    /*   text-shadow:2rpx 4rpx 3rpx #666; */
-}
-
-.iconfont-foodType {
-    font-size: 35rpx;
-}
-
-.time-deadline {
-    background-color: white;
-    text-align: center;
-}
 
 .menu-wrapper {
     display: flex;
-    /* border: white 5rpx solid; */
-}
-
-.menu-wrapper-cannotorder {
-    width: 100%;
-    text-align: center;
 }
 
 
 /* 左边菜单 */
-
-.menu-left {
-    width: 20%;
-    background-color: rgb(233, 233, 233);
-}
-
-.left-item {
-    vertical-align: middle;
-    padding: 40rpx 15rpx;
-    font-size: 25rpx;
-    overflow: hidden;
-    color: #666;
-}
 
 .menutypeActive {
     background-color: white;
     color: #e79b37;
     text-align: center;
     font-size: 22rpx;
-    /* font-weight: 500;
-    box-shadow: 5rpx -3rpx 4rpx #666; */
-    /*  text-shadow:2rpx 4rpx 3rpx #666; */
-}
-
-.menu-right {
-    width: 80%;
-    background-color: rgb(233, 233, 233);
-}
-
-.menu-label-wrapper {
-    display: flex;
-    background: #fff;
-    border-bottom-left-radius: 20rpx;
-    height: 30px;
-}
-
-.label-item {
-    flex: 1;
-    box-sizing: border-box;
-    margin: 2px 4px;
-    border: 1px solid #eee;
-    border-radius: 13px;
-    height: 26px;
-    line-height: 26px;
-    text-align: center;
-    font-size: 15px;
-    font-weight: 400;
-    color: #666;
-}
-
-.labelActive {
-    background: #e79b37;
-    color: #fff;
-    border: none;
-    /*   box-shadow: 5rpx -3rpx 8rpx #666;
-  text-shadow:2rpx 4rpx 3rpx #666; */
-}
-
-.right-item-text {
-    padding: 10rpx 30rpx;
-    height: 30rpx;
-    line-height: 30rpx;
-    font-size: 30rpx;
-    text-align: center;
-    color: #666;
 }
 
 .food-wrapper-nofood {
@@ -196,92 +177,13 @@
     color: #242424;
 }
 
-
-/* .food-wrapper:last-child {
-    border-bottom-left-radius: 30rpx;
-} */
-
-.food-wrapper {
-    display: flex;
-    padding: 10rpx 10rpx;
-    width: 100%;
-    border-bottom: rgb(233, 233, 233) 5rpx solid;
-    background-color: white;
-}
-
-.img-wrapper {
-    position: relative;
-    width: 30%;
-    height: 0;
-    padding-bottom: 30%;
-}
-
-.food-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-
-/* .food-wrapper:last-child image {
-    border-bottom-left-radius: 30rpx;
-} */
-
-.food-info-wrapper {
-    position: relative;
-    width: 70%;
-    padding: 0 20rpx;
-    box-sizing: border-box;
-}
-
-.food-name {
-    font-size: 30rpx;
-    font-weight: 700;
-    height: 30rpx;
-    line-height: 30rpx;
-}
-
 .food-desc {
-    /*   padding-top: 10rpx; */
     font-size: 20rpx;
-    /* color: #666666; */
     font-weight: 400;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     padding-bottom: 12rpx;
-}
-
-.merchant {
-    display: table;
-    padding: 2rpx 0;
-}
-
-.icon-merchant {
-    display: table-cell;
-    vertical-align: middle;
-    font-size: 30rpx;
-    color: #e79b37;
-    height: 35rpx;
-    line-height: 35rpx;
-}
-
-.merchantName {
-    display: table-cell;
-    vertical-align: middle;
-    font-size: 20rpx;
-    height: 35rpx;
-    line-height: 35rpx;
-    padding: 0 20rpx;
-    color: #666;
-    background: rgb(209, 231, 247);
-    border-radius: 6rpx;
-}
-
-.foodLimitNum {
-    display: flex;
 }
 
 .stockLeftNum {
@@ -299,20 +201,6 @@
     color: #666;
 }
 
-.price {
-    position: absolute;
-    left: 20rpx;
-    bottom: 0;
-    font-size: 25rpx;
-    color: #666666;
-}
-
-.price-real {
-    display: inline-block;
-    color: #F56C6C;
-    font-size: 30rpx;
-}
-
 .price-original {
     display: inline-block;
     margin-left: 20rpx;
@@ -322,14 +210,6 @@
 
 
 /* + - **********控件********** */
-
-.num-control {
-    position: absolute;
-    right: 30rpx;
-    bottom: -5rpx;
-    font-size: 0;
-    color: #e79b37;
-}
 
 
 /* **********底部状态栏********** */
@@ -342,7 +222,7 @@
     height: 80rpx;
     font-size: 80rpx;
     color: #e79b37;
-    z-index: 99;
+    z-index: 90;
 }
 
 
@@ -355,6 +235,7 @@
     bottom: 0;
     display: flex;
     height: 90rpx;
+    z-index: 1002;
 }
 
 .footer-left {
@@ -377,18 +258,9 @@
     height: 90rpx;
     line-height: 90rpx;
     font-size: 40rpx;
-    font-weight: 600;
+    font-weight: 500;
     color: white;
-}
-
-.box-wrapper {
-    width: 130rpx;
-    height: 130rpx;
-    background-color: black;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    border-radius: 65rpx;
+    width: 200rpx;
 }
 
 .box {
@@ -398,70 +270,36 @@
     position: absolute;
     right: 15rpx;
     bottom: 15rpx;
-    border-radius: 50rpx;
+    border-radius: 50%;
     box-sizing: border-box;
     padding: 20rpx;
 }
 
 .boxActive {
     background-color: #e79b37;
+    width: 100rpx;
+    height: 100rpx;
+    position: absolute;
+    right: 15rpx;
+    bottom: 15rpx;
+    border-radius: 50%;
+    box-sizing: border-box;
+    padding: 20rpx;
 }
 
 .label {
-    width: 60rpx;
     height: 40rpx;
     border-radius: 25rpx;
     background: #F56C6C;
     position: absolute;
     right: -10rpx;
     top: -10rpx;
-    text-align: center;
-    font-size: 40rpx;
+    /* text-align: center; */
+    font-size: 30rpx;
     line-height: 40rpx;
     color: white;
     font-weight: 400;
-}
-
-.icon-gouwuche {
-    font-size: 60rpx;
-    color: white;
-}
-
-.middle-0 {
-    flex: 3;
-    width: 100%;
-    text-align: right;
-    margin: auto;
-    font-size: 40rpx;
-    color: #F56C6C;
-    font-weight: 700;
-    display: table;
-}
-
-.middle-0-des {
-    font-size: 30rpx;
-    color: #999;
-    display: table-cell;
-    vertical-align: middle;
-}
-
-.middle-0-money {
-    display: table-cell;
-    vertical-align: middle;
-    padding: 20rpx;
-    width: 40rpx;
-}
-
-.middle-1 {
-    flex: 3;
-    text-align: center;
-    margin: 20rpx 0 20rpx 0;
-    font-size: 40rpx;
-    height: 50rpx;
-    line-height: 50rpx;
-    color: #F56C6C;
-    border-right: #666666 1rpx solid;
-    font-weight: 700;
+    padding: 0 15rpx;
 }
 
 .middle-2 {
@@ -480,168 +318,6 @@
 
 
 /* **********购物车********** */
-
-.cart-wrapper {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #eee;
-}
-
-.cart-title {
-    display: flex;
-    justify-content: space-between;
-    height: 80rpx;
-    line-height: 60rpx;
-    font-weight: 500;
-    background-color: #e79b37;
-    padding: 10rpx 50rpx;
-    box-sizing: border-box;
-}
-
-.cart-title-left {
-    font-size: 35rpx;
-    color: white;
-}
-
-.cart-title-right {
-    font-size: 30rpx;
-    color: white;
-}
-
-.cart-content {
-    /*   padding:0 10rpx; */
-    box-sizing: border-box;
-}
-
-.cart-day-wrapper {
-    background-color: #fff;
-    /*   border-radius:10rpx; */
-    /*   margin-top:10rpx; */
-    /*   box-shadow:2rpx 10rpx 10rpx #666; */
-    /*   margin-bottom:15rpx;   */
-}
-
-.cart-day-title {
-    margin-left: 10rpx;
-    font-size: 35rpx;
-    color: #222;
-    font-weight: 400;
-}
-
-.cart-day-content {
-    display: flex;
-    margin: 10rpx 10rpx 0 20rpx;
-    border-bottom: #dddddd 1rpx solid;
-    line-height: 50rpx;
-}
-
-.cart-day-content:last-child {
-    border-bottom: none;
-}
-
-.cart-menutype {
-    flex: 0 0 60rpx;
-    text-align: left;
-    font-size: 25rpx;
-}
-
-.iconfont-title-zaocan1 {
-    color: #537c00;
-}
-
-.iconfont-zaocan1 {
-    font-size: 50rpx;
-    font-weight: 100;
-    height: 40rpx;
-    line-height: 40rpx;
-    color: #537c00;
-}
-
-.iconfont-title-wucan {
-    color: #805300;
-}
-
-.iconfont-wucan {
-    font-size: 50rpx;
-    font-weight: 100;
-    height: 40rpx;
-    line-height: 40rpx;
-    color: #805300;
-}
-
-.iconfont-title-canting {
-    color: #1e90ff;
-}
-
-.iconfont-canting {
-    font-size: 50rpx;
-    font-weight: 100;
-    height: 40rpx;
-    line-height: 40rpx;
-    color: #1e90ff;
-}
-
-.iconfont-title-xiaoye- {
-    color: #483d8b;
-}
-
-.iconfont-xiaoye- {
-    font-size: 50rpx;
-    font-weight: 100;
-    height: 40rpx;
-    line-height: 40rpx;
-    color: #483d8b;
-}
-
-.cart-menu {
-    flex: 1;
-}
-
-.cart-menuItem {
-    display: flex;
-    border: 1px solid #ccc;
-    border-radius: 10rpx;
-    margin-bottom: 4rpx;
-    background-color: #fff;
-}
-
-.cart-menuItem-left {
-    flex: 0 0 120rpx;
-    height: 120rpx;
-}
-
-.cart-menuItem-img {
-    width: 120rpx;
-    height: 120rpx;
-    /*   border-top-left-radius: 20rpx;
-  border-bottom-left-radius: 20rpx; */
-}
-
-.cart-menuItem-right {
-    flex: 1;
-}
-
-.cart-menuItemDes {
-    height: 60rpx;
-    line-height: 60rpx;
-    font-size: 30rpx;
-    font-weight: 600;
-    padding-left: 20rpx;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.cart-menuItemTotalmoney {
-    float: left;
-    height: 60rpx;
-    line-height: 60rpx;
-    padding-left: 20rpx;
-    text-align: center;
-}
 
 
 /* 合计 */
@@ -685,12 +361,10 @@
 /* + - **********控件(购物车详情中)********** */
 
 .num-control-cart {
-    float: right;
-    height: 60rpx;
-    line-height: 60rpx;
-    font-size: 0;
+    height: 56rpx;
+    line-height: 56rpx;
     color: #e79b37;
-    padding-right: 20rpx;
+    display: flex;
 }
 
 .cart-amount {
