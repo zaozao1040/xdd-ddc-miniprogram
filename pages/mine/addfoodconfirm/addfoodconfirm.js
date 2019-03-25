@@ -335,9 +335,9 @@ Page({
                 mask: true
             })
             /**** 拼接这个庞大的参数 ****/
-        let tmp_discountCode = null
+        let tmp_userDiscountCode = null
         if (_this.data.adviceDiscountObj) {
-            tmp_discountCode = _this.data.adviceDiscountObj.discountCode
+            tmp_userDiscountCode = _this.data.adviceDiscountObj.userDiscountCode
         }
         let tmp_param = {
             userCode: wx.getStorageSync('userInfo').userCode,
@@ -345,7 +345,7 @@ Page({
 
             addressCode: wx.getStorageSync('userInfo').addressCode,
             payType: _this.data.payType, //支付方式
-            discountCode: tmp_discountCode,
+            userDiscountCode: tmp_userDiscountCode,
 
             orderPayMoney: _this.data.realMoney, //自费的总价格
             appendMealFlag: true, //是否可以加餐

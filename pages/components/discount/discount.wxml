@@ -59,7 +59,7 @@
                     <view style="font-size:22rpx; color:#bfbfbf;padding-top:14rpx;">{{discountItem.startTimeDes}} - {{discountItem.endTimeDes}}</view>
 
                     <view class="right" wx:if="{{useType==100}}" bindtap="handleSelectDiscount" data-advicediscountobj="{{discountItem}}">
-                        <image wx:if="{{discountItem.discountCode==adviceDiscountObj.discountCode}}" src="../../../images/mine/gouxuan.png" class="gouxuan-img"></image>
+                        <image wx:if="{{discountItem.userDiscountCode==adviceDiscountObj.userDiscountCode}}" src="../../../images/mine/gouxuan.png" class="gouxuan-img"></image>
                         <image wx:else src="../../../images/mine/weigouxuan.png" class="gouxuan-img"></image>
 
                     </view>
