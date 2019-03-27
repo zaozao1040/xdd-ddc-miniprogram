@@ -49,8 +49,8 @@
 
 .content-header {
     display: flex;
-    height: 60rpx;
-    line-height: 60rpx;
+    height: 70rpx;
+    line-height: 70rpx;
     border-bottom: 1rpx solid #bbb;
 }
 
@@ -58,9 +58,7 @@
     flex: 1;
     text-align: center;
     font-size: 30rpx;
-    font-weight: 600;
     color: #666;
-    margin: 0 50rpx;
 }
 
 .content-header-item-active {

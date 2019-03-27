@@ -823,6 +823,7 @@ Page({
     },
     /* 金额低于餐标的计算检查-总体，在切换日期或餐时的时候触发 */
     checkStandardPriceTotal: function() {
+
         let _this = this
         if (_this.data.activeSelectedFoods) {
             //可使用餐标 且 总金额小于餐标 且总金额不等于0(因为一道菜都没有选择的话,是允许切换的) 的情况
