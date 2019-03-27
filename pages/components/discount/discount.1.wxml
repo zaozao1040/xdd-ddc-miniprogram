@@ -1,0 +1,96 @@
+<view>
+
+    <view class="discountItem-wrapper" wx:for="{{discountList}}" wx:for-index="discountIndex" wx:for-item="discountItem" wx:key="discountIndex" bindtap="handleClickDiscount" data-usetype="{{useType}}">
+        <view class="top {{useType==2?'top-expire':''}}">
+            <view class="left">
+                <view class="h3 {{useType==2?'font-expire':''}}">
+                    <block wx:if="{{discountItem.discountType=='REDUCTION'}}">
+                        <text style="font-size:30rpx;" decode>¥&nbsp;</text>{{discountItem.discountPrice}}
+                    </block>
+                    <block wx:if="{{discountItem.discountType=='DISCOUNT'}}">
+                        {{10*discountItem.discountPrice}}<text style="font-size:30rpx;" decode>折&nbsp;</text>
+                    </block>
+                </view>
+                <view class="left-des {{useType==2?'font-expire':''}}">满{{discountItem.discountStandardPrice}}元可用</view>
+            </view>
+            <view class="middle">
+                <view class="h4 {{useType==2?'font-expire':''}}">{{discountItem.name}}</view>
+                <view class="middle-name {{useType==2?'font-expire':''}}">{{discountItem.organizeName}}</view>
+            </view>
+            <view class="right" style="padding:20rpx;" wx:if="{{useType==2}}">
+                <image src="../../../images/mine/guoqi.png" mode="widthFix" class="img"></image>
+            </view>
+            <!-- 设置useType为100，代表选择优惠券 -->
+            <view class="right" wx:elif="{{useType==100}}" bindtap="handleSelectDiscount" data-advicediscountobj="{{discountItem}}">
+                <image wx:if="{{discountItem.discountCode==adviceDiscountObj.discountCode}}" src="../../../images/mine/gouxuan.png" class="gouxuan-img"></image>
+                <image wx:else src="../../../images/mine/weigouxuan.png" class="gouxuan-img"></image>
+                <view class="right-label" style="background: rgb(153, 79, 79);" wx:if="{{discountItem.discountType=='DISCOUNT'}}">折</view>
+                <view class="right-label" style="background: rgb(212, 47, 110);" wx:if="{{discountItem.discountType=='REDUCTION'}}">减</view>
+            </view>
+            <view class="right" wx:else>
+                <view class="h6">{{discountItem.limit3}}</view>
+                <navigator url="/pages/menu/menu" wx:if="{{useType==0}}">
+                    <view class="btn">去使用</view>
+                </navigator>
+                <image wx:elif="{{useType==1}}" src="../../../images/mine/yishiyong.png" mode="widthFix" class="img"></image>
+                <view class="right-label" style="background: rgb(153, 79, 79);" wx:if="{{discountItem.discountType=='DISCOUNT'}}">折</view>
+                <view class="right-label" style="background: rgb(212, 47, 110);" wx:if="{{discountItem.discountType=='REDUCTION'}}">减</view>
+            </view>
+        </view>
+        <view class="bottom {{useType==2?'bottom-expire font-expire':''}}">使用范围:{{discountItem.startTimeDes}} ~ {{discountItem.endTimeDes}}
+        </view>
+        <view class="hock_1"></view>
+    </view>
+
+    <view class="discountItem-wrapper" wx:for="{{discountList}}" wx:for-index="discountIndex" wx:for-item="discountItem" wx:key="discountIndex" bindtap="handleClickDiscount" data-usetype="{{useType}}">
+        <view class="type">折扣券</view>
+        <view style="display:flex;  ">
+            <view class="rect">
+
+                <view class="border">
+                    <view class="top"></view>
+                    <view class="circle"></view>
+                    <view class="middle"></view>
+                    <view class="circle"></view>
+                    <view class="middle"></view>
+                    <view class="circle"></view>
+                    <view class="middle"></view>
+                    <view class="circle"></view>
+                    <view class="middle"></view>
+                    <view class="circle"></view>
+                    <view class="middle"></view>
+                    <view class="circle"></view>
+                    <view class="middle"></view>
+                    <view class="circle"></view>
+                    <view class="top"></view>
+                </view>
+                <view class="right-price">
+                    <view class='money'>
+                        <span class='label'>¥</span>
+                        <span class='number'>30</span>
+                    </view>
+                    <view>
+                        <span class="condition">满39元可用</span>
+                    </view>
+                </view>
+            </view>
+            <view class="content">
+                <view style="font-size:15px;color:rgb(0,0,0);padding:10px 0 12px;font-weight:800;">2月会员返券日</view>
+                <view style="border-bottom:1px solid  #d9d9d9;display:flex;justify-content:space-between;">
+                    <view>
+                        <view style="font-size:10px;padding-bottom:6px;color:#bfbfbf;">2019.03.03-2019.03.09</view>
+                        <view style="font-size:10px;padding-bottom:8px;color:#bfbfbf;">苏州星点点科技有限公司</view>
+                    </view>
+
+                    <view style="margin-right:15px; color:rgb(58, 184, 61); padding-top:10px;">
+                        <span style=" border:1px solid rgb(58, 184, 61);font-size:12px;border-radius:10px;padding:2px 3px;">去使用</span>
+                    </view>
+
+
+                </view>
+
+                <view style="font-size:10px;padding-top:8px;color:rgb(112,112,112);">全场通用</view>
+            </view>
+        </view>
+    </view>
+</view>

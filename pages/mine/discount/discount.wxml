@@ -1,7 +1,7 @@
 <!--pages/mine/discount/discount.wxml-->
 <view class="discount-wrapper">
-  <!-- 头部 -->
-  <view class="header-wrapper">
+    <!-- 头部 -->
+    <!-- <view class="header-wrapper">
       <view class="header">
         <view class="header-item">
           {{userInfo.discountSize}}
@@ -10,33 +10,31 @@
           &nbsp;张
         </text>
       </view>    
+    </view> -->
+    <!-- 内容 -->
+    <view class="content">
+        <view class="content-header">
+            <view class="content-header-item {{itemStatusActiveFlag=='weishiyong'?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="weishiyong">
+                未使用({{useableSize }})
+            </view>
+            <view class="content-header-item {{itemStatusActiveFlag=='yishiyong'?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="yishiyong">
+                已使用({{usedSize}})
+            </view>
+            <view class="content-header-item {{itemStatusActiveFlag=='yiguoqi'?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="yiguoqi">
+                已过期({{expiredSize}})
+            </view>
+        </view>
     </view>
-  <!-- 内容 -->
-  <view class="content">
-    <view class="content-header">
-      <view class="content-header-item {{itemStatusActiveFlag=='weishiyong'?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag"
-        data-flag="weishiyong">
-        未使用
-      </view>
-      <view class="content-header-item {{itemStatusActiveFlag=='yishiyong'?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag"
-        data-flag="yishiyong">
-        使用记录
-      </view>
-      <view class="content-header-item {{itemStatusActiveFlag=='yiguoqi'?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag"
-        data-flag="yiguoqi">
-        已过期
-      </view>
+    <view class="c_scrollPosition_forCalculate">
+        <!-- 优惠券记录的内容区域 -->
+        <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;">
+            <view wx:if="{{discountListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+                未查询到优惠券记录..
+            </view>
+            <view wx:else style="padding:20rpx;background: #eee;">
+                <c-discount discountList="{{discountList}}" useType="{{useType}}"></c-discount>
+
+            </view>
+        </scroll-view>
     </view>
-  </view>
-  <view class="c_scrollPosition_forCalculate">
-    <!-- 优惠券记录的内容区域 -->
-    <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;">
-      <view wx:if="{{discountListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
-        未查询到优惠券记录..
-      </view>
-      <view wx:else style="padding:20rpx;background: #eee;">
-        <c-discount discountList="{{discountList}}" useType="{{useType}}"></c-discount>
-      </view>
-    </scroll-view>
-  </view>
 </view>

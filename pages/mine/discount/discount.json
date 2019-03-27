@@ -1,8 +1,8 @@
 {
-  "navigationBarTitleText": "我的优惠券",
-  "navigationBarBackgroundColor": "#e79b37",
-  "navigationBarTextStyle":"white",
-  "usingComponents": {
-    "c-discount": "../../components/discount/discount"
-  }
+    "navigationBarTitleText": "我的优惠券",
+    "navigationBarBackgroundColor": "#e79b37",
+    "navigationBarTextStyle": "white",
+    "usingComponents": {
+        "c-discount": "../../components/discount/discount"
+    }
 }

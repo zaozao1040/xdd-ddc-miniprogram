@@ -1,0 +1,8 @@
+{
+    "navigationBarTitleText": "提交订单",
+    "navigationBarBackgroundColor": "#e79b37",
+    "navigationBarTextStyle": "white",
+    "usingComponents": {
+        "c-discount": "../../components/discount/discount"
+    }
+}

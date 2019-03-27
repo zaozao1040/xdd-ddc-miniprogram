@@ -1,154 +1,184 @@
 <!--pages/home/home.wxml-->
 <scroll-view>
-  <view class="home-container">
-    <view class="h-v1" wx:if="{{userInfo}}">
-      <view class="has-login">{{wel}} <block wx:if="{{userInfo.nickName}}">{{userInfo.nickName}}</block>
-        <open-data wx:else type="userNickName"></open-data>
-        <text catchtap="logout" class="logout">退出</text>
-      </view>
-    </view>
-    <view class="h-v1" wx:else>
-      <view bindtap="login" class="h-v1-1">
-        <navigator url="/pages/login/login" style="display: inline-block">
-          <view class="" style="display: inline-block;width:90rpx;height: 50rpx;font-size:30rpx;color:2b2b2b;line-height: 45rpx;text-align: center;"
-            bindtap="login" decode>
-            登录
-          </view>
-        </navigator>
-      </view>
-    </view>
-    <!-- 轮播图 autoplay="true"-->
-    <swiper autoplay class="h-v2-swiper-item" circular="true" duration="500" indicatorActiveColor="#fff" indicatorColor="rgb(212, 203, 201)"
-      indicatorDots interval="5000" bindchange="onSwiperChange" previous-margin="50rpx" next-margin='50rpx'>
-      <block wx:for="{{imagesList.banner}}" wx:for-index="swiperListIndex" wx:for-item="swiperListItem" wx:key="swiperListIndex">
-        <swiper-item bindtap="navigateTo">
-          <navigator url="/pages/home/link?extendUrl={{swiperListItem.url}}" style="width: 100%;height: 100%;">
-            <image class="{{swiperListIndex==swiperCurrentIndex?'imageBanner_active':'imageBanner_small'}}" src="{{swiperListItem.image}}"></image>
-          </navigator>
-        </swiper-item>
-      </block>
-    </swiper>
-    <!-- 宣传语 -->
-    <view class="propaganda-wrapper">
-      <view class='propaganda-itemwrapper' wx:for="{{propagandaList}}" wx:for-index="propagandaIndex" wx:for-item="propagandaItem"
-        wx:key="propagandaIndex">
-        <text class='iconfont icon-{{propagandaIconArr[propagandaIndex]}} icon-propaganda' decode>&nbsp;</text>
-        <text class='propaganda-title'>{{propagandaItem}}</text>
-      </view>
-    </view>
-    <!-- 开始点餐 -->
-    <view class="h-v3">
-      <view class="h-v3-1" catchtap="handleGotoMenu">
-        <text class='iconfont icon-canting'></text>
-        开始点餐
-      </view>
-    </view>
-    <!-- 3个图标 -->
-    <view class="label-wrapper">
-      <view class="labelItem" bindtap="handleGotoLabel" data-type="qianbao">
-        <view class='iconLabel iconfont icon-qianbao'></view>
-        <view class="labelDes">余额</view>
-      </view>
-      <view class="labelItem" bindtap="handleGotoLabel" data-type="youhuiquan">
-        <view class='iconLabel iconfont icon-youhuiquan1'></view>
-        <view class="labelDes">优惠券</view>
-      </view>
-      <view class="labelItem" bindtap="handleGotoLabel" data-type="jifen">
-        <view class='iconLabel iconfont icon-jifen'></view>
-        <view class="labelDes">积分</view>
-      </view>
-    </view>
-    <!-- 首页提示取餐 弹出 -->
-    <view class="{{homeOrderList.length==0?'':'homeOrder-wrapper'}}" wx:if="{{homeOrderList}}">
-      <!--  这里class不加判断的话 页面因为渲染了这个dom而产生样式 -->
-      <view class="homeOrder-item" wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem"
-        wx:key="homeOrderIndex">
-        <view class="homeOrder-left-wrapper">
-          <image class="homeOrder-img" src="{{homeOrderItem.foods[0].img}}"></image>
-        </view>
-        <view class="homeOrder-middle-wrapper">
-          <view class="homeOrder-middle-line1">
-            <view class="homeOrder-middle-line1-foodName">
-              <text class="iconfont icon-{{mapMenutypeIconName[homeOrderItem.mealType]}}"></text>
-              {{homeOrderItem.foods[0].foodName}}
-              <text style="font-size:25rpx;" wx:if="{{homeOrderItem.foods.length>1}}">等{{homeOrderItem.foods.length}}件商品</text>
+    <view class="home-container" bindtap="closeNotice">
+        <view class="h-v1" wx:if="{{userInfo}}">
+            <view class="has-login">{{wel}}
+                <block wx:if="{{userInfo.nickName}}">{{userInfo.nickName}}</block>
+                <open-data wx:else type="userNickName"></open-data>
+                <text catchtap="logout" class="logout">退出</text>
             </view>
-          </view>
-          <view class="homeOrder-middle-line2">
-            取餐:{{homeOrderItem.takeMealStartTimeDes}}~{{homeOrderItem.takeMealEndTimeDes}}
-          </view>
         </view>
-        <view wx:if="{{homeOrderItem.cabinetNums.length>0}}" class="homeOrder-right-wrapper" bindtap="handleTakeOrder"
-          data-ordercode="{{homeOrderItem.orderCode}}" data-cabinet="{{homeOrderItem.cabinetNums}}">
-          <view class="homeOrder-middle-line2-cabinet" wx:if="{{homeOrderItem.cabinetNums.length>0}}">
-            <block wx:for="{{homeOrderItem.cabinetNums}}" wx:for-index="cabinetIndex" wx:for-item="cabinetItem" wx:key="cabinetIndex">
-              {{cabinetItem.cabinetOrder}}{{cabinetItem.serialNum}}
-            </block>柜
-          </view>
-          <view class="homeOrder-middle-line2-des">
-            取餐
-          </view>
+        <view class="h-v1" wx:else>
+            <view bindtap="login" class="h-v1-1">
+                <navigator url="/pages/login/login" style="display: inline-block">
+                    <view class="" style="display: inline-block;width:90rpx;height: 50rpx;font-size:30rpx;color:2b2b2b;line-height: 45rpx;text-align: center;" bindtap="login" decode>
+                        登录
+                    </view>
+                </navigator>
+            </view>
         </view>
-        <view  wx:else class="homeOrder-middle-line2-des-nocabinet" bindtap="handleTakeOrder"
-        data-ordercode="{{homeOrderItem.orderCode}}" data-cabinet="{{homeOrderItem.cabinetNums}}">
-          取餐
+        <!-- 轮播图 autoplay="true"-->
+        <swiper autoplay class="h-v2-swiper-item" circular="true" duration="300" indicatorActiveColor="#fff" indicatorColor="rgb(212, 203, 201)" indicatorDots interval="5000" bindchange="onSwiperChange" previous-margin="50rpx" next-margin='50rpx'>
+            <block wx:for="{{imagesList.banner}}" wx:for-index="swiperListIndex" wx:for-item="swiperListItem" wx:key="swiperListIndex">
+                <swiper-item bindtap="navigateTo">
+                    <navigator url="/pages/home/link?extendUrl={{swiperListItem.url}}" style="width: 100%;height: 100%;">
+                        <image class="{{swiperListIndex==swiperCurrentIndex?'imageBanner_active':'imageBanner_small'}}" src="{{swiperListItem.image}}"></image>
+                    </navigator>
+                </swiper-item>
+            </block>
+        </swiper>
+        <!-- 宣传语 -->
+        <view class="propaganda-wrapper">
+            <view class='propaganda-itemwrapper' wx:for="{{propagandaList}}" wx:for-index="propagandaIndex" wx:for-item="propagandaItem" wx:key="propagandaIndex">
+                <text class='iconfont icon-{{propagandaIconArr[propagandaIndex]}} icon-propaganda' decode>&nbsp;</text>
+                <text class='propaganda-title'>{{propagandaItem}}</text>
+            </view>
         </view>
-      </view>
-    </view>
-    <!-- 活动 -->
-    <view class="promotion-wrapper">
-      <view class="promotionItem" wx:for="{{imagesList.center}}" wx:for-index="promotionListIndex" wx:for-item="promotionListItem"
-        wx:key="promotionListIndex">
-        <navigator url="/pages/home/link?extendUrl={{promotionListItem.url}}">
-          <image class="promotion-img" src="{{promotionListItem.image}}" />
-        </navigator>
-      </view>
-    </view>
-    <!-- foot 图片  -->
-    <view class="newuser-wrapper-2">
-      <image mode="widthFix" style="width:100%;" src="{{imagesList.foot.image}}"></image>
-    </view>
+        <!-- 轮播公告 -->
+        <swiper style="margin-top:10rpx;height:34rpx;font-size:24rpx;padding:10rpx;border:2rpx solid #e8e8e8;" wx:if="{{hasNotice}}" circular="true" duration="500" vertical="true" autoplay="true">
+            <block wx:for="{{noticeData}}" wx:key="{{index}}">
+                <swiper-item catchtap="handleshowOneNotice" data-onenotice="{{item}}">
+                    <text>公告：{{item.noticeTitle}}</text>
+                </swiper-item>
+            </block>
+        </swiper>
+        <!--弹出公告-->
+        <view class="modulebox-background-wrapper-notice" wx:if="{{showOneNotice}}">
+            <scroll-view scroll-y class="modulebox-wrapper-notice">
+                <block>
+                    <view style="font-size:28rpx;text-align: center;">
+                        {{oneNotice.noticeTitle}}
+                    </view>
+                    <view style="font-size:22rpx;padding:20rpx 0;">
+                        {{oneNotice.content}}
+                    </view>
+                </block>
+            </scroll-view>
+        </view>
 
-    <!-- --------------------------------------- 下面是各种弹出层 --------------------------------------- -->
+        <!-- 开始点餐 -->
+        <view class="h-v3">
+            <view class="h-v3-1" catchtap="handleGotoMenu">
+                <text class='iconfont icon-canting'></text> 开始点餐
+            </view>
+        </view>
+        <!-- 3个图标 -->
+        <view class="label-wrapper">
+            <view class="labelItem" bindtap="handleGotoLabel" data-type="qianbao">
+                <view class='iconLabel iconfont icon-qianbao'></view>
+                <view class="labelDes">余额</view>
+            </view>
+            <view class="labelItem" bindtap="handleGotoLabel" data-type="youhuiquan">
+                <view class='iconLabel iconfont icon-youhuiquan1'></view>
+                <view class="labelDes">优惠券</view>
+            </view>
+            <view class="labelItem" bindtap="handleGotoLabel" data-type="jifen">
+                <view class='iconLabel iconfont icon-jifen'></view>
+                <view class="labelDes">积分</view>
+            </view>
+        </view>
+        <!-- 首页提示取餐 弹出 -->
+        <view class="{{homeOrderList.length==0?'':'homeOrder-wrapper'}}" wx:if="{{homeOrderList}}">
+            <!--  这里class不加判断的话 页面因为渲染了这个dom而产生样式 -->
+            <view class="homeOrder-item" wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem" wx:key="homeOrderIndex">
+                <view class="homeOrder-left-wrapper">
+                    <image class="homeOrder-img" src="{{homeOrderItem.foods[0].img}}"></image>
+                </view>
+                <view class="homeOrder-middle-wrapper">
+                    <view class="homeOrder-middle-line1">
+                        <view class="homeOrder-middle-line1-foodName">
+                            <text class="iconfont icon-{{mapMenutypeIconName[homeOrderItem.mealType]}}"></text> {{homeOrderItem.foods[0].foodName}}
+                            <text style="font-size:25rpx;" wx:if="{{homeOrderItem.foods.length>1}}">等{{homeOrderItem.foods.length}}件商品</text>
+                        </view>
+                    </view>
+                    <view class="homeOrder-middle-line2">
+                        取餐:{{homeOrderItem.takeMealStartTimeDes}}~{{homeOrderItem.takeMealEndTimeDes}}
+                    </view>
+                </view>
+                <view wx:if="{{homeOrderItem.cabinetNums.length>0}}" class="homeOrder-right-wrapper" bindtap="handleTakeOrder" data-ordercode="{{homeOrderItem.orderCode}}" data-cabinet="{{homeOrderItem.cabinetNums}}">
+                    <view class="homeOrder-middle-line2-cabinet" wx:if="{{homeOrderItem.cabinetNums.length>0}}">
+                        <block wx:for="{{homeOrderItem.cabinetNums}}" wx:for-index="cabinetIndex" wx:for-item="cabinetItem" wx:key="cabinetIndex">
+                            {{cabinetItem.cabinetOrder}}{{cabinetItem.serialNum}}
+                        </block>柜
+                    </view>
+                    <view class="homeOrder-middle-line2-des">
+                        取餐
+                    </view>
+                </view>
+                <view wx:else class="homeOrder-middle-line2-des-nocabinet" bindtap="handleTakeOrder" data-ordercode="{{homeOrderItem.orderCode}}" data-cabinet="{{homeOrderItem.cabinetNums}}">
+                    取餐
+                </view>
+            </view>
+        </view>
+        <!-- 活动 -->
+        <view class="promotion-wrapper">
+            <view class="promotionItem" wx:for="{{imagesList.center}}" wx:for-index="promotionListIndex" wx:for-item="promotionListItem" wx:key="promotionListIndex">
+                <navigator url="/pages/home/link?extendUrl={{promotionListItem.url}}">
+                    <image class="promotion-img" src="{{promotionListItem.image}}" />
+                </navigator>
+            </view>
+        </view>
+        <!-- foot 图片  -->
+        <view class="newuser-wrapper-2">
+            <image mode="widthFix" style="width:100%;" src="{{imagesList.foot.image}}"></image>
+        </view>
 
+        <!-- --------------------------------------- 下面是各种弹出层 --------------------------------------- -->
 
-    <!-- 用户授权框 弹出 -->
-    <view class="modulebox-background-wrapper" wx:if="{{showUserAuthFlag}}">
-      <view class="modulebox-wrapper">
-        <view class="modulebox-img-wrapper">
-          <image class="modulebox-img" src="../../images/login/logo.png" mode="widthFix" style="width:100%;"></image>
+        <!--弹出公告-->
+        <view class="modulebox-background-wrapper-notice" wx:if="{{showWindowNotice}}">
+            <scroll-view scroll-y class="modulebox-wrapper-notice">
+                <block wx:for="{{windowNoticeData}}" wx:key="{{index}}">
+                    <view style="font-size:28rpx;text-align: center;">
+                        {{index+1}}.{{item.noticeTitle}}
+                    </view>
+                    <view style="font-size:22rpx;padding:20rpx 0;">
+                        {{item.content}}
+                    </view>
+                </block>
+            </scroll-view>
         </view>
-        <view class="modulebox-des">
-          欢迎来到点点餐订餐小程序
+        <!-- 用户授权框 弹出 -->
+        <view class="modulebox-background-wrapper" wx:if="{{showUserAuthFlag}}">
+            <view class="modulebox-wrapper">
+                <view class="modulebox-img-wrapper">
+                    <image class="modulebox-img" src="../../images/login/logo.png" mode="widthFix" style="width:100%;"></image>
+                </view>
+                <view class="modulebox-des">
+                    欢迎来到点点餐订餐小程序
+                </view>
+                <button class="modulebox-button" open-type="getUserInfo" bindgetuserinfo="getWxUserInfo">微信授权</button>
+            </view>
         </view>
-        <button class="modulebox-button" open-type="getUserInfo" bindgetuserinfo="getWxUserInfo">微信授权</button>
-      </view>
-    </view>
-    <!-- 审核状态框 弹出 -->
-    <view class="modulebox-background-wrapper" wx:if="{{showCheckFlag}}">
-      <view class="modulebox-wrapper">
-        <view class="modulebox-img-wrapper">
-          <image class="modulebox-img" src="../../images/login/logo.png" mode="widthFix" style="width:100%;"></image>
+        <!-- 审核状态框 弹出 -->
+        <view class="modulebox-background-wrapper" wx:if="{{showCheckFlag}}">
+            <view class="modulebox-wrapper">
+                <view class="modulebox-img-wrapper">
+                    <image class="modulebox-img" src="../../images/login/logo.png" mode="widthFix" style="width:100%;"></image>
+                </view>
+                <view class="modulebox-des">
+                    企业审核中..
+                </view>
+                <button class="modulebox-button" bindtap="handleRefreshUser">点击刷新</button>
+            </view>
         </view>
-        <view class="modulebox-des">
-          企业审核中..
-        </view>
-        <button class="modulebox-button" bindtap="handleRefreshUser">点击刷新</button>
-      </view>
-    </view>
 
-    <!-- 新人大礼 弹出 -->
-    <view class="newuser-wrapper" wx:if="{{showDaliFlag}}">
-      <view class="img-wrapper">
-        <view class="icon-wrapper">
-          <view class="iconfont icon-dacha1" bindtap="closeDali"></view>
+        <!-- 新人大礼 弹出 -->
+        <view class="newuser-wrapper" wx:if="{{showDaliFlag}}">
+            <view class="img-wrapper">
+                <view class="icon-wrapper">
+                    <view class="iconfont icon-dacha1" bindtap="closeDali"></view>
+                </view>
+                <image class="image-dali" src="{{imagesList.alert.image}}" bindtap="getNewUserGift"></image>
+            </view>
         </view>
-        <image class="image-dali" src="{{imagesList.alert.image}}" bindtap="getNewUserGift"></image>
-      </view>
+        <!-- layer弹出层 （优惠券活动 弹出）  -->
+        <block wx:if="{{showLayerFlag}}">
+            <c-discountPromotion bind:closelayer="onCloseLayer"></c-discountPromotion>
+        </block>
+
+        <view style="background: red;color:#fff;position:fixed;bottom:30rpx;right:30rpx;font-size:28rpx; padding:20rpx 30rpx;z-index:1001;" catchtap="handleshowWindowNotice" wx:if="{{hasWindowNotice}}">
+            公告
+        </view>
     </view>
-    <!-- layer弹出层 （优惠券活动 弹出）  -->
-    <block wx:if="{{showLayerFlag}}">
-      <c-discountPromotion bind:closelayer="onCloseLayer"></c-discountPromotion>
-    </block>
-  </view>
 </scroll-view>
