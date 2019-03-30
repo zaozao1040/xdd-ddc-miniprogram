@@ -295,7 +295,7 @@
         <!-- 购物车激活状态 -->
         <view wx:if="{{boxActiveFlag}}" class="footer-middle" style="display: flex;">
             <view class="middle-2" wx:if="{{totalMoney>0}}">
-                企业将抵扣:<text style="font-size: 30rpx;color:#fff;" decode>￥&nbsp;</text>
+                企业将抵扣2:<text style="font-size: 30rpx;color:#fff;" decode>￥&nbsp;</text>
                 <text style="color:#fff;font-weight: 500;font-size:35rpx;">{{totalMoneyRealDeduction}}</text>
             </view>
         </view>

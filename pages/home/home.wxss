@@ -381,11 +381,19 @@
     color: #fff;
 }
 
+.homeOrder-middle-line3-cabinet {
+    line-height: 30rpx;
+    font-size: 20rpx;
+    color: #fff;
+    width: 100%;
+    text-align: center;
+}
+
 .homeOrder-middle-line2-des {
     font-size: 20rpx;
     color: #43964e;
     background: #fff;
-    margin: 0 20rpx 0 20rpx;
+    padding: 0 20rpx;
     border-radius: 20rpx;
 }
 
@@ -403,7 +411,7 @@
 }
 
 .homeOrder-right-wrapper {
-    width: 100rpx;
+    /* width: 100rpx; */
     height: 100rpx;
     background: #43964e;
     text-align: center;
@@ -411,6 +419,7 @@
     color: #fff;
     font-weight: 500;
     border-radius: 10rpx;
+    padding: 10rpx 10rpx 0;
 }
 
 

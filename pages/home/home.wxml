@@ -96,11 +96,21 @@
                     </view>
                 </view>
                 <view wx:if="{{homeOrderItem.cabinetNums.length>0}}" class="homeOrder-right-wrapper" bindtap="handleTakeOrder" data-ordercode="{{homeOrderItem.orderCode}}" data-cabinet="{{homeOrderItem.cabinetNums}}">
-                    <view class="homeOrder-middle-line2-cabinet" wx:if="{{homeOrderItem.cabinetNums.length>0}}">
-                        <block wx:for="{{homeOrderItem.cabinetNums}}" wx:for-index="cabinetIndex" wx:for-item="cabinetItem" wx:key="cabinetIndex">
-                            {{cabinetItem.cabinetOrder}}{{cabinetItem.serialNum}}
-                        </block>柜
-                    </view>
+
+                    <block wx:if="{{homeOrderItem.cabinetNums.length==1}}">
+                        <view class="homeOrder-middle-line2-cabinet">
+                            <block wx:for="{{homeOrderItem.cabinetNums}}" wx:for-index="cabinetIndex" wx:for-item="cabinetItem" wx:key="cabinetIndex">
+                                {{cabinetItem.cabinetOrder}}柜{{cabinetItem.serialNum}}号
+                            </block>
+                        </view>
+                    </block>
+                    <block wx:else>
+                        <view class="homeOrder-middle-line3-cabinet">
+                            <view wx:for="{{homeOrderItem.cabinetNums}}" wx:for-index="cabinetIndex" wx:for-item="cabinetItem" wx:key="cabinetIndex">
+                                {{cabinetItem.cabinetOrder}}柜{{cabinetItem.serialNum}}号
+                            </view>
+                        </view>
+                    </block>
                     <view class="homeOrder-middle-line2-des">
                         取餐
                     </view>

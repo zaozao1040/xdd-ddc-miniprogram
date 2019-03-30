@@ -108,6 +108,9 @@
                                 <view class="food-count">
                                     x{{foodItem.quantity}}
                                 </view>
+                                <view wx:if="{{foodItem.boxNumber}}" class="food-count">
+                                    箱子：{{foodItem.boxNumber}}
+                                </view>
                             </view>
                         </view>
                     </view>
