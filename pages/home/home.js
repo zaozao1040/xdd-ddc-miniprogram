@@ -167,7 +167,7 @@ Page({
 
     onLoad: function(options) {
         //首页很重要，这几个非常稳定几乎不变更数据的接口，放在onload，只有首页取餐放在onShow里面
-        console.log('onLoad') 
+        console.log('onLoad')
         let _this = this
         _this.initHome()
         let param = {
@@ -209,7 +209,7 @@ Page({
             /* 获取首页取餐信息 */
             _this.getTakeMealInfo()
 
-            
+
         }
         console.log('新人大礼标志showDaliFlag', _this.data.showDaliFlag)
     },
@@ -347,13 +347,13 @@ Page({
                         if (res.code === 0) {
                             wx.hideLoading()
                             wx.showToast({
-                                title: '成功取餐',
-                                image: '../../images/msg/success.png',
-                                duration: 2000
-                            })
-                            /* wx.reLaunch({  //注释掉，取餐后不刷新，减少请求
-                                url: '/pages/home/home'
-                            }) */
+                                    title: '成功取餐',
+                                    image: '../../images/msg/success.png',
+                                    duration: 2000
+                                })
+                                /* wx.reLaunch({  //注释掉，取餐后不刷新，减少请求
+                                    url: '/pages/home/home'
+                                }) */
                         } else {
                             wx.hideLoading()
                             wx.showToast({

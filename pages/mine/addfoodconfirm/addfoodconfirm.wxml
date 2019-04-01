@@ -124,9 +124,12 @@
                         <view class="cart-amount" wx:if="{{addfoodOrder.organizeMealLabel!=0}}">
                             <view wx:if="{{addfoodOrder.mealLabelFlag}}" style="display:inline-block;font-size:30rpx;margin-right: 10rpx;color:#666;">
                                 企业将减免额度¥
-                                <block wx:if="{{addfoodOrder.organizeMealLabel >  realMoney}}">
+                                <block wx:if="{{addfoodOrder.organizeMealLabel >  totalMoney}}">
                                     <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;">
-                                        -{{addfoodOrder.organizeMealLabel}}
+                                        -{{totalMoney}}
+                                    </view>
+                                    <view style="display:inline-block;color:#666;font-size:30rpx;margin-right: 10rpx;">
+                                        (最高减免¥<text sytle="color:#222;">{{addfoodOrder.organizeMealLabel}}</text>)
                                     </view>
                                 </block>
                                 <block wx:else>

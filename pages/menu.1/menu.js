@@ -19,14 +19,13 @@ Page({
         /* 这六个变量存储查询参数 */
         timeActiveFlag: 0, //默认今天
         timeDesActive: '', //选中的日期描述，如‘2018-12-22’
+        timeDesActiveShow: '', //选中的日期描述，如‘12-22’
         timeWeakDesActive: '', //选中的星期几描述，如'星期五'
-        foodtypeActiveFlag: 1, //默认餐别是该用户所在企业拥有餐标数组中的第一个
+        foodtypeActiveFlag: 1, //默认餐别是该用户所在企业拥有餐标数组中的第一个 zll要修改
         foodtypeDesActive: '', //选中的餐别描述，如‘LUNCH’
         foodtypeChDesActive: '', //选中的餐别中文描述，如‘午餐’
         mealLabelUsedActive: undefined,
         organizeMealLabelActive: undefined,
-
-
 
         menutypeActiveFlag: 0,
         boxActiveFlag: false, //默认关闭
@@ -35,6 +34,15 @@ Page({
         canClick: true,
         //6个重要的数据
         selectedFoods: [],
+        cacheMenuDataAllforCopy: [
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null]
+        ], //用于清空购物车的操作的
         cacheMenuDataAll: [
             [null, null, null, null],
             [null, null, null, null],
@@ -44,6 +52,15 @@ Page({
             [null, null, null, null],
             [null, null, null, null]
         ], //7行4列数组，用于存所有选中的数据---当前所有数据
+        cacheMenuCountAll: [
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null],
+            [null, null, null, null]
+        ], //7行4列数组，用于存所有选的菜品的当前类别的总个数---当前所有数据
         totalMoney: 0,
         totalCount: 0,
         totalMoneyRealDeduction: 0, //实际额度总金额
@@ -58,8 +75,22 @@ Page({
         timer: null,
 
         foodLabels: null,
-        scrollLintenFlag: true, //默认允许触发滚动事件
+        scrollListenFlag: true, //默认允许触发滚动事件
         showBackToTopFlag: false, //显示返回scroll顶部的标志
+        timeBarShow: false, //是否显示七天日期
+        countDownShow: false, //是否显示倒计时
+        countDownTime: '', //倒计时时间
+        countDownInterval: '', //定时器
+        mainView: 'main0',
+        allFoodtype: {},
+        cartHeight: 100, //购物车的高度 设置为2/1windowHeight的高度，最高为2/1windowHeight的高度
+        label_bottom: -1,
+        cart_top: -1, //初始时设置底部购物车位置的top为负数，在购物车初显时计算其top坐标，以免计算多次
+        cart_height: 0, //购物车的高度
+        time_remind_height: 0, // 截止时间，倒计时的view的高度
+        shakeshake: false,
+        shakeTimer: null,
+
     },
     /* 页面隐藏后回收定时器指针 */
     onHide: function() {
@@ -68,24 +99,117 @@ Page({
         }
     },
     getMenuData: function() { //setData设置menuData为缓存数据，这样可以同步到模板渲染
-        //console.log('cacheMenuDataAll',this.data.cacheMenuDataAll)
+
         let _this = this
-            //let tmp = _this.data.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
         let tmp = app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag] //取全局，取完后setData更新本地
+
         if (tmp != null) {
             _this.setData({
                 cacheMenuDataAll: app.globalData.cacheMenuDataAll
             })
-            if (tmp.foodLabels != null) {
+            if (tmp.foodLabels != null) { //标签不为空就刷新列表
                 _this.refreshLabelActiveList()
             }
+            _this.showCountDown() //显示倒计时
         } else {
-            _this.getMenuDataByResponse()
+            _this.getMenuDataByResponse() //还没有加载过就从后台调用餐品列表
         }
     },
-    handleChangeTimeActive: function(e) {
+    // 点击日期
+    handleShowTimeBar() {
+        this.setData({
+            timeBarShow: !this.data.timeBarShow
+        })
+    },
+    // 点击上一天
+    handleChangeTimeActivePrev: function(e) {
         let _this = this
-        let flag = _this.checkStandardPriceTotal() //金额低于餐标的计算检查-总体，在切换日期或餐时的时候触发
+
+        //是否可低于企业餐标
+        let tmp_menuData = app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
+        let flag = false; //不需要提示
+        if (!tmp_menuData.lowerThanMealLabelFlag) { //不能低于企业餐标
+            flag = _this.checkStandardPriceTotal() //金额低于餐标的计算检查-总体，在切换日期或餐时的时候触发
+        }
+
+        if (flag) { //需要提示
+            wx.showModal({
+                title: '未达餐标金额(¥' + _this.data.activeSelectedFoods.organizeMealLabel + ')',
+                content: _this.data.timeDesActive + '(' + _this.data.timeWeakDesActive + ')' + _this.data.foodtypeChDesActive + ':\r\n' +
+                    '金额(¥' + _this.data.activeSelectedFoods.foodTypeTotalRealMoney + ')低于餐标,请继续选餐',
+                showCancel: false,
+                confirmText: '返回'
+            })
+        } else {
+            let temp = _this.data.timeActiveFlag
+            temp -= 1 //当前日期数组的index+1
+            let temptimeDesActive = _this.data.timeInfo.userOrderDateVO[temp].date
+            console.log('_this.data.timeInfo', _this.data.timeInfo)
+            _this.data.timeDesActive = e.currentTarget.dataset.arrangedate
+            _this.setData({
+                timeActiveFlag: temp,
+                timeDesActive: temptimeDesActive,
+                timeWeakDesActive: _this.data.timeInfo.userOrderDateVO[temp].dateWeak,
+                timeDesActiveShow: _this.data.timeInfo.userOrderDateVO[temp].dateShort
+            })
+            _this.getMenuData()
+        }
+
+        console.log('_this.data.timeActiveFlag', _this.data.timeActiveFlag)
+    },
+    // 点击下一天
+    handleChangeTimeActiveNext: function(e) {
+        console.log('this.data.activeSelectedFoods', this.data.activeSelectedFoods)
+        let _this = this
+
+        //是否可低于企业餐标
+        let tmp_menuData = app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
+        let flag = false; //不需要提示
+        if (!tmp_menuData.lowerThanMealLabelFlag) { //不能低于企业餐标
+            flag = _this.checkStandardPriceTotal() //金额低于餐标的计算检查-总体，在切换日期或餐时的时候触发
+        }
+
+        if (flag) { //需要提示
+            wx.showModal({
+                title: '未达餐标金额(¥' + _this.data.activeSelectedFoods.organizeMealLabel + ')',
+                content: _this.data.timeDesActive + '(' + _this.data.timeWeakDesActive + ')' + _this.data.foodtypeChDesActive + ':\r\n' +
+                    '金额(¥' + _this.data.activeSelectedFoods.foodTypeTotalRealMoney + ')低于餐标,请继续选餐',
+                showCancel: false,
+                confirmText: '返回'
+            })
+        } else {
+
+            let temp = _this.data.timeActiveFlag
+            temp += 1 //当前日期数组的index+1
+            let temptimeDesActive = _this.data.timeInfo.userOrderDateVO[temp].date
+            console.log('_this.data.timeInfo', _this.data.timeInfo)
+
+            _this.setData({
+                timeActiveFlag: temp,
+                timeDesActive: temptimeDesActive,
+                timeWeakDesActive: _this.data.timeInfo.userOrderDateVO[temp].dateWeak,
+                timeDesActiveShow: _this.data.timeInfo.userOrderDateVO[temp].dateShort
+            })
+            _this.getMenuData()
+        }
+
+    },
+    handleCloseTimeBarAndCart() { // 遮罩层操作
+        this.setData({
+            timeBarShow: false,
+            boxActiveFlag: false
+        })
+    },
+    handleChangeTimeActive: function(e) { //点击日期bar
+        let _this = this
+
+        //是否可低于企业餐标
+        let tmp_menuData = app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
+        let flag = false; //不需要提示
+        if (!tmp_menuData.lowerThanMealLabelFlag) { //不能低于企业餐标
+            flag = _this.checkStandardPriceTotal() //金额低于餐标的计算检查-总体，在切换日期或餐时的时候触发
+        }
+
         if (flag === true) { //需要提示
             wx.showModal({
                 title: '未达餐标金额(¥' + _this.data.activeSelectedFoods.organizeMealLabel + ')',
@@ -95,20 +219,33 @@ Page({
                 confirmText: '返回'
             })
         } else {
+            console.log('_this.data.timeInfo', _this.data.timeInfo)
+            console.log('_this.data.timeInfo', e.currentTarget.dataset)
             let tmp = parseInt(e.currentTarget.dataset.timeindex) //传过来的字符串，要转化成number格式
             _this.data.timeActiveFlag = tmp
             _this.data.timeDesActive = e.currentTarget.dataset.arrangedate
             _this.setData({
                 timeActiveFlag: tmp,
                 timeDesActive: e.currentTarget.dataset.arrangedate,
-                timeWeakDesActive: e.currentTarget.dataset.dateweak
+                timeWeakDesActive: e.currentTarget.dataset.dateweak,
+                timeDesActiveShow: e.currentTarget.dataset.dateshow
             })
             _this.getMenuData()
         }
+
+        console.log('_this.data.timeActiveFlag', _this.data.timeActiveFlag)
     },
+    // 点击早餐、午餐、晚餐、夜宵
     handleChangeFoodtypeActive: function(e) {
         let _this = this
-        let flag = _this.checkStandardPriceTotal() //金额低于餐标的计算检查-总体，在切换日期或餐时的时候触发
+
+        //是否可低于企业餐标
+        let tmp_menuData = app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
+        let flag = false; //不需要提示
+        if (!tmp_menuData.lowerThanMealLabelFlag) { //不能低于企业餐标
+            flag = _this.checkStandardPriceTotal() //金额低于餐标的计算检查-总体，在切换日期或餐时的时候触发
+        }
+
         if (flag === true) { //需要提示
             wx.showModal({
                 title: '未达餐标金额(¥' + _this.data.activeSelectedFoods.organizeMealLabel + ')',
@@ -119,8 +256,8 @@ Page({
             })
         } else {
             let tmp = parseInt(e.currentTarget.dataset.foodtypeindex) //传过来的字符串，要转化成number格式
-            _this.data.foodtypeActiveFlag = tmp
-            _this.data.foodtypeDesActive = e.currentTarget.dataset.mealtype
+                // _this.data.foodtypeActiveFlag = tmp
+                // _this.data.foodtypeDesActive = e.currentTarget.dataset.mealtype
             _this.setData({
                 foodtypeActiveFlag: tmp,
                 foodtypeDesActive: e.currentTarget.dataset.mealtype,
@@ -129,22 +266,23 @@ Page({
             _this.getMenuData()
         }
     },
+    // 点击菜品类别实现右边菜品滚动的级联操作
     handleChangeMenutypeActive: function(e) {
         let _this = this
         _this.setData({
             menutypeActiveFlag: e.currentTarget.dataset.menutypeindex,
             scrollToView: 'order' + e.currentTarget.dataset.menutypeindex,
-            scrollLintenFlag: false, //默认不要触发滚动事件
+            scrollListenFlag: false, //默认不要触发滚动事件
         })
         if (_this.data.timer) {
             clearTimeout(_this.data.timer)
         }
         _this.data.timer = setTimeout(function() {
-                _this.setData({
-                    scrollLintenFlag: true, //默认不要触发滚动事件
-                })
-            }, 500)
-            //console.log(this.data.scrollToView)
+            _this.setData({
+                scrollListenFlag: true, //触发滚动事件
+            })
+        }, 500)
+
     },
     calculatetotalMoneyRealDeduction: function() {
         let _this = this
@@ -170,6 +308,8 @@ Page({
         var a_selectedFoods = {
             day: e.currentTarget.dataset.day,
             dayDes: e.currentTarget.dataset.daydes,
+            dayShort: e.currentTarget.dataset.dayshort,
+            dayWeek: e.currentTarget.dataset.dayweek,
             dayInfo: [{
                 foodType: e.currentTarget.dataset.foodtype,
                 foodTypeDes: e.currentTarget.dataset.foodtypedes,
@@ -260,6 +400,8 @@ Page({
                         selectedFoods.push({
                             day: e.currentTarget.dataset.day,
                             dayDes: e.currentTarget.dataset.daydes,
+                            dayShort: e.currentTarget.dataset.dayshort,
+                            dayWeek: e.currentTarget.dataset.dayweek,
                             dayInfo: [{
                                 foodType: e.currentTarget.dataset.foodtype,
                                 foodTypeDes: e.currentTarget.dataset.foodtypedes,
@@ -340,7 +482,23 @@ Page({
     },
 
     handleAddfood: function(e) {
+        console.log('cacheMenuCountAll', this.data.cacheMenuCountAll)
         let _this = this
+            //shakeshake
+        _this.setData({
+            shakeshake: true
+        })
+        if (_this.data.shakeTimer != null) {
+            clearTimeout(_this.data.shakeTimer)
+        }
+        _this.data.shakeTimer = setTimeout(function() {
+                _this.setData({
+                    shakeshake: false
+                })
+            }, 1000)
+            //shakeshake
+
+
         if (!_this.data.canClick) {
             return
         }
@@ -354,8 +512,7 @@ Page({
         let foodType = e.currentTarget.dataset.foodtype
         let menutypeIndex = e.currentTarget.dataset.menutypeindex
         let foodIndex = e.currentTarget.dataset.foodindex
-        let tmp_menuData = app.globalData.cacheMenuDataAll[day][foodType] //一、这个数据结构是为了数字响应式显示
-            // console.log("******",day,foodType,app.globalData.cacheMenuDataAll,app.globalData.cacheMenuDataAll[day][foodType],tmp_menuData)
+        let tmp_menuData = app.globalData.cacheMenuDataAll[day][foodType] //一、这个数据结构是为了数字响应式显示 
         let tmp_foodCount = tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount
         console.log('已超限购', tmp_foodCount, e.currentTarget.dataset.homebuyingrestrictions, e.currentTarget.dataset.stockleftnum)
         if ((e.currentTarget.dataset.homebuyingrestrictions) && (tmp_foodCount === e.currentTarget.dataset.homebuyingrestrictions || e.currentTarget.dataset.homebuyingrestrictions === 0)) {
@@ -376,6 +533,17 @@ Page({
             } else {
                 tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount++
             }
+
+            //类别对应的数量加1
+            let tmp_cacheMenuCountAll = _this.data.cacheMenuCountAll
+            let tmp_cacheMenuCountAll_count = tmp_cacheMenuCountAll[day][foodType][menutypeIndex]
+            if (!tmp_cacheMenuCountAll_count) { //初始化时已经赋值为0，所以不需要做这步判断了吧
+                tmp_cacheMenuCountAll[day][foodType][menutypeIndex] = 1
+            } else {
+                tmp_cacheMenuCountAll[day][foodType][menutypeIndex] += 1
+            }
+
+
             tmp_menuData.day = e.currentTarget.dataset.day //这两行是为了更新这个临时menuData的day和foodType
             tmp_menuData.foodType = e.currentTarget.dataset.foodtype
             tmp_menuData.foods[menutypeIndex].foods[foodIndex].__food_index = foodIndex //这两行是为了存储两个下标,foodIndex表示这个food在后台数据中的餐类（左侧分类）中的下标
@@ -387,7 +555,8 @@ Page({
             tmp_cacheMenuDataAll[day][foodType] = tmp_menuData
             app.globalData.cacheMenuDataAll = tmp_cacheMenuDataAll //全局更新
             _this.setData({ //添加或减少结束后，setData一定要把全局的赋给他
-                cacheMenuDataAll: app.globalData.cacheMenuDataAll
+                cacheMenuDataAll: app.globalData.cacheMenuDataAll,
+                cacheMenuCountAll: tmp_cacheMenuCountAll
             })
             console.log('全局大数组cacheMenuDataAll:', app.globalData.cacheMenuDataAll)
                 /* **********购物车视图响应式--操作selectedFoods********** */
@@ -413,25 +582,52 @@ Page({
                 totalMoney: app.globalData.totalMoney,
                 realMoney: app.globalData.realMoney
             })
+
+            if (_this.data.cart_top < 0) { //初始时设置cart_top为-1，这样是不是能保证只计算一次
+                const query_2 = wx.createSelectorQuery() //这一串是异步执行的，我有时会糊涂的忘记这件事情，然后就会导致错误
+                query_2.select('.c_scrollPosition_2_forCalculate').boundingClientRect()
+                query_2.selectViewport().scrollOffset()
+                query_2.exec(function(res) {
+                    _this.setData({
+                        cart_top: res[0].top,
+                        cart_height: res[0].height
+                    })
+                    console.log('_this.data.res', res)
+                    if (app.globalData.totalCount == 1) { //等于1表示购物车图标出现
+                        _this.setData({
+                            top_2: _this.data.cart_top
+                        })
+                    }
+                })
+            }
+            if (app.globalData.totalCount == 1 && _this.data.cart_top > 0) { //等于1表示购物车图标出现
+                _this.setData({
+                    top_2: _this.data.cart_top
+                })
+            }
+
+
         }
         if (_this.data.timer) {
             clearTimeout(_this.data.timer)
         }
         _this.data.timer = setTimeout(function() {
                 _this.data.canClick = true
+
             }, 300)
             /*     wx.hideLoading() */
     },
     handleMinusfood: function(e) {
+        console.log('cacheMenuCountAll', this.data.cacheMenuCountAll)
         let _this = this
         if (!_this.data.canClick) {
             return
         }
         _this.data.canClick = false
-        wx.showLoading({
-                title: '添加中',
-                mask: true
-            })
+            // wx.showLoading({
+            //         title: '添加中',
+            //         mask: true
+            //     })
             /* **********数字响应式********** */
         let day = e.currentTarget.dataset.day
         let foodType = e.currentTarget.dataset.foodtype
@@ -443,6 +639,16 @@ Page({
         } else {
             tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount = 0
         }
+
+        //类别对应的数量减1
+        let tmp_cacheMenuCountAll = _this.data.cacheMenuCountAll
+        let tmp_cacheMenuCountAll_count = tmp_cacheMenuCountAll[day][foodType][menutypeIndex]
+        if (tmp_cacheMenuCountAll_count > 0) { //既然可以减，就应该大于0了吧，所以不需要做这步判断了吧
+            tmp_cacheMenuCountAll[day][foodType][menutypeIndex]--
+        } else {
+            tmp_cacheMenuCountAll[day][foodType][menutypeIndex] = 0
+        }
+
         console.log('e:', e.currentTarget.dataset)
         console.log('e menuData:', _this.data.menuData)
             /* **********主菜单视图响应式--操作cacheMenuDataAll大数组********** */
@@ -450,7 +656,8 @@ Page({
         tmp_cacheMenuDataAll[day][foodType] = tmp_menuData
         app.globalData.cacheMenuDataAll = tmp_cacheMenuDataAll //全局更新
         _this.setData({ //添加或减少结束后，setData一定要把全局的赋给他
-            cacheMenuDataAll: app.globalData.cacheMenuDataAll
+            cacheMenuDataAll: app.globalData.cacheMenuDataAll,
+            cacheMenuCountAll: tmp_cacheMenuCountAll
         })
         console.log('大数组cacheMenuDataAll:', _this.data.cacheMenuDataAll)
             /* **********购物车视图响应式--操作selectedFoods********** */
@@ -458,9 +665,15 @@ Page({
             //总计数
         app.globalData.totalCount = app.globalData.totalCount - 1
         _this.setData({
-                totalCount: app.globalData.totalCount
+            totalCount: app.globalData.totalCount
+        })
+
+        if (app.globalData.totalCount == 0) {
+            _this.setData({
+                top_2: _this.data.windowHeight
             })
-            //总价格
+        }
+        //总价格
         app.globalData.totalMoney = parseFloat((parseFloat(app.globalData.totalMoney) - parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2))
             //app.globalData.realMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyRealDeduction)).toFixed(2)
         let tmp_realMoney = parseFloat((parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyRealDeduction)).toFixed(2))
@@ -476,24 +689,132 @@ Page({
             clearTimeout(_this.data.timer)
         }
         _this.data.timer = setTimeout(function() {
-            _this.data.canClick = true
-        }, 300)
-        wx.hideLoading()
+                _this.data.canClick = true
+            }, 300)
+            // wx.hideLoading()
     },
+    // 专门为在购物车中的操作写的--zll
+    handleMinusfoodforCart: function(e) {
+        console.log('cacheMenuCountAll', this.data.cacheMenuCountAll)
+        let _this = this
+        if (!_this.data.canClick) {
+            return
+        }
+        _this.data.canClick = false
+            // wx.showLoading({
+            //         title: '添加中',
+            //         mask: true
+            //     })
+            /* **********数字响应式********** */
+        let day = e.currentTarget.dataset.day
+        let foodType = e.currentTarget.dataset.foodtype
+        let menutypeIndex = e.currentTarget.dataset.menutypeindex
+        let foodIndex = e.currentTarget.dataset.foodindex
+        let tmp_menuData = app.globalData.cacheMenuDataAll[day][foodType] //一、这个数据结构是为了数字响应式显示
+        if (tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount > 0) {
+            tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount--
+        } else {
+            tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount = 0
+        }
+
+        //类别对应的数量减1
+        let tmp_cacheMenuCountAll = _this.data.cacheMenuCountAll
+        let tmp_cacheMenuCountAll_count = tmp_cacheMenuCountAll[day][foodType][menutypeIndex]
+        if (tmp_cacheMenuCountAll_count > 0) { //既然可以减，就应该大于0了吧，所以不需要做这步判断了吧
+            tmp_cacheMenuCountAll[day][foodType][menutypeIndex]--
+        } else {
+            tmp_cacheMenuCountAll[day][foodType][menutypeIndex] = 0
+        }
+
+        console.log('e:', e.currentTarget.dataset)
+        console.log('e menuData:', _this.data.menuData)
+            /* **********主菜单视图响应式--操作cacheMenuDataAll大数组********** */
+        let tmp_cacheMenuDataAll = app.globalData.cacheMenuDataAll
+        tmp_cacheMenuDataAll[day][foodType] = tmp_menuData
+        app.globalData.cacheMenuDataAll = tmp_cacheMenuDataAll //全局更新
+        _this.setData({ //添加或减少结束后，setData一定要把全局的赋给他
+            cacheMenuDataAll: app.globalData.cacheMenuDataAll,
+            cacheMenuCountAll: tmp_cacheMenuCountAll
+        })
+        console.log('大数组cacheMenuDataAll:', _this.data.cacheMenuDataAll)
+            /* **********购物车视图响应式--操作selectedFoods********** */
+        _this.selectedFoodsMinus(e)
+            //总计数
+        app.globalData.totalCount = app.globalData.totalCount - 1
+
+        _this.setData({
+            totalCount: app.globalData.totalCount
+        })
+
+        if (app.globalData.totalCount == 0) {
+            _this.setData({
+                top_2: _this.data.windowHeight
+            })
+        }
+        //总价格
+        app.globalData.totalMoney = parseFloat((parseFloat(app.globalData.totalMoney) - parseFloat(e.currentTarget.dataset.foodprice)).toFixed(2))
+            //app.globalData.realMoney = (parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyRealDeduction)).toFixed(2)
+        let tmp_realMoney = parseFloat((parseFloat(app.globalData.totalMoney) - parseFloat(_this.data.totalMoneyRealDeduction)).toFixed(2))
+        if (tmp_realMoney < 0) { //需要处理这个额度大于实际付款的情况，虽然几乎不可能发生，但是还要容错
+            tmp_realMoney = 0
+        }
+        app.globalData.realMoney = tmp_realMoney
+        _this.setData({
+            totalMoney: app.globalData.totalMoney,
+            realMoney: app.globalData.realMoney
+        })
+        if (_this.data.timer) {
+            clearTimeout(_this.data.timer)
+        }
+        _this.data.timer = setTimeout(function() {
+                _this.data.canClick = true
+            }, 300)
+            //wx.hideLoading()
+
+
+        if (app.globalData.totalCount <= 0) { //为空，就关闭显示板
+            _this.setData({
+                boxActiveFlag: false
+            })
+        } else if (tmp_menuData.foods[menutypeIndex].foods[foodIndex].foodCount <= 0) { // 如果少了一行菜品，就重新计算高度
+            _this.calculteCartHeight()
+        }
+    },
+    // 计算购物车高度，大于最大高度就滚动
+    calculteCartHeight() {
+        let _this = this
+        const query_1 = wx.createSelectorQuery()
+        query_1.select('.cart_scrollPosition_forCalculate').boundingClientRect()
+        query_1.selectViewport().scrollOffset()
+        query_1.exec(function(res) {
+            console.log('cart_scrollPosition_forCalculate', res)
+            if (res[0] != null) {
+                let cartMaxHeight = _this.data.windowHeight / 2
+                if (res[0].height < cartMaxHeight) {
+                    console.log('res[0].height', res[0].height)
+                    console.log('_this.data.cartMaxHeight', cartMaxHeight)
+                    _this.setData({
+                        cartHeight: res[0].height
+                    })
+                } else {
+                    _this.setData({
+                        cartHeight: cartMaxHeight
+                    })
+                }
+                console.log('cartHeight', _this.data.cartHeight)
+            }
+
+        })
+    },
+    // 点击购物车图标出现已选择菜品列表
     handleClickBox: function() {
+        console.log('selectedFoods', this.data.selectedFoods)
         let _this = this
         _this.setData({
             boxActiveFlag: !_this.data.boxActiveFlag
         })
         if (_this.data.boxActiveFlag == true) { //获取计算购物车的scroll的高度所必须的参数top_1 top_2
-            const query_1 = wx.createSelectorQuery()
-            query_1.select('.c_scrollPosition_1_forCalculate').boundingClientRect()
-            query_1.selectViewport().scrollOffset()
-            query_1.exec(function(res) {
-                _this.setData({
-                    top_1: res[0].height // #the-id节点的占用高度
-                })
-            })
+            _this.calculteCartHeight()
         }
     },
     /* 菜品详情 */
@@ -522,13 +843,16 @@ Page({
         })
         _this.refreshLabelActiveList()
     },
+    // 初始化，获得一些必要消息
     initMenu: function() {
         let _this = this;
         wx.getSystemInfo({
             success: function(res) {
-                //console.log('windowHeight',res.windowHeight)
+                console.log('windowHeight', res.windowHeight)
                 _this.setData({
-                    windowHeight: res.windowHeight
+                    windowHeight: res.windowHeight,
+                    cartHeight: res.windowHeight / 2,
+                    top_2: res.windowHeight //初次加载，设置高度为windowHeight
                 })
             }
         })
@@ -541,29 +865,20 @@ Page({
                     top_0: res[0].top // #the-id节点的占用高度
                 })
             }
-            //console.log('top_0',res[0])
+            console.log('top_0', res[0])
         })
-        const query_2 = wx.createSelectorQuery()
-        query_2.select('.c_scrollPosition_2_forCalculate').boundingClientRect()
-        query_2.selectViewport().scrollOffset()
-        query_2.exec(function(res) {
-            _this.setData({
-                    top_2: res[0].top,
-                    /*         height_2: res[0].height */
-                })
-                //console.log('top_2',res[0])
-                //console.log('windowHeight',_this.data.windowHeight)
-        })
+
         const query_3 = wx.createSelectorQuery()
         query_3.select('.c_labelPosition_forCalculate').boundingClientRect()
         query_3.selectViewport().scrollOffset()
         query_3.exec(function(res) {
             if (res[0] != null) {
                 _this.setData({
-                    height_3: res[0].height // #the-id节点的占用高度
+                    height_3: res[0].height
                 })
             }
         })
+
     },
     /* 获取七天日期 */
     getTimeDataByResponse: function() {
@@ -573,11 +888,18 @@ Page({
         }
         menuModel.getTimeData(param, function(res) { //回调获取七天列表，赋给本地timeInfo
             let resData = res
+
             resData.userOrderDateVO.forEach(element => {
-                element.dateShort = element.date.substring(8)
-                element.dateWeak = moment(element.date).format('dddd')
+
+                //element.dateShort = element.date.substring(8)
+                element.dateShortShort = element.date.substring(8)
+                element.dateShort = element.date.substring(5)
+                element.dateWeak = moment(element.date).format('ddd')
             })
+
+            console.log('resData', resData)
             _this.setData({ //首次进入的active的日期信息，保存下来
+                    timeDesActiveShow: res.userOrderDateVO[0].dateShort,
                     timeDesActive: res.userOrderDateVO[0].date,
                     timeWeakDesActive: res.userOrderDateVO[0].dateWeak,
                     timeInfo: resData
@@ -610,9 +932,45 @@ Page({
             } else {
                 //所有餐标都是false，则设置为4
             }
+            // zll星期一再来看看
+            //保存可定餐标
+            let tep_allFoodtype = {}
+            if (resData.userOrderMealTypeVO.BREAKFAST) {
+                const food = {}
+                food.flag = true
+                food.name = "早餐"
+                food.mealtype = "BREAKFAST"
+                tep_allFoodtype[0] = food
+            }
+            if (resData.userOrderMealTypeVO.LUNCH) {
+                const food = {}
+                food.flag = true
+                food.name = "午餐"
+                food.mealtype = "LUNCH"
+                tep_allFoodtype[1] = food
+
+            }
+            if (resData.userOrderMealTypeVO.DINNER) {
+                const food = {}
+                food.flag = true
+                food.name = "晚餐"
+                food.mealtype = "DINNER"
+                tep_allFoodtype[2] = food
+            }
+            if (resData.userOrderMealTypeVO.NIGHT) {
+                const food = {}
+                food.flag = true
+                food.name = "夜宵"
+                food.mealtype = "NIGHT"
+                tep_allFoodtype[3] = food
+            }
+            _this.setData({
+                allFoodtype: tep_allFoodtype
+            })
             _this.getMenuDataByResponse()
         })
     },
+    // 从后台获取当前日期当前时餐对应的餐品列表信息
     getMenuDataByResponse: function() {
         let _this = this
             //获取后台数据
@@ -624,8 +982,23 @@ Page({
         menuModel.getMenuData(param, (res) => {
             let resData = res
             resData.deadlineDes = moment(resData.deadline).calendar()
+
             let tmp_cacheMenuDataAll = app.globalData.cacheMenuDataAll
             tmp_cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag] = resData
+
+            //计算每个类别被选了多少个菜
+            let menuLength = 0
+            let menuCountList = []
+            if (resData.foods != undefined && resData.foods != null) { //兼容操作，以防取foods.length出错
+                menuLength = resData.foods.length
+            }
+            for (let i = 0; i < menuLength; i++) {
+                menuCountList.push(0)
+            }
+            let tmp_cacheMenuCountAll = _this.data.cacheMenuCountAll
+            tmp_cacheMenuCountAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag] = menuCountList
+
+
             if (resData.foodLabels != null) {
                 //下面 标签数组本地化
                 if (_this.data.foodLabels == null || _this.data.foodLabels.length == 0) {
@@ -647,11 +1020,124 @@ Page({
             _this.data.mealLabelUsedActive = resData.mealLabelFlag
             _this.data.organizeMealLabelActive = resData.organizeMealLabel
             _this.setData({ //这里放在最后，是为了让异步setData最后再刷新，防止页面闪动
-                cacheMenuDataAll: tmp_cacheMenuDataAll,
-                /*         mealLabelUsedActive: resData.mealLabelFlag, 
-                        organizeMealLabelActive: resData.organizeMealLabel */
-            })
+                    cacheMenuDataAll: tmp_cacheMenuDataAll,
+                    cacheMenuCountAll: tmp_cacheMenuCountAll
+                })
+                //zll
+                //判断截止日期是否大于24小时，小于24小时的显示倒计时
+            let temp_dateline = new Date(resData.deadline) //截止日期
+            let now = new Date()
+            let hour = (temp_dateline - now) / (1000 * 3600)
+
+            if (hour > 0 && hour <= 24) { //表示截止日期小于24小时
+
+                _this.setData({
+                    countDownShow: true
+                })
+                console.log('截止日期true', hour)
+                let wholesecond = (temp_dateline - now - 1000) / 1000
+                let second = parseInt(wholesecond % 60) //秒
+                let minute = parseInt((parseInt(wholesecond / 60)) % 60) //分
+                hour = parseInt(wholesecond / 3600) //小时
+                console.log('截止日期true', hour)
+                _this.setData({
+                    countDownTime: hour + '时' + minute + '分' + second + '秒'
+                })
+                clearInterval(_this.data.countDownInterval) //要先清除，再新增
+                _this.data.countDownInterval = setInterval(() => {
+                    if (hour < 0 || minute < 0 || second < 0) { //只判断hour就可以了吧
+                        clearInterval(_this.data.countDownInterval)
+                    } else {
+                        if (second > 0) {
+                            second -= 1
+                        } else if (minute > 0) {
+                            minute -= 1
+                            second = 59
+                        } else {
+                            minute = 59
+                            second = 59
+                            hour -= 1
+                        }
+                        _this.setData({
+                            countDownTime: hour + '时' + minute + '分' + second + '秒'
+                        })
+                    }
+                }, 1000)
+            } else {
+                console.log('截止日期false', hour)
+                _this.setData({
+                    countDownShow: false,
+                    countDownTime: ''
+                })
+                clearInterval(_this.data.countDownInterval)
+            }
+            if (_this.data.time_remind_height == 0) {
+                const query_2 = wx.createSelectorQuery()
+                query_2.select('.time_c_scrollPosition_forCalculate').boundingClientRect()
+                query_2.selectViewport().scrollOffset()
+                query_2.exec(function(res) {
+                    if (res[0] != null) {
+                        _this.setData({
+                            time_remind_height: res[0].height //   高度
+                        })
+                    }
+                    console.log('.time_c_scrollPosition_forCalculate', res)
+                })
+            }
+
         })
+    },
+    // 显示倒计时的函数
+    showCountDown() {
+        let _this = this
+            //zll
+            //判断截止日期是否大于24小时，小于24小时的显示倒计时
+        let temp_dateline = new Date(_this.data.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag].deadline) //截止日期
+        let now = new Date()
+        let hour = (temp_dateline - now) / (1000 * 3600)
+
+        if (hour > 0 && hour <= 24) { //表示截止日期小于24小时
+            _this.setData({
+                countDownShow: true
+            })
+            console.log('截止日期true', hour)
+            let wholesecond = (temp_dateline - now - 1000) / 1000
+            let second = parseInt(wholesecond % 60) //秒
+            let minute = parseInt((parseInt(wholesecond / 60)) % 60) //分
+            hour = parseInt(wholesecond / 3600) //小时 
+
+            _this.setData({
+                countDownTime: hour + '时' + minute + '分' + second + '秒'
+            })
+            clearInterval(_this.data.countDownInterval) //要先清除，再新增
+
+            _this.data.countDownInterval = setInterval(() => {
+                if (hour < 0 || minute < 0 || second < 0) { //只判断hour就可以了吧
+                    clearInterval(_this.data.countDownInterval)
+                } else {
+                    if (second > 0) {
+                        second -= 1
+                    } else if (minute > 0) {
+                        minute -= 1
+                        second = 59
+                    } else {
+                        minute = 59
+                        second = 59
+                        hour -= 1
+                    }
+                    _this.setData({
+                        countDownTime: hour + '时' + minute + '分' + second + '秒'
+                    })
+                }
+            }, 1000)
+        } else {
+            _this.setData({
+                countDownShow: false,
+                countDownTime: ''
+            })
+            console.log('截止日期false', hour)
+            clearInterval(_this.data.countDownInterval)
+        }
     },
     /* 刷新标签的显示列表 */
     refreshLabelActiveList: function() {
@@ -711,6 +1197,7 @@ Page({
                       }) */
         }).exec()
     },
+    // 清空购物车
     handleClearFoods: function() {
         let _this = this
         app.globalData.cacheMenuDataAll = [
@@ -739,34 +1226,38 @@ Page({
             totalCount: 0,
             totalMoney: 0,
             totalMoneyRealDeduction: 0,
-            realMoney: 0
+            realMoney: 0,
+            top_2: _this.data.windowHeight, //totalCount为0即不显示下面购物车，所以高度为windowheight
+            boxActiveFlag: false
         })
         _this.getMenuDataByResponse() //必须刷新一下，否则原来menu页面上的视图都没有数据了
-        if (_this.data.timer) {
-            clearTimeout(_this.data.timer)
-        }
-        _this.data.timer = setTimeout(function() {
-            _this.setData({
-                boxActiveFlag: !_this.data.boxActiveFlag
-            })
-        }, 1000)
+            // if (_this.data.timer) {
+            //     clearTimeout(_this.data.timer)
+            // }
+            // _this.data.timer = setTimeout(function() {
+            //     _this.setData({
+            //         boxActiveFlag: !_this.data.boxActiveFlag
+            //     })
+            // }, 1000)
     },
-    /* 滚动事件监听 */
+    // 滚动事件监听  
     handleScroll: function(e) {
         //console.log('scrollview滚动距离:',e.detail.scrollTop)
         let _this = this
         if (e.detail.scrollTop > 300) {
             _this.setData({
-                showBackToTopFlag: true
+                showBackToTopFlag: true,
+                mainView: 'main1'
             })
         } else {
             _this.setData({
-                showBackToTopFlag: false
+                showBackToTopFlag: false,
+                mainView: 'main0'
             })
         }
-        if (this.data.scrollLintenFlag) { //允许触发滚动事件，才执行滚动事件
+        if (this.data.scrollListenFlag) { //允许触发滚动事件，才执行滚动事件
             let scrollY = e.detail.scrollTop
-                //console.log(e.detail.scrollTop)
+                //console.log('e.detail.scrollTop', e.detail.scrollTop)
             let listHeightLength = _this.data.listHeight.length
             for (let i = 0; i < listHeightLength; i++) {
                 let height1 = _this.data.listHeight[i]
@@ -795,7 +1286,7 @@ Page({
     /* 滚动到底部事件监听 */
     handleScrolltolower: function(e) {
         /*    暂时先注释掉了，体验不太好
-             if (this.data.scrollLintenFlag) { //允许触发滚动事件，才执行滚动事件
+             if (this.data.scrollListenFlag) { //允许触发滚动事件，才执行滚动事件
               let _this = this
               let listHeightLength = _this.data.listHeight.length
               _this.setData({
@@ -814,6 +1305,8 @@ Page({
                 for (var y = 0; y < tmp_length; y++) {
                     if (selectedFoods[x].dayInfo[y].foodType == foodtype) {
                         _this.data.activeSelectedFoods = selectedFoods[x].dayInfo[y] //当餐的已选中的food列表
+
+                        console.log(' _this.data.activeSelectedFoods', _this.data.activeSelectedFoods)
                         y = tmp_length
                     }
                 }
@@ -823,7 +1316,6 @@ Page({
     },
     /* 金额低于餐标的计算检查-总体，在切换日期或餐时的时候触发 */
     checkStandardPriceTotal: function() {
-
         let _this = this
         if (_this.data.activeSelectedFoods) {
             //可使用餐标 且 总金额小于餐标 且总金额不等于0(因为一道菜都没有选择的话,是允许切换的) 的情况
@@ -841,12 +1333,57 @@ Page({
 
     goToMenuCommit() {
         let _this = this
-        let flag = _this.checkStandardPriceTotal() //金额低于餐标的计算检查-总体，在切换日期或餐时的时候触发
+
+        //是否可低于企业餐标
+        let tmp_menuData = app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
+        let flag = false; //不需要提示
+        if (!tmp_menuData.lowerThanMealLabelFlag) { //不能低于企业餐标
+
+
+            let tmp_selectedFoods = getApp().globalData.selectedFoods
+            let tmp_organizeMealLabel = ''
+            let tmp_timeDesActive = ''
+            let tmp_timeWeakDesActive = ''
+            let tmp_foodtypeChDesActive = ''
+            let tmp_foodTypeTotalRealMoney = ''
+            for (let day = 0; day < tmp_selectedFoods.length; day++) {
+                for (let time = 0; time < tmp_selectedFoods[day].dayInfo.length; time++) {
+                    let tmp_activeSelectedFoods = tmp_selectedFoods[day].dayInfo[time]
+
+                    //可使用餐标 且 总金额小于餐标 且总金额不等于0(因为一道菜都没有选择的话,是允许切换的) 的情况
+                    if ((tmp_activeSelectedFoods.mealLabelFlag == true) &&
+                        (tmp_activeSelectedFoods.foodTypeTotalRealMoney < tmp_activeSelectedFoods.organizeMealLabel) &&
+                        (tmp_activeSelectedFoods.foodTypeTotalRealMoney != 0)) {
+                        flag = true //需要提示
+                        tmp_organizeMealLabel = tmp_activeSelectedFoods.organizeMealLabel
+                        tmp_timeDesActive = tmp_selectedFoods[day].dayDes
+                        tmp_timeWeakDesActive = tmp_selectedFoods[day].dayWeek
+                        tmp_foodtypeChDesActive = _this.data.mapMenutype[tmp_activeSelectedFoods.foodType]
+                        tmp_foodTypeTotalRealMoney = tmp_activeSelectedFoods.foodTypeTotalRealMoney
+
+                        _this.setData({
+                            timeActiveFlag: tmp_selectedFoods[day].day,
+                            timeDesActive: tmp_timeDesActive,
+                            timeWeakDesActive: tmp_timeWeakDesActive,
+                            timeDesActiveShow: tmp_selectedFoods[day].dayShort,
+                            foodtypeActiveFlag: tmp_activeSelectedFoods.foodType
+                        })
+                        _this.getMenuData()
+                        _this.backToTop()
+                        break
+                    }
+                }
+                if (flag) {
+                    break;
+                }
+            }
+        }
+
         if (flag === true) { //需要提示
             wx.showModal({
-                title: '未达餐标金额(¥' + _this.data.activeSelectedFoods.organizeMealLabel + ')',
-                content: _this.data.timeDesActive + '(' + _this.data.timeWeakDesActive + ')' + _this.data.foodtypeChDesActive + ':\r\n' +
-                    '金额(¥' + _this.data.activeSelectedFoods.foodTypeTotalRealMoney + ')低于餐标,请继续选餐',
+                title: '未达餐标金额(¥' + tmp_organizeMealLabel + ')',
+                content: tmp_timeDesActive + '(' + tmp_timeWeakDesActive + ')' + tmp_foodtypeChDesActive + ':\r\n' +
+                    '金额(¥' + tmp_foodTypeTotalRealMoney + ')低于餐标,请继续选餐',
                 showCancel: false,
                 confirmText: '返回'
             })
@@ -858,6 +1395,7 @@ Page({
                     _this.data.realMoney,
             })
         }
+
     },
 
 
@@ -917,7 +1455,13 @@ Page({
             totalCount: 0,
             totalMoney: 0,
             totalMoneyRealDeduction: 0,
-            realMoney: 0
+            realMoney: 0,
+            top_2: _this.data.windowHeight //都离开了，还设置啥
+
         })
     },
+    //用于解决小程序的遮罩层滚动穿透
+    preventTouchMove: function() {
+
+    }
 })

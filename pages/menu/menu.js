@@ -89,7 +89,8 @@ Page({
         cart_height: 0, //购物车的高度
         time_remind_height: 0, // 截止时间，倒计时的view的高度
         shakeshake: false,
-        shakeTimer: null
+        shakeTimer: null,
+
     },
     /* 页面隐藏后回收定时器指针 */
     onHide: function() {
@@ -123,7 +124,14 @@ Page({
     // 点击上一天
     handleChangeTimeActivePrev: function(e) {
         let _this = this
-        let flag = _this.checkStandardPriceTotal() //金额低于餐标的计算检查-总体，在切换日期或餐时的时候触发
+
+        //是否可低于企业餐标
+        let tmp_menuData = app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
+        let flag = false; //不需要提示
+        if (!tmp_menuData.lowerThanMealLabelFlag) { //不能低于企业餐标
+            flag = _this.checkStandardPriceTotal() //金额低于餐标的计算检查-总体，在切换日期或餐时的时候触发
+        }
+
         if (flag) { //需要提示
             wx.showModal({
                 title: '未达餐标金额(¥' + _this.data.activeSelectedFoods.organizeMealLabel + ')',
@@ -151,8 +159,16 @@ Page({
     },
     // 点击下一天
     handleChangeTimeActiveNext: function(e) {
+        console.log('this.data.activeSelectedFoods', this.data.activeSelectedFoods)
         let _this = this
-        let flag = _this.checkStandardPriceTotal() //金额低于餐标的计算检查-总体，在切换日期或餐时的时候触发
+
+        //是否可低于企业餐标
+        let tmp_menuData = app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
+        let flag = false; //不需要提示
+        if (!tmp_menuData.lowerThanMealLabelFlag) { //不能低于企业餐标
+            flag = _this.checkStandardPriceTotal() //金额低于餐标的计算检查-总体，在切换日期或餐时的时候触发
+        }
+
         if (flag) { //需要提示
             wx.showModal({
                 title: '未达餐标金额(¥' + _this.data.activeSelectedFoods.organizeMealLabel + ')',
@@ -186,7 +202,14 @@ Page({
     },
     handleChangeTimeActive: function(e) { //点击日期bar
         let _this = this
-        let flag = _this.checkStandardPriceTotal() //金额低于餐标的计算检查-总体，在切换日期或餐时的时候触发
+
+        //是否可低于企业餐标
+        let tmp_menuData = app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
+        let flag = false; //不需要提示
+        if (!tmp_menuData.lowerThanMealLabelFlag) { //不能低于企业餐标
+            flag = _this.checkStandardPriceTotal() //金额低于餐标的计算检查-总体，在切换日期或餐时的时候触发
+        }
+
         if (flag === true) { //需要提示
             wx.showModal({
                 title: '未达餐标金额(¥' + _this.data.activeSelectedFoods.organizeMealLabel + ')',
@@ -215,7 +238,14 @@ Page({
     // 点击早餐、午餐、晚餐、夜宵
     handleChangeFoodtypeActive: function(e) {
         let _this = this
-        let flag = _this.checkStandardPriceTotal() //金额低于餐标的计算检查-总体，在切换日期或餐时的时候触发
+
+        //是否可低于企业餐标
+        let tmp_menuData = app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
+        let flag = false; //不需要提示
+        if (!tmp_menuData.lowerThanMealLabelFlag) { //不能低于企业餐标
+            flag = _this.checkStandardPriceTotal() //金额低于餐标的计算检查-总体，在切换日期或餐时的时候触发
+        }
+
         if (flag === true) { //需要提示
             wx.showModal({
                 title: '未达餐标金额(¥' + _this.data.activeSelectedFoods.organizeMealLabel + ')',
@@ -1303,55 +1333,60 @@ Page({
 
     goToMenuCommit() {
         let _this = this
-        let flag = false
 
-        let tmp_selectedFoods = getApp().globalData.selectedFoods
-        let tmp_organizeMealLabel = ''
-        let tmp_timeDesActive = ''
-        let tmp_timeWeakDesActive = ''
-        let tmp_foodtypeChDesActive = ''
-        let tmp_foodTypeTotalRealMoney = ''
-        for (let day = 0; day < tmp_selectedFoods.length; day++) {
-            for (let time = 0; time < tmp_selectedFoods[day].dayInfo.length; time++) {
-                let tmp_activeSelectedFoods = tmp_selectedFoods[day].dayInfo[time]
+        //是否可低于企业餐标
+        let tmp_menuData = app.globalData.cacheMenuDataAll[_this.data.timeActiveFlag][_this.data.foodtypeActiveFlag]
+        let flag = false; //不需要提示
+        if (!tmp_menuData.lowerThanMealLabelFlag) { //不能低于企业餐标
 
-                //可使用餐标 且 总金额小于餐标 且总金额不等于0(因为一道菜都没有选择的话,是允许切换的) 的情况
-                if ((tmp_activeSelectedFoods.mealLabelFlag == true) &&
-                    (tmp_activeSelectedFoods.foodTypeTotalRealMoney < tmp_activeSelectedFoods.organizeMealLabel) &&
-                    (tmp_activeSelectedFoods.foodTypeTotalRealMoney != 0)) {
-                    flag = true //需要提示
-                    tmp_organizeMealLabel = tmp_activeSelectedFoods.organizeMealLabel
-                    tmp_timeDesActive = tmp_selectedFoods[day].dayDes
-                    tmp_timeWeakDesActive = tmp_selectedFoods[day].dayWeek
-                    tmp_foodtypeChDesActive = _this.data.mapMenutype[tmp_activeSelectedFoods.foodType]
-                    tmp_foodTypeTotalRealMoney = tmp_activeSelectedFoods.foodTypeTotalRealMoney
 
-                    _this.setData({
-                        timeActiveFlag: tmp_selectedFoods[day].day,
-                        timeDesActive: tmp_timeDesActive,
-                        timeWeakDesActive: tmp_timeWeakDesActive,
-                        timeDesActiveShow: tmp_selectedFoods[day].dayShort,
-                        foodtypeActiveFlag: tmp_activeSelectedFoods.foodType
-                    })
-                    _this.getMenuData()
-                    _this.backToTop()
-                    break
+            let tmp_selectedFoods = getApp().globalData.selectedFoods
+            let tmp_organizeMealLabel = ''
+            let tmp_timeDesActive = ''
+            let tmp_timeWeakDesActive = ''
+            let tmp_foodtypeChDesActive = ''
+            let tmp_foodTypeTotalRealMoney = ''
+            for (let day = 0; day < tmp_selectedFoods.length; day++) {
+                for (let time = 0; time < tmp_selectedFoods[day].dayInfo.length; time++) {
+                    let tmp_activeSelectedFoods = tmp_selectedFoods[day].dayInfo[time]
+
+                    //可使用餐标 且 总金额小于餐标 且总金额不等于0(因为一道菜都没有选择的话,是允许切换的) 的情况
+                    if ((tmp_activeSelectedFoods.mealLabelFlag == true) &&
+                        (tmp_activeSelectedFoods.foodTypeTotalRealMoney < tmp_activeSelectedFoods.organizeMealLabel) &&
+                        (tmp_activeSelectedFoods.foodTypeTotalRealMoney != 0)) {
+                        flag = true //需要提示
+                        tmp_organizeMealLabel = tmp_activeSelectedFoods.organizeMealLabel
+                        tmp_timeDesActive = tmp_selectedFoods[day].dayDes
+                        tmp_timeWeakDesActive = tmp_selectedFoods[day].dayWeek
+                        tmp_foodtypeChDesActive = _this.data.mapMenutype[tmp_activeSelectedFoods.foodType]
+                        tmp_foodTypeTotalRealMoney = tmp_activeSelectedFoods.foodTypeTotalRealMoney
+
+                        _this.setData({
+                            timeActiveFlag: tmp_selectedFoods[day].day,
+                            timeDesActive: tmp_timeDesActive,
+                            timeWeakDesActive: tmp_timeWeakDesActive,
+                            timeDesActiveShow: tmp_selectedFoods[day].dayShort,
+                            foodtypeActiveFlag: tmp_activeSelectedFoods.foodType
+                        })
+                        _this.getMenuData()
+                        _this.backToTop()
+                        break
+                    }
                 }
-            }
-            if (flag) {
-                break;
+                if (flag) { //需要提示 
+                    wx.showModal({
+                        title: '未达餐标金额(¥' + tmp_organizeMealLabel + ')',
+                        content: tmp_timeDesActive + '(' + tmp_timeWeakDesActive + ')' + tmp_foodtypeChDesActive + ':\r\n' +
+                            '金额(¥' + tmp_foodTypeTotalRealMoney + ')低于餐标,请继续选餐',
+                        showCancel: false,
+                        confirmText: '返回'
+                    })
+                    break;
+                }
             }
         }
 
-        if (flag === true) { //需要提示
-            wx.showModal({
-                title: '未达餐标金额(¥' + tmp_organizeMealLabel + ')',
-                content: tmp_timeDesActive + '(' + tmp_timeWeakDesActive + ')' + tmp_foodtypeChDesActive + ':\r\n' +
-                    '金额(¥' + tmp_foodTypeTotalRealMoney + ')低于餐标,请继续选餐',
-                showCancel: false,
-                confirmText: '返回'
-            })
-        } else {
+        if (flag === false) {
             wx.navigateTo({
                 url: '/pages/menu/confirm/confirm?totalMoney=' +
                     _this.data.totalMoney + '&totalMoneyRealDeduction=' +
@@ -1359,7 +1394,7 @@ Page({
                     _this.data.realMoney,
             })
         }
-        console.log('goToMenuCommit', tmp_selectedFoods)
+
     },
 
 
