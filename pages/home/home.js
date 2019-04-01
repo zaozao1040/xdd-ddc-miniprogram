@@ -14,7 +14,7 @@ Page({
         imageWidth: wx.getSystemInfoSync().windowWidth,
         timer: null,
         canClick: true,
-        showDaliFlag: false, //显示新人大礼的标志 默认不显示
+        showDaliFlag: false, //显示新人大礼的标志  默认不显示
         showCheckFlag: false, //显示审核状态框标志 默认不显示
         showUserAuthFlag: false, //显示用户授权框标志 默认不显示
         registered: false,
