@@ -166,8 +166,14 @@ Page({
      */
 
     onLoad: function(options) {
-        // console.log('homeonload')
-        //wx.setStorageSync("windowNoticeCodeList", '')
+        //首页很重要，这几个非常稳定几乎不变更数据的接口，放在onload，只有首页取餐放在onShow里面
+        console.log('onLoad') 
+        let _this = this
+        _this.initHome()
+        let param = {
+            userCode: wx.getStorageSync('userInfo').userCode
+        }
+        _this.getNotice(param)
     },
 
     /**
@@ -176,7 +182,6 @@ Page({
     onShow: function() {
         console.log('onshow')
         let _this = this
-        _this.initHome()
 
         let tmp_userInfo = wx.getStorageSync('userInfo')
         console.log('tmp_userInfo', tmp_userInfo)
@@ -204,10 +209,7 @@ Page({
             /* 获取首页取餐信息 */
             _this.getTakeMealInfo()
 
-            let param = {
-                userCode: wx.getStorageSync('userInfo').userCode
-            }
-            _this.getNotice(param)
+            
         }
         console.log('新人大礼标志showDaliFlag', _this.data.showDaliFlag)
     },
@@ -349,9 +351,9 @@ Page({
                                 image: '../../images/msg/success.png',
                                 duration: 2000
                             })
-                            wx.reLaunch({
+                            /* wx.reLaunch({  //注释掉，取餐后不刷新，减少请求
                                 url: '/pages/home/home'
-                            })
+                            }) */
                         } else {
                             wx.hideLoading()
                             wx.showToast({
