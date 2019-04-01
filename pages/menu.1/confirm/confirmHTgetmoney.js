@@ -54,6 +54,7 @@ Page({
         finalMoney: 0,
 
         showSelectFlag: false, //展示填写姓名和配送地址的弹出框，默认不展示
+        calcParams: null, // 获取订单金额请求参数，为了付款的时候不进行重复计算
     },
 
     initAddress: function() {
@@ -85,23 +86,23 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function(options) {
+    onLoad: function(options) { //这个options是什么东西啊
         this.initAddress()
         let _this = this
         _this.setData({
             selectedFoods: getApp().globalData.selectedFoods,
             totalMoney: options.totalMoney,
-            totalMoneyRealDeduction: options.totalMoneyRealDeduction,
-            realMoney: options.realMoney,
-            realMoney_save: options.realMoney
+            //totalMoneyRealDeduction: options.totalMoneyRealDeduction,
+            // realMoney: options.realMoney,
+            // realMoney_save: options.realMoney
         })
-        console.log('selectedFoods', this.data.selectedFoods)
-        console.log('options', options)
+        _this.getOrderMoney()
     },
     /**
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
+        console.log('onShow')
         let _this = this
         _this.setData({
             address: wx.getStorageSync('userInfo').address,
@@ -125,8 +126,7 @@ Page({
             })
             //从后端获取钱包余额
         _this.getWallet()
-            //从后端获取优惠券信息
-        _this.getDiscount()
+
     },
     /* 页面隐藏后回收定时器指针 */
     onHide: function() {
@@ -167,8 +167,10 @@ Page({
                 discountPrice: 0,
                 discountStandardPrice: 0
             },
-            realMoney: this.data.realMoney_save
+            //realMoney: this.data.realMoney_save
         })
+
+        this.getOrderMoneyAfterOperationsWithDiscount()
     },
     /* 改变现实优惠券选择页的展示状态 */
     handleChangeSelectDiscountFlag: function() {
@@ -181,24 +183,47 @@ Page({
         let _this = this
         console.log('选中的优惠券信息:', e.detail)
             //然后计算折扣掉的金额discountMoney
-        let tmp_realMoney = _this.data.realMoney_save
-        if (e.detail.discountType == 'REDUCTION') {
-            tmp_realMoney = parseFloat((parseFloat(tmp_realMoney) - parseFloat(e.detail.discountPrice)).toFixed(2))
-        } else if (e.detail.discountType == 'DISCOUNT') {
-            tmp_realMoney = parseFloat((parseFloat(_this.data.realMoney_save) * e.detail.discountPrice + 0.00001).toFixed(2))
-
-            console.log('tmp_realMoney', tmp_realMoney)
-        } else {
-            tmp_realMoney = 0
-        }
+            //let tmp_realMoney = 0
+            // if (e.detail.discountType == 'REDUCTION') {
+            //     tmp_realMoney = parseFloat((parseFloat(_this.data.realMoney_save) - parseFloat(e.detail.discountPrice)).toFixed(2))
+            //     _this.setData({
+            //         discountMoney: e.detail.discountPrice
+            //     })
+            // } else if (e.detail.discountType == 'DISCOUNT') {
+            //     tmp_realMoney = parseFloat(parseFloat(_this.data.realMoney_save) * e.detail.discountPrice).toFixed(2)
+            //     _this.setData({
+            //         discountMoney: parseFloat(parseFloat(_this.data.realMoney_save) * (1 - e.detail.discountPrice)).toFixed(2)
+            //     })
+            // } else {
+            //     tmp_realMoney = 0
+            // }
         _this.setData({
             showSelectDiscountFlag: !_this.data.showSelectDiscountFlag,
             useDiscountFlag: true,
-            adviceDiscountObj: e.detail,
-            realMoney: tmp_realMoney,
-            discountMoney: parseFloat((parseFloat(_this.data.realMoney_save) - tmp_realMoney).toFixed(2))
+            adviceDiscountObj: e.detail
+
         })
-        console.log(_this.data.realMoney)
+        _this.getOrderMoneyAfterOperationsWithDiscount()
+    },
+    getOrderMoneyAfterOperationsWithDiscount() {
+        let _this = this
+        let param = _this.data.calcParams
+        let tmp_userDiscountCode = null
+        if (_this.data.adviceDiscountObj) {
+            tmp_userDiscountCode = _this.data.adviceDiscountObj.userDiscountCode
+        }
+        param.userDiscountCode = tmp_userDiscountCode
+        console.log('获取订单金额请求参数:', param)
+        confirmModel.calculateOrderMoney(param, function(res) {
+            console.log('支付结果返回：', res)
+            if (res.code === 0) {
+                let data = res.data
+                _this.setData({
+                    discountMoney: data.discountMoney,
+                    realMoney: data.orderMoney
+                })
+            }
+        })
     },
     /* 从后端获取优惠券信息 */
     getDiscount: function() {
@@ -223,25 +248,30 @@ Page({
                             tmp_canusedDiscountList.push(element)
                         }
                     })
+                    console.log('tmp_canusedDiscountList_this.data.realMoney', _this.data.realMoney)
+                    console.log('tmp_canusedDiscountList', tmp_canusedDiscountList)
                     if (tmp_canusedDiscountList.length > 0) {
                         //推荐的就取第一个
                         let tmp_adviceDiscountObj = tmp_canusedDiscountList[0]
-                            //然后计算折扣掉后的金额 
-                        let tmp_realMoney = _this.data.realMoney_save
-                        if (tmp_adviceDiscountObj.discountType == 'REDUCTION') {
-                            tmp_realMoney = parseFloat((parseFloat(tmp_realMoney) - parseFloat(tmp_adviceDiscountObj.discountPrice)).toFixed(2))
-                        } else if (tmp_adviceDiscountObj.discountType == 'DISCOUNT') {
-                            tmp_realMoney = parseFloat((parseFloat(tmp_realMoney) * parseFloat(tmp_adviceDiscountObj.discountPrice) + 0.00001).toFixed(2))
-                            console.log('tmp_realMoney', tmp_realMoney)
-                        } else {}
+                            //然后计算折扣掉的金额discountMoney
+                            // let tmp_discountMoney = 0
+                            // if (tmp_adviceDiscountObj.discountType == 'REDUCTION') {
+                            //     tmp_discountMoney = tmp_adviceDiscountObj.discountPrice
+                            // } else if (tmp_adviceDiscountObj.discountType == 'DISCOUNT') {
+                            //     tmp_discountMoney = parseFloat(parseFloat(_this.data.realMoney_save) * (1 - tmp_adviceDiscountObj.discountPrice)).toFixed(2)
+                            // } else {}
                         _this.setData({
                             canusedDiscountList: tmp_canusedDiscountList,
-                            adviceDiscountObj: tmp_adviceDiscountObj,
-                            discountMoney: parseFloat((parseFloat(_this.data.realMoney_save) - parseFloat(tmp_realMoney)).toFixed(2)),
-                            realMoney: tmp_realMoney
+                            adviceDiscountObj: tmp_adviceDiscountObj
+                                // discountMoney: tmp_discountMoney,
+                                // realMoney: parseFloat((parseFloat(_this.data.realMoney_save) - parseFloat(tmp_discountMoney)).toFixed(2))
                         })
+
+                        console.log('收到响应(优惠券列表):', tmp_adviceDiscountObj)
                     }
                 }
+                console.log('获取订单金额请求参数', _this.data.adviceDiscountObj)
+                _this.getOrderMoneyAfterOperationsWithDiscount()
             }
         })
     },
@@ -328,6 +358,67 @@ Page({
         }
     },
     /**
+     * 从后台获取总价，企业总抵扣，优惠券抵扣金额，最后金额等信息
+     */
+    getOrderMoney: function() {
+        let _this = this
+            /**** 拼接这个庞大的参数 ****/
+        let tmp_userDiscountCode = null
+        if (_this.data.adviceDiscountObj) {
+            tmp_userDiscountCode = _this.data.adviceDiscountObj.userDiscountCode
+        }
+        let tmp_param = {
+            userCode: wx.getStorageSync('userInfo').userCode,
+            userDiscountCode: tmp_userDiscountCode,
+            appendMealFlag: false,
+            order: []
+
+        }
+        getApp().globalData.selectedFoods.forEach(element1 => {
+            let dayDes = element1.dayDes
+            element1.dayInfo.forEach(element2 => {
+                let foodTypeDes = element2.foodTypeDes
+                let order_item = {
+                    mealDate: dayDes,
+                    mealType: foodTypeDes,
+                    foods: []
+                }
+                element2.foodTypeInfo.forEach(element3 => {
+                    let foods_item = {
+                        foodCode: element3.foodCode,
+                        quantity: element3.foodCount,
+
+                    }
+                    order_item.foods.push(foods_item)
+                })
+
+                tmp_param.order.push(order_item)
+            })
+        })
+        _this.setData({
+            calcParams: tmp_param
+        })
+        let param = tmp_param
+
+        console.log('获取订单金额请求参数:', param)
+        confirmModel.calculateOrderMoney(param, function(res) {
+            console.log('获取订单金额结果返回：', res)
+            if (res.code === 0) {
+                let data = res.data
+                console.log('获取订单金额结果返回--data：', data)
+                _this.setData({
+                    totalMoneyRealDeduction: data.organizeMealLabelMoney,
+                    discountMoney: data.discountMoney,
+                    realMoney: data.orderMoney
+                })
+            }
+
+            //从后端获取优惠券信息
+            _this.getDiscount()
+        })
+
+    },
+    /**
      * 付款 提交菜单
      */
     handleCommitPay: function() {
@@ -361,71 +452,24 @@ Page({
         if (_this.data.adviceDiscountObj) {
             tmp_userDiscountCode = _this.data.adviceDiscountObj.userDiscountCode
         }
-        let tmp_param = {
-            userCode: wx.getStorageSync('userInfo').userCode,
+        let tmp_param_calc = _this.data.calcParams
+        let tmp_param_pay = {
             userName: wx.getStorageSync('tmp_storage'),
             addressCode: wx.getStorageSync('userInfo').addressCode,
-            payType: _this.data.payType, //支付方式
-            userDiscountCode: tmp_userDiscountCode,
-            orderPayMoney: _this.data.realMoney, //自费的总价格
-            appendMealFlag: false,
-            order: []
-
+            payType: _this.data.payType, //支付方式 
+            orderPayMoney: _this.data.realMoney, //自费的总价格 
         }
-        getApp().globalData.selectedFoods.forEach(element1 => {
-                let dayDes = element1.dayDes
-                element1.dayInfo.forEach(element2 => {
-                    let foodTypeDes = element2.foodTypeDes
-                    let organizeMealLabel = element2.organizeMealLabel
-                    let mealLabelFlag = element2.mealLabelFlag
-                    let order_item = {
-                        mealDate: dayDes,
-                        mealType: foodTypeDes,
-                        foods: []
-                    }
-                    let tmp_totalPrice = 0
-                    element2.foodTypeInfo.forEach(element3 => {
-                        //tmp_totalPrice += element3.foodCount * element3.foodPrice
-                        tmp_totalPrice = (parseFloat(tmp_totalPrice) + element3.foodCount * parseFloat(element3.foodPrice)).toFixed(2)
-                        let foods_item = {
-                            foodCode: element3.foodCode,
-                            quantity: element3.foodCount,
+        let param = Object.assign({}, tmp_param_calc, tmp_param_pay)
 
-                        }
-                        order_item.foods.push(foods_item)
-                    })
-
-                    tmp_param.order.push(order_item)
-                })
-            })
-            // console.log('提交菜单请求参数:', tmp_param)
-        let param = tmp_param
         if (param.payAllPrice == '0.00' || param.payAllPrice == 0 || param.payAllPrice == '0') {
             param.payType = 'STANDARD_PAY' //支付方式改为标准支付
         }
         console.log('提交菜单请求参数:', param)
         confirmModel.commitConfirmMenuData(param, function(res) {
-
+            console.log('支付结果返回：', res)
             if (res.code === 0) {
                 let data = res.data.payData
-                console.log('支付结果返回：', data)
-                if (!data || param.payType == 'BALANCE_PAY' || param.payType == 'STANDARD_PAY') {
-                    console.log('支付结果返回：hideLoading')
-                    wx.hideLoading()
-                    wx.showModal({
-                        title: '提示',
-                        content: '订单已生成',
-                        showCancel: false,
-                        confirmText: '查看订单',
-                        success(res) {
-                            if (res.confirm) {
-                                wx.reLaunch({
-                                    url: '/pages/order/order',
-                                })
-                            }
-                        }
-                    })
-                } else if (param.payType == 'WECHAT_PAY') { //微信支付
+                if (param.payType == 'WECHAT_PAY') { //微信支付
                     if (data.timeStamp) {
                         wx.requestPayment({
                             'timeStamp': data.timeStamp.toString(),
@@ -472,6 +516,21 @@ Page({
                             }
                         })
                     }
+                } else if (param.payType == 'BALANCE_PAY' || param.payType == 'STANDARD_PAY') {
+                    wx.hideLoading()
+                    wx.showModal({
+                        title: '提示',
+                        content: '订单已生成',
+                        showCancel: false,
+                        confirmText: '查看订单',
+                        success(res) {
+                            if (res.confirm) {
+                                wx.reLaunch({
+                                    url: '/pages/order/order',
+                                })
+                            }
+                        }
+                    })
                 } else {
                     wx.hideLoading()
                         //      其他支付方式，待开发
@@ -501,6 +560,175 @@ Page({
             _this.data.canClick = true
         }, 300)
     },
+    // handleCommitPay: function() {
+    //     if (!this.data.name) {
+    //         wx.showToast({
+    //             title: '请填写姓名',
+    //             image: '../../../images/msg/error.png',
+    //             duration: 2000
+    //         })
+    //         return
+    //     }
+    //     if (!wx.getStorageSync('userInfo').addressCode) {
+    //         wx.showToast({
+    //             title: '请选择送餐地址',
+    //             image: '../../../images/msg/error.png',
+    //             duration: 2000
+    //         })
+    //         return
+    //     }
+    //     let _this = this
+    //     if (!_this.data.canClick) {
+    //         return
+    //     }
+    //     _this.data.canClick = false
+    //     wx.showLoading({
+    //             title: '处理中',
+    //             mask: true
+    //         })
+    //         /**** 拼接这个庞大的参数 ****/
+    //     let tmp_userDiscountCode = null
+    //     if (_this.data.adviceDiscountObj) {
+    //         tmp_userDiscountCode = _this.data.adviceDiscountObj.userDiscountCode
+    //     }
+    //     let tmp_param = {
+    //         userCode: wx.getStorageSync('userInfo').userCode,
+    //         userName: wx.getStorageSync('tmp_storage'),
+    //         addressCode: wx.getStorageSync('userInfo').addressCode,
+    //         payType: _this.data.payType, //支付方式
+    //         userDiscountCode: tmp_userDiscountCode,
+    //         orderPayMoney: _this.data.realMoney, //自费的总价格
+    //         appendMealFlag: false,
+    //         order: []
+
+    //     }
+    //     getApp().globalData.selectedFoods.forEach(element1 => {
+    //             let dayDes = element1.dayDes
+    //             element1.dayInfo.forEach(element2 => {
+    //                 let foodTypeDes = element2.foodTypeDes
+    //                 let organizeMealLabel = element2.organizeMealLabel
+    //                 let mealLabelFlag = element2.mealLabelFlag
+    //                 let order_item = {
+    //                     mealDate: dayDes,
+    //                     mealType: foodTypeDes,
+    //                     foods: []
+    //                 }
+    //                 let tmp_totalPrice = 0
+    //                 element2.foodTypeInfo.forEach(element3 => {
+    //                     //tmp_totalPrice += element3.foodCount * element3.foodPrice
+    //                     tmp_totalPrice = (parseFloat(tmp_totalPrice) + element3.foodCount * parseFloat(element3.foodPrice)).toFixed(2)
+    //                     let foods_item = {
+    //                         foodCode: element3.foodCode,
+    //                         quantity: element3.foodCount,
+
+    //                     }
+    //                     order_item.foods.push(foods_item)
+    //                 })
+
+    //                 tmp_param.order.push(order_item)
+    //             })
+    //         })
+    //         // console.log('提交菜单请求参数:', tmp_param)
+    //     let param = tmp_param
+    //     if (param.payAllPrice == '0.00' || param.payAllPrice == 0 || param.payAllPrice == '0') {
+    //         param.payType = 'STANDARD_PAY' //支付方式改为标准支付
+    //     }
+    //     console.log('提交菜单请求参数:', param)
+    //     confirmModel.commitConfirmMenuData(param, function(res) {
+    //         console.log('支付结果返回：', res)
+    //         if (res.code === 0) {
+    //             let data = res.data.payData
+    //             if (param.payType == 'WECHAT_PAY') { //微信支付
+    //                 if (data.timeStamp) {
+    //                     wx.requestPayment({
+    //                         'timeStamp': data.timeStamp.toString(),
+    //                         'nonceStr': data.nonceStr,
+    //                         'package': data.packageValue,
+    //                         'signType': data.signType,
+    //                         'paySign': data.paySign,
+    //                         success: function(e) {
+    //                             wx.hideLoading()
+    //                             wx.showModal({
+    //                                 title: '提示',
+    //                                 content: '订单已生成',
+    //                                 showCancel: false,
+    //                                 confirmText: '查看订单',
+    //                                 success(res) {
+    //                                     if (res.confirm) {
+    //                                         //_this.clearCache() //清空缓存
+    //                                         wx.reLaunch({
+    //                                             url: '/pages/order/order',
+    //                                         })
+    //                                     }
+    //                                 }
+    //                             })
+    //                         },
+    //                         fail: function(e) {
+    //                             wx.hideLoading()
+    //                             wx.showModal({
+    //                                 title: '提示',
+    //                                 content: '订单已生成,请尽快支付',
+    //                                 showCancel: false,
+    //                                 confirmText: '查看订单',
+    //                                 success(res) {
+    //                                     if (res.confirm) {
+    //                                         //_this.clearCache() //清空缓存
+    //                                         wx.reLaunch({
+    //                                             url: '/pages/order/order',
+    //                                         })
+    //                                     }
+    //                                 }
+    //                             })
+    //                         },
+    //                         complete: function() {
+    //                             wx.hideLoading()
+    //                         }
+    //                     })
+    //                 }
+    //             } else if (param.payType == 'BALANCE_PAY' || param.payType == 'STANDARD_PAY') {
+    //                 wx.hideLoading()
+    //                 wx.showModal({
+    //                     title: '提示',
+    //                     content: '订单已生成',
+    //                     showCancel: false,
+    //                     confirmText: '查看订单',
+    //                     success(res) {
+    //                         if (res.confirm) {
+    //                             wx.reLaunch({
+    //                                 url: '/pages/order/order',
+    //                             })
+    //                         }
+    //                     }
+    //                 })
+    //             } else {
+    //                 wx.hideLoading()
+    //                     //      其他支付方式，待开发
+    //             }
+    //             /* 不管什么方式只要支付成功(即res.code为0)，就要更新缓存中的userInfo */
+    //             mineModel.getMineData(param, (res) => { //刷新用户信息
+    //                 if (res.code == 0) {
+    //                     wx.setStorageSync('userInfo', res.data)
+    //                     _this.setData({
+    //                         userInfo: res.data
+    //                     })
+    //                 }
+    //             })
+    //         } else {
+    //             wx.hideLoading()
+    //             wx.showToast({
+    //                 title: res.msg,
+    //                 image: '../../../images/msg/error.png',
+    //                 duration: 2000
+    //             })
+    //         }
+    //     })
+    //     if (_this.data.timer) {
+    //         clearTimeout(_this.data.timer)
+    //     }
+    //     _this.data.timer = setTimeout(function() {
+    //         _this.data.canClick = true
+    //     }, 300)
+    // },
 
     /* 重新选择默认地址 */
     handleSelectAddress: function() {

@@ -30,7 +30,8 @@ Page({
         selectedFoodsIndex: [], //选择的食物的 menutypeIndex和foodIndex 
         totalMoneyRealDeduction: 0, //企业餐标加优惠券一起减免的钱
         listHeight: [], //这个数组记录每个餐类的"之前所有餐类描述+所有具体餐品"的占用高度值
-        getdataalready: false //解决在没有从后台得到数据就做if判断并加载else的问题
+        getdataalready: false, //解决在没有从后台得到数据就做if判断并加载else的问题
+        lowerThanMealLabelFlag: false, //是否可以低于企业餐标
 
     },
     onLoad: function() {
@@ -169,7 +170,8 @@ Page({
             console.log('res', res)
             _this.setData({
                 allData: resData, //保存下所有数据
-                getdataalready: true
+                getdataalready: true,
+                lowerThanMealLabelFlag: resData.lowerThanMealLabelFlag
 
             })
             console.log('allData', _this.data.allData)
@@ -205,12 +207,7 @@ Page({
                 foodsCopy: tempfoods
             })
 
-            if (resData.mealLabelFlag && resData.organizeMealLabel > 0) { // 企业餐标可用并且大于0
 
-                _this.setData({
-                    totalMoneyRealDeduction: resData.organizeMealLabel
-                })
-            }
 
             // 在没有得到数据就使用时，是有错误的，所以在得到数据后使用
             if (res.orderFlag && res.foods.length !== 0) {
@@ -479,7 +476,20 @@ Page({
         _this.setData({
             boxActiveFlag: tempboxActiveFlag
         })
+        let tmp_allData = _this.data.allData
+        if (tmp_allData.mealLabelFlag && tmp_allData.organizeMealLabel > 0) { // 企业餐标可用并且大于0
 
+            if (tmp_allData.lowerThanMealLabelFlag && _this.data.totalMoney < tmp_allData.organizeMealLabel) {
+                _this.setData({
+                    totalMoneyRealDeduction: _this.data.totalMoney
+                })
+            } else {
+                _this.setData({
+                    totalMoneyRealDeduction: tmp_allData.organizeMealLabel
+                })
+            }
+
+        }
         _this.setData({
             realTotalMoney: parseFloat((parseFloat(_this.data.totalMoney) - parseFloat(_this.data.totalMoneyRealDeduction)).toFixed(2))
         })
@@ -522,7 +532,7 @@ Page({
 
     goToMenuCommit() {
         if (this.data.totalCount > 0) {
-            if (this.data.totalMoneyRealDeduction > this.data.totalMoney) {
+            if (!this.data.lowerThanMealLabelFlag && this.data.totalMoneyRealDeduction > this.data.totalMoney) {
                 wx.showModal({
                     title: '未达餐标金额(¥' + this.data.totalMoneyRealDeduction + ')',
                     content: '未达餐标金额(¥' + this.data.totalMoneyRealDeduction + ')' + ',请继续选餐',
@@ -542,12 +552,28 @@ Page({
                     key: 'addfoodOrder',
                     data: order
                 })
-                console.log('addfoodOrder', order)
+                let tmp_allData = this.data.allData
+                if (tmp_allData.mealLabelFlag && tmp_allData.organizeMealLabel > 0) { // 企业餐标可用并且大于0
+
+                    if (tmp_allData.lowerThanMealLabelFlag && this.data.totalMoney < tmp_allData.organizeMealLabel) {
+                        this.setData({
+                            totalMoneyRealDeduction: this.data.totalMoney
+                        })
+                    } else {
+                        this.setData({
+                            totalMoneyRealDeduction: tmp_allData.organizeMealLabel
+                        })
+                    }
+
+                }
+                this.setData({
+                    realTotalMoney: parseFloat((parseFloat(this.data.totalMoney) - parseFloat(this.data.totalMoneyRealDeduction)).toFixed(2))
+                })
                 wx.navigateTo({
                     url: '/pages/mine/addfoodconfirm/addfoodconfirm?totalMoney=' +
                         this.data.totalMoney + '&totalMoneyRealDeduction=' +
-                        this.data.totalMoneyRealDeduction + '&realMoney=' +
-                        parseFloat((parseFloat(this.data.totalMoney) - parseFloat(this.data.totalMoneyRealDeduction)).toFixed(2))
+                        this.data.totalMoneyRealDeduction + '&realMoney=' + this.data.realTotalMoney
+                        // parseFloat((parseFloat(this.data.totalMoney) - parseFloat(this.data.totalMoneyRealDeduction)).toFixed(2))
                 })
             }
         }

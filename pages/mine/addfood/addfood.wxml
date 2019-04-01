@@ -160,11 +160,24 @@
                                 <view class="cart-amount" wx:if="{{foodtypeItem.organizeMealLabel!=0}}">
                                     <view wx:if="{{allData.mealLabelFlag}}" style="display:inline-block;font-size:30rpx;margin-right: 10rpx;color:#666;">
                                         企业将减免额度¥
-                                        <block>
+                                        <block wx:if="{{allData.organizeMealLabel > totalMoney}}">
+                                            <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;">
+                                                -{{totalMoney}}
+                                            </view>
+                                            <view style="display:inline-block;color:#666;font-size:30rpx;margin-right: 10rpx;">
+                                                (最高减免¥<text sytle="color:#222;">{{allData.organizeMealLabel}}</text>)
+                                            </view>
+                                        </block>
+                                        <block wx:else>
                                             <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;">
                                                 -{{allData.organizeMealLabel}}
                                             </view>
                                         </block>
+                                        <!-- <block>
+                                            <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;">
+                                                -{{allData.organizeMealLabel}}
+                                            </view>
+                                        </block> -->
                                     </view>
                                     <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;" wx:else>
                                         当前额度已被使用
@@ -194,7 +207,7 @@
                                     </view>
                                     <view class="">
                                         <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text>
-                                        <text wx:if="{{totalMoneyRealDeduction!=0}}" style="font-size: 35rpx;color:#fff;">-{{allData.organizeMealLabel}}</text>
+                                        <text wx:if="{{totalMoneyRealDeduction!=0}}" style="font-size: 35rpx;color:#fff;">-{{totalMoneyRealDeduction}}</text>
                                         <text wx:else style="font-size: 35rpx;color:#fff;">0</text>
                                     </view>
                                 </view>
