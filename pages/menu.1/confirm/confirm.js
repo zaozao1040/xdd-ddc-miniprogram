@@ -185,7 +185,9 @@ Page({
         if (e.detail.discountType == 'REDUCTION') {
             tmp_realMoney = parseFloat((parseFloat(tmp_realMoney) - parseFloat(e.detail.discountPrice)).toFixed(2))
         } else if (e.detail.discountType == 'DISCOUNT') {
-            tmp_realMoney = parseFloat((parseFloat(_this.data.realMoney_save) * e.detail.discountPrice).toFixed(2))
+            tmp_realMoney = parseFloat((parseFloat(_this.data.realMoney_save) * e.detail.discountPrice + 0.00001).toFixed(2))
+
+            console.log('tmp_realMoney', tmp_realMoney)
         } else {
             tmp_realMoney = 0
         }
@@ -229,7 +231,8 @@ Page({
                         if (tmp_adviceDiscountObj.discountType == 'REDUCTION') {
                             tmp_realMoney = parseFloat((parseFloat(tmp_realMoney) - parseFloat(tmp_adviceDiscountObj.discountPrice)).toFixed(2))
                         } else if (tmp_adviceDiscountObj.discountType == 'DISCOUNT') {
-                            tmp_realMoney = parseFloat((parseFloat(tmp_realMoney * tmp_adviceDiscountObj.discountPrice)).toFixed(2))
+                            tmp_realMoney = parseFloat((parseFloat(tmp_realMoney) * parseFloat(tmp_adviceDiscountObj.discountPrice) + 0.00001).toFixed(2))
+                            console.log('tmp_realMoney', tmp_realMoney)
                         } else {}
                         _this.setData({
                             canusedDiscountList: tmp_canusedDiscountList,
@@ -402,10 +405,27 @@ Page({
         }
         console.log('提交菜单请求参数:', param)
         confirmModel.commitConfirmMenuData(param, function(res) {
-            console.log('支付结果返回：', res)
+
             if (res.code === 0) {
                 let data = res.data.payData
-                if (param.payType == 'WECHAT_PAY') { //微信支付
+                console.log('支付结果返回：', data)
+                if (!data || param.payType == 'BALANCE_PAY' || param.payType == 'STANDARD_PAY') {
+                    console.log('支付结果返回：hideLoading')
+                    wx.hideLoading()
+                    wx.showModal({
+                        title: '提示',
+                        content: '订单已生成',
+                        showCancel: false,
+                        confirmText: '查看订单',
+                        success(res) {
+                            if (res.confirm) {
+                                wx.reLaunch({
+                                    url: '/pages/order/order',
+                                })
+                            }
+                        }
+                    })
+                } else if (param.payType == 'WECHAT_PAY') { //微信支付
                     if (data.timeStamp) {
                         wx.requestPayment({
                             'timeStamp': data.timeStamp.toString(),
@@ -452,21 +472,6 @@ Page({
                             }
                         })
                     }
-                } else if (param.payType == 'BALANCE_PAY' || param.payType == 'STANDARD_PAY') {
-                    wx.hideLoading()
-                    wx.showModal({
-                        title: '提示',
-                        content: '订单已生成',
-                        showCancel: false,
-                        confirmText: '查看订单',
-                        success(res) {
-                            if (res.confirm) {
-                                wx.reLaunch({
-                                    url: '/pages/order/order',
-                                })
-                            }
-                        }
-                    })
                 } else {
                     wx.hideLoading()
                         //      其他支付方式，待开发

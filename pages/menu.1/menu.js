@@ -1373,21 +1373,20 @@ Page({
                         break
                     }
                 }
-                if (flag) {
+                if (flag) { //需要提示 
+                    wx.showModal({
+                        title: '未达餐标金额(¥' + tmp_organizeMealLabel + ')',
+                        content: tmp_timeDesActive + '(' + tmp_timeWeakDesActive + ')' + tmp_foodtypeChDesActive + ':\r\n' +
+                            '金额(¥' + tmp_foodTypeTotalRealMoney + ')低于餐标,请继续选餐',
+                        showCancel: false,
+                        confirmText: '返回'
+                    })
                     break;
                 }
             }
         }
 
-        if (flag === true) { //需要提示
-            wx.showModal({
-                title: '未达餐标金额(¥' + tmp_organizeMealLabel + ')',
-                content: tmp_timeDesActive + '(' + tmp_timeWeakDesActive + ')' + tmp_foodtypeChDesActive + ':\r\n' +
-                    '金额(¥' + tmp_foodTypeTotalRealMoney + ')低于餐标,请继续选餐',
-                showCancel: false,
-                confirmText: '返回'
-            })
-        } else {
+        if (flag === false) {
             wx.navigateTo({
                 url: '/pages/menu/confirm/confirm?totalMoney=' +
                     _this.data.totalMoney + '&totalMoneyRealDeduction=' +

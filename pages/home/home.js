@@ -156,8 +156,11 @@ Page({
         _this.data.timer = setTimeout(function() {
             _this.data.canClick = true
             wx.navigateTo({
-                url: '/pages/menu/menu',
-            })
+                    url: '/pages/menu/menu',
+                })
+                // wx.reLaunch({
+                //     url: '/pages/menu/menu',
+                // })
         }, 100)
     },
 

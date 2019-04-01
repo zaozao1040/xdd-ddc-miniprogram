@@ -73,17 +73,7 @@
                     <image src="../../images/menu/noorder.png" style="height:263rpx;width:340rpx;"></image>
                 </view>
                 <view style="text-align: center;width:100%;color:#707070;font-size:24rpx;"><text>* </text><text decode>我爱你就是 想把最好吃的都留给你</text><text> *</text></view>
-                <!--我们这个逻辑总是会有预定明天的吧，不用判断预定明天吧-->
-                <!-- <view class="noorder-button-wrapper" wx:if="{{allFoodtype[foodtypeActiveFlag+1].flag|| timeActiveFlag<6 }}">
-                    <text class="noorder-button" style="margin-right:70rpx;"> 预定{{allFoodtype[foodtypeActiveFlag+1].name}} </text>
-                    <text class="noorder-button">预定明天</text>
-                </view>
-                <view class="noorder-button-wrapper" wx:elif="{{timeActiveFlag<6}}">
-                    <text class="noorder-button" style='margin-left:125rpx;'>预定明天</text>
-                </view>
-                <view class="noorder-button-wrapper" wx:elif="{{allFoodtype[foodtypeActiveFlag+1].flag}}">
-                    <text class="noorder-button" style='margin-left:125rpx;'>预定{{allFoodtype[foodtypeActiveFlag+1].name}}</text>
-                </view> -->
+
                 <view class="noorder-button-wrapper" wx:if="{{allFoodtype[foodtypeActiveFlag+1].flag}}">
                     <view class="noorder-button" style="margin-right:70rpx;" data-foodtypeindex="{{foodtypeActiveFlag+1}}" data-mealtype="{{allFoodtype[foodtypeActiveFlag+1].mealtype}}" data-mealtypechdes="{{allFoodtype[foodtypeActiveFlag+1].name}}" bindtap="handleChangeFoodtypeActive">
                         预定{{allFoodtype[foodtypeActiveFlag+1].name}} </view>
