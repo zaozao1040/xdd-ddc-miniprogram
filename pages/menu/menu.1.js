@@ -192,7 +192,6 @@ Page({
             })
             _this.getMenuData()
         }
-
     },
     handleCloseTimeBarAndCart() { // 遮罩层操作
         this.setData({
@@ -305,6 +304,20 @@ Page({
     selectedFoodsAdd: function(e) {
         let _this = this
         var selectedFoods = app.globalData.selectedFoods //取全局，取完后setData更新本地
+
+        let current_day = e.currentTarget.dataset.day
+        let current_foodType = e.currentTarget.dataset.foodtype
+
+
+        console.log('current_day', current_day)
+        console.log('current_day', current_foodType)
+        console.log('current_day', app.globalData.cacheMenuDataAll[current_day][current_foodType])
+
+
+        let current_menu = app.globalData.cacheMenuDataAll[current_day][current_foodType]
+        let current_organizeMealLabel = current_menu.organizeMealLabel
+            //let current_mealLabelFlag = current_menu.mealLabelFlag
+
         var a_selectedFoods = {
             day: e.currentTarget.dataset.day,
             dayDes: e.currentTarget.dataset.daydes,
@@ -313,8 +326,10 @@ Page({
             dayInfo: [{
                 foodType: e.currentTarget.dataset.foodtype,
                 foodTypeDes: e.currentTarget.dataset.foodtypedes,
-                mealLabelFlag: _this.data.mealLabelUsedActive,
-                organizeMealLabel: _this.data.organizeMealLabelActive,
+                mealLabelFlag: current_menu.mealLabelFlag,
+                //mealLabelFlag: _this.data.mealLabelUsedActive,
+                // organizeMealLabel: _this.data.organizeMealLabelActive,
+                organizeMealLabel: current_organizeMealLabel,
                 foodTypeTotalRealMoney: parseFloat(e.currentTarget.dataset.foodprice), //【兼容修改】该天该餐时的自费总额
                 foodTypeInfo: [{
                     foodCode: e.currentTarget.dataset.foodcode,
@@ -375,8 +390,8 @@ Page({
                                 selectedFoods[i].dayInfo.push({
                                     foodType: e.currentTarget.dataset.foodtype,
                                     foodTypeDes: e.currentTarget.dataset.foodtypedes,
-                                    mealLabelFlag: _this.data.mealLabelUsedActive,
-                                    organizeMealLabel: _this.data.organizeMealLabelActive,
+                                    mealLabelFlag: current_menu.mealLabelFlag,
+                                    organizeMealLabel: current_organizeMealLabel,
                                     foodTypeTotalRealMoney: parseFloat(e.currentTarget.dataset.foodprice), //【兼容修改】
                                     foodTypeInfo: [{
                                         foodCode: e.currentTarget.dataset.foodcode,
@@ -405,8 +420,8 @@ Page({
                             dayInfo: [{
                                 foodType: e.currentTarget.dataset.foodtype,
                                 foodTypeDes: e.currentTarget.dataset.foodtypedes,
-                                mealLabelFlag: _this.data.mealLabelUsedActive,
-                                organizeMealLabel: _this.data.organizeMealLabelActive,
+                                mealLabelFlag: current_menu.mealLabelFlag,
+                                organizeMealLabel: current_organizeMealLabel,
                                 foodTypeTotalRealMoney: parseFloat(e.currentTarget.dataset.foodprice), //【兼容修改】
                                 foodTypeInfo: [{
                                     foodCode: e.currentTarget.dataset.foodcode,

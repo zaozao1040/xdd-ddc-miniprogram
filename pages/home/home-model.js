@@ -110,5 +110,34 @@ class home extends base {
         this.request(allParams)
     }
 
+
+    /* 获取后台时间信息 */
+    getTimeData(param, url, callback) {
+        let allParams = {
+                url: baseUrl + url,
+                type: 'get',
+                data: param,
+                sCallback: function(res) {
+                    console.log('收到请求(七天日期):', res)
+
+                    if (res.code === 0) {
+                        callback(res.data) //七天日期通过回调返回给调用者
+                    } else {
+                        wx.showToast({
+                            title: res.msg,
+                            icon: 'none',
+                            duration: 2000
+                        })
+                    }
+                },
+                eCallback: function() {}
+            }
+            /*     wx.showLoading({ 
+                  title: '日期加载中',
+                  mask: true
+                }) */
+            /* 发送请求到后端 */
+        this.request(allParams)
+    }
 }
 export { home }

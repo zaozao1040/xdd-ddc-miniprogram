@@ -181,7 +181,9 @@
                                         <view style="padding-right:24rpx;display: flex;">
 
                                             <view wx:if="{{foodItem.foodCount>0}}" style="padding-left:10rpx;padding-top:10rpx;font-size:46rpx;color:#ce8307;" class='iconfont icon-jian-xianxingyuankuang' data-menutypeindex="{{menutypeIndex}}" data-foodindex="{{foodIndex}}" data-day="{{timeActiveFlag}}"
-                                                data-daydes="{{timeDesActive}}" data-dayshort="{{timeDesActiveShow}}" data-dayweek="{{timeWeakDesActive}}" data-foodtype="{{foodtypeActiveFlag}}" data-foodtypedes="{{foodtypeDesActive}}" catchtap="handleMinusfood">
+                                                data-daydes="{{timeDesActive}}" data-dayshort="{{timeDesActiveShow}}" data-dayweek="{{timeWeakDesActive}}" data-foodtype="{{foodtypeActiveFlag}}" data-foodtypedes="{{foodtypeDesActive}}" data-foodcode="{{foodItem.foodCode}}"
+                                                data-foodprice="{{foodItem.foodPrice}}" data-foodname="{{foodItem.foodName}}" data-stockleftnum="{{foodItem.stock.stockLeftNum}}" data-homebuyingrestrictions="{{foodItem.stock.homebuyingRestrictions}}" data-foodimage="{{foodItem.foodImage}}"
+                                                catchtap="handleMinusfood">
                                             </view>
 
                                             <view wx:if="{{foodItem.foodCount>0}}" style="padding-top:15rpx;font-size:30rpx; width:60rpx;text-align: center;color:#333;">

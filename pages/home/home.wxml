@@ -1,14 +1,14 @@
 <!--pages/home/home.wxml-->
 <scroll-view>
     <view class="home-container" bindtap="closeNotice">
-        <view class="h-v1" wx:if="{{userInfo}}">
+        <!-- <view class="h-v1" wx:if="{{userInfo}}">
             <view class="has-login">{{wel}}
                 <block wx:if="{{userInfo.nickName}}">{{userInfo.nickName}}</block>
                 <open-data wx:else type="userNickName"></open-data>
                 <text catchtap="logout" class="logout">退出</text>
             </view>
-        </view>
-        <view class="h-v1" wx:else>
+        </view> -->
+        <!-- <view class="h-v1" wx:else>
             <view bindtap="login" class="h-v1-1">
                 <navigator url="/pages/login/login" style="display: inline-block">
                     <view class="" style="display: inline-block;width:90rpx;height: 50rpx;font-size:30rpx;color:2b2b2b;line-height: 45rpx;text-align: center;" bindtap="login" decode>
@@ -16,34 +16,41 @@
                     </view>
                 </navigator>
             </view>
-        </view>
-        <!-- 轮播图 autoplay="true"-->
-        <swiper autoplay class="h-v2-swiper-item" circular="true" duration="300" indicatorActiveColor="#fff" indicatorColor="rgb(212, 203, 201)" indicatorDots interval="5000" bindchange="onSwiperChange" previous-margin="50rpx" next-margin='50rpx'>
+        </view> -->
+        <!-- 轮播图 autoplay="true"3.0-->
+        <swiper autoplay class="h-v2-swiper-item" circular="true" duration="300" indicatorActiveColor="#fff" indicatorColor="rgba(255,255,255,0.50)" indicatorDots interval="5000" bindchange="onSwiperChange">
             <block wx:for="{{imagesList.banner}}" wx:for-index="swiperListIndex" wx:for-item="swiperListItem" wx:key="swiperListIndex">
                 <swiper-item bindtap="navigateTo">
-                    <navigator url="/pages/home/link?extendUrl={{swiperListItem.url}}" style="width: 100%;height: 100%;">
-                        <image class="{{swiperListIndex==swiperCurrentIndex?'imageBanner_active':'imageBanner_small'}}" src="{{swiperListItem.image}}"></image>
+                    <navigator url="/pages/home/link?extendUrl={{swiperListItem.url}}" style="width: 100%;height: 100%;border-radius: 8rpx;">
+                        <image src="{{swiperListItem.image}}" style="width: 100%;height: 100%;border-radius: 8rpx;"></image>
                     </navigator>
                 </swiper-item>
             </block>
         </swiper>
         <!-- 宣传语 -->
-        <view class="propaganda-wrapper">
+        <!-- <view class="propaganda-wrapper">
             <view class='propaganda-itemwrapper' wx:for="{{propagandaList}}" wx:for-index="propagandaIndex" wx:for-item="propagandaItem" wx:key="propagandaIndex">
                 <text class='iconfont icon-{{propagandaIconArr[propagandaIndex]}} icon-propaganda' decode>&nbsp;</text>
                 <text class='propaganda-title'>{{propagandaItem}}</text>
             </view>
+        </view> -->
+        <!-- 轮播公告 3.0-->
+        <view style="padding:40rpx 30rpx 40rpx 36rpx;">
+            <view style="display: flex;justify-content:space-between;">
+                <view class="notice-title">最新公告</view>
+                <view class='notice-button'>查看更多</view>
+            </view>
+            <view class="notice-detail">积分规则变化详情</view>
         </view>
-        <!-- 轮播公告 -->
-        <swiper style="margin-top:10rpx;height:34rpx;font-size:24rpx;padding:10rpx;border:2rpx solid #e8e8e8;" wx:if="{{hasNotice}}" circular="true" duration="500" vertical="true" autoplay="true">
+        <!-- <swiper style="margin-top:10rpx;height:34rpx;font-size:24rpx;padding:10rpx;border:2rpx solid #e8e8e8;" wx:if="{{hasNotice}}" circular="true" duration="500" vertical="true" autoplay="true">
             <block wx:for="{{noticeData}}" wx:key="{{index}}">
                 <swiper-item catchtap="handleshowOneNotice" data-onenotice="{{item}}">
                     <text>公告：{{item.noticeTitle}}</text>
                 </swiper-item>
             </block>
-        </swiper>
+        </swiper> -->
         <!--弹出公告-->
-        <view class="modulebox-background-wrapper-notice" wx:if="{{showOneNotice}}">
+        <!-- <view class="modulebox-background-wrapper-notice" wx:if="{{showOneNotice}}">
             <scroll-view scroll-y class="modulebox-wrapper-notice">
                 <block>
                     <view style="font-size:28rpx;text-align: center;">
@@ -54,32 +61,115 @@
                     </view>
                 </block>
             </scroll-view>
-        </view>
+        </view> -->
 
-        <!-- 开始点餐 -->
+        <!-- 开始点餐 3.0-->
         <view class="h-v3">
             <view class="h-v3-1" catchtap="handleGotoMenu">
-                <text class='iconfont icon-canting'></text> 开始点餐
+                开始点餐
             </view>
         </view>
-        <!-- 3个图标 -->
+        <!-- 3个图标 3.0 -->
         <view class="label-wrapper">
-            <view class="labelItem" bindtap="handleGotoLabel" data-type="qianbao">
-                <view class='iconLabel iconfont icon-qianbao'></view>
-                <view class="labelDes">余额</view>
+            <view style="width:112rpx;text-align: center;" bindtap="handleGotoLabel" data-type="qianbao">
+                <view style="margin-left:12rpx;height: 88rpx;width:88rpx;">
+                    <image src='../../images/home/home_balance@2x.png' style="height: 88rpx;width:88rpx;"></image>
+                </view>
+                <view class="labelDes">我的余额</view>
             </view>
-            <view class="labelItem" bindtap="handleGotoLabel" data-type="youhuiquan">
-                <view class='iconLabel iconfont icon-youhuiquan1'></view>
+            <view style="width:112rpx;text-align: center;" bindtap="handleGotoLabel" data-type="youhuiquan">
+                <view style="margin-left:12rpx;height: 88rpx;width:88rpx;">
+                    <image src='../../images/home/home_coupon@2x.png' style="height: 88rpx;width:88rpx;"></image>
+                </view>
+
                 <view class="labelDes">优惠券</view>
             </view>
-            <view class="labelItem" bindtap="handleGotoLabel" data-type="jifen">
-                <view class='iconLabel iconfont icon-jifen'></view>
-                <view class="labelDes">积分</view>
+            <view style="width:112rpx;text-align: center;" bindtap="handleGotoLabel" data-type="jifen">
+                <view style="margin-left:12rpx;height: 88rpx;width:88rpx;">
+                    <image src='../../images/home/home_points@2x.png' style="height: 88rpx;width:88rpx;"></image>
+                </view>
+                <view class="labelDes">我的积分</view>
             </view>
         </view>
+
+        <!-- 首页提示取餐3.0-->
+        <view style="margin-left:30rpx;margin-bottom:80rpx;" wx:if="{{homeOrderList.length>0}}">
+            <view class='takefood-title'>今日取餐</view>
+            <view>
+                <swiper circular="true" duration="500" autoplay="true" next-margin='24rpx' style='width: 100%; height: 172rpx;'>
+                    <block wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem" wx:key="homeOrderIndex">
+                        <swiper-item>
+                            <view style="display: flex;" class="takefood-food">
+                                <view style="flex-shrink:0;">
+                                    <image class="takefood-img" src="{{homeOrderItem.foods[0].img}}"></image>
+                                </view>
+                                <view style="margin-top:16rpx;flex-grow:1;">
+                                    <view style="line-height:50rpx;display:flex;">
+                                        <view class="takefood-cabinet-title">柜子号</view>
+                                        <view class="takefood-cabinet-number" wx:if="{{homeOrderItem.cabinetNums.length>=0}}" data-ordercode="{{homeOrderItem.orderCode}}" data-cabinet="{{homeOrderItem.cabinetNums}}">
+                                            <block wx:for="{{homeOrderItem.cabinetNums}}" wx:for-index="cabinetIndex" wx:for-item="cabinetItem" wx:key="cabinetIndex">
+                                                {{cabinetItem.cabinetOrder}}-{{cabinetItem.serialNum}}
+                                            </block>
+                                            A-20
+                                        </view>
+                                    </view>
+                                    <view style="line-height: 52rpx;display:flex;">
+                                        <view class="takefood-mealType">
+                                            {{mealTypeMap[homeOrderItem.mealType]}}</view>
+                                        <view class="takefood-foodname"> {{homeOrderItem.foods[0].foodName}}
+                                        </view>
+                                        <view wx:if="{{homeOrderItem.foods.length>1}}" class='takefood-foodcount'>
+                                            *{{homeOrderItem.foods.length}}</view>
+                                    </view>
+                                    <view class='takefood-time'>
+                                        取餐时间: 今天{{homeOrderItem.takeMealStartTimeDes}}点到{{homeOrderItem.takeMealEndTimeDes}}点
+                                    </view>
+                                </view>
+                                <view class="takefood-button" style="flex-shrink:0;" bindtap="handleTakeOrder" data-ordercode="{{homeOrderItem.orderCode}}" data-cabinet="{{homeOrderItem.cabinetNums}}">取餐</view>
+                            </view>
+                        </swiper-item>
+                    </block>
+
+                    <block wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem" wx:key="homeOrderIndex">
+                        <swiper-item>
+                            <view style="display: flex;" class="takefood-food">
+                                <view style="flex-shrink:0;">
+                                    <image class="takefood-img" src="{{homeOrderItem.foods[0].img}}"></image>
+                                </view>
+                                <view style="margin-top:16rpx;flex-grow:1;">
+                                    <view style="line-height:50rpx;display:flex;">
+                                        <view class="takefood-cabinet-title">柜子号</view>
+                                        <view class="takefood-cabinet-number" wx:if="{{homeOrderItem.cabinetNums.length>=0}}" data-ordercode="{{homeOrderItem.orderCode}}" data-cabinet="{{homeOrderItem.cabinetNums}}">
+                                            <block wx:for="{{homeOrderItem.cabinetNums}}" wx:for-index="cabinetIndex" wx:for-item="cabinetItem" wx:key="cabinetIndex">
+                                                {{cabinetItem.cabinetOrder}}-{{cabinetItem.serialNum}}
+                                            </block>
+                                            A-20
+                                        </view>
+                                    </view>
+                                    <view style="line-height: 52rpx;display:flex;">
+                                        <view class="takefood-mealType">
+                                            {{mealTypeMap[homeOrderItem.mealType]}}</view>
+                                        <view class="takefood-foodname"> {{homeOrderItem.foods[0].foodName}}
+                                        </view>
+                                        <view wx:if="{{homeOrderItem.foods.length>1}}" class='takefood-foodcount'>
+                                            *{{homeOrderItem.foods.length}}</view>
+                                    </view>
+                                    <view class='takefood-time'>
+                                        取餐时间: 今天{{homeOrderItem.takeMealStartTimeDes}}点到{{homeOrderItem.takeMealEndTimeDes}}点
+                                    </view>
+                                </view>
+                                <view class="takefood-button" style="flex-shrink:0;" bindtap="handleTakeOrder" data-ordercode="{{homeOrderItem.orderCode}}" data-cabinet="{{homeOrderItem.cabinetNums}}">取餐</view>
+                            </view>
+                        </swiper-item>
+                    </block>
+                </swiper>
+            </view>
+        </view>
+
+
         <!-- 首页提示取餐 弹出 -->
-        <view class="{{homeOrderList.length==0?'':'homeOrder-wrapper'}}" wx:if="{{homeOrderList}}">
-            <!--  这里class不加判断的话 页面因为渲染了这个dom而产生样式 -->
+        <!-- <view class="{{homeOrderList.length==0?'':'homeOrder-wrapper'}}" wx:if="{{homeOrderList}}">
+          
             <view class="homeOrder-item" wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem" wx:key="homeOrderIndex">
                 <view class="homeOrder-left-wrapper">
                     <image class="homeOrder-img" src="{{homeOrderItem.foods[0].img}}"></image>
@@ -88,7 +178,7 @@
                     <view class="homeOrder-middle-line1">
                         <view class="homeOrder-middle-line1-foodName">
                             <text class="iconfont icon-{{mapMenutypeIconName[homeOrderItem.mealType]}}"></text> {{homeOrderItem.foods[0].foodName}}
-                            <text style="font-size:25rpx;" wx:if="{{homeOrderItem.foods.length>1}}">等{{homeOrderItem.foods.length}}件商品</text>
+                            <text style="font-size:25rpx;">等{{homeOrderItem.foods.length}}件商品</text>
                         </view>
                     </view>
                     <view class="homeOrder-middle-line2">
@@ -119,8 +209,8 @@
                     取餐
                 </view>
             </view>
-        </view>
-        <!-- 活动 -->
+        </view> -->
+        <!-- 活动3.0 -->
         <view class="promotion-wrapper">
             <view class="promotionItem" wx:for="{{imagesList.center}}" wx:for-index="promotionListIndex" wx:for-item="promotionListItem" wx:key="promotionListIndex">
                 <navigator url="/pages/home/link?extendUrl={{promotionListItem.url}}">
@@ -130,12 +220,12 @@
         </view>
         <!-- foot 图片  -->
         <view class="newuser-wrapper-2">
-            <image mode="widthFix" style="width:100%;" src="{{imagesList.foot.image}}"></image>
+            <image class="newuserimg" src="{{imagesList.foot.image}}"></image>
         </view>
 
         <!-- --------------------------------------- 下面是各种弹出层 --------------------------------------- -->
 
-        <!--弹出公告-->
+        <!--弹出公告2.6.1-->
         <view class="modulebox-background-wrapper-notice" wx:if="{{showWindowNotice}}">
             <scroll-view scroll-y class="modulebox-wrapper-notice">
                 <block wx:for="{{windowNoticeData}}" wx:key="{{index}}">
@@ -148,7 +238,7 @@
                 </block>
             </scroll-view>
         </view>
-        <!-- 用户授权框 弹出 -->
+        <!-- 用户授权框 弹出 2.6.1-->
         <view class="modulebox-background-wrapper" wx:if="{{showUserAuthFlag}}">
             <view class="modulebox-wrapper">
                 <view class="modulebox-img-wrapper">
@@ -160,7 +250,7 @@
                 <button class="modulebox-button" open-type="getUserInfo" bindgetuserinfo="getWxUserInfo">微信授权</button>
             </view>
         </view>
-        <!-- 审核状态框 弹出 -->
+        <!-- 审核状态框 弹出2.6.1 -->
         <view class="modulebox-background-wrapper" wx:if="{{showCheckFlag}}">
             <view class="modulebox-wrapper">
                 <view class="modulebox-img-wrapper">
@@ -173,7 +263,7 @@
             </view>
         </view>
 
-        <!-- 新人大礼 弹出 -->
+        <!-- 新人大礼 弹出 2.6.1-->
         <view class="newuser-wrapper" wx:if="{{showDaliFlag}}">
             <view class="img-wrapper">
                 <view class="icon-wrapper">
@@ -182,13 +272,123 @@
                 <image class="image-dali" src="{{imagesList.alert.image}}" bindtap="getNewUserGift"></image>
             </view>
         </view>
-        <!-- layer弹出层 （优惠券活动 弹出）  -->
+        <!-- layer弹出层 （优惠券活动 弹出） 2.6.1 -->
         <block wx:if="{{showLayerFlag}}">
             <c-discountPromotion bind:closelayer="onCloseLayer"></c-discountPromotion>
         </block>
 
-        <view style="background: red;color:#fff;position:fixed;bottom:30rpx;right:30rpx;font-size:28rpx; padding:20rpx 30rpx;z-index:1001;" catchtap="handleshowWindowNotice" wx:if="{{hasWindowNotice}}">
-            公告
+        <!--选择预约3.0-->
+        <view style="position:fixed;bottom:0;width:100%;height:1200rpx; z-index:1001;background:#fff;" wx:if="{{showMenuSelect}}">
+            <view class="appointment-title">
+                选择预约
+            </view>
+            <view style="position:absolute;right:10rpx;top:10rpx;" catchtap='closeMenuSelect'>
+                <image src='../../images/home/filter_close@2x.png' style="height:88rpx;width:88rpx;"></image>
+            </view>
+            <view class='appointment-choice-list'>
+                <view style="display: flex;margin-bottom:20rpx;">
+                    <block wx:if="{{appointmention=='today'}}">
+                        <image src='../../images/home/filter_checked@2x.png' style="height:88rpx;width:88rpx;"></image>
+                        <view class="appointment-choice-right-checked">预约今天 今天元气满满哦</view>
+                    </block>
+                    <block wx:else>
+                        <image src='../../images/home/filter_unchecked@2x.png' style="height:88rpx;width:88rpx;" catchtap='handleSelectToday'></image>
+                        <view class="appointment-choice-right" catchtap='handleSelectToday'>预约今天 今天元气满满哦</view>
+                    </block>
+                </view>
+                <view style="display: flex;margin-bottom:20rpx;">
+                    <block wx:if="{{appointmention=='tomorrow'}}">
+                        <image src='../../images/home/filter_checked@2x.png' style="height:88rpx;width:88rpx;"></image>
+                        <view class="appointment-choice-right-checked">预约明天 明天也要吃好呀</view>
+                    </block>
+                    <block wx:else>
+                        <image src='../../images/home/filter_unchecked@2x.png' style="height:88rpx;width:88rpx;" catchtap='handleSelectTomorrow'></image>
+                        <view class="appointment-choice-right" catchtap='handleSelectTomorrow'>预约明天 明天也要吃好呀</view>
+                    </block>
+                </view>
+                <view style="display: flex;">
+                    <block wx:if="{{appointmention=='week'}}">
+                        <image src='../../images/home/filter_checked@2x.png' style="height:88rpx;width:88rpx;"></image>
+                        <view class="appointment-choice-right-checked">预约多天 一周都有好吃哒</view>
+                    </block>
+                    <block wx:else>
+                        <image src='../../images/home/filter_unchecked@2x.png' style="height:88rpx;width:88rpx;" catchtap='handleSelectWeek'></image>
+                        <view class="appointment-choice-right" catchtap='handleSelectWeek'>预约多天 一周都有好吃哒</view>
+                    </block>
+                </view>
+            </view>
+            <view class='appointment-choice-foodtype-title' wx:if="{{appointmention!='week'}}">
+                选择时餐
+            </view>
+
+            <view class="appointment-choice-foodtype-list" wx:if="{{appointmention!='week'}}">
+                <block wx:for="{{organizeMealTypeFlag}}">
+                    <view class='appointment-choice-foodtype' catchtap="startOrderMenu">
+                        <image src='../../images/home/filter_{{item}}@2x.png' style="height:120rpx;width:120rpx;"></image>
+                        <view style="margin-left:30rpx;width:150rpx;flex-grow:1;">
+                            <view class="appointment-choice-foodtype-name"> {{mealTypeInfo[appointmention][item].name}}</view>
+                            <view class="appointment-choice-foodtype-deadlilne">
+                                <view>截止时间</view>
+                                <view style="margin-left:10rpx;">{{mealTypeInfo[appointmention][item].deadline}}</view>
+                            </view>
+                        </view>
+                        <image src='../../images/home/filter_more@2x.png' style="height:88rpx;width:88rpx; margin-top: 16rpx;"></image>
+                    </view>
+                </block>
+
+            </view>
+
+
+
+            <!-- <view class="appointment-choice-foodtype-list">
+                <view class='appointment-choice-foodtype' catchtap="startOrderMenu">
+                    <image src='../../images/home/filter_breakfast@2x.png' style="height:120rpx;width:120rpx;"></image>
+                    <view style="margin-left:30rpx;width:150rpx;flex-grow:1;">
+                        <view class="appointment-choice-foodtype-name">早餐</view>
+                        <view class="appointment-choice-foodtype-deadlilne">
+                            <view>截止时间</view>
+                            <view style="margin-left:10rpx;">明天凌晨1点</view>
+                        </view>
+                    </view>
+                    <image src='../../images/home/filter_more@2x.png' style="height:88rpx;width:88rpx; margin-top: 16rpx;"></image>
+                </view>
+                <view class='appointment-choice-foodtype' catchtap="startOrderMenu">
+                    <image src='../../images/home/filter_lunch@2x.png' style="height:120rpx;width:120rpx;"></image>
+                    <view style="margin-left:30rpx;width:150rpx;flex-grow:1;">
+                        <view class="appointment-choice-foodtype-name">午餐</view>
+                        <view class="appointment-choice-foodtype-deadlilne">
+                            <view>截止时间</view>
+                            <view style="margin-left:10rpx;">明天凌晨1点</view>
+                        </view>
+                    </view>
+                    <image src='../../images/home/filter_more@2x.png' style="height:88rpx;width:88rpx; margin-top: 16rpx;"></image>
+                </view>
+                <view class='appointment-choice-foodtype' catchtap="startOrderMenu">
+                    <image src='../../images/home/filter_dinner@2x.png' style="height:120rpx;width:120rpx;"></image>
+                    <view style="margin-left:30rpx;width:150rpx;flex-grow:1;">
+                        <view class="appointment-choice-foodtype-name">晚餐</view>
+                        <view class="appointment-choice-foodtype-deadlilne">
+                            <view>截止时间</view>
+                            <view style="margin-left:10rpx;">明天凌晨1点</view>
+                        </view>
+                    </view>
+                    <image src='../../images/home/filter_more@2x.png' style="height:88rpx;width:88rpx; margin-top: 16rpx;"></image>
+                </view>
+                <view class='appointment-choice-foodtype' catchtap="startOrderMenu">
+                    <image src='../../images/home/filter_supper@2x.png' style="height:120rpx;width:120rpx;"></image>
+                    <view style="margin-left:30rpx;width:150rpx;flex-grow:1;">
+                        <view class="appointment-choice-foodtype-name">夜宵</view>
+                        <view class="appointment-choice-foodtype-deadlilne">
+                            <view>截止时间</view>
+                            <view style="margin-left:10rpx;">明天凌晨1点</view>
+                        </view>
+                    </view>
+                    <image src='../../images/home/filter_more@2x.png' style="height:88rpx;width:88rpx; margin-top: 16rpx;"></image>
+                </view>
+            </view> -->
+
+
+
         </view>
     </view>
 </scroll-view>

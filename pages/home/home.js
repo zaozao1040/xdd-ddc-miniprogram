@@ -66,7 +66,35 @@ Page({
         hasWindowNotice: false, //默认没有window公告
         showWindowNotice: false, //默认不显示window公告
         windowNoticeData: null, // window公告数据
+        showMenuSelect: false,
+        appointmention: 'today', //预约今天:today 预约明天：tomorrow 预约多天：week
+        allFoodtype: {},
+        timeInfo: [],
+        organizeMealTypeFlag: null,
+        mealTypeInfo: null
 
+
+    },
+    // 选择今天
+    handleSelectToday() {
+        this.setData({
+            appointmention: 'today'
+        })
+    },
+    handleSelectTomorrow() {
+        this.setData({
+            appointmention: 'tomorrow'
+        })
+    },
+    handleSelectWeek() {
+        this.setData({
+            appointmention: 'week'
+        })
+    },
+    startOrderMenu() {
+        wx.navigateTo({
+            url: '/pages/menu/menu'
+        })
     },
     //监听轮播图切换图片，获取图片的下标
     onSwiperChange: function(e) {
@@ -74,6 +102,91 @@ Page({
             swiperCurrentIndex: e.detail.current
         })
     },
+
+    /* 获取七天日期 */
+    getTimeDataByResponse: function() {
+        let _this = this
+        let tmp_userCode = wx.getStorageSync('userInfo').userCode
+        let url = '/food/' + tmp_userCode + '/date'
+        homeModel.getTimeData({}, url, function(res) { //回调获取七天列表，赋给本地timeInfo
+            let resData = res
+            console.log('resData', resData)
+            _this.setData({ //首次进入的active的日期信息，保存下来 
+                timeInfo: resData
+            })
+
+
+
+            let tmp_allFoodType = ["BREAKFAST", "LUNCH", "DINNER", "NIGHT"]
+
+            let tmp_organizeMealTypeFlag = []
+            tmp_allFoodType.forEach(item => {
+                if (resData[item]) {
+                    tmp_organizeMealTypeFlag.push(item)
+                }
+            })
+
+            let tmp_allFoodTypeName = { "BREAKFAST": '早餐', "LUNCH": '午餐', "DINNER": '晚餐', "NIGHT": '夜宵' }
+            let todaytomorrow = ['today', 'tomorrow']
+            let tmp_mealTypeInfo = {}
+            for (let day = 0; day < 2; day++) { //这里可以这么写吗？根据序号做判断总觉得有些不妥，应该根据日期啊
+                let tmp_today = {}
+                let dateFlag_f = resData.dateFlag[day]
+                tmp_today.mealDate = dateFlag_f.mealDate
+                let dateFlag_mealType = dateFlag_f.mealType
+                for (let i = 0; i < dateFlag_mealType.length; i++) {
+                    let tmp_foodtype = {}
+                    if (dateFlag_mealType[i].mealTypeFlag) {
+                        tmp_foodtype.flag = true
+                    } else {
+                        tmp_foodtype.flag = false
+                    }
+                    tmp_foodtype.name = tmp_allFoodTypeName[dateFlag_mealType[i].mealType]
+
+                    let tmp_deadline = dateFlag_mealType[i].deadline
+                    if (!tmp_deadline) {
+                        tmp_foodtype.deadline = '已截止订餐'
+                    } else {
+                        let dayInfo = ['今天', '明天', '后天'] //最多也就是后天吧
+                        let durationInfo = ['凌晨', '上午', '下午', '晚上']
+                        let deadTime = new Date(tmp_deadline) //截止时间
+
+                        // 判断是哪天 error
+                        let day = deadTime.getDate() - new Date().getDate() //如果是月末减去月初，就有问题了 这里有问题，还要再修改
+                        let hour = deadTime.getHours()
+                        let duration = parseInt(hour / 6)
+                        let duration_hour = hour > 12 ? hour - 12 : hour
+
+                        let minutes = deadTime.getMinutes()
+                        let second = deadTime.getSeconds()
+                        if (minutes + second == 0) {
+                            tmp_foodtype.deadline = dayInfo[day] + durationInfo[duration] + duration_hour + '点'
+                        } else {
+                            tmp_foodtype.deadline = dayInfo[day] + durationInfo[duration] + duration_hour + '点' + minutes + '分' + second + '秒'
+                        }
+
+                    }
+                    // tmp_foodtype.deadline = dateFlag_mealType[i].deadline
+                    tmp_today[dateFlag_mealType[i].mealType] = tmp_foodtype
+                }
+
+                tmp_mealTypeInfo[todaytomorrow[day]] = tmp_today
+            }
+            console.log('tmp_mealTypeInfo', tmp_mealTypeInfo)
+            console.log('tmp_organizeMealTypeFlag', tmp_organizeMealTypeFlag)
+
+            wx.hideTabBar()
+            _this.setData({
+                showMenuSelect: true,
+                mealTypeInfo: tmp_mealTypeInfo,
+                organizeMealTypeFlag: tmp_organizeMealTypeFlag
+            })
+
+
+
+        })
+    },
+
     handleGotoLabel: function(e) {
         let _this = this
         if (!_this.data.canClick) {
@@ -145,25 +258,121 @@ Page({
         })
     },
     handleGotoMenu: function() {
-        let _this = this
-        if (!_this.data.canClick) {
-            return
-        }
-        _this.data.canClick = false
-        if (_this.data.timer) {
-            clearTimeout(_this.data.timer)
-        }
-        _this.data.timer = setTimeout(function() {
-            _this.data.canClick = true
-            wx.navigateTo({
-                    url: '/pages/menu/menu',
-                })
-                // wx.reLaunch({
-                //     url: '/pages/menu/menu',
-                // })
-        }, 100)
-    },
 
+        this.getTimeDataByResponse();
+        // 应该是在获取7天日期执行完后，再显示
+
+        // let tmp_timeInfo2 = {
+        //     "organizeMealTypeFlag": {
+        //         "BREAKFAST": false,
+        //         "LUNCH": true,
+        //         "DINNER": true,
+        //         "NIGHT": false
+        //     },
+        //     "dateFlag": [{
+        //             "mealDate": "2019-04-03",
+        //             "mealType": [{
+        //                     "BREAKFAST": false,
+        //                     "deadline": "2019-04-04T04:00:00+08:00"
+        //                 },
+        //                 {
+        //                     "LUNCH": false,
+        //                     "deadline": "2019-04-04T04:00:00+08:00"
+        //                 },
+        //                 {
+        //                     "DINNER": true,
+        //                     "deadline": "2019-04-04T04:00:00+08:00"
+        //                 },
+        //                 {
+        //                     "NIGHT": false,
+        //                     "deadline": "2019-04-04T04:00:00+08:00"
+        //                 },
+        //             ]
+        //         },
+        //         {
+        //             "mealDate": "2019-04-04",
+        //             "mealType": [{
+        //                     "BREAKFAST": false,
+        //                     "deadline": "2019-04-04T04:00:00+08:00"
+        //                 },
+        //                 {
+        //                     "LUNCH": true,
+        //                     "deadline": "2019-04-04T04:00:00+08:00"
+        //                 },
+        //                 {
+        //                     "DINNER": true,
+        //                     "deadline": "2019-04-04T04:00:00+08:00"
+        //                 },
+        //                 {
+        //                     "NIGHT": false,
+        //                     "deadline": "2019-04-04T04:00:00+08:00"
+        //                 },
+        //             ]
+        //         }
+        //     ]
+        // }
+
+        // let tmp_organizeMealTypeFlag = ['LUNCH', "DINNER"]
+        // let tmp_mealTypeInfo = {
+        //     today: {
+        //         mealDate: '2019-04-03',
+        //         "BREAKFAST": {
+        //             flag: false,
+        //             name: '早餐',
+        //             "deadline": "明天凌晨1点"
+        //         },
+        //         "LUNCH": {
+        //             flag: false,
+        //             name: '午餐',
+        //             "deadline": "已截止订餐"
+        //         },
+        //         "DINNER": {
+        //             flag: true,
+        //             name: '晚餐',
+        //             "deadline": "明天凌晨3点"
+        //         },
+        //         "NIGHT": {
+        //             flag: false,
+        //             name: '夜宵',
+        //             "deadline": "明天凌晨4点"
+        //         }
+        //     },
+        //     tomorrow: {
+        //         "mealDate": "2019-04-04",
+        //         "BREAKFAST": {
+        //             flag: false,
+        //             name: '早餐',
+        //             "deadline": "明天凌晨11点"
+        //         },
+        //         "LUNCH": {
+        //             flag: true,
+        //             name: '午餐',
+        //             "deadline": "明天凌晨12点"
+        //         },
+        //         "DINNER": {
+        //             flag: true,
+        //             name: '晚餐',
+        //             "deadline": "明天凌晨13点"
+        //         },
+        //         "NIGHT": {
+        //             flag: false,
+        //             name: '夜宵',
+        //             "deadline": "明天凌晨14点"
+        //         }
+        //     }
+        // }
+
+
+
+    },
+    // 关闭选择预约弹框
+    closeMenuSelect() {
+        wx.showTabBar()
+        this.setData({
+            showMenuSelect: false
+        })
+
+    },
     /**
      * 生命周期函数--监听页面加载
      */
@@ -177,6 +386,7 @@ Page({
             userCode: wx.getStorageSync('userInfo').userCode
         }
         _this.getNotice(param)
+
     },
 
     /**
@@ -305,13 +515,20 @@ Page({
                     element.mealTypeDes = _this.data.mealTypeMap[element.mealType]
                     element.orderStatusDes = _this.data.orderStatusMap[element.orderStatus]
                         //element.takeMealEndTimeDes = moment(element.takeMealEndTime).format('MM月DD日HH:mm')
-                    element.takeMealStartTimeDes = moment(element.takeMealStartTime).calendar()
-                    element.takeMealEndTimeDes = moment(element.takeMealEndTime).calendar()
-                        //element.takeMealStartTimeDes = moment(element.takeMealStartTime).format('MM月DD日HH:mm')
+
+                    let start = new Date(element.takeMealStartTime).getHours()
+                    let end = new Date(element.takeMealEndTime).getHours()
+                    element.takeMealStartTimeDes = start
+                    element.takeMealEndTimeDes = end == 0 ? 24 : end
+                        // element.takeMealStartTimeDes = moment(element.takeMealStartTime).calendar()
+                        // element.takeMealEndTimeDes = moment(element.takeMealEndTime).calendar()
+
                 })
                 _this.setData({
                     homeOrderList: tmp_homeOrderList
                 })
+
+                console.log('homeOrderList', tmp_homeOrderList)
             }
         })
     },
