@@ -91,9 +91,15 @@ Page({
             appointmention: 'week'
         })
     },
-    startOrderMenu() {
+    startOrderMenu(e) {
+
+        let tmp_appointmention = this.data.appointmention
+        let tmp_mealtype = e.currentTarget.dataset.mealtype
         wx.navigateTo({
-            url: '/pages/menu/menu'
+            url: '/pages/menu/today/today?appointment=' + tmp_appointmention + '&mealtype=' + tmp_mealtype
+        })
+        this.setData({
+            showMenuSelect: false
         })
     },
     //监听轮播图切换图片，获取图片的下标
@@ -115,6 +121,7 @@ Page({
                 timeInfo: resData
             })
 
+            wx.setStorageSync('timeInfo', resData)
 
 
             let tmp_allFoodType = ["BREAKFAST", "LUNCH", "DINNER", "NIGHT"]
@@ -175,14 +182,16 @@ Page({
             console.log('tmp_mealTypeInfo', tmp_mealTypeInfo)
             console.log('tmp_organizeMealTypeFlag', tmp_organizeMealTypeFlag)
 
+            // 是应该放在缓存吗？还是在wx.navigate的时候，将信息添加到url中----待定
+            wx.setStorageSync('mealTypeInfo', tmp_mealTypeInfo)
+            wx.setStorageSync('organizeMealTypeFlag', tmp_organizeMealTypeFlag)
+
             wx.hideTabBar()
             _this.setData({
                 showMenuSelect: true,
                 mealTypeInfo: tmp_mealTypeInfo,
                 organizeMealTypeFlag: tmp_organizeMealTypeFlag
             })
-
-
 
         })
     },
@@ -387,44 +396,51 @@ Page({
         }
         _this.getNotice(param)
 
+
+        wx.loadFontFace({
+
+            family: 'PingFangSC-Medium',
+
+            source: 'url("https://www.your-server.com/PingFangSC-Medium.ttf")',
+
+            success: function() { console.log('load font success') }
+
+        })
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-        console.log('onshow')
-        let _this = this
+        console.log('onshow', this.data.showMenuSelect)
 
         let tmp_userInfo = wx.getStorageSync('userInfo')
         console.log('tmp_userInfo', tmp_userInfo)
         if (tmp_userInfo == '') { //未登录状态，弹出授权框，隐藏底部状态栏
-            _this.setData({
+            this.setData({
                 showUserAuthFlag: true
             })
             wx.hideTabBar({})
         } else { //已登录状态，直接登录
-            _this.setData({ //既然已经注册，就直接自动登录，即从缓存读信息
+            this.setData({ //既然已经注册，就直接自动登录，即从缓存读信息
                 userInfo: tmp_userInfo
             })
             wx.showTabBar({})
             if (tmp_userInfo.userStatus == 'NO_CHECK') { //企业用户的'审核中'状态,而其他的状态无需隐藏
-                _this.setData({
+                this.setData({
                     showCheckFlag: true
                 })
                 wx.hideTabBar({})
             }
             if (tmp_userInfo.canTakeDiscount == true) { //在登录状态下判断用户类型，企业用户的normal状态显示新人大礼，一般用户的登录状态显示新人大礼
-                _this.setData({
+                this.setData({
                     showDaliFlag: true
                 })
             }
+
             /* 获取首页取餐信息 */
-            _this.getTakeMealInfo()
-
-
+            this.getTakeMealInfo()
         }
-        console.log('新人大礼标志showDaliFlag', _this.data.showDaliFlag)
     },
     /* 获取公告信息 */
     getNotice: function(param) {
@@ -712,6 +728,9 @@ Page({
             })
         }
     },
+    //用于解决小程序的遮罩层滚动穿透
+    preventTouchMove: function() {
 
+    }
 
 })

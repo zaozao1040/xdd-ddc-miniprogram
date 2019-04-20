@@ -1,0 +1,230 @@
+<view class="wrapper">
+    <!-- 弹出层 选择优惠券 -->
+    <block wx:if="{{showSelectDiscountFlag}}">
+        <scroll-view class="discountBg-wrapper" scroll-y style="height: {{windowHeight}}px;">
+            <view class="discountBg-headder">
+                <view class="">
+                    请选择优惠券
+                </view>
+                <view class="discountBg-headder-right" bindtap="handleNotUseDiscount">
+                    <text style="font-size:30rpx;color:#222;">不使用优惠券</text>
+                    <image src="../../../images/mine/weigouxuan.png" wx:if="{{useDiscountFlag}}" class="discountBg-headder-right-img"></image>
+                    <image src="../../../images/mine/gouxuan.png" wx:else class="discountBg-headder-right-img"></image>
+                </view>
+            </view>
+            <view class="discountBg-content">
+                <c-discount discountList="{{canusedDiscountList}}" useType="100" adviceDiscountObj="{{adviceDiscountObj}}" bind:changeselectdiscountflag="onChangeSelectDiscountFlag"></c-discount>
+            </view>
+        </scroll-view>
+    </block>
+    <!-- 弹出层 填写取餐人 送餐地址 -->
+    <view class="modulebox-background-wrapper" wx:if="{{showSelectFlag}}">
+        <view class="modulebox-wrapper">
+            <view class="modulebox-des">
+                您的姓名
+            </view>
+            <view class="section-3 section-3-cannotChange {{name?'':'section-3-empty'}}">
+                <view class="section-3-1" style="text-align: center;display: table;">
+                    <view style="display: table-cell;vertical-align: middle;">
+                        <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-wode'></text>
+                    </view>
+                </view>
+                <text wx:if="{{name}}" style="font-size:30rpx;color:#e79b37;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text>
+                <block wx:if="{{bindOrganized}}">
+                    <!-- 企业用户 姓名input只要展示了就不允许修改 -->
+                    <input bindinput="nameInput" value="{{name}}" class="section-3-2" placeholder="请输入真实姓名" type="string" disabled bindtap="handleClickName"></input>
+                </block>
+                <block wx:else>
+                    <input bindinput="nameInput" value="{{name}}" class="section-3-2" placeholder="请输入真实姓名" type="string"></input>
+                </block>
+            </view>
+            <view class="modulebox-des">
+                您的取餐地址
+            </view>
+            <view class="section-3 {{address?'':'section-3-empty'}}" catchtap="showAddress">
+                <view class="section-3-1" style="text-align: center;display: table;">
+                    <view style="display: table-cell;vertical-align: middle;">
+                        <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-dizhi'></text>
+                    </view>
+                </view>
+                <text wx:if="{{address}}" style="font-size:30rpx;color:#e79b37;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text>
+                <input bindinput="addressInput" value="{{address}}" placeholder="请选择取餐地址" class="section-3-2" type="string" disabled bindtap="handleSelectAddress"></input>
+            </view>
+            <view class="modulebox-button-wrapper">
+                <button class="modulebox-button-quxiao" bindtap="handleChangeSelectFlag">取消</button>
+                <button class="modulebox-button-queding" bindtap="handleCheckParams">确定</button>
+            </view>
+        </view>
+    </view>
+    <!-- 默认地址 -->
+    <view class="address-wrapper" bindtap="handleChangeSelectFlag">
+        <view style="flex:1;width:80%;">
+            <view class="address-line1">
+                <view>
+                    <text style="color:#666;">取餐人:</text>
+                    <block wx:if="{{name}}">
+                        {{name}}
+                    </block>
+                    <block wx:else>
+                        <text style="color:#F56C6C;">请填写真实姓名</text>
+                    </block>
+                </view>
+                <view>
+                    {{phoneNumber}}
+                </view>
+            </view>
+            <view class="address-line2" wx:if="{{address}}">
+                <text class='iconfont icon-dizhi' decode>&nbsp;{{address}}</text>
+            </view>
+            <view class="address-line2" wx:else>
+                <text class='iconfont icon-dizhi' decode style="color:#F56C6C;">&nbsp;请选择送餐地址</text>
+            </view>
+        </view>
+        <view style="flex:0 0 70rpx;margin: auto;text-align: center;">
+            <text class='iconfont icon-icon_on_the_right' style="font-size:40rpx;color:#e79b37;"></text>
+        </view>
+    </view>
+    <!-- 已选菜单 -->
+    <view class="foods-wrapper c_scrollPosition_forCalculate">
+        <view class="cart-content-empty" wx:if="{{selectedFoods.length==0}}">
+            <image class="" mode="widthFix" src="../../../images/menu/emptycart.png" style="width:100%;height: {{buttonTop - scrollTop}}px;"></image>
+        </view>
+        <scroll-view wx:else class="cart-content" scroll-y style="height: {{buttonTop - scrollTop}}px;">
+            <view class="cart-day-wrapper" wx:for="{{selectedFoods}}" wx:for-item="selectedfoodsItem" wx:for-index="selectedfoodsIndex" wx:key="selectedfoodsIndex">
+                <view class="cart-day-title">
+                    {{selectedfoodsItem.dayDes}}
+                </view>
+                <view class="cart-day-content" wx:for="{{selectedfoodsItem.dayInfo}}" wx:for-item="foodtypeItem" wx:for-index="foodtypeIndex" wx:key="foodtypeIndex">
+                    <view class="cart-menutype">
+                        <text class="iconfont-title-{{mapMenutypeIconName[foodtypeItem.foodType]}}">{{mapMenutype[foodtypeItem.foodType]}}</text>
+                        <view class="iconfont iconfont-{{mapMenutypeIconName[foodtypeItem.foodType]}} icon-{{mapMenutypeIconName[foodtypeItem.foodType]}}"></view>
+                    </view>
+                    <view class="cart-menu">
+                        <view>
+                            <view class="cart-menuItem" wx:for="{{foodtypeItem.foodTypeInfo}}" wx:for-item="foodtypeinfoItem" wx:for-index="foodtypeinfoIndex" wx:key="foodtypeinfoIndex">
+                                <view class="cart-menuItem-left">
+                                    <image class="cart-menuItem-img" src="{{foodtypeinfoItem.foodImage}}"></image>
+                                </view>
+                                <view class="cart-menuItem-right">
+                                    <view class="cart-menuItemDes">
+                                        {{foodtypeinfoItem.foodName}}
+                                    </view>
+                                    <view class="cart-menuItemTotalmoney">
+                                        <text style="color:#F56C6C;font-size:40rpx;">¥{{foodtypeinfoItem.foodTotalPrice}}</text>
+                                    </view>
+                                    <view class="cart-menuItemCount">
+                                        <text style="color:#222;font-size:40rpx;"><text style="color:#666;font-size:30rpx;">x</text>{{foodtypeinfoItem.foodCount}}</text>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                        <view class="cart-amount" wx:if="{{foodtypeItem.organizeMealLabel!=0}}">
+                            <view wx:if="{{foodtypeItem.mealLabelFlag==true}}" style="display:inline-block;font-size:30rpx;margin-right: 10rpx;color:#666;">
+                                企业将减免额度¥
+                                <block wx:if="{{foodtypeItem.organizeMealLabel > foodtypeItem.foodTypeTotalRealMoney}}">
+                                    <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;">
+                                        -{{foodtypeItem.foodTypeTotalRealMoney}}
+                                    </view>
+                                    <view style="display:inline-block;color:#666;font-size:30rpx;margin-right: 10rpx;">
+                                        (最高减免¥<text sytle="color:#222;">{{foodtypeItem.organizeMealLabel}}</text>)
+                                    </view>
+                                </block>
+                                <block wx:else>
+                                    <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;">
+                                        -{{foodtypeItem.organizeMealLabel}}
+                                    </view>
+                                </block>
+                            </view>
+                            <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;" wx:else>
+                                当前额度已被使用
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <!-- 合计 -->
+            <view class="total-wrapper">
+                <!-- 优惠券 -->
+                <view class="discount-wrapper" wx:if="{{adviceDiscountObj}}" bindtap="handleChangeSelectDiscountFlag">
+                    <view class="discount-left">
+                        <view class="discount-title">优惠券</view>
+                        <block wx:if="{{useDiscountFlag}}">
+                            <view class="discount-des">
+                                <block wx:if="{{adviceDiscountObj.discountType=='REDUCTION'}}">
+                                    满<text style="font-size:20rpx;">¥</text>{{adviceDiscountObj.discountStandardPrice}}减<text style="font-size:20rpx;">¥</text>{{adviceDiscountObj.discountPrice}}
+                                </block>
+                                <block wx:if="{{adviceDiscountObj.discountType=='DISCOUNT'}}">
+                                    满<text style="font-size:20rpx;">¥</text>{{adviceDiscountObj.discountStandardPrice}}打{{10*adviceDiscountObj.discountPrice}}折
+                                </block>
+                            </view>
+                            <view class="discount-tuijian">推荐</view>
+                        </block>
+                        <block wx:else>
+                            <view class="discount-des" style="color:#F56C6C;">
+                                {{canusedDiscountList.length}}张可用
+                            </view>
+                        </block>
+                    </view>
+                    <view class='discount-right iconfont icon-icon_on_the_right'></view>
+                </view>
+                <view class="total-wrapper-top">
+                    <view class="total-left">合计</view>
+                    <view class="total-right">
+                        <view class="total-right-line line1">
+                            <view class="">
+                                总额
+                            </view>
+                            <view class="">
+                                <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:#fff;">{{totalMoney}}</text>
+                            </view>
+                        </view>
+                        <block wx:if="{{totalMoneyRealDeduction!=0}}">
+                            <view class="total-right-line line2">
+                                <view class="">
+                                    企业总抵扣
+                                </view>
+                                <view class="">
+                                    <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text>
+                                    <text wx:if="{{totalMoneyRealDeduction!=0}}" style="font-size: 35rpx;color:#fff;">-{{totalMoneyRealDeduction}}</text>
+                                    <text wx:else style="font-size: 35rpx;color:#fff;">0</text>
+                                </view>
+                            </view>
+                        </block>
+                        <block wx:if="{{adviceDiscountObj&&adviceDiscountObj.discountPrice!=0}}">
+                            <view class="total-right-line line2">
+                                <view class="">
+                                    优惠券抵扣
+                                </view>
+                                <view class="">
+                                    <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:#fff;">-{{discountMoney}}</text>
+                                </view>
+                            </view>
+                        </block>
+                        <view class="total-right-line line3">
+                            <view class="">
+                                实际支付
+                            </view>
+                            <view class="">
+                                <text style="font-size: 30rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 40rpx;color:#fff;font-weight: 700;">{{realMoney}}</text>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view class="total-wrapper-bottom">
+                    <view class="bottom-des">
+                        余额支付(余额<text style="font-size:25rpx;">￥</text><text style="color:#222;">{{balance}}</text>)
+                    </view>
+                    <view class="bottom-icon">
+                        <view bindtap="handleChangeWalletSelectedFlag" wx:if="{{walletSelectedFlag}}" class='iconfont icon-kaiguan-copy' style="font-size: 40rpx;color:#e79b37;"></view>
+                        <view bindtap="handleChangeWalletSelectedFlag" wx:else class='iconfont icon-kaiguan-copy1' style="font-size: 40rpx;color:#666;"></view>
+                    </view>
+                </view>
+            </view>
+
+        </scroll-view>
+    </view>
+    <!-- button -->
+    <view class="button-wrapper c_buttonPosition_forCalculate">
+        <view loading="{{loading}}" class="button" bindtap="handleCommitPay">去付款</view>
+    </view>
+</view>

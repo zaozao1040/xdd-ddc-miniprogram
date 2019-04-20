@@ -23,7 +23,9 @@
     "pages/order/detail",
     "pages/mine/addfood/addfood",
     "pages/components/discount/discount",
-    "pages/components/discountPromotion/discountPromotion"
+    "pages/components/discountPromotion/discountPromotion",
+    "pages/menu/today/today",
+    "pages/menu/today/confirm/confirm"
   ],
   "permission": {
     "scope.userLocation": {
