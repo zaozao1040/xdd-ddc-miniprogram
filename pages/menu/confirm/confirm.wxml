@@ -118,7 +118,15 @@
                                 </view>
                             </view>
                         </view>
-                        <view class="cart-amount" wx:if="{{foodtypeItem.organizeMealLabel!=0}}">
+                        <view class="cart-amount" wx:if="{{orgAdmin}}">
+                            <view style="display:inline-block;font-size:30rpx;margin-right: 10rpx;color:#666;">
+                                企业将减免额度¥
+                                <view style="display:inline-block;color:#F56C6C;font-size:30rpx;margin-right: 10rpx;">
+                                    -{{foodtypeItem.foodTypeTotalRealMoney}}
+                                </view>
+                            </view>
+                        </view>
+                        <view class="cart-amount" wx:elif="{{foodtypeItem.organizeMealLabel!=0}}">
                             <view wx:if="{{foodtypeItem.mealLabelFlag==true}}" style="display:inline-block;font-size:30rpx;margin-right: 10rpx;color:#666;">
                                 企业将减免额度¥
                                 <block wx:if="{{foodtypeItem.organizeMealLabel > foodtypeItem.foodTypeTotalRealMoney}}">

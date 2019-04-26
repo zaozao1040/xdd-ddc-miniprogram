@@ -54,6 +54,7 @@ Page({
         finalMoney: 0,
 
         showSelectFlag: false, //展示填写姓名和配送地址的弹出框，默认不展示
+        orgAdmin: false, //是否是企业超级管理员
     },
 
     initAddress: function() {
@@ -93,8 +94,11 @@ Page({
             totalMoney: options.totalMoney,
             totalMoneyRealDeduction: options.totalMoneyRealDeduction,
             realMoney: options.realMoney,
-            realMoney_save: options.realMoney
+            realMoney_save: options.realMoney,
+            orgAdmin: wx.getStorageSync('userInfo').orgAdmin
         })
+
+
         console.log('selectedFoods', this.data.selectedFoods)
         console.log('options', options)
     },
@@ -144,8 +148,10 @@ Page({
             console.log('收到请求(钱包信息):', res)
             if (res.code === 0) {
                 let tmp_userInfo = wx.getStorageSync('userInfo')
-                tmp_userInfo.balance = _this.data.balance
+                    // tmp_userInfo.balance = _this.data.balance
+                tmp_userInfo.balance = res.data
                 wx.setStorageSync('userInfo', tmp_userInfo)
+                console.log('userInfo--confirm', wx.getStorageSync('userInfo'))
                 _this.setData({
                     balance: res.data
                 })
@@ -476,15 +482,23 @@ Page({
                     wx.hideLoading()
                         //      其他支付方式，待开发
                 }
-                /* 不管什么方式只要支付成功(即res.code为0)，就要更新缓存中的userInfo */
-                mineModel.getMineData(param, (res) => { //刷新用户信息
-                    if (res.code == 0) {
-                        wx.setStorageSync('userInfo', res.data)
-                        _this.setData({
-                            userInfo: res.data
-                        })
-                    }
-                })
+
+                wx.setStorageSync('refreshUserInfoFlag', true)
+                    /* 不管什么方式只要支付成功(即res.code为0)，就要更新缓存中的userInfo */
+                    // mineModel.getMineData(param, (res) => { //刷新用户信息
+                    //     console.log('mineModel.getMineData', res.data)
+
+                //     if (res.code == 0) {
+                //         wx.setStorageSync('userInfo', res.data)
+
+                //         console.log('mineModel.getMineData', res.data)
+                //         _this.setData({
+                //             userInfo: res.data
+                //         })
+                //     }
+                // })
+
+
             } else {
                 wx.hideLoading()
                 wx.showToast({

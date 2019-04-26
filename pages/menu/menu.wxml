@@ -281,6 +281,7 @@
             </view>
         </view>
         <!-- 购物车激活状态 -->
+
         <view wx:if="{{boxActiveFlag}}" class="footer-middle" style="display: flex;">
             <view class="middle-2" wx:if="{{totalMoney>0}}">
                 企业将抵扣:<text style="font-size: 30rpx;color:#fff;" decode>￥&nbsp;</text>
@@ -288,19 +289,25 @@
             </view>
         </view>
         <view wx:else class="footer-middle" style="display: flex;">
-            <block wx:if="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].organizeMealLabel==0}}"></block>
-            <block wx:else>
-                <block wx:if="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].organizeMealLabel!=null}}">
-                    <view class="middle-2" wx:if="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].mealLabelFlag}}">
-                        企业将抵扣:<text style="font-size: 30rpx;color:#fff;" decode>￥&nbsp;</text>
-                        <text style="color:#fff;font-weight: 500;font-size:35rpx;">{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].organizeMealLabel}}</text>
-                    </view>
-                    <view class="middle-2 notUse" wx:else>
-                        当前额度已被使用
-                    </view>
+            <block wx:if="{{orgAdmin==false}}">
+                <block wx:if="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].organizeMealLabel==0}}"></block>
+                <block wx:else>
+                    <block wx:if="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].organizeMealLabel!=null}}">
+                        <view class="middle-2" wx:if="{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].mealLabelFlag}}">
+                            企业将抵扣:<text style="font-size: 30rpx;color:#fff;" decode>￥&nbsp;</text>
+                            <text style="color:#fff;font-weight: 500;font-size:35rpx;">{{cacheMenuDataAll[timeActiveFlag][foodtypeActiveFlag].organizeMealLabel}}</text>
+                        </view>
+                        <view class="middle-2 notUse" wx:else>
+                            当前额度已被使用
+                        </view>
+                    </block>
                 </block>
             </block>
+            <view wx:else class="middle-2">
+                您当前为管理员
+            </view>
         </view>
+
         <view class="footer-right" bindtap="goToMenuCommit">
             去结算
         </view>

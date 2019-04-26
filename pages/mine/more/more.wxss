@@ -1,0 +1,49 @@
+.button-sp-area {
+    margin: 0 auto;
+    padding-top: 15px;
+    width: 60%;
+}
+
+.mini-btn {
+    margin-right: 5px;
+}
+
+.open-sigle-cab {
+    display: flex;
+    flex-direction: row;
+}
+
+.weui-cell__bd {
+    align-items: center;
+    /**子view垂直居中*/
+    vertical-align: center;
+    /**垂直居中*/
+    justify-content: center;
+    /**内容居中*/
+    line-height: 2.58823529em;
+}
+
+input {
+    border: 1px solid #ddd;
+    margin-top: 15px;
+}
+
+.weui-btn {
+    margin-top: 15px;
+    width: 500rpx;
+    padding: 0;
+}
+
+.weui-btn:first-child {
+    margin-top: 0;
+}
+
+.weui-btn-area {
+    margin: 1.17647059em 15px 0.3em;
+}
+
+.weui-input {
+    height: 2.58823529em;
+    min-height: 2.58823529em;
+    line-height: 2.58823529em;
+}

@@ -90,7 +90,7 @@ Page({
         time_remind_height: 0, // 截止时间，倒计时的view的高度
         shakeshake: false,
         shakeTimer: null,
-
+        orgAdmin: false, //是否是企业超级管理员
     },
     /* 页面隐藏后回收定时器指针 */
     onHide: function() {
@@ -289,14 +289,19 @@ Page({
         let tmp_totalMoneyRealDeduction = 0
         _this.data.selectedFoods.forEach((element1) => {
             element1.dayInfo.forEach((element2) => {
-                if (element2.mealLabelFlag == true) {
-                    if (parseFloat(element2.foodTypeTotalRealMoney) < parseFloat(element2.organizeMealLabel)) { //该天该餐的自费总额比餐标还小
-                        tmp_totalMoneyRealDeduction = parseFloat((parseFloat(tmp_totalMoneyRealDeduction) + parseFloat(element2.foodTypeTotalRealMoney)).toFixed(2))
-                    } else {
-                        tmp_totalMoneyRealDeduction = parseFloat((parseFloat(tmp_totalMoneyRealDeduction) + parseFloat(element2.organizeMealLabel)).toFixed(2))
+                if (_this.data.orgAdmin) {
+                    tmp_totalMoneyRealDeduction = parseFloat((parseFloat(tmp_totalMoneyRealDeduction) + parseFloat(element2.foodTypeTotalRealMoney)).toFixed(2))
+                } else {
+                    if (element2.mealLabelFlag == true) {
+                        if (parseFloat(element2.foodTypeTotalRealMoney) < parseFloat(element2.organizeMealLabel)) { //该天该餐的自费总额比餐标还小
+                            tmp_totalMoneyRealDeduction = parseFloat((parseFloat(tmp_totalMoneyRealDeduction) + parseFloat(element2.foodTypeTotalRealMoney)).toFixed(2))
+                        } else {
+                            tmp_totalMoneyRealDeduction = parseFloat((parseFloat(tmp_totalMoneyRealDeduction) + parseFloat(element2.organizeMealLabel)).toFixed(2))
+                        }
                     }
                 }
             })
+
         })
         this.setData({
             totalMoneyRealDeduction: tmp_totalMoneyRealDeduction
@@ -1403,7 +1408,13 @@ Page({
      */
     onLoad: function(options) {
         let _this = this
-            //初始化，获取一些必要参数，如高度
+
+
+        _this.setData({
+            orgAdmin: wx.getStorageSync('userInfo').orgAdmin
+        })
+
+        //初始化，获取一些必要参数，如高度
         _this.initMenu()
         _this.getTimeDataByResponse()
     },

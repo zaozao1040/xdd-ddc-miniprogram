@@ -267,112 +267,31 @@ Page({
         })
     },
     handleGotoMenu: function() {
+        let _this = this
+        if (!_this.data.canClick) {
+            return
+        }
 
-        this.getTimeDataByResponse();
-        // 应该是在获取7天日期执行完后，再显示
-
-        // let tmp_timeInfo2 = {
-        //     "organizeMealTypeFlag": {
-        //         "BREAKFAST": false,
-        //         "LUNCH": true,
-        //         "DINNER": true,
-        //         "NIGHT": false
-        //     },
-        //     "dateFlag": [{
-        //             "mealDate": "2019-04-03",
-        //             "mealType": [{
-        //                     "BREAKFAST": false,
-        //                     "deadline": "2019-04-04T04:00:00+08:00"
-        //                 },
-        //                 {
-        //                     "LUNCH": false,
-        //                     "deadline": "2019-04-04T04:00:00+08:00"
-        //                 },
-        //                 {
-        //                     "DINNER": true,
-        //                     "deadline": "2019-04-04T04:00:00+08:00"
-        //                 },
-        //                 {
-        //                     "NIGHT": false,
-        //                     "deadline": "2019-04-04T04:00:00+08:00"
-        //                 },
-        //             ]
-        //         },
-        //         {
-        //             "mealDate": "2019-04-04",
-        //             "mealType": [{
-        //                     "BREAKFAST": false,
-        //                     "deadline": "2019-04-04T04:00:00+08:00"
-        //                 },
-        //                 {
-        //                     "LUNCH": true,
-        //                     "deadline": "2019-04-04T04:00:00+08:00"
-        //                 },
-        //                 {
-        //                     "DINNER": true,
-        //                     "deadline": "2019-04-04T04:00:00+08:00"
-        //                 },
-        //                 {
-        //                     "NIGHT": false,
-        //                     "deadline": "2019-04-04T04:00:00+08:00"
-        //                 },
-        //             ]
-        //         }
-        //     ]
+        // if (_this.data.orgAdmin) {
+        //     wx.showToast({
+        //         title: '提示',
+        //         message: '您当前为管理员，将以管理员身份下单',
+        //         duration: 2000
+        //     })
         // }
-
-        // let tmp_organizeMealTypeFlag = ['LUNCH', "DINNER"]
-        // let tmp_mealTypeInfo = {
-        //     today: {
-        //         mealDate: '2019-04-03',
-        //         "BREAKFAST": {
-        //             flag: false,
-        //             name: '早餐',
-        //             "deadline": "明天凌晨1点"
-        //         },
-        //         "LUNCH": {
-        //             flag: false,
-        //             name: '午餐',
-        //             "deadline": "已截止订餐"
-        //         },
-        //         "DINNER": {
-        //             flag: true,
-        //             name: '晚餐',
-        //             "deadline": "明天凌晨3点"
-        //         },
-        //         "NIGHT": {
-        //             flag: false,
-        //             name: '夜宵',
-        //             "deadline": "明天凌晨4点"
-        //         }
-        //     },
-        //     tomorrow: {
-        //         "mealDate": "2019-04-04",
-        //         "BREAKFAST": {
-        //             flag: false,
-        //             name: '早餐',
-        //             "deadline": "明天凌晨11点"
-        //         },
-        //         "LUNCH": {
-        //             flag: true,
-        //             name: '午餐',
-        //             "deadline": "明天凌晨12点"
-        //         },
-        //         "DINNER": {
-        //             flag: true,
-        //             name: '晚餐',
-        //             "deadline": "明天凌晨13点"
-        //         },
-        //         "NIGHT": {
-        //             flag: false,
-        //             name: '夜宵',
-        //             "deadline": "明天凌晨14点"
-        //         }
-        //     }
-        // }
-
-
-
+        _this.data.canClick = false
+        if (_this.data.timer) {
+            clearTimeout(_this.data.timer)
+        }
+        _this.data.timer = setTimeout(function() {
+            _this.data.canClick = true
+            wx.navigateTo({
+                    url: '/pages/menu/menu',
+                })
+                // wx.reLaunch({
+                //     url: '/pages/menu/menu',
+                // })
+        }, 100)
     },
     // 关闭选择预约弹框
     closeMenuSelect() {
@@ -415,7 +334,7 @@ Page({
         console.log('onshow', this.data.showMenuSelect)
 
         let tmp_userInfo = wx.getStorageSync('userInfo')
-        console.log('tmp_userInfo', tmp_userInfo)
+        console.log('userInfo-home-orgAdmin', tmp_userInfo.orgAdmin)
         if (tmp_userInfo == '') { //未登录状态，弹出授权框，隐藏底部状态栏
             this.setData({
                 showUserAuthFlag: true
@@ -590,6 +509,7 @@ Page({
                                 /* wx.reLaunch({  //注释掉，取餐后不刷新，减少请求
                                     url: '/pages/home/home'
                                 }) */
+                            wx.setStorageSync('refreshUserInfoFlag', true)
                         } else {
                             wx.hideLoading()
                             wx.showToast({
