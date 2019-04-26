@@ -214,9 +214,23 @@
 }
 
 .order-status {
-    font-size: 35rpx;
-    font-weight: 500;
-    color: #fff;
+    font-family: PingFang-SC-Regular;
+    font-size: 30rpx;
+    color: #666666;
+    letter-spacing: 0;
+    text-align: right;
+    line-height: 42rpx;
+    margin-top: 18rpx;
+}
+
+.mask {
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .order-time {
@@ -228,6 +242,33 @@
 
 .order-time-warnning {
     color: lightyellow;
+}
+
+.cancel-wait {
+    border: 2rpx solid #CCCCCC;
+    border-radius: 40rpx;
+    font-family: PingFang-SC-Regular;
+    font-size: 30rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: center;
+    width: 236rpx;
+    height: 76rpx;
+    line-height: 76rpx;
+}
+
+.cancel-confirm {
+    background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
+    border-radius: 50rpx;
+    font-family: PingFang-SC-Medium;
+    font-size: 30rpx;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    text-align: center;
+    text-align: center;
+    width: 240rpx;
+    height: 80rpx;
+    line-height: 80rpx;
 }
 
 .foods-wrapper {
@@ -249,6 +290,7 @@
     text-align: left;
     line-height: 42rpx;
     margin-bottom: 12rpx;
+    display: flex;
 }
 
 .food-mealtype {
@@ -258,7 +300,6 @@
     letter-spacing: 0;
     text-align: left;
     line-height: 34rpx;
-    margin-bottom: 20rpx;
 }
 
 .food-count {
@@ -281,6 +322,7 @@
     color: #333333;
     letter-spacing: 0;
     text-align: left;
+    line-height: 40rpx;
 }
 
 .food-takeorder {
@@ -289,12 +331,40 @@
     color: #666666;
     letter-spacing: 0;
     text-align: left;
+    line-height: 40rpx;
 }
 
 .food-des {
     font-size: 30rpx;
     font-weight: 500;
     color: #222;
+}
+
+.see-detail {
+    border: 1rpx solid #CCCCCC;
+    border-radius: 30rpx;
+    font-family: PingFang-SC-Regular;
+    font-size: 26rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: center;
+    width: 154rpx;
+    height: 58rpx;
+    line-height: 58rpx;
+}
+
+.take-food {
+    background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
+    border-radius: 30rpx;
+    font-family: PingFang-SC-Medium;
+    font-size: 26rpx;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    text-align: center;
+    width: 156rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    margin-left: 16rpx;
 }
 
 .order-cabinet-title {
@@ -313,7 +383,6 @@
     color: #F79C4C;
     letter-spacing: 0;
     text-align: left;
-    margin-bottom: 28rpx;
 }
 
 

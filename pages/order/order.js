@@ -229,8 +229,15 @@ Page({
                             element.orderTimeDes = moment(element.orderTime).format('YYYY-MM-DD HH:mm:ss')
 
                             element.mealDateDes = moment(element.mealDate).format('MM月DD日')
-                            element.takeMealEndTimeDes = moment(element.takeMealEndTime).format('MM月DD日HH:mm')
-                            element.takeMealStartTimeDes = moment(element.takeMealStartTime).format('MM月DD日HH:mm')
+                                // element.takeMealEndTimeDes = moment(element.takeMealEndTime).format('MM月DD日HH:mm')
+                                // element.takeMealStartTimeDes = moment(element.takeMealStartTime).format('MM月DD日HH:mm')
+                            let end = new Date(element.takeMealEndTime)
+                            element.takeMealEndTimeDes = (end.getHours() == 0 ? 24 : end.getHours()) + '点' + (end.getMinutes() < 1 ? "" : end.getMinutes() + '分')
+                            let start = new Date(element.takeMealStartTime)
+                            element.takeMealStartTimeDes = start.getHours() + '点' + (start.getMinutes() < 1 ? "" : start.getMinutes() + '分')
+                            let tmp_month = start.getMonth() + 1
+                            let tmp_day = start.getDate()
+                            element.takeMealDate = (tmp_month < 10 ? '0' + tmp_month : tmp_month) + '月' + (tmp_day < 10 ? '0' + tmp_day : tmp_day) + '日'
                         })
                         //下面开始分页
                     if (tmp_orderList.length < _this.data.limit) {
@@ -270,7 +277,77 @@ Page({
         })
     },
     /* 取消订单 */
-    handleCancelOrder: function(e) {
+    handleCancelOrder(e) {
+        this.setData({
+            cancelOrderCode: e.currentTarget.dataset.ordercode,
+            cancelFlag: true
+        })
+    },
+    /* 取消取消订单 */
+    handleCancelOrderWait() {
+        this.setData({
+            cancelOrderCode: '',
+            cancelFlag: false
+        })
+    },
+    /* 确认取消订单 */
+    handleCancelOrderConfirm() {
+        if (this.data.cancelOrderCode) { // 防止出错
+            this.setData({
+                cancelFlag: false
+            })
+            let _this = this
+            let param = {
+                    userCode: wx.getStorageSync('userInfo').userCode,
+                    orderCode: _this.data.cancelOrderCode
+                }
+                // wx.showLoading({ //【防止狂点2】
+                //     title: '加载中',
+                //     mask: true
+                // })
+            orderModel.cancelOrder(param, (res) => {
+                console.log('收到请求(取消订单):', res)
+                if (res.code === 0) {
+                    //wx.hideLoading()
+                    //刷新订单列表中该订单的状态值，使用setData响应式模板
+                    let tmp_orderList = _this.data.orderList
+                    tmp_orderList[e.currentTarget.dataset.orderindex].orderStatus = 'USER_CANCEL'
+                    tmp_orderList[e.currentTarget.dataset.orderindex].orderStatusDes = '已取消'
+                    _this.setData({
+                        orderList: tmp_orderList,
+                    })
+                    wx.showToast({
+                        title: '成功取消订单',
+                        duration: 2000
+                    })
+                    if (e.currentTarget.dataset.paystatus == 'THIRD_PAYED') {
+                        if (_this.data.timer) {
+                            clearTimeout(_this.data.timer)
+                        }
+                        _this.data.timer = setTimeout(function() {
+                            wx.showToast({
+                                title: e.currentTarget.dataset.payprice + '元已退还',
+                                image: '../../images/msg/warning.png',
+                                duration: 4000
+                            })
+                        }, 2000)
+                    }
+
+                    wx.setStorageSync('refreshUserInfoFlag', true)
+
+                } else {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: res.msg,
+                        image: '../../images/msg/error.png',
+                        duration: 2000
+                    })
+                }
+            })
+        }
+    },
+    /* 取消订单 */
+    handleCancelOrder2: function(e) {
         console.log(e)
         let _this = this
         if (!_this.data.canClick) {
@@ -706,6 +783,10 @@ Page({
                                 }) */
                 } //接口调用结束的回调函数（调用成功、失败都会执行）
         })
+    },
+    //用于解决小程序的遮罩层滚动穿透
+    preventTouchMove: function() {
+
     }
 
 })

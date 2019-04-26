@@ -61,7 +61,17 @@
             </view>
         </view>
     </form>
-
+    <view class="mask" wx:if="{{cancelFlag}}" catchtouchmove="preventTouchMove"></view>
+    <!--取消订单弹出框-->
+    <view style='border-radius: 16rpx;position:fixed;width:560rpx;height:310rpx;bottom:0;top:0;left:0;right:0;margin:auto;background:#fff;z-index:10002;' wx:if='{{cancelFlag}}'>
+        <view style='font-family: PingFang-SC-Medium;font-size: 18px;color: #000000;text-align: center;margin:60rpx 0;text-align: center;'>
+            确定要取消订单吗？
+        </view>
+        <view style='display:flex;justify-content: space-between;margin:0 30rpx;'>
+            <view class='cancel-wait' catchtap='handleCancelOrderWait'>再等等</view>
+            <view class='cancel-confirm' catchtap='handleCancelOrderConfirm'>确定取消</view>
+        </view>
+    </view>
     <!-- 标题 -->
     <view class="header-wrapper">
         <view catchtap="changeItemStatusActiveFlag" data-flag="jinridaiqu">
@@ -79,36 +89,74 @@
         </view>
     </view>
     <scroll-view class="order-wrapper c_scrollPosition_forCalculate" scroll-y style="height: {{windowHeight - scrollTop}}px;">
-
         <view wx:if="{{orderListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
             未查询到充值记录..
         </view>
         <view wx:else>
-            <view bindtap="handleGotoOrderDetail" data-ordercode="{{orderItem.orderCode}}" class="order-item" wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
-                <view style='box-shadow: 0 0 10px 0 rgba(0,0,0,0.08); border-radius: 6px;background: #FFFFFF;margin:24rpx 20rpx 0;padding:30rpx 30rpx 40rpx 3rpx;display:flex;'>
-                    <view style="height:88rpx;width:88rpx;border:1rpx solid red;"></view>
-                    <view style="margin-left:20rpx;flex-grow:1;border-bottom:1rpx solid #eee;">
-                        <view style="display:flex;justify-content: space-between;">
+            <view wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
+                <view style='box-shadow: 0 0 10px 0 rgba(0,0,0,0.08); border-radius: 6px;background: #FFFFFF;margin:24rpx 20rpx 0;padding:30rpx 30rpx 40rpx 30rpx;display:flex;'>
+                    <view style="height:88rpx;width:88rpx;border:1rpx solid red;flex-shrink: 0;"></view>
+                    <view style="margin-left:20rpx;flex-grow:1;">
+                        <view style="display:flex;justify-content: space-between;border-bottom:1rpx solid #eee;height:108rpx;">
                             <view>
-                                <view class='food-name'>{{orderItem.foods[0].name}}</view>
+                                <view class='food-name'>
+                                    <!--名称可能会溢出，需要指定最长的width-->
+                                    <view>{{orderItem.foods[0].name}}</view>
+                                    <view style="margin-left:14rpx;" wx:if='{{orderItem.foods.length>1}}'>等{{orderItem.foods.length}}件</view>
+                                </view>
                                 <view class='food-mealtype'>{{orderItem.mealTypeDes}}</view>
                             </view>
-                            <view>
+                            <view wx:if="{{orderItem.cabinet}}">
                                 <view class='order-cabinet-title'>柜子号</view>
-                                <view class='order-cabinet-num'>A-20</view>
+                                <view class='order-cabinet-num'>{{orderItem.cabinet}}</view>
+                            </view>
+                            <view wx:elif="{{orderItem.foods[0].boxNumber}}">
+                                <view class='order-cabinet-title'>箱子</view>
+                                <view class='order-cabinet-num'>{{orderItem.foods[0].boxNumber}}</view>
+                            </view>
+                            <!--因为 订单自动取消 会换行，这些订单状态需要和志康讨论-->
+                            <view wx:else class='order-status'>
+                                {{orderItem.orderStatusDes}}
                             </view>
                         </view>
-                        <view style="display:flex;justify-content: space-between;">
-                            <view class='food-takeorder'>取餐时间:{{orderItem.takeMealStartTimeDes}}~{{orderItem.takeMealEndTimeDes}}</view>
+                        <view style="display:flex;justify-content: space-between;padding:21rpx 0 40rpx;">
+                            <view class='food-takeorder' wx:if="{{itemStatusActiveFlag}}">取餐时间：今天{{orderItem.takeMealStartTimeDes}}到{{orderItem.takeMealEndTimeDes}}</view>
+                            <view class='food-takeorder' wx:else>取餐时间：{{orderItem.takeMealDate}}</view>
                             <view class='food-money'>￥{{orderItem.payPrice}}</view>
                         </view>
+                        <view style="display:flex;justify-content: flex-end;">
+                            <view class='see-detail' bindtap="handleGotoOrderDetail" data-ordercode="{{orderItem.orderCode}}">查看详情</view>
+                            <block wx:if="{{!orderItem.expiredFlag}}">
+                                <view class='see-detail' style='margin-left:16rpx;' catchtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-payprice="{{orderItem.payPrice}}" data-paystatus="{{orderItem.payStatus}}" wx:if="{{orderItem.orderStatus  == 'PAYED_WAITINT_CONFIRM' || orderItem.orderStatus  == 'NO_PAY'}}">
+                                    取消订单
+                                </view>
+                                <view class='take-food' catchtap="handleEvaluateOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-foodcode="{{orderItem.foods[0].foodCode}}" data-foods="{{orderItem.foods}}" wx:if="{{orderItem.evaluateFlag}}">
+                                    评价
+                                </view>
+                                <view class='take-food' catchtap="handleTakeOrder" data-ordercode="{{orderItem.orderCode}}" data-cabinet="{{orderItem.cabinet}}" wx:if="{{orderItem.takeMealFlag}}">
+                                    取餐
+                                </view>
+                                <view class='take-food' catchtap="handleSecondpayOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" wx:if="{{orderItem.orderStatus  == 'NO_PAY' }}">
+                                    付款
+                                </view>
+                            </block>
+                        </view>
                     </view>
+
                 </view>
             </view>
+            <view class="hasMore-wrapper" wx:if="{{hasMoreDataFlag}}" bindtap="gotoNextPage" style="margin-top:60rpx;font-family: PingFang-SC-Regular; font-size: 26rpx; color: #666666; letter-spacing: 0; text-align: center;">
+                点击加载更多
+            </view>
+            <view wx:else class="hasMore-wrapper" style="margin-top:60rpx;font-family: PingFang-SC-Regular; font-size: 26rpx; color: #666666; letter-spacing: 0; text-align: center;">
+                没有更多了..
+            </view>
         </view>
+
     </scroll-view>
-    <!-- 内容 -->
-    <scroll-view class="order-wrapper c_scrollPosition_forCalculate" scroll-y style="height: {{windowHeight - scrollTop}}px;">
+</view>
+<!-- 内容 -->
+<!-- <scroll-view class="order-wrapper c_scrollPosition_forCalculate" scroll-y style="height: {{windowHeight - scrollTop}}px;">
         <view wx:if="{{orderListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
             未查询到充值记录..
         </view>
@@ -220,5 +268,4 @@
                 没有更多了..
             </view>
         </view>
-    </scroll-view>
-</view>
+    </scroll-view> -->
