@@ -205,6 +205,40 @@
     line-height: 40rpx;
 }
 
+.cart-count {
+    position: absolute;
+    z-index: 1003;
+    height: 32rpx;
+    width: 32rpx;
+    background: #FF5035;
+    text-align: center;
+    line-height: 32rpx;
+    border-radius: 32rpx;
+    font-family: PingFang-SC-Medium;
+    font-size: 22rpx;
+    color: #FFF;
+    letter-spacing: 0;
+    left: 0;
+    top: 100%;
+    animation: cartCountAnimation 0.5s;
+    animation-timing-function: linear;
+}
+
+@keyframes cartCountAnimation {
+    0% {
+        left: 100%;
+        top: 0;
+    }
+    50% {
+        left: 50%;
+        top: 50%;
+    }
+    100% {
+        left: 0;
+        top: 100%;
+    }
+}
+
 
 /*3.0*/
 

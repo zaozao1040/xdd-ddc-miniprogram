@@ -65,14 +65,7 @@ Page({
                 })
             }
         })
-        const query = wx.createSelectorQuery()
-        query.select('.c_scrollPosition_forCalculate').boundingClientRect()
-        query.selectViewport().scrollOffset()
-        query.exec(function(res) {
-            _this.setData({
-                scrollTop: res[0].top // #the-id节点的上边界坐标
-            })
-        })
+
         const query_1 = wx.createSelectorQuery()
         query_1.select('.c_buttonPosition_forCalculate').boundingClientRect()
         query_1.selectViewport().scrollOffset()
@@ -93,10 +86,10 @@ Page({
             totalMoney: options.totalMoney,
             totalMoneyRealDeduction: options.totalMoneyRealDeduction,
             realMoney: options.realMoney,
-            realMoney_save: options.realMoney
+            realMoney_save: options.realMoney,
+            organizeMealTypeFlag: wx.getStorageSync('organizeMealTypeFlag'),
         })
-        console.log('todaySelectedFoods', todaySelectedFoods)
-        console.log('options', options)
+
     },
     /**
      * 生命周期函数--监听页面显示
@@ -172,6 +165,7 @@ Page({
     },
     /* 改变现实优惠券选择页的展示状态 */
     handleChangeSelectDiscountFlag: function() {
+
         this.setData({
             showSelectDiscountFlag: !this.data.showSelectDiscountFlag
         })
@@ -245,38 +239,7 @@ Page({
             }
         })
     },
-    /* 清空缓存 */
-    clearCache: function() {
-        let _this = this
-        getApp().globalData.cacheMenuDataAll = [
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null]
-        ]
-        getApp().globalData.selectedFoods = []
-        getApp().globalData.totalCount = 0
-        getApp().globalData.totalMoney = 0
-        _this.setData({
-            cacheMenuDataAll: [
-                [null, null, null, null],
-                [null, null, null, null],
-                [null, null, null, null],
-                [null, null, null, null],
-                [null, null, null, null],
-                [null, null, null, null],
-                [null, null, null, null]
-            ],
-            selectedFoods: [],
-            totalCount: 0,
-            totalMoney: 0,
-            totalMoneyRealDeduction: 0,
-            realMoney: 0
-        })
-    },
+
     /* 企业用户点击弹窗中的姓名 不允许修改 */
     handleClickName: function() {
         wx.showToast({
@@ -372,33 +335,30 @@ Page({
             order: []
 
         }
-        getApp().globalData.selectedFoods.forEach(element1 => {
-                let dayDes = element1.dayDes
-                element1.dayInfo.forEach(element2 => {
-                    let foodTypeDes = element2.foodTypeDes
-                    let organizeMealLabel = element2.organizeMealLabel
-                    let mealLabelFlag = element2.mealLabelFlag
-                    let order_item = {
-                        mealDate: dayDes,
-                        mealType: foodTypeDes,
-                        foods: []
+        let tmp_selectedFoods = _this.data.selectedFoods
+        _this.data.organizeMealTypeFlag.forEach(mealType => {
+            if (tmp_selectedFoods[mealType]) { //选了这个餐时的菜
+
+                let order_item = {
+                    mealDate: tmp_selectedFoods.mealDate,
+                    mealType: mealType,
+                    foods: []
+                }
+
+                tmp_selectedFoods[mealType].selectedFoods.forEach(onefood => {
+                    let foods_item = {
+                        foodCode: onefood.foodCode,
+                        quantity: onefood.foodCount,
+
                     }
-                    let tmp_totalPrice = 0
-                    element2.foodTypeInfo.forEach(element3 => {
-                        //tmp_totalPrice += element3.foodCount * element3.foodPrice
-                        tmp_totalPrice = (parseFloat(tmp_totalPrice) + element3.foodCount * parseFloat(element3.foodPrice)).toFixed(2)
-                        let foods_item = {
-                            foodCode: element3.foodCode,
-                            quantity: element3.foodCount,
-
-                        }
-                        order_item.foods.push(foods_item)
-                    })
-
-                    tmp_param.order.push(order_item)
+                    order_item.foods.push(foods_item)
                 })
-            })
-            // console.log('提交菜单请求参数:', tmp_param)
+
+                tmp_param.order.push(order_item)
+            }
+        })
+
+
         let param = tmp_param
         if (param.payAllPrice == '0.00' || param.payAllPrice == 0 || param.payAllPrice == '0') {
             param.payType = 'STANDARD_PAY' //支付方式改为标准支付
@@ -442,7 +402,6 @@ Page({
                                     confirmText: '查看订单',
                                     success(res) {
                                         if (res.confirm) {
-                                            //_this.clearCache() //清空缓存
                                             wx.reLaunch({
                                                 url: '/pages/order/order',
                                             })
@@ -459,7 +418,6 @@ Page({
                                     confirmText: '查看订单',
                                     success(res) {
                                         if (res.confirm) {
-                                            //_this.clearCache() //清空缓存
                                             wx.reLaunch({
                                                 url: '/pages/order/order',
                                             })

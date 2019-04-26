@@ -1,5 +1,5 @@
 <!--pages/order/order.wxml-->
-<view class="wrapper">
+<view>
     <!-- 去付款弹出的选择支付方式对话框 -->
     <view class="selectPayType-wrapper" wx:if="{{showPayTypeFlag}}">
         <view class="selectPayType">
@@ -64,13 +64,49 @@
 
     <!-- 标题 -->
     <view class="header-wrapper">
-        <view class="header-item {{itemStatusActiveFlag==true?'header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="jinridaiqu">
-            今日待取
+        <view catchtap="changeItemStatusActiveFlag" data-flag="jinridaiqu">
+            <view class=" {{itemStatusActiveFlag==true?'header-item-active':'header-item'}}">今日待取</view>
+            <view class="{{itemStatusActiveFlag==true?'header-item-border-active':'header-item-border'}}"></view>
         </view>
-        <view class="header-item {{itemStatusActiveFlag==false?'header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="quanbudingdan">
-            全部订单
+        <view catchtap="changeItemStatusActiveFlag" data-flag="jinridaiqu">
+            <view class="{{itemStatusActiveFlag==false?'header-item-active':'header-item'}}">待评价</view>
+            <view class="{{itemStatusActiveFlag==false?'header-item-border-active':'header-item-border'}}"></view>
+        </view>
+        <view catchtap="changeItemStatusActiveFlag" data-flag="quanbudingdan">
+            <view class=" {{itemStatusActiveFlag==false?'header-item-active':'header-item'}}">全部订单</view>
+            <view class="{{itemStatusActiveFlag==false?'header-item-border-active':'header-item-border'}}"></view>
+
         </view>
     </view>
+    <scroll-view class="order-wrapper c_scrollPosition_forCalculate" scroll-y style="height: {{windowHeight - scrollTop}}px;">
+
+        <view wx:if="{{orderListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+            未查询到充值记录..
+        </view>
+        <view wx:else>
+            <view bindtap="handleGotoOrderDetail" data-ordercode="{{orderItem.orderCode}}" class="order-item" wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
+                <view style='box-shadow: 0 0 10px 0 rgba(0,0,0,0.08); border-radius: 6px;background: #FFFFFF;margin:24rpx 20rpx 0;padding:30rpx 30rpx 40rpx 3rpx;display:flex;'>
+                    <view style="height:88rpx;width:88rpx;border:1rpx solid red;"></view>
+                    <view style="margin-left:20rpx;flex-grow:1;border-bottom:1rpx solid #eee;">
+                        <view style="display:flex;justify-content: space-between;">
+                            <view>
+                                <view class='food-name'>{{orderItem.foods[0].name}}</view>
+                                <view class='food-mealtype'>{{orderItem.mealTypeDes}}</view>
+                            </view>
+                            <view>
+                                <view class='order-cabinet-title'>柜子号</view>
+                                <view class='order-cabinet-num'>A-20</view>
+                            </view>
+                        </view>
+                        <view style="display:flex;justify-content: space-between;">
+                            <view class='food-takeorder'>取餐时间:{{orderItem.takeMealStartTimeDes}}~{{orderItem.takeMealEndTimeDes}}</view>
+                            <view class='food-money'>￥{{orderItem.payPrice}}</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </scroll-view>
     <!-- 内容 -->
     <scroll-view class="order-wrapper c_scrollPosition_forCalculate" scroll-y style="height: {{windowHeight - scrollTop}}px;">
         <view wx:if="{{orderListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">

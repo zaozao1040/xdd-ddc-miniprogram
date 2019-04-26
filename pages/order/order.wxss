@@ -119,23 +119,37 @@
 
 .header-wrapper {
     display: flex;
-    height: 100rpx;
-    line-height: 100rpx;
-    border-bottom: 1rpx solid #666;
+    justify-content: space-between;
+    padding: 12rpx 80rpx 20rpx;
+    border-bottom: 1rpx solid #eee;
 }
 
 .header-item {
-    flex: 1;
-    text-align: center;
-    font-size: 35rpx;
-    font-weight: 600;
-    color: #666;
-    margin: 0 100rpx;
+    font-family: PingFang-SC-Regular;
+    font-size: 30rpx;
+    color: #999999;
+    letter-spacing: 0;
+    line-height: 42rpx;
 }
 
 .header-item-active {
-    border-bottom: 10rpx solid #e79b37;
-    color: #e79b37;
+    font-family: PingFang-SC-Medium;
+    font-size: 30rpx;
+    color: #333333;
+    letter-spacing: 0;
+    line-height: 42rpx;
+}
+
+.header-item-border {
+    height: 14rpx;
+}
+
+.header-item-border-active {
+    height: 6rpx;
+    background: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
+    border-radius: 4rpx;
+    width: 60rpx;
+    margin: 8rpx auto 0;
 }
 
 
@@ -228,10 +242,23 @@
 }
 
 .food-name {
-    margin: auto 20rpx;
-    font-size: 35rpx;
-    font-weight: 500;
-    color: #222;
+    font-family: PingFang-SC-Medium;
+    font-size: 30rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 42rpx;
+    margin-bottom: 12rpx;
+}
+
+.food-mealtype {
+    font-family: PingFang-SC-Regular;
+    font-size: 24rpx;
+    color: #999999;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 34rpx;
+    margin-bottom: 20rpx;
 }
 
 .food-count {
@@ -248,10 +275,45 @@
     color: #222;
 }
 
+.food-money {
+    font-family: HelveticaNeue-Medium;
+    font-size: 32rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: left;
+}
+
+.food-takeorder {
+    font-family: PingFang-SC-Regular;
+    font-size: 28rpx;
+    color: #666666;
+    letter-spacing: 0;
+    text-align: left;
+}
+
 .food-des {
     font-size: 30rpx;
     font-weight: 500;
     color: #222;
+}
+
+.order-cabinet-title {
+    font-family: PingFang-SC-Regular;
+    font-size: 24rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 34rpx;
+    margin-bottom: 6rpx;
+}
+
+.order-cabinet-num {
+    font-family: PingFang-SC-Medium;
+    font-size: 30rpx;
+    color: #F79C4C;
+    letter-spacing: 0;
+    text-align: left;
+    margin-bottom: 28rpx;
 }
 
 
