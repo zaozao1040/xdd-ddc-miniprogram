@@ -50,6 +50,7 @@
          // 购物车动画
          cartAnimationBottom: 0,
          cartAnimationHeight: 0,
+         lazyShowImage: {}, //用于懒加载图片的
      },
      onLoad: function(options) {
          console.log('options', options)
@@ -87,28 +88,20 @@
 
          if (!this.data.allMenuData[this.data.mealTypeItem]) {
              this.getTimeDataByResponse()
-
-             //  this.data.lazyTimer = setInterval(() => {
-             //      if (this.data.allMenuData[this.data.mealTypeItem]) {
-             //          // 懒加载 
-             //          this.lazyImg(this, this.data.allMenuData, 'allMenuData', this.data.mealTypeItem)
-
-             //          clearInterval(this.data.lazyTimer)
-             //      }
-             //  }, 1000)
          }
 
      },
      //懒加载
      lazyImg(_that, data, lazy_name, mealTypeItem) {
-         for (let i = 0, len = data[mealTypeItem].foods.length; i < len; i++) {
-             for (let j = 0; j < data[mealTypeItem].foods[i].foods.length; j++) {
+         for (let i = 0, len = data[mealTypeItem].length; i < len; i++) {
+             for (let j = 0; j < data[mealTypeItem][i].length; j++) {
                  wx.createIntersectionObserver().relativeToViewport({
                      bottom: 20
                  }).observe('#' + mealTypeItem + 'food' + i + j, (ret) => {
-                     console.log('lazy', ret)
-                     ret.intersectionRatio > 0 ? data[mealTypeItem].foods[i].foods[j].show = true : '';
-
+                     ret.intersectionRatio > 0 ? data[mealTypeItem][i][j] = true : '';
+                     console.log(ret.intersectionRatio + "&&&&&&&");
+                     console.log('#intersectionRatio' + i + j)
+                         // 总得加载完所有图片后就不执行这个lazyImg了吧，咋判断的
                      _that.setData({
                          [lazy_name]: data
                      })
@@ -166,18 +159,27 @@
              let tmp_menuCountList = []
              let tmp_menuCountListCopy = []
 
+             // 带lazy的都用于懒加载
+             let tmp_lazyShowImage = _this.data.lazyShowImage
+             tmp_lazyShowImage[tmp_mealTypeItem] = []
              resData.foods.forEach(item => {
+
+                 let oneLazyShow = []
                  item.foods.forEach(foodItem => {
                      foodItem.foodTotalPrice = 0
                      foodItem.foodTotalOriginalPrice = 0
                      foodItem.foodCount = 0
+                     oneLazyShow.push(false)
                  })
+
                  tmp_menuCountList.push(0)
                  tmp_menuCountListCopy.push(0)
+
+                 tmp_lazyShowImage[tmp_mealTypeItem].push(oneLazyShow)
              })
 
-             let tmp_mealTypeItem = _this.data.mealTypeItem
-                 //可以不用setData，因为都是0不需要显示
+
+             //可以不用setData，因为都是0不需要显示
              _this.data.menuCountList[tmp_mealTypeItem] = tmp_menuCountList
              _this.data.menuCountListCopy[tmp_mealTypeItem] = tmp_menuCountListCopy
 
@@ -186,9 +188,9 @@
              _this.setData({
                  allMenuData: tmp_allData, //保存下所有数据
                  allMenuDataCopy: tmp_allData, //保存下所有数据
-                 getdataalready: true
+                 getdataalready: true,
+                 lazyShowImage: tmp_lazyShowImage
              })
-
 
 
              // 在没有得到数据就使用时，是有错误的，所以在得到数据后使用
@@ -220,7 +222,7 @@
                  })
                  _this.calculateHeight()
              }
-
+             _this.lazyImg(_this, _this.data.lazyShowImage, 'lazyShowImage', _this.data.mealTypeItem)
 
              wx.hideLoading()
          })
@@ -295,6 +297,11 @@
              })
          }
          if (this.data.scrollLintenFlag) { //允许触发滚动事件，才执行滚动事件
+
+             // 应该是执行滚动才执行加载，而且不是遍历全部，是遍历出现在屏幕中的就行了呀
+             // 而且在已经是true的就不需要再变为false了
+             //this.lazyImg(this, this.data.lazyShowImage, 'lazyShowImage', this.data.mealTypeItem)
+
              let scrollY = e.detail.scrollTop
                  //console.log(e.detail.scrollTop)
              let listHeightLength = _this.data.listHeight.length

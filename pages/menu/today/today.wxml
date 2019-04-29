@@ -24,7 +24,7 @@
                     </scroll-view>
                     <!-- 右边具体菜品 -->
                     <view class="menu-right">
-                        <!-- 标签过滤 -->
+
                         <scroll-view class="menu-right-item-wrapper" scroll-y scroll-with-animation="true" bindscroll="handleScroll" style="height: {{ windowHeight - 2 }}px;" scroll-into-view="{{ scrollToView }}">
                             <view class="c_foodPosition_forCalculate right-item" wx:for="{{ allMenuData[mealTypeItem].foods}}" wx:for-item="menutypeItem" wx:for-index="menutypeIndex" wx:key="menutypeIndex">
                                 <!--不能在这判断暂无，因为menuCountList是按顺序的，不是按id的-->
@@ -35,8 +35,8 @@
                                 <!-- 单个食物 -->
                                 <view class="food-wrapper" wx:for="{{ menutypeItem.foods }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex">
                                     <view class="img-wrapper" bindtap="handleGotoFoodDetail" data-dateid="{{ foodItem.dateId }}" id="{{mealTypeItem}}food{{menutypeIndex}}{{foodIndex}}">
-                                        <!-- <image class="food-img" src="{{foodItem.show?foodItem.foodImage:''}}"></image> -->
-                                        <image class="food-img" src="{{foodItem.foodImage}}"></image>
+                                        <image class="food-img" src="{{lazyShowImage[mealTypeItem][menutypeIndex][foodIndex]?foodItem.foodImage:''}}"></image>
+                                        <!-- <image class="food-img" src="{{foodItem.foodImage}}"></image> -->
 
                                     </view>
                                     <view class="food-info-wrapper">
@@ -201,15 +201,14 @@
                     </view>
                 </view>
             </block>
+            <!-- 不可订餐情况下展示一张大图 -->
             <block wx:else>
-                <view class="time-deadline" style="font-size: 0;">
-                    <text class="iconfont icon-chaoshi" style="font-size:15px;color:#F56C6C;vertical-align: middle;"></text>
-                    <text style="font-size:15px;color:#F56C6C;vertical-align: middle;" decode>&nbsp;已截止订餐</text>
+                <view style='margin:216rpx auto 0;width:200rpx;height:200rpx;'>
+                    <image class="" src="../../../images/home/filter_{{mealTypeItem}}@2x.png" style="width:200rpx;height:200rpx;"></image>
                 </view>
-                <!-- 不可订餐情况下展示一张大图 -->
-                <block>
-                    <image class="" src="../../../images/menu/notorder.png" style="width:100%;height: {{ windowHeight - 30 }}px;"></image>
-                </block>
+                <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
+                    预约时间已截止，下次记得提前预约哦
+                </view>
             </block>
         </block>
     </view>

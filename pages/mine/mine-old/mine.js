@@ -1,7 +1,10 @@
 import { mine } from './mine-model.js'
 let mineModel = new mine()
 
-
+import {
+    cab
+} from './cab/cab-model.js';
+let cabModel = new cab();
 
 Page({
 
@@ -11,18 +14,20 @@ Page({
     data: {
         //
         windowHeight: 0,
+        scrollTop: 0,
         //用户信息
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         userInfo: null,
         //
         //labelList:['换绑手机','绑定企业','地址管理','浏览记录','下单闹钟','客户服务','推荐有奖','更多'],
         //labelIconArr: ['shouji1','qiye1','dizhi','zuji','naozhong','kefu','bajiefuli','gengduo'],
-        labelList: ['换绑手机', '地址管理', '绑定企业', '客户服务'],
-        imageList: ['me_swap@2x', 'me_address@2x', 'me_enterprise@2x', 'me_service@2x'],
+        labelList: ['加班餐/补餐', '换绑手机', '绑定企业', '地址管理', '客户服务'],
+        labelIconArr: ['canting', 'shouji1', 'qiye1', 'dizhi', 'kefu'],
         navigatorUrl: [
+            '/pages/mine/addfood/addfood',
             '/pages/mine/phone/phone',
-            '/pages/mine/address/address',
             '/pages/mine/organize/organize',
+            '/pages/mine/address/address',
             '/pages/mine/service/service'
         ],
         //客服电话
@@ -32,17 +37,27 @@ Page({
         cc: 1,
         cabNumList: [] //柜子列表，如果柜子列表为空，就不显示‘打开柜子页面’
     },
-    //跳转到详细资料页面
-    gotoDetailInfo() {
-        wx.navigateTo({
-            url: '/pages/mine/information/information'
+    initMine: function() {
+        let _this = this
+
+        wx.getSystemInfo({
+            success: function(res) {
+                _this.setData({
+                    windowHeight: res.windowHeight
+                })
+            }
         })
-    },
-    //加餐
-    gotoAddfood() {
-        wx.navigateTo({
-            url: '/pages/mine/addfood/addfood'
+        const query = wx.createSelectorQuery()
+        query.select('.c_scrollPosition_forCalculate').boundingClientRect()
+        query.selectViewport().scrollOffset()
+        query.exec(function(res) {
+            _this.setData({
+                scrollTop: res[0].top // #the-id节点的上边界坐标
+            })
+
+
         })
+
     },
     /* 跳转 */
     handleClickLabel: function(e) {
@@ -110,7 +125,23 @@ Page({
             canExchangeOrgAdmin: tmp_userInfo.canExchangeOrgAdmin
         })
 
+        // if (tmp_userInfo.orgAdmin) {
+        //     let params = {
+        //         //userCode: tmp_userInfo.userCode
+        //         userCode: 'USER532153350402080775'
+        //     };
+        //     cabModel.getDeviceNumByUserCode(params, (res) => {
+        //         if (res.status == 'success') {
+        //             if (res.data && res.data.length > 0) {
+        //                 _this.setData({
+        //                     cabNumList: res.data
+        //                 })
 
+        //             }
+        //         }
+        //     });
+        // }
+        _this.initMine()
     },
 
     /**
@@ -189,11 +220,11 @@ Page({
         })
     },
 
-    // gotoAddfood() {
-    //     wx.navigateTo({
-    //         url: '/pages/mine/orgAdminAddfood/orgAdminAddfood'
-    //     })
-    // },
+    gotoAddfood() {
+        wx.navigateTo({
+            url: '/pages/mine/orgAdminAddfood/orgAdminAddfood'
+        })
+    },
     /**
      * 生命周期函数--监听页面隐藏
      */
@@ -214,7 +245,7 @@ Page({
     onPullDownRefresh: function() {
         let _this = this
             //初始化，获取一些必要参数，如高度
-
+            //_this.initMine()
         wx.showNavigationBarLoading();
         wx.login({
             success: function(res) {

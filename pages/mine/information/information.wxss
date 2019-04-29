@@ -1,0 +1,60 @@
+.name {
+    font-family: PingFang-SC-Medium;
+    font-size: 40rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: left;
+    margin-left: 30rpx;
+    line-height: 56rpx;
+}
+
+.title {
+    font-family: PingFang-SC-Regular;
+    font-size: 30rpx;
+    color: #999999;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 42rpx;
+}
+
+.info {
+    font-family: PingFang-SC-Regular;
+    font-size: 30rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 42rpx;
+}
+
+.logout {
+    background: #FFFFFF;
+    border-radius: 6rpx;
+    margin: 0 16rpx;
+    font-family: PingFang-SC-Regular;
+    font-size: 30rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 88rpx;
+    height: 88rpx;
+}
+
+.org {
+    background: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
+    box-shadow: 0 4px 8px 0 rgba(247, 163, 76, 0.45);
+    border-radius: 40rpx;
+    font-family: PingFang-SC-Regular;
+    font-size: 28rpx;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 80rpx;
+    height: 80rpx;
+    width: 316rpx;
+    margin-top: 40rpx;
+}
+
+.org-addfood {
+    width: 314rpx;
+    height: 160rpx;
+}

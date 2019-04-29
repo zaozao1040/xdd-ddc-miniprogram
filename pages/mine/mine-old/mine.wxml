@@ -1,32 +1,7 @@
+<!--pages/mine/mine.wxml-->
 <view class="mine-wrapper">
-    <view style='background-image:url("/images/mine/me_bg@2x.png");background-size:100%;'>
-        <view style='display:flex;padding-top:128rpx;'>
-            <view style='margin:0 30rpx;width:120rpx;height:120rpx;'>
-                <image wx:if="{{userInfo.headImage}}" style='width:120rpx;height:120rpx;border-radius: 50%;' src="{{userInfo.headImage}}"></image>
-                <image wx:else style='width:120rpx;height:120rpx;' src="/images/mine/huiyuan.png" alt=""></image>
-            </view>
-            <view class='name' catchtap='gotoDetailInfo'> {{userInfo.name}}</view>
-        </view>
-        <view wx:if="{{userInfo}}" style='display:flex;padding:40rpx 0 60rpx;'>
-            <!-- 钱包 优惠券 积分 -->
-            <navigator url="/pages/mine/wallet/wallet" class="offerItem-wrapper">
-                <view class='offer-num'> {{userInfo.balance}} </view>
-                <view class='offer-title'> 余额 </view>
-            </navigator>
-            <navigator url="/pages/mine/discount/discount" class="offerItem-wrapper">
-                <view class='offer-num'> {{userInfo.discountSize}} </view>
-                <view class='offer-title'> 优惠券
-                </view>
-            </navigator>
-            <navigator url="/pages/mine/integral/integral" class="offerItem-wrapper">
-                <view class='offer-num'> {{userInfo.integral}}
-                </view>
-                <view class='offer-title'> 积分
-                </view>
-            </navigator>
-        </view>
-    </view>
-    <!-- <view class="header-wrapper">
+    <!--头部-->
+    <view class="header-wrapper">
         <view class="header">
             <view class="left">
                 <image wx:if="{{userInfo.headImage}}" class="left-image" src="{{userInfo.headImage}}"></image>
@@ -56,7 +31,8 @@
                     <text>{{userInfo.address}}</text>
                 </view>
             </view>
-        </view> 
+        </view>
+        <!-- 钱包 优惠券 积分 -->
         <view wx:if="{{userInfo}}" class="offer-wrapper">
             <navigator url="/pages/mine/wallet/wallet" class="offerItem-wrapper">
                 <view>
@@ -90,23 +66,10 @@
             </navigator>
         </view>
         <view style="height:30rpx;"></view>
-    </view> -->
+    </view>
 
-    <view style='margin:0 30rpx;height:220rpx;width:690rpx;' bindtap="gotoAddfood">
-        <image src="../../images/mine/me_pic@2x.png" style="width:100%;height:220rpx;"></image>
-    </view>
-    <view style='background: #F5F5F5;width:100%;height:20rpx;'></view>
-    <view class='mine-service'>我的服务</view>
-    <view style='display:flex;margin:40rpx;justify-content: space-between;'>
-        <view wx:for="{{labelList}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex" bindtap="handleClickLabel" data-labelindex="{{labelIndex}}" data-labelitem="{{labelItem}}">
-            <view style="margin-left:12rpx;width:88rpx;height:88rpx;margin-bottom:10rpx;">
-                <image src="../../images/mine/{{imageList[labelIndex]}}.png" style='width:88rpx;height:88rpx;'></image>
-            </view>
-            <view class='label-title'>{{labelItem}}</view>
-        </view>
-    </view>
     <!-- 各种标签 -->
-    <!-- <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;" class="c_scrollPosition_forCalculate">
+    <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;" class="c_scrollPosition_forCalculate">
         <view class="label-wrapper">
             <view class="" wx:for="{{labelList}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex">
                 <view class="label-itemwrapper {{(labelIndex==1 || labelIndex==2?'label-itemwrapper-borderbottom':'')}}" bindtap="handleClickLabel" data-labelindex="{{labelIndex}}" data-labelitem="{{labelItem}}">
@@ -117,7 +80,7 @@
                 <view style="height:30rpx;background: #eee;" wx:if="{{labelIndex==0 || labelIndex==3}}"></view>
             </view>
         </view>
-    </scroll-view> -->
+    </scroll-view>
     <!-- 客户服务 弹出 -->
     <view class="modulebox-background-wrapper" wx:if="{{showServiceFlag}}">
         <view class="modulebox-wrapper">

@@ -1,6 +1,7 @@
 /* pages/mine/mine.wxss */
 
 .mine-wrapper {
+    background: #eee;
     position: fixed;
     top: 0;
     bottom: 0;
@@ -19,16 +20,6 @@
     padding: 30rpx 40rpx;
     border-top-left-radius: 20rpx;
     border-top-right-radius: 20rpx;
-}
-
-.mine-service {
-    font-family: PingFang-SC-Medium;
-    font-size: 34rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    margin: 30rpx 0 60rpx 30rpx;
-    line-height: 48rpx;
 }
 
 .left {
@@ -52,15 +43,6 @@
 .middle-line1 {
     display: flex;
     justify-content: space-between;
-}
-
-.name {
-    font-family: PingFang-SC-Medium;
-    font-size: 36rpx;
-    color: #FFFFFF;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 120rpx;
 }
 
 .userName {
@@ -127,14 +109,12 @@
 .offerItem-wrapper {
     flex: 1;
     text-align: center;
+    margin-bottom: 30rpx;
+    border-right: 1px solid #eee;
 }
 
-.offer-num {
-    font-family: PingFang-SC-Regular;
-    font-size: 36rpx;
-    color: #FFFFFF;
-    letter-spacing: 0;
-    line-height: 50rpx;
+.offerItem-wrapper:last-child {
+    border: none;
 }
 
 .money-1 {
@@ -168,11 +148,9 @@
 }
 
 .offer-title {
-    font-family: PingFang-SC-Regular;
-    font-size: 24rpx;
-    color: #FFFFFF;
-    letter-spacing: 0;
-    line-height: 34rpx;
+    font-size: 30rpx;
+    color: #222;
+    font-weight: 400;
 }
 
 .iconfont-offertitle {
@@ -252,12 +230,9 @@
 }
 
 .label-title {
-    font-family: PingFang-SC-Regular;
-    font-size: 28rpx;
-    color: #666666;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 40rpx;
+    font-size: 40rpx;
+    color: #222;
+    font-weight: 400;
 }
 
 .iconfont-label-right {
