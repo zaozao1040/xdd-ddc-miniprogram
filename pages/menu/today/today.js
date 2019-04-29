@@ -51,6 +51,7 @@
          cartAnimationBottom: 0,
          cartAnimationHeight: 0,
          lazyShowImage: {}, //用于懒加载图片的
+         lazyShowImageShowCount: 0
      },
      onLoad: function(options) {
          console.log('options', options)
@@ -88,6 +89,15 @@
 
          if (!this.data.allMenuData[this.data.mealTypeItem]) {
              this.getTimeDataByResponse()
+
+             this.data.lazyTimer = setInterval(() => {
+                 if (this.data.allMenuData[this.data.mealTypeItem]) {
+                     // 懒加载 
+                     this.lazyImg(this, this.data.lazyShowImage, 'lazyShowImage', this.data.mealTypeItem)
+
+                     clearInterval(this.data.lazyTimer)
+                 }
+             }, 1000)
          }
 
      },
@@ -95,16 +105,32 @@
      lazyImg(_that, data, lazy_name, mealTypeItem) {
          for (let i = 0, len = data[mealTypeItem].length; i < len; i++) {
              for (let j = 0; j < data[mealTypeItem][i].length; j++) {
-                 wx.createIntersectionObserver().relativeToViewport({
+                 //debugger
+                 const aa = wx.createIntersectionObserver()
+                 aa.relativeToViewport({
                      bottom: 20
                  }).observe('#' + mealTypeItem + 'food' + i + j, (ret) => {
-                     ret.intersectionRatio > 0 ? data[mealTypeItem][i][j] = true : '';
-                     console.log(ret.intersectionRatio + "&&&&&&&");
-                     console.log('#intersectionRatio' + i + j)
-                         // 总得加载完所有图片后就不执行这个lazyImg了吧，咋判断的
+                     if (ret.intersectionRatio > 0) {
+
+                         if (!data[mealTypeItem][i][j]) {
+                             _that.data.lazyShowImageShowCount++
+                         }
+                         data[mealTypeItem][i][j] = true
+                     }
+                     console.log("&&&&&&&" + _that.data.lazyShowImageShowCount + '   ,' + _that.data.lazyShowImageCount);
+
+                     // 总得加载完所有图片后就不执行这个lazyImg了吧，咋判断的
                      _that.setData({
                          [lazy_name]: data
                      })
+
+                     if (_that.data.lazyShowImageShowCount >= _that.data.lazyShowImageCount) {
+                         console.log(111)
+                         aa.disconnect()
+                     } else {
+                         console.log(222)
+                         aa.disconnect()
+                     }
                  })
              }
 
@@ -122,14 +148,14 @@
                  getdataalready: false
              })
              this.getTimeDataByResponse()
-                 //  this.data.lazyTimer = setInterval(() => {
-                 //      if (this.data.allMenuData[this.data.mealTypeItem]) {
-                 //          // 懒加载 
-                 //          this.lazyImg(this, this.data.allMenuData, 'allMenuData', this.data.mealTypeItem)
+             this.data.lazyTimer = setInterval(() => {
+                 if (this.data.allMenuData[this.data.mealTypeItem]) {
+                     // 懒加载 
+                     this.lazyImg(this, this.data.lazyShowImage, 'lazyShowImage', this.data.mealTypeItem)
 
-             //          clearInterval(this.data.lazyTimer)
-             //      }
-             //  }, 1000)
+                     clearInterval(this.data.lazyTimer)
+                 }
+             }, 1000)
          }
 
      },
@@ -162,6 +188,7 @@
              // 带lazy的都用于懒加载
              let tmp_lazyShowImage = _this.data.lazyShowImage
              tmp_lazyShowImage[tmp_mealTypeItem] = []
+             let tmp_lazyShowImageCount = 0
              resData.foods.forEach(item => {
 
                  let oneLazyShow = []
@@ -170,6 +197,7 @@
                      foodItem.foodTotalOriginalPrice = 0
                      foodItem.foodCount = 0
                      oneLazyShow.push(false)
+                     tmp_lazyShowImageCount++
                  })
 
                  tmp_menuCountList.push(0)
@@ -189,7 +217,8 @@
                  allMenuData: tmp_allData, //保存下所有数据
                  allMenuDataCopy: tmp_allData, //保存下所有数据
                  getdataalready: true,
-                 lazyShowImage: tmp_lazyShowImage
+                 lazyShowImage: tmp_lazyShowImage,
+                 lazyShowImageCount: tmp_lazyShowImageCount
              })
 
 
@@ -222,7 +251,8 @@
                  })
                  _this.calculateHeight()
              }
-             _this.lazyImg(_this, _this.data.lazyShowImage, 'lazyShowImage', _this.data.mealTypeItem)
+
+             //  _this.lazyImg(_this, _this.data.lazyShowImage, 'lazyShowImage', _this.data.mealTypeItem)
 
              wx.hideLoading()
          })
