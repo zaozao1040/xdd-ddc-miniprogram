@@ -90,6 +90,9 @@ Page({
         this.setData({
             appointmention: 'week'
         })
+        wx.navigateTo({
+            url: '/pages/menu/menu'
+        })
     },
     startOrderMenu(e) {
 
@@ -116,11 +119,11 @@ Page({
         let url = '/food/' + tmp_userCode + '/date'
         homeModel.getTimeData({}, url, function(res) { //回调获取七天列表，赋给本地timeInfo
             let resData = res
-            console.log('resData', resData)
+            console.log('获取七天日期resData', resData)
             _this.setData({ //首次进入的active的日期信息，保存下来 
-                timeInfo: resData
-            })
-
+                    timeInfo: resData
+                })
+                // 点击预约多天，还需要再调用一遍获取七天日期的这个接口吗
             wx.setStorageSync('timeInfo', resData)
 
 
@@ -192,6 +195,8 @@ Page({
                 mealTypeInfo: tmp_mealTypeInfo,
                 organizeMealTypeFlag: tmp_organizeMealTypeFlag
             })
+
+
 
         })
     },

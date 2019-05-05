@@ -124,13 +124,11 @@
                          [lazy_name]: data
                      })
 
-                     if (_that.data.lazyShowImageShowCount >= _that.data.lazyShowImageCount) {
-                         console.log(111)
-                         aa.disconnect()
-                     } else {
-                         console.log(222)
-                         aa.disconnect()
-                     }
+                     // 我这里的 disconnect用的不对，具体哪不对，目前还不知道
+                     //  if (_that.data.lazyShowImageShowCount >= _that.data.lazyShowImageCount) {
+                     //      console.log(111)
+                     //      aa.disconnect()
+                     //  }
                  })
              }
 
