@@ -85,7 +85,7 @@
                                     </view>
                                 </view>
                             </view>
-                            <view style="height:100rpx;"></view>
+                            <view style="height:240rpx;"></view>
                         </scroll-view>
                     </view>
                 </view>

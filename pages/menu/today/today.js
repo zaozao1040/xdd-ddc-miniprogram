@@ -888,7 +888,7 @@
                  wx.navigateTo({
                      url: '/pages/menu/today/confirm/confirm?totalMoney=' +
                          this.data.totalMoney + '&totalMoneyRealDeduction=' +
-                         this.data.totalMoneyRealDeduction + '&realMoney=' + this.data.realTotalMoney
+                         this.data.totalMoneyRealDeduction + '&realMoney=' + this.data.realTotalMoney + '&orderType=one'
 
                  })
              }

@@ -33,6 +33,7 @@ Page({
         selectedFoods: {},
         totalMoney: 0,
         totalMoneyRealDeduction: 0, //额度总金额
+        totalDeduction: 0, //优惠的总价格，企业额度和优惠券优惠
         realMoney: 0, //实际总价格，也就是自费价格
         realMoney_save: 0, //实际总价格，也就是自费价格(从menu传过来的，不含减去优惠券的价格--保存下来用于选择不同优惠券)
 
@@ -70,8 +71,19 @@ Page({
         query_1.select('.c_buttonPosition_forCalculate').boundingClientRect()
         query_1.selectViewport().scrollOffset()
         query_1.exec(function(res) {
+            console.log('c_buttonPosition_forCalculate', res)
             _this.setData({
                 buttonTop: res[0].top // #the-id节点的上边界坐标
+            })
+        })
+
+        const query_2 = wx.createSelectorQuery()
+        query_2.select('.c_buttonPosition_forCalculate_top').boundingClientRect()
+        query_2.selectViewport().scrollOffset()
+        query_2.exec(function(res) {
+            console.log('c_buttonPosition_forCalculate_top', res)
+            _this.setData({
+                addressBottom: res[0].bottom // #the-id节点的上边界坐标
             })
         })
     },
@@ -80,14 +92,31 @@ Page({
      */
     onLoad: function(options) {
         this.initAddress()
-        let todaySelectedFoods = wx.getStorageSync('todaySelectedFoods')
+
+        let selectedFoods = '';
+        let orderType = '';
+        // 一天
+        console.log('options', options)
+        if (options.orderType == 'one') {
+            selectedFoods = wx.getStorageSync('todaySelectedFoods')
+            console.log('selectedFoods', selectedFoods)
+            orderType = 'one'
+                // 7tian
+        } else if (options.orderType == 'seven') {
+            selectedFoods = wx.getStorageSync('sevenSelectedFoods')
+            console.log('selectedFoods', selectedFoods)
+            orderType = 'seven'
+        }
+
         this.setData({
-            selectedFoods: todaySelectedFoods,
+            selectedFoods: selectedFoods,
+            orderType: orderType,
             totalMoney: options.totalMoney,
             totalMoneyRealDeduction: options.totalMoneyRealDeduction,
             realMoney: options.realMoney,
             realMoney_save: options.realMoney,
-            organizeMealTypeFlag: wx.getStorageSync('organizeMealTypeFlag'),
+            totalDeduction: options.totalMoneyRealDeduction,
+            organizeMealTypeFlag: wx.getStorageSync('organizeMealTypeFlag'), //?我直接用storage的值是可以 吗？
         })
 
     },
@@ -172,27 +201,28 @@ Page({
     },
     /* 监听子组件：改变现实优惠券选择页的展示状态 */
     onChangeSelectDiscountFlag: function(e) {
-        let _this = this
+
         console.log('选中的优惠券信息:', e.detail)
             //然后计算折扣掉的金额discountMoney
-        let tmp_realMoney = _this.data.realMoney_save
+        let tmp_realMoney = this.data.realMoney_save
         if (e.detail.discountType == 'REDUCTION') {
             tmp_realMoney = parseFloat((parseFloat(tmp_realMoney) - parseFloat(e.detail.discountPrice)).toFixed(2))
         } else if (e.detail.discountType == 'DISCOUNT') {
-            tmp_realMoney = parseFloat((parseFloat(_this.data.realMoney_save) * e.detail.discountPrice + 0.00001).toFixed(2))
+            tmp_realMoney = parseFloat((parseFloat(this.data.realMoney_save) * e.detail.discountPrice + 0.00001).toFixed(2))
 
             console.log('tmp_realMoney', tmp_realMoney)
         } else {
             tmp_realMoney = 0
         }
-        _this.setData({
-            showSelectDiscountFlag: !_this.data.showSelectDiscountFlag,
+        this.setData({
+            showSelectDiscountFlag: !this.data.showSelectDiscountFlag,
             useDiscountFlag: true,
             adviceDiscountObj: e.detail,
             realMoney: tmp_realMoney,
-            discountMoney: parseFloat((parseFloat(_this.data.realMoney_save) - tmp_realMoney).toFixed(2))
+            discountMoney: parseFloat((parseFloat(this.data.realMoney_save) - tmp_realMoney).toFixed(2)),
+            totalDeduction: parseFloat((this.data.totalMoneyRealDeduction + this.data.discountMoney).toFixed(2))
         })
-        console.log(_this.data.realMoney)
+        console.log(this.data.realMoney)
     },
     /* 从后端获取优惠券信息 */
     getDiscount: function() {
@@ -232,6 +262,7 @@ Page({
                             canusedDiscountList: tmp_canusedDiscountList,
                             adviceDiscountObj: tmp_adviceDiscountObj,
                             discountMoney: parseFloat((parseFloat(_this.data.realMoney_save) - parseFloat(tmp_realMoney)).toFixed(2)),
+                            totalDeduction: parseFloat((_this.data.totalMoneyRealDeduction + _this.data.discountMoney).toFixed(2)),
                             realMoney: tmp_realMoney
                         })
                     }

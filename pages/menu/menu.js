@@ -21,8 +21,8 @@ Page({
         organizeMealTypeFlag: '', //企业可定的餐时
         mealTypeInfo: '', //当天企业可定的餐时是否可以预定及截止时间 
         mealTypeItem: '', // 选择的哪个时餐
-        mealDate: '', //日期
-        appointment: '', //今天还是明天
+
+
         mealType: { LUNCH: '午餐', DINNER: '晚餐', BREAKFAST: '早餐', NIGHT: '夜宵' },
 
 
@@ -54,7 +54,8 @@ Page({
         cartAnimationBottom: 0,
         cartAnimationHeight: 0,
         lazyShowImage: {}, //用于懒加载图片的
-        lazyShowImageShowCount: 0
+        lazyShowImageShowCount: 0,
+        activeDayId: 'day0'
     },
     onLoad: function() {
         // 首先处理七天日期
@@ -182,7 +183,8 @@ Page({
         if (a) {
             let day = a.day
             this.setData({
-                activeDayIndex: day
+                activeDayIndex: day,
+                activeDayId: 'day' + (day > 2 ? day - 2 : 0)
             })
             if (!this.data.allMenuData[day][this.data.mealTypeItem]) {
                 this.setData({
@@ -279,29 +281,16 @@ Page({
             // 下面的复制会不会在allMenuData修改resData时，allMenuDataCopy也一起改变？
             let tmp_allData = _this.data.allMenuData
             tmp_allData[activeDayIndex][tmp_mealTypeItem] = resData
-            let tmp_allDataCopy = _this.data.allMenuDataCopy
-            tmp_allDataCopy[activeDayIndex][tmp_mealTypeItem] = Object.assign({}, resData)
+            _this.data.allMenuDataCopy[activeDayIndex][tmp_mealTypeItem] = JSON.parse(JSON.stringify(resData))
 
             _this.setData({
-                allMenuData: tmp_allData, //保存下所有数据
-                allMenuDataCopy: tmp_allData, //保存下所有数据
+                allMenuData: tmp_allData, //保存下所有数据 
                 getdataalready: true,
                 lazyShowImage: tmp_lazyShowImage,
                 lazyShowImageCount: tmp_lazyShowImageCount
             })
 
-            // 在没有得到数据就使用时，是有错误的，所以在得到数据后使用
-            // 2019/04/20 后面会检查这部分，顺便学习相关知识
-            // 这样就计算多遍了啊
-            // if (_this.data.windowHeight == 0) {
-            //     wx.getSystemInfo({
-            //         success: function(res) {
-            //             _this.setData({
-            //                 windowHeight: res.windowHeight
-            //             })
-            //         }
-            //     })
-            // }
+
             if (res.orderFlag && res.foods.length !== 0) {
 
                 // 计算购物车的高度
@@ -354,7 +343,7 @@ Page({
         let _this = this
         if (e.detail.scrollTop >= 40) { //大于等于40就显示
             wx.setNavigationBarTitle({
-                title: '预约' + _this.data.appointment
+                title: '预约' + _this.data.timeInfo[_this.data.activeDayIndex].label + " " + _this.data.mealType[_this.data.mealTypeItem]
             })
         } else {
             wx.setNavigationBarTitle({
@@ -438,9 +427,6 @@ Page({
             menuCountList: this.data.menuCountListCopy
         })
 
-        console.log('allMenuDataCopy', this.data.allMenuDataCopy)
-        console.log('menuCountListCopy', this.data.menuCountListCopy)
-        console.log('selectedFoodsIndexCopy', this.data.selectedFoodsIndexCopy)
     },
 
 
@@ -524,6 +510,8 @@ Page({
 
             let oldDeduction = currnt_menuData.deductionMoney
             currnt_menuData.deductionMoney = new_deduction
+
+            console.log('sevenMenuData', this.data.allMenuData)
 
             let tmp_totalMoneyRealDeduction = parseFloat((this.data.totalMoneyRealDeduction - oldDeduction + new_deduction).toFixed(2))
             let tmp_realTotalMoney = (tmptotalMoney - tmp_totalMoneyRealDeduction) > 0 ? tmptotalMoney - tmp_totalMoneyRealDeduction : 0
@@ -658,7 +646,7 @@ Page({
                     let tmp_copy = {}
                     tmp_copy.name = this.data.mealType[tmp_mealTypeItem]
                     tmp_copy.foods = []
-                    this.data.selectedFoodsIndexCopy[tmp_mealTypeItem] = tmp_copy
+                    this.data.selectedFoodsIndexCopy[activeDayIndex][tmp_mealTypeItem] = tmp_copy
                 }
 
 
@@ -695,7 +683,7 @@ Page({
             let tmp_totalMoneyRealDeduction = parseFloat((this.data.totalMoneyRealDeduction - oldDeduction + new_deduction).toFixed(2))
             let tmp_realTotalMoney = (tmptotalMoney - tmp_totalMoneyRealDeduction) > 0 ? tmptotalMoney - tmp_totalMoneyRealDeduction : 0
 
-            console.log('userInfo', wx.getStorageSync('userInfo'))
+
             this.setData({
                 totalMoney: parseFloat(tmptotalMoney.toFixed(2)),
                 realTotalMoney: parseFloat(tmp_realTotalMoney.toFixed(2)),
@@ -715,36 +703,49 @@ Page({
                 this.calculteCartHeight()
             }
         }
-        console.log('selectedFoodsIndex', this.data.selectedFoodsIndex) //zll明天继续 为什么里面有undefined？？？
+
     },
     // 在点击购物车图标查看购物车或者点击去结算时，计算菜单信息
     getSelectedFoods() {
-        let activeDayIndex = this.data.activeDayIndex
+
         let tmpselectFoodsIndex = this.data.selectedFoodsIndex
+        console.log('selectedFoodsIndex', tmpselectFoodsIndex)
+
         let tmp_allData = this.data.allMenuData
         let tmp_organizeMealTypeFlag = this.data.organizeMealTypeFlag
-        for (let i in tmp_organizeMealTypeFlag) { // x 为餐时 
-            let tmpselectedfoods = []
-            let x = tmp_organizeMealTypeFlag[i]
-            if (tmpselectFoodsIndex[activeDayIndex][x]) {
-                for (let y in tmpselectFoodsIndex[activeDayIndex][x].foods) { // y 为选择的餐品index 
-                    let onecategoryfoods = tmp_allData[activeDayIndex][x].foods[y].foods
-                    for (let i = 0; i < tmpselectFoodsIndex[activeDayIndex][x].foods[y].length; i++) {
-                        const onefood = onecategoryfoods[tmpselectFoodsIndex[activeDayIndex][x].foods[y][i]]
-                        if (onefood.foodCount > 0) {
-                            onefood.menuItemIndex = parseInt(y)
-                            onefood.foodIndex = tmpselectFoodsIndex[activeDayIndex][x].foods[y][i]
-                                // totalPrice只有在购物车列表和订单信息那里才需要展示，所以在menu列表那边add和minus时不需要写
-                                //不需要的时候就不要计算
-                            onefood.foodTotalPrice = parseFloat((onefood.foodPrice * onefood.foodCount).toFixed(2))
-                            onefood.foodTotalOriginalPrice = parseFloat((onefood.foodOriginalPrice * onefood.foodCount).toFixed(2))
-                            tmpselectedfoods.push(onefood)
+
+        // 是1到7吗？
+        for (let day = 0; day < 7; day++) {
+            if (tmpselectFoodsIndex[day].count > 0) {
+                for (let i in tmp_organizeMealTypeFlag) { // x 为餐时 
+                    let tmpselectedfoods = []
+                    let x = tmp_organizeMealTypeFlag[i]
+                    if (tmpselectFoodsIndex[day][x]) {
+                        for (let y in tmpselectFoodsIndex[day][x].foods) { // y 为选择的餐品index 
+                            let onecategoryfoods = tmp_allData[day][x].foods[y].foods
+                            for (let i = 0; i < tmpselectFoodsIndex[day][x].foods[y].length; i++) {
+                                const onefood = onecategoryfoods[tmpselectFoodsIndex[day][x].foods[y][i]]
+                                if (onefood.foodCount > 0) {
+                                    onefood.menuItemIndex = parseInt(y)
+                                    onefood.foodIndex = tmpselectFoodsIndex[day][x].foods[y][i]
+                                        // totalPrice只有在购物车列表和订单信息那里才需要展示，所以在menu列表那边add和minus时不需要写
+                                        //不需要的时候就不要计算
+                                    onefood.foodTotalPrice = parseFloat((onefood.foodPrice * onefood.foodCount).toFixed(2))
+                                    onefood.foodTotalOriginalPrice = parseFloat((onefood.foodOriginalPrice * onefood.foodCount).toFixed(2))
+                                    tmpselectedfoods.push(onefood)
+                                }
+                            }
                         }
+                        tmpselectFoodsIndex[day][x].selectedFoods = tmpselectedfoods
+                            //这个deductionMoney会不会不存在？需要先判断吗？不存在就让deductionMoney=0
+                            //TODO--5/6
+                        tmpselectFoodsIndex[day][x].deductionMoney = this.data.allMenuData[day][x].deductionMoney
                     }
                 }
-                tmpselectFoodsIndex[activeDayIndex][x].selectedFoods = tmpselectedfoods
             }
+
         }
+
 
         this.setData({
             selectedFoodsIndex: tmpselectFoodsIndex
@@ -757,7 +758,7 @@ Page({
         let foodIndex = e.currentTarget.dataset.foodindex // 在menutypeIndex的foods的index
         let tmp_mealTypeItem = e.currentTarget.dataset.mealtypeitem
         let tmp_selectedFoodIndex = e.currentTarget.dataset.selectedfoodindex
-        let activeDayIndex = this.data.activeDayIndex
+        let activeDayIndex = e.currentTarget.dataset.dayindex
         let tmp_oneFood = this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foods[menutypeIndex].foods[foodIndex]
             //  不大于0也不显示减图标啊，所以这里应该可以不用判断。还是判断下吧，因为可能用户会点的很快，这样就减为负数了。
             // 应该是下面所有的操作都是在减1之后
@@ -801,7 +802,7 @@ Page({
             tmp_selectedFood.foodTotalPrice = parseFloat((tmp_selectedFood.foodTotalPrice - tmp_selectedFood.foodPrice).toFixed(2));
             tmp_selectedFood.foodTotalOriginalPrice = parseFloat((tmp_selectedFood.foodTotalOriginalPrice - tmp_selectedFood.foodOriginalPrice).toFixed(2));
             this.data.selectedFoodsIndex[activeDayIndex][tmp_mealTypeItem].selectedFoods[tmp_selectedFoodIndex] = tmp_selectedFood
-
+            this.data.selectedFoodsIndex[activeDayIndex][tmp_mealTypeItem].deductionMoney = new_deduction
 
 
             this.setData({
@@ -849,7 +850,7 @@ Page({
         let tmp_mealTypeItem = e.currentTarget.dataset.mealtypeitem
         let tmp_selectedFoodIndex = e.currentTarget.dataset.selectedfoodindex
 
-        let activeDayIndex = this.data.activeDayIndex
+        let activeDayIndex = e.currentTarget.dataset.dayindex
             //被点击的那道菜，不知道要不要做是否为空判断
         let tmp_oneFood = this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foods[menutypeIndex].foods[foodIndex]
 
@@ -933,6 +934,7 @@ Page({
             tmp_selectedFood.foodTotalPrice = parseFloat((tmp_selectedFood.foodTotalPrice + tmp_selectedFood.foodPrice).toFixed(2));
             tmp_selectedFood.foodTotalOriginalPrice = parseFloat((tmp_selectedFood.foodTotalOriginalPrice + tmp_selectedFood.foodOriginalPrice).toFixed(2));
             this.data.selectedFoodsIndex[activeDayIndex][tmp_mealTypeItem].selectedFoods[tmp_selectedFoodIndex] = tmp_selectedFood
+            this.data.selectedFoodsIndex[activeDayIndex][tmp_mealTypeItem].deductionMoney = new_deduction
 
             this.data.selectedFoodsIndex[activeDayIndex].count++; //当天总的个数加1
             this.setData({
@@ -964,16 +966,27 @@ Page({
             } else {
                 this.getSelectedFoods() //不需要执行多次吧。好像需要的哦。
 
-                this.data.selectedFoodsIndex.appointment = this.data.appointment
-                this.data.selectedFoodsIndex.mealDate = this.data.mealDate
+                //我用的变量是不是过于多了，timeInfo,selectedFoodsIndex是不是可以直接放在allMenuData里？
+                //TODO--5/6
+                for (let i = 0; i < this.data.timeInfo.length; i++) {
+                    this.data.selectedFoodsIndex[i].appointment = this.data.timeInfo[i].label
+                    this.data.selectedFoodsIndex[i].mealDate = this.data.timeInfo[i].mealDate
+                    let onededuction = 0
+                    for (let j = 0; j < this.data.organizeMealTypeFlag.length; j++) {
+                        // 应该只要有，就会有这天这餐的抵扣了吧--5/6
+                        if (this.data.selectedFoodsIndex[i][this.data.organizeMealTypeFlag[j]]) {
+                            onededuction += this.data.selectedFoodsIndex[i][this.data.organizeMealTypeFlag[j]].deductionMoney
+                        }
+                    }
+                    this.data.selectedFoodsIndex[i].deductionMoney = parseFloat(onededuction.toFixed(2))
 
-                wx.setStorageSync('todaySelectedFoods', this.data.selectedFoodsIndex)
-                console.log('todaySelectedFoods', this.data.selectedFoodsIndex)
+                }
+                wx.setStorageSync('sevenSelectedFoods', this.data.selectedFoodsIndex)
+                console.log('sevenSelectedFoods', this.data.selectedFoodsIndex)
                 wx.navigateTo({
                     url: '/pages/menu/today/confirm/confirm?totalMoney=' +
                         this.data.totalMoney + '&totalMoneyRealDeduction=' +
-                        this.data.totalMoneyRealDeduction + '&realMoney=' + this.data.realTotalMoney
-
+                        this.data.totalMoneyRealDeduction + '&realMoney=' + this.data.realTotalMoney + '&orderType=seven'
                 })
             }
         }
