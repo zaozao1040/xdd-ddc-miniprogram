@@ -25,7 +25,7 @@
                     <!-- 右边具体菜品 -->
                     <view class="menu-right">
 
-                        <scroll-view class="menu-right-item-wrapper" scroll-y scroll-with-animation="true" bindscroll="handleScroll" style="height: {{ windowHeight - 2 }}px;" scroll-into-view="{{ scrollToView }}">
+                        <scroll-view class="menu-right-item-wrapper" scroll-y scroll-with-animation="true" bindscroll="handleScroll" style="height: {{ windowHeight - 2 }}px;" scroll-into-view="{{ scrollToView }}" wx:key='menutypeItem'>
                             <view class="c_foodPosition_forCalculate right-item" wx:for="{{ allMenuData[mealTypeItem].foods}}" wx:for-item="menutypeItem" wx:for-index="menutypeIndex" wx:key="menutypeIndex">
                                 <!--不能在这判断暂无，因为menuCountList是按顺序的，不是按id的-->
                                 <view id="order{{ menutypeIndex }}" class="right-item-text">
@@ -33,11 +33,11 @@
                                 </view>
 
                                 <!-- 单个食物 -->
-                                <view class="food-wrapper" wx:for="{{ menutypeItem.foods }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex">
+                                <view class="food-wrapper" wx:for="{{ menutypeItem.foods }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodItem.dateId">
                                     <view class="img-wrapper" bindtap="handleGotoFoodDetail" data-dateid="{{ foodItem.dateId }}" id="{{mealTypeItem}}food{{menutypeIndex}}{{foodIndex}}">
-                                        <image class="food-img" src="{{lazyShowImage[mealTypeItem][menutypeIndex][foodIndex]?foodItem.foodImage:''}}"></image>
+                                        <image class="food-img" src="{{lazyShowImage[mealTypeItem][menutypeIndex][foodIndex]?foodItem.foodImage:'https://img.alicdn.com/tps/i3/T1QYOyXqRaXXaY1rfd-32-32.gif'}}"></image>
                                         <!-- <image class="food-img" src="{{foodItem.foodImage}}"></image> -->
-
+                                        <!-- <view style='font-size:20rpx;'>{{lazyShowImage[mealTypeItem][menutypeIndex][foodIndex]?foodItem.foodImage}}</view> -->
                                     </view>
                                     <view class="food-info-wrapper">
                                         <view>
@@ -92,7 +92,7 @@
 
                 <!-- 【【另一个页面】】 购物车 -->
                 <!--  弹出 购物车 -->
-                <view class="{{ boxActiveFlag ? 'in' : 'out' }}" style="position: fixed; bottom: 0; left: 0; right: 0;z-index:1001;" catchtouchmove="preventTouchMove" wx:if="{{ boxActiveFlag }}">
+                <view class="{{ boxActiveFlag ? 'in' : 'out' }}" style="position: fixed; bottom: 0; left: 0; right: 0;z-index:1001;" catchtouchmove="preventTouchMove">
                     <view class="chart-top">企业折扣减{{totalMoneyRealDeduction}}</view>
                     <view style="display: flex;line-height:60rpx;background:#FFFFFF;padding:0 30rpx;justify-content: space-between;">
                         <view style="font-family: PingFang-SC-Regular; font-size: 11px; color: #999999; letter-spacing: 0; text-align: left;">
@@ -105,7 +105,7 @@
 
                     <scroll-view scroll-y style="height: {{ cartHeight }}px;">
                         <view class="cart_scrollPosition_forCalculate">
-                            <view class="chart-date">{{appointment}}</view>
+                            <view class="chart-date">{{appointment}}({{mealDateShow}})</view>
                             <view wx:for="{{ organizeMealTypeFlag }}" wx:key="{{ index }}">
                                 <view wx:for="{{ selectedFoodsIndex[item].selectedFoods }}" wx:for-item="onefood" wx:for-index="selectedFoodIndex" wx:key="selectedFoodIndex">
                                     <view style="display: flex;background: #FFFFFF;box-shadow: inset 0 0 0 0 #E6E6E6;border-bottom:2rpx solid #F5F5F5;" wx:if="{{onefood.foodCount>0}}">

@@ -33,6 +33,7 @@
     letter-spacing: 0;
     text-align: left;
     line-height: 40rpx;
+    height: 40rpx;
 }
 
 .takefood-title {
@@ -82,22 +83,22 @@
 }
 
 .takefood-button {
-    background: rgba(247, 156, 76, 0.20);
-    border-radius: 4px;
+    background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
+    border-radius: 34rpx;
     width: 120rpx;
-    height: 64rpx;
-    line-height: 64rpx;
-    text-align: center;
+    height: 68rpx;
+    line-height: 68rpx;
     font-family: PingFang-SC-Medium;
     font-size: 26rpx;
-    color: #F79C4C;
+    color: #FFFFFF;
     letter-spacing: 0;
+    text-align: center;
     float: right;
-    margin: 52rpx 24rpx 52rpx 0;
+    margin: 50rpx 24rpx 50rpx 0;
 }
 
 .takefood-mealType {
-    width: 56rpx;
+    /* width: 56rpx; */
     font-family: PingFang-SC-Medium;
     font-size: 28rpx;
     color: #333333;
@@ -107,7 +108,8 @@
 }
 
 .takefood-foodname {
-    width: 272rpx;
+    /* width: 272rpx; */
+    flex: 1;
     font-family: PingFang-SC-Medium;
     font-size: 28rpx;
     color: #333333;
@@ -475,11 +477,43 @@
     left: 0;
     right: 0;
     margin: auto;
-    height: 550rpx;
-    padding: 20rpx;
-    width: 60%;
-    border-radius: 10rpx;
+    height: 630rpx;
+    width: 510rpx;
+    border-radius: 16rpx;
     background: #fff;
+    padding: 0 60rpx;
+}
+
+.modulebox-image {
+    width: 320rpx;
+    height: 320rpx;
+    position: fixed;
+    top: 134rpx;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 100;
+}
+
+.modulebox-notice-title {
+    font-family: PingFang-SC-Medium;
+    font-size: 34rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: center;
+    margin-bottom: 30rpx;
+    margin-top: 232rpx;
+}
+
+.modulebox-notice-content {
+    font-family: PingFang-SC-Regular;
+    font-size: 28rpx;
+    color: #999999;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 40rpx;
+    margin-top: 10rpx;
+    z-index: 101;
 }
 
 .modulebox-notice-wrapper {

@@ -30,8 +30,7 @@
     "pages/menu/today/confirm/confirm",
     "pages/order/comment/comment",
     "pages/mine/information/information",
-    "pages/mine/orgAdminAddfood/orgAdminAddfood" 
-    
+    "pages/mine/orgAdminAddfood/orgAdminAddfood"
   ],
   "permission": {
     "scope.userLocation": {
@@ -78,5 +77,6 @@
   },
   "navigateToMiniProgramAppIdList": [
     "wxeab88f3400bf4937"
-  ]
+  ],
+  "sitemapLocation": "sitemap.json"
 }

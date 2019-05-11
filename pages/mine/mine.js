@@ -1,34 +1,23 @@
 import { mine } from './mine-model.js'
 let mineModel = new mine()
 
-
-
 Page({
 
-    /**
-     * 页面的初始数据
-     */
     data: {
-        //
-        windowHeight: 0,
         //用户信息
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         userInfo: null,
-        //
-        //labelList:['换绑手机','绑定企业','地址管理','浏览记录','下单闹钟','客户服务','推荐有奖','更多'],
-        //labelIconArr: ['shouji1','qiye1','dizhi','zuji','naozhong','kefu','bajiefuli','gengduo'],
+
         labelList: ['换绑手机', '地址管理', '绑定企业', '客户服务'],
         imageList: ['me_swap@2x', 'me_address@2x', 'me_enterprise@2x', 'me_service@2x'],
         navigatorUrl: [
             '/pages/mine/phone/phone',
             '/pages/mine/address/address',
-            '/pages/mine/organize/organize',
-            '/pages/mine/service/service'
+            '/pages/mine/organize/organize'
         ],
         //客服电话
         servicePhone: null,
-        orgAdmin: false,
-        canExchangeOrgAdmin: false,
+
         cc: 1,
         cabNumList: [] //柜子列表，如果柜子列表为空，就不显示‘打开柜子页面’
     },
@@ -46,9 +35,11 @@ Page({
     },
     /* 跳转 */
     handleClickLabel: function(e) {
+
+        let clickIndex = e.currentTarget.dataset.labelindex
         let _this = this
-        let url = _this.data.navigatorUrl[e.currentTarget.dataset.labelindex]
-        if (e.currentTarget.dataset.labelitem == '绑定企业') {
+
+        if (clickIndex == 2) { //绑定企业
             if (wx.getStorageSync('userInfo').bindOrganized == true) {
                 wx.showToast({
                     title: '已绑定过企业',
@@ -57,25 +48,22 @@ Page({
                 })
             } else {
                 wx.navigateTo({
-                    url: url
+                    url: _this.data.navigatorUrl[clickIndex]
                 })
             }
-        } else if (e.currentTarget.dataset.labelitem == '客户服务') {
+        } else if (clickIndex == 3) { //客户服务
             //请求客服电话
-            let param = {
 
-            }
             wx.showLoading({ //【防止狂点2】
                 title: '获取电话中',
                 mask: true
             })
-            mineModel.getServicePhoneData(param, (res) => {
-                if (res.code === 0) {
+
+            mineModel.getServicePhoneData({}, (res) => {
+                if (res.code == 0) {
                     wx.hideLoading()
                     _this.data.servicePhone = res.data.contactPhone
-                        /*           _this.setData({
-                                    servicePhone: res.data.contactPhone
-                                  }) */
+
                     wx.showModal({
                         title: '是否拨打客户电话?',
                         content: res.data.contactPhone,
@@ -93,7 +81,7 @@ Page({
             })
         } else {
             wx.navigateTo({
-                url: url
+                url: _this.data.navigatorUrl[clickIndex]
             })
         }
     },
@@ -101,16 +89,11 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function() {
-        let _this = this
-
+        // 需要从后台再获取一次用户信息吗？
         let tmp_userInfo = wx.getStorageSync('userInfo')
-        _this.setData({
-            userInfo: tmp_userInfo,
-            orgAdmin: tmp_userInfo.orgAdmin,
-            canExchangeOrgAdmin: tmp_userInfo.canExchangeOrgAdmin
+        this.setData({
+            userInfo: tmp_userInfo
         })
-
-
     },
 
     /**
@@ -122,78 +105,17 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-
-        let _this = this
+        // 如果订单状态有变化，可能会改变，余额，积分和优惠券，所以需要刷新
         if (wx.getStorageSync('refreshUserInfoFlag')) {
-            _this.onPullDownRefresh()
+            this.onPullDownRefresh()
             wx.setStorageSync('refreshUserInfoFlag', false)
         } else {
-            let tmp_userInfo = wx.getStorageSync('userInfo')
-            _this.setData({
-                userInfo: tmp_userInfo,
-                orgAdmin: tmp_userInfo.orgAdmin,
-                canExchangeOrgAdmin: tmp_userInfo.canExchangeOrgAdmin
+            this.setData({
+                userInfo: wx.getStorageSync('userInfo')
             })
         }
     },
-    // 如果是企业用户就切换为管理员，如果是管理员就切换为普通用户
-    changeRole() {
-        let _this = this
-        wx.showModal({
-            title: '提示',
-            content: _this.data.orgAdmin ? '您确定要从企业管理员切换为普通用户吗?' : '您确定要从普通用户切换为企业管理员吗?',
-            success(res) {
-                if (res.confirm) {
-                    let tmp_userInfo = wx.getStorageSync('userInfo')
-                    let param = {
-                        userCode: tmp_userInfo.userCode
-                    }
 
-                    mineModel.changeUserRole(param, (res) => {
-                        if (res.code == 0) { //0表示成功 
-                            let tmp_orgAdmin = _this.data.orgAdmin
-                            tmp_userInfo.orgAdmin = !tmp_orgAdmin
-                            wx.setStorageSync('userInfo', tmp_userInfo)
-                            _this.setData({
-                                orgAdmin: tmp_userInfo.orgAdmin
-                            })
-                            wx.showToast({
-                                title: '切换成功',
-                                icon: 'none',
-                                duration: 2000
-                            })
-                        } else {
-                            wx.showToast({
-                                title: res.msg,
-                                icon: 'none',
-                                duration: 2000
-                            })
-                        }
-                    })
-                }
-            }
-        })
-    },
-
-    gotoCabinetminiProgram() {
-        // wx.navigateToMiniProgram({
-        //     appId: 'wxeab88f3400bf4937',
-        //     path: 'pages/cab/index?cabNum=1100010341',
-        //     success(res) {
-        //         // 打开成功
-        //     }
-        // })
-
-        wx.navigateTo({
-            url: '/pages/mine/cab/index'
-        })
-    },
-
-    // gotoAddfood() {
-    //     wx.navigateTo({
-    //         url: '/pages/mine/orgAdminAddfood/orgAdminAddfood'
-    //     })
-    // },
     /**
      * 生命周期函数--监听页面隐藏
      */
@@ -219,22 +141,17 @@ Page({
         wx.login({
             success: function(res) {
                 if (res.code) {
-                    let param = {
-                        code: res.code, //微信code
-                        userCode: wx.getStorageSync('userInfo').userCode
-                    }
+
                     wx.showLoading({ //【防止狂点2】
                         title: '加载中',
                         mask: true
                     })
-
-                    mineModel.getMineData(param, (res) => {
+                    let url = '/user/getUserInfo?userCode=' + wx.getStorageSync('userInfo').userCode
+                    mineModel.getUserInfo(url, {}, (res) => {
                         if (res.code === 0) {
                             wx.setStorageSync('userInfo', res.data) //更新缓存的userInfo
                             _this.setData({
-                                userInfo: res.data,
-                                orgAdmin: res.data.orgAdmin,
-                                canExchangeOrgAdmin: res.data.canExchangeOrgAdmin
+                                userInfo: res.data
                             })
                             wx.hideLoading() //【防止狂点3】
                             wx.hideNavigationBarLoading();

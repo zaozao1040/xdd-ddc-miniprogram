@@ -73,6 +73,10 @@ Page({
         a.dateFlag.forEach((item, index) => {
             let b = {}
             b.mealDate = item.mealDate
+            let dd = item.mealDate.split("-")
+            if (dd.length == 3) {
+                b.mealDateShow = dd[1] + '/' + dd[2]
+            }
             if (index == 0) {
                 b.label = '今天'
             } else if (index == 1) {
@@ -124,25 +128,25 @@ Page({
         if (tmp_organizeMealTypeFlag.length > 0) { //可能不大于0吗
 
             this.setData({
-                mealTypeItem: tmp_organizeMealTypeFlag[0]
-            })
-            if (tmp_timeInfo[0].mealType[tmp_organizeMealTypeFlag[0]]) { //表示今天第一个餐时可点餐
+                    mealTypeItem: tmp_organizeMealTypeFlag[0]
+                })
+                // if (tmp_timeInfo[0].mealType[tmp_organizeMealTypeFlag[0]]) { //表示今天第一个餐时可点餐
 
 
-                if (!this.data.allMenuData[this.activeDayIndex][this.data.mealTypeItem]) {
-                    this.getTimeDataByResponse()
+            if (!this.data.allMenuData[this.data.activeDayIndex][this.data.mealTypeItem]) { //表示今天第一个餐时可点餐
+                this.getTimeDataByResponse()
 
-                    // this.data.lazyTimer = setInterval(() => {
-                    //     if (this.data.allMenuData[this.activeDayIndex][this.data.mealTypeItem]) {
-                    //         // 懒加载 
-                    //         this.lazyImg(this, this.data.lazyShowImage, 'lazyShowImage', this.data.mealTypeItem)
+                // this.data.lazyTimer = setInterval(() => {
+                //     if (this.data.allMenuData[this.activeDayIndex][this.data.mealTypeItem]) {
+                //         // 懒加载 
+                //         this.lazyImg(this, this.data.lazyShowImage, 'lazyShowImage', this.data.mealTypeItem)
 
-                    //         clearInterval(this.data.lazyTimer)
-                    //     }
-                    // }, 1000)
-                }
-
+                //         clearInterval(this.data.lazyTimer)
+                //     }
+                // }, 1000)
             }
+
+            // }
         }
 
     },
@@ -501,7 +505,7 @@ Page({
             let new_deduction = 0
             if (currnt_menuData.mealLabelFlag && currnt_menuData.organizeMealLabel > 0) { // 企业餐标可用并且大于0
                 //lowerThanMealLabelFlag表示可定低于餐标的餐, 企业管理员的好像还没加
-                if (currnt_menuData.lowerThanMealLabelFlag && currnt_menuData.totalMoney < currnt_menuData.organizeMealLabel) {
+                if (currnt_menuData.totalMoney < currnt_menuData.organizeMealLabel) {
                     new_deduction = currnt_menuData.totalMoney
                 } else {
                     new_deduction = currnt_menuData.organizeMealLabel
@@ -670,7 +674,7 @@ Page({
             let new_deduction = 0
             if (currnt_menuData.mealLabelFlag && currnt_menuData.organizeMealLabel > 0) { // 企业餐标可用并且大于0
                 //lowerThanMealLabelFlag表示可定低于餐标的餐, 企业管理员的好像还没加
-                if (currnt_menuData.lowerThanMealLabelFlag && currnt_menuData.totalMoney < currnt_menuData.organizeMealLabel) {
+                if (currnt_menuData.totalMoney < currnt_menuData.organizeMealLabel) {
                     new_deduction = currnt_menuData.totalMoney
                 } else {
                     new_deduction = currnt_menuData.organizeMealLabel
@@ -709,7 +713,7 @@ Page({
     getSelectedFoods() {
 
         let tmpselectFoodsIndex = this.data.selectedFoodsIndex
-        console.log('selectedFoodsIndex', tmpselectFoodsIndex)
+
 
         let tmp_allData = this.data.allMenuData
         let tmp_organizeMealTypeFlag = this.data.organizeMealTypeFlag
@@ -746,7 +750,7 @@ Page({
 
         }
 
-
+        console.log('timeInfo', this.data.timeInfo)
         this.setData({
             selectedFoodsIndex: tmpselectFoodsIndex
         })
@@ -782,7 +786,7 @@ Page({
             let new_deduction = 0
             if (currnt_menuData.mealLabelFlag && currnt_menuData.organizeMealLabel > 0) { // 企业餐标可用并且大于0
                 //lowerThanMealLabelFlag表示可定低于餐标的餐, 企业管理员的好像还没加
-                if (currnt_menuData.lowerThanMealLabelFlag && currnt_menuData.totalMoney < currnt_menuData.organizeMealLabel) {
+                if (currnt_menuData.totalMoney < currnt_menuData.organizeMealLabel) {
                     new_deduction = currnt_menuData.totalMoney
                 } else {
                     new_deduction = currnt_menuData.organizeMealLabel
@@ -916,7 +920,7 @@ Page({
             let new_deduction = 0
             if (currnt_menuData.mealLabelFlag && currnt_menuData.organizeMealLabel > 0) { // 企业餐标可用并且大于0
                 //lowerThanMealLabelFlag表示可定低于餐标的餐, 企业管理员的好像还没加
-                if (currnt_menuData.lowerThanMealLabelFlag && currnt_menuData.totalMoney < currnt_menuData.organizeMealLabel) {
+                if (currnt_menuData.totalMoney < currnt_menuData.organizeMealLabel) {
                     new_deduction = currnt_menuData.totalMoney
                 } else {
                     new_deduction = currnt_menuData.organizeMealLabel
@@ -947,48 +951,71 @@ Page({
         }
     },
 
-    goToMenuCommit() {
-        if (this.data.totalCount > 0) {
-            if (!this.data.lowerThanMealLabelFlag && this.data.totalMoneyRealDeduction > this.data.totalMoney) {
-                wx.showModal({
-                    title: '未达餐标金额(¥' + this.data.totalMoneyRealDeduction + ')',
-                    content: '未达餐标金额(¥' + this.data.totalMoneyRealDeduction + ')' + ',请继续选餐',
-                    showCancel: false,
-                    confirmText: '返回'
-                })
-            } else if (this.data.totalMoneyRealDeduction == 0 && this.data.totalMoney == 0) {
-                wx.showModal({
-                    title: '价格低于0.01',
-                    content: '请继续选餐',
-                    showCancel: false,
-                    confirmText: '返回'
-                })
-            } else {
-                this.getSelectedFoods() //不需要执行多次吧。好像需要的哦。
+    //验证未达餐标情况
+    verifyMealLabel() {
 
-                //我用的变量是不是过于多了，timeInfo,selectedFoodsIndex是不是可以直接放在allMenuData里？
-                //TODO--5/6
-                for (let i = 0; i < this.data.timeInfo.length; i++) {
-                    this.data.selectedFoodsIndex[i].appointment = this.data.timeInfo[i].label
-                    this.data.selectedFoodsIndex[i].mealDate = this.data.timeInfo[i].mealDate
-                    let onededuction = 0
-                    for (let j = 0; j < this.data.organizeMealTypeFlag.length; j++) {
-                        // 应该只要有，就会有这天这餐的抵扣了吧--5/6
-                        if (this.data.selectedFoodsIndex[i][this.data.organizeMealTypeFlag[j]]) {
-                            onededuction += this.data.selectedFoodsIndex[i][this.data.organizeMealTypeFlag[j]].deductionMoney
-                        }
-                    }
-                    this.data.selectedFoodsIndex[i].deductionMoney = parseFloat(onededuction.toFixed(2))
-
-                }
-                wx.setStorageSync('sevenSelectedFoods', this.data.selectedFoodsIndex)
-                console.log('sevenSelectedFoods', this.data.selectedFoodsIndex)
-                wx.navigateTo({
-                    url: '/pages/menu/today/confirm/confirm?totalMoney=' +
-                        this.data.totalMoney + '&totalMoneyRealDeduction=' +
-                        this.data.totalMoneyRealDeduction + '&realMoney=' + this.data.realTotalMoney + '&orderType=seven'
-                })
+        // 这个selectedFoodsIndex是立即变的吗？是在多加道菜的时候就会变的吗？5/6
+        let flag = true
+        for (let i = 0; i < this.data.allMenuData.length; i++) {
+            let item = this.data.allMenuData[i]
+            if (!flag) {
+                break
             }
+            for (let meal in item) {
+                if (!flag) {
+                    break
+                }
+                // 是这么判断的吗？ 5/6
+                //1.餐标可用 2.当天当餐点餐了，用总价判断点餐没是否不妥？3.不能低于餐标 4.抵扣金额小于企业餐标
+                if (item[meal].mealLabelFlag && item[meal].totalMoney && item[meal].totalMoney > 0 && !item[meal].lowerThanMealLabelFlag && item[meal].deductionMoney < item[meal].organizeMealLabel) {
+                    wx.showModal({
+                        title: this.data.timeInfo[i].label + ' ' + this.data.mealType[meal],
+                        content: '未达餐标金额(¥' + item[meal].organizeMealLabel + ')' + ',请继续选餐',
+                        showCancel: false,
+                        confirmText: '返回'
+                    })
+                    this.setData({
+                        activeDayIndex: i,
+                        mealTypeItem: meal
+                    })
+                    flag = false
+                }
+
+            }
+
+        }
+        return flag
+    },
+
+    goToMenuCommit() {
+        console.log('this.data.allMenuData', this.data.allMenuData)
+        let flag = this.verifyMealLabel()
+
+        if (flag) {
+            this.getSelectedFoods() //不需要执行多次吧。好像需要的哦。
+
+            //我用的变量是不是过于多了，timeInfo,selectedFoodsIndex是不是可以直接放在allMenuData里？
+            //TODO--5/6
+            for (let i = 0; i < this.data.timeInfo.length; i++) {
+                this.data.selectedFoodsIndex[i].appointment = this.data.timeInfo[i].label
+                this.data.selectedFoodsIndex[i].mealDate = this.data.timeInfo[i].mealDate
+                let onededuction = 0
+                for (let j = 0; j < this.data.organizeMealTypeFlag.length; j++) {
+                    // 应该只要有，就会有这天这餐的抵扣了吧--5/6
+                    if (this.data.selectedFoodsIndex[i][this.data.organizeMealTypeFlag[j]]) {
+                        onededuction += this.data.selectedFoodsIndex[i][this.data.organizeMealTypeFlag[j]].deductionMoney
+                    }
+                }
+                this.data.selectedFoodsIndex[i].deductionMoney = parseFloat(onededuction.toFixed(2))
+
+            }
+            wx.setStorageSync('sevenSelectedFoods', this.data.selectedFoodsIndex)
+            console.log('sevenSelectedFoods', this.data.selectedFoodsIndex)
+            wx.navigateTo({
+                url: '/pages/menu/today/confirm/confirm?totalMoney=' +
+                    this.data.totalMoney + '&totalMoneyRealDeduction=' +
+                    this.data.totalMoneyRealDeduction + '&realMoney=' + this.data.realTotalMoney + '&orderType=seven'
+            })
         }
 
     },
@@ -1006,5 +1033,11 @@ Page({
     //用于解决小程序的遮罩层滚动穿透
     preventTouchMove: function() {
 
-    }
+    },
+    /* 菜品详情 */
+    handleGotoFoodDetail: function(e) {
+        wx.navigateTo({
+            url: '/pages/food/food?dateId=' + e.currentTarget.dataset.dateid,
+        })
+    },
 })

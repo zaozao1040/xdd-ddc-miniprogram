@@ -3,6 +3,38 @@
 
 /*3.0*/
 
+.in {
+    animation-name: show;
+    animation-duration: 0.3s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+.out {
+    animation-name: fadefade;
+    animation-duration: 0.3s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes show {
+    from {
+        transform: translate(0, 100%);
+    }
+    to {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes fadefade {
+    from {
+        transform: translate(0, 0);
+    }
+    to {
+        transform: translate(0, 100%);
+    }
+}
+
 .mask {
     z-index: 100;
     position: fixed;
@@ -895,8 +927,6 @@
     color: black;
     padding: 0 30rpx;
 }
-
-.total-right {}
 
 .total-right-line {
     display: flex;

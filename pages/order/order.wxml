@@ -30,9 +30,15 @@
     <form report-submit="true" bindsubmit="buttonClickYes_ratings">
         <view class="ratings-wrapper" wx:if="{{showRatingsFlag}}">
             <view class="ratings-wrapper-content">
-                <view class="foodList-wrapper" wx:for="{{foods}}" wx:for-index="foodIndex" wx:for-item="foodItem" wx:key="foodIndex">
+                <view wx:for="{{foods}}" wx:for-index="foodIndex" wx:for-item="foodItem" wx:key="foodIndex">
                     <!-- 单个菜品的评价 -->
-                    <view class="fooditem-wrapper">
+                    <view style='padding:22rpx 30rpx 26rpx 30rpx;border-bottom: 1rpx solid #eee;display: flex;justify-content: space-between;'>
+
+                        <view style='display:flex;'>
+                            <view style='width:72rpx;height:72rpx;'></view>
+                        </view>
+                    </view>
+                    <view>
                         <view class="foodname">
                             {{foodItem.name}}
                         </view>

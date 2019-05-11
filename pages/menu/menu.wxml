@@ -2,11 +2,10 @@
     <view>
         <view class="mask" catchtap="handleCloseCart" wx:if="{{boxActiveFlag}}" catchtouchmove="preventTouchMove"></view>
         <scroll-view scroll-x style="overflow:hidden;white-space:nowrap;" scroll-into-view="{{activeDayId}}">
-            <view id="day{{index}}" data-day='{{index}}' data-dayinfo='{{item}}' bindtap='changeActiveDay' wx:for="{{timeInfo}}" wx:key='{{index}}' style='display:inline-block;margin-right:{{index==6?"40rpx":"60rpx"}};margin-left:{{index==0?"40rpx":"0"}}'>
+            <view id="day{{index}}" data-day='{{index}}' data-dayinfo='{{item}}' bindtap='changeActiveDay' wx:for="{{timeInfo}}" wx:key='{{index}}' style='display:inline-block;margin-right:{{index==6?"40rpx":"60rpx"}};padding-left:{{index==0?"40rpx":"0"}}'>
 
                 <view class="{{index==activeDayIndex?'active-day':'inactive-day'}}">{{item.label}}</view>
                 <view class="{{index==activeDayIndex?'active-day-line':''}}"></view>
-
             </view>
 
         </scroll-view>
@@ -100,7 +99,7 @@
 
                 <!-- 【【另一个页面】】 购物车 -->
                 <!--  弹出 购物车 -->
-                <view class="{{ boxActiveFlag ? 'in' : 'out' }}" style="position: fixed; bottom: 0; left: 0; right: 0;z-index:1001;" catchtouchmove="preventTouchMove" wx:if="{{ boxActiveFlag }}">
+                <view class="{{ boxActiveFlag ? 'in' : 'out' }}" style="position: fixed; bottom: 0; left: 0; right: 0;z-index:1001;" catchtouchmove="preventTouchMove">
                     <view class="chart-top">企业折扣减{{totalMoneyRealDeduction}}</view>
                     <view style="display: flex;line-height:60rpx;background:#FFFFFF;padding:0 30rpx;justify-content: space-between;">
                         <view style="font-family: PingFang-SC-Regular; font-size: 11px; color: #999999; letter-spacing: 0; text-align: left;">
@@ -115,7 +114,7 @@
                         <view class="cart_scrollPosition_forCalculate">
                             <block wx:for="{{timeInfo}}" wx:for-item="dayItem" wx:for-index="dayIndex" wx:key="dayIndex">
                                 <view wx:if="{{selectedFoodsIndex[dayIndex].count>0}}">
-                                    <view class="chart-date">{{dayItem.label}}</view>
+                                    <view class="chart-date">{{dayItem.label}}({{dayItem.mealDateShow}})</view>
                                     <view wx:for="{{ organizeMealTypeFlag }}" wx:key="{{ index }}">
                                         <view wx:for="{{ selectedFoodsIndex[dayIndex][item].selectedFoods }}" wx:for-item="onefood" wx:for-index="selectedFoodIndex" wx:key="selectedFoodIndex">
                                             <view style="display: flex;background: #FFFFFF;box-shadow: inset 0 0 0 0 #E6E6E6;border-bottom:2rpx solid #F5F5F5;" wx:if="{{onefood.foodCount>0}}">

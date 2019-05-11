@@ -86,7 +86,7 @@
     <!-- 已选菜单 -->
     <scroll-view scroll-y style="height:{{buttonTop-addressBottom}}px;">
         <view style="background: #F5F5F5; ">
-            <view class="cart-day-wrapper" wx:if="{{orderType=='one'}}">
+            <!-- <view class="cart-day-wrapper" wx:if="{{orderType=='one'}}">
                 <view class="cart-day-title">
                     {{selectedFoods.appointment}}({{selectedFoods.mealDate}})
                 </view>
@@ -115,15 +115,15 @@
                     <view class='cart-discount-organize'>企业折扣</view>
                     <view class='cart-discount-organize-money'>￥{{totalMoneyRealDeduction}}</view>
                 </view>
-            </view>
-            <view class="cart-day-wrapper" wx:if="{{orderType=='seven'}}">
-                <view wx:for="{{selectedFoods}}" wx:for-item='oneday'>
+            </view> -->
+            <view class="cart-day-wrapper">
+                <view wx:for="{{selectedFoods}}" wx:for-item='oneday' wx:for-index='onedayindex' wx:key='{{onedayindex}}'>
                     <view wx:if="{{oneday.count>0}}">
                         <view class="cart-day-title">
                             {{oneday.appointment}}({{oneday.mealDate}})
                         </view>
                         <view wx:for="{{organizeMealTypeFlag}}" wx:key="{{index}}">
-                            <view class="cart-menuItem" wx:for="{{oneday[item].selectedFoods}}" wx:for-item="foodtypeinfoItem" wx:for-index="foodtypeinfoIndex" wx:key="foodtypeinfoIndex">
+                            <view class="cart-menuItem" wx:for="{{oneday[item].selectedFoods}}" wx:for-item="foodtypeinfoItem" wx:for-index="foodtypeinfoIndex" wx:key="{{foodtypeinfoIndex}}">
                                 <view class="cart-menuItem-left">
                                     <image class="cart-menuItem-img" src="{{foodtypeinfoItem.foodImage}}"></image>
                                 </view>

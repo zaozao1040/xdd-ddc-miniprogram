@@ -30,7 +30,7 @@ Page({
         bindOrganized: '',
         phoneNumber: '',
 
-        selectedFoods: {},
+        selectedFoods: [],
         totalMoney: 0,
         totalMoneyRealDeduction: 0, //额度总金额
         totalDeduction: 0, //优惠的总价格，企业额度和优惠券优惠
@@ -93,24 +93,22 @@ Page({
     onLoad: function(options) {
         this.initAddress()
 
-        let selectedFoods = '';
-        let orderType = '';
+        let selectedFoods = [];
         // 一天
         console.log('options', options)
         if (options.orderType == 'one') {
-            selectedFoods = wx.getStorageSync('todaySelectedFoods')
-            console.log('selectedFoods', selectedFoods)
-            orderType = 'one'
+            let a = wx.getStorageSync('todaySelectedFoods')
+            a.deductionMoney = options.totalMoneyRealDeduction
+            a.count = 1 //这个count是我自己随便设置的 5/6
+            selectedFoods.push(a)
                 // 7tian
         } else if (options.orderType == 'seven') {
             selectedFoods = wx.getStorageSync('sevenSelectedFoods')
-            console.log('selectedFoods', selectedFoods)
-            orderType = 'seven'
+
         }
 
         this.setData({
             selectedFoods: selectedFoods,
-            orderType: orderType,
             totalMoney: options.totalMoney,
             totalMoneyRealDeduction: options.totalMoneyRealDeduction,
             realMoney: options.realMoney,
@@ -366,29 +364,30 @@ Page({
             order: []
 
         }
-        let tmp_selectedFoods = _this.data.selectedFoods
-        _this.data.organizeMealTypeFlag.forEach(mealType => {
-            if (tmp_selectedFoods[mealType]) { //选了这个餐时的菜
+        for (let i = 0; i < _this.data.selectedFoods.length; i++) {
+            let tmp_selectedFoods = _this.data.selectedFoods[i]
+            _this.data.organizeMealTypeFlag.forEach(mealType => {
+                if (tmp_selectedFoods[mealType]) { //选了这个餐时的菜
 
-                let order_item = {
-                    mealDate: tmp_selectedFoods.mealDate,
-                    mealType: mealType,
-                    foods: []
-                }
-
-                tmp_selectedFoods[mealType].selectedFoods.forEach(onefood => {
-                    let foods_item = {
-                        foodCode: onefood.foodCode,
-                        quantity: onefood.foodCount,
-
+                    let order_item = {
+                        mealDate: tmp_selectedFoods.mealDate,
+                        mealType: mealType,
+                        foods: []
                     }
-                    order_item.foods.push(foods_item)
-                })
 
-                tmp_param.order.push(order_item)
-            }
-        })
+                    tmp_selectedFoods[mealType].selectedFoods.forEach(onefood => {
+                        let foods_item = {
+                            foodCode: onefood.foodCode,
+                            quantity: onefood.foodCount,
 
+                        }
+                        order_item.foods.push(foods_item)
+                    })
+
+                    tmp_param.order.push(order_item)
+                }
+            })
+        }
 
         let param = tmp_param
         if (param.payAllPrice == '0.00' || param.payAllPrice == 0 || param.payAllPrice == '0') {

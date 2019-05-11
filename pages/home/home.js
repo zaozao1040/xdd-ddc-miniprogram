@@ -4,7 +4,9 @@ import { mine } from '../mine/mine-model.js'
 let mineModel = new mine()
 import { order } from '../order/order-model.js'
 let orderModel = new order()
-import moment from "../../comm/script/moment"
+
+import { base } from '../../comm/public/request'
+let requestModel = new base()
 Page({
 
     /**
@@ -19,9 +21,6 @@ Page({
         showUserAuthFlag: false, //显示用户授权框标志 默认不显示
         registered: false,
         userInfo: null,
-        wel: "",
-        propagandaList: ['比外卖便宜', '全程保温', '食品更安全', '急速退款'],
-        propagandaIconArr: ['bianyihuo2', 'peisong', 'shipinanquan-', 'tuikuan'],
         imagesList: [],
         //
         homeOrderList: null, //首页取餐列表
@@ -61,7 +60,7 @@ Page({
 
         noticeData: null, //记录公告内容  
         hasNotice: false, //默认没有轮播公告
-        oneNotice: null, //点击轮播公告时显示的一条公告的内容
+        showedNoticeData: [], //点击轮播公告时显示的一条公告的内容
         showOneNotice: false, //点击轮播公告时显示公告弹出框
         hasWindowNotice: false, //默认没有window公告
         showWindowNotice: false, //默认不显示window公告
@@ -93,6 +92,13 @@ Page({
         wx.navigateTo({
             url: '/pages/menu/menu'
         })
+        setTimeout(() => {
+            this.setData({
+                showMenuSelect: false
+            })
+            wx.showTabBar()
+        }, 1000)
+
     },
     startOrderMenu(e) {
 
@@ -101,9 +107,13 @@ Page({
         wx.navigateTo({
             url: '/pages/menu/today/today?appointment=' + tmp_appointmention + '&mealtype=' + tmp_mealtype
         })
-        this.setData({
-            showMenuSelect: false
-        })
+
+        setTimeout(() => {
+            this.setData({
+                showMenuSelect: false
+            })
+            wx.showTabBar() //咋感觉这个没执行呢 5/8
+        }, 1000)
     },
     //监听轮播图切换图片，获取图片的下标
     onSwiperChange: function(e) {
@@ -239,37 +249,31 @@ Page({
             })
         }
     },
+    //获取首页图片
     initHome: function() {
-        let _this = this
-            /* **********设置欢迎时间********** */
-        var t = new Date().getHours();
-        t >= 6 && t < 11 ? this.setData({
-            wel: "早上好"
-        }) : t >= 11 && t < 13 ? this.setData({
-            wel: "中午好"
-        }) : t >= 13 && t < 18 ? this.setData({
-            wel: "下午好"
-        }) : this.setData({
-            wel: "晚上好"
-        });
-        // 获取首页图片
         let param = {
-            userCode: wx.getStorageSync('userInfo').userCode
+            url: '/home/getHomeImage?userCode=' + wx.getStorageSync('userCode')
         }
-        homeModel.getImages(param, (res) => {
-            console.log('获取首页图片:', res)
-            if (res.code === 0) {
+        requestModel.request(param, data => {
+                console.log('getHomeImage', data)
                 this.setData({
-                    imagesList: res.data
+                    imagesList: data
                 })
-            } else {
-                wx.showToast({
-                    title: res.msg,
-                    icon: 'none',
-                    duration: 2000
-                })
-            }
-        })
+            })
+            // homeModel.getImages(param, (res) => {
+            //     console.log('获取首页图片:', res)
+            //     if (res.code === 0) {
+            //         this.setData({
+            //             imagesList: res.data
+            //         })
+            //     } else {
+            //         wx.showToast({
+            //             title: res.msg,
+            //             icon: 'none',
+            //             duration: 2000
+            //         })
+            //     }
+            // })
     },
     handleGotoMenu: function() {
 
@@ -385,7 +389,6 @@ Page({
         this.setData({
             showMenuSelect: false
         })
-
     },
     /**
      * 生命周期函数--监听页面加载
@@ -393,23 +396,14 @@ Page({
 
     onLoad: function(options) {
         //首页很重要，这几个非常稳定几乎不变更数据的接口，放在onload，只有首页取餐放在onShow里面
-        console.log('onLoad')
-        let _this = this
-        _this.initHome()
-        let param = {
-            userCode: wx.getStorageSync('userInfo').userCode
-        }
-        _this.getNotice(param)
 
+        this.initHome()
+        this.getNotice()
 
         wx.loadFontFace({
-
             family: 'PingFangSC-Medium',
-
             source: 'url("https://www.your-server.com/PingFangSC-Medium.ttf")',
-
             success: function() { console.log('load font success') }
-
         })
     },
 
@@ -417,25 +411,27 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-        console.log('onshow', this.data.showMenuSelect)
 
-        let tmp_userInfo = wx.getStorageSync('userInfo')
-        console.log('tmp_userInfo', tmp_userInfo)
-        if (tmp_userInfo == '') { //未登录状态，弹出授权框，隐藏底部状态栏
+        let tmp_userCode = wx.getStorageSync('userCode')
+
+        if (!tmp_userCode) { //未登录状态，弹出授权框，隐藏底部状态栏
             this.setData({
                 showUserAuthFlag: true
             })
-            wx.hideTabBar({})
+            wx.hideTabBar()
         } else { //已登录状态，直接登录
+            // 根据上次获取userInfo的时间看要不要再次获取用户信息 
+            // TODO
+            let tmp_userInfo = wx.getStorageSync('userInfo')
             this.setData({ //既然已经注册，就直接自动登录，即从缓存读信息
                 userInfo: tmp_userInfo
             })
-            wx.showTabBar({})
+            wx.showTabBar()
             if (tmp_userInfo.userStatus == 'NO_CHECK') { //企业用户的'审核中'状态,而其他的状态无需隐藏
                 this.setData({
                     showCheckFlag: true
                 })
-                wx.hideTabBar({})
+                wx.hideTabBar()
             }
             if (tmp_userInfo.canTakeDiscount == true) { //在登录状态下判断用户类型，企业用户的normal状态显示新人大礼，一般用户的登录状态显示新人大礼
                 this.setData({
@@ -447,14 +443,26 @@ Page({
             this.getTakeMealInfo()
         }
     },
-    /* 获取公告信息 */
-    getNotice: function(param) {
-        let _this = this
-        homeModel.getNotice(param, (res) => {
+    // 获取用户信息
+    getUserInfo() {
+        let param = {
+            url: '/user/getUserInfo?userCode=' + wx.getStorageSync('userCode')
+        }
+        requestModel.request(param, data => {
+            wx.setStorageSync('userInfo', data)
 
-            if (res.code == 0) {
-                if (res.data != null && res.data.length > 0) { //后台是在没有公告的时候返回空数组
-                    let temp_noticeData = res.data
+        })
+    },
+    /* 获取公告信息 */
+    getNotice() {
+
+        let url = '/home/getHomeNotice?userCode=' + wx.getStorageSync('userCode')
+        let param = {
+            url
+        }
+        requestModel.request(param, data => {
+                if (!data && data.length > 0) { //后台是在没有公告的时候返回空数组
+                    let temp_noticeData = data
                     _this.setData({
                         noticeData: temp_noticeData,
                         hasNotice: true
@@ -491,14 +499,64 @@ Page({
                         }
                     }
                 }
-            }
-        })
+            })
+            // homeModel.getNotice(param, (res) => {
+
+        //     if (res.code == 0) {
+        //         if (res.data != null && res.data.length > 0) { //后台是在没有公告的时候返回空数组
+        //             let temp_noticeData = res.data
+        //             _this.setData({
+        //                 noticeData: temp_noticeData,
+        //                 hasNotice: true
+        //             })
+
+        //             let window_noticeData = []
+        //             temp_noticeData.forEach(item => {
+        //                 if (item.window) {
+        //                     window_noticeData.push(item)
+        //                 }
+        //             })
+
+        //             if (window_noticeData.length > 0) {
+        //                 _this.setData({
+        //                     windowNoticeData: window_noticeData,
+        //                     hasWindowNotice: true
+        //                 })
+        //                 let windowNoticeStorage = wx.getStorageSync("windowNoticeCodeList")
+        //                 console.log('windowNoticeStorage', windowNoticeStorage)
+        //                 let windowNoticeCodeList = '' //本次公告的code
+        //                 window_noticeData.forEach(item => {
+        //                         windowNoticeCodeList += item.noticeCode
+        //                     })
+        //                     //wx.setStorageSync("windowNoticeCodeList", '')
+        //                 console.log('日期', (new Date()).toLocaleDateString() + (new Date().getHours()))
+        //                     //设置为当天第一次打开或者公告更新时在首页跳出
+        //                 if (windowNoticeStorage != (windowNoticeCodeList + (new Date()).toLocaleDateString())) {
+        //                     wx.setStorageSync("windowNoticeCodeList", windowNoticeCodeList + (new Date()).toLocaleDateString())
+        //                     _this.setData({
+        //                         showWindowNotice: true
+        //                     })
+
+        //                     console.log('windowNoticeStorage', windowNoticeStorage)
+        //                 }
+        //             }
+        //         }
+        //     }
+        // })
     },
     // 点击轮播公告显示公告详细信息
     handleshowOneNotice(e) {
         console.log(e.currentTarget.dataset)
         this.setData({
-            oneNotice: e.currentTarget.dataset.onenotice,
+            showedNoticeData: [e.currentTarget.dataset.onenotice],
+            showOneNotice: true
+        })
+        console.log('showedNoticeData', this.data.showedNoticeData)
+    },
+    // 轮播所有消息
+    handleshowAllNotice() {
+        this.setData({
+            showedNoticeData: this.data.noticeData,
             showOneNotice: true
         })
     },
@@ -526,7 +584,7 @@ Page({
     getTakeMealInfo: function() {
         let _this = this
         let param = {
-            userCode: wx.getStorageSync('userInfo').userCode
+            userCode: wx.getStorageSync('userCode')
         }
         homeModel.getTakeMealInfo(param, (res) => {
             console.log('获取首页取餐信息后台反馈:', res)
@@ -535,14 +593,11 @@ Page({
                 tmp_homeOrderList.forEach(element => {
                     element.mealTypeDes = _this.data.mealTypeMap[element.mealType]
                     element.orderStatusDes = _this.data.orderStatusMap[element.orderStatus]
-                        //element.takeMealEndTimeDes = moment(element.takeMealEndTime).format('MM月DD日HH:mm')
 
                     let start = new Date(element.takeMealStartTime).getHours()
                     let end = new Date(element.takeMealEndTime).getHours()
                     element.takeMealStartTimeDes = start
                     element.takeMealEndTimeDes = end == 0 ? 24 : end
-                        // element.takeMealStartTimeDes = moment(element.takeMealStartTime).calendar()
-                        // element.takeMealEndTimeDes = moment(element.takeMealEndTime).calendar()
 
                 })
                 _this.setData({

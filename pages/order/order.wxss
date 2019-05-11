@@ -45,18 +45,16 @@
     left: 0;
     right: 0;
     z-index: 100;
-    background: #eee;
+    background: #FFF;
+    border: 2rpx solid red;
 }
 
 .ratings-wrapper-content {
     position: absolute;
-    height: 800rpx;
-    width: 100%;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    margin: auto;
 }
 
 .foodList-wrapper {

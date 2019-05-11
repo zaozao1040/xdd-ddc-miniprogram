@@ -1,224 +1,286 @@
 /* 基本信息 */
-.basic-info{
-  background: #fff;
-/*   border-bottom-left-radius: 50rpx;
-  border-bottom-right-radius: 50rpx; */
-}
-.food-wrapper{
-  top:0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #eee;
-}
-.img-wrapper{
-  width: 100%;
-}
-.food-info-wrapper{
-  padding: 20rpx;
-}
-.foodName{
-  font-size: 40rpx;
-  font-weight: 600;
-  color:#222;
-}
-.tag-wrapper{
-  display: flex;
-}
-.tag-item{
-  margin-right: 20rpx;
-  padding:5rpx 10rpx;
-  height: 30rpx;
-  line-height: 30rpx;
-  font-size: 25rpx;
-  font-weight: 600;
-  color:#eee;
-  background: #e79b37;
-  border-radius: 7rpx;
+
+.basic-info {
+    background: #fff;
+    /*   border-bottom-left-radius: 50rpx;
+border-bottom-right-radius: 50rpx; */
 }
 
-.price{
+.header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 12rpx 140rpx 20rpx;
+    border-bottom: 1rpx solid #eee;
 }
-.price-real{
-  display: inline-block;
-  color: #F56C6C;
-  font-size: 35rpx;
+
+.header-item {
+    font-family: PingFang-SC-Regular;
+    font-size: 30rpx;
+    color: #999999;
+    letter-spacing: 0;
+    line-height: 42rpx;
 }
-.price-original{
-  display: inline-block;
-  margin-left:30rpx;
-  font-style:italic;
-  text-decoration: line-through;
+
+.header-item-active {
+    font-family: PingFang-SC-Medium;
+    font-size: 30rpx;
+    color: #333333;
+    letter-spacing: 0;
+    line-height: 42rpx;
 }
-.merchant{
-  display: table;
-  padding: 2rpx 0;
+
+.header-item-border {
+    height: 14rpx;
 }
-.icon-merchant{
-  display: table-cell;
-  vertical-align: middle;
-  font-size: 35rpx;
-  color:#e79b37;
-  height: 40rpx;
-  line-height: 40rpx;
+
+.header-item-border-active {
+    height: 6rpx;
+    background: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
+    border-radius: 4rpx;
+    width: 60rpx;
+    margin: 8rpx auto 0;
 }
-.merchantName{
-  display: table-cell;
-  vertical-align: middle;
-  font-size: 25rpx;
-  height: 40rpx;
-  line-height: 40rpx;
-  padding: 0 20rpx;
-  color: #111;
-  background: rgb(209, 231, 247);
-  border-radius: 6rpx;
+
+.food-wrapper {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #eee;
 }
-.foodDes{
-  font-size: 30rpx;
-  color:#666;
+
+.img-wrapper {
+    width: 100%;
 }
+
+.food-info-wrapper {
+    padding: 20rpx;
+}
+
+.foodName {
+    font-size: 40rpx;
+    font-weight: 600;
+    color: #222;
+}
+
+.tag-wrapper {
+    display: flex;
+}
+
+.tag-item {
+    margin-right: 20rpx;
+    padding: 5rpx 10rpx;
+    height: 30rpx;
+    line-height: 30rpx;
+    font-size: 25rpx;
+    font-weight: 600;
+    color: #eee;
+    background: #e79b37;
+    border-radius: 7rpx;
+}
+
+.price-real {
+    display: inline-block;
+    color: #F56C6C;
+    font-size: 35rpx;
+}
+
+.price-original {
+    display: inline-block;
+    margin-left: 30rpx;
+    font-style: italic;
+    text-decoration: line-through;
+}
+
+.merchant {
+    display: table;
+    padding: 2rpx 0;
+}
+
+.icon-merchant {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 35rpx;
+    color: #e79b37;
+    height: 40rpx;
+    line-height: 40rpx;
+}
+
+.merchantName {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 25rpx;
+    height: 40rpx;
+    line-height: 40rpx;
+    padding: 0 20rpx;
+    color: #111;
+    background: rgb(209, 231, 247);
+    border-radius: 6rpx;
+}
+
+.foodDes {
+    font-size: 30rpx;
+    color: #666;
+}
+
 
 /* 评价 */
-.ratingsContent{
-  overflow: hidden;
-}
-.btn{
-  display: inline-block;
-  margin: 30rpx 30rpx 20rpx 20rpx;
-  height: 40rpx;
-  line-height: 40rpx;
-  font-size: 30rpx;
-  font-weight: 600;
-  color:#fff;
-  background: #e79b37;
-  padding: 5rpx 20rpx;
-  border-radius: 10rpx;
-}
-.active{
-	box-shadow: 7px 4px 7px #666;
-	position: relative;
-  top: -3rpx;
-  left:-7rpx;
-	color: #fff200!important;
-}
-.tab-wrapper{
-  display:flex;
-}
-.tab{
-  flex:0 0 200rpx;
-  padding: 0 10rpx 20rpx 10rpx;
-  font-size: 30rpx;
-}
-.icon-gouxuan{
-  color:#e79b37;
-}
-.tab-des{
-  color: #666;
-}
-/* 每个具体评论 */
-.ratingsDetailList-wrapper{
 
+.ratingsContent {
+    overflow: hidden;
 }
-.ratingsItem{
-  display: flex;
-  margin: 0 10rpx;
-  padding: 10rpx 0;
-  border-top:solid 1rpx #bbb;
+
+.btn {
+    display: inline-block;
+    margin: 30rpx 30rpx 20rpx 20rpx;
+    height: 40rpx;
+    line-height: 40rpx;
+    font-size: 30rpx;
+    font-weight: 600;
+    color: #fff;
+    background: #e79b37;
+    padding: 5rpx 20rpx;
+    border-radius: 10rpx;
 }
-.left{
-  flex: 0 0 100rpx;
-  height: 100rpx;
-  width: 100rpx;
+
+.active {
+    box-shadow: 7px 4px 7px #666;
+    position: relative;
+    top: -3rpx;
+    left: -7rpx;
+    color: #fff200!important;
 }
-.left-image{
-  width: 100%;
-  height: 100%;
-  border-radius: 50rpx;
+
+.tab-wrapper {
+    display: flex;
 }
-.right{
-  flex:1;
+
+.tab {
+    flex: 0 0 200rpx;
+    padding: 0 10rpx 20rpx 10rpx;
+    font-size: 30rpx;
 }
-.line1{
-  display: flex;
-  justify-content: space-between;
-  height: 30rpx;
-  line-height: 30rpx;
-  margin: 0 0 10rpx 10rpx;
+
+.icon-gouxuan {
+    color: #e79b37;
 }
-.user{
-  font-size: 30rpx;
-  font-weight: 500;
-  color:#666;
+
+.tab-des {
+    color: #666;
 }
-.time{
-  font-size: 30rpx;
-  font-weight: 500;
-  color:#666;
+
+
+/* 每个具体评论 */
+
+.ratingsItem {
+    display: flex;
+    margin: 0 10rpx;
+    padding: 10rpx 0;
+    border-top: solid 1rpx #bbb;
 }
-.line2{
-  height: 30rpx;
-  line-height: 30rpx;
-  margin: 0 0 10rpx 10rpx;
-  font-size: 30rpx;
-  font-weight: 500;
-  color: goldenrod;
+
+.left {
+    flex: 0 0 100rpx;
+    height: 100rpx;
+    width: 100rpx;
 }
-.line3{
-  height: 30rpx;
-  line-height: 30rpx;
-  margin: 0 0 10rpx 10rpx;
-  font-size: 30rpx;
-  font-weight: 700;
-  color:#222;
+
+.left-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50rpx;
 }
-.line4{
-/*   height: 200rpx; */
-/*   margin: 0 0 10rpx 10rpx; */
+
+.right {
+    flex: 1;
 }
-.ratings-swiper{
-  margin: 5rpx 20rpx;
-  height: 200rpx;
+
+.line1 {
+    display: flex;
+    justify-content: space-between;
+    height: 30rpx;
+    line-height: 30rpx;
+    margin: 0 0 10rpx 10rpx;
 }
-.img1{
-  width:70%;
+
+.user {
+    font-size: 30rpx;
+    font-weight: 500;
+    color: #666;
 }
-.img2{
-  width:45%;
+
+.time {
+    font-size: 30rpx;
+    font-weight: 500;
+    color: #666;
 }
-.img3{
-  width:33%;
+
+.line2 {
+    line-height: 30rpx;
+    margin: 0 0 10rpx 10rpx;
+    font-size: 30rpx;
+    font-weight: 500;
+    color: goldenrod;
 }
-.swiper-img{
-  width: 100%;
+
+.line3 {
+    line-height: 40rpx;
+    margin: 0 0 10rpx 10rpx;
+    font-size: 30rpx;
+    color: #333;
+}
+
+.ratings-swiper {
+    margin: 5rpx 20rpx;
+    height: 200rpx;
+}
+
+.img1 {
+    width: 100%;
+}
+
+.img2 {
+    width: 45%;
+}
+
+.img3 {
+    width: 33%;
+}
+
+.swiper-img {
+    width: 33%;
+    height: auto;
 }
 
 
 /* 标题 */
-.food-header{
-  position: sticky;
-  top: 0;
-  width:100%;
-  display: flex;
-  height: 100rpx;
-  line-height: 100rpx;
-  border-bottom: 1rpx solid #bbb;
-  background: #eee;
-}
-.food-content{
-  width:100%;
-}
-.content-header-item{
-  flex:1;
-  text-align: center;
-  font-size: 35rpx;
-  font-weight: 600;
-  color:#666;
-  margin: 0 70rpx;
-}
-.content-header-item-active{
-  border-bottom: 10rpx solid #e79b37;
-  color:#e79b37;
-  font-size:40rpx;
+
+.food-header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    display: flex;
+    height: 100rpx;
+    line-height: 100rpx;
+    border-bottom: 1rpx solid #bbb;
+    background: #eee;
 }
 
+.food-content {
+    width: 100%;
+}
 
+.content-header-item {
+    flex: 1;
+    text-align: center;
+    font-size: 35rpx;
+    font-weight: 600;
+    color: #666;
+    margin: 0 70rpx;
+}
+
+.content-header-item-active {
+    border-bottom: 10rpx solid #e79b37;
+    color: #e79b37;
+    font-size: 40rpx;
+}

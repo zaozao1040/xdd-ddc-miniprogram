@@ -34,35 +34,34 @@
          scrollLintenFlag: true, //默认允许触发滚动事件
          showBackToTopFlag: false, //显示返回scroll顶部的标志
          scrollToView: 'id_0',
-         selectedFoods: [], //选择的食物的 menutypeIndex和foodIndex
 
          totalMoneyRealDeduction: 0, //企业餐标一起减免的钱
          listHeight: [], //这个数组记录每个餐类的"之前所有餐类描述+所有具体餐品"的占用高度值 
 
          cartHeight: 100, //购物车的高度 设置为2/1windowHeight的高度，最高为2/1windowHeight的高度
-         label_bottom: -1,
-         cart_top: -1, //初始时设置底部购物车位置的top为负数，在购物车初显时计算其top坐标，以免计算多次
-         cart_height: 0, //购物车的高度
-         time_remind_height: 0, // 截止时间，倒计时的view的高度
+
          shakeshake: false,
          shakeTimer: null,
 
          // 购物车动画
          cartAnimationBottom: 0,
          cartAnimationHeight: 0,
-         lazyShowImage: {}, //用于懒加载图片的
-         lazyShowImageShowCount: 0
+         lazyShowImage: {}, //用于懒加载图片的 
+         // 懒加载
+         intersectionObserverList: []
      },
      onLoad: function(options) {
          console.log('options', options)
          let tmp_appointmention = options.appointment //显示是今天还是明天
 
          let tmp_mealtypeinfo = wx.getStorageSync('mealTypeInfo')[tmp_appointmention]
-
+         let dd = tmp_mealtypeinfo.mealDate.split("-")
+         let mealDateShow = dd[1] + "/" + dd[2]
          this.setData({
              mealTypeInfo: tmp_mealtypeinfo,
              organizeMealTypeFlag: wx.getStorageSync('organizeMealTypeFlag'),
              mealDate: tmp_mealtypeinfo.mealDate,
+             mealDateShow: mealDateShow,
              mealTypeItem: options.mealtype,
              appointment: tmp_appointmention == 'today' ? '今天' : '明天'
          })
@@ -103,39 +102,56 @@
      },
      //懒加载
      lazyImg(_that, data, lazy_name, mealTypeItem) {
+         console.log('_that.data.intersectionObserverList', _that.data.intersectionObserverList)
+
+
          for (let i = 0, len = data[mealTypeItem].length; i < len; i++) {
              for (let j = 0; j < data[mealTypeItem][i].length; j++) {
-                 //debugger
-                 const aa = wx.createIntersectionObserver()
-                 aa.relativeToViewport({
-                     bottom: 20
-                 }).observe('#' + mealTypeItem + 'food' + i + j, (ret) => {
-                     if (ret.intersectionRatio > 0) {
 
-                         if (!data[mealTypeItem][i][j]) {
-                             _that.data.lazyShowImageShowCount++
+                 if (mealTypeItem == 'LUNCH') {
+
+
+                     let ooo = wx.createIntersectionObserver()
+                     ooo.relativeToViewport({
+                         bottom: 20
+                     }).observe('#' + mealTypeItem + 'food' + i + j, (ret) => {
+
+                         if (ret.intersectionRatio > 0) {
+                             data[mealTypeItem][i][j] = true
+                             console.log("&&observe" + mealTypeItem + '' + i + '' + j);
                          }
-                         data[mealTypeItem][i][j] = true
-                     }
-                     console.log("&&&&&&&" + _that.data.lazyShowImageShowCount + '   ,' + _that.data.lazyShowImageCount);
 
-                     // 总得加载完所有图片后就不执行这个lazyImg了吧，咋判断的
-                     _that.setData({
-                         [lazy_name]: data
+                         _that.data.intersectionObserverList.push(ooo)
+                             // 总得加载完所有图片后就不执行这个lazyImg了吧，咋判断的
+                         _that.setData({
+                             [lazy_name]: data
+                         })
                      })
+                 } else {
+                     let ooo = wx.createIntersectionObserver()
+                     ooo.relativeToViewport({
+                         bottom: 20
+                     }).observe('#' + mealTypeItem + 'food' + i + j, (ret) => {
 
-                     // 我这里的 disconnect用的不对，具体哪不对，目前还不知道
-                     //  if (_that.data.lazyShowImageShowCount >= _that.data.lazyShowImageCount) {
-                     //      console.log(111)
-                     //      aa.disconnect()
-                     //  }
-                 })
+                         if (ret.intersectionRatio > 0) {
+                             data[mealTypeItem][i][j] = true
+                             console.log("&&observe---222" + mealTypeItem + '' + i + '' + j);
+                         }
+
+                         _that.data.intersectionObserverList.push(ooo)
+                             // 总得加载完所有图片后就不执行这个lazyImg了吧，咋判断的
+                         _that.setData({
+                             [lazy_name]: data
+                         })
+                     })
+                 }
              }
-
          }
      },
+
      // 点击餐时
      handleChangeMealtypeActive(e) {
+
          let mealtypeitem = e.currentTarget.dataset.mealtypeitem
          this.setData({
              mealTypeItem: mealtypeitem
@@ -146,6 +162,15 @@
                  getdataalready: false
              })
              this.getTimeDataByResponse()
+             this.data.lazyTimer = setInterval(() => {
+                 if (this.data.allMenuData[this.data.mealTypeItem]) {
+                     // 懒加载 
+                     this.lazyImg(this, this.data.lazyShowImage, 'lazyShowImage', this.data.mealTypeItem)
+
+                     clearInterval(this.data.lazyTimer)
+                 }
+             }, 1000)
+         } else {
              this.data.lazyTimer = setInterval(() => {
                  if (this.data.allMenuData[this.data.mealTypeItem]) {
                      // 懒加载 
@@ -250,7 +275,7 @@
                  _this.calculateHeight()
              }
 
-             //  _this.lazyImg(_this, _this.data.lazyShowImage, 'lazyShowImage', _this.data.mealTypeItem)
+
 
              wx.hideLoading()
          })
@@ -328,16 +353,14 @@
 
              // 应该是执行滚动才执行加载，而且不是遍历全部，是遍历出现在屏幕中的就行了呀
              // 而且在已经是true的就不需要再变为false了
-             //this.lazyImg(this, this.data.lazyShowImage, 'lazyShowImage', this.data.mealTypeItem)
+
 
              let scrollY = e.detail.scrollTop
-                 //console.log(e.detail.scrollTop)
              let listHeightLength = _this.data.listHeight.length
              for (let i = 0; i < listHeightLength; i++) {
                  let height1 = _this.data.listHeight[i]
                  let height2 = _this.data.listHeight[i + 1]; //listHeight[length]返回undefined,所以可以用!height2做判断不是最后一个
                  if (scrollY >= height1 - 1 && scrollY < height2) {
-                     //console.log('当前menutypeIndex是：',i)
                      if (i != _this.data.menutypeActiveFlag) {
                          _this.setData({
                              menutypeActiveFlag: i
@@ -909,5 +932,11 @@
      //用于解决小程序的遮罩层滚动穿透
      preventTouchMove: function() {
 
-     }
+     },
+     /* 菜品详情 */
+     handleGotoFoodDetail: function(e) {
+         wx.navigateTo({
+             url: '/pages/food/food?dateId=' + e.currentTarget.dataset.dateid,
+         })
+     },
  })

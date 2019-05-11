@@ -1,5 +1,6 @@
 <view class="mine-wrapper">
-    <view style='background-image:url("/images/mine/me_bg@2x.png");background-size:100%;'>
+    <image src="/images/mine/me_bg@2x.png" style='height:432rpx;width:100%;z-index:200;position:fixed;left:0;right:0;top:0;'></image>
+    <view style=' z-index:300;position:fixed;left:0;right:0;top:0;'>
         <view style='display:flex;padding-top:128rpx;'>
             <view style='margin:0 30rpx;width:120rpx;height:120rpx;'>
                 <image wx:if="{{userInfo.headImage}}" style='width:120rpx;height:120rpx;border-radius: 50%;' src="{{userInfo.headImage}}"></image>
@@ -26,73 +27,8 @@
             </navigator>
         </view>
     </view>
-    <!-- <view class="header-wrapper">
-        <view class="header">
-            <view class="left">
-                <image wx:if="{{userInfo.headImage}}" class="left-image" src="{{userInfo.headImage}}"></image>
-                <image wx:else class="left-image" src="/images/mine/huiyuan.png" alt=""></image>
-            </view>
-            <view class="middle">
-                <view class="middle-line1">
-                    <view class="userName">
-                        <block wx:if="{{userInfo.name}}">
-                            {{userInfo.name}}
-                        </block>
-                        <block wx:else>
-                            {{userInfo.nickName}}
-                        </block>
-                    </view>
-                    <view class="userPhone" wx:if="{{userInfo.phoneNumber}}">
-                        {{userInfo.phoneNumber}}
-                    </view>
-                </view>
-                <view class="userDes" wx:if="{{userInfo.organizeName}}">
-                    <text class='iconfont icon-qiye1' style="font-size: 30rpx;color:#666;" decode>&nbsp;</text>
-                    <text wx:if="{{userInfo.organizeName=='NGO'}}">非企业用户</text>
-                    <text wx:else>{{userInfo.organizeName}}</text>
-                </view>
-                <view class="userDes" wx:if="{{userInfo.address}}">
-                    <text class='iconfont icon-dizhi' style="font-size: 30rpx;color:#666;" decode>&nbsp;</text>
-                    <text>{{userInfo.address}}</text>
-                </view>
-            </view>
-        </view> 
-        <view wx:if="{{userInfo}}" class="offer-wrapper">
-            <navigator url="/pages/mine/wallet/wallet" class="offerItem-wrapper">
-                <view>
-                    <text class="money-1">{{userInfo.balance}}</text>
-                    <text class="money-2">元</text>
-                </view>
-                <view class='offer-title'>
-                    <text decode>余额&nbsp;</text>
-                    <text class='iconfont icon-icon_on_the_right iconfont-offertitle'></text>
-                </view>
-            </navigator>
-            <navigator url="/pages/mine/discount/discount" class="offerItem-wrapper">
-                <view>
-                    <text class="youhui-1">{{userInfo.discountSize}}</text>
-                    <text class="youhui-2">张</text>
-                </view>
-                <view class='offer-title'>
-                    <text decode>优惠券&nbsp;</text>
-                    <text class='iconfont icon-icon_on_the_right iconfont-offertitle'></text>
-                </view>
-            </navigator>
-            <navigator url="/pages/mine/integral/integral" class="offerItem-wrapper">
-                <view>
-                    <text class="point-1">{{userInfo.integral}}</text>
-                    <text class="point-2">分</text>
-                </view>
-                <view class='offer-title'>
-                    <text decode>积分&nbsp;</text>
-                    <text class='iconfont icon-icon_on_the_right iconfont-offertitle'></text>
-                </view>
-            </navigator>
-        </view>
-        <view style="height:30rpx;"></view>
-    </view> -->
 
-    <view style='margin:0 30rpx;height:220rpx;width:690rpx;' bindtap="gotoAddfood">
+    <view style='margin:432rpx 30rpx 0;height:220rpx;width:690rpx;' bindtap="gotoAddfood">
         <image src="../../images/mine/me_pic@2x.png" style="width:100%;height:220rpx;"></image>
     </view>
     <view style='background: #F5F5F5;width:100%;height:20rpx;'></view>
@@ -105,29 +41,6 @@
             <view class='label-title'>{{labelItem}}</view>
         </view>
     </view>
-    <!-- 各种标签 -->
-    <!-- <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;" class="c_scrollPosition_forCalculate">
-        <view class="label-wrapper">
-            <view class="" wx:for="{{labelList}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex">
-                <view class="label-itemwrapper {{(labelIndex==1 || labelIndex==2?'label-itemwrapper-borderbottom':'')}}" bindtap="handleClickLabel" data-labelindex="{{labelIndex}}" data-labelitem="{{labelItem}}">
-                    <text class='iconfont icon-{{labelIconArr[labelIndex]}}'></text>
-                    <text class='label-title' decode>&nbsp;&nbsp;{{labelItem}}</text>
-                    <text class='iconfont icon-icon_on_the_right iconfont-label-right'></text>
-                </view>
-                <view style="height:30rpx;background: #eee;" wx:if="{{labelIndex==0 || labelIndex==3}}"></view>
-            </view>
-        </view>
-    </scroll-view> -->
-    <!-- 客户服务 弹出 -->
-    <view class="modulebox-background-wrapper" wx:if="{{showServiceFlag}}">
-        <view class="modulebox-wrapper">
-            <view class="modulebox-img-wrapper">
-                <image class="modulebox-img" src="../../images/login/logo.png" mode="widthFix" style="width:100%;"></image>
-            </view>
-            <view class="modulebox-des">
-                欢迎来到点点餐订餐小程序
-            </view>
-            <button class="modulebox-button" open-type="getUserInfo" bindgetuserinfo="getWxUserInfo">微信授权</button>
-        </view>
-    </view>
+
+
 </view>

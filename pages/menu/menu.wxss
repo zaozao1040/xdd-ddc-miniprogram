@@ -3,6 +3,38 @@
 
 /*3.0*/
 
+.in {
+    animation-name: show;
+    animation-duration: 0.3s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+.out {
+    animation-name: fade;
+    animation-duration: 0.3s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes show {
+    from {
+        transform: translate(0, 100%);
+    }
+    to {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes fade {
+    from {
+        transform: translate(0, 0);
+    }
+    to {
+        transform: translate(0, 100%);
+    }
+}
+
 .active-day {
     font-family: PingFang-SC-Medium;
     font-size: 56rpx;

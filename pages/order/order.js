@@ -308,7 +308,7 @@ Page({
             orderModel.cancelOrder(param, (res) => {
                 console.log('收到请求(取消订单):', res)
                 if (res.code === 0) {
-                    //wx.hideLoading()
+
                     //刷新订单列表中该订单的状态值，使用setData响应式模板
                     let tmp_orderList = _this.data.orderList
                     tmp_orderList[e.currentTarget.dataset.orderindex].orderStatus = 'USER_CANCEL'
