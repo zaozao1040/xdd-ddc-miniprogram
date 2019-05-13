@@ -1,5 +1,7 @@
 import { mine } from './mine-model.js'
 let mineModel = new mine()
+import { base } from '../../comm/public/request'
+let requestModel = new base()
 
 Page({
 
@@ -19,7 +21,8 @@ Page({
         servicePhone: null,
 
         cc: 1,
-        cabNumList: [] //柜子列表，如果柜子列表为空，就不显示‘打开柜子页面’
+        cabNumList: [], //柜子列表，如果柜子列表为空，就不显示‘打开柜子页面’
+
     },
     //跳转到详细资料页面
     gotoDetailInfo() {
@@ -40,7 +43,7 @@ Page({
         let _this = this
 
         if (clickIndex == 2) { //绑定企业
-            if (wx.getStorageSync('userInfo').bindOrganized == true) {
+            if (requestModel.getUserInfo().bindOrganized == true) {
                 wx.showToast({
                     title: '已绑定过企业',
                     image: '../../images/msg/warning.png',
@@ -58,26 +61,26 @@ Page({
                 title: '获取电话中',
                 mask: true
             })
+            let param = {
+                url: '/help/getHelp'
+            }
+            requestModel.request(param, data => {
+                wx.hideLoading()
+                _this.data.servicePhone = data.contactPhone
 
-            mineModel.getServicePhoneData({}, (res) => {
-                if (res.code == 0) {
-                    wx.hideLoading()
-                    _this.data.servicePhone = res.data.contactPhone
-
-                    wx.showModal({
-                        title: '是否拨打客户电话?',
-                        content: res.data.contactPhone,
-                        confirmText: '拨打',
-                        cancelText: '返回',
-                        success(res) {
-                            if (res.confirm) {
-                                wx.makePhoneCall({
-                                    phoneNumber: _this.data.servicePhone
-                                })
-                            }
+                wx.showModal({
+                    title: '是否拨打客户电话?',
+                    content: data.contactPhone,
+                    confirmText: '拨打',
+                    cancelText: '返回',
+                    success(res) {
+                        if (res.confirm) {
+                            wx.makePhoneCall({
+                                phoneNumber: data.contactPhone
+                            })
                         }
-                    })
-                }
+                    }
+                })
             })
         } else {
             wx.navigateTo({
@@ -90,12 +93,21 @@ Page({
      */
     onLoad: function() {
         // 需要从后台再获取一次用户信息吗？
-        let tmp_userInfo = wx.getStorageSync('userInfo')
-        this.setData({
-            userInfo: tmp_userInfo
+
+        requestModel.getUserInfo(userInfo => {
+            this.setData({
+                userInfo: userInfo
+            })
+            console.log('requestModel', userInfo)
+        })
+
+    },
+    // 我要吐槽
+    gotoSaySomething() {
+        wx.navigateTo({
+            url: '/pages/mine/complaint/complaint'
         })
     },
-
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
@@ -105,13 +117,26 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-        // 如果订单状态有变化，可能会改变，余额，积分和优惠券，所以需要刷新
+        //
+        let param = {
+            url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
+        }
+        requestModel.request(param, data => {
+                this.setData({
+                    balance: data.balance,
+                    integral: data.integral,
+                    discount: data.discount
+                })
+            })
+            // 5/13 要修改
         if (wx.getStorageSync('refreshUserInfoFlag')) {
             this.onPullDownRefresh()
             wx.setStorageSync('refreshUserInfoFlag', false)
         } else {
-            this.setData({
-                userInfo: wx.getStorageSync('userInfo')
+            requestModel.getUserInfo(userInfo => {
+                this.setData({
+                    userInfo: userInfo
+                })
             })
         }
     },
@@ -141,29 +166,18 @@ Page({
         wx.login({
             success: function(res) {
                 if (res.code) {
-
                     wx.showLoading({ //【防止狂点2】
                         title: '加载中',
                         mask: true
                     })
-                    let url = '/user/getUserInfo?userCode=' + wx.getStorageSync('userInfo').userCode
-                    mineModel.getUserInfo(url, {}, (res) => {
-                        if (res.code === 0) {
-                            wx.setStorageSync('userInfo', res.data) //更新缓存的userInfo
-                            _this.setData({
-                                userInfo: res.data
-                            })
-                            wx.hideLoading() //【防止狂点3】
-                            wx.hideNavigationBarLoading();
-                            wx.stopPullDownRefresh()
-                        } else {
-                            wx.showToast({
-                                title: res.msg,
-                                icon: 'none',
-                                duration: 2000
-                            })
-                        }
-                    })
+                    _this.setData({
+                            userInfo: requestModel.getUserInfo(true)
+                        })
+                        // bug 因为是异步刷新，所以userInfo还没获取到，就hideLoading了
+                    wx.hideLoading() //【防止狂点3】
+                    wx.hideNavigationBarLoading();
+                    wx.stopPullDownRefresh()
+
                 }
             }
         })

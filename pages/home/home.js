@@ -20,7 +20,7 @@ Page({
         showCheckFlag: false, //显示审核状态框标志 默认不显示
         showUserAuthFlag: false, //显示用户授权框标志 默认不显示
         registered: false,
-        userInfo: null,
+
         imagesList: [],
         //
         homeOrderList: null, //首页取餐列表
@@ -36,7 +36,6 @@ Page({
             COMPLETED_EVALUATED: '已评价',
             NO_PICK_WAITING_BACK: '超时未取货待取回',
             USER_CANCEL: '已取消',
-            //SYSTEM_CANCEL: '系统自动取消'
             SYSTEM_CANCEL: '系统取消'
         },
         mealTypeMap: {
@@ -55,8 +54,7 @@ Page({
         //
         showLayerFlag: false, //弹出层（用于优惠券领取），默认不展示
         //
-        swiperCurrentIndex: 0, //当前轮播图active的index
-
+        swiperCurrentIndex: 0, //当前轮播图active的index 
 
         noticeData: null, //记录公告内容  
         hasNotice: false, //默认没有轮播公告
@@ -125,7 +123,7 @@ Page({
     /* 获取七天日期 */
     getTimeDataByResponse: function() {
         let _this = this
-        let tmp_userCode = wx.getStorageSync('userInfo').userCode
+        let tmp_userCode = wx.getStorageSync('userCode')
         let url = '/food/' + tmp_userCode + '/date'
         homeModel.getTimeData({}, url, function(res) { //回调获取七天列表，赋给本地timeInfo
             let resData = res
@@ -178,11 +176,11 @@ Page({
                         let duration_hour = hour > 12 ? hour - 12 : hour
 
                         let minutes = deadTime.getMinutes()
-                        let second = deadTime.getSeconds()
-                        if (minutes + second == 0) {
+                            //  let second = deadTime.getSeconds()
+                        if (minutes == 0) {
                             tmp_foodtype.deadline = dayInfo[day] + durationInfo[duration] + duration_hour + '点'
                         } else {
-                            tmp_foodtype.deadline = dayInfo[day] + durationInfo[duration] + duration_hour + '点' + minutes + '分' + second + '秒'
+                            tmp_foodtype.deadline = dayInfo[day] + durationInfo[duration] + duration_hour + '点' + minutes + '分'
                         }
 
                     }
@@ -192,8 +190,6 @@ Page({
 
                 tmp_mealTypeInfo[todaytomorrow[day]] = tmp_today
             }
-            console.log('tmp_mealTypeInfo', tmp_mealTypeInfo)
-            console.log('tmp_organizeMealTypeFlag', tmp_organizeMealTypeFlag)
 
             // 是应该放在缓存吗？还是在wx.navigate的时候，将信息添加到url中----待定
             wx.setStorageSync('mealTypeInfo', tmp_mealTypeInfo)
@@ -229,18 +225,21 @@ Page({
         } else if (flag == 'jifen') {
             url = '/pages/mine/integral/integral'
         }
-        if (wx.getStorageSync('userInfo')) {
-            if (wx.getStorageSync('userInfo').userStatus == 'NO_CHECK') {
-                wx.showToast({
-                    title: '审核中,请继续尝试',
-                    icon: 'none',
-                    duration: 2000
-                })
-            } else {
-                wx.navigateTo({
-                    url: url,
-                })
-            }
+        if (wx.getStorageSync('userCode')) {
+            requestModel.getUserInfo(userInfo => {
+                if (userInfo.userStatus == 'NO_CHECK') {
+                    wx.showToast({
+                        title: '审核中,请继续尝试',
+                        icon: 'none',
+                        duration: 2000
+                    })
+                } else {
+                    wx.navigateTo({
+                        url: url,
+                    })
+                }
+            })
+
         } else {
             wx.showToast({
                 title: '请先登录',
@@ -412,47 +411,36 @@ Page({
      */
     onShow: function() {
 
-        let tmp_userCode = wx.getStorageSync('userCode')
-
-        if (!tmp_userCode) { //未登录状态，弹出授权框，隐藏底部状态栏
+        if (!wx.getStorageSync('userCode')) { //未登录状态，弹出授权框，隐藏底部状态栏
             this.setData({
                 showUserAuthFlag: true
             })
             wx.hideTabBar()
         } else { //已登录状态，直接登录
-            // 根据上次获取userInfo的时间看要不要再次获取用户信息 
-            // TODO
-            let tmp_userInfo = wx.getStorageSync('userInfo')
-            this.setData({ //既然已经注册，就直接自动登录，即从缓存读信息
-                userInfo: tmp_userInfo
+            requestModel.getUserInfo(userInfo => {
+
+                wx.showTabBar()
+                let { userStatus, canTakeDiscount } = userInfo
+                if (userStatus == 'NO_CHECK') { //企业用户的'审核中'状态,而其他的状态无需隐藏
+                    this.setData({
+                        showCheckFlag: true
+                    })
+                    wx.hideTabBar()
+                }
+                if (canTakeDiscount == true) { //在登录状态下判断用户类型，企业用户的normal状态显示新人大礼，一般用户的登录状态显示新人大礼
+                    this.setData({
+                        showDaliFlag: true
+                    })
+                }
+
+                /* 获取首页取餐信息 */
+                this.getTakeMealInfo()
             })
-            wx.showTabBar()
-            if (tmp_userInfo.userStatus == 'NO_CHECK') { //企业用户的'审核中'状态,而其他的状态无需隐藏
-                this.setData({
-                    showCheckFlag: true
-                })
-                wx.hideTabBar()
-            }
-            if (tmp_userInfo.canTakeDiscount == true) { //在登录状态下判断用户类型，企业用户的normal状态显示新人大礼，一般用户的登录状态显示新人大礼
-                this.setData({
-                    showDaliFlag: true
-                })
-            }
 
-            /* 获取首页取餐信息 */
-            this.getTakeMealInfo()
+
         }
     },
-    // 获取用户信息
-    getUserInfo() {
-        let param = {
-            url: '/user/getUserInfo?userCode=' + wx.getStorageSync('userCode')
-        }
-        requestModel.request(param, data => {
-            wx.setStorageSync('userInfo', data)
 
-        })
-    },
     /* 获取公告信息 */
     getNotice() {
 
@@ -460,7 +448,9 @@ Page({
         let param = {
             url
         }
+
         requestModel.request(param, data => {
+                console.log('getNotice', data)
                 if (!data && data.length > 0) { //后台是在没有公告的时候返回空数组
                     let temp_noticeData = data
                     _this.setData({
@@ -484,9 +474,9 @@ Page({
                         console.log('windowNoticeStorage', windowNoticeStorage)
                         let windowNoticeCodeList = '' //本次公告的code
                         window_noticeData.forEach(item => {
-                                windowNoticeCodeList += item.noticeCode
-                            })
-                            //wx.setStorageSync("windowNoticeCodeList", '')
+                            windowNoticeCodeList += item.noticeCode
+                        })
+
                         console.log('日期', (new Date()).toLocaleDateString() + (new Date().getHours()))
                             //设置为当天第一次打开或者公告更新时在首页跳出
                         if (windowNoticeStorage != (windowNoticeCodeList + (new Date()).toLocaleDateString())) {
@@ -588,7 +578,7 @@ Page({
         }
         homeModel.getTakeMealInfo(param, (res) => {
             console.log('获取首页取餐信息后台反馈:', res)
-            if (res.code === 0) {
+            if (res.code === 0 && res.data) {
                 let tmp_homeOrderList = res.data
                 tmp_homeOrderList.forEach(element => {
                     element.mealTypeDes = _this.data.mealTypeMap[element.mealType]
@@ -631,7 +621,7 @@ Page({
             success(res) {
                 if (res.confirm) {
                     let param = {
-                        userCode: wx.getStorageSync('userInfo').userCode,
+                        userCode: wx.getStorageSync('userCode'),
                         orderCode: e.currentTarget.dataset.ordercode
                     }
                     wx.showLoading({ //【防止狂点2】
@@ -697,7 +687,7 @@ Page({
     getNewUserGift: function() {
         let _this = this
         let param = {
-            userCode: wx.getStorageSync('userInfo').userCode
+            userCode: wx.getStorageSync('userCode')
         }
         homeModel.getNewUserGift(param, (res) => {
             console.log('获取新人礼包后台反馈:', res)
@@ -741,10 +731,10 @@ Page({
         wx.login({
             success: function(res) {
                 if (res.code) {
-                    if (wx.getStorageSync('userInfo')) { //已经登录
+                    if (wx.getStorageSync('userCode')) { //已经登录
                         let param = {
                             code: res.code, //微信code
-                            userCode: wx.getStorageSync('userInfo').userCode
+                            userCode: wx.getStorageSync('userCode')
                         }
                         mineModel.getMineData(param, (res) => { //刷新用户信息后再跳转到首页
                             if (res.code == 0) {

@@ -2,6 +2,8 @@
 
 import { mine } from '../mine-model.js'
 let mineModel = new mine()
+import { base } from '../../../comm/public/request'
+let requestModel = new base()
 Page({
 
     /**
@@ -15,12 +17,6 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-
-        let tmp_userInfo = wx.getStorageSync('userInfo')
-        this.setData({
-            userInfo: tmp_userInfo
-        })
-        console.log('userInfo', tmp_userInfo)
         let _this = this
         wx.getSystemInfo({
             success(res) {
@@ -29,6 +25,17 @@ Page({
                 })
 
             }
+        })
+        _this.getUserDetailInfo()
+    },
+    getUserDetailInfo() {
+        let param = {
+            url: '/user/getUserDetailInfo?userCode=' + wx.getStorageSync('userCode')
+        }
+        requestModel.request(param, data => {
+            this.setData({
+                userInfo: data
+            })
         })
     },
     // 注销账户 
@@ -53,31 +60,24 @@ Page({
             content: _this.data.orgAdmin ? '您确定要从企业管理员切换为普通用户吗?' : '您确定要从普通用户切换为企业管理员吗?',
             success(res) {
                 if (res.confirm) {
-                    let tmp_userInfo = wx.getStorageSync('userInfo')
                     let param = {
-                        userCode: tmp_userInfo.userCode
+                        url: '/user/orgAdminChange',
+                        method: 'post',
+                        data: {
+                            userCode: wx.getStorageSync('userCode')
+                        }
                     }
 
-                    mineModel.changeUserRole(param, (res) => {
-                        if (res.code == 0) { //0表示成功 
-                            let tmp_orgAdmin = _this.data.orgAdmin
-                            tmp_userInfo.orgAdmin = !tmp_orgAdmin
-                            wx.setStorageSync('userInfo', tmp_userInfo)
-                            _this.setData({
-                                orgAdmin: tmp_userInfo.orgAdmin
-                            })
-                            wx.showToast({
-                                title: '切换成功',
-                                icon: 'none',
-                                duration: 2000
-                            })
-                        } else {
-                            wx.showToast({
-                                title: res.msg,
-                                icon: 'none',
-                                duration: 2000
-                            })
-                        }
+                    requestModel.request(param, () => {
+                        _this.data.userInfo.orgAdmin = !_this.data.userInfo.orgAdmin
+                        _this.setData({
+                            userInfo: _this.data.userInfo
+                        })
+                        wx.showToast({
+                            title: '切换成功',
+                            icon: 'none',
+                            duration: 2000
+                        })
                     })
                 }
             }

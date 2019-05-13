@@ -1,79 +1,89 @@
-
-
 .section-3 {
-  border: 1rpx solid #bbbbbb;
-  height: 100rpx;
-  display: flex;
-  border-radius: 10rpx;
-  background-color: #FFF;
-  align-items: center;
-  margin-top: 10rpx;
+    border: 1rpx solid #bbbbbb;
+    height: 100rpx;
+    display: flex;
+    border-radius: 10rpx;
+    background-color: #FFF;
+    align-items: center;
+    margin-top: 10rpx;
 }
-.section-3-empty{
-  border: 1rpx solid #F56C6C;
+
+.section-3-empty {
+    border: 1rpx solid #F56C6C;
 }
+
 .section-3-1 {
-  width: 96rpx;
-  height: 100%;
-  border-right: 1rpx solid #e0e0e0;
+    width: 96rpx;
+    height: 100%;
+    border-right: 1rpx solid #e0e0e0;
 }
 
 .section-3-2 {
-  flex: 1;
-  align-items: center;
-  padding: 0 10rpx;
-  font-size: 30rpx;
-  font-family: "微软雅黑","华文细黑",Arial,Helvetica,sans-serif;
+    flex: 1;
+    align-items: center;
+    padding: 0 10rpx;
+    font-size: 30rpx;
+    font-family: "微软雅黑", "华文细黑", Arial, Helvetica, sans-serif;
 }
 
+
 /* 企业选择 */
-.address-wrapper{
-  background: #eee;
-  padding: 10rpx 20rpx;
-  position: fixed;
-  top:0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+
+.address-wrapper {
+    background: #eee;
+    padding: 10rpx 20rpx;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
-.addressList-wrapper{
-  background: #FFF;
-  margin-top: 10rpx;
+
+.addressList-wrapper {
+    background: #FFF;
+    margin-top: 10rpx;
 }
-.addressItem-wrapper{
-  margin: 10rpx 20rpx;
-  border-bottom: 1rpx solid #ddd;
+
+.addressItem-wrapper {
+    margin: 10rpx 20rpx;
+    border-bottom: 1rpx solid #ddd;
 }
-.address{
-  font-size:40rpx;
-  color:#222;
-  font-weight: 500;  
+
+.address {
+    font-size: 40rpx;
+    color: #222;
+    font-weight: 500;
+    padding: 20rpx 10rpx;
 }
-.contactName{
-  font-size:30rpx;
-  color:#666;
-  font-weight: 400;
+
+.contactName {
+    font-size: 30rpx;
+    color: #666;
+    font-weight: 400;
 }
-.contactPhone{
-  float:right;
-  font-size:30rpx;
-  color:#666;
-  font-weight: 400;
+
+.contactPhone {
+    float: right;
+    font-size: 30rpx;
+    color: #666;
+    font-weight: 400;
 }
-.noResult{
-  padding:10rpx 20rpx;
-  font-size: 40rpx;
-  color:#666;
+
+.noResult {
+    padding: 10rpx 20rpx;
+    font-size: 40rpx;
+    color: #666;
 }
+
 .button {
-  width: 100%;
-  margin-top: 25rpx;
-  height: 100rpx;
-  text-align: center;
-  background-color: #e79b37;
-  border-radius: 15rpx;
-  line-height: 100rpx;
-  color: #FFF;
-  font-weight: bold;
-  font-size: 36rpx;
+    width: 100%;
+    margin-top: 25rpx;
+    height: 100rpx;
+    text-align: center;
+    background-color: #e79b37;
+    border-radius: 15rpx;
+    line-height: 100rpx;
+    color: #FFF;
+    font-weight: bold;
+    font-size: 36rpx;
 }

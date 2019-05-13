@@ -2,52 +2,57 @@ const baseUrl = getApp().globalData.baseUrl
 
 class base {
     request(params, sCallback) {
-        wx.request({
-            url: baseUrl + params.url,
-            data: params.data || {}, //这个是不是可以传null或者undefined？
-            method: params.method || 'GET',
-            header: {
-                'content-type': 'application/json'
-            },
-            success: result => {
-                let { data, code } = result.data
-                    // 成功
-                if (code == 200) {
-                    sCallback && sCallback(data);
-                } else if (code == 1001) {
-                    //清除缓存，同时：
-                    //销毁所有页面后跳转到首页，销毁页面是为了防止个人用户登录后再次换绑企业可以点击订单导航，而导航栏应该隐藏才对
-                    wx.removeStorageSync('userInfo')
-                    wx.reLaunch({
-                        url: '/pages/home/home',
-                    })
+            wx.request({
+                url: baseUrl + params.url,
+                data: params.data || {}, //这个是不是可以传null或者undefined？
+                method: params.method || 'GET',
+                header: {
+                    'content-type': 'application/json'
+                },
+                success: result => {
+                    let { data, code } = result.data
+                        // 成功
+                    if (code == 200) {
+                        sCallback && sCallback(data);
+                    } else if (code == 1001) {
+                        //清除缓存，同时：
+                        //销毁所有页面后跳转到首页，销毁页面是为了防止个人用户登录后再次换绑企业可以点击订单导航，而导航栏应该隐藏才对
+                        wx.removeStorageSync('userInfo')
+                        wx.reLaunch({
+                            url: '/pages/home/home',
+                        })
+                    }
+                },
+                fail: error => {
+                    console.log(error)
                 }
-
-            },
-            fail: error => {
-                console.log(error)
-            }
-        });
-    }
-
-    // 获取用户信息
-    getUserInfo() {
+            });
+        }
+        // 获取用户信息
+    getUserInfo(sCallback, pullDown) {
         let { userInfo, time } = wx.getStorageSync('userInfo')
+        let duration = undefined
+
+        if (time) {
             // 如果上次获取时间超过30分钟，就再次拉取
-        let duration = ((new Date()).getTime() - time.getTime()) / 60000 > 30
-        if (duration) {
+            duration = ((new Date()).getTime() - (new Date(time)).getTime()) / 60000 > 30
+        }
+
+
+        if (!time || duration || pullDown) {
             let param = {
-                url: 'user/getUserInfo?userCode=' + wx.getStorageSync('userCode')
+                url: '/user/getUserInfo?userCode=' + wx.getStorageSync('userCode')
             }
+
             this.request(param, data => {
                 let userInfo = {}
                 userInfo.userInfo = data
                 userInfo.time = new Date()
                 wx.setStorageSync('userInfo', userInfo)
+                sCallback && sCallback(data);
             })
-            return data
         } else {
-            return userInfo
+            sCallback && sCallback(userInfo);
         }
     }
 

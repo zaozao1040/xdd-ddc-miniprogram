@@ -1,24 +1,24 @@
 <!--pages/mine/phone/phone.wxml-->
 
 <view class="login-container">
-  <view class="section-3">
-    <view class="section-3-1" style="text-align: center;display: table;">
-      <view style="display: table-cell;vertical-align: middle;">
-        <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-shouji'></text>
-      </view>
+    <view class="section-3">
+        <view class="section-3-1" style="text-align: center;display: table;">
+            <view style="display: table-cell;vertical-align: middle;">
+                <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-shouji'></text>
+            </view>
+        </view>
+        <input bindinput="phoneInput" class="section-3-2" maxlength="11" placeholder="请输入新的手机号" type="number"></input>
     </view>
-    <input bindinput="phoneInput" class="section-3-2" maxlength="11" placeholder="请输入新的手机号" type="number"></input>
-  </view>
-  <view class="section-3">
-    <view class="section-3-1" style="text-align: center;display: table;">
-      <view style="display: table-cell;vertical-align: middle;">
-        <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-mimayanzhengma'></text>
-      </view>
+    <view class="section-3">
+        <view class="section-3-1" style="text-align: center;display: table;">
+            <view style="display: table-cell;vertical-align: middle;">
+                <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-mimayanzhengma'></text>
+            </view>
+        </view>
+        <input bindinput="codeInput" class="section-3-2" placeholder="请输入短信验证码" type="number"></input>
+        <view catchtap="sendCode" class="rg-section-v5" wx:if="{{firstCode}}">获取验证码</view>
+        <view class="rg-section-v5 rg-section-v6" wx:if="{{waitTime>0}}">{{waitTime}}s</view>
+        <view catchtap="sendCode" class="rg-section-v5" wx:if="{{waitTime==0}}">重新发送</view>
     </view>
-    <input bindinput="codeInput" class="section-3-2" placeholder="请输入短信验证码" type="number"></input>
-    <view catchtap="sendCode" class="rg-section-v5" wx:if="{{firstCode}}">获取验证码</view>
-    <view class="rg-section-v5 rg-section-v6" wx:if="{{waitTime>0}}">{{waitTime}}s</view>
-    <view catchtap="sendCode" class="rg-section-v5" wx:if="{{waitTime==0}}">重新发送</view>
-  </view>
-  <button catchtap="changePhone" loading="{{loading}}" class="section-4">验证后绑定新手机号</button>
+    <button catchtap="changePhone" loading="{{loading}}" class="section-4">验证后绑定新手机号</button>
 </view>

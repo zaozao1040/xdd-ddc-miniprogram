@@ -242,7 +242,7 @@ Page({
         let param = {
             arrangeDate: this.data.timeInfo[activeDayIndex].mealDate,
             mealType: tmp_mealTypeItem,
-            userCode: wx.getStorageSync('userInfo').userCode,
+            userCode: wx.getStorageSync('userCode'),
         }
         let _this = this
         menuModel.getMenuData(param, function(res) { //获取加餐所有信息

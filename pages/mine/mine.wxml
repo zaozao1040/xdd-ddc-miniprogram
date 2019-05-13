@@ -1,26 +1,26 @@
 <view class="mine-wrapper">
     <image src="/images/mine/me_bg@2x.png" style='height:432rpx;width:100%;z-index:200;position:fixed;left:0;right:0;top:0;'></image>
-    <view style=' z-index:300;position:fixed;left:0;right:0;top:0;'>
+    <view style='z-index:300;position:fixed;left:0;right:0;top:0;'>
         <view style='display:flex;padding-top:128rpx;'>
             <view style='margin:0 30rpx;width:120rpx;height:120rpx;'>
                 <image wx:if="{{userInfo.headImage}}" style='width:120rpx;height:120rpx;border-radius: 50%;' src="{{userInfo.headImage}}"></image>
                 <image wx:else style='width:120rpx;height:120rpx;' src="/images/mine/huiyuan.png" alt=""></image>
             </view>
-            <view class='name' catchtap='gotoDetailInfo'> {{userInfo.name}}</view>
+            <view class='name' catchtap='gotoDetailInfo'> {{userInfo.userName}}</view>
         </view>
         <view wx:if="{{userInfo}}" style='display:flex;padding:40rpx 0 60rpx;'>
             <!-- 钱包 优惠券 积分 -->
-            <navigator url="/pages/mine/wallet/wallet" class="offerItem-wrapper">
-                <view class='offer-num'> {{userInfo.balance}} </view>
+            <navigator url="/pages/mine/wallet/wallet?balance={{balance}}" class="offerItem-wrapper">
+                <view class='offer-num'> {{balance}} </view>
                 <view class='offer-title'> 余额 </view>
             </navigator>
             <navigator url="/pages/mine/discount/discount" class="offerItem-wrapper">
-                <view class='offer-num'> {{userInfo.discountSize}} </view>
+                <view class='offer-num'> {{discount}} </view>
                 <view class='offer-title'> 优惠券
                 </view>
             </navigator>
             <navigator url="/pages/mine/integral/integral" class="offerItem-wrapper">
-                <view class='offer-num'> {{userInfo.integral}}
+                <view class='offer-num'> {{integral}}
                 </view>
                 <view class='offer-title'> 积分
                 </view>
@@ -41,6 +41,13 @@
             <view class='label-title'>{{labelItem}}</view>
         </view>
     </view>
-
+    <view style='display:flex;margin:40rpx;justify-content: space-between;'>
+        <view bindtap="gotoSaySomething">
+            <view style="margin-left:12rpx;width:88rpx;height:88rpx;margin-bottom:10rpx;">
+                <image src="../../images/mine/me_swap@2x.png" style='width:88rpx;height:88rpx;'></image>
+            </view>
+            <view class='label-title'>我要吐槽</view>
+        </view>
+    </view>
 
 </view>

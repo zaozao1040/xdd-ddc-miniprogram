@@ -6,7 +6,7 @@
                 <image wx:if="{{userInfo.headImage}}" style='width:160rpx;height:160rpx;border-radius: 50%;' src="{{userInfo.headImage}}"></image>
                 <image wx:else style='width:160rpx;height:160rpx;' src="/images/mine/huiyuan.png" alt=""></image>
             </view>
-            <view class="org" bindtap="changeRole" wx:if='{{userInfo.canExchangeOrgAdmin}}'>
+            <view class="org" bindtap="changeRole" wx:if='{{userInfo.userType=="ORG_ADMIN"}}'>
                 <text wx:if="{{userInfo.orgAdmin}}">切换为"企业员工"</text>
                 <text wx:else>切换为"企业管理员"</text>
             </view>
@@ -17,7 +17,7 @@
         <view style="padding:30rpx 30rpx 40rpx;background:#fff;border-radius: 6rpx;">
             <view style='display:flex;justify-content: space-between;margin-bottom:40rpx;'>
                 <view class='title'>身份</view>
-                <view class='info' wx:if="userInfo.orgAdmin">企业管理员</view>
+                <view class='info' wx:if="{{userInfo.orgAdmin==true}}">企业管理员</view>
                 <view class='info' wx:else>企业员工</view>
             </view>
             <view style='display:flex;justify-content: space-between;margin-bottom:40rpx;'>
@@ -27,11 +27,11 @@
             </view>
             <view style='display:flex;justify-content: space-between;;'>
                 <view class='title'>地址</view>
-                <view class='info'>{{userInfo.address}}</view>
+                <view class='info'>{{userInfo.defaultDeliveryAddress}}</view>
             </view>
         </view>
     </view>
-    <view style='margin:16rpx;padding:30rpx;background:#fff;border-radius: 6rpx;display: flex;justify-content: space-between;' wx:if='{{userInfo.canExchangeOrgAdmin}}'>
+    <view style='margin:16rpx;padding:30rpx;background:#fff;border-radius: 6rpx;display: flex;justify-content: space-between;' wx:if='{{userInfo.userType=="ORG_ADMIN"&&userInfo.orgAdmin==true}}'>
         <view class='org-addfood' bindtap="gotoAddfood">
             <image src="/images/mine/data_meal@2x.png" class='org-addfood'></image>
         </view>
