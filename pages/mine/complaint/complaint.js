@@ -3,10 +3,6 @@
 import { base } from '../../../comm/public/request'
 let requestModel = new base()
 Page({
-
-    /**
-     * 页面的初始数据
-     */
     data: {
         windowHeight: 200,
         value: '', //吐槽的内容
@@ -35,20 +31,14 @@ Page({
             param.userCode = wx.getStorageSync('userCode')
             param.content = _this.data.value
 
-            wx.showLoading({
-                title: '吐槽中'
-            })
-
             let url = '/help/suggestion'
             let params = {
-                    data: param,
-                    url,
-                    method: 'post'
-                }
-                // 5/13 这样的话，如果失败，就没有执行hideLoading了
-            requestModel.request(params, () => {
+                data: param,
+                url,
+                method: 'post'
+            }
 
-                wx.hideLoading()
+            requestModel.request(params, () => {
                 wx.showToast({
                     title: '吐槽完成',
                     icon: 'success',

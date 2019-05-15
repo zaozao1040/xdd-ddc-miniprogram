@@ -19,7 +19,7 @@
                 <view class='offer-title'> 优惠券
                 </view>
             </navigator>
-            <navigator url="/pages/mine/integral/integral" class="offerItem-wrapper">
+            <navigator url="/pages/mine/integral/integral?integral={{integral}}" class="offerItem-wrapper">
                 <view class='offer-num'> {{integral}}
                 </view>
                 <view class='offer-title'> 积分
@@ -44,7 +44,7 @@
     <view style='display:flex;margin:40rpx;justify-content: space-between;'>
         <view bindtap="gotoSaySomething">
             <view style="margin-left:12rpx;width:88rpx;height:88rpx;margin-bottom:10rpx;">
-                <image src="../../images/mine/me_swap@2x.png" style='width:88rpx;height:88rpx;'></image>
+                <image src="../../images/mine/me_complaint@2x.png" style='width:88rpx;height:88rpx;'></image>
             </view>
             <view class='label-title'>我要吐槽</view>
         </view>

@@ -1,3 +1,4 @@
 {
-    "navigationBarTitleText": "补餐"
+    "navigationBarTitleText": "报餐",
+    "enablePullDownRefresh": true
 }

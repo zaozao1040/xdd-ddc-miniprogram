@@ -1,5 +1,5 @@
-import { login } from '../login-model.js'
-let loginModel = new login()
+import { base } from '../../../comm/public/request'
+let requestModel = new base()
 Page({
 
     /**
@@ -27,7 +27,10 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-        if (wx.getStorageSync('userInfo')) { //已登录状态，则直接弹出模态框去选择是否绑定企业
+        //已登录状态，则直接弹出模态框去选择是否绑定企业
+        // 5/14 有啥用啊？又不会在已有userCode的时候跳转到selectPhone页面
+        // 5/14 有啥用啊？又不会在已有userCode的时候跳转到selectPhone页面
+        if (wx.getStorageSync('userCode')) {
             this.chooseBindOrganize()
         }
         wx.checkSession({
@@ -64,12 +67,10 @@ Page({
     },
     getPhoneNumber(e) {
         var _this = this
-        console.log('getPhoneNumber--e:', e)
 
         if (e.detail.iv) { //这个字段存在 代表用户选择了“授权”
             wx.login({ //调用微信login接口，获取code，然后根据code获取是否是新用户
                 success: function(res) {
-                    console.log('getPhoneNumber--login', res)
                     if (res.code) {
                         let wxCode = res.code
                         let param = {
@@ -84,41 +85,27 @@ Page({
                                 sex: wx.getStorageSync('getWxUserInfo').gender
                             }
                         }
-                        _this.setData({ //【防止狂点1】
-                            loading: true
-                        })
-                        wx.showLoading({ //【防止狂点2】
-                            title: '加载中',
-                            mask: true
-                        })
-                        loginModel.login(param, (res) => {
-                            console.log('收到请求(登录):', res)
-                            wx.hideLoading() //【防止狂点3】
-                            if (res.code === 200) {
-                                // 
-                                wx.setStorageSync('userCode', res.data.userCode)
-                                if (res.data.newUser == true) { //新用户 弹出是否绑定企业的模态框
-                                    _this.chooseBindOrganize()
-                                } else { //老用户 直接进入home页面
-                                    wx.switchTab({
-                                        url: '/pages/home/home',
-                                    })
-                                    wx.showToast({
-                                        title: '登录成功',
-                                        image: '../../../images/msg/success.png',
-                                        duration: 2000
-                                    })
-                                }
-                            } else {
+
+                        let params = {
+                            data: param,
+                            url: '/login/wechatLogin',
+                            method: 'post'
+                        }
+                        requestModel.request(params, (data) => {
+                            wx.setStorageSync('userCode', data.userCode)
+                            if (data.newUser == true) { //新用户 弹出是否绑定企业的模态框 TODO 5/14
+                                _this.chooseBindOrganize()
+                            } else { //老用户 直接进入home页面
+                                wx.switchTab({
+                                    url: '/pages/home/home',
+                                })
                                 wx.showToast({
-                                    title: res.msg,
-                                    icon: 'none',
+                                    title: '登录成功',
+                                    image: '../../../images/msg/success.png',
                                     duration: 2000
                                 })
-                                _this.setData({
-                                    loading: false
-                                })
                             }
+
                         })
                     }
                 }

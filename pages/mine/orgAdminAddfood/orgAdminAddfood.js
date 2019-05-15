@@ -1,12 +1,12 @@
-import { addfood } from './orgAdminAddfood-model.js'
-let addfoodModel = new addfood()
+import { base } from '../../../comm/public/request'
+let requestModel = new base()
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        value: '',
+        value: 0,
         date: '',
         mealType: '',
         mealTypeNameList: {
@@ -17,9 +17,10 @@ Page({
         },
         list: [],
         userCode: '',
-        number: 0,
+        quantity: 0,
         canadd: true,
-        dateLine: ''
+        hasdata: false,
+        hasalready: false
     },
 
     /**
@@ -27,69 +28,73 @@ Page({
      */
     onLoad: function() {
         this.setData({
-            userCode: wx.getStorageSync('userInfo').userCode
+            userCode: wx.getStorageSync('userCode')
         })
 
         this.getAddfoodData()
     },
     getAddfoodData() {
-        wx.showLoading({
-            title: '加载中'
-        })
+
         let _this = this
-        let userCode = _this.data.userCode
-        let url = '/orgadmin/supplementary/' + userCode + '/records'
-        addfoodModel.goperateWithUrl({}, url, 'get', (res) => {
-            if (res.code == 0) {
-                let tmp_data = res.data
-                _this.setData({
-                    date: tmp_data.date,
-                    mealType: tmp_data.mealType,
-                    list: tmp_data.list,
-                    number: tmp_data.numbers,
-                    canadd: true,
-                    dateLine: tmp_data.dateline
-                })
-                wx.hideLoading()
-            } else {
-                _this.setData({
-                    canadd: false,
-                    message: res.msg
-                })
-                wx.hideLoading()
+        let param = {
+            url: '/admin/getOrderSupplement?userCode=' + _this.data.userCode
+        }
+
+        requestModel.request(param, (data) => {
+
+            _this.setData({
+                date: data.mealDate,
+                mealType: data.mealType,
+                canadd: data.add,
+                hasdata: data.has,
+                endTime: data.endTime,
+                lunchEndTime: data.lunchEndTime,
+                dinnerEndTime: data.dinnerEndTime,
+                list: data.orderSupplementaryRecord,
+                quantity: data.quantity,
+                value: data.quantity ? data.quantity : 0,
+                supplementCode: data.supplementCode
+            })
+
+            _this.setData({
+                hasalready: true
+            })
+
+            if (_this.data.pull) {
+                wx.stopPullDownRefresh()
+                _this.data.pull = false
             }
         })
     },
     increaseFood() {
-        if (this.data.value == '') {
+        console.log('this.data.value', this.data.value)
+        if (!this.data.value & this.data.value != 0) {
             wx.showToast({
                 title: '请输入份数',
                 icon: 'none'
             })
         } else {
             let param = {
-                adminCode: this.data.userCode,
-                localDate: this.data.date,
+                userCode: this.data.userCode,
+                mealDate: this.data.date,
                 mealType: this.data.mealType,
-                foodQuantity: this.data.value
+                foodQuantity: this.data.value,
+                supplementCode: this.data.supplementCode
+            }
+            let params = {
+                data: param,
+                url: '/admin/updateOrderSupplement',
+                method: 'post'
             }
             let _this = this
-            addfoodModel.increaseFood(param, (res) => {
+            requestModel.request(params, () => {
+                _this.getAddfoodData()
+                wx.showToast({
+                    title: '报餐成功',
+                    icon: 'success',
+                    duration: 2000
+                })
 
-                if (res.code == 0) {
-                    _this.getAddfoodData()
-                    wx.showToast({
-                        title: '新增成功',
-                        icon: 'success',
-                        duration: 2000
-                    })
-                } else {
-                    wx.showToast({
-                        title: res.msg,
-                        icon: 'none',
-                        duration: 2000
-                    })
-                }
             })
         }
     },
@@ -97,86 +102,40 @@ Page({
         console.log(event.detail)
 
         let tmp_value = event.detail.value
-            // if (tmp_value == '') {
-            //     wx.showToast({
-            //         title: '最少一份',
-            //         icon: 'none',
-            //         duration: 2000
-            //     })
-            //     tmp_value = 1
+        if (tmp_value == '') {
 
-        // } else if (parseInt(tmp_value) == 0) {
-        //     wx.showToast({
-        //         title: '最少一份',
-        //         icon: 'none',
-        //         duration: 2000
-        //     })
-        //     tmp_value = 1
-        // }
-        // tmp_value = parseInt(tmp_value)
+            tmp_value = 0
+        }
+        tmp_value = parseInt(tmp_value)
+        if (tmp_value > 1000) {
+            tmp_value = 0
+            wx.showToast({
+                title: '不能超过1000份',
+                icon: 'none'
+            })
+        }
         this.setData({
             value: tmp_value
         })
     },
-    editInputNum(e) {
-        console.log(e)
-        let index = e.currentTarget.dataset.index
-        let tmp_value = e.detail.value
-        if (tmp_value == '') {
-            wx.showToast({
-                title: '最少一份',
-                icon: 'none',
-                duration: 2000
+    minus() {
+        if (this.data.value > 0) {
+            this.setData({
+                value: this.data.value - 1
             })
-            tmp_value = 1
-
-        } else if (parseInt(tmp_value) == 0) {
-            wx.showToast({
-                title: '最少一份',
-                icon: 'none',
-                duration: 2000
-            })
-            tmp_value = 1
         }
-
-        let tmp_list = this.data.list
-        tmp_list[index].foodQuantity = tmp_value
-        this.setData({
-            list: tmp_list
-        })
-
     },
-    editOneItem(e) {
-        let userCode = this.data.userCode
-        let foodQuantity = e.currentTarget.dataset.quantity
-        let supplementCode = e.currentTarget.dataset.supplementcode
-        let url = '/orgadmin/' + userCode + '/' + supplementCode + '/supplementary/' + foodQuantity
-        addfoodModel.goperateWithUrl({}, url, 'put', (res) => {
-            if (res.code == 0) {
-                wx.showToast({
-                    title: '修改成功',
-                    icon: 'success',
-                    duration: 2000
-                })
-            }
-        })
-    },
-
-    deleteOneItem(e) {
-        let userCode = this.data.userCode
-        let supplementCode = e.currentTarget.dataset.supplementcode
-        let url = '/orgadmin/' + userCode + '/' + supplementCode + '/supplementary'
-        let _this = this
-        addfoodModel.goperateWithUrl({}, url, 'delete', (res) => {
-            if (res.code == 0) {
-                _this.getAddfoodData()
-                wx.showToast({
-                    title: '删除成功',
-                    icon: 'success',
-                    duration: 2000
-                })
-            }
-        })
+    add() {
+        if (this.data.value < 1000) {
+            this.setData({
+                value: this.data.value + 1
+            })
+        } else {
+            wx.showToast({
+                title: '不能超过1000份',
+                icon: 'none'
+            })
+        }
     },
     /**
      * 生命周期函数--监听页面初次渲染完成
@@ -210,7 +169,8 @@ Page({
      * 页面相关事件处理函数--监听用户下拉动作
      */
     onPullDownRefresh: function() {
-
+        this.data.pull = true
+        this.getAddfoodData()
     },
 
     /**

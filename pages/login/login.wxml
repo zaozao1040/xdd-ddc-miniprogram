@@ -1,4 +1,3 @@
-<!--pages/register/register.wxml-->
 <view class="login-container">
     <image class='section-1' src="../../images/login/icon-avatar.png" style="width: 134rpx;height: 134rpx;margin:30rpx auto;"></image>
     <view class="section-2" style="background: url('../../images/login/icon-star2.png') no-repeat center center;background-size: 363rpx 23rpx;">

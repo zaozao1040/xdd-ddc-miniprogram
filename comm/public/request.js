@@ -2,6 +2,9 @@ const baseUrl = getApp().globalData.baseUrl
 
 class base {
     request(params, sCallback) {
+            wx.showLoading({
+                title: '正在加载'
+            })
             wx.request({
                 url: baseUrl + params.url,
                 data: params.data || {}, //这个是不是可以传null或者undefined？
@@ -25,6 +28,9 @@ class base {
                 },
                 fail: error => {
                     console.log(error)
+                },
+                complete: () => {
+                    wx.hideLoading()
                 }
             });
         }
@@ -50,6 +56,7 @@ class base {
                 userInfo.time = new Date()
                 wx.setStorageSync('userInfo', userInfo)
                 sCallback && sCallback(data);
+
             })
         } else {
             sCallback && sCallback(userInfo);

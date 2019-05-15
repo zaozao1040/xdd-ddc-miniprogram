@@ -571,7 +571,8 @@ Page({
                 })
                 canAddFlag = false
             }
-            if (tmpstock.stockLeftNum && tmpfoodCount >= tempstock.stockLeftNum) {
+            // 要记住 if(0) 为false
+            else if ((tmpstock.stockLeftNum || tmpstock.stockLeftNum == 0) && tmpfoodCount >= tempstock.stockLeftNum) {
                 wx.showToast({
                     title: '库存不足',
                     image: '../../../images/msg/error.png',

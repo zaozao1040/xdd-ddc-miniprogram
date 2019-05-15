@@ -1,14 +1,6 @@
-// pages/mine/information/information.js
-
-import { mine } from '../mine-model.js'
-let mineModel = new mine()
 import { base } from '../../../comm/public/request'
 let requestModel = new base()
 Page({
-
-    /**
-     * 页面的初始数据
-     */
     data: {
 
     },

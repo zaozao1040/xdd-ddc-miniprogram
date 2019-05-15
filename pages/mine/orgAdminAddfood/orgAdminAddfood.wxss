@@ -1,1 +1,24 @@
 /* pages/mine/orgAdminAddfood/orgAdminAddfood.wxss */
+
+.value-empty {
+    margin-top: 40rpx;
+    font-family: PingFang-SC-Regular;
+    font-size: 40rpx;
+    color: #CCCCCC;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 60rpx;
+    height: 60rpx;
+}
+
+.value-number {
+    margin: 30rpx 0 0;
+    font-size: 56rpx;
+    color: #F79C4C;
+    letter-spacing: 0;
+    text-align: center;
+    height: 80rpx;
+    border: 2rpx solid #ccc;
+    display: flex;
+    border-radius: 8rpx;
+}

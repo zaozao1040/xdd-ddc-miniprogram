@@ -1,181 +1,168 @@
 {
-	"description": "项目配置文件",
-	"packOptions": {
-		"ignore": []
-	},
-	"setting": {
-		"urlCheck": false,
-		"es6": true,
-		"postcss": true,
-		"minified": true,
-		"newFeature": true,
-		"autoAudits": false
-	},
-	"compileType": "miniprogram",
-	"libVersion": "2.4.0",
-	"appid": "wx47b750121e8288c1",
-	"projectname": "xddWX",
-	"debugOptions": {
-		"hidedInDevtools": []
-	},
-	"isGameTourist": false,
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
-	"condition": {
-		"search": {
-			"current": -1,
-			"list": []
-		},
-		"conversation": {
-			"current": -1,
-			"list": []
-		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
-		"game": {
-			"currentL": -1,
-			"list": []
-		},
-		"miniprogram": {
-			"current": 21,
-			"list": [
-				{
-					"id": -1,
-					"name": "login",
-					"pathName": "pages/login/login",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "home",
-					"pathName": "pages/home/home",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "menu",
-					"pathName": "pages/menu/menu",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "order",
-					"pathName": "pages/order/order",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "mine",
-					"pathName": "pages/mine/mine",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "register",
-					"pathName": "pages/register/register",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "phone",
-					"pathName": "pages/mine/phone/phone",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "organize",
-					"pathName": "pages/mine/organize/organize",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "wallet",
-					"pathName": "pages/mine/wallet/wallet",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "address",
-					"pathName": "pages/mine/address/address",
-					"query": ""
-				},
-				{
-					"id": 13,
-					"name": "confirm",
-					"pathName": "pages/menu/confirm/confirm",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "food",
-					"pathName": "pages/food/food",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "evaluate",
-					"pathName": "pages/evaluate/evaluate",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "order-list",
-					"pathName": "pages/order-list/order-list",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "mine-service",
-					"pathName": "pages/mine/service/service",
-					"query": ""
-				},
-				{
-					"id": 15,
-					"name": "mine-integral",
-					"pathName": "pages/mine/integral/integral",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "order-detail",
-					"pathName": "pages/order/detail",
-					"query": ""
-				},
-				{
-					"id": 17,
-					"name": "login-selectPhone",
-					"pathName": "pages/login/selectPhone/selectPhone",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "login-page2",
-					"pathName": "pages/login/page2/page2",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "order-detail",
-					"pathName": "pages/order/detail",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "mine-discount",
-					"pathName": "pages/mine/discount/discount",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "预约今天",
-					"pathName": "pages/menu/today/today",
-					"scene": null
-				}
-			]
-		}
-	}
+    "description": "项目配置文件",
+    "packOptions": {
+        "ignore": []
+    },
+    "setting": {
+        "urlCheck": false,
+        "es6": true,
+        "postcss": true,
+        "minified": true,
+        "newFeature": true,
+        "autoAudits": false
+    },
+    "compileType": "miniprogram",
+    "libVersion": "2.4.0",
+    "appid": "wx47b750121e8288c1",
+    "projectname": "xddWX",
+    "debugOptions": {
+        "hidedInDevtools": []
+    },
+    "isGameTourist": false,
+    "simulatorType": "wechat",
+    "simulatorPluginLibVersion": {},
+    "condition": {
+        "search": {
+            "current": -1,
+            "list": []
+        },
+        "conversation": {
+            "current": -1,
+            "list": []
+        },
+        "plugin": {
+            "current": -1,
+            "list": []
+        },
+        "game": {
+            "currentL": -1,
+            "list": []
+        },
+        "miniprogram": {
+            "current": 21,
+            "list": [{
+                    "id": -1,
+                    "name": "login",
+                    "pathName": "pages/login/login",
+                    "query": ""
+                },
+                {
+                    "id": -1,
+                    "name": "home",
+                    "pathName": "pages/home/home",
+                    "query": ""
+                },
+                {
+                    "id": -1,
+                    "name": "menu",
+                    "pathName": "pages/menu/menu",
+                    "query": ""
+                },
+                {
+                    "id": -1,
+                    "name": "order",
+                    "pathName": "pages/order/order",
+                    "query": ""
+                },
+                {
+                    "id": -1,
+                    "name": "mine",
+                    "pathName": "pages/mine/mine",
+                    "query": ""
+                },
+                {
+                    "id": -1,
+                    "name": "phone",
+                    "pathName": "pages/mine/phone/phone",
+                    "query": ""
+                },
+                {
+                    "id": -1,
+                    "name": "organize",
+                    "pathName": "pages/mine/organize/organize",
+                    "query": ""
+                },
+                {
+                    "id": -1,
+                    "name": "wallet",
+                    "pathName": "pages/mine/wallet/wallet",
+                    "query": ""
+                },
+                {
+                    "id": -1,
+                    "name": "address",
+                    "pathName": "pages/mine/address/address",
+                    "query": ""
+                },
+                {
+                    "id": 13,
+                    "name": "confirm",
+                    "pathName": "pages/menu/confirm/confirm",
+                    "query": ""
+                },
+                {
+                    "id": -1,
+                    "name": "food",
+                    "pathName": "pages/food/food",
+                    "query": ""
+                },
+                {
+                    "id": -1,
+                    "name": "evaluate",
+                    "pathName": "pages/evaluate/evaluate",
+                    "query": ""
+                },
+                {
+                    "id": -1,
+                    "name": "order-list",
+                    "pathName": "pages/order-list/order-list",
+                    "query": ""
+                },
+                {
+                    "id": 15,
+                    "name": "mine-integral",
+                    "pathName": "pages/mine/integral/integral",
+                    "query": ""
+                },
+                {
+                    "id": -1,
+                    "name": "order-detail",
+                    "pathName": "pages/order/detail",
+                    "query": ""
+                },
+                {
+                    "id": 17,
+                    "name": "login-selectPhone",
+                    "pathName": "pages/login/selectPhone/selectPhone",
+                    "query": ""
+                },
+                {
+                    "id": -1,
+                    "name": "login-page2",
+                    "pathName": "pages/login/page2/page2",
+                    "query": ""
+                },
+                {
+                    "id": -1,
+                    "name": "order-detail",
+                    "pathName": "pages/order/detail",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "id": -1,
+                    "name": "mine-discount",
+                    "pathName": "pages/mine/discount/discount",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "id": -1,
+                    "name": "预约今天",
+                    "pathName": "pages/menu/today/today",
+                    "scene": null
+                }
+            ]
+        }
+    }
 }

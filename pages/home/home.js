@@ -254,30 +254,21 @@ Page({
             url: '/home/getHomeImage?userCode=' + wx.getStorageSync('userCode')
         }
         requestModel.request(param, data => {
-                console.log('getHomeImage', data)
-                this.setData({
-                    imagesList: data
-                })
+            console.log('getHomeImage', data)
+            this.setData({
+                imagesList: data
             })
-            // homeModel.getImages(param, (res) => {
-            //     console.log('获取首页图片:', res)
-            //     if (res.code === 0) {
-            //         this.setData({
-            //             imagesList: res.data
-            //         })
-            //     } else {
-            //         wx.showToast({
-            //             title: res.msg,
-            //             icon: 'none',
-            //             duration: 2000
-            //         })
-            //     }
-            // })
+        })
     },
     handleGotoMenu: function() {
 
-        this.getTimeDataByResponse();
-        // 应该是在获取7天日期执行完后，再显示
+        let param = {
+            url: '/meal/getPreMealDateAndType?userCode=' + wx.getStorageSync('userCode')
+        }
+        requestModel.request(param, data => {
+
+            })
+            // 应该是在获取7天日期执行完后，再显示
 
         // let tmp_timeInfo2 = {
         //     "organizeMealTypeFlag": {
@@ -379,8 +370,6 @@ Page({
         //     }
         // }
 
-
-
     },
     // 关闭选择预约弹框
     closeMenuSelect() {
@@ -395,7 +384,7 @@ Page({
 
     onLoad: function(options) {
         //首页很重要，这几个非常稳定几乎不变更数据的接口，放在onload，只有首页取餐放在onShow里面
-
+        //wx.removeStorageSync('userCode')
         this.initHome()
         this.getNotice()
 
@@ -410,7 +399,6 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-
         if (!wx.getStorageSync('userCode')) { //未登录状态，弹出授权框，隐藏底部状态栏
             this.setData({
                 showUserAuthFlag: true
@@ -450,89 +438,47 @@ Page({
         }
 
         requestModel.request(param, data => {
-                console.log('getNotice', data)
-                if (!data && data.length > 0) { //后台是在没有公告的时候返回空数组
-                    let temp_noticeData = data
+            console.log('getNotice', data)
+            if (!data && data.length > 0) { //后台是在没有公告的时候返回空数组
+                let temp_noticeData = data
+                _this.setData({
+                    noticeData: temp_noticeData,
+                    hasNotice: true
+                })
+
+                let window_noticeData = []
+                temp_noticeData.forEach(item => {
+                    if (item.window) {
+                        window_noticeData.push(item)
+                    }
+                })
+
+                if (window_noticeData.length > 0) {
                     _this.setData({
-                        noticeData: temp_noticeData,
-                        hasNotice: true
+                        windowNoticeData: window_noticeData,
+                        hasWindowNotice: true
+                    })
+                    let windowNoticeStorage = wx.getStorageSync("windowNoticeCodeList")
+                    console.log('windowNoticeStorage', windowNoticeStorage)
+                    let windowNoticeCodeList = '' //本次公告的code
+                    window_noticeData.forEach(item => {
+                        windowNoticeCodeList += item.noticeCode
                     })
 
-                    let window_noticeData = []
-                    temp_noticeData.forEach(item => {
-                        if (item.window) {
-                            window_noticeData.push(item)
-                        }
-                    })
-
-                    if (window_noticeData.length > 0) {
+                    console.log('日期', (new Date()).toLocaleDateString() + (new Date().getHours()))
+                        //设置为当天第一次打开或者公告更新时在首页跳出
+                    if (windowNoticeStorage != (windowNoticeCodeList + (new Date()).toLocaleDateString())) {
+                        wx.setStorageSync("windowNoticeCodeList", windowNoticeCodeList + (new Date()).toLocaleDateString())
                         _this.setData({
-                            windowNoticeData: window_noticeData,
-                            hasWindowNotice: true
+                            showWindowNotice: true
                         })
-                        let windowNoticeStorage = wx.getStorageSync("windowNoticeCodeList")
+
                         console.log('windowNoticeStorage', windowNoticeStorage)
-                        let windowNoticeCodeList = '' //本次公告的code
-                        window_noticeData.forEach(item => {
-                            windowNoticeCodeList += item.noticeCode
-                        })
-
-                        console.log('日期', (new Date()).toLocaleDateString() + (new Date().getHours()))
-                            //设置为当天第一次打开或者公告更新时在首页跳出
-                        if (windowNoticeStorage != (windowNoticeCodeList + (new Date()).toLocaleDateString())) {
-                            wx.setStorageSync("windowNoticeCodeList", windowNoticeCodeList + (new Date()).toLocaleDateString())
-                            _this.setData({
-                                showWindowNotice: true
-                            })
-
-                            console.log('windowNoticeStorage', windowNoticeStorage)
-                        }
                     }
                 }
-            })
-            // homeModel.getNotice(param, (res) => {
+            }
+        })
 
-        //     if (res.code == 0) {
-        //         if (res.data != null && res.data.length > 0) { //后台是在没有公告的时候返回空数组
-        //             let temp_noticeData = res.data
-        //             _this.setData({
-        //                 noticeData: temp_noticeData,
-        //                 hasNotice: true
-        //             })
-
-        //             let window_noticeData = []
-        //             temp_noticeData.forEach(item => {
-        //                 if (item.window) {
-        //                     window_noticeData.push(item)
-        //                 }
-        //             })
-
-        //             if (window_noticeData.length > 0) {
-        //                 _this.setData({
-        //                     windowNoticeData: window_noticeData,
-        //                     hasWindowNotice: true
-        //                 })
-        //                 let windowNoticeStorage = wx.getStorageSync("windowNoticeCodeList")
-        //                 console.log('windowNoticeStorage', windowNoticeStorage)
-        //                 let windowNoticeCodeList = '' //本次公告的code
-        //                 window_noticeData.forEach(item => {
-        //                         windowNoticeCodeList += item.noticeCode
-        //                     })
-        //                     //wx.setStorageSync("windowNoticeCodeList", '')
-        //                 console.log('日期', (new Date()).toLocaleDateString() + (new Date().getHours()))
-        //                     //设置为当天第一次打开或者公告更新时在首页跳出
-        //                 if (windowNoticeStorage != (windowNoticeCodeList + (new Date()).toLocaleDateString())) {
-        //                     wx.setStorageSync("windowNoticeCodeList", windowNoticeCodeList + (new Date()).toLocaleDateString())
-        //                     _this.setData({
-        //                         showWindowNotice: true
-        //                     })
-
-        //                     console.log('windowNoticeStorage', windowNoticeStorage)
-        //                 }
-        //             }
-        //         }
-        //     }
-        // })
     },
     // 点击轮播公告显示公告详细信息
     handleshowOneNotice(e) {
@@ -724,10 +670,7 @@ Page({
     /* 刷新用户状态信息 用于用户注册登录后，此时后台还没有审核该企业用户，当前小程序home页最上面显示button“刷新用户”*/
     handleRefreshUser: function() {
         let _this = this
-        if (!_this.data.canClick) {
-            return
-        }
-        _this.data.canClick = false
+
         wx.login({
             success: function(res) {
                 if (res.code) {
@@ -761,12 +704,7 @@ Page({
                 }
             }
         })
-        if (_this.data.timer) {
-            clearTimeout(_this.data.timer)
-        }
-        _this.data.timer = setTimeout(function() {
-            _this.data.canClick = true
-        }, 500)
+
     },
     /*   用户授权弹框-获取微信授权 */
     getWxUserInfo(e) {

@@ -2,12 +2,8 @@
     <!-- 头部 -->
     <view class="header-wrapper">
         <view class="header">
-            <view class="header-item">
-                {{balance}}
-            </view>
-            <text class="header-label" decode>
-        ¥&nbsp;
-      </text>
+            <view class="header-item">{{balance}}</view>
+            <text class="header-label" decode>¥&nbsp;</text>
         </view>
     </view>
     <!-- 内容 -->
@@ -65,9 +61,9 @@
                 <button catchtap="handleRecharge" loading="{{loading}}" class="button">立即充值</button>
             </view>
             <!-- 交易记录的内容区域 -->
-            <scroll-view wx:else scroll-y style="height: {{windowHeight - scrollTop}}px;">
+            <scroll-view wx:else scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower='gotoNextPage'>
                 <view wx:if="{{rechargeListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
-                    未查询到充值记录..
+                    未查询到交易记录..
                 </view>
                 <view wx:else class="jilu-wrapper">
                     <view class="" hover-class="none" hover-stop-propagation="false">
@@ -82,16 +78,16 @@
                                 {{rechargeItem.operateTimeDes}}
                             </view>
                         </view>
-                        <view class="hasMore-wrapper" wx:if="{{hasMoreDataFlag}}" bindtap="gotoNextPage" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+                        <view class="hasMore-wrapper" wx:if="{{loadingData}}" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+                            正在加载数据
+                        </view>
+                        <view class="hasMore-wrapper" wx:elif="{{hasMoreDataFlag}}" bindtap="gotoNextPage" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
                             点击加载更多
                         </view>
-                        <view wx:else class="hasMore-wrapper" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
-                            没有更多了..
-                        </view>
+
                     </view>
                 </view>
             </scroll-view>
-
         </view>
     </view>
 </view>

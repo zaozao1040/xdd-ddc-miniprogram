@@ -1,42 +1,54 @@
-<view style="background:rgb(245,245,245);padding:40rpx 0;" wx:if="{{canadd}}">
-    <view style="margin:0 20rpx 40rpx;background:#FFF; padding:40rpx;border-radius: 8rpx; ">
-        <view style="font-family: PingFang-SC-Medium;font-size: 15px; color: #333333; letter-spacing: 0;text-align: left;line-height:42rpx;">
-            {{date}} {{mealTypeNameList[mealType]}} 截止至{{dateLine}}</view>
-        <block wx:if="{{value==''}}">
-            <input style="margin-top:40rpx;font-family: PingFang-SC-Regular;font-size:40rpx;color: #CCCCCC;letter-spacing: 0;text-align: left;" focus type="number" bindinput='inputAddfoodNumber' placeholder="输入想要份数" />
-        </block>
-        <block wx:else>
-            <input style="margin-top:40rpx;font-family: PingFang-SC-Regular;font-size:56rpx;color: #F79C4C;letter-spacing: 0;text-align: left;" focus type="number" bindinput='inputAddfoodNumber' value="{{value}}" />
-        </block>
-        <view bindtap='increaseFood' style="background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);margin-top:62rpx;width:630rpx;font-family: PingFang-SC-Medium;font-size: 18px;color: #FFFFFF;letter-spacing: 0; text-align: center;line-height:100rpx;border-radius:50rpx;">
-            确定份数</view>
-    </view>
-    <view style="margin:0 20rpx;background:#fff;border-radius: 8rpx;">
-        <view style="line-height:130rpx; padding:0 40rpx;display: flex;justify-content: space-between;">
+<view wx:if="{{hasalready}}">
+    <view style="background:rgb(245,245,245);padding:40rpx 0;" wx:if="{{canadd}}">
+        <view style="margin:0 20rpx 40rpx;background:#FFF; padding:40rpx;border-radius: 8rpx; ">
+            <view style="font-family: PingFang-SC-Medium;font-size: 15px; color: #333333; letter-spacing: 0;text-align: left;line-height:42rpx;">
+                {{date}} {{mealTypeNameList[mealType]}} 截止时间：{{endTime}}</view>
 
-            <view style='font-size: 36rpx;color: #333333;'>已补数目</view>
-            <view style='font-size: 34rpx; color: #F79C4C;'>{{number}}</view>
-        </view>
-        <block wx:for="{{list}}">
-            <view style=" padding:0 40rpx;display: flex;justify-content: space-between;border-top:2rpx solid #ccc;">
-
-                <view>
-                    <view style="font-size: 30rpx;  color: #333333;padding-top:18rpx;">补餐数目</view>
-                    <view style="font-size: 24rpx;  color: #999;padding-top:10rpx;"> {{date}} {{mealTypeNameList[mealType]}} </view>
-                </view>
-                <view style='line-height:120rpx;font-size: 34rpx; color: #F79C4C;' wx:if="{{item.newNumber-item.oldNumber>0}}"> +{{item.newNumber-item.oldNumber}}</view>
-                <view style='line-height:120rpx;font-size: 34rpx; color: #FF5035;' wx:else> {{item.newNumber-item.oldNumber}}</view>
+            <view class="value-number">
+                <view style='line-height: 80rpx;border-right: 2rpx solid #ccc;color:#aaa;width:120rpx;' bindtap='minus'>-</view>
+                <input style='height:80rpx;line-height: 80rpx;' value="{{value}}" focus type="number" bindinput='inputAddfoodNumber' />
+                <view style='line-height: 80rpx;border-left: 2rpx solid #ccc;color:#aaa;width:120rpx;' bindtap='add'>+</view>
             </view>
-        </block>
-    </view>
-</view>
 
-<view style="background:rgb(245,245,245);padding:40rpx 0;" wx:else>
-    <view style="margin:0 20rpx 40rpx;background:#FFF; padding:40rpx;border-radius: 8rpx; ">
-        <view style='left:0;right:0;top:300rpx;font-family: PingFang-SC-Regular;font-size: 20px;color: #F79C4C;letter-spacing: 0;text-align: center;'>
-            {{message}}
+
+            <view bindtap='increaseFood' style="background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);margin-top:52rpx;width:630rpx;font-family: PingFang-SC-Medium;font-size: 18px;color: #FFFFFF;letter-spacing: 0; text-align: center;line-height:100rpx;border-radius:50rpx;">
+                确定份数</view>
         </view>
-        <view style="background: #ccc;margin-top:62rpx;width:630rpx;font-family: PingFang-SC-Medium;font-size: 18px;color: #FFFFFF;letter-spacing: 0; text-align: center;line-height:100rpx;border-radius:50rpx;">
-            确定份数</view>
+        <view style="margin:0 20rpx;background:#fff;border-radius: 8rpx;" wx:if="{{hasdata}}">
+            <view style="line-height:130rpx; padding:0 40rpx;display: flex;justify-content: space-between;">
+
+                <view style='font-size: 36rpx;color: #333333;'>已报数目</view>
+                <view style='font-size: 34rpx; color: rgb(80,185,66);'>{{quantity}}</view>
+            </view>
+            <block wx:for="{{list}}" wx:key="index">
+                <view style=" padding:0 40rpx;display: flex;justify-content: space-between;border-top:2rpx solid #ccc;">
+
+                    <view>
+                        <view style="font-size: 30rpx;  color: #333333;padding-top:18rpx;">{{item.name}}</view>
+                        <view style="font-size: 24rpx;  color: #999;padding-top:10rpx;"> {{item.addTime}} {{mealTypeNameList[mealType]}} </view>
+                    </view>
+                    <!-- <view style='line-height:120rpx;font-size: 34rpx; color: #F79C4C;' wx:if="{{item.newNumber-item.oldNumber>0}}"> +{{item.newNumber-item.oldNumber}}</view>
+                    <view style='line-height:120rpx;font-size: 34rpx; color: #FF5035;' wx:else> {{item.newNumber-item.oldNumber}}</view> -->
+                    <view style='line-height:120rpx;font-size: 34rpx; color: #F79C4C;' wx:if="{{item.difference>0}}"> +{{item.difference}}</view>
+                    <view style='line-height:120rpx;font-size: 34rpx; color: #FF5035;' wx:else> {{item.difference}}</view>
+                </view>
+            </block>
+        </view>
+    </view>
+
+    <view style="background:rgb(245,245,245);padding:40rpx 0;" wx:else>
+        <view style="margin:0 20rpx 40rpx;background:#FFF; padding:40rpx;border-radius: 8rpx; ">
+            <view wx:if='{{lunchEndTime}}' style='left:0;right:0;top:300rpx;font-family: PingFang-SC-Regular;font-size: 20px;color: #F79C4C;letter-spacing: 0;text-align: center;'>
+                午餐截止时间：{{lunchEndTime}}
+            </view>
+            <view wx:if='{{dinnerEndTime}}' style='left:0;right:0;top:300rpx;margin-top:22rpx;font-family: PingFang-SC-Regular;font-size: 20px;color: #F79C4C;letter-spacing: 0;text-align: center;'>
+                晚餐截止时间：{{dinnerEndTime}}
+            </view>
+            <view wx:if='{{!lunchEndTime&&!dinnerEndTime}}' style='left:0;right:0;top:300rpx;font-family: PingFang-SC-Regular;font-size: 20px;color: #F79C4C;letter-spacing: 0;text-align: center;'>
+                当前时段不可报餐
+            </view>
+            <view style="background: #ccc;margin-top:62rpx;width:630rpx;font-family: PingFang-SC-Medium;font-size: 18px;color: #FFFFFF;letter-spacing: 0; text-align: center;line-height:100rpx;border-radius:50rpx;">
+                确定份数</view>
+        </view>
     </view>
 </view>

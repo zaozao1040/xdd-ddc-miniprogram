@@ -1,82 +1,79 @@
 {
-  "pages": [
-    "pages/home/home",
-    "pages/login/selectPhone/selectPhone",
-    "pages/login/login",
-    "pages/register/register",
-    "pages/home/link",
-    "pages/logs/logs",
-    "pages/coupon/coupon",
-    "pages/order/order",
-    "pages/promotion/promotion",
-    "pages/menu/menu",
-    "pages/menu/confirm/confirm",
-    "pages/mine/mine",
-    "pages/mine/phone/phone",
-    "pages/mine/organize/organize",
-    "pages/mine/address/address",
-    "pages/mine/wallet/wallet",
-    "pages/mine/cab/index",
-    "pages/mine/more/more",
-    "pages/food/food",
-    "pages/mine/integral/integral",
-    "pages/mine/discount/discount",
-    "pages/mine/service/service",
-    "pages/order/detail",
-    "pages/mine/addfood/addfood",
-    "pages/components/discount/discount",
-    "pages/components/discountPromotion/discountPromotion",
-    "pages/menu/today/today",
-    "pages/menu/today/confirm/confirm",
-    "pages/order/comment/comment",
-    "pages/mine/information/information",
-    "pages/mine/orgAdminAddfood/orgAdminAddfood"
-  ],
-  "permission": {
-    "scope.userLocation": {
-      "desc": "你的位置信息将用于获取最近企业列表"
-    }
-  },
-  "window": {
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "点点餐",
-    "backgroundColor": "#fff",
-    "backgroundTextStyle": "dark",
-    "enablePullDownRefresh": false
-  },
-  "networkTimeout": {
-    "request": 10000,
-    "downloadFile": 10000
-  },
-  "debug": true,
-  "tabBar": {
-    "selectedColor": "#e79b37",
-    "color": "#999",
-    "backgroundColor": "#fff",
-    "list": [
-      {
-        "selectedIconPath": "/images/footer/sel_home@2x.png",
-        "iconPath": "/images/footer/nosel_home@2x.png",
-        "pagePath": "pages/home/home",
-        "text": "首页"
-      },
-      {
-        "selectedIconPath": "/images/footer/sel_order@2x.png",
-        "iconPath": "/images/footer/nosel_order@2x.png",
-        "pagePath": "pages/order/order",
-        "text": "订单"
-      },
-      {
-        "selectedIconPath": "/images/footer/sel_me@2x.png",
-        "iconPath": "/images/footer/nosel_me@2x.png",
-        "pagePath": "pages/mine/mine",
-        "text": "我的"
-      }
-    ]
-  },
-  "navigateToMiniProgramAppIdList": [
-    "wxeab88f3400bf4937"
-  ],
-  "sitemapLocation": "sitemap.json"
+    "pages": [
+        "pages/home/home",
+        "pages/login/selectPhone/selectPhone",
+        "pages/login/login",
+        "pages/home/link",
+        "pages/logs/logs",
+        "pages/coupon/coupon",
+        "pages/order/order",
+        "pages/promotion/promotion",
+        "pages/menu/menu",
+        "pages/menu/confirm/confirm",
+        "pages/mine/mine",
+        "pages/mine/phone/phone",
+        "pages/mine/organize/organize",
+        "pages/mine/address/address",
+        "pages/mine/wallet/wallet",
+        "pages/mine/cab/index",
+        "pages/mine/more/more",
+        "pages/food/food",
+        "pages/mine/integral/integral",
+        "pages/mine/discount/discount",
+        "pages/order/detail",
+        "pages/mine/addfood/addfood",
+        "pages/components/discount/discount",
+        "pages/components/discountPromotion/discountPromotion",
+        "pages/menu/today/today",
+        "pages/menu/today/confirm/confirm",
+        "pages/order/comment/comment",
+        "pages/mine/information/information",
+        "pages/mine/orgAdminAddfood/orgAdminAddfood"
+    ],
+    "permission": {
+        "scope.userLocation": {
+            "desc": "你的位置信息将用于获取最近企业列表"
+        }
+    },
+    "window": {
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTextStyle": "black",
+        "navigationBarTitleText": "点点餐",
+        "backgroundColor": "#fff",
+        "backgroundTextStyle": "dark",
+        "enablePullDownRefresh": false
+    },
+    "networkTimeout": {
+        "request": 10000,
+        "downloadFile": 10000
+    },
+    "debug": true,
+    "tabBar": {
+        "selectedColor": "#e79b37",
+        "color": "#999",
+        "backgroundColor": "#fff",
+        "list": [{
+                "selectedIconPath": "/images/footer/sel_home@2x.png",
+                "iconPath": "/images/footer/nosel_home@2x.png",
+                "pagePath": "pages/home/home",
+                "text": "首页"
+            },
+            {
+                "selectedIconPath": "/images/footer/sel_order@2x.png",
+                "iconPath": "/images/footer/nosel_order@2x.png",
+                "pagePath": "pages/order/order",
+                "text": "订单"
+            },
+            {
+                "selectedIconPath": "/images/footer/sel_me@2x.png",
+                "iconPath": "/images/footer/nosel_me@2x.png",
+                "pagePath": "pages/mine/mine",
+                "text": "我的"
+            }
+        ]
+    },
+    "navigateToMiniProgramAppIdList": [
+        "wxeab88f3400bf4937"
+    ],
+    "sitemapLocation": "sitemap.json"
 }

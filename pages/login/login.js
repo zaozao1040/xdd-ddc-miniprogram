@@ -1,9 +1,5 @@
-import { mine } from '../mine/mine-model.js'
-let mineModel = new mine()
-import { login } from './login-model.js'
-let loginModel = new login()
-import { organize } from '../mine/organize/organize-model.js'
-let organizeModel = new organize()
+import { base } from '../../comm/public/request'
+let requestModel = new base()
 Page({
 
     /**
@@ -24,7 +20,6 @@ Page({
         employeeNumber: '', //是否需要填写企业员工的工号  true需要 false不需要
         usernumber: '', //工号
         organizeCode: '',
-        search: '',
         code: '',
         name: '',
         /*     target:'', */
@@ -42,11 +37,7 @@ Page({
 
     },
     /* 页面隐藏后回收定时器指针 */
-    onHide: function() {
-        if (this.data.timer) {
-            clearTimeout(this.data.timer)
-        }
-    },
+    onHide: function() {},
     initRegister: function() {
         let _this = this;
         wx.getSystemInfo({
@@ -76,25 +67,16 @@ Page({
         wx.getLocation({
             type: 'gcj02',
             success: function(res) {
-                console.log('地理位置：', res)
-                    // let param = {
-                    //   myLongitude: res.longitude,
-                    //   myLatitude: res.latitude
-                    // }
-                wx.showLoading({
-                    title: '企业列表加载中'
-                })
-                let url = '/organize/getOrganizeListByLocation?userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude
-                    //请求企业列表
-                loginModel.getOrganizeListByLocation(url, {}, (res) => {
-                    console.log('收到请求(企业列表):', res)
-                    wx.hideLoading()
-                    if (res.code == 200) {
-                        _this.setData({
-                            organizeList: res.data,
-                            showGobackFlag: true
-                        })
+                let param = {
+                        url: '/organize/getOrganizeListByLocation?userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude
                     }
+                    //请求企业列表
+                requestModel.request(param, (data) => {
+                    _this.setData({
+                        organizeList: data,
+                        showGobackFlag: true
+                    })
+
                 })
             }
         })
@@ -129,32 +111,28 @@ Page({
     },
     searchInput: function(e) {
         let _this = this
-        _this.setData({
-            search: e.detail.value
-        });
-        let param = {
-            organizeName: e.detail.value
-        }
-        wx.showLoading({
-                title: '加载中',
-            })
-            //请求企业列表
-        loginModel.getOrganizeListByLocation(param, (res) => {
-            console.log('收到请求(企业列表):', res)
-            wx.hideLoading()
-            if (res.code === 0) {
-                _this.setData({
-                    organizeList: res.data
+
+        wx.getLocation({
+            type: 'gcj02',
+            success: function(res) {
+                let param = {
+                        url: '/organize/getOrganizeListByLocation?userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude + '&organizeName=' + e.detail.value
+                    }
+                    //请求企业列表
+                requestModel.request(param, (data) => {
+                    _this.setData({
+                        organizeList: data
+                    })
+                    if (data.length == 0) {
+                        _this.setData({
+                            organizeListNoResult: true //查到企业列表无结果，则相应视图
+                        })
+                    } else {
+                        _this.setData({
+                            organizeListNoResult: false
+                        })
+                    }
                 })
-                if (res.data.length == 0) {
-                    _this.setData({
-                        organizeListNoResult: true //查到企业列表无结果，则相应视图
-                    })
-                } else {
-                    _this.setData({
-                        organizeListNoResult: false
-                    })
-                }
             }
         })
     },
@@ -182,68 +160,28 @@ Page({
             })
         } else {
             let param = {
-                userCode: wx.getStorageSync('userInfo').userCode,
+                userCode: wx.getStorageSync('userCode'),
                 userName: _this.data.name,
-                organizeCode: _this.data.organizeCode,
-                userOrganizeCode: _this.data.usernumber //工号
+                organizeCode: _this.data.organizeCode
             }
-            _this.setData({ //【防止狂点1】
-                loading: true
-            })
-            wx.showLoading({ //【防止狂点2】
-                title: '加载中',
-                mask: true
-            })
-            organizeModel.bindOrganize(param, (res) => {
-                console.log('收到请求(绑定组织):', res)
-                if (res.code === 0) {
-                    let tmp_userInfo = wx.getStorageSync('userInfo')
-                    tmp_userInfo.organizeCode = _this.data.organizeCode
-                    tmp_userInfo.organizeName = _this.data.organize
-                    tmp_userInfo.name = _this.data.name
-                    wx.setStorageSync('userInfo', tmp_userInfo)
-                    if (_this.data.timer) {
-                        clearTimeout(_this.data.timer)
-                    }
-                    _this.data.timer = setTimeout(function() {
-                        wx.login({
-                            success: function(res) {
-                                if (res.code) {
-                                    let param = {
-                                        code: res.code, //微信code
-                                        userCode: wx.getStorageSync('userInfo').userCode
-                                    }
-                                    mineModel.getMineData(param, (res) => {
-                                        if (res.code == 0) {
-                                            wx.setStorageSync('userInfo', res.data) //刷新用户信息--这一步是必须的
-                                            _this.setData({
-                                                userInfo: res.data
-                                            })
-                                            wx.reLaunch({ //销毁所有页面后跳转到首页，销毁页面是为了防止个人用户登录后再次换绑企业可以点击订单导航，而导航栏应该隐藏才对
-                                                url: '/pages/home/home',
-                                            })
-                                            wx.hideLoading()
-                                            wx.showToast({
-                                                title: '登录成功',
-                                                image: '../../images/msg/success.png',
-                                                duration: 2000
-                                            })
-                                        }
-                                    })
-                                }
-                            }
-                        })
-                    }, 2000)
-                } else {
-                    wx.showToast({
-                        title: res.msg,
-                        icon: 'none',
-                        duration: 2000
-                    })
-                    _this.setData({
-                        loading: false
-                    })
-                }
+            let params = {
+                data: param,
+                url: '/user/bindOrganize',
+                method: 'post'
+            }
+
+            requestModel.request(params, () => {
+
+                requestModel.getUserInfo(() => {}, true)
+                wx.reLaunch({ //销毁所有页面后跳转到首页，销毁页面是为了防止个人用户登录后再次换绑企业可以点击订单导航，而导航栏应该隐藏才对
+                    url: '/pages/home/home',
+                })
+
+                wx.showToast({
+                    title: '登录成功',
+                    image: '../../images/msg/success.png',
+                    duration: 2000
+                })
             })
         }
     },
