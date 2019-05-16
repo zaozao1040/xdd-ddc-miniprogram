@@ -200,6 +200,17 @@
     border-bottom: 1rpx solid #eee;
 }
 
+.add-title {
+    font-family: PingFangSC-Regular;
+    font-size: 30rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 44rpx;
+    margin-left: 10rpx;
+    flex-grow: 1;
+}
+
 
 /* .label-itemwrapper:last-child{
   border-bottom: none;

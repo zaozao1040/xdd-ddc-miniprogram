@@ -1,14 +1,14 @@
 <view class="organize-wrapper">
-    <view class="section-3 {{name?'':'section-3-empty'}}" wx:if="{{!showNameFlag}}">
-        <view class="section-3-1" style="text-align: center;display: table;">
-            <view style="display: table-cell;vertical-align: middle;">
-                <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-wode'></text>
-            </view>
+    <view class="section-3" wx:if="{{!showNameFlag}}">
+        <view class="section-3-1 ">
+
+            <image src="../../../images/mine/organize_name@2x.png" style='width:48rpx;height:48rpx;'></image>
+
         </view>
         <text wx:if="{{name}}" style="font-size:40rpx;color:#e79b37;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text>
         <input bindinput="nameInput" value="{{name}}" class="section-3-2" placeholder="请输入真实姓名" type="string"></input>
     </view>
-    <view class="section-3 {{organize?'':'section-3-empty'}}" catchtap="showAddress">
+    <view class="section-3" catchtap="showAddress">
         <view class="section-3-1" style="text-align: center;display: table;">
             <view style="display: table-cell;vertical-align: middle;">
                 <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-qiye'></text>
@@ -28,10 +28,6 @@
     </view>
     <!-- 企业选择 -->
     <view class="search-wrapper">
-        <!--     <view class="" style="height: 10rpx;"></view>
-    <view class="inputSearch-wrapper">
-      <input bindinput="searchInput"  class="inputSearch" maxlength="11" placeholder="搜索企业名..."></input>
-    </view> -->
         <scroll-view scroll-y style="height: {{buttonTop - scrollTop}}px;" class="c_scrollPosition_forCalculate">
             <view class="organizeItem-wrapper" wx:for="{{organizeList}}" wx:for-index="organizeIndex" wx:for-item="organizeItem" wx:key="organizeIndex" catchtap="selectOrganize" data-employeenumber="{{organizeItem.employeeNumber}}" data-organizename="{{organizeItem.organizeName}}"
                 data-organizecode="{{organizeItem.organizeCode}}">

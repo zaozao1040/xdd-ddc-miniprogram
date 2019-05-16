@@ -2,7 +2,6 @@
  let requestModel = new base()
 
  Page({
-
      data: {
          //用户信息
          canIUse: wx.canIUse('button.open-type.getUserInfo'),
@@ -166,15 +165,11 @@
          wx.login({
              success: function(res) {
                  if (res.code) {
-                     wx.showLoading({ //【防止狂点2】
-                         title: '加载中',
-                         mask: true
-                     })
                      _this.setData({
-                             userInfo: requestModel.getUserInfo(true)
+                             userInfo: requestModel.getUserInfo(() => {}, true)
                          })
                          // bug 因为是异步刷新，所以userInfo还没获取到，就hideLoading了
-                     wx.hideLoading() //【防止狂点3】
+
                      wx.hideNavigationBarLoading();
                      wx.stopPullDownRefresh()
 

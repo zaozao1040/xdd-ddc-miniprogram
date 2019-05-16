@@ -1,88 +1,65 @@
-<view class="integral-wrapper">
-    <!-- 头部 -->
-    <view class="header-wrapper">
+<!-- 头部 -->
+<view>
+    <view class='header-wrapper'>
         <view class="header">
+            <view style='display:flex;'>
+                <view class='header-title-left'>可用积分</view>
+                <navigator url="./regular">
+                    <view class='header-title-right'>?</view>
+                </navigator>
+
+            </view>
             <view class="header-item">
                 {{integral}}
             </view>
-            <text class="header-label" decode>
-        &nbsp;分
-      </text>
+        </view>
+        <view style='background: rgba(102,102,102,0.1);display: flex;padding:16rpx 0;'>
+            <view style='flex-grow:1;text-align:center;border-right:2rpx solid #fff;'>
+                <view class='header-bottom-top'>送积分</view>
+                <view class='header-bottom-bottom'>消费、评价可得</view>
+            </view>
+            <view style='flex-grow:1;text-align:center;'>
+                <view class='header-bottom-top'>积分当钱花</view>
+                <view class='header-bottom-bottom'>100积分抵扣1元</view>
+            </view>
         </view>
     </view>
     <!-- 内容 -->
     <view class="content">
         <view class="content-header">
-            <view class="content-header-item {{itemStatusActiveFlag==true?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="duihuan">
-                积分兑换
-            </view>
-            <view class="content-header-item {{itemStatusActiveFlag==false?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="jilu">
-                积分记录
-            </view>
+            <view class="content-header-left">积分记录 </view>
+            <view class="content-header-right">全部 </view>
         </view>
-        <view class="content-content c_scrollPosition_forCalculate">
-            <!-- 积分的内容区域 -->
-            <view wx:if="{{itemStatusActiveFlag}}" class="duihuan-wrapper">
-                <view class="duihuan-item-line" wx:for="{{pointsList}}" wx:for-index="pointIndex_line" wx:for-item="pointItem_line" wx:key="pointIndex_line">
-                    <view wx:for="{{pointItem_line}}" wx:for-index="pointIndex" wx:for-item="pointItem" wx:key="pointIndex" class="duihuan-item {{activeFlag1==pointIndex_line&&activeFlag2==pointIndex?'duihuan-item-active':''}}" catchtap="changePointActiveFlag" data-activeflag1="{{pointIndex_line}}"
-                        data-activeflag2="{{pointIndex}}" data-selectedpoint="{{pointItem}}">
-                        <view class="">
-                            <text class="duihuan-point" decode>{{pointItem}}</text>
-                            <text class="duihuan-label" decode>&nbsp;分</text>
-                        </view>
-                        <view style="height: 30rpx;line-height: 30rpx;margin-bottom: 20rpx;">
-                            <block wx:if="{{moneyItem.gift==0}}">
-                                <text style="font-size: 30rpx;"></text>
-                            </block>
-                            <block wx:else>
-                                <text style="font-size: 30rpx;">兑换<text style="font-size: 20rpx;">¥</text></text>
-                                <text class="chongzhi-money-mini" decode>{{pointItem/100}}</text>
-                            </block>
-                        </view>
-                    </view>
-                </view>
-                <view class="explain-wrapper">
-                    <view class="explain-title">兑换说明</view>
-                    <text class="explain-des">1.{{explainDes.one}}</text>
-                    <text class="explain-des">2.{{explainDes.two}}</text>
-                </view>
-                <view class="explain-wrapper">
-                    <view class="explain-title">赠送规则</view>
-                    <text class="explain-des">1.{{explainRulesDes.one}}</text>
-                    <text class="explain-des">2.{{explainRulesDes.two}}</text>
-                </view>
-            </view>
-            <!-- 交易记录的内容区域 -->
-            <scroll-view wx:else scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower='gotoNextPage'>
+        <view class="content-time">
+            <view class="content-time-left"> </view>
+            <view class="content-time-right">获取积分：<text style='color: #F79C4C;'>{{integral}}</text> </view>
+        </view>
+        <view class="c_scrollPosition_forCalculate">
+            <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower='gotoNextPage'>
                 <view wx:if="{{integralListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
                     未查询到积分记录..
                 </view>
-                <view wx:else class="jilu-wrapper">
-                    <view class="" hover-class="none" hover-stop-propagation="false">
-                        <view class="integral-item" wx:for="{{integralList}}" wx:for-index="integralIndex" wx:for-item="integralItem" wx:key="integralIndex">
-                            <view class="IntegralValue">
-                                {{integralItem.integral}}
-                            </view>
-                            <view class="integralType">
+                <view wx:else>
+                    <view class="integral-item" style='background:{{integralIndex%2==0?"#FBFBFB":"#fff"}}' wx:for="{{integralList}}" wx:for-index="integralIndex" wx:for-item="integralItem" wx:key="integralIndex">
+                        <view>
+                            <view class="integral-type">
                                 {{integralItem.recordTypeDes}}
                             </view>
-                            <view class="integralTime">
+                            <view class="integral-time">
                                 {{integralItem.operateTimeDes}}
                             </view>
                         </view>
-                        <view class="hasMore-wrapper" wx:if="{{loadingData}}" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
-                            正在加载数据
-                        </view>
-                        <view class="hasMore-wrapper" wx:elif="{{hasMoreDataFlag}}" bindtap="gotoNextPage" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
-                            点击加载更多
+                        <view class="{{integralItem.integral>0?'Integral-value-add':'Integral-value-minus'}}">
+                            {{integralItem.integral}}
                         </view>
 
                     </view>
+                    <view wx:if="{{loadingData}}" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+                        正在加载数据...
+                    </view>
                 </view>
             </scroll-view>
-            <view class="c_buttonPosition_forCalculate" wx:if="{{itemStatusActiveFlag}}">
-                <button catchtap="handleExchange" loading="{{loading}}" class="button">立即兑换</button>
-            </view>
+
         </view>
     </view>
 </view>

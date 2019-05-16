@@ -1,182 +1,190 @@
-.integral-wrapper{
-  position: fixed;
-  top:0;
-  left:0;
-  right:0;
-  bottom: 0;
-  background: #eee;
-}
-/********** 头部 **********/
-.header-wrapper{
-  text-align: center;
-  background: linear-gradient(#e79b37, #eee);
-  padding: 30rpx 40rpx;
-}
-.header{
-  text-align: center;
-/*   background: #fff; */
-  border-radius: 20rpx;
-}
-.header-des{
-  font-size: 30rpx;
-  font-weight: 500;
-  color:#222;
-}
-.header-label{
-  display: inline-block;
-  font-size: 30rpx;
-  font-weight: 500;
-  color:#fff;
-}
-.header-item{
-  display: inline-block;
-  font-size: 80rpx;
-  color:#fff;
-}
-/********** 内容 **********/
-/* 标题 */
-.content{
-
-}
-.content-header{
-  display: flex;
-  height: 100rpx;
-  line-height: 100rpx;
-  border-bottom: 1rpx solid #bbb;
-}
-.content-header-item{
-  flex:1;
-  text-align: center;
-  font-size: 35rpx;
-  font-weight: 600;
-  color:#666;
-  margin: 0 80rpx;
-}
-.content-header-item-active{
-  padding:0 10rpx;
-  border-bottom: 10rpx solid #e79b37;
-  color:#e79b37;
-  font-size:40rpx;
-}
-.content-content{
-
-}
-/* 兑换的内容区域 */
-.duihuan-wrapper{
-  margin-top: 10rpx;
-}
-.duihuan-item-line{
-  display: flex;
-  margin: 30rpx ;
-}
-.duihuan-item{
-  flex:1;
-  padding: 5rpx;
-  box-sizing: border-box;
-  margin:0 30rpx 0 30rpx;
-  text-align: center;
-  background: #ddd;
-  border-radius: 30rpx;
-  color:#666;
-}
-.duihuan-item-active{
-  background: #e79b37;
-  color:#fff;
-}
-.duihuan-label{
-  display: inline-block;
-  font-size: 30rpx;
-  font-weight: 500;
-  color:inherit;
-}
-.duihuan-point{
-  display: inline-block;
-  font-size: 60rpx;
-  font-weight: 500;
-  color:inherit;
-}
-.duihuan-label-mini{
-  display: inline-block;
-  font-size: 30rpx;
-  font-weight: 500;
-  color:inherit;
-}
-.duihuan-money-mini{
-  display: inline-block;
-  font-size: 30rpx;
-  font-weight: 500;
-  color:inherit;
-}
-/* 兑换描述 */
-.explain-wrapper{
-  margin: 20rpx;
-}
-.explain-title{
-  height: 60rpx;
-  line-height: 60rpx;
-  font-size: 35rpx;
-  font-weight: 500;
-  color:#222;
-}
-.explain-des{
-  display: block;
-  margin:0 20rpx 10rpx 20rpx;
-  font-size: 30rpx;
-  font-weight: 500;
-  color:#666;
-}
-
-
-
-
-/* 积分记录的内容区域 */
-.jilu-wrapper{
-  margin: 20rpx;
-}
-.integral-item{
-  border-bottom: solid 1rpx #ccc;
-}
-.integralType{
-  font-size: 35rpx;
-  font-weight: 500;
-  color:#222;
-}
-.IntegralValue{
-  float: right;
-  font-size: 35rpx;
-  font-weight: 500;
-  color:#000;
-  text-align: center;
-  color: #F56C6C;
-}
-.integralTime{
-  font-size: 30rpx;
-  font-weight: 500;
-  color:#666;
-}
-
-.noResult{
-  padding:10rpx 20rpx;
-  font-size: 40rpx;
-  color:#666;
-}
-.c_buttonPosition_forCalculate{
-  padding: 0 20rpx 20rpx 20rpx;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-}
-.button{
-  width: 100%;
-  margin-top: 25rpx;
-  height: 100rpx;
-  text-align: center;
-  background-color: #e79b37;
-  border-radius: 15rpx;
-  line-height: 100rpx;
-  color: #FFF;
-  font-weight: bold;
-  font-size: 36rpx;
-}
+ /********** 头部 **********/
+ 
+ .header-title-left {
+     font-family: PingFangSC;
+     font-size: 24rpx;
+     color: #FFFFFF;
+     letter-spacing: 0;
+     text-align: left;
+     line-height: 34rpx;
+     padding: 0 10rpx 0 318rpx;
+ }
+ 
+ .header-title-right {
+     font-family: DINAlternate-Bold;
+     font-size: 18rpx;
+     color: #FFFFFF;
+     letter-spacing: 0;
+     text-align: center;
+     background: rgba(190, 102, 25, 0.30);
+     border-radius: 12rpx;
+     width: 24rpx;
+     height: 24rpx;
+     line-height: 24rpx;
+     margin-top: 5rpx;
+ }
+ 
+ .header-bottom-top {
+     font-family: PingFangSC-Regular;
+     font-size: 28rpx;
+     color: #FFFFFF;
+     letter-spacing: 0;
+     line-height: 40rpx;
+ }
+ 
+ .header-bottom-bottom {
+     font-family: PingFangSC-Regular;
+     font-size: 20rpx;
+     color: #FFFFFF;
+     letter-spacing: 0;
+     line-height: 28rpx;
+ }
+ 
+ .header-wrapper {
+     background: linear-gradient(270deg, #F79C4C 0%, #F7BE4C 99%);
+ }
+ 
+ .header {
+     padding: 50rpx 0;
+ }
+ 
+ .header-des {
+     font-size: 30rpx;
+     font-weight: 500;
+     color: #222;
+ }
+ 
+ .header-label {
+     display: inline-block;
+     font-size: 30rpx;
+     font-weight: 500;
+     color: #fff;
+ }
+ 
+ .header-item {
+     font-family: DINAlternate-Bold;
+     font-size: 50rpx;
+     color: #FFFFFF;
+     letter-spacing: 0;
+     text-align: center;
+     line-height: 58rpx;
+ }
+ /********** 内容 **********/
+ /* 标题 */
+ 
+ .content-header {
+     display: flex;
+     height: 104rpx;
+     line-height: 104rpx;
+     background: #F5F5F5;
+     padding: 0 30rpx;
+     justify-content: space-between;
+ }
+ 
+ .content-header-left {
+     font-family: PingFangSC;
+     font-size: 34rpx;
+     color: #333333;
+     letter-spacing: 0;
+ }
+ 
+ .content-header-right {
+     font-family: PingFangSC;
+     font-size: 24rpx;
+     color: #999999;
+     letter-spacing: 0;
+ }
+ 
+ .content-header-item {
+     flex: 1;
+     text-align: center;
+     font-size: 35rpx;
+     font-weight: 600;
+     color: #666;
+     margin: 0 80rpx;
+ }
+ 
+ .content-header-item-active {
+     padding: 0 10rpx;
+     border-bottom: 10rpx solid #e79b37;
+     color: #e79b37;
+     font-size: 40rpx;
+ }
+ 
+ .content-time {
+     background: #FFFFFF;
+     display: flex;
+     height: 100rpx;
+     padding: 0 30rpx;
+     justify-content: space-between;
+ }
+ 
+ .content-time-left {
+     margin: 32rpx 0;
+     width: 8rpx;
+     height: 36rpx;
+     background: #F79C4C;
+ }
+ 
+ .content-time-right {
+     font-family: PingFangSC-Regular;
+     font-size: 28rpx;
+     color: #333333;
+     letter-spacing: 0;
+     text-align: left;
+     line-height: 100rpx;
+ }
+ /* 积分记录的内容区域 */
+ 
+ .integral-item {
+     border-top: 2rpx solid #F0F0F0;
+     padding: 0 30rpx;
+     display: flex;
+     justify-content: space-between;
+ }
+ 
+ .integral-time {
+     font-family: PingFangSC;
+     font-size: 24rpx;
+     color: #999999;
+     letter-spacing: 0;
+     text-align: left;
+     padding: 10rpx 0 14rpx;
+     line-height: 34rpx;
+ }
+ 
+ .integral-type {
+     font-family: PingFangSC;
+     font-size: 30rpx;
+     color: #333333;
+     letter-spacing: 0;
+     text-align: left;
+     padding-top: 16rpx;
+     line-height: 42rpx;
+ }
+ 
+ .Integral-value-add {
+     font-family: PingFangSC;
+     font-size: 34rpx;
+     color: #F79C4C;
+     letter-spacing: 0;
+     text-align: right;
+     padding-top: 36rpx;
+     line-height: 48rpx;
+ }
+ 
+ .Integral-value-minus {
+     font-family: PingFangSC;
+     font-size: 34rpx;
+     color: #333333;
+     letter-spacing: 0;
+     text-align: right;
+     padding-top: 36rpx;
+     line-height: 48rpx;
+ }
+ 
+ .noResult {
+     padding: 10rpx 20rpx;
+     font-size: 40rpx;
+     color: #666;
+ }

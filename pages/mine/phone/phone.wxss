@@ -1,92 +1,109 @@
 .login-container {
-  padding: 30rpx;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background-color: #eee;
-  position: fixed;
-  top:0;
-  bottom:0;
-  left:0;
-  right:0;
-}
-.section-1 {
-  width: 100%;
-  height: 134rpx;
-  margin-top: 20rpx;
-  margin-bottom: 10rpx;
+    padding: 42rpx 60rpx;
+    border-top: 1px solid #EBEBEB;
 }
 
-.section-2 {
-  width: 280rpx;
-  padding: 0 50rpx;
-  margin: 20rpx auto 30rpx;
-  font-size: 30rpx;
-  text-align: center;
-  color: #808080;
-  font-family: "微软雅黑","华文细黑",Arial,Helvetica,sans-serif;
+.placeholder-class {
+    font-family: PingFangSC-Regular;
+    font-size: 28rpx;
+    color: #999999;
+    letter-spacing: 0;
+    text-align: left;
 }
-.section-2-1 {
-  display: inline-block;
-  padding: 5rpx 0;
-  font-size: 32rpx;
+
+.phone-number {
+    font-family: PingFangSC-Regular;
+    font-size: 34rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: left;
+    height: 80rpx;
+    line-height: 80rpx;
 }
 
 .section-3 {
-  border: 1rpx solid #bbbbbb;
-  height: 100rpx;
-  display: flex;
-  border-radius: 10rpx;
-  background-color: #FFF;
-  align-items: center;
-  margin-top: 10rpx;
+    display: flex;
+    padding-top: 44rpx;
+    border-bottom: 1px solid #EBEBEB;
+    justify-content: space-between;
 }
 
-.section-3-1 {
-  width: 96rpx;
-  height: 100%;
-  border-right: 1rpx solid #e0e0e0;
-}
-
-.section-3-2 {
-  flex: 1;
-  align-items: center;
-  padding: 0 10rpx;
-  font-size: 30rpx;
-  font-family: "微软雅黑","华文细黑",Arial,Helvetica,sans-serif;
-}
-.section-3-3 {
-  width: 96rpx;
-  height: 100%;
-  border-right: 1rpx solid #bbb;
-}
 .section-4 {
-  width: 100%;
-  margin-top: 25rpx;
-  height: 100rpx;
-  text-align: center;
-  background-color: #e79b37;
-  border-radius: 15rpx;
-  line-height: 100rpx;
-  color: #FFF;
-  font-weight: bold;
-  font-size: 36rpx;
-}
-.section-5 {
-  font-size: 18rpx;
-  margin: 13rpx 0;
-  display: flex;
-  margin-top: 20rpx;
-}
-.rg-section-v5 {
-  border: 1px solid #bfbfbf;
-  font-size: 22rpx;
-  height: 58rpx;
-  line-height: 58rpx;
-  width: 138rpx;
-  text-align: center;
-  margin-right: 28rpx;
-  border-radius: 10rpx;
-  color: #e79b37;
+    background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
+    border-radius: 50rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 34rpx;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    text-align: center;
+    height: 96rpx;
+    width: 100%;
+    margin-top: 40rpx;
+    line-height: 96rpx;
 }
 
+.section-5 {
+    font-size: 18rpx;
+    margin: 13rpx 0;
+    display: flex;
+    margin-top: 20rpx;
+}
+
+.rg-section-v5 {
+    font-family: PingFangSC-Regular;
+    font-size: 22rpx;
+    color: #BFBDBD;
+    letter-spacing: 0;
+    text-align: center;
+    background: #F5F5F5;
+    border-radius: 28rpx;
+    width: 160rpx;
+    height: 56rpx;
+    line-height: 56rpx;
+}
+
+.rg-section-v6 {
+    background: rgba(242, 153, 74, 0.20);
+    border-radius: 28rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 24rpx;
+    color: #F2994A;
+    letter-spacing: 0;
+    text-align: center;
+    border-radius: 28rpx;
+    width: 160rpx;
+    height: 56rpx;
+    line-height: 56rpx;
+}
+
+.bind-title {
+    font-family: PingFangSC-Regular;
+    font-size: 40rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: center;
+    margin-bottom: 20rpx;
+}
+
+.bind-phone {
+    font-family: PingFangSC-Regular;
+    font-size: 30rpx;
+    color: #999999;
+    letter-spacing: 0;
+    text-align: center;
+    margin-bottom: 60rpx;
+}
+
+.bind-back {
+    background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
+    border-radius: 50rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 34rpx;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    text-align: center;
+    width: 500rpx;
+    height: 96rpx;
+    line-height: 96rpx;
+    margin: 0 auto;
+}

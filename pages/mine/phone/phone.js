@@ -7,6 +7,7 @@ Page({
         code: '',
         firstCode: true,
         waitTime: -1,
+        bindShow: false
     },
 
     /**
@@ -88,20 +89,11 @@ Page({
                             }
 
                             requestModel.request(params, () => {
-
-                                // 刷新userInfo
+                                _this.setData({
+                                        bindShow: true
+                                    })
+                                    // 刷新userInfo
                                 requestModel.getUserInfo(() => {}, true)
-                                setTimeout(function() { //提示修改手机号成功，两秒后跳转到’我的‘
-                                    wx.switchTab({
-                                        url: '/pages/mine/mine',
-                                    })
-                                    wx.showToast({
-                                        title: '手机更换成功',
-                                        image: '../../../images/msg/success.png',
-                                        duration: 2000
-                                    })
-                                }, 2000)
-
                             })
                         }
                     }
@@ -116,7 +108,11 @@ Page({
             })
         }
     },
-
+    goback() {
+        wx.switchTab({
+            url: '/pages/mine/mine',
+        })
+    }
 
 
 

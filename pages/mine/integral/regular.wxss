@@ -1,0 +1,17 @@
+.title {
+    font-family: PingFangSC-Regular;
+    font-size: 34rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 48rpx;
+    margin: 38rpx 0 12rpx;
+}
+
+.content {
+    font-family: PingFangSC-Regular;
+    font-size: 28rpx;
+    color: #999999;
+    letter-spacing: 0;
+    text-align: left;
+}

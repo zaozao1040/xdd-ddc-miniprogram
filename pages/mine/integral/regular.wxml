@@ -1,0 +1,10 @@
+<view style='margin-left:30rpx;'>
+    <view class='title'>积分赠送说明：</view>
+    <view class='content'>1.订单中的自费金额赠送积分，满1元消费赠送1积分；</view>
+    <view class='content'>2.订单评价赠送积分，星级送1积分，文字评价赠送5积 分，上传图片赠送15积分。
+    </view>
+    <view class='title'>积分抵扣说明：</view>
+    <view class='content'>1.每满100积分扣抵扣1元；</view>
+    <view class='content'>2.积分暂不支持跨平台使用，暂不支持转赠他人。
+    </view>
+</view>

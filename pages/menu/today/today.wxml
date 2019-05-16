@@ -3,22 +3,22 @@
         <view class="mask" catchtap="handleCloseCart" wx:if="{{boxActiveFlag}}" catchtouchmove="preventTouchMove"></view>
         <view class="book-title">预约{{appointment}}</view>
         <view style="padding:30rpx 0 29rpx;display:flex;border-bottom:1rpx solid #EBEBEB;">
-            <block wx:for="{{ organizeMealTypeFlag }}" wx:key="{{ index }}">
-                <view class="{{ item == mealTypeItem ? 'mealtype-active' : 'mealtype-inactive' }}" bindtap="handleChangeMealtypeActive" data-mealtypeitem="{{ item }}">
-                    {{ mealTypeInfo[item].name }}</view>
+            <block wx:for="{{ mealEnglistLabel }}" wx:key="{{ index }}">
+                <view wx:if='{{mealTypeInfo.mealTypeOrder[item+"Status"]}}' class="{{ item == mealTypeItem ? 'mealtype-active' : 'mealtype-inactive' }}" bindtap="handleChangeMealtypeActive" data-mealtypeitem="{{ item }}">
+                    {{ mealTypeSmall[item]}}</view>
             </block>
         </view>
         <block wx:if="{{getdataalready}}">
-            <block wx:if="{{allMenuData[mealTypeItem].orderFlag && allMenuData[mealTypeItem].foods.length!== 0}}">
+            <block wx:if="{{allMenuData[mealTypeItem].mealType.orderStatus && allMenuData[mealTypeItem].foodList.length!== 0}}">
                 <view style="height: {{ windowHeight - 2 }}px; " class="menu-wrapper c_scrollPosition_forCalculate">
                     <!-- 左边菜品分类 -->
                     <scroll-view class="menu-left" scroll-y style="height: {{ windowHeight - 2 }}px;">
-                        <view class=" {{ menutypeActiveFlag == menutypeIndex ? 'left-item-active' : 'left-item'}}" data-menutypeindex="{{ menutypeIndex }}" bindtap="handleChangeMenutypeActive" wx:for="{{ allMenuData[mealTypeItem].foods }}" wx:for-item="menutypeItem" wx:for-index="menutypeIndex"
+                        <view class=" {{ menutypeActiveFlag == menutypeIndex ? 'left-item-active' : 'left-item'}}" data-menutypeindex="{{ menutypeIndex }}" bindtap="handleChangeMenutypeActive" wx:for="{{ allMenuData[mealTypeItem].foodList }}" wx:for-item="menutypeItem" wx:for-index="menutypeIndex"
                             wx:key="menutypeIndex">
                             <view style="height:30rpx;">
                                 <view wx:if="{{ menuCountList[mealTypeItem][menutypeIndex] > 0 }}" class="menu-count">{{ menuCountList[mealTypeItem][menutypeIndex] }}</view>
                             </view>
-                            <view class="menu-name">{{ menutypeItem.categoryName }}</view>
+                            <view class="menu-name">{{ menutypeItem.typeName }}</view>
                         </view>
                         <view style="height:120rpx;"></view>
                     </scroll-view>
@@ -26,18 +26,18 @@
                     <view class="menu-right">
 
                         <scroll-view class="menu-right-item-wrapper" scroll-y scroll-with-animation="true" bindscroll="handleScroll" style="height: {{ windowHeight - 2 }}px;" scroll-into-view="{{ scrollToView }}" wx:key='menutypeItem'>
-                            <view class="c_foodPosition_forCalculate right-item" wx:for="{{ allMenuData[mealTypeItem].foods}}" wx:for-item="menutypeItem" wx:for-index="menutypeIndex" wx:key="menutypeIndex">
+                            <view class="c_foodPosition_forCalculate right-item" wx:for="{{ allMenuData[mealTypeItem].foodList}}" wx:for-item="menutypeItem" wx:for-index="menutypeIndex" wx:key="menutypeIndex">
                                 <!--不能在这判断暂无，因为menuCountList是按顺序的，不是按id的-->
                                 <view id="order{{ menutypeIndex }}" class="right-item-text">
-                                    {{menutypeItem.categoryName }}
+                                    {{menutypeItem.typeName }}
                                 </view>
 
                                 <!-- 单个食物 -->
-                                <view class="food-wrapper" wx:for="{{ menutypeItem.foods }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodItem.dateId">
+                                <view class="food-wrapper" wx:for="{{ menutypeItem.foodList }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodItem.dateId">
                                     <view class="img-wrapper" bindtap="handleGotoFoodDetail" data-dateid="{{ foodItem.dateId }}" id="{{mealTypeItem}}food{{menutypeIndex}}{{foodIndex}}">
-                                        <image class="food-img" src="{{lazyShowImage[mealTypeItem][menutypeIndex][foodIndex]?foodItem.foodImage:'https://img.alicdn.com/tps/i3/T1QYOyXqRaXXaY1rfd-32-32.gif'}}"></image>
-                                        <!-- <image class="food-img" src="{{foodItem.foodImage}}"></image> -->
-                                        <!-- <view style='font-size:20rpx;'>{{lazyShowImage[mealTypeItem][menutypeIndex][foodIndex]?foodItem.foodImage}}</view> -->
+                                        <image class="food-img" src="{{lazyShowImage[mealTypeItem][menutypeIndex][foodIndex]?foodItem.image:'https://img.alicdn.com/tps/i3/T1QYOyXqRaXXaY1rfd-32-32.gif'}}"></image>
+                                        <!-- <image class="food-img" src="{{foodItem.image}}"></image> -->
+                                        <!-- <view style='font-size:20rpx;'>{{lazyShowImage[mealTypeItem][menutypeIndex][foodIndex]?foodItem.image}}</view> -->
                                     </view>
                                     <view class="food-info-wrapper">
                                         <view>
@@ -45,19 +45,19 @@
                                                 {{foodItem.foodName}}
                                             </view>
                                             <view class="food-label" style="margin-top:10rpx;display: flex;overflow: hidden;">
-                                                <view class="food-label-item" style="white-space:nowrap;">{{ menutypeItem.categoryName }}</view>
+                                                <view class="food-label-item" style="white-space:nowrap;">{{ menutypeItem.typeName }}</view>
                                                 <view class="food-label-item" wx:for="{{foodItem.foodLabel}}" wx:key="{{ index }}">{{ item }}</view>
                                             </view>
                                             <view class="food-desc" wx:if="{{foodItem.description}}">
                                                 {{foodItem.description}}
                                             </view>
 
-                                            <view class="foodLimitNum" wx:if="{{ foodItem.stock != null }}">
-                                                <view class="stockLeftNum" wx:if="{{ foodItem.stock.stockLeftNum != null }}">
-                                                    库存:<text style="color:#222;">{{foodItem.stock.stockLeftNum }}</text>
+                                            <view class="foodLimitNum" wx:if="{{foodItem.foodQuota}}">
+                                                <view class="stockLeftNum" wx:if="{{foodItem.foodQuota.surplusNum}}">
+                                                    库存:<text style="color:#222;">{{foodItem.foodQuota.surplusNum }}</text>
                                                 </view>
-                                                <view class="homebuyingRestrictions" wx:if="{{ foodItem.stock.homebuyingRestrictions }}">
-                                                    限购:<text style="color:#222;">{{foodItem.stock.homebuyingRestrictions }}</text>
+                                                <view class="homebuyingRestrictions" wx:if="{{ foodItem.foodQuota.quotaNum }}">
+                                                    限购:<text style="color:#222;">{{foodItem.foodQuota.quotaNum }}</text>
                                                 </view>
                                             </view>
                                         </view>
@@ -106,7 +106,7 @@
                     <scroll-view scroll-y style="height: {{ cartHeight }}px;">
                         <view class="cart_scrollPosition_forCalculate">
                             <view class="chart-date">{{appointment}}({{mealDateShow}})</view>
-                            <view wx:for="{{ organizeMealTypeFlag }}" wx:key="{{ index }}">
+                            <view wx:for="{{ mealEnglistLabel }}" wx:key="{{ index }}">
                                 <view wx:for="{{ selectedFoodsIndex[item].selectedFoods }}" wx:for-item="onefood" wx:for-index="selectedFoodIndex" wx:key="selectedFoodIndex">
                                     <view style="display: flex;background: #FFFFFF;box-shadow: inset 0 0 0 0 #E6E6E6;border-bottom:2rpx solid #F5F5F5;" wx:if="{{onefood.foodCount>0}}">
                                         <!--午餐-->
@@ -149,13 +149,13 @@
                 <view wx:if="{{ showBackToTopFlag }}" class="backToTop iconfont icon-fanhuidingduan" bindtap="backToTop">
                 </view>
                 <!-- 【第六排】底部状态栏 -->
-                <block wx:if="{{ allMenuData[mealTypeItem].organizeMealLabel == 0 || allMenuData[mealTypeItem].organizeMealLabel == null }}"></block>
-                <view class="footer-wrapper-top" wx:elif="{{ allMenuData[mealTypeItem].mealLabelFlag && totalCount > 0  }}">
+                <block wx:if="{{ allMenuData[mealTypeItem].mealType.standardPrice == 0 || allMenuData[mealTypeItem].mealType.standardPrice == null }}"></block>
+                <view class="footer-wrapper-top" wx:elif="{{ allMenuData[mealTypeItem].mealSet.userCanStandardPrice && totalCount > 0  }}">
                     <view style="position:relative; top:16rpx;  left:284rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
-                        企业折扣减{{ allMenuData[mealTypeItem].organizeMealLabel }}
+                        企业折扣减{{ allMenuData[mealTypeItem].mealType.standardPrice }}
                     </view>
                 </view>
-                <view class="footer-wrapper-top" wx:elif="{{ !allMenuData[mealTypeItem].mealLabelFlag && totalCount > 0 }}">
+                <view class="footer-wrapper-top" wx:elif="{{ !allMenuData[mealTypeItem].mealSet.userCanStandardPrice && totalCount > 0 }}">
                     <view style="position:relative; top:16rpx;  left:284rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
                         当前额度已被使用
                     </view>
@@ -184,12 +184,12 @@
                     <view wx:else style="position:absolute; left:160rpx; ">
                         <view style="position:relative; top:18rpx;line-height:34rpx;font-family: PingFang-SC-Regular; font-size: 24rpx; color: rgba(255,255,255,0.40); letter-spacing: 0; text-align: left;">
                             未选购餐品</view>
-                        <block wx:if="{{  allMenuData[mealTypeItem].organizeMealLabel == 0 || allMenuData[mealTypeItem].organizeMealLabel == null}}"></block>
+                        <block wx:if="{{  allMenuData[mealTypeItem].mealType.standardPrice == 0 || allMenuData[mealTypeItem].mealType.standardPrice == null}}"></block>
                         <!--这个是咋判断的，需要问后台没有餐标的时候到底返回啥值-->
 
                         <view wx:else style="top:18rpx;position:relative; line-height:28rpx;font-family: PingFang-SC-Regular; font-size: 10px; color: rgba(255,255,255,0.40); letter-spacing: 0; text-align: left;">
-                            <block wx:if="{{ allMenuData[mealTypeItem].mealLabelFlag }}">
-                                企业将抵扣: {{ allMenuData[mealTypeItem].organizeMealLabel }}
+                            <block wx:if="{{ allMenuData[mealTypeItem].mealSet.userCanStandardPrice }}">
+                                企业将抵扣: {{ allMenuData[mealTypeItem].mealType.standardPrice }}
                             </block>
                             <block wx:else>
                                 当前额度已被使用

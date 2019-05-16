@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "更换绑定手机号",
-  "navigationBarBackgroundColor": "#e79b37",
-  "navigationBarTextStyle":"white"
+    "navigationBarTitleText": "换绑手机",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTextStyle": "black"
 }

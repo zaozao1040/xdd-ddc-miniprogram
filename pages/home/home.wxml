@@ -258,30 +258,26 @@
             <view class='appointment-choice-foodtype-title' wx:if="{{appointmention!='week'}}">
                 选择时餐
             </view>
-
             <view class="appointment-choice-foodtype-list" style="margin-bottom:30rpx;border-bottom: 1rpx solid #EBEBEB;" wx:if="{{appointmention!='week'}}">
-                <block wx:for="{{organizeMealTypeFlag}}" wx:key="{{index}}">
-
-                    <view class='appointment-choice-foodtype' data-mealtype='{{item}}' catchtap="startOrderMenu">
-                        <image src='../../images/home/filter_{{item}}@2x.png' style="height:120rpx;width:120rpx;"></image>
-                        <view style="margin-left:30rpx;width:150rpx;flex-grow:1;">
-                            <view class="appointment-choice-foodtype-name"> {{mealTypeInfo[appointmention][item].name}}</view>
-                            <view class="appointment-choice-foodtype-deadlilne">
-                                <view>截止时间</view>
-                                <view style="margin-left:10rpx;">{{mealTypeInfo[appointmention][item].deadline}}</view>
+                <block wx:for="{{twoDaysMealName}}" wx:key="{{index}}">
+                    <block wx:if='{{oneDayInfo[item+"Status"]==true}}'>
+                        <view class='appointment-choice-foodtype' data-mealtype='{{item}}' catchtap="startOrderMenu">
+                            <image src='../../images/home/filter_{{item}}@2x.png' style="height:120rpx;width:120rpx;"></image>
+                            <view style="margin-left:30rpx;width:150rpx;flex-grow:1;">
+                                <view class="appointment-choice-foodtype-name"> {{mealTypeMapSmall[item]}}</view>
+                                <view class="appointment-choice-foodtype-deadlilne">
+                                    <view>截止时间</view>
+                                    <view style="margin-left:10rpx;">{{oneDayInfo[item+"deadlineDesc"]}}</view>
+                                </view>
                             </view>
+                            <image src='../../images/home/filter_more@2x.png' style="height:88rpx;width:88rpx; margin-top: 16rpx;"></image>
                         </view>
-                        <image src='../../images/home/filter_more@2x.png' style="height:88rpx;width:88rpx; margin-top: 16rpx;"></image>
-                    </view>
-                    <view style="position:absolute;top:{{596+index*139}}rpx;width:750rpx;height:142rpx;background:rgba(255,255,255,0.8);z-index:1001;" wx:if='{{!mealTypeInfo[appointmention][item].flag}}'>
-
-                        <image src='../../images/home/filter_end@2x.png' style="position:absolute; right:110rpx;  top:12rpx;width:120rpx;height:115rpx;"></image>
-
-                    </view>
+                        <view style="position:absolute;top:{{456+index*139}}rpx;width:750rpx;height:142rpx;background:rgba(255,255,255,0.8);z-index:1001;" wx:if='{{!oneDayInfo[item+"OrderStatus"]}}'>
+                            <image src='../../images/home/filter_end@2x.png ' style="position:absolute; right:110rpx;  top:12rpx;width:120rpx;height:115rpx;"></image>
+                        </view>
+                    </block>
                 </block>
-
             </view>
-
         </view>
     </view>
 </scroll-view>

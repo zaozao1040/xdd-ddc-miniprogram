@@ -1,6 +1,3 @@
-import { integral } from './integral-model.js'
-let integralModel = new integral()
-
 import { base } from '../../../comm/public/request'
 let requestModel = new base()
 Page({
@@ -9,18 +6,9 @@ Page({
         page: 1, // 设置加载的第几次，默认是第一次
         limit: 20, // 每页条数
         hasMoreDataFlag: true, //是否还有更多数据  默认还有
-        //
+
         windowHeight: 0,
         scrollTop: 0,
-        //
-        itemStatusActiveFlag: true,
-        pointsList: [
-            [100, 200],
-            [500, 800]
-        ],
-        activeFlag1: undefined,
-        activeFlag2: undefined,
-        selectedPoint: 0,
         explainDes: {
             one: '100积分兑换1点餐币,兑换成功后点餐币将存入您的余额',
             two: '积分暂不支持跨平台使用，暂不支持转赠他人'
@@ -29,7 +17,6 @@ Page({
             one: '订单中的自费金额赠送积分,满1元消费赠送1积分',
             two: '订单评价赠送积分,星级送1分,文字赠送5分,上传图片送15分'
         },
-        //
         integralList: [],
         integralListNoResult: false,
     },
@@ -72,10 +59,9 @@ Page({
         _this.data.page = 1
         _this.data.limit = 20
         this.setData({
-            /*       page: 1,
-                  limit: 20, */
             integralList: [] //列表必须清空，否则分页会无限叠加
         })
+        this.getIntegralList()
     },
 
     /* 页面隐藏后回收定时器指针 */
@@ -96,31 +82,13 @@ Page({
             })
         }
     },
-    changeItemStatusActiveFlag: function(e) {
-        let flag = e.currentTarget.dataset.flag
-        if (flag == 'duihuan') {
-            this.setData({
-                itemStatusActiveFlag: true
-            })
-        } else if (flag == 'jilu') {
-            this.data.page = 1
-            this.data.limit = 20
-            this.setData({
-                itemStatusActiveFlag: false,
-                integralList: [],
-                hasMoreDataFlag: true,
-            })
-            this.getIntegralList()
-        }
-    },
+
     /* 获取交易记录列表 */
     getIntegralList: function() {
         this.setData({
             loadingData: true
         })
         let _this = this
-
-
         let page = _this.data.page
         let limit = _this.data.limit
         let param = {
@@ -144,9 +112,7 @@ Page({
                 element.operateTimeDes = element.operateTime
             })
 
-            //下面开始分页 
-            console.log('page * limit', page * limit)
-            console.log('data.amout', data.amount)
+            //下面开始分页  
             if (page * limit >= data.amount) { //说明已经请求完了 
 
                 _this.setData({
@@ -165,64 +131,8 @@ Page({
             })
         })
     },
-    /* click更改选中的金额 */
-    changePointActiveFlag: function(e) {
-        console.log(e)
-        this.setData({
-            activeFlag1: e.currentTarget.dataset.activeflag1
-        })
-        this.setData({
-            activeFlag2: e.currentTarget.dataset.activeflag2
-        })
-        this.setData({
-            selectedPoint: e.currentTarget.dataset.selectedpoint
-        })
-    },
-    /* 积分兑换 */
-    handleExchange: function() {
-        let _this = this
-        console.log(this.data.selectedPoint)
-        if (_this.data.selectedPoint == 0) {
-            wx.showToast({
-                title: "请选择兑换积分",
-                image: '../../../images/msg/error.png',
-                duration: 2000
-            })
-        } else {
-            let param = {
-                userCode: wx.getStorageSync('userCode'),
-                integral: _this.data.selectedPoint
-            }
-            wx.showLoading({
-                title: '加载中',
-                mask: true
-            })
-            integralModel.handleExchange(param, (res) => {
-                console.log('收到请求(积分兑换):', res)
-                if (res.code === 0) {
-                    wx.showToast({
-                        title: '积分兑换成功',
-                        image: '../../../images/msg/success.png',
-                        duration: 2000
-                    })
 
-                    _this.data.timer = setTimeout(function() {
-                        wx.switchTab({
-                            url: '/pages/mine/mine',
-                        })
-                        wx.hideLoading()
-                    }, 2000)
-                } else {
-                    wx.showToast({
-                        title: res.msg,
-                        image: '../../../images/msg/error.png',
-                        duration: 2000
-                    })
-                }
-            })
 
-        }
-    },
     /**
      * 生命周期函数--监听页面卸载
      */
