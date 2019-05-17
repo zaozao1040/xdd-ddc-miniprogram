@@ -25,6 +25,8 @@
     display: flex;
     border-radius: 6rpx;
     margin-bottom: 20rpx;
+    height: 100rpx;
+    position: relative;
 }
 
 .section-3-empty {
@@ -33,13 +35,15 @@
 
 .section-3-1 {
     padding: 22rpx 36rpx 24rpx;
+    border-top-left-radius: 6rpx;
+    border-bottom-left-radius: 6rpx;
     background: #FAFAFA;
 }
 
 .section-3-2 {
     font-family: PingFangSC-Regular;
     font-size: 30rpx;
-    color: #999999;
+    color: #333333;
     letter-spacing: 0;
     text-align: left;
     flex: 1;
@@ -110,8 +114,7 @@
 }
 
 .search-wrapper {
-    background: #FFF;
-    margin-top: 10rpx;
+    
 }
 
 .inputSearch-wrapper {
@@ -129,29 +132,34 @@
 }
 
 .c_scrollPosition_forCalculate {
-    margin-top: 20rpx;
+
 }
 
 .organizeItem-wrapper {
+    background: #FFF;
     display: flex;
     justify-content: space-between;
-    margin: 10rpx 20rpx;
-    border-bottom: 1rpx solid #ddd;
+    padding: 16rpx 30rpx;
+    margin-bottom: 2rpx;
 }
 
 .organizeItem-left {}
 
 .organizeName {
-    font-size: 40rpx;
-    color: #222;
-    font-weight: 500;
+    font-family: PingFangSC-Regular;
+    font-size: 34rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: left;
+}
+.organizeAddress{
+    font-family: PingFangSC-Regular;
+font-size: 14px;
+color: #999999;
+letter-spacing: 0;
+text-align: left;
 }
 
-.organizeAddress {
-    font-size: 30rpx;
-    color: #666;
-    font-weight: 400;
-}
 
 .organizeItem-right {
     font-size: 30rpx;
@@ -192,13 +200,46 @@
 
 .button {
     width: 100%;
-    margin-top: 25rpx;
-    height: 100rpx;
+    background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
+    border-radius: 50rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 34rpx;
+    color: #FFFFFF;
+    letter-spacing: 0;
     text-align: center;
-    background-color: #e79b37;
-    border-radius: 15rpx;
-    line-height: 100rpx;
-    color: #FFF;
-    font-weight: bold;
-    font-size: 36rpx;
+    line-height: 96rpx;
+    width: 712rpx;
+    height: 96rpx;
+}
+
+.bind-title {
+    font-family: PingFangSC-Regular;
+    font-size: 40rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: center;
+    margin-bottom: 20rpx;
+}
+
+.bind-des {
+    font-family: PingFangSC-Regular;
+    font-size: 30rpx;
+    color: #999999;
+    letter-spacing: 0;
+    text-align: center;
+    margin-bottom: 60rpx;
+}
+
+.bind-back {
+    background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
+    border-radius: 50rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 34rpx;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    text-align: center;
+    width: 500rpx;
+    height: 96rpx;
+    line-height: 96rpx;
+    margin: 0 auto;
 }
