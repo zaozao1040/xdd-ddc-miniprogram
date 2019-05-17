@@ -59,10 +59,21 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        console.log('wallet-onload')
-        this.setData({
-            balance: options.balance
-        })
+
+        if (options.balance) {
+            this.setData({
+                balance: options.balance
+            })
+        } else {
+            let param = {
+                url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
+            }
+            requestModel.request(param, data => {
+                this.setData({
+                    balance: data.balance
+                })
+            })
+        }
     },
 
     /**

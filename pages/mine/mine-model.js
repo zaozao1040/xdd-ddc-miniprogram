@@ -42,7 +42,7 @@ class mine extends base {
             this.request(allParams)
         }
         /* 获取企业列表- 根据经纬度 */
-    getOrganizeListByLocation(param, callback) {
+    getOrganizeListByLocationNoDefault(param, callback) {
             let allParams = {
                 url: baseUrl + '/organize/organizes/longAndLat',
                 type: 'GET',

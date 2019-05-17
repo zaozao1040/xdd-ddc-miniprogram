@@ -1,8 +1,5 @@
-import { confirm } from './confirm-model.js'
 import { discount } from '../../../mine/discount/discount-model.js'
 let discountModel = new discount()
-
-let confirmModel = new confirm()
 import moment from "../../../../comm/script/moment"
 
 import { base } from '../../../../comm/public/request'
@@ -13,7 +10,7 @@ Page({
      * 页面的初始数据
      */
     data: {
-        payType: 'BALANCE_PAY', //'WECHAT_PAY' 支付方式,余额大于付款额则默认余额支付   小于的话则默认微信支付
+        payType: 'integral_PAY', //'WECHAT_PAY' 支付方式,余额大于付款额则默认余额支付   小于的话则默认微信支付
 
         //
         windowHeight: 0,
@@ -33,6 +30,7 @@ Page({
         totalMoney: 0,
         totalMoneyRealDeduction: 0, //额度总金额
         totalDeduction: 0, //优惠的总价格，企业额度和优惠券优惠
+        integralDeduction: 0, //积分抵扣的总金额
         realMoney: 0, //实际总价格，也就是自费价格
         realMoney_save: 0, //实际总价格，也就是自费价格(从menu传过来的，不含减去优惠券的价格--保存下来用于选择不同优惠券)
 
@@ -49,7 +47,7 @@ Page({
         mapMenutype: ['早餐', '午餐', '晚餐', '夜宵'],
         mapMenutypeIconName: ['zaocan1', 'wucan', 'canting', 'xiaoye-'],
 
-        balance: 0,
+        integral: 0,
         walletSelectedFlag: true, //勾选是否使用余额  默认勾选    true开启    false关闭
         finalMoney: 0,
 
@@ -87,9 +85,67 @@ Page({
             })
         })
     },
+    //选择不使用积分
+    changeUseIntegral(e) {
+        let { index, meal } = e.currentTarget.dataset
+        this.data.selectedFoods[index][meal].useIntegral = !this.data.selectedFoods[index][meal].useIntegral
+        this.calculateIntegral()
+    },
     /**
      * 生命周期函数--监听页面加载
      */
+    calculateIntegral() {
+        let oldIntegralDeduction = this.data.integralDeduction
+        let newIntegralDeduction = 0;
+        let selectedFoods = this.data.selectedFoods
+            // let integral = this.data.integral
+        let integral = 2058
+        let total = parseInt(integral / 100);
+        let left = integral - total * 100;
+        for (let i = 0; i < selectedFoods.length; i++) {
+            if (selectedFoods[i].count > 0) {
+                for (let m = 0; m < this.data.mealEnglistLabel.length; m++) {
+                    let meal = this.data.mealEnglistLabel[m]
+                        //本餐选择了使用积分抵扣
+                    if (selectedFoods[i][meal] && selectedFoods[i][meal].useIntegral) {
+                        if (total > 0) {
+                            //如果本餐的钱数大于剩余积分，则全部使用
+                            if (selectedFoods[i][meal].payMoney >= total) {
+                                selectedFoods[i][meal].integral = total
+                                selectedFoods[i][meal].current = total * 100 + left
+                                newIntegralDeduction += total
+                                total = 0
+                            } else {
+                                //剩余积分多，还剩下积分
+                                let a = parseInt(selectedFoods[i][meal].payMoney)
+                                selectedFoods[i][meal].integral = a
+                                selectedFoods[i][meal].current = total * 100 + left
+                                total = total - a
+                                console.log('newIntegralDeduction--a', a)
+                                newIntegralDeduction += a
+                            }
+                        } else {
+                            selectedFoods[i][meal].integral = 0
+                            selectedFoods[i][meal].current = left
+                        }
+
+                    }
+                }
+            }
+        }
+        console.log('newIntegralDeduction', newIntegralDeduction)
+        let totalDeduction = this.data.totalDeduction
+        totalDeduction = parseFloat(totalDeduction - oldIntegralDeduction + newIntegralDeduction)
+        let realMoney = this.data.realMoney
+        realMoney = parseFloat(realMoney + oldIntegralDeduction - newIntegralDeduction)
+        this.setData({
+            selectedFoods: selectedFoods,
+            totalDeduction: totalDeduction,
+            integralDeduction: newIntegralDeduction,
+            realMoney: realMoney
+        })
+        console.log('sevenSelectedFoods', selectedFoods)
+    },
     onLoad: function(options) {
         this.initAddress()
 
@@ -105,7 +161,19 @@ Page({
                 // 7tian
         } else if (options.orderType == 'seven') {
             selectedFoods = wx.getStorageSync('sevenSelectedFoods')
-            console.log('sevenSelectedFoods', selectedFoods)
+
+        }
+        //初始化，默认都选择使用积分抵扣
+
+        for (let i = 0; i < selectedFoods.length; i++) {
+            if (selectedFoods[i].count > 0) {
+                for (let m = 0; m < this.data.mealEnglistLabel.length; m++) {
+                    let meal = this.data.mealEnglistLabel[m]
+                    if (selectedFoods[i][meal]) {
+                        selectedFoods[i][meal].useIntegral = true
+                    }
+                }
+            }
         }
 
         this.setData({
@@ -140,6 +208,16 @@ Page({
 
         })
 
+        let param = {
+            url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
+        }
+        requestModel.request(param, data => {
+            _this.setData({
+                integral: data.integral
+            })
+            _this.calculateIntegral()
+        })
+
         //从后端获取钱包余额
         _this.getWallet()
             //从后端获取优惠券信息
@@ -158,9 +236,9 @@ Page({
         }
         requestModel.request(param, data => {
             this.setData({
-                balance: data.balance
+                integral: data.integral
             })
-            if (data.balance < _this.data.realMoney) { //余额小于实际付款，则改为微信付款
+            if (data.integral < this.data.realMoney) { //余额小于实际付款，则改为微信付款
                 this.setData({
                     walletSelectedFlag: false,
                     payType: 'WECHAT_PAY'
@@ -384,7 +462,7 @@ Page({
         requestModel.request(params, data => {
 
             // let data = res.data.payData
-            // if (!data || param.payType == 'BALANCE_PAY' || param.payType == 'STANDARD_PAY') {
+            // if (!data || param.payType == 'integral_PAY' || param.payType == 'STANDARD_PAY') {
             //     console.log('支付结果返回：hideLoading')
             //     wx.hideLoading()
             //     wx.showModal({
@@ -466,7 +544,7 @@ Page({
                 payType: 'WECHAT_PAY'
             })
         } else { //如果原来是关闭余额支付，则首先判断余额是否充足
-            if (_this.data.balance < _this.data.realMoney) { //如果用户余额少于用户需要支付的价格，不允许用余额,也就是禁止打开switch
+            if (_this.data.integral < _this.data.realMoney) { //如果用户余额少于用户需要支付的价格，不允许用余额,也就是禁止打开switch
                 wx.showToast({
                     title: '余额不足,请充值',
                     image: '../../../images/msg/error.png',
@@ -476,7 +554,7 @@ Page({
             } else { //使用余额支付方式
                 _this.setData({
                     walletSelectedFlag: !_this.data.walletSelectedFlag,
-                    payType: 'BALANCE_PAY'
+                    payType: 'integral_PAY'
                 })
             }
         }

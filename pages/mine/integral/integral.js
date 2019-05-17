@@ -45,9 +45,21 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        this.setData({
-            integral: options.integral
-        })
+        if (options.integral) {
+            this.setData({
+                integral: options.integral
+            })
+        } else {
+            let param = {
+                url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
+            }
+            requestModel.request(param, data => {
+                this.setData({
+                    integral: data.integral
+                })
+            })
+        }
+
     },
 
     /**
@@ -69,17 +81,8 @@ Page({
 
     /* 手动点击触发下一页 */
     gotoNextPage: function() {
-        console.log('this.data.hasMoreDataFlag', this.data.hasMoreDataFlag)
         if (this.data.hasMoreDataFlag) {
             this.getIntegralList()
-            wx.showLoading({
-                title: '点击加载更多',
-            })
-        } else {
-            wx.showToast({
-                image: '../../../images/msg/warning.png',
-                title: '没有更多数据'
-            })
         }
     },
 

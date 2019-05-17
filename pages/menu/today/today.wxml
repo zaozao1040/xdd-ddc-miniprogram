@@ -34,7 +34,7 @@
 
                                 <!-- 单个食物 -->
                                 <view class="food-wrapper" wx:for="{{ menutypeItem.foodList }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodItem.dateId">
-                                    <view class="img-wrapper" bindtap="handleGotoFoodDetail" data-dateid="{{ foodItem.dateId }}" id="{{mealTypeItem}}food{{menutypeIndex}}{{foodIndex}}">
+                                    <view class="img-wrapper" bindtap="handleGotoFoodDetail" data-foodcode="{{ foodItem.foodCode }}" id="{{mealTypeItem}}food{{menutypeIndex}}{{foodIndex}}">
                                         <image class="food-img" src="{{lazyShowImage[mealTypeItem][menutypeIndex][foodIndex]?foodItem.image:'https://img.alicdn.com/tps/i3/T1QYOyXqRaXXaY1rfd-32-32.gif'}}"></image>
                                         <!-- <image class="food-img" src="{{foodItem.image}}"></image> -->
                                         <!-- <view style='font-size:20rpx;'>{{lazyShowImage[mealTypeItem][menutypeIndex][foodIndex]?foodItem.image}}</view> -->
@@ -44,14 +44,9 @@
                                             <view class="food-name">
                                                 {{foodItem.foodName}}
                                             </view>
-                                            <view class="food-label" style="margin-top:10rpx;display: flex;overflow: hidden;">
-                                                <view class="food-label-item" style="white-space:nowrap;">{{ menutypeItem.typeName }}</view>
-                                                <view class="food-label-item" wx:for="{{foodItem.foodLabel}}" wx:key="{{ index }}">{{ item }}</view>
+                                            <view wx:if="{{foodItem.canMeal==false}}" style="font-size:20rpx;line-height: 20rpx;color:#ce8307;">
+                                                不可使用餐标2
                                             </view>
-                                            <view class="food-desc" wx:if="{{foodItem.description}}">
-                                                {{foodItem.description}}
-                                            </view>
-
                                             <view class="foodLimitNum" wx:if="{{foodItem.foodQuota}}">
                                                 <view class="stockLeftNum" wx:if="{{foodItem.foodQuota.surplusNum}}">
                                                     库存:<text style="color:#222;">{{foodItem.foodQuota.surplusNum }}</text>
@@ -60,6 +55,21 @@
                                                     限购:<text style="color:#222;">{{foodItem.foodQuota.quotaNum }}</text>
                                                 </view>
                                             </view>
+                                            <view class="food-label" style="margin-top:10rpx;display: flex;overflow: hidden;">
+                                                <view class="food-label-item" style="white-space:nowrap;">{{ menutypeItem.typeName }}</view>
+                                                <view class="food-label-item" wx:for="{{foodItem.foodLabels}}" wx:key="{{ index }}">{{ item }}</view>
+                                                <view class="food-label-item" wx:for="{{foodItem.foodLabels}}" wx:key="{{ index }}">{{ item }}</view>
+                                                <view class="food-label-item" wx:for="{{foodItem.foodLabels}}" wx:key="{{ index }}">{{ item }}</view>
+                                                <view class="food-label-item" wx:for="{{foodItem.foodLabels}}" wx:key="{{ index }}">{{ item }}</view>
+                                                <view class="food-label-item" wx:for="{{foodItem.foodLabels}}" wx:key="{{ index }}">{{ item }}</view>
+                                                <view class="food-label-item" wx:for="{{foodItem.foodLabels}}" wx:key="{{ index }}">{{ item }}</view>
+                                                <view class="food-label-item" wx:for="{{foodItem.foodLabels}}" wx:key="{{ index }}">{{ item }}</view>
+                                            </view>
+                                            <view class="food-desc" wx:if="{{foodItem.description}}">
+                                                {{foodItem.description}}
+                                            </view>
+
+
                                         </view>
                                         <view style="display: flex;justify-content: space-between; width:100%; height:40rpx;">
                                             <view style="display: flex;">
@@ -151,8 +161,11 @@
                 <!-- 【第六排】底部状态栏 -->
                 <block wx:if="{{ allMenuData[mealTypeItem].mealType.standardPrice == 0 || allMenuData[mealTypeItem].mealType.standardPrice == null }}"></block>
                 <view class="footer-wrapper-top" wx:elif="{{ allMenuData[mealTypeItem].mealSet.userCanStandardPrice && totalCount > 0  }}">
-                    <view style="position:relative; top:16rpx;  left:284rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
-                        企业折扣减{{ allMenuData[mealTypeItem].mealType.standardPrice }}
+                    <view wx:if="{{orgAdmin}}" style="position:relative; top:16rpx;  left:284rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
+                        您当前是管理员
+                    </view>
+                    <view wx:else style="position:relative; top:16rpx;  left:284rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
+                        企业折扣减{{ allMenuData[mealTypeItem].deductionMoney }}
                     </view>
                 </view>
                 <view class="footer-wrapper-top" wx:elif="{{ !allMenuData[mealTypeItem].mealSet.userCanStandardPrice && totalCount > 0 }}">
