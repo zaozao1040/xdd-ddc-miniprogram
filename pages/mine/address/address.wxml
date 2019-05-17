@@ -1,19 +1,33 @@
 <view class="address-wrapper">
     <view class="section-3">
-        <view style="margin-left:16rpx;padding:28.6rpx 42.7rpx;width:34.6rpx;height:42.8rpx;background: #FAFAFA;">
-            <image src="../../../images/mine/dizhi@2x.png" style='width:34.6rpx;height:42.8rpx;'></image>
+        <view style="width:120rpx;height:100rpx;background: #FAFAFA;">
+            <image src="../../../images/mine/dizhi@2x.png"
+                style='padding-left:43rpx;padding-top:29.2rpx;width:34.6rpx;height:42.8rpx;margin:auto;'></image>
         </view>
-        <view style='background: #FFFFFF; border-radius: 3px;flex-grow:1;'>
-            <!-- <text wx:if="{{addressDes}}" style="font-size:40rpx;color:#e79b37;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text> -->
-            <input placeholder-class='placeholder-class' class='phone-number' value="{{addressDes}}" placeholder="请选择企业默认地址" class="section-3-2" type="string" disabled></input>
+        <view style='background: #FFFFFF; height: 100rpx;flex-grow:1;'>
+            <image wx:if="{{addressDes}}" src="../../../images/mine/selected@2x.png"
+                style='width:52rpx;height:52rpx;position: absolute;top:40rpx;right:48rpx;'></image>
+            <input placeholder-class='placeholder-class' class='phone-number' value="{{addressDes}}"
+                placeholder="请选择企业默认地址" type="string" disabled></input>
         </view>
     </view>
 
     <view class="addressList-wrapper">
-        <view class="addressItem-wrapper" wx:for="{{addressList}}" wx:for-index="addressIndex" wx:for-item="addressItem" wx:key="addressIndex" catchtap="selectDefaultAddress" data-addressdes="{{addressItem.address}}" data-addresscode="{{addressItem.deliveryAddressCode}}"
-            data-useraddaddress="{{addressItem.userAddAddress}}">
-            <view class="address">
-                {{addressItem.address}}
+        <view wx:for="{{addressList}}" wx:for-index="addressIndex" wx:for-item="addressItem"
+            wx:key="addressIndex" catchtap="selectDefaultAddress" data-addressdes="{{addressItem.address}}"
+            data-addresscode="{{addressItem.deliveryAddressCode}}" data-useraddaddress="{{addressItem.userAddAddress}}">
+            <view style="padding: 30rpx;">
+                <view style="padding-bottom: 10rpx; height: 42rpx;font-family: PingFangSC-Regular; font-size: 30rpx; color: #333333; line-height: 42rpx">
+                    {{addressItem.address}}
+                </view>
+                <view style="display:flex;justify-content: space-between;">
+                    <view style=" height: 42rpx;font-family: PingFangSC-Regular; font-size: 30rpx; color: #333333; line-height: 42rpx">
+                        联系人:{{addressItem.contactName}}
+                    </view>
+                    <view style=" height: 42rpx;font-family: PingFangSC-Regular; font-size: 30rpx; color: #333333; line-height: 42rpx">
+                        {{addressItem.contactPhone}}
+                    </view>
+                </view>
             </view>
 
         </view>
