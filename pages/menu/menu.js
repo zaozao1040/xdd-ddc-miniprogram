@@ -6,7 +6,7 @@
          allMenuData: [{}, {}, {}, {}, {}, {}, {}], // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
          allMenuDataCopy: [{}, {}, {}, {}, {}, {}, {}], //初始化为allMenuData，在清空购物车时，赋值给allMenuData
 
-         activeDayIndex: 0, //当前被点击的日期的index
+         activeDayIndex: 1, //当前被点击的日期的index
 
          selectedFoodsIndex: [{ count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }], //选择的食物的 menutypeIndex和foodIndex ，以及选中的食物，选中的餐品的个数
          selectedFoodsIndexCopy: [{ count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }], //用于清空购物车copy的
@@ -110,17 +110,15 @@
              for (let i = 0; i < this.data.mealEnglistLabel.length; i++) {
                  //5/15 今天一定有可定的餐时吗？即：该公司预定了这个餐时
                  let meal = this.data.mealEnglistLabel[i]
-                 if (data[0].mealTypeOrder[meal + 'Status']) {
-                     if (data[0].mealTypeOrder[meal + 'OrderStatus']) {
-                         this.setData({
-                             mealTypeItem: meal
-                         })
-
-                         if (!this.data.allMenuData[0][meal]) { //表示今天第一个餐时可点餐
-                             this.getTimeDataByResponse()
-                         }
-                         break
+                 if (data[this.data.activeDayIndex].mealTypeOrder[meal + 'Status']) {
+                     this.setData({
+                         mealTypeItem: meal
+                     })
+                     console.log('mealTypeItem', meal)
+                     if (!this.data.allMenuData[this.data.activeDayIndex][meal]) { //表示今天第一个餐时可点餐
+                         this.getTimeDataByResponse()
                      }
+                     break
 
                  }
              }
@@ -137,6 +135,20 @@
                  })
              }
          })
+         requestModel.getUserInfo(userInfo => {
+             console.log('userInfo', userInfo)
+             let { userType, orgAdmin } = userInfo
+             if (userType == 'ORG_ADMIN' && orgAdmin == true) {
+                 _this.setData({
+                     orgAdmin: false
+                 })
+             } else {
+                 _this.setData({
+                     orgAdmin: false
+                 })
+             }
+
+         }, true)
      },
      // 点击日期(e)
      changeActiveDay(e) {
@@ -181,9 +193,10 @@
          }
          let _this = this
          requestModel.request(param, resData => { //获取加餐所有信息
-             resData.add = {} //附加的信息
+
              resData.totalMoney = 0 //给每天的每个餐时一个点餐的总的金额
-             resData.deductionMoney = 0 //给每天的每个餐时一个点餐的总的金额
+             resData.totalMoney_meal = 0 //每天的餐时可使用餐标的总金额
+             resData.deductionMoney = 0 //每天的餐时抵扣的金额
                  // 给每一个菜品添加一个foodCount，用于加号点击时加一减一
                  // 给每一个菜品添加一个foodTotalPrice
                  // 给每一个菜品添加一个foodTotalOriginalPrice
@@ -413,16 +426,27 @@
 
              let currnt_menuData = this.data.allMenuData[activeDayIndex][tmp_mealTypeItem]
              currnt_menuData.totalMoney -= tmp_oneFood.foodPrice
-                 // 这种每次重新计算的方法好吗
+
+             if (tmp_oneFood.canMeal) { //可使用餐标
+                 currnt_menuData.totalMoney_meal -= tmp_oneFood.foodPrice
+             }
+             // 这种每次重新计算的方法好吗
              let new_deduction = 0
-             if (currnt_menuData.mealSet.userCanStandardPrice && currnt_menuData.mealType.standardPrice > 0) { // 企业餐标可用并且大于0
-                 //lowerThanMealLabelFlag表示可定低于餐标的餐, 企业管理员的好像还没加
-                 if (currnt_menuData.totalMoney < currnt_menuData.mealType.standardPrice) {
-                     new_deduction = currnt_menuData.totalMoney
-                 } else {
-                     new_deduction = currnt_menuData.mealType.standardPrice
+
+             //如果是企业管理员
+             if (this.data.orgAdmin) {
+                 new_deduction = currnt_menuData.totalMoney
+             } else {
+                 if (currnt_menuData.mealSet.userCanStandardPrice && currnt_menuData.mealType.standardPrice > 0) { // 企业餐标可用并且大于0
+                     // 动态显示抵扣多少钱的，奇怪的要求 5/17
+                     if (currnt_menuData.totalMoney_meal < currnt_menuData.mealType.standardPrice) {
+                         new_deduction = currnt_menuData.totalMoney_meal
+                     } else {
+                         new_deduction = currnt_menuData.mealType.standardPrice
+                     }
                  }
              }
+
 
              let oldDeduction = currnt_menuData.deductionMoney
              currnt_menuData.deductionMoney = new_deduction
@@ -505,10 +529,8 @@
 
              // 先menu增1
              this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[menutypeIndex].foodList[foodIndex] = tmp_oneFood
-             this.setData({
-                     allMenuData: this.data.allMenuData
-                 })
-                 // 然后动画
+
+             // 然后动画
 
              let _this = this
              const query = wx.createSelectorQuery()
@@ -521,8 +543,6 @@
                          cartAnimationHeight: _this.data.cartAnimationBottom - bottom
                      })
                  }
-                 console.log('#add' + menutypeIndex + foodIndex, res)
-
              })
 
              this.setData({
@@ -585,14 +605,22 @@
 
              let currnt_menuData = this.data.allMenuData[activeDayIndex][tmp_mealTypeItem]
              currnt_menuData.totalMoney += tmp_oneFood.foodPrice
-                 // 这种每次重新计算的方法好吗
+
+             if (tmp_oneFood.canMeal) { //可使用餐标
+                 currnt_menuData.totalMoney_meal += tmp_oneFood.foodPrice
+             }
+             // 这种每次重新计算的方法好吗
              let new_deduction = 0
-             if (currnt_menuData.mealSet.userCanStandardPrice && currnt_menuData.mealType.standardPrice > 0) { // 企业餐标可用并且大于0
-                 //lowerThanMealLabelFlag表示可定低于餐标的餐, 企业管理员的好像还没加
-                 if (currnt_menuData.totalMoney < currnt_menuData.mealType.standardPrice) {
-                     new_deduction = currnt_menuData.totalMoney
-                 } else {
-                     new_deduction = currnt_menuData.mealType.standardPrice
+                 //如果是企业管理员
+             if (this.data.orgAdmin) {
+                 new_deduction = currnt_menuData.totalMoney
+             } else {
+                 if (currnt_menuData.mealSet.userCanStandardPrice && currnt_menuData.mealType.standardPrice > 0) { // 企业餐标可用并且大于0 
+                     if (currnt_menuData.totalMoney_meal < currnt_menuData.mealType.standardPrice) {
+                         new_deduction = currnt_menuData.totalMoney_meal
+                     } else {
+                         new_deduction = currnt_menuData.mealType.standardPrice
+                     }
                  }
              }
 
@@ -604,10 +632,13 @@
 
 
              this.setData({
+                 allMenuData: this.data.allMenuData,
                  totalMoney: parseFloat(tmptotalMoney.toFixed(2)),
                  realTotalMoney: parseFloat(tmp_realTotalMoney.toFixed(2)),
                  totalMoneyRealDeduction: tmp_totalMoneyRealDeduction
              })
+
+             console.log('allMenuData', this.data.allMenuData)
          }
      },
      // 点击购物车图标
@@ -657,6 +688,7 @@
                              //这个deductionMoney会不会不存在？需要先判断吗？不存在就让deductionMoney=0
                              //TODO--5/6
                          tmpselectFoodsIndex[day][x].deductionMoney = this.data.allMenuData[day][x].deductionMoney
+                         tmpselectFoodsIndex[day][x].payMoney = parseFloat((this.data.allMenuData[day][x].totalMoney - this.data.allMenuData[day][x].deductionMoney).toFixed(2))
                      }
                  }
              }
@@ -695,17 +727,25 @@
 
              let currnt_menuData = this.data.allMenuData[activeDayIndex][tmp_mealTypeItem]
              currnt_menuData.totalMoney -= tmp_oneFood.foodPrice
-                 // 这种每次重新计算的方法好吗
-             let new_deduction = 0
-             if (currnt_menuData.mealSet.userCanStandardPrice && currnt_menuData.mealType.standardPrice > 0) { // 企业餐标可用并且大于0
-                 //lowerThanMealLabelFlag表示可定低于餐标的餐, 企业管理员的好像还没加
-                 if (currnt_menuData.totalMoney < currnt_menuData.mealType.standardPrice) {
-                     new_deduction = currnt_menuData.totalMoney
-                 } else {
-                     new_deduction = currnt_menuData.mealType.standardPrice
-                 }
+
+             if (tmp_oneFood.canMeal) { //可使用餐标
+                 currnt_menuData.totalMoney_meal -= tmp_oneFood.foodPrice
              }
 
+             // 这种每次重新计算的方法好吗
+             let new_deduction = 0
+                 //如果是企业管理员
+             if (this.data.orgAdmin) {
+                 new_deduction = currnt_menuData.totalMoney
+             } else {
+                 if (currnt_menuData.mealSet.userCanStandardPrice && currnt_menuData.mealType.standardPrice > 0) { // 企业餐标可用并且大于0 
+                     if (currnt_menuData.totalMoney_meal < currnt_menuData.mealType.standardPrice) {
+                         new_deduction = currnt_menuData.totalMoney_meal
+                     } else {
+                         new_deduction = currnt_menuData.mealType.standardPrice
+                     }
+                 }
+             }
              let oldDeduction = currnt_menuData.deductionMoney
              currnt_menuData.deductionMoney = new_deduction
 
@@ -810,9 +850,6 @@
              tmp_oneFood.foodTotalOriginalPrice = tmpFoodTotalOriginalPrice
 
              this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[menutypeIndex].foodList[foodIndex] = tmp_oneFood
-             this.setData({
-                 allMenuData: this.data.allMenuData
-             })
 
              let tmptotalCount = this.data.totalCount + 1 //购物车中总数加1 
              this.setData({
@@ -830,17 +867,23 @@
 
              let currnt_menuData = this.data.allMenuData[activeDayIndex][tmp_mealTypeItem]
              currnt_menuData.totalMoney += tmp_oneFood.foodPrice
-                 // 这种每次重新计算的方法好吗
+             if (tmp_oneFood.canMeal) { //可使用餐标
+                 currnt_menuData.totalMoney_meal += tmp_oneFood.foodPrice
+             }
+             // 这种每次重新计算的方法好吗
              let new_deduction = 0
-             if (currnt_menuData.mealSet.userCanStandardPrice && currnt_menuData.mealType.standardPrice > 0) { // 企业餐标可用并且大于0
-                 //lowerThanMealLabelFlag表示可定低于餐标的餐, 企业管理员的好像还没加
-                 if (currnt_menuData.totalMoney < currnt_menuData.mealType.standardPrice) {
-                     new_deduction = currnt_menuData.totalMoney
-                 } else {
-                     new_deduction = currnt_menuData.mealType.standardPrice
+                 //如果是企业管理员
+             if (this.data.orgAdmin) {
+                 new_deduction = currnt_menuData.totalMoney
+             } else {
+                 if (currnt_menuData.mealSet.userCanStandardPrice && currnt_menuData.mealType.standardPrice > 0) { // 企业餐标可用并且大于0 
+                     if (currnt_menuData.totalMoney_meal < currnt_menuData.mealType.standardPrice) {
+                         new_deduction = currnt_menuData.totalMoney_meal
+                     } else {
+                         new_deduction = currnt_menuData.mealType.standardPrice
+                     }
                  }
              }
-
              let oldDeduction = currnt_menuData.deductionMoney
              currnt_menuData.deductionMoney = new_deduction
 
@@ -856,6 +899,7 @@
 
              this.data.selectedFoodsIndex[activeDayIndex].count++; //当天总的个数加1
              this.setData({
+                 allMenuData: this.data.allMenuData,
                  totalMoney: parseFloat(tmptotalMoney.toFixed(2)),
                  realTotalMoney: parseFloat(tmp_realTotalMoney.toFixed(2)),
                  totalMoneyRealDeduction: tmp_totalMoneyRealDeduction,
@@ -880,10 +924,11 @@
                  }
                  // 是这么判断的吗？ 5/6
                  //1.餐标可用 2.当天当餐点餐了，用总价判断点餐没是否不妥？3.不能低于餐标 4.抵扣金额小于企业餐标
-                 if (item[meal].mealSet.userCanStandardPrice && item[meal].totalMoney && item[meal].totalMoney > 0 && !item[meal].mealSet.underStandardPrice && item[meal].deductionMoney < item[meal].mealType.standardPrice) {
+                 let { mealSet, deductionMoney, totalMoney_meal, mealType } = item[meal]
+                 if (mealSet.userCanStandardPrice && totalMoney_meal > 0 && !mealSet.underStandardPrice && deductionMoney < mealType.standardPrice) {
                      wx.showModal({
                          title: this.data.timeInfo[i].label + ' ' + this.data.mealTypeSmall[meal],
-                         content: '未达餐标金额(¥' + item[meal].mealType.standardPrice + ')' + ',请继续选餐',
+                         content: '未达餐标金额(¥' + mealType.standardPrice + ')' + ',请继续选餐',
                          showCancel: false,
                          confirmText: '返回'
                      })
@@ -932,11 +977,7 @@
          }
 
      },
-     onShow: function() {
-         console.log('onShow')
-         console.log(this.data.allMenuData)
-         console.log(this.data.foods)
-     },
+     onShow: function() {},
      // 关闭
      handleCloseCart() {
          this.setData({
@@ -950,7 +991,7 @@
      /* 菜品详情 */
      handleGotoFoodDetail: function(e) {
          wx.navigateTo({
-             url: '/pages/food/food?dateId=' + e.currentTarget.dataset.dateid,
+             url: '/pages/food/food?foodCode=' + e.currentTarget.dataset.foodcode + '&mealDate=' + this.data.timeInfo[this.data.activeDayIndex].mealDate + '&mealType=' + this.data.mealTypeItem,
          })
      },
  })

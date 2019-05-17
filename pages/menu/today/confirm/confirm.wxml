@@ -89,36 +89,57 @@
 
             <view class="cart-day-wrapper">
                 <view wx:for="{{selectedFoods}}" wx:for-item='oneday' wx:for-index='onedayindex' wx:key='{{onedayindex}}'>
+
                     <view wx:if="{{oneday.count>0}}">
-                        <view class="cart-day-title">
-                            {{oneday.appointment}}({{oneday.mealDate}})
-                        </view>
                         <view wx:for="{{mealEnglistLabel}}" wx:key="{{index}}">
-                            <view class="cart-menuItem" wx:for="{{oneday[item].selectedFoods}}" wx:for-item="foodtypeinfoItem" wx:for-index="foodtypeinfoIndex" wx:key="{{foodtypeinfoIndex}}">
-                                <view class="cart-menuItem-left">
-                                    <image class="cart-menuItem-img" src="{{foodtypeinfoItem.image}}"></image>
+                            <view wx:if='{{oneday[item]}}'>
+                                <view class="cart-day-title">
+                                    {{oneday.appointment}}({{oneday.mealDate}}){{oneday[item].name}}
                                 </view>
-                                <view style="flex:1;">
-                                    <view style="display: flex;justify-content: space-between;">
-                                        <view class="cart-menuItemDes">
-                                            {{foodtypeinfoItem.foodName}}
+
+                                <view class="cart-menuItem" wx:for="{{oneday[item].selectedFoods}}" wx:for-item="foodtypeinfoItem" wx:for-index="foodtypeinfoIndex" wx:key="{{foodtypeinfoIndex}}">
+                                    <view class="cart-menuItem-left">
+                                        <image class="cart-menuItem-img" src="{{foodtypeinfoItem.image}}"></image>
+                                    </view>
+                                    <view style="flex:1;">
+                                        <view style="display: flex;justify-content: space-between;">
+                                            <view class="cart-menuItemDes">
+                                                {{foodtypeinfoItem.foodName}}
+                                            </view>
+                                            <view style='display:flex;'>
+                                                <view class="cart-menuItem-originmoney" wx:if="{{foodtypeinfoItem.foodTotalOriginalPrice!=foodtypeinfoItem.foodTotalPrice}}">¥{{foodtypeinfoItem.foodTotalOriginalPrice}}</view>
+                                                <view class="cart-menuItem-money">¥{{foodtypeinfoItem.foodTotalPrice}}</view>
+                                            </view>
                                         </view>
-                                        <view style='display:flex;'>
-                                            <view class="cart-menuItem-originmoney" wx:if="{{foodtypeinfoItem.foodTotalOriginalPrice!=foodtypeinfoItem.foodTotalPrice}}">¥{{foodtypeinfoItem.foodTotalOriginalPrice}}</view>
-                                            <view class="cart-menuItem-money">¥{{foodtypeinfoItem.foodTotalPrice}}</view>
+                                        <view class="cart-menuItem-mealtype">
+                                            <text style="margin-right:10rpx;">{{oneday[item].name}}</text><text>x{{foodtypeinfoItem.foodCount}}</text>
                                         </view>
                                     </view>
-                                    <view class="cart-menuItem-mealtype">
-                                        <text style="margin-right:10rpx;">{{oneday[item].name}}</text><text>x{{foodtypeinfoItem.foodCount}}</text>
-                                    </view>
                                 </view>
+
+                                <view class='cart-organize-deduction'>
+                                    <view class='cart-discount-organize'>企业折扣</view>
+                                    <view class='cart-discount-organize-money'>￥{{oneday[item].deductionMoney}}</view>
+                                </view>
+                                <view class='cart-organize-deduction'>
+                                    <view class='cart-discount-organize'>积分抵扣</view>
+
+                                    <view bindtap='changeUseIntegral' data-index='{{onedayindex}}' data-meal='{{item}}'>
+                                        <view style='display:flex;' wx:if='{{oneday[item].useIntegral}}'>
+                                            <view class='pay-balance-describe'>当前{{oneday[item].current}}积分，可抵扣</view>
+                                            <view class='pay-balance-money'>￥{{oneday[item].integral}}</view>
+                                        </view>
+                                        <view style='display:flex;' wx:else>
+                                            <view class='pay-balance-describe'>暂不使用积分</view>
+                                        </view>
+                                    </view>
+
+                                </view>
+
                             </view>
                         </view>
-                        <view class='cart-organize-deduction'>
-                            <view class='cart-discount-organize'>企业折扣</view>
-                            <view class='cart-discount-organize-money'>￥{{oneday.deductionMoney}}</view>
-                        </view>
                     </view>
+
                 </view>
             </view>
             <view style='margin:0 16rpx;'>

@@ -188,10 +188,27 @@
     height: 196rpx;
 }
 
+.img-wrapper-stock {
+    width: 196rpx;
+    height: 196rpx;
+    background: rgba(255, 255, 255, 0.60);
+    border-radius: 6rpx;
+    z-index: 1200;
+    position: absolute;
+}
+
 .food-img {
     width: 196rpx;
     height: 196rpx;
     border-radius: 6rpx;
+}
+
+.food-img-res {
+    position: relative;
+    z-index: 1300;
+    top: -206rpx;
+    width: 88rpx;
+    height: 44rpx;
 }
 
 .chart-mealtype {
@@ -252,9 +269,6 @@
 }
 
 .chart-num-control {
-    /* position: absolute;
-    right: 30rpx;
-    bottom: -5rpx; */
     display: flex;
     padding-top: 40rpx;
     padding-right: 30rpx;
@@ -453,14 +467,6 @@
     color: #666;
 }
 
-.labelActive {
-    background: #e79b37;
-    color: #fff;
-    border: none;
-    /*   box-shadow: 5rpx -3rpx 8rpx #666;
-    text-shadow:2rpx 4rpx 3rpx #666; */
-}
-
 .food-wrapper-nofood {
     padding: 20rpx 10rpx;
     width: 100%;
@@ -472,16 +478,6 @@
     font-size: 25rpx;
     color: #242424;
 }
-
-
-/* .food-wrapper:last-child {
-    border-bottom-left-radius: 30rpx;
-} */
-
-
-/* .food-wrapper:last-child image {
-    border-bottom-left-radius: 30rpx;
-} */
 
 .food-info-wrapper {
     width: 340rpx;
@@ -513,13 +509,17 @@
     letter-spacing: 0;
     text-align: left;
     line-height: 28rpx;
-    margin-right: 26rpx;
+    margin-right: 10rpx;
+    padding: 0 8rpx;
+    background: #F5F5F5;
+    border-radius: 4rpx;
+    white-space: nowrap;
 }
 
 .food-desc {
     margin-top: 10rpx;
     font-family: PingFang-SC-Regular;
-    font-size: 10px;
+    font-size: 20rpx;
     color: #999999;
     letter-spacing: 0;
     text-align: left;
@@ -530,23 +530,19 @@
     line-height: 28rxp;
 }
 
+.food-stock {
+    font-family: PingFang-SC-Regular;
+    font-size: 20rpx;
+    color: #999;
+    letter-spacing: 0;
+    text-align: left;
+    padding-right: 10rpx;
+}
+
 .foodLimitNum {
+    margin-top: 10rpx;
     display: flex;
-}
-
-.stockLeftNum {
-    font-size: 25rpx;
-    height: 35rpx;
-    line-height: 35rpx;
-    color: #666;
-}
-
-.homebuyingRestrictions {
-    font-size: 25rpx;
-    height: 35rpx;
-    line-height: 35rpx;
-    padding-left: 10rpx;
-    color: #666;
+    line-height: 28rxp;
 }
 
 .price {
@@ -594,6 +590,14 @@
     color: #e79b37;
     display: flex;
     height: 40rpx;
+}
+
+.num-control-stock {
+    font-family: PingFang-SC-Regular;
+    font-size: 24rpx;
+    color: #999999;
+    letter-spacing: 0;
+    text-align: left;
 }
 
 .num {

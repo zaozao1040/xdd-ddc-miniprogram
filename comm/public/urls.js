@@ -12,7 +12,7 @@ let urlMaps = {
     getPreMealDateAndType: '/meal/getPreMealDateAndType?userCode=',
 
     //获取企业列表
-    getOrganizeListByLocation: '/organize/getOrganizeListByLocation?userCode=USER557617089184137216&longitude=120.640714&latitude=31.232887&organizeName=星点点&distance=5000',
+    getOrganizeListByLocationNoDefault: '/organize/getOrganizeListByLocationNoDefault?userCode=USER557617089184137216&longitude=120.640714&latitude=31.232887&organizeName=星点点&distance=5000',
     //绑定企业
     bindOrganize: '/user/bindOrganize',
     suggestion: '/help/suggestion', //用户吐槽提交

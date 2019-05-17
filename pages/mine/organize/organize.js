@@ -38,7 +38,7 @@ Page({
             type: 'gcj02',
             success: function(res) {
                 let param = {
-                        url: '/organize/getOrganizeListByLocation?userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude
+                        url: '/organize/getOrganizeListByLocationNoDefault?userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude
                     }
                     //请求企业列表
                 requestModel.request(param, (data) => {
@@ -106,7 +106,7 @@ Page({
             type: 'gcj02',
             success: function(res) {
                 let param = {
-                        url: '/organize/getOrganizeListByLocation?userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude + '&organizeName=' + e.detail.value
+                        url: '/organize/getOrganizeListByLocationNoDefault?userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude + '&organizeName=' + e.detail.value
                     }
                     //请求企业列表
                 requestModel.request(param, (data) => {

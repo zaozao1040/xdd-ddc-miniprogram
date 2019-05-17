@@ -39,7 +39,11 @@
 			"list": []
 		},
 		"miniprogram": {
+<<<<<<< HEAD
 			"current": 16,
+=======
+			"current": 19,
+>>>>>>> 99e77efdd81ff91c04247e1eb9c3efa774cda17b
 			"list": [
 				{
 					"id": -1,
@@ -162,7 +166,7 @@
 					"id": 19,
 					"name": "预约今天",
 					"pathName": "pages/menu/today/today",
-					"query": "appointment='tomorrow'",
+					"query": "appointment='tomorrow'&mealtype=‘lunch'",
 					"scene": null
 				},
 				{

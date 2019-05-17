@@ -222,12 +222,12 @@ Page({
                 data[x].mealTypeOrder = one
             }
 
-            console.log('twoDaysInfo', data)
             wx.setStorageSync('twoDaysInfo', data)
             _this.setData({
                 twoDaysInfo: data,
                 showMenuSelect: true,
-                oneDayInfo: data[0].mealTypeOrder
+                appointmention: 'today',
+                oneDayInfo: data[0].mealTypeOrder,
             })
             wx.hideTabBar()
         })
@@ -281,12 +281,9 @@ Page({
                         showDaliFlag: true
                     })
                 }
-
                 /* 获取首页取餐信息 */
                 this.getTakeMealInfo()
             })
-
-
         }
     },
 

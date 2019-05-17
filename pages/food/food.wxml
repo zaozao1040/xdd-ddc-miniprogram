@@ -1,7 +1,7 @@
 <!--pages/food/food.wxml-->
 <view class="food-wrapper">
     <!-- 标题 -->
-    <view class="header-wrapper">
+    <view class="header-wrapper  c_scrollPosition_forCalculate">
         <view catchtap="changeItemStatusActiveFlag" data-flag="detail">
             <view class=" {{itemStatusActiveFlag==true?'header-item-active':'header-item'}}">菜品详情</view>
             <view class="{{itemStatusActiveFlag==true?'header-item-border-active':'header-item-border'}}"></view>
@@ -12,29 +12,23 @@
         </view>
 
     </view>
-    <!-- <view class="food-header">
-        <view class="content-header-item {{itemStatusActiveFlag==true?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="detail">
-            菜品详情
-        </view>
-        <view class="content-header-item {{itemStatusActiveFlag==false?'content-header-item-active':''}}" catchtap="changeItemStatusActiveFlag" data-flag="ratings">
-            评价列表
-        </view>
-    </view> -->
+
     <view class="food-content">
         <!-- 菜品详情 -->
         <view wx:if="{{itemStatusActiveFlag==true}}" class="img-wrapper">
             <!-- 基本信息 -->
             <view class="basic-info">
                 <view class="img-wrapper">
-                    <image class="foodImg" src="{{foodInfo.foodSliders}}" style="width:100%;"></image>
+                    <image class="foodImg" src="{{foodInfo.bannerImage[0]}}" style="width:100%;"></image>
                 </view>
                 <view class="food-info-wrapper">
                     <view class="foodName">
                         {{foodInfo.foodName}}
                     </view>
                     <view class="tag-wrapper">
-                        <view class="tag-item" wx:if="{{foodInfo.foodTags}}" wx:for="{{foodInfo.foodTags}}" wx:for-item="tagItem" wx:for-index="tagIndex" wx:key="tagIndex">
-                            {{tagItem.labelName}}
+                        <view class="tag-item" wx:if="{{foodInfo.foodLabels}}" wx:for="{{foodInfo.foodLabels}}"
+                            wx:for-item="labelItem" wx:key="{{index}}">
+                            {{labelItem.labelName}}
                         </view>
                     </view>
                     <view class="price">
@@ -45,35 +39,44 @@
                             <text style="font-size: 25rpx;">￥</text>{{foodInfo.foodOriginal}}
                         </view>
                     </view>
-                    <view class="merchant">
+                    <!-- <view class="merchant">
                         <text class='iconfont icon-merchant' decode>&nbsp;</text>
                         <view class="merchantName">
                             {{foodInfo.merchantName}}
                         </view>
+                    </view> -->
+                    <view wx:if="{{foodInfo.description}}" style="margin-bottom:10rpx;" class="foodDes">
+                        主要原料:
                     </view>
-                    <view wx:if="{{foodInfo.foodDesc}}" class="foodDes">
-                        {{foodInfo.foodDesc}}
+                    <view wx:if="{{foodInfo.description}}" class="foodDes">
+                        {{foodInfo.description}}
                     </view>
                 </view>
             </view>
-            <image class="foodImg" src="{{foodInfo.foodDetail}}" style="width:100%;" mode="widthFix"></image>
+            <block wx:if='{{foodInfo.detailImage&&foodInfo.detailImage.length>0}}'>
+                <image class="foodImg" src="{{foodInfo.detailImage[0]}}" style="width:100%;" mode="widthFix"></image>
+            </block>
+
         </view>
         <!-- 评价列表 -->
         <view wx:else>
 
-            <scroll-view class="ratingsDetailList-wrapper c_scrollPosition_forCalculate" scroll-y style="height: {{windowHeight - scrollTop}}px;">
-                <view wx:if="{{orderListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+            <scroll-view class="ratingsDetailList-wrapper" scroll-y style="height: {{windowHeight - scrollTop}}px;"
+                bindscrolltolower='gotoNextPage'>
+                <view wx:if="{{orderListNoResult}}" class="noResult"
+                    style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
                     未查询到评价记录..
                 </view>
                 <view wx:else>
-                    <view class="ratingsItem" wx:for="{{ratingsInfoList}}" wx:for-item="ratingItem" wx:for-index="ratingIndex" wx:key="ratingIndex">
+                    <view class="ratingsItem" wx:for="{{ratingsInfoList}}" wx:for-item="ratingItem"
+                        wx:for-index="ratingIndex" wx:key="ratingIndex">
                         <view class="left">
-                            <image class="left-image" src="{{ratingItem.headImg}}"></image>
+                            <image class="left-image" src="{{ratingItem.headImage}}"></image>
                         </view>
                         <view class="right">
                             <view class="line1">
                                 <view class="user">
-                                    {{ratingItem.userNickName}}
+                                    {{ratingItem.userName}}
                                 </view>
                                 <view class="time">
                                     {{ratingItem.evaluateTime}}
@@ -85,18 +88,25 @@
                                 </block>
                             </view>
                             <view class="line3" wx:if="{{ratingItem.content}}">
-                                <text style="color:#666;">评价:</text>{{ratingItem.content}}
+                                {{ratingItem.content}}
                             </view>
                             <view class="line3" wx:if="{{ratingItem.replyContent}}">
-                                <text style="color:#eee;">占位:</text><text style="color:#666;">回复:{{ratingItem.replyContent}}</text>
+                                <text style="color:#eee;">占位:</text><text
+                                    style="color:#666;">回复:{{ratingItem.replyContent}}</text>
                             </view>
-                            <view wx:if="{{ratingItem.images}}" style="margin:0 0 10rpx 10rpx;display: flex;width:100%;justify-content: flex-end;">
-                                <view class="img3" class="{{ratingItem.images.length==3?'img3':''}} {{ratingItem.images.length==2?'img2':''}} {{ratingItem.images.length==1?'img1':''}}" style="padding-right: 10rpx;box-sizing: border-box;" wx:for="{{ratingItem.images}}" wx:for-index="imageIndex"
-                                    wx:for-item="imageItem" wx:key="imageIndex" style="text-align:left;">
+                            <view wx:if="{{ratingItem.image}}"
+                                style="margin:0 0 10rpx 10rpx;display: flex;width:100%;">
+                                <view class="img3" style="padding-right: 10rpx;box-sizing: border-box;" wx:for="{{ratingItem.image}}"
+                                    wx:for-index="imageIndex" wx:for-item="imageItem" wx:key="imageIndex"
+                                    style="text-align:left;">
                                     <image class="swiper-img" mode="widthFix" src="{{imageItem}}"></image>
                                 </view>
                             </view>
                         </view>
+                    </view>
+                    <view wx:if="{{loadingData}}"
+                        style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+                        正在加载数据...
                     </view>
                 </view>
             </scroll-view>

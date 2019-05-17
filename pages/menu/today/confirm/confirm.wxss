@@ -196,6 +196,16 @@
      padding: 0 30rpx;
  }
  
+ .pay-balance-money {
+     font-size: 24rpx;
+     letter-spacing: 0;
+     text-align: left;
+     margin-top: 10rpx;
+     line-height: 34rpx;
+     font-family: HelveticaNeue-Medium;
+     color: #FF5035;
+ }
+ 
  .cart-day-title {
      font-family: PingFang-SC-Regular;
      font-size: 30rpx;
