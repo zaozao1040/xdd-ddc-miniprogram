@@ -277,7 +277,7 @@
                             </view>
                             <image src='../../images/home/filter_more@2x.png' style="height:88rpx;width:88rpx; margin-top: 16rpx;"></image>
                         </view>
-                        <view style="position:absolute;top:{{456+index*139}}rpx;width:750rpx;height:142rpx;background:rgba(255,255,255,0.8);z-index:1001;" wx:if='{{!oneDayInfo[item+"OrderStatus"]}}'>
+                        <view style="position:absolute;top:{{316+index*139}}rpx;width:750rpx;height:142rpx;background:rgba(255,255,255,0.8);z-index:1001;" wx:if='{{!oneDayInfo[item+"OrderStatus"]}}'>
                             <image src='../../images/home/filter_end@2x.png ' style="position:absolute; right:110rpx;  top:12rpx;width:120rpx;height:115rpx;"></image>
                         </view>
                     </block>

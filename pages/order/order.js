@@ -3,6 +3,10 @@ import { order } from './order-model.js'
 let orderModel = new order()
 import moment from "../../comm/script/moment"
 const baseUrl = getApp().globalData.baseUrl
+
+import { base } from '../../comm/public/request'
+let requestModel = new base()
+
 Page({
 
     /**
@@ -35,23 +39,23 @@ Page({
         windowHeight: 0,
         scrollTop: 0,
         //
-        itemStatusActiveFlag: true, //默认今日待取
+        itemStatusActiveFlag: 1, //1：全部订单，2：今日待取，3：待评价
         orderList: [],
         orderListNoResult: false,
         //
         orderStatusMap: {
-            NO_PAY: '未支付',
-            PAYED_WAITINT_CONFIRM: '已支付',
-            CONFIRM_WAITING_MAKE: '待制作',
-            MAKING: '开始制作',
-            MAKED_WAITING_DELIVERY: '待配送',
-            DELIVERING: '配送中',
-            DELIVERED_WAITING_PICK: '待取货',
-            PICKED_WAITING_EVALUATE: '待评价',
-            COMPLETED_EVALUATED: '已评价',
-            NO_PICK_WAITING_BACK: '超时未取货待取回',
-            USER_CANCEL: '已取消',
-            SYSTEM_CANCEL: '系统自动取消'
+            NO_PAY: '未支付', // is_pay=0
+            PAYED_WAITINT_CONFIRM: '已支付', // is_pay=1
+            CONFIRM_WAITING_MAKE: '待制作', // confirm_status=2
+            // MAKING: '开始制作',
+            MAKED_WAITING_DELIVERY: '待配送', //is_box=1
+            DELIVERING: '配送中', //is_box=!=0
+            DELIVERED_WAITING_PICK: '待取货', //cabinet_status!=0
+            PICKED_WAITING_EVALUATE: '待评价', //evaluate_status=1
+            COMPLETED_EVALUATED: '已评价', //evaluate_status=2
+            // NO_PICK_WAITING_BACK: '超时未取货待取回',
+            USER_CANCEL: '已取消', //status=4 取消类型看cancel_type
+            // SYSTEM_CANCEL: '系统自动取消' //
         },
         payStatusMap: {
             THIRD_PAYED: '第三方支付',
@@ -65,7 +69,31 @@ Page({
             NIGHT: '夜宵'
         },
         orderCode: '',
-        doOnHideFlag: true //是否执行生命周期函数onhide 默认当然是执行，只有在点击上传图片时，修改这个值为false不允许
+        doOnHideFlag: true, //是否执行生命周期函数onhide 默认当然是执行，只有在点击上传图片时，修改这个值为false不允许
+        //订单状态
+        status: { 0: '未下单', 1: '下单成功', 2: '已生效', 3: '已完成', 4: '已取消' },
+        //付款
+        is_pay: { 0: '未付款', 1: '已付款' },
+        //付款方式：
+        pay_method: { 0: '无', 1: '标准付款（企业付款）', 2: '非标准付款（全部用户付款）', 3: '混合付款（标准付款+另一种支付方式）' },
+        //支付方式
+        defray_type: { 0: '无（标准支付情况下无）', 1: '余额支付', 2: '微信支付', 3: '支付宝支付' },
+        //确认状态
+        confirm_status: { 0: '不可确认', 1: '待确认', 2: '已确认' },
+        //绑箱状态：
+        is_box: { 0: '无', 1: '已部分绑箱', 2: '已全部绑箱' },
+        //配送状态：
+        delivery_status: { 0: '无', 1: '待配送', 2: '配送中', 3: '已完成配送' },
+        //投柜状态：
+        cabinet_status: { 0: '无', 1: '已部分投柜', 2: '已投柜（全部）', 3: '已部分取餐', 4: ' 已取餐（全部取餐）' },
+        //取餐：
+        pick_status: { 0: '不可取餐', 1: '可取餐', 2: '已取餐' },
+        //评价：
+        evaluate_status: { 0: '不可评价', 1: '可评价', 2: '已评价' },
+        //取消类型：
+        cancel_type: { 0: '无取消类型', 1: '系统自动取消', 2: '用户取消', 3: '系统后台取消' },
+
+
     },
     /* 跳转订单详情 */
     handleGotoOrderDetail: function(e) {
@@ -92,7 +120,21 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
+        if (options.content) {
+            let content = options.content
+            wx.showModal({
+                title: '提示',
+                content: content,
+                showCancel: false
+            })
+        } else {
 
+            this.setData({
+                itemStatusActiveFlag: 1
+            })
+        }
+        wx.hideTabBar()
+        wx.showTabBar()
     },
     /* 页面隐藏后回收定时器指针 */
     onHide: function() {
@@ -123,8 +165,6 @@ Page({
         _this.data.page = 1
         _this.data.limit = 20
         _this.setData({
-            /*       page: 1,
-                  limit: 20, */
             orderList: [] //列表必须清空，否则分页会无限叠加
         })
         _this.getOrderList()
@@ -135,7 +175,6 @@ Page({
             this.setData({
                 showRatingsFlag: false,
                 starActiveNum: 0,
-                /*         ratingsContent: '', */
                 tempFilePaths: [],
             })
         }
@@ -154,17 +193,21 @@ Page({
         }, 500)
         if (e.currentTarget.dataset.flag == 'jinridaiqu') {
             _this.setData({
-                itemStatusActiveFlag: true
+                itemStatusActiveFlag: 2
             })
         } else if (e.currentTarget.dataset.flag == 'quanbudingdan') {
             _this.setData({
-                itemStatusActiveFlag: false
+                itemStatusActiveFlag: 1
             })
-        } else {}
+        } else if (e.currentTarget.dataset.flag == 'pingjia') {
+            _this.setData({
+                itemStatusActiveFlag: 3
+            })
+        }
         _this.data.page = 1
         _this.data.limit = 20
         _this.setData({
-            orderList: [], // 这四个要重置，为了交易记录的分页，因为交易记录、在线重置俩页面是通过点击按钮切换的
+            orderList: [], // 这四个要重置，为了交易记录的分页，因为交易记录:'在线重置俩页面是通过点击按钮切换的
             /*       page: 1,
                   limit: 20, */
             hasMoreDataFlag: true,
@@ -196,84 +239,64 @@ Page({
     /* 获取订单列表 */
     getOrderList: function() {
         let _this = this
-        if (!_this.data.listCanGet) {
-            return
-        }
-        _this.data.listCanGet = false
+
         let todayFlag = true
-        if (_this.data.itemStatusActiveFlag == true) {
+        if (_this.data.itemStatusActiveFlag == 2) {
             todayFlag = true
         } else {
             todayFlag = false
         }
-        let param = {
+        let param2 = {
             userCode: wx.getStorageSync('userInfo').userCode,
             today: todayFlag,
             page: _this.data.page,
             limit: _this.data.limit,
         }
-        wx.showLoading({
-            title: '加载中',
-        })
-        console.log('发送请求:', param)
-        orderModel.getOrderList(param, (res) => {
-            console.log('收到响应(订单列表):', res)
-            wx.hideLoading()
-            if (res.code === 0) {
-                let tmp_orderList = res.data
-                if (tmp_orderList) {
-                    tmp_orderList.forEach(element => {
-                            element.mealTypeDes = _this.data.mealTypeMap[element.mealType]
-                            element.orderStatusDes = _this.data.orderStatusMap[element.orderStatus]
-                            element.payStatusDes = _this.data.payStatusMap[element.payStatus]
-                            element.orderTimeDes = moment(element.orderTime).format('YYYY-MM-DD HH:mm:ss')
+        let page = _this.data.page
+        let limit = _this.data.limit
+        let param = {
+            url: '/order/getOrderList?userCode=' + wx.getStorageSync('userCode') + '&page=' + page + '&limit=' + limit
+        }
+        requestModel.request(param, (res) => {
 
-                            element.mealDateDes = moment(element.mealDate).format('MM月DD日')
-                                // element.takeMealEndTimeDes = moment(element.takeMealEndTime).format('MM月DD日HH:mm')
-                                // element.takeMealStartTimeDes = moment(element.takeMealStartTime).format('MM月DD日HH:mm')
-                            let end = new Date(element.takeMealEndTime)
-                            element.takeMealEndTimeDes = (end.getHours() == 0 ? 24 : end.getHours()) + '点' + (end.getMinutes() < 1 ? "" : end.getMinutes() + '分')
-                            let start = new Date(element.takeMealStartTime)
-                            element.takeMealStartTimeDes = start.getHours() + '点' + (start.getMinutes() < 1 ? "" : start.getMinutes() + '分')
-                            let tmp_month = start.getMonth() + 1
-                            let tmp_day = start.getDate()
-                            element.takeMealDate = (tmp_month < 10 ? '0' + tmp_month : tmp_month) + '月' + (tmp_day < 10 ? '0' + tmp_day : tmp_day) + '日'
-                        })
-                        //下面开始分页
-                    if (tmp_orderList.length < _this.data.limit) {
-                        if (tmp_orderList.length === 0) {
-                            wx.showToast({
-                                image: '../../images/msg/warning.png',
-                                title: '没有更多数据'
-                            })
-                            _this.setData({
-                                hasMoreDataFlag: false
-                            })
-                        } else {
-                            _this.setData({
-                                orderList: _this.data.orderList.concat(tmp_orderList), //concat是拆开数组参数，一个元素一个元素地加进去
-                                hasMoreDataFlag: false
-                            })
-                        }
-                    } else {
-                        _this.data.page = _this.data.page + 1
-                        _this.setData({
-                            orderList: _this.data.orderList.concat(tmp_orderList), //concat是拆开数组参数，一个元素一个元素地加进去
-                            hasMoreDataFlag: true,
-                            /*             page: _this.data.page + 1 */
-                        })
-                    }
+            let tmp_orderList = res.list
+            if (tmp_orderList) {
+                tmp_orderList.forEach(element => {
+                        element.mealTypeDes = _this.data.mealTypeMap[element.mealType]
+                        element.orderStatusDes = _this.data.orderStatusMap[element.orderStatus]
+                        element.payStatusDes = _this.data.payStatusMap[element.payStatus]
+                        element.orderTimeDes = moment(element.orderTime).format('YYYY-MM-DD HH:mm:ss')
+
+                        element.mealDateDes = moment(element.mealDate).format('MM月DD日')
+                        let end = new Date(element.takeMealEndTime)
+                        element.takeMealEndTimeDes = (end.getHours() == 0 ? 24 : end.getHours()) + '点' + (end.getMinutes() < 1 ? "" : end.getMinutes() + '分')
+                        let start = new Date(element.takeMealStartTime)
+                        element.takeMealStartTimeDes = start.getHours() + '点' + (start.getMinutes() < 1 ? "" : start.getMinutes() + '分')
+                        let tmp_month = start.getMonth() + 1
+                        let tmp_day = start.getDate()
+                        element.takeMealDate = (tmp_month < 10 ? '0' + tmp_month : tmp_month) + '月' + (tmp_day < 10 ? '0' + tmp_day : tmp_day) + '日'
+                    })
+                    //下面开始分页
+                if (page * limit >= res.amount) {
+                    _this.setData({
+                        hasMoreDataFlag: false
+                    })
+
+                } else {
+                    _this.setData({
+                        hasMoreDataFlag: true,
+                        page: page + 1
+                    })
                 }
+                _this.setData({
+                    orderList: _this.data.orderList.concat(tmp_orderList)
 
-            } else {
-                wx.showToast({
-                    title: res.msg,
-                    image: '../../images/msg/error.png',
-                    duration: 2000
                 })
             }
+
+
             console.log('收到响应并重新封装(订单列表):', _this.data.orderList)
-            _this.data.listCanGet = true
+
         })
     },
     /* 取消订单 */
@@ -781,7 +804,7 @@ Page({
                         /*         _this.setData({ //还原为true，onhide里面的代码允许执行
                                   doOnHideFlag: true
                                 }) */
-                } //接口调用结束的回调函数（调用成功、失败都会执行）
+                } //接口调用结束的回调函数（调用成功:'失败都会执行）
         })
     },
     //用于解决小程序的遮罩层滚动穿透

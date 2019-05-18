@@ -56,7 +56,7 @@ Page({
             let { userType, orgAdmin } = userInfo
             if (userType == 'ORG_ADMIN' && orgAdmin == true) {
                 this.setData({
-                    orgAdmin: false
+                    orgAdmin: true
                 })
             } else {
                 this.setData({
@@ -468,7 +468,6 @@ Page({
 
             let tmp_totalMoneyRealDeduction = parseFloat((this.data.totalMoneyRealDeduction - oldDeduction + new_deduction).toFixed(2))
             let tmp_realTotalMoney = (tmptotalMoney - tmp_totalMoneyRealDeduction) > 0 ? tmptotalMoney - tmp_totalMoneyRealDeduction : 0
-
             this.setData({
                 allMenuData: this.data.allMenuData,
                 totalCount: temptotalCount,
@@ -685,6 +684,8 @@ Page({
                     }
                 }
                 tmpselectFoodsIndex[x].selectedFoods = tmpselectedfoods
+                tmpselectFoodsIndex[x].deductionMoney = this.data.allMenuData[x].deductionMoney
+                tmpselectFoodsIndex[x].payMoney = parseFloat((this.data.allMenuData[x].totalMoney - this.data.allMenuData[x].deductionMoney).toFixed(2))
             }
         }
 
@@ -750,6 +751,7 @@ Page({
             tmp_selectedFood.foodTotalPrice = parseFloat((tmp_selectedFood.foodTotalPrice - tmp_selectedFood.foodPrice).toFixed(2));
             tmp_selectedFood.foodTotalOriginalPrice = parseFloat((tmp_selectedFood.foodTotalOriginalPrice - tmp_selectedFood.foodOriginalPrice).toFixed(2));
             this.data.selectedFoodsIndex[tmp_mealTypeItem].selectedFoods[tmp_selectedFoodIndex] = tmp_selectedFood
+            this.data.selectedFoodsIndex[tmp_mealTypeItem].deductionMoney = parseFloat(new_deduction.toFixed(2))
 
 
 
@@ -885,7 +887,7 @@ Page({
             tmp_selectedFood.foodTotalPrice = parseFloat((tmp_selectedFood.foodTotalPrice + tmp_selectedFood.foodPrice).toFixed(2));
             tmp_selectedFood.foodTotalOriginalPrice = parseFloat((tmp_selectedFood.foodTotalOriginalPrice + tmp_selectedFood.foodOriginalPrice).toFixed(2));
             this.data.selectedFoodsIndex[tmp_mealTypeItem].selectedFoods[tmp_selectedFoodIndex] = tmp_selectedFood
-
+            this.data.selectedFoodsIndex[tmp_mealTypeItem].deductionMoney = parseFloat(new_deduction.toFixed(2))
             this.setData({
                 totalMoney: parseFloat(tmptotalMoney.toFixed(2)),
                 realTotalMoney: parseFloat(tmp_realTotalMoney.toFixed(2)),

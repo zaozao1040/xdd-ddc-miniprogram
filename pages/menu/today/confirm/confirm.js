@@ -10,7 +10,7 @@ Page({
      * 页面的初始数据
      */
     data: {
-        payType: 'integral_PAY', //'WECHAT_PAY' 支付方式,余额大于付款额则默认余额支付   小于的话则默认微信支付
+        payType: 'BALANCE_PAY', //'WECHAT_PAY' 支付方式,余额大于付款额则默认余额支付   小于的话则默认微信支付
 
         //
         windowHeight: 0,
@@ -47,7 +47,7 @@ Page({
         mapMenutype: ['早餐', '午餐', '晚餐', '夜宵'],
         mapMenutypeIconName: ['zaocan1', 'wucan', 'canting', 'xiaoye-'],
 
-        integral: 0,
+        balance: 0,
         walletSelectedFlag: true, //勾选是否使用余额  默认勾选    true开启    false关闭
         finalMoney: 0,
 
@@ -98,8 +98,8 @@ Page({
         let oldIntegralDeduction = this.data.integralDeduction
         let newIntegralDeduction = 0;
         let selectedFoods = this.data.selectedFoods
-            // let integral = this.data.integral
-        let integral = 2058
+        let integral = this.data.integral
+            // let integral = 2058
         let total = parseInt(integral / 100);
         let left = integral - total * 100;
         for (let i = 0; i < selectedFoods.length; i++) {
@@ -115,6 +115,7 @@ Page({
                                 selectedFoods[i][meal].current = total * 100 + left
                                 newIntegralDeduction += total
                                 total = 0
+                                console.log('newIntegralDeduction--total', a)
                             } else {
                                 //剩余积分多，还剩下积分
                                 let a = parseInt(selectedFoods[i][meal].payMoney)
@@ -133,18 +134,21 @@ Page({
                 }
             }
         }
-        console.log('newIntegralDeduction', newIntegralDeduction)
+
+
         let totalDeduction = this.data.totalDeduction
-        totalDeduction = parseFloat(totalDeduction - oldIntegralDeduction + newIntegralDeduction)
-        let realMoney = this.data.realMoney
-        realMoney = parseFloat(realMoney + oldIntegralDeduction - newIntegralDeduction)
+        totalDeduction = parseFloat((totalDeduction - oldIntegralDeduction + newIntegralDeduction).toFixed(2))
+        let tmp_realMoney = this.data.realMoney
+
+        // let tmp_realMoney1 = parseFloat(tmp_realMoney) + parseFloat(oldIntegralDeduction) - parseFloat(newIntegralDeduction)
+        tmp_realMoney = parseFloat(tmp_realMoney) + oldIntegralDeduction - newIntegralDeduction
+
         this.setData({
             selectedFoods: selectedFoods,
             totalDeduction: totalDeduction,
             integralDeduction: newIntegralDeduction,
-            realMoney: realMoney
+            realMoney: parseFloat(tmp_realMoney.toFixed(2))
         })
-        console.log('sevenSelectedFoods', selectedFoods)
     },
     onLoad: function(options) {
         this.initAddress()
@@ -154,7 +158,7 @@ Page({
         console.log('options', options)
         if (options.orderType == 'one') {
             let a = wx.getStorageSync('todaySelectedFoods')
-            console.log('todaySelectedFoods', a)
+
             a.deductionMoney = options.totalMoneyRealDeduction
             a.count = 1 //这个count是我自己随便设置的 5/6
             selectedFoods.push(a)
@@ -164,7 +168,7 @@ Page({
 
         }
         //初始化，默认都选择使用积分抵扣
-
+        console.log('todaySelectedFoods', selectedFoods)
         for (let i = 0; i < selectedFoods.length; i++) {
             if (selectedFoods[i].count > 0) {
                 for (let m = 0; m < this.data.mealEnglistLabel.length; m++) {
@@ -196,7 +200,7 @@ Page({
                 address: userInfo.deliveryAddress,
                 name: userInfo.name || wx.getStorageSync('tmp_storage'),
                 phoneNumber: userInfo.phoneNumber,
-                bindOrganized: userInfo.bindOrganized,
+                bindOrganized: userInfo.organizeCode,
                 userInfo: userInfo
             })
 
@@ -213,14 +217,19 @@ Page({
         }
         requestModel.request(param, data => {
             _this.setData({
-                integral: data.integral
+                integral: data.integral,
+                balance: data.balance,
             })
+            if (data.balance < this.data.realMoney) { //余额小于实际付款，则改为微信付款
+                _this.setData({
+                    walletSelectedFlag: false,
+                    payType: 'WECHAT_PAY'
+                })
+            }
             _this.calculateIntegral()
         })
 
-        //从后端获取钱包余额
-        _this.getWallet()
-            //从后端获取优惠券信息
+        //从后端获取优惠券信息
         _this.getDiscount()
     },
     /* 页面隐藏后回收定时器指针 */
@@ -229,23 +238,7 @@ Page({
             clearTimeout(this.data.timer)
         }
     },
-    /* 从后端获取钱包余额 */
-    getWallet: function() {
-        let param = {
-            url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
-        }
-        requestModel.request(param, data => {
-            this.setData({
-                integral: data.integral
-            })
-            if (data.integral < this.data.realMoney) { //余额小于实际付款，则改为微信付款
-                this.setData({
-                    walletSelectedFlag: false,
-                    payType: 'WECHAT_PAY'
-                })
-            }
-        })
-    },
+
     /* 用户点击不使用优惠券 */
     handleNotUseDiscount: function() {
         this.setData({
@@ -255,7 +248,7 @@ Page({
                 discountPrice: 0,
                 discountStandardPrice: 0
             },
-            realMoney: this.data.realMoney_save
+            realMoney: parseFloat((this.data.realMoney_save - this.data.integralDeduction).toFixed(2))
         })
     },
     /* 改变现实优惠券选择页的展示状态 */
@@ -403,37 +396,34 @@ Page({
             })
             return
         }
-        let _this = this
-        if (!_this.data.canClick) {
-            return
-        }
-        _this.data.canClick = false
+
 
         /**** 拼接这个庞大的参数 ****/
         let tmp_userDiscountCode = null
-        if (_this.data.adviceDiscountObj) {
-            tmp_userDiscountCode = _this.data.adviceDiscountObj.userDiscountCode
+        if (this.data.adviceDiscountObj) {
+            tmp_userDiscountCode = this.data.adviceDiscountObj.userDiscountCode
         }
         let tmp_param = {
             userCode: wx.getStorageSync('userCode'),
             userName: wx.getStorageSync('tmp_storage'),
-            addressCode: _this.data.userInfo.deliveryAddressCode,
-            payType: _this.data.payType, //支付方式
+            addressCode: this.data.userInfo.deliveryAddressCode,
+            payType: this.data.payType, //支付方式
             userDiscountCode: tmp_userDiscountCode,
-            orderPayMoney: _this.data.realMoney, //自费的总价格
+            orderPayMoney: this.data.realMoney, //自费的总价格
             appendMealFlag: false,
             order: []
 
         }
-        for (let i = 0; i < _this.data.selectedFoods.length; i++) {
-            let tmp_selectedFoods = _this.data.selectedFoods[i]
-            _this.data.mealEnglistLabel.forEach(mealType => {
+        for (let i = 0; i < this.data.selectedFoods.length; i++) {
+            let tmp_selectedFoods = this.data.selectedFoods[i]
+            this.data.mealEnglistLabel.forEach(mealType => {
                 if (tmp_selectedFoods[mealType]) { //选了这个餐时的菜
 
                     let order_item = {
                         mealDate: tmp_selectedFoods.mealDate,
                         mealType: mealType.toUpperCase(),
-                        foods: []
+                        foods: [],
+                        integralNumber: tmp_selectedFoods[mealType].useIntegral ? tmp_selectedFoods[mealType].integral * 100 : 0
                     }
 
                     tmp_selectedFoods[mealType].selectedFoods.forEach(onefood => {
@@ -459,72 +449,40 @@ Page({
             url: '/order/generateOrder',
             method: 'post'
         }
-        requestModel.request(params, data => {
+        requestModel.request(params, resdata => {
+            let data = resdata.payData
+            console.log('支付结果返回：', data)
+            if (!data || param.payType == 'BALANCE_PAY' || param.payType == 'STANDARD_PAY') {
+                console.log('支付结果返回：hideLoading')
 
-            // let data = res.data.payData
-            // if (!data || param.payType == 'integral_PAY' || param.payType == 'STANDARD_PAY') {
-            //     console.log('支付结果返回：hideLoading')
-            //     wx.hideLoading()
-            //     wx.showModal({
-            //         title: '提示',
-            //         content: '订单已生成',
-            //         showCancel: false,
-            //         confirmText: '查看订单',
-            //         success(res) {
-            //             if (res.confirm) {
-            //                 wx.reLaunch({
-            //                     url: '/pages/order/order',
-            //                 })
-            //             }
-            //         }
-            //     })
-            // } else if (param.payType == 'WECHAT_PAY') { //微信支付
-            //     if (data.timeStamp) {
-            //         wx.requestPayment({
-            //             'timeStamp': data.timeStamp.toString(),
-            //             'nonceStr': data.nonceStr,
-            //             'package': data.packageValue,
-            //             'signType': data.signType,
-            //             'paySign': data.paySign,
-            //             success: function(e) {
-            //                 wx.hideLoading()
-            //                 wx.showModal({
-            //                     title: '提示',
-            //                     content: '订单已生成',
-            //                     showCancel: false,
-            //                     confirmText: '查看订单',
-            //                     success(res) {
-            //                         if (res.confirm) {
-            //                             wx.reLaunch({
-            //                                 url: '/pages/order/order',
-            //                             })
-            //                         }
-            //                     }
-            //                 })
-            //             },
-            //             fail: function(e) {
-            //                 wx.hideLoading()
-            //                 wx.showModal({
-            //                     title: '提示',
-            //                     content: '订单已生成,请尽快支付',
-            //                     showCancel: false,
-            //                     confirmText: '查看订单',
-            //                     success(res) {
-            //                         if (res.confirm) {
-            //                             wx.reLaunch({
-            //                                 url: '/pages/order/order',
-            //                             })
-            //                         }
-            //                     }
-            //                 })
-            //             },
-            //             complete: function() {
-            //                 wx.hideLoading()
-            //             }
-            //         })
-            //     }
-            // }
-
+                wx.reLaunch({
+                    url: '/pages/order/order?content=' + '订单已生成',
+                })
+            } else if (param.payType == 'WECHAT_PAY') { //微信支付
+                if (data.timeStamp) {
+                    wx.requestPayment({
+                        'timeStamp': data.timeStamp.toString(),
+                        'nonceStr': data.nonceStr,
+                        'package': data.packageValue,
+                        'signType': data.signType,
+                        'paySign': data.paySign,
+                        success: function(e) {
+                            setTimeout(function() {
+                                wx.reLaunch({
+                                    url: '/pages/order/order?content=' + '订单已生成',
+                                })
+                            }, 200)
+                        },
+                        fail: function(e) {
+                            setTimeout(function() {
+                                wx.reLaunch({
+                                    url: '/pages/order/order?content=' + '订单已生成,请尽快支付',
+                                })
+                            }, 200)
+                        }
+                    })
+                }
+            }
         })
 
     },
@@ -544,7 +502,7 @@ Page({
                 payType: 'WECHAT_PAY'
             })
         } else { //如果原来是关闭余额支付，则首先判断余额是否充足
-            if (_this.data.integral < _this.data.realMoney) { //如果用户余额少于用户需要支付的价格，不允许用余额,也就是禁止打开switch
+            if (_this.data.balance < _this.data.realMoney) { //如果用户余额少于用户需要支付的价格，不允许用余额,也就是禁止打开switch
                 wx.showToast({
                     title: '余额不足,请充值',
                     image: '../../../images/msg/error.png',
@@ -554,7 +512,7 @@ Page({
             } else { //使用余额支付方式
                 _this.setData({
                     walletSelectedFlag: !_this.data.walletSelectedFlag,
-                    payType: 'integral_PAY'
+                    payType: 'BALANCE_PAY'
                 })
             }
         }

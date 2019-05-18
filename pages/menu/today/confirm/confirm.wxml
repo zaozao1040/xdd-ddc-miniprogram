@@ -92,7 +92,7 @@
 
                     <view wx:if="{{oneday.count>0}}">
                         <view wx:for="{{mealEnglistLabel}}" wx:key="{{index}}">
-                            <view wx:if='{{oneday[item]}}'>
+                            <view wx:if='{{oneday[item]&&oneday[item].selectedFoods.length>0}}'>
                                 <view class="cart-day-title">
                                     {{oneday.appointment}}({{oneday.mealDate}}){{oneday[item].name}}
                                 </view>
