@@ -16,7 +16,7 @@
 </view>
 <view wx:else>
     <view style='margin:132rpx 0 20rpx;text-align: center;'>
-        <image src="../../../images/mine/phone@2x.png" style='width:216rpx;height:216rpx;'></image>
+        <image src="/images/mine/phone.png" style='width:216rpx;height:216rpx;'></image>
     </view>
     <view class='bind-title'>绑定成功</view>
     <view class='bind-phone'>您已绑定手机号：{{phone}}</view>

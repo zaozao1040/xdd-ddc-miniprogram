@@ -23,7 +23,6 @@ Page({
         //这四个记录缓存的值
         address: '',
         name: '',
-        bindOrganized: '',
         phoneNumber: '',
 
         selectedFoods: [],
@@ -200,7 +199,6 @@ Page({
                 address: userInfo.deliveryAddress,
                 name: userInfo.name || wx.getStorageSync('tmp_storage'),
                 phoneNumber: userInfo.phoneNumber,
-                bindOrganized: userInfo.organizeCode,
                 userInfo: userInfo
             })
 
@@ -326,14 +324,7 @@ Page({
         })
     },
 
-    /* 企业用户点击弹窗中的姓名 不允许修改 */
-    handleClickName: function() {
-        wx.showToast({
-            title: '不可修改',
-            image: '../../../images/msg/error.png',
-            duration: 2000
-        })
-    },
+
     nameInput: function(e) {
         wx.setStorageSync('tmp_storage', e.detail.value)
         this.setData({

@@ -1,13 +1,13 @@
 <view class="bg-wrapper">
     <view class="img-wrapper">
-      <image src="../../../images/login/logo.png" mode="widthFix" style="width:100%;width:254.4rpx;height: 102.8rpx;"></image>
+        <image src="/images/login/logo.png" mode="widthFix" style="width:100%;width:254.4rpx;height: 102.8rpx;"></image>
     </view>
     <view class="title">
-    欢迎来到点点餐   
+        欢迎来到点点餐
     </view>
     <button class="button" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">微信手机号快捷登录</button>
     <button class="button-phone">手机号验证码登录</button>
-<!--     <view class="des">
+    <!--     <view class="des">
       温馨提示:未注册点点餐的用户,首次登录时将完成注册
     </view>  -->
 </view>

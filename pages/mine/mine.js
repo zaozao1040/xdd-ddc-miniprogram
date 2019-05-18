@@ -8,7 +8,7 @@
          userInfo: null,
 
          labelList: ['换绑手机', '地址管理', '绑定企业', '客户服务'],
-         imageList: ['me_swap@2x', 'me_address@2x', 'me_enterprise@2x', 'me_service@2x'],
+         imageList: ['me_swap', 'me_address', 'me_enterprise', 'me_service'],
          navigatorUrl: [
              '/pages/mine/phone/phone',
              '/pages/mine/address/address',

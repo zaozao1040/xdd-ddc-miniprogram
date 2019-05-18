@@ -1,21 +1,16 @@
 <view class="address-wrapper">
     <view class="section-3">
         <view style="width:120rpx;height:100rpx;background: #FAFAFA;">
-            <image src="../../../images/mine/dizhi@2x.png"
-                style='padding-left:43rpx;padding-top:29.2rpx;width:34.6rpx;height:42.8rpx;margin:auto;'></image>
+            <image src="/images/mine/dizhi.png" style='padding-left:43rpx;padding-top:29.2rpx;width:34.6rpx;height:42.8rpx;margin:auto;'></image>
         </view>
         <view style='background: #FFFFFF; height: 100rpx;flex-grow:1;'>
-            <image wx:if="{{addressDes}}" src="../../../images/mine/selected@2x.png"
-                style='width:52rpx;height:52rpx;position: absolute;top:40rpx;right:48rpx;'></image>
-            <input placeholder-class='placeholder-class' class='phone-number' value="{{addressDes}}"
-                placeholder="请选择企业默认地址" type="string" disabled></input>
+            <image wx:if="{{addressDes}}" src="/images/mine/selected.png" style='width:52rpx;height:52rpx;position: absolute;top:40rpx;right:48rpx;'></image>
+            <input placeholder-class='placeholder-class' class='phone-number' value="{{addressDes}}" placeholder="请选择企业默认地址" type="string" disabled></input>
         </view>
     </view>
 
     <view class="addressList-wrapper">
-        <view wx:for="{{addressList}}" wx:for-index="addressIndex" wx:for-item="addressItem"
-            wx:key="addressIndex" catchtap="selectDefaultAddress" data-addressdes="{{addressItem.address}}"
-            data-addresscode="{{addressItem.deliveryAddressCode}}" data-useraddaddress="{{addressItem.userAddAddress}}">
+        <view wx:for="{{addressList}}" wx:for-index="addressIndex" wx:for-item="addressItem" wx:key="addressIndex" catchtap="selectDefaultAddress" data-addressdes="{{addressItem.address}}" data-addresscode="{{addressItem.deliveryAddressCode}}" data-useraddaddress="{{addressItem.userAddAddress}}">
             <view style="padding: 30rpx;">
                 <view style="padding-bottom: 10rpx; height: 42rpx;font-family: PingFangSC-Regular; font-size: 30rpx; color: #333333; line-height: 42rpx">
                     {{addressItem.address}}

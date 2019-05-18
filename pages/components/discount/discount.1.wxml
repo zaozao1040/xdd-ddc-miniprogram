@@ -18,12 +18,12 @@
                 <view class="middle-name {{useType==2?'font-expire':''}}">{{discountItem.organizeName}}</view>
             </view>
             <view class="right" style="padding:20rpx;" wx:if="{{useType==2}}">
-                <image src="../../../images/mine/guoqi.png" mode="widthFix" class="img"></image>
+                <image src="/images/mine/guoqi.png" mode="widthFix" class="img"></image>
             </view>
             <!-- 设置useType为100，代表选择优惠券 -->
             <view class="right" wx:elif="{{useType==100}}" bindtap="handleSelectDiscount" data-advicediscountobj="{{discountItem}}">
-                <image wx:if="{{discountItem.discountCode==adviceDiscountObj.discountCode}}" src="../../../images/mine/gouxuan.png" class="gouxuan-img"></image>
-                <image wx:else src="../../../images/mine/weigouxuan.png" class="gouxuan-img"></image>
+                <image wx:if="{{discountItem.discountCode==adviceDiscountObj.discountCode}}" src="/images/mine/gouxuan.png" class="gouxuan-img"></image>
+                <image wx:else src="/images/mine/weigouxuan.png" class="gouxuan-img"></image>
                 <view class="right-label" style="background: rgb(153, 79, 79);" wx:if="{{discountItem.discountType=='DISCOUNT'}}">折</view>
                 <view class="right-label" style="background: rgb(212, 47, 110);" wx:if="{{discountItem.discountType=='REDUCTION'}}">减</view>
             </view>
@@ -32,7 +32,7 @@
                 <navigator url="/pages/menu/menu" wx:if="{{useType==0}}">
                     <view class="btn">去使用</view>
                 </navigator>
-                <image wx:elif="{{useType==1}}" src="../../../images/mine/yishiyong.png" mode="widthFix" class="img"></image>
+                <image wx:elif="{{useType==1}}" src="/images/mine/yishiyong.png" mode="widthFix" class="img"></image>
                 <view class="right-label" style="background: rgb(153, 79, 79);" wx:if="{{discountItem.discountType=='DISCOUNT'}}">折</view>
                 <view class="right-label" style="background: rgb(212, 47, 110);" wx:if="{{discountItem.discountType=='REDUCTION'}}">减</view>
             </view>

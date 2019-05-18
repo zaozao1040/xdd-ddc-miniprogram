@@ -59,8 +59,8 @@
                     <view style="font-size:22rpx; color:#bfbfbf;padding-top:14rpx;">{{discountItem.startTimeDes}} - {{discountItem.endTimeDes}}</view>
 
                     <view class="right" wx:if="{{useType==100}}" bindtap="handleSelectDiscount" data-advicediscountobj="{{discountItem}}">
-                        <image wx:if="{{discountItem.userDiscountCode==adviceDiscountObj.userDiscountCode}}" src="../../../images/mine/gouxuan.png" class="gouxuan-img"></image>
-                        <image wx:else src="../../../images/mine/weigouxuan.png" class="gouxuan-img"></image>
+                        <image wx:if="{{discountItem.userDiscountCode==adviceDiscountObj.userDiscountCode}}" src="/images/mine/gouxuan.png" class="gouxuan-img"></image>
+                        <image wx:else src="/images/mine/weigouxuan.png" class="gouxuan-img"></image>
 
                     </view>
 
@@ -69,8 +69,8 @@
                             <text style=" border:1rpx solid #e79b37;font-size:22rpx;border-radius:20rpx;padding:4rpx 6rpx;">去使用</text>
                         </view>
                     </navigator>
-                    <image wx:elif="{{useType=='USED'}}" src="../../../images/mine/yishiyong.png" mode="widthFix" class="img"></image>
-                    <image wx:elif="{{useType=='EXPIRED'}}" src="../../../images/mine/guoqi.png" mode="widthFix" class="img"></image>
+                    <image wx:elif="{{useType=='USED'}}" src="/images/mine/yishiyong.png" mode="widthFix" class="img"></image>
+                    <image wx:elif="{{useType=='EXPIRED'}}" src="/images/mine/guoqi.png" mode="widthFix" class="img"></image>
                 </view>
 
                 <view style="font-size:24rpx;padding-top:6rpx;color:{{useType=='EXPIRED'||useType=='USED'?'#bfbfbf':'rgb(112,112,112)'}};">{{discountItem.organizeName}}</view>

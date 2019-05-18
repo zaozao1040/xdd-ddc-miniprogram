@@ -1,18 +1,15 @@
 <view class="mine-wrapper">
-    <image src="/images/mine/me_bg@2x.png"
-        style='height:300rpx;width:100%;z-index:200;position:fixed;left:0;right:0;top:0;'></image>
+    <image src="/images/mine/me_bg.png" style='height:300rpx;width:100%;z-index:200;position:fixed;left:0;right:0;top:0;'></image>
     <view style='z-index:300;position:fixed;left:0;right:0;top:0;'>
         <view style='display:flex;padding-top:30rpx;'>
             <view style='margin:0 30rpx;width:120rpx;height:120rpx;'>
-                <image wx:if="{{userInfo.headImage}}" style='width:120rpx;height:120rpx;border-radius: 50%;'
-                    src="{{userInfo.headImage}}"></image>
+                <image wx:if="{{userInfo.headImage}}" style='width:120rpx;height:120rpx;border-radius: 50%;' src="{{userInfo.headImage}}"></image>
                 <image wx:else style='width:120rpx;height:120rpx;' src="/images/mine/huiyuan.png" alt=""></image>
             </view>
             <view class='name' catchtap='gotoDetailInfo'>
                 <view style="display:inline-block;">{{userInfo.userName}}</view>
                 <view style="display:inline-block;">
-                    <image src="../../../images/mine/xiangyoubaise.png"
-                        style='width:48rpx;height:48rpx;position: absolute;top:0;bottom: 0;margin: auto;'></image>
+                    <image src="/images/mine/xiangyoubaise.png" style='width:48rpx;height:48rpx;position: absolute;top:0;bottom: 0;margin: auto;'></image>
                 </view>
             </view>
         </view>
@@ -23,8 +20,7 @@
                 <view class='offer-title'> 余额 </view>
             </navigator>
             <view style="position: relative;">
-                <image src="../../../images/mine/fengexian.png"
-                    style='width:1rpx;height:30rpx;position: absolute;top:0;bottom: 0;margin: auto;'></image>
+                <image src="/images/mine/fengexian.png" style='width:1rpx;height:30rpx;position: absolute;top:0;bottom: 0;margin: auto;'></image>
             </view>
             <navigator url="/pages/mine/discount/discount" class="offerItem-wrapper">
                 <view class='offer-num'> {{discount}} </view>
@@ -32,8 +28,7 @@
                 </view>
             </navigator>
             <view style="position: relative;">
-                <image src="../../../images/mine/fengexian.png"
-                    style='width:1rpx;height:30rpx;position: absolute;top:0;bottom: 0;margin: auto;'></image>
+                <image src="/images/mine/fengexian.png" style='width:1rpx;height:30rpx;position: absolute;top:0;bottom: 0;margin: auto;'></image>
             </view>
             <navigator url="/pages/mine/integral/integral?integral={{integral}}" class="offerItem-wrapper">
                 <view class='offer-num'> {{integral}}
@@ -46,18 +41,17 @@
 
     <view style='margin:300rpx 30rpx 0; width:690rpx;display:flex;padding:28rpx 0;' bindtap="gotoAddfood">
         <view style='width:44rpx;height:44rpx;'>
-            <image src="../../images/mine/me_pic@2x.png" style='width:44rpx;height:44rpx;'></image>
+            <image src="/images/mine/me_pic.png" style='width:44rpx;height:44rpx;'></image>
         </view>
         <view class='add-title'>我要补餐</view>
-        <image src="../../../images/mine/xiangyou@2x.png" style='width:34rpx;height:34rpx;'></image>
+        <image src="/images/mine/xiangyou.png" style='width:34rpx;height:34rpx;'></image>
     </view>
     <view style='background: #F5F5F5;width:100%;height:20rpx;'></view>
     <view class='mine-service'>我的服务</view>
     <view style='display:flex;margin:40rpx;justify-content: space-between;'>
-        <view wx:for="{{labelList}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex"
-            bindtap="handleClickLabel" data-labelindex="{{labelIndex}}" data-labelitem="{{labelItem}}">
+        <view wx:for="{{labelList}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex" bindtap="handleClickLabel" data-labelindex="{{labelIndex}}" data-labelitem="{{labelItem}}">
             <view style="margin-left:12rpx;width:88rpx;height:88rpx;margin-bottom:10rpx;">
-                <image src="../../images/mine/{{imageList[labelIndex]}}.png" style='width:88rpx;height:88rpx;'></image>
+                <image src="/images/mine/{{imageList[labelIndex]}}.png" style='width:88rpx;height:88rpx;'></image>
             </view>
             <view class='label-title'>{{labelItem}}</view>
         </view>
@@ -65,7 +59,7 @@
     <view style='display:flex;margin:40rpx;justify-content: space-between;'>
         <view bindtap="gotoSaySomething">
             <view style="margin-left:12rpx;width:88rpx;height:88rpx;margin-bottom:10rpx;">
-                <image src="../../images/mine/me_complaint@2x.png" style='width:88rpx;height:88rpx;'></image>
+                <image src="/images/mine/me_complaint.png" style='width:88rpx;height:88rpx;'></image>
             </view>
             <view class='label-title'>我要吐槽</view>
         </view>

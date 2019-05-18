@@ -101,7 +101,9 @@
         <view wx:else>
             <view wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
                 <view style='box-shadow: 0 0 10px 0 rgba(0,0,0,0.08); border-radius: 6px;background: #FFFFFF;margin:24rpx 20rpx 0;padding:30rpx 30rpx 40rpx 30rpx;display:flex;'>
-                    <view style="height:88rpx;width:88rpx;border:1rpx solid red;flex-shrink: 0;"></view>
+                    <view style="height:88rpx;width:88rpx;flex-shrink: 0;">
+                        <image src='{{orderItem.orderFoodList[0].foodImage}}' style='height:88rpx;width:88rpx;border-radius:8rpx;'></image>
+                    </view>
                     <view style="margin-left:20rpx;flex-grow:1;">
                         <view style="display:flex;justify-content: space-between;border-bottom:1rpx solid #eee;height:108rpx;">
                             <view>

@@ -48,7 +48,7 @@
         <!--弹出公告-->
         <view class="modulebox-background-wrapper-notice" wx:if="{{showOneNotice}}">
             <view>
-                <image src='/images/home/announcement_pic@2x.png' class='modulebox-image'></image>
+                <image src='/images/home/announcement_pic.png' class='modulebox-image'></image>
             </view>
             <swiper class="modulebox-wrapper-notice" circular="true" duration="500" autoplay="true" indicator-dots indicator-color='rgba(247,156,76,0.30)' indicator-active-color='#F79C4C'>
                 <block wx:for="{{showedNoticeData}}" wx:key="{{index}}">
@@ -76,37 +76,37 @@
                 开始点餐
             </view>
             <view style="position:absolute;top:{{hasNotice?460:328}}rpx;height:100rpx;width:600rpx;margin-left:46rpx;z-index:-1;">
-                <image src="../../images/home/home_projection@2x.png" style="height:100rpx;width:600rpx;"></image>
+                <image src="/images/home/home_projection.png" style="height:100rpx;width:600rpx;"></image>
             </view>
         </view>
         <!-- 3个图标 3.0 -->
         <view class="label-wrapper">
             <view style="width:112rpx;text-align: center; " bindtap="handleGotoLabel" data-type="qianbao">
                 <view style="margin-left:12rpx;height: 88rpx;width:88rpx;">
-                    <image src='../../images/home/home_balance@2x.png' style="height: 88rpx;width:88rpx;"></image>
+                    <image src='/images/home/home_balance.png' style="height: 88rpx;width:88rpx;"></image>
                 </view>
                 <view class="labelDes">我的余额</view>
             </view>
             <view style="width:88rpx;text-align: center; " bindtap="handleGotoLabel" data-type="youhuiquan">
                 <view style=" height: 88rpx;width:88rpx;">
-                    <image src='../../images/home/home_coupon@2x.png' style="height: 88rpx;width:88rpx;"></image>
+                    <image src='/images/home/home_coupon.png' style="height: 88rpx;width:88rpx;"></image>
                 </view>
 
                 <view class="labelDes">优惠券</view>
             </view>
             <view style="width:112rpx;text-align: center; " bindtap="handleGotoLabel" data-type="jifen">
                 <view style="margin-left:12rpx;height: 88rpx;width:88rpx;">
-                    <image src='../../images/home/home_points@2x.png' style="height: 88rpx;width:88rpx;"></image>
+                    <image src='/images/home/home_points.png' style="height: 88rpx;width:88rpx;"></image>
                 </view>
                 <view class="labelDes">我的积分</view>
             </view>
         </view>
         <!-- 首页补餐 3.0-->
         <view class="add-wrapper">
-                <image src="../../images/home/takefood@2x.png" mode="widthFix" class="add-img">
-                </image>
-                <view class='add-title'>去补餐</view>
-            </view>
+            <image src="/images/home/takefood.png" mode="widthFix" class="add-img">
+            </image>
+            <view class='add-title'>去补餐</view>
+        </view>
         <!-- 首页提示取餐3.0-->
         <view style="margin-left:30rpx;margin-bottom:60rpx;" wx:if="{{homeOrderList.length>0}}">
             <view class='takefood-title'>今日餐品</view>
@@ -182,7 +182,7 @@
         <view class="modulebox-background-wrapper" wx:if="{{showUserAuthFlag}}">
             <view class="modulebox-wrapper">
                 <view class="modulebox-img-wrapper">
-                    <image class="modulebox-img" src="../../images/login/logo.png" mode="widthFix" style="width:100%;"></image>
+                    <image class="modulebox-img" src="/images/login/logo.png" mode="widthFix" style="width:100%;"></image>
                 </view>
                 <view class="modulebox-des">
                     欢迎来到点点餐订餐小程序
@@ -194,7 +194,7 @@
         <view class="modulebox-background-wrapper" wx:if="{{showCheckFlag}}">
             <view class="modulebox-wrapper">
                 <view class="modulebox-img-wrapper">
-                    <image class="modulebox-img" src="../../images/login/logo.png" mode="widthFix" style="width:100%;"></image>
+                    <image class="modulebox-img" src="/images/login/logo.png" mode="widthFix" style="width:100%;"></image>
                 </view>
                 <view class="modulebox-des">
                     企业审核中..
@@ -226,36 +226,36 @@
                 选择预约
             </view>
             <view style="position:absolute;right:10rpx;top:10rpx;" catchtap='closeMenuSelect'>
-                <image src='../../images/home/filter_close@2x.png' style="height:88rpx;width:88rpx;"></image>
+                <image src='/images/home/filter_close.png' style="height:88rpx;width:88rpx;"></image>
             </view>
             <view class='appointment-choice-list'>
                 <view style="display: flex;margin-bottom:20rpx;">
                     <block wx:if="{{appointmention=='today'}}">
-                        <image src='../../images/home/filter_checked@2x.png' style="height:88rpx;width:88rpx;"></image>
+                        <image src='/images/home/filter_checked.png' style="height:88rpx;width:88rpx;"></image>
                         <view class="appointment-choice-right-checked">预约今天 今天元气满满哦</view>
                     </block>
                     <block wx:else>
-                        <image src='../../images/home/filter_unchecked@2x.png' style="height:88rpx;width:88rpx;" catchtap='handleSelectToday'></image>
+                        <image src='/images/home/filter_unchecked.png' style="height:88rpx;width:88rpx;" catchtap='handleSelectToday'></image>
                         <view class="appointment-choice-right" catchtap='handleSelectToday'>预约今天 今天元气满满哦</view>
                     </block>
                 </view>
                 <view style="display: flex;margin-bottom:20rpx;">
                     <block wx:if="{{appointmention=='tomorrow'}}">
-                        <image src='../../images/home/filter_checked@2x.png' style="height:88rpx;width:88rpx;"></image>
+                        <image src='/images/home/filter_checked.png' style="height:88rpx;width:88rpx;"></image>
                         <view class="appointment-choice-right-checked">预约明天 明天也要吃好呀</view>
                     </block>
                     <block wx:else>
-                        <image src='../../images/home/filter_unchecked@2x.png' style="height:88rpx;width:88rpx;" catchtap='handleSelectTomorrow'></image>
+                        <image src='/images/home/filter_unchecked.png' style="height:88rpx;width:88rpx;" catchtap='handleSelectTomorrow'></image>
                         <view class="appointment-choice-right" catchtap='handleSelectTomorrow'>预约明天 明天也要吃好呀</view>
                     </block>
                 </view>
                 <view style="display: flex;" catchtap='handleSelectWeek'>
                     <block wx:if="{{appointmention=='week'}}">
-                        <image src='../../images/home/filter_checked@2x.png' style="height:88rpx;width:88rpx;"></image>
+                        <image src='/images/home/filter_checked.png' style="height:88rpx;width:88rpx;"></image>
                         <view class="appointment-choice-right-checked">预约多天 一周都有好吃哒</view>
                     </block>
                     <block wx:else>
-                        <image src='../../images/home/filter_unchecked@2x.png' style="height:88rpx;width:88rpx;"></image>
+                        <image src='/images/home/filter_unchecked.png' style="height:88rpx;width:88rpx;"></image>
                         <view class="appointment-choice-right">预约多天 一周都有好吃哒</view>
                     </block>
                 </view>
@@ -266,8 +266,11 @@
             <view class="appointment-choice-foodtype-list" style="margin-bottom:30rpx;border-bottom: 1rpx solid #EBEBEB;" wx:if="{{appointmention!='week'}}">
                 <block wx:for="{{twoDaysMealName}}" wx:key="{{index}}">
                     <block wx:if='{{oneDayInfo[item+"Status"]==true}}'>
+                        <view style="position:absolute;width:750rpx;height:142rpx;background:rgba(255,255,255,0.8);z-index:1001;" wx:if='{{!oneDayInfo[item+"OrderStatus"]}}'>
+                            <image src='/images/home/filter_end.png ' style="position:absolute; right:110rpx;  top:12rpx;width:120rpx;height:115rpx;"></image>
+                        </view>
                         <view class='appointment-choice-foodtype' data-mealtype='{{item}}' catchtap="startOrderMenu">
-                            <image src='../../images/home/filter_{{item}}@2x.png' style="height:120rpx;width:120rpx;"></image>
+                            <image src='/images/home/filter_{{item}}.png' style="height:120rpx;width:120rpx;"></image>
                             <view style="margin-left:30rpx;width:150rpx;flex-grow:1;">
                                 <view class="appointment-choice-foodtype-name"> {{mealTypeMapSmall[item]}}</view>
                                 <view class="appointment-choice-foodtype-deadlilne">
@@ -275,11 +278,9 @@
                                     <view style="margin-left:10rpx;">{{oneDayInfo[item+"deadlineDesc"]}}</view>
                                 </view>
                             </view>
-                            <image src='../../images/home/filter_more@2x.png' style="height:88rpx;width:88rpx; margin-top: 16rpx;"></image>
+                            <image src='/images/home/filter_more.png' style="height:88rpx;width:88rpx; margin-top: 16rpx;"></image>
                         </view>
-                        <view style="position:absolute;top:{{316+index*139}}rpx;width:750rpx;height:142rpx;background:rgba(255,255,255,0.8);z-index:1001;" wx:if='{{!oneDayInfo[item+"OrderStatus"]}}'>
-                            <image src='../../images/home/filter_end@2x.png ' style="position:absolute; right:110rpx;  top:12rpx;width:120rpx;height:115rpx;"></image>
-                        </view>
+
                     </block>
                 </block>
             </view>

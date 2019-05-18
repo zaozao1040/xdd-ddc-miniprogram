@@ -8,8 +8,8 @@
                 </view>
                 <view class="discountBg-headder-right" bindtap="handleNotUseDiscount">
                     <text style="font-size:30rpx;color:#222;">不使用优惠券</text>
-                    <image src="../../../images/mine/weigouxuan.png" wx:if="{{useDiscountFlag}}" class="discountBg-headder-right-img"></image>
-                    <image src="../../../images/mine/gouxuan.png" wx:else class="discountBg-headder-right-img"></image>
+                    <image src="/images/mine/weigouxuan.png" wx:if="{{useDiscountFlag}}" class="discountBg-headder-right-img"></image>
+                    <image src="/images/mine/gouxuan.png" wx:else class="discountBg-headder-right-img"></image>
                 </view>
             </view>
             <view class="discountBg-content">
@@ -30,13 +30,9 @@
                     </view>
                 </view>
                 <text wx:if="{{name}}" style="font-size:30rpx;color:#e79b37;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text>
-                <block wx:if="{{bindOrganized}}">
-                    <!-- 企业用户 姓名input只要展示了就不允许修改 -->
-                    <input bindinput="nameInput" value="{{name}}" class="section-3-2" placeholder="请输入真实姓名" type="string" disabled bindtap="handleClickName"></input>
-                </block>
-                <block wx:else>
-                    <input bindinput="nameInput" value="{{name}}" class="section-3-2" placeholder="请输入真实姓名" type="string"></input>
-                </block>
+
+                <input bindinput="nameInput" value="{{name}}" class="section-3-2" placeholder="请输入真实姓名" type="string"></input>
+
             </view>
             <view class="modulebox-des">
                 您的取餐地址
@@ -148,7 +144,7 @@
                         <view class='pay-title'>支付方式</view>
                         <view style='display:flex;'>
                             <view style='padding:5rpx 10rpx 5rpx 0;'>
-                                <image src="../../../../images/menu/today/order_wechatpay@2x.png" style="width:32rpx;height:32rpx;">
+                                <image src="/images/menu/today/order_wechatpay.png" style="width:32rpx;height:32rpx;">
                                 </image>
                             </view>
 
@@ -169,10 +165,10 @@
                                 <view wx:else class='pay-no-discount'>暂无可用</view>
                             </view>
                             <view wx:if="{{adviceDiscountObj}}" bindtap="handleChangeSelectDiscountFlag">
-                                <image src='../../../../images/home/filter_more@2x.png' style="height:88rpx;width:88rpx; margin:7rpx 0 7rpx;"></image>
+                                <image src='/images/home/filter_more.png' style="height:88rpx;width:88rpx; margin:7rpx 0 7rpx;"></image>
                             </view>
                             <view wx:else>
-                                <image src='../../../../images/home/filter_more@2x.png' style="height:88rpx;width:88rpx; margin:7rpx 0 7rpx;"></image>
+                                <image src='/images/home/filter_more.png' style="height:88rpx;width:88rpx; margin:7rpx 0 7rpx;"></image>
                             </view>
                         </view>
 
@@ -181,9 +177,9 @@
                         <view style='display:flex;justify-content: space-between;'>
                             <view class='pay-title' style="margin-top:30rpx;"> 余额支付(余额￥{{balance}})</view>
                             <view class='pay-balance-image'>
-                                <image src="../../../../images/menu/today/order_open@2x.png" style="width:86rpx;height:68rpx;" bindtap="handleChangeWalletSelectedFlag" wx:if="{{walletSelectedFlag}}">
+                                <image src="/images/menu/today/order_open.png" style="width:86rpx;height:68rpx;" bindtap="handleChangeWalletSelectedFlag" wx:if="{{walletSelectedFlag}}">
                                 </image>
-                                <image src="../../../../images/menu/today/order_close@2x.png" style="width:86rpx;height:68rpx;" bindtap="handleChangeWalletSelectedFlag" wx:else>
+                                <image src="/images/menu/today/order_close.png" style="width:86rpx;height:68rpx;" bindtap="handleChangeWalletSelectedFlag" wx:else>
                                 </image>
                             </view>
                         </view>

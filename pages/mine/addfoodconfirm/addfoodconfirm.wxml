@@ -8,8 +8,8 @@
                 </view> -->
                 <view class="discountBg-headder-right" bindtap="handleNotUseDiscount" style="text-align: right;">
                     <text style="font-size:25rpx;color:#222;float:right;">不使用优惠券</text>
-                    <image src="../../../images/mine/weigouxuan.png" wx:if="{{useDiscountFlag}}" class="discountBg-headder-right-img"></image>
-                    <image src="../../../images/mine/gouxuan.png" wx:else class="discountBg-headder-right-img"></image>
+                    <image src="/images/mine/weigouxuan.png" wx:if="{{useDiscountFlag}}" class="discountBg-headder-right-img"></image>
+                    <image src="/images/mine/gouxuan.png" wx:else class="discountBg-headder-right-img"></image>
                 </view>
             </view>
             <view class="discountBg-content">

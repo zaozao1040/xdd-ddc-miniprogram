@@ -78,12 +78,12 @@
                                             </view>
                                             <!-- ***************  + - 添加、减掉餐品的小控件(菜单中) *************** -->
                                             <view class="num-control">
-                                                <image src="../../../images/menu/today/order_less@2x.png" style="width:40rpx;height:40rpx; " wx:if="{{ foodItem.foodCount > 0 }}" data-menutypeindex="{{ menutypeIndex }}" data-foodindex="{{ foodIndex }}" catchtap="handleMinusfood">
+                                                <image src="/images/menu/today/order_less.png" style="width:40rpx;height:40rpx; " wx:if="{{ foodItem.foodCount > 0 }}" data-menutypeindex="{{ menutypeIndex }}" data-foodindex="{{ foodIndex }}" catchtap="handleMinusfood">
                                                 </image>
                                                 <view wx:if="{{ foodItem.foodCount > 0 }}" class="num">
                                                     {{ foodItem.foodCount }}
                                                 </view>
-                                                <image src="../../../images/menu/today/order_add@2x.png" style="width:40rpx;height:40rpx; " id='add{{menutypeIndex}}{{foodIndex}}' data-menutypeindex="{{ menutypeIndex }}" data-foodindex="{{ foodIndex }}" catchtap="handleAddfood">
+                                                <image src="/images/menu/today/order_add.png" style="width:40rpx;height:40rpx; " id='add{{menutypeIndex}}{{foodIndex}}' data-menutypeindex="{{ menutypeIndex }}" data-foodindex="{{ foodIndex }}" catchtap="handleAddfood">
                                                 </image>
                                             </view>
                                         </view>
@@ -133,14 +133,13 @@
 
                                         <!-- ***************  + - 添加、减掉餐品的小控件(购物车中) *************** -->
                                         <view class="chart-num-control">
-                                            <image src="../../../images/menu/today/order_less@2x.png" style="width:40rpx;height:40rpx;" wx:if="{{ onefood.foodCount > 0 }}" data-selectedfoodindex="{{selectedFoodIndex}}" data-mealtypeitem="{{item}}" data-menutypeindex="{{ onefood.menuItemIndex }}"
-                                                data-foodindex="{{ onefood.foodIndex }}" catchtap="handleCartMinusfood">
+                                            <image src="/images/menu/today/order_less.png" style="width:40rpx;height:40rpx;" wx:if="{{ onefood.foodCount > 0 }}" data-selectedfoodindex="{{selectedFoodIndex}}" data-mealtypeitem="{{item}}" data-menutypeindex="{{ onefood.menuItemIndex }}" data-foodindex="{{ onefood.foodIndex }}"
+                                                catchtap="handleCartMinusfood">
                                             </image>
                                             <view wx:if="{{ onefood.foodCount > 0 }}" class="chart-num">
                                                 {{ onefood.foodCount}}
                                             </view>
-                                            <image src="../../../images/menu/today/order_add@2x.png" style="width:40rpx;height:40rpx;" data-selectedfoodindex="{{selectedFoodIndex}}" data-menutypeindex="{{ onefood.menuItemIndex }}" data-mealtypeitem="{{item}}" data-foodindex="{{ onefood.foodIndex }}"
-                                                catchtap="handleCartAddfood">
+                                            <image src="/images/menu/today/order_add.png" style="width:40rpx;height:40rpx;" data-selectedfoodindex="{{selectedFoodIndex}}" data-menutypeindex="{{ onefood.menuItemIndex }}" data-mealtypeitem="{{item}}" data-foodindex="{{ onefood.foodIndex }}" catchtap="handleCartAddfood">
                                             </image>
                                         </view>
                                     </view>
@@ -176,8 +175,8 @@
                     <view style="height:126rpx;width:126rpx;position:absolute; left:28rpx; bottom:0;" bindtap="handleClickBox" id='cartCount'>
                         <view wx:if="{{ totalCount > 0 }}" id='cartCount2' style="right:14rpx;position:absolute;z-index:1003;height:32rpx;width:32rpx;background:#FF5035;text-align:center;line-height:32rpx;border-radius:32rpx;font-family: PingFang-SC-Medium;font-size: 22rpx; color: #FFF; letter-spacing: 0;">
                             {{totalCount}}</view>
-                        <image src="../../../images/menu/today/order_closeshop@2x.png" style="height:126rpx;width:126rpx;" wx:if="{{ totalCount == 0 }}"></image>
-                        <image src="../../../images/menu/today/order_shop@2x.png" style="height:126rpx;width:126rpx;" wx:else></image>
+                        <image src="/images/menu/today/order_closeshop.png" style="height:126rpx;width:126rpx;" wx:if="{{ totalCount == 0 }}"></image>
+                        <image src="/images/menu/today/order_shop.png" style="height:126rpx;width:126rpx;" wx:else></image>
                     </view>
 
                     <!-- 购物车激活状态 -->
@@ -212,7 +211,7 @@
             <!-- 不可订餐情况下展示一张大图 -->
             <block wx:else>
                 <view style='margin:216rpx auto 0;width:200rpx;height:200rpx;'>
-                    <image class="" src="../../../images/home/filter_{{mealTypeItem}}@2x.png" style="width:200rpx;height:200rpx;"></image>
+                    <image class="" src="/images/home/filter_{{mealTypeItem}}.png" style="width:200rpx;height:200rpx;"></image>
                 </view>
                 <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
                     预约时间已截止，下次记得提前预约哦
