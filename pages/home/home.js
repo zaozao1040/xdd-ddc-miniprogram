@@ -496,7 +496,8 @@ Page({
         homeModel.getNewUserGift(param, (res) => {
             console.log('获取新人礼包后台反馈:', res)
             if (res.code === 0) {
-                let tmp_userInfo = wx.getStorageSync('userInfo')
+                // 需要修改5/18
+                let tmp_userInfo = wx.getStorageSync('userInfo').userInfo
                 tmp_userInfo.newUser = false
                 tmp_userInfo.canTakeDiscount = false
                 wx.setStorageSync('userInfo', tmp_userInfo)
@@ -577,6 +578,12 @@ Page({
     //用于解决小程序的遮罩层滚动穿透
     preventTouchMove: function() {
 
-    }
+    },
+    //加餐
+    gotoAddfood() {
+        wx.navigateTo({
+            url: '/pages/mine/addfood/addfood'
+        })
+    },
 
 })

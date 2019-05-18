@@ -105,7 +105,7 @@
         <view class="add-wrapper">
             <image src="/images/home/takefood.png" mode="widthFix" class="add-img">
             </image>
-            <view class='add-title'>去补餐</view>
+            <view class='add-title' catchtap='gotoAddfood'>去补餐</view>
         </view>
         <!-- 首页提示取餐3.0-->
         <view style="margin-left:30rpx;margin-bottom:60rpx;" wx:if="{{homeOrderList.length>0}}">

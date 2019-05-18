@@ -1,283 +1,10 @@
 /* pages/mine/addfood/addfood.wxss */
 
 
-/*3.0*/
-
-.in {
-    animation-name: show;
-    animation-duration: 0.3s;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
-}
-
-.out {
-    animation-name: fadefade;
-    animation-duration: 0.3s;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
-}
-
-@keyframes show {
-    from {
-        transform: translate(0, 100%);
-    }
-    to {
-        transform: translate(0, 0);
-    }
-}
-
-@keyframes fadefade {
-    from {
-        transform: translate(0, 0);
-    }
-    to {
-        transform: translate(0, 100%);
-    }
-}
-
-.mask {
-    z-index: 100;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-}
-
-.book-title {
-    /* font-family: PingFang-SC-Medium; */
-    font-size: 28px;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    margin-left: 36rpx;
-    font-weight: 500;
-    line-height: 80rpx;
-}
-
-.mealtype-inactive {
-    background: #F5F5F5;
-    border-radius: 15.5px;
-    font-family: PingFang-SC-Regular;
-    font-size: 15px;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: center;
-    height: 62rpx;
-    width: 148rpx;
-    line-height: 62rpx;
-    margin-left: 30rpx;
-}
-
-.mealtype-active {
-    background: rgba(247, 156, 76, 0.20);
-    border-radius: 15.5px;
-    font-family: PingFang-SC-Regular;
-    font-size: 15px;
-    color: #F79C4C;
-    letter-spacing: 0;
-    text-align: center;
-    height: 62rpx;
-    width: 148rpx;
-    line-height: 62rpx;
-    margin-left: 30rpx;
-}
-
-.right-item-text {
-    font-family: PingFang-SC-Medium;
-    font-size: 12px;
-    color: #666666;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 96rpx;
-}
-
-.left-item {
-    background: #F7F8F8;
-    height: 92rpx;
-    width: 160rpx;
-    /* line-height: 92rpx; */
-    /* text-align: center; */
-    /* font-family: PingFang-SC-Regular; */
-    /* font-size: 12px; */
-    /* color: #666666; */
-    /* letter-spacing: 0; */
-}
-
-.left-item-active {
-    background: #FFFFFF;
-    height: 92rpx;
-    width: 160rpx;
-    line-height: 92rpx;
-    text-align: center;
-    font-family: PingFang-SC-Regular;
-    font-size: 12px;
-    color: #666666;
-    letter-spacing: 0;
-}
-
-.menu-count {
-    width: 24rpx;
-    height: 24rpx;
-    background: #FF5035;
-    line-height: 24rpx;
-    border-radius: 12rpx;
-    font-family: PingFang-SC-Medium;
-    font-size: 16rpx;
-    color: #FFFFFF;
-    text-align: center;
-    letter-spacing: 0;
-    float: right;
-    position: relative;
-    top: 6rpx;
-    right: 22rpx;
-}
-
-.menu-name {
-    line-height: 34rpx;
-    text-align: center;
-    font-family: PingFang-SC-Regular;
-    font-size: 24rpx;
-    color: #666666;
-    letter-spacing: 0;
-}
-
-.food-wrapper {
-    display: flex;
-    margin-bottom: 40rpx;
-    width: 100%;
-}
-
-.img-wrapper {
-    width: 196rpx;
-    height: 196rpx;
-}
-
-.food-img {
-    width: 196rpx;
-    height: 196rpx;
-    border-radius: 6rpx;
-}
-
-.chart-mealtype {
-    font-family: PingFang-SC-Regular;
-    font-size: 24rpx;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: center;
-    line-height: 120rpx;
-    padding: 0 20rpx 0 30rpx;
-}
-
-.chart-food-name-price {
-    font-family: PingFang-SC-Regular;
-    font-size: 34rpx;
-    color: #333333;
-    letter-spacing: 0;
-    line-height: 120rpx;
-    display: flex;
-    width: 402rpx;
-    justify-content: space-between;
-}
-
-.chart-food-originalprice {
-    font-family: PingFang-SC-Regular;
-    font-size: 24rpx;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 120rpx;
-    padding-left: 10rpx;
-    width: 74rpx;
-    text-decoration: line-through;
-}
-
-.chart-top {
-    background: #FEF5DF;
-    border-radius: 4px 4px 0 0;
-    font-family: PingFang-SC-Regular;
-    font-size: 11px;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: center;
-    width: 100%;
-    line-height: 60rpx;
-}
-
-.chart-date {
-    background: #F5F5F5;
-    border-left: 8rpx solid #F7CD4E;
-    font-family: PingFang-SC-Medium;
-    font-size: 11px;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    padding-left: 22rpx;
-    line-height: 60rpx;
-}
-
-.chart-num-control {
-    /* position: absolute;
-    right: 30rpx;
-    bottom: -5rpx; */
-    display: flex;
-    padding-top: 40rpx;
-    padding-right: 30rpx;
-    float: right;
-}
-
-.chart-num {
-    font-family: HelveticaNeue;
-    font-size: 26rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: center;
-    width: 56rpx;
-    line-height: 40rpx;
-}
-
-.cart-count {
-    position: absolute;
-    z-index: 1003;
-    height: 32rpx;
-    width: 32rpx;
-    background: #FF5035;
-    text-align: center;
-    line-height: 32rpx;
-    border-radius: 32rpx;
-    font-family: PingFang-SC-Medium;
-    font-size: 22rpx;
-    color: #FFF;
-    letter-spacing: 0;
-    left: 0;
-    top: 100%;
-    animation: cartCountAnimation 0.5s;
-    animation-timing-function: linear;
-}
-
-@keyframes cartCountAnimation {
-    0% {
-        left: 100%;
-        top: 0;
-    }
-    50% {
-        left: 50%;
-        top: 50%;
-    }
-    100% {
-        left: 0;
-        top: 100%;
-    }
-}
-
-
-/*3.0*/
-
-
 /* pages/time/time.wxss */
 
 .wrapper {
+    padding: 0 5rpx;
     /* background-color: rgb(211, 211, 211); */
     background-color: white;
 }
@@ -363,6 +90,7 @@
 
 .menu-wrapper {
     display: flex;
+    border: white 5rpx solid;
 }
 
 .menu-wrapper-cannotorder {
@@ -383,6 +111,18 @@
     background-color: rgb(248, 248, 248);
 }
 
+.left-item {
+    vertical-align: middle;
+    padding: 40rpx 15rpx;
+    font-size: 25rpx;
+    overflow: hidden;
+    color: #666;
+}
+
+.left-item:last-child {
+    margin-bottom: 20rpx;
+}
+
 .menutypeActive {
     background-color: white;
     color: #e79b37;
@@ -394,8 +134,8 @@
 }
 
 .menu-right {
-    width: 570rpx;
-    margin-left: 20rpx;
+    width: 80%;
+    background-color: rgb(255, 255, 255);
 }
 
 .menu-label-wrapper {
@@ -427,6 +167,15 @@
     text-shadow:2rpx 4rpx 3rpx #666; */
 }
 
+.right-item-text {
+    padding: 5rpx 0 15rpx 20rpx;
+    height: 30rpx;
+    line-height: 40rpx;
+    font-size: 25rpx;
+    text-align: left;
+    color: #666;
+}
+
 .food-wrapper-nofood {
     padding: 20rpx 10rpx;
     width: 100%;
@@ -444,75 +193,90 @@
     border-bottom-left-radius: 30rpx;
 } */
 
+.food-wrapper {
+    display: flex;
+    padding: 10rpx 10rpx;
+    width: 100%;
+    /* border-bottom: rgb(233, 233, 233) 5rpx solid; */
+    background-color: white;
+    margin-bottom: 20rpx;
+}
+
+.food-wrapper:last-child {
+    padding-bottom: 30rpx;
+}
+
+.img-wrapper {
+    position: relative;
+    width: 30%;
+    height: 0;
+    padding-bottom: 30%;
+}
+
+.food-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
 
 /* .food-wrapper:last-child image {
     border-bottom-left-radius: 30rpx;
 } */
 
 .food-info-wrapper {
-    width: 340rpx;
-    margin-left: 20rpx;
-    margin-right: 34rpx;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
+    position: relative;
+    width: 70%;
+    padding: 0 20rpx;
+    box-sizing: border-box;
 }
 
 .food-name {
-    font-family: PingFang-SC-Medium;
-    font-size: 15px;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 42rpx;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 340rpx;
-}
-
-.food-label-item {
-    font-family: PingFang-SC-Regular;
-    font-size: 10px;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 28rpx;
-    margin-right: 10rpx;
-    padding: 0 8rpx;
-    background: #F5F5F5;
-    border-radius: 4rpx;
-    white-space: nowrap;
+    font-size: 30rpx;
+    font-weight: 700;
+    height: 30rpx;
+    line-height: 30rpx;
 }
 
 .food-desc {
-    margin-top: 10rpx;
-    font-family: PingFang-SC-Regular;
-    font-size: 10px;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: left;
-    width: 100%;
+    padding-top: 15rpx;
+    font-size: 20rpx;
+    color: #666666;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    line-height: 28rxp;
+}
+
+.merchant {
+    padding-top: 15rpx;
+    display: table;
+}
+
+.icon-merchant {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 30rpx;
+    color: #e79b37;
+    height: 35rpx;
+    line-height: 35rpx;
+}
+
+.merchantName {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 20rpx;
+    height: 35rpx;
+    line-height: 35rpx;
+    padding: 0 20rpx;
+    color: #666;
+    background: rgb(209, 231, 247);
+    border-radius: 6rpx;
 }
 
 .foodLimitNum {
-    margin-top: 10rpx;
     display: flex;
-    line-height: 28rxp;
-}
-
-.food-stock {
-    font-family: PingFang-SC-Regular;
-    font-size: 20rpx;
-    color: #999;
-    letter-spacing: 0;
-    text-align: left;
-    padding-right: 10rpx;
 }
 
 .stockLeftNum {
@@ -531,60 +295,35 @@
 }
 
 .price {
+    position: absolute;
+    left: 20rpx;
+    bottom: 0;
     font-size: 25rpx;
     color: #666666;
 }
 
 .price-real {
-    font-family: HelveticaNeue-Medium;
-    font-size: 36rpx;
-    color: #FF7800;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 46rpx;
-}
-
-.price-real-icon {
-    font-family: HelveticaNeue-Medium;
-    font-size: 20rpx;
-    color: #FF7800;
-    letter-spacing: 0;
-    text-align: left;
-    align-self: flex-end;
+    display: inline-block;
+    color: #F56C6C;
+    font-size: 30rpx;
 }
 
 .price-original {
-    margin-left: 17rpx;
+    display: inline-block;
+    margin-left: 20rpx;
+    font-style: italic;
     text-decoration: line-through;
-    font-family: PingFang-SC-Regular;
-    font-size: 12px;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: left;
-    /* align-self: flex-end; */
-    line-height: 46rpx;
 }
 
 
 /* + - **********控件********** */
 
 .num-control {
-    /* position: absolute;
+    position: absolute;
     right: 30rpx;
-    bottom: -5rpx; */
+    bottom: -5rpx;
+    font-size: 0;
     color: #e79b37;
-    display: flex;
-    height: 40rpx;
-}
-
-.num {
-    font-family: HelveticaNeue;
-    font-size: 13px;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: center;
-    width: 56rpx;
-    line-height: 40rpx;
 }
 
 
@@ -606,54 +345,35 @@
 
 .footer-wrapper {
     position: fixed;
-    left: 30rpx;
-    right: 30rpx;
-    bottom: 20rpx;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
-    height: 100rpx;
-    background: #4D4D4D;
-    box-shadow: 0 4rpx 8rpx 0 rgba(0, 0, 0, 0.20);
-    border-radius: 50rpx;
-    z-index: 501;
-}
-
-.footer-wrapper-top {
-    position: fixed;
-    left: 30rpx;
-    right: 30rpx;
-    bottom: 20rpx;
-    display: flex;
-    height: 160rpx;
-    background: rgba(254, 244, 221, 0.95);
-    /* border-radius: 4px 4px 100px 100px; */
-    /* box-shadow: 0 4rpx 8rpx 0 rgba(0, 0, 0, 0.20); */
-    z-index: 500;
+    height: 90rpx;
 }
 
 .footer-left {
     flex: 1;
-    height: 100rpx;
+    background: black;
+    height: 90rpx;
     position: relative;
 }
 
 .footer-middle {
     flex: 2;
-    height: 100rpx;
+    background-color: black;
+    height: 90rpx;
 }
 
 .footer-right {
-    background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
-    border-radius: 50rpx;
-    line-height: 100rpx;
-    width: 200rpx;
-    font-family: PingFang-SC-Medium;
-    font-size: 32rpx;
-    color: #FFFFFF;
-    letter-spacing: 0;
+    flex: 1;
+    background-color: #e79b37;
     text-align: center;
-    position: absolute;
-    bottom: 0;
-    right: 0;
+    height: 90rpx;
+    line-height: 90rpx;
+    font-size: 40rpx;
+    font-weight: 600;
+    color: white;
 }
 
 .box-wrapper {
@@ -942,6 +662,8 @@
     color: black;
     padding: 0 30rpx;
 }
+
+.total-right {}
 
 .total-right-line {
     display: flex;

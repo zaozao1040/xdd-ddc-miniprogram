@@ -626,7 +626,7 @@ Page({
         let _this = this
 
         let params = {
-            userCode: wx.getStorageSync('userInfo').userCode
+            userCode: wx.getStorageSync('userCode')
                 //userCode: 'USER532153350460801101'
         };
         cabModel.getDeviceNumByUserCode(params, (res) => {

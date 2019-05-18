@@ -9,18 +9,18 @@
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
-		"autoAudits": false
+		"autoAudits": false,
+		"checkInvalidKey": true
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.4.0",
 	"appid": "wx47b750121e8288c1",
 	"projectname": "xddWX",
+	"cloudfunctionTemplateRoot": "",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
-	"isGameTourist": false,
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
+	"scripts": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -35,15 +35,10 @@
 			"list": []
 		},
 		"game": {
-			"currentL": -1,
 			"list": []
 		},
 		"miniprogram": {
-<<<<<<< HEAD
-			"current": 16,
-=======
-			"current": 19,
->>>>>>> 99e77efdd81ff91c04247e1eb9c3efa774cda17b
+			"current": 22,
 			"list": [
 				{
 					"id": -1,
@@ -142,11 +137,10 @@
 					"query": ""
 				},
 				{
-					"id": 16,
-					"name": "login",
-					"pathName": "pages/login/login",
-					"query": "",
-					"scene": null
+					"id": -1,
+					"name": "login-page2",
+					"pathName": "pages/login/page2/page2",
+					"query": ""
 				},
 				{
 					"id": -1,
@@ -184,10 +178,10 @@
 					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "selectPhone",
-					"pathName": "pages/login/selectPhone/selectPhone",
-					"query": "",
+					"id": 22,
+					"name": "detail",
+					"pathName": "pages/order/detail",
+					"query": "orderCode=DDC579320575072141312",
 					"scene": null
 				}
 			]

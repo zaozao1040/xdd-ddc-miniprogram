@@ -449,7 +449,7 @@ Page({
                 wx.reLaunch({
                     url: '/pages/order/order?content=' + '订单已生成',
                 })
-            } else if (param.payType == 'WECHAT_PAY') { //微信支付
+            } else if (param.payType == 'WECHAT_PAY' && resdata.needPay) { //微信支付
                 if (data.timeStamp) {
                     wx.requestPayment({
                         'timeStamp': data.timeStamp.toString(),

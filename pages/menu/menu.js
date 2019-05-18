@@ -159,6 +159,21 @@
                  activeDayIndex: day,
                  activeDayId: 'day' + (day > 2 ? day - 2 : 0)
              })
+
+
+             for (let i = 0; i < this.data.mealEnglistLabel.length; i++) {
+                 //5/15 今天一定有可定的餐时吗？即：该公司预定了这个餐时
+                 let meal = this.data.mealEnglistLabel[i]
+                 if (this.data.timeInfo[this.data.activeDayIndex].mealTypeOrder[meal + 'Status']) {
+                     this.setData({
+                         mealTypeItem: meal
+                     })
+
+                     break
+
+                 }
+             }
+
              if (!this.data.allMenuData[day][this.data.mealTypeItem]) {
                  this.setData({
                      getdataalready: false

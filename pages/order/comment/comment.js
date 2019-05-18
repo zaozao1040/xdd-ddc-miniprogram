@@ -66,7 +66,7 @@ Page({
                         }
                     })
 
-                    wx.setStorageSync('refreshUserInfoFlag', true)
+
                 } else {
                     wx.hideLoading()
                     wx.showToast({

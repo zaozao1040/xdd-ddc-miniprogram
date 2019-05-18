@@ -1,141 +1,146 @@
-// pages/order/detail.js
-import { order } from './order-model.js'
-let orderModel = new order()
 import moment from "../../comm/script/moment"
+
+import { base } from '../../comm/public/request'
+let requestModel = new base()
+
 Page({
 
-  /**
-   * 页面的初始数据
-   */
-  data: {
-    orderCode:undefined,
-    detailInfo:null,
-        //
-        orderStatusMap: {
-          NO_PAY: '未支付',
-          PAYED_WAITINT_CONFIRM: '已支付',
-          CONFIRM_WAITING_MAKE: '待制作',
-          MAKING: '开始制作',
-          MAKED_WAITING_DELIVERY: '待配送',
-          DELIVERING: '配送中',
-          DELIVERED_WAITING_PICK: '待取货',
-          PICKED_WAITING_EVALUATE: '待评价',
-          COMPLETED_EVALUATED: '已评价',
-          NO_PICK_WAITING_BACK: '超时未取货待取回',
-          USER_CANCEL: '已取消',
-          SYSTEM_CANCEL: '系统自动取消'
-        },
+    /**
+     * 页面的初始数据
+     */
+    data: {
+        detailInfo: null,
+
         payStatusMap: {
-          THIRD_PAYED: '第三方支付',
-          NO_PAYED: '未支付',
-          STANDARD_PAYED: '标准支付'
+            THIRD_PAYED: '第三方支付',
+            NO_PAYED: '未支付',
+            STANDARD_PAYED: '标准支付'
         },
         payTypeMap: {
-          ALI_PAY: '支付宝支付',
-          WECHAT_PAY: '微信支付',
-          BALANCE_PAY: '余额支付',
-          STANDARD_PAY: '标准支付'
+            ALI_PAY: '支付宝支付',
+            WECHAT_PAY: '微信支付',
+            BALANCE_PAY: '余额支付',
+            STANDARD_PAY: '标准支付'
         },
         mealTypeMap: {
-          BREAKFAST: '早餐',
-          LUNCH: '午餐',
-          DINNER: '晚餐',
-          NIGHT: '夜宵'
+            BREAKFAST: '早餐',
+            LUNCH: '午餐',
+            DINNER: '晚餐',
+            NIGHT: '夜宵'
         },
-  },
+    },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    let _this = this
-    _this.setData({ 
-      orderCode: options.orderCode
-    })
-    let param = {
-      orderCode: options.orderCode, 
-      userCode: wx.getStorageSync('userInfo').userCode
-/*       orderCode: 'DDC540922057089744896',
-      userCode: 'USER540619295831490560' */
+    /**
+     * 生命周期函数--监听页面加载
+     */
+    onLoad: function(options) {
+        let _this = this
+
+        let param = {
+            url: '/order/getOrderDetail?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + options.orderCode
+        }
+        requestModel.request(param, data => {
+
+
+            let tmpData = data
+            tmpData.mealTypeDes = _this.data.mealTypeMap[data.mealType] //日期
+            tmpData.orderStatusDes = _this.getOrderStatus(data) //状态
+            tmpData.payStatusDes = _this.data.payStatusMap[data.payStatus]
+            tmpData.payTypeDes = _this.data.payTypeMap[data.payType]
+            tmpData.payTimeDes = data.payTime ? moment(data.payTime).format('YYYY-MM-DD HH:mm:ss') : data.payTime
+            tmpData.pickTimeDes = data.pickTime ? moment(data.pickTime).format('YYYY-MM-DD HH:mm:ss') : data.pickTime
+            tmpData.orderTimeDes = data.orderTime ? moment(data.orderTime).format('YYYY-MM-DD HH:mm:ss') : data.orderTime
+            tmpData.mealDateDes = data.mealDate ? moment(data.mealDate).format('MM月DD日') : data.mealDate
+            tmpData.takeMealEndTimeDes = data.takeMealEndTime ? moment(data.takeMealEndTime).format('MM月DD日HH:mm') : data.takeMealEndTime
+            tmpData.takeMealStartTimeDes = data.takeMealStartTime ? moment(data.takeMealStartTime).format('MM月DD日HH:mm') : data.takeMealStartTime
+
+            _this.setData({
+                detailInfo: tmpData
+            })
+
+            console.log('detailInfo', tmpData)
+        })
+    },
+    //获取订单状态
+    getOrderStatus(element) {
+        if (element.status == 1) {
+            if (element.isPay == 0) {
+                return '未支付'
+            } else {
+                return '已支付'
+            }
+        } else if (element.status == 2) {
+            if (element.confirmStatus == 2) {
+                if (element.isBox == 1 && element.cabinetStatus == 0 && element.evaluateStatus == 0) {
+                    return '待配送'
+                } else {
+                    if (element.cabinetStatus == 0 && element.evaluateStatus == 0) {
+                        return '配送中'
+                    } else {
+                        if (element.cabinetStatus != 0 && element.pickStatus == 1 && element.evaluateStatus == 0) {
+                            return '可取餐'
+                        } else {
+                            if (element.cabinetStatus != 0 && element.pickStatus == 2 && element.evaluateStatus == 1) {
+                                return '待评价'
+                            }
+                        }
+                    }
+                }
+            }
+
+        } else if (element.status == 3) {
+            return '已完成'
+        } else {
+            return '已取消'
+        }
+    },
+
+    /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+    onReady: function() {
+
+    },
+
+    /**
+     * 生命周期函数--监听页面显示
+     */
+    onShow: function() {
+
+    },
+
+    /**
+     * 生命周期函数--监听页面隐藏
+     */
+    onHide: function() {
+
+    },
+
+    /**
+     * 生命周期函数--监听页面卸载
+     */
+    onUnload: function() {
+
+    },
+
+    /**
+     * 页面相关事件处理函数--监听用户下拉动作
+     */
+    onPullDownRefresh: function() {
+
+    },
+
+    /**
+     * 页面上拉触底事件的处理函数
+     */
+    onReachBottom: function() {
+
+    },
+
+    /**
+     * 用户点击右上角分享
+     */
+    onShareAppMessage: function() {
+
     }
-    wx.showLoading({ //【防止狂点2】
-      title: '加载中',
-      mask: true
-    })
-    orderModel.getOrderDeatailData(param, (res) => {
-      console.log('收到请求(订单详情):', res)
-      let tmpData = res.data
-      tmpData.mealTypeDes = _this.data.mealTypeMap[res.data.mealType]
-      tmpData.orderStatusDes = _this.data.orderStatusMap[res.data.orderStatus]
-      tmpData.payStatusDes = _this.data.payStatusMap[res.data.payStatus]
-      tmpData.payTypeDes = _this.data.payTypeMap[res.data.payType]
-      tmpData.payTimeDes = res.data.payTime?moment(res.data.payTime).format('YYYY-MM-DD HH:mm:ss'):res.data.payTime
-      tmpData.pickTimeDes = res.data.pickTime?moment(res.data.pickTime).format('YYYY-MM-DD HH:mm:ss'):res.data.pickTime
-      tmpData.orderTimeDes = res.data.orderTime?moment(res.data.orderTime).format('YYYY-MM-DD HH:mm:ss'):res.data.orderTime
-      tmpData.mealDateDes = res.data.mealDate?moment(res.data.mealDate).format('MM月DD日'):res.data.mealDate
-      tmpData.takeMealEndTimeDes = res.data.takeMealEndTime?moment(res.data.takeMealEndTime).format('MM月DD日HH:mm'):res.data.takeMealEndTime
-      tmpData.takeMealStartTimeDes = res.data.takeMealStartTime?moment(res.data.takeMealStartTime).format('MM月DD日HH:mm'):res.data.takeMealStartTime
-      if (res.code === 0) {
-        _this.setData({ 
-          detailInfo: res.data
-        })
-        wx.hideLoading() //【防止狂点3】
-      } else {
-        wx.showToast({
-          title: res.msg,
-          icon: 'none',
-          duration: 2000
-        })
-      }
-    })
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

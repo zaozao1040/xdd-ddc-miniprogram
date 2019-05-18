@@ -1,174 +1,85 @@
-<!--pages/order/detail.wxml-->
 <view class="wrapper">
-  <!-- 标题 -->
-  <view class="orderItem-wrapper">
-    <view class="orderItem-header">
-      <view class="header-left">
-        {{detailInfo.mealDate}} {{detailInfo.mealTypeDes}}
-      </view>
-      <view class="header-right">
-        {{detailInfo.orderStatusDes}}
-      </view>
-    </view>
-  </view>
-  <!-- 基本信息 -->
-  <view class="orderItem-wrapper">
-    <view class="orderItem orderCode">
-      <view class="leftLabel">
-        订单编号
-      </view>
-      <view class="rightContent">
-        {{detailInfo.orderCode}}
-      </view>
-    </view>
-    <view class="orderItem orderTime">
-      <view class="leftLabel">
-        下单时间
-      </view>
-      <view class="rightContent">
-        {{detailInfo.orderTimeDes}}
-      </view>
-    </view>
-  </view>
-  <!-- 根据订单状态不同的差异信息 -->
-  <view class="orderItem-wrapper">
-    <view class="orderItem mealDate">
-      <view class="leftLabel">
-        取餐截止时间
-      </view>
-      <view class="rightContent">
-        {{detailInfo.takeMealStartTimeDes}} ~ {{detailInfo.takeMealEndTimeDes}}
-      </view>
-    </view>
-    <view class="orderItem orderAddress" wx:if="{{detailInfo.address}}">
-      <view class="leftLabel">
-        取餐地址
-      </view>
-      <view class="rightContent">
-        {{detailInfo.provinceName}}{{detailInfo.cityName}}{{detailInfo.districtName}}{{detailInfo.address}}
-      </view>
-    </view>
-    <view class="orderItem orderAddress" wx:if="{{detailInfo.cabinetList.length>0}}">
-      <view class="leftLabel">
-        柜号信息
-      </view>
-      <view class="rightContent">
-        <view style="display: inline-block;" wx:for="{{detailInfo.cabinetList}}" wx:for-index="cabinetIndex"
-          wx:for-item="cabinetItem" wx:key="cabinetIndex">
-          {{cabinetItem.cabinetOrder}}{{cabinetItem.serialNum}}
+    <view class='header-status'>{{detailInfo.orderStatusDes}}</view>
+    <view class="orderItem-wrapper">
+        <view class="cart-day-title">
+            ({{detailInfo.mealDate}}){{detailInfo.mealTypeDes}}
         </view>
-      </view>
-    </view>
-    <view class="orderItem pickTimeDes" wx:if="{{detailInfo.pickTimeDes}}">
-      <view class="leftLabel">
-        实际取餐时间
-      </view>
-      <view class="rightContent">
-        {{detailInfo.pickTimeDes}}
-      </view>
+
+        <view class="cart-menuItem" wx:for="{{detailInfo.orderFoodList}}" wx:key="{{index}}">
+            <view class="cart-menuItem-left">
+                <image class="cart-menuItem-img" src="{{item.foodImage}}"></image>
+            </view>
+            <view style="flex:1;">
+                <view style="display: flex;justify-content: space-between;">
+                    <view class="cart-menuItemDes">
+                        {{item.foodName}}
+                    </view>
+                    <view style='display:flex;'>
+                        <!-- <view class="cart-menuItem-originmoney" wx:if="{{item.foodTotalOriginalPrice!=item.foodTotalPrice}}">¥{{item.foodTotalOriginalPrice}}</view> -->
+                        <view class="cart-menuItem-money">¥{{item.foodPrice}}</view>
+                    </view>
+                </view>
+                <view class="cart-menuItem-mealtype">
+                    <text style="margin-right:10rpx;">{{detailInfo.mealTypeDes}}</text><text>x{{item.Quantity}}</text>
+                </view>
+            </view>
+        </view>
+
+        <view class='cart-organize-deduction'>
+            <view class='cart-discount-organize'>企业折扣</view>
+            <view class='cart-discount-organize-money'>-￥{{detailInfo.standardPrice}}</view>
+        </view>
+        <view class='cart-organize-deduction'>
+            <view class='cart-discount-organize'>积分抵扣</view>
+
+            <view class='cart-discount-organize-money'>-￥{{detailInfo.integralPrice}}</view>
+
+        </view>
+        <view class='cart-organize-deduction'>
+            <view class='cart-discount-organize'>优惠券</view>
+
+            <view class='cart-discount-organize-money'>-￥{{detailInfo.discountPrice}}</view>
+
+        </view>
+
     </view>
 
-  </view>
-  <!-- 金额相关 -->
-  <view class="orderItem-wrapper">
-    <view class="orderItem payStatusDes">
-      <view class="leftLabel">
-        支付状态
-      </view>
-      <view class="rightContent">
-        {{detailInfo.payStatusDes}}
-      </view>
-    </view>
-    <view class="orderItem payCode" wx:if="{{detailInfo.payCode}}">
-      <view class="leftLabel">
-        支付编号
-      </view>
-      <view class="rightContent">
-        {{detailInfo.payCode}}
-      </view>
-    </view>
-    <view class="orderItem payTimeDes" wx:if="{{detailInfo.payTimeDes}}">
-      <view class="leftLabel">
-        支付时间
-      </view>
-      <view class="rightContent">
-        {{detailInfo.payTimeDes}}
-      </view>
-    </view>
-    <view class="orderItem payTypeDes" wx:if="{{detailInfo.payType}}">
-      <view class="leftLabel">
-        支付类型
-      </view>
-      <view class="rightContent">
-        {{detailInfo.payTypeDes}}
-      </view>
-    </view>
-    <view class="orderItem totalPrice">
-      <view class="leftLabel">
-        总价格
-      </view>
-      <view class="rightContent">
-        ¥{{detailInfo.totalPrice}}
-      </view>
-    </view>
-    <view class="orderItem discountPrice" wx:if="{{detailInfo.discount}}">
-      <view class="leftLabel">
-        优惠券抵扣价
-      </view>
-      <view class="rightContent">
-        -¥{{detailInfo.orderDiscount.discountPrice}}
-      </view>
-    </view>
-    <view class="orderItem payPrice">
-      <view class="leftLabel">
-        自费价格
-      </view>
-      <view class="rightContent">
-        ¥{{detailInfo.payPrice}}
-      </view>
-    </view>
-    <view class="orderItem standardPrice">
-      <view class="leftLabel">
-        企业额度抵扣
-      </view>
-      <view wx:if="{{detailInfo.standardPrice==0}}" class="rightContent">
-        无..
-      </view>
-      <view wx:else class="rightContent">
-        -¥{{detailInfo.standardPrice}}
-      </view>
-    </view>
-    <view class="orderItem payPrice">
-      <view class="leftLabel">
-        支付金额
-      </view>
-      <view class="rightContent">
-        ¥{{detailInfo.payPrice}}
-      </view>
-    </view>
-  </view>
-  <!-- 餐品相关 -->
-  <view class="orderItem-wrapper" style="padding-top:10rpx;">
-    <view class="orderItem-plus" wx:for="{{detailInfo.orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem"
-      wx:key="foodIndex">
-      <view class="img-wrapper">
-        <image class="img" mode="widthFix" src="{{foodItem.img}}"></image>
-      </view>
-      <view class="foodItem-lines">
-        <view class="foodItem-line">
-          <view class="name">
-            {{foodItem.name}}
-          </view>
-          <view class="price">
-            ¥{{foodItem.price}} (x{{foodItem.quantity}}份)
-          </view>
+    <!--订单信息-->
+
+    <!--订单信息-->
+    <view class="order-info-wrapper">
+        <view class='order-info-title'>订单信息</view>
+        <view class="order-info-one">
+            <view class="left-label">
+                订单编号
+            </view>
+            <view class="right-content">
+                {{detailInfo.orderCode}}
+            </view>
         </view>
-        <view class="foodItem-line">
-          <view class="mark" wx:if="{{foodItem.mark}}">
-            {{foodItem.mark}}
-          </view>
+        <view class="order-info-one">
+            <view class="left-label">
+                下单时间
+            </view>
+            <view class="right-content">
+                {{detailInfo.orderTime}}
+            </view>
         </view>
-      </view>
+        <view class="order-info-one">
+            <view class="left-label">
+                支付时间
+            </view>
+            <view class="right-content">
+                {{detailInfo.orderTime}}
+            </view>
+        </view>
+        <view class="order-info-one">
+            <view class="left-label">
+                支付方式
+            </view>
+            <view class="right-content">
+                {{detailInfo.payTypeDes}}
+            </view>
+        </view>
     </view>
-  </view>
 </view>

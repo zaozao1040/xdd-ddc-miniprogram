@@ -8,6 +8,9 @@ let confirmModel = new confirm()
 let walletModel = new wallet()
 import moment from "../../../comm/script/moment"
 
+import { base } from '../../../comm/public/request'
+let requestModel = new base()
+
 Page({
 
     /**
@@ -109,31 +112,29 @@ Page({
      */
     onShow: function() {
         let _this = this
-        const userInfo = wx.getStorageSync('userInfo')
-        _this.setData({
-            address: userInfo.address,
-            //name: _this.data.name.length<=0 ? wx.getStorageSync('userInfo').name : _this.data.name,
-            name: userInfo.name ? userInfo.name : wx.getStorageSync('tmp_storage'),
-            phoneNumber: userInfo.phoneNumber,
-            bindOrganized: userInfo.bindOrganized
-        })
-        console.log(!_this.data.name || !_this.data.address,
-            (_this.data.name == null) || (_this.data.address == null),
-            _this.data.name,
-            _this.data.address)
-        if ((_this.data.name == null) || (_this.data.address == null)) {
+        requestModel.getUserInfo(userInfo => {
             _this.setData({
-                showSelectFlag: true
+                address: userInfo.address,
+                name: userInfo.name ? userInfo.name : wx.getStorageSync('tmp_storage'),
+                phoneNumber: userInfo.phoneNumber,
+                bindOrganized: userInfo.bindOrganized
             })
-        }
-        // let tmp_address = userInfo.address
-        // _this.setData({
-        //         address: tmp_address
-        //     })//写两遍是个啥意思zll注销
-        //从后端获取钱包余额
-        _this.getWallet()
-            //从后端获取优惠券信息
-        _this.getDiscount()
+            console.log(!_this.data.name || !_this.data.address,
+                (_this.data.name == null) || (_this.data.address == null),
+                _this.data.name,
+                _this.data.address)
+            if ((_this.data.name == null) || (_this.data.address == null)) {
+                _this.setData({
+                    showSelectFlag: true
+                })
+            }
+
+            //从后端获取钱包余额
+            _this.getWallet()
+                //从后端获取优惠券信息
+            _this.getDiscount()
+        })
+
     },
     /* 页面隐藏后回收定时器指针 */
     onHide: function() {
@@ -145,25 +146,22 @@ Page({
     getWallet: function() {
         let _this = this
         let param = {
-            userCode: wx.getStorageSync('userInfo').userCode,
+            url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
         }
-        walletModel.getWalletData(param, function(res) {
-            console.log('收到请求(钱包信息):', res)
-            if (res.code === 0) {
-                let tmp_userInfo = wx.getStorageSync('userInfo')
-                tmp_userInfo.balance = _this.data.balance
-                wx.setStorageSync('userInfo', tmp_userInfo)
+        requestModel.request(param, data => {
+            _this.setData({
+                balance: data.balance,
+            })
+            if (data.balance < this.data.realMoney) { //余额小于实际付款，则改为微信付款
                 _this.setData({
-                    balance: res.data
+                    walletSelectedFlag: false,
+                    payType: 'WECHAT_PAY'
                 })
-                if (res.data < _this.data.realMoney) { //余额小于实际付款，则改为微信付款
-                    _this.setData({
-                        walletSelectedFlag: false,
-                        payType: 'WECHAT_PAY'
-                    })
-                }
             }
+            _this.calculateIntegral()
         })
+
+
     },
     /* 用户点击不使用优惠券 */
     handleNotUseDiscount: function() {
@@ -214,7 +212,7 @@ Page({
     getDiscount: function() {
         let _this = this
         let param = {
-            userCode: wx.getStorageSync('userInfo').userCode,
+            userCode: wx.getStorageSync('userCode'),
             useType: 0, //0表示未使用
             discountType: '', //DISCOUNT 折扣，REDUCTION 满减
             limit: 20,
@@ -317,7 +315,7 @@ Page({
             })
             return
         }
-        if (!wx.getStorageSync('userInfo').addressCode) {
+        if (!this.data.userInfo.addressCode) {
             wx.showToast({
                 title: '请选择送餐地址',
                 image: '../../../images/msg/error.png',
@@ -340,10 +338,10 @@ Page({
             tmp_userDiscountCode = _this.data.adviceDiscountObj.userDiscountCode
         }
         let tmp_param = {
-            userCode: wx.getStorageSync('userInfo').userCode,
+            userCode: wx.getStorageSync('userCode'),
             userName: wx.getStorageSync('tmp_storage'),
 
-            addressCode: wx.getStorageSync('userInfo').addressCode,
+            addressCode: this.data.userInfo.addressCode,
             payType: _this.data.payType, //支付方式
             userDiscountCode: tmp_userDiscountCode,
 

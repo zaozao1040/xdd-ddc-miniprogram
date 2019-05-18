@@ -370,7 +370,7 @@
     font-size: 24rpx;
     color: #333333;
     letter-spacing: 0;
-    text-align: left;
+    text-align: right;
     line-height: 34rpx;
     margin-bottom: 6rpx;
 }

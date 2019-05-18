@@ -1,5 +1,3 @@
-// pages/mine/complaint/complaint.js
-
 import { base } from '../../../comm/public/request'
 let requestModel = new base()
 Page({

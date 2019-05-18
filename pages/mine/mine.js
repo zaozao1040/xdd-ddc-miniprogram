@@ -128,16 +128,13 @@
                  })
              })
              // 5/13 要修改
-         if (wx.getStorageSync('refreshUserInfoFlag')) {
-             this.onPullDownRefresh()
-             wx.setStorageSync('refreshUserInfoFlag', false)
-         } else {
-             requestModel.getUserInfo(userInfo => {
-                 this.setData({
-                     userInfo: userInfo
-                 })
+
+         requestModel.getUserInfo(userInfo => {
+             this.setData({
+                 userInfo: userInfo
              })
-         }
+         })
+
      },
 
      /**

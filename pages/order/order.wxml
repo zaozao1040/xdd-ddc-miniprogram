@@ -81,16 +81,16 @@
     <!-- 标题 -->
     <view class="header-wrapper">
         <view catchtap="changeItemStatusActiveFlag" data-flag="jinridaiqu">
-            <view class=" {{itemStatusActiveFlag==2?'header-item-active':'header-item'}}">今日待取</view>
+            <view class=" {{itemStatusActiveFlag==1?'header-item-active':'header-item'}}">今日待取</view>
+            <view class="{{itemStatusActiveFlag==1?'header-item-border-active':'header-item-border'}}"></view>
+        </view>
+        <view catchtap="changeItemStatusActiveFlag" data-flag="pingjia">
+            <view class="{{itemStatusActiveFlag==2?'header-item-active':'header-item'}}">待评价</view>
             <view class="{{itemStatusActiveFlag==2?'header-item-border-active':'header-item-border'}}"></view>
         </view>
-        <view catchtap="changeItemStatusActiveFlag" data-flag="jinridaiqu">
-            <view class="{{itemStatusActiveFlag==3?'header-item-active':'header-item'}}">待评价</view>
-            <view class="{{itemStatusActiveFlag==3?'header-item-border-active':'header-item-border'}}"></view>
-        </view>
         <view catchtap="changeItemStatusActiveFlag" data-flag="quanbudingdan">
-            <view class=" {{itemStatusActiveFlag==1?'header-item-active':'header-item'}}">全部订单</view>
-            <view class="{{itemStatusActiveFlag==1?'header-item-border-active':'header-item-border'}}"></view>
+            <view class=" {{itemStatusActiveFlag==0?'header-item-active':'header-item'}}">全部订单</view>
+            <view class="{{itemStatusActiveFlag==0?'header-item-border-active':'header-item-border'}}"></view>
 
         </view>
     </view>
@@ -114,9 +114,17 @@
                                 </view>
                                 <view class='food-mealtype'>{{orderItem.mealTypeDes}}</view>
                             </view>
-                            <view wx:if="{{orderItem.cabinet}}">
+
+                            <view wx:if="{{orderItem.orderFoodList[0].cabinet}}">
                                 <view class='order-cabinet-title'>柜子号</view>
-                                <view class='order-cabinet-num'>{{orderItem.cabinet}}</view>
+                                <view style='display: flex;'>
+                                    <block wx:for='{{orderItem.orderFoodList[0].cabinet}}' wx:for-index='cIndex' wx:for-item='cItem' wx:key='{{cIndex}}'>
+                                        <view class='order-cabinet-num' wx:if="{{orderItem.orderFoodList[0].cabinet.length-1!=cIndex}}">
+                                            {{cItem.cabinetNumber}}-{{cItem.cellNumber}}, </view>
+                                        <view class='order-cabinet-num' wx:else>
+                                            {{cItem.cabinetNumber}}-{{cItem.cellNumber}}</view>
+                                    </block>
+                                </view>
                             </view>
                             <view wx:elif="{{orderItem.orderFoodList[0].boxNumber}}">
                                 <view class='order-cabinet-title'>箱子</view>
@@ -128,7 +136,7 @@
                             </view>
                         </view>
                         <view style="display:flex;justify-content: space-between;padding:21rpx 0 40rpx;">
-                            <view class='food-takeorder' wx:if="{{itemStatusActiveFlag==2}}">取餐时间：今天{{orderItem.takeMealStartTimeDes}}到{{orderItem.takeMealEndTimeDes}}</view>
+                            <view class='food-takeorder' wx:if="{{itemStatusActiveFlag==1}}">取餐时间：今天{{orderItem.takeMealStartTimeDes}}到{{orderItem.takeMealEndTimeDes}}</view>
                             <view class='food-takeorder' wx:else>取餐时间：{{orderItem.takeMealDate}}</view>
                             <view class='food-money'>￥{{orderItem.payPrice}}</view>
                         </view>

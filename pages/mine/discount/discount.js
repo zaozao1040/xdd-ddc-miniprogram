@@ -12,7 +12,6 @@ Page({
         timer: null,
         canClick: true,
         listCanGet: true,
-        userInfo: null,
         //
         windowHeight: 0,
         scrollTop: 0,
@@ -79,10 +78,7 @@ Page({
                 scrollTop: res[0].top // #the-id节点的上边界坐标
             })
         })
-        let tmp_userInfo = wx.getStorageSync('userInfo')
-        _this.setData({
-            userInfo: tmp_userInfo
-        })
+
     },
     /* 手动点击触发下一页 */
     gotoNextPage: function() {
@@ -134,7 +130,7 @@ Page({
         }
         _this.data.listCanGet = false
         let param = {
-            userCode: wx.getStorageSync('userInfo').userCode,
+            userCode: wx.getStorageSync('userCode'),
             discountStatus: _this.data.useType,
             //discountType: '',  //DISCOUNT 折扣，REDUCTION 满减
             limit: _this.data.limit,
