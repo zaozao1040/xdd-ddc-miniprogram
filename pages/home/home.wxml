@@ -101,7 +101,12 @@
                 <view class="labelDes">我的积分</view>
             </view>
         </view>
-
+        <!-- 首页补餐 3.0-->
+        <view class="add-wrapper">
+                <image src="../../images/home/takefood@2x.png" mode="widthFix" class="add-img">
+                </image>
+                <view class='add-title'>去补餐</view>
+            </view>
         <!-- 首页提示取餐3.0-->
         <view style="margin-left:30rpx;margin-bottom:60rpx;" wx:if="{{homeOrderList.length>0}}">
             <view class='takefood-title'>今日餐品</view>

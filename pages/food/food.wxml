@@ -26,7 +26,8 @@
                         {{foodInfo.foodName}}
                     </view>
                     <view class="tag-wrapper">
-                        <view class="tag-item" wx:if="{{foodInfo.foodLabels}}" wx:for="{{foodInfo.foodLabels}}" wx:for-item="labelItem" wx:key="{{index}}">
+                        <view class="tag-item" wx:if="{{foodInfo.foodLabels}}" wx:for="{{foodInfo.foodLabels}}"
+                            wx:for-item="labelItem" wx:key="{{index}}">
                             {{labelItem.labelName}}
                         </view>
                     </view>
@@ -44,6 +45,9 @@
                             {{foodInfo.merchantName}}
                         </view>
                     </view> -->
+                    <view wx:if="{{foodInfo.description}}" style="margin-bottom:10rpx;" class="foodDes">
+                        主要原料:
+                    </view>
                     <view wx:if="{{foodInfo.description}}" class="foodDes">
                         {{foodInfo.description}}
                     </view>
@@ -57,12 +61,15 @@
         <!-- 评价列表 -->
         <view wx:else>
 
-            <scroll-view class="ratingsDetailList-wrapper" scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower='gotoNextPage'>
-                <view wx:if="{{orderListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+            <scroll-view class="ratingsDetailList-wrapper" scroll-y style="height: {{windowHeight - scrollTop}}px;"
+                bindscrolltolower='gotoNextPage'>
+                <view wx:if="{{orderListNoResult}}" class="noResult"
+                    style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
                     未查询到评价记录..
                 </view>
                 <view wx:else>
-                    <view class="ratingsItem" wx:for="{{ratingsInfoList}}" wx:for-item="ratingItem" wx:for-index="ratingIndex" wx:key="ratingIndex">
+                    <view class="ratingsItem" wx:for="{{ratingsInfoList}}" wx:for-item="ratingItem"
+                        wx:for-index="ratingIndex" wx:key="ratingIndex">
                         <view class="left">
                             <image class="left-image" src="{{ratingItem.headImage}}"></image>
                         </view>
@@ -81,20 +88,24 @@
                                 </block>
                             </view>
                             <view class="line3" wx:if="{{ratingItem.content}}">
-                                <text style="color:#666;">评价:</text>{{ratingItem.content}}
+                                {{ratingItem.content}}
                             </view>
                             <view class="line3" wx:if="{{ratingItem.replyContent}}">
-                                <text style="color:#eee;">占位:</text><text style="color:#666;">回复:{{ratingItem.replyContent}}</text>
+                                <text style="color:#eee;">占位:</text><text
+                                    style="color:#666;">回复:{{ratingItem.replyContent}}</text>
                             </view>
-                            <view wx:if="{{ratingItem.image}}" style="margin:0 0 10rpx 10rpx;display: flex;width:100%;justify-content: flex-end;">
-                                <view class="img3" class="{{ratingItem.image.length==3?'img3':''}} {{ratingItem.image.length==2?'img2':''}} {{ratingItem.image.length==1?'img1':''}}" style="padding-right: 10rpx;box-sizing: border-box;" wx:for="{{ratingItem.image}}" wx:for-index="imageIndex"
-                                    wx:for-item="imageItem" wx:key="imageIndex" style="text-align:left;">
+                            <view wx:if="{{ratingItem.image}}"
+                                style="margin:0 0 10rpx 10rpx;display: flex;width:100%;">
+                                <view class="img3" style="padding-right: 10rpx;box-sizing: border-box;" wx:for="{{ratingItem.image}}"
+                                    wx:for-index="imageIndex" wx:for-item="imageItem" wx:key="imageIndex"
+                                    style="text-align:left;">
                                     <image class="swiper-img" mode="widthFix" src="{{imageItem}}"></image>
                                 </view>
                             </view>
                         </view>
                     </view>
-                    <view wx:if="{{loadingData}}" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+                    <view wx:if="{{loadingData}}"
+                        style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
                         正在加载数据...
                     </view>
                 </view>

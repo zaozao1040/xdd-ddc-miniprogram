@@ -1,7 +1,8 @@
 .section-3 {
     border-radius: 6rpx;
-    margin: 16rpx;
+    margin: 16rpx 16rpx 0 16rpx;
     display: flex;
+    background: #FFFFFF;
 }
 
 .section-3-empty {
@@ -22,11 +23,25 @@
     font-family: "微软雅黑", "华文细黑", Arial, Helvetica, sans-serif;
 }
 
-
+.phone-number{
+    height: 100rpx;
+    line-height: 100rpx;
+    padding-left:20rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 30rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: left;
+}
 /* 企业选择 */
 
 .address-wrapper {
     background: #F5F5F5;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right:0;
 }
 
 .placeholder-class {
@@ -39,20 +54,9 @@
 
 .addressList-wrapper {
     background: #FFF;
-    margin-top: 10rpx;
+    margin:5rpx 16rpx 0 16rpx;
 }
 
-.addressItem-wrapper {
-    margin: 10rpx 20rpx;
-    border-bottom: 1rpx solid #ddd;
-}
-
-.address {
-    font-size: 40rpx;
-    color: #222;
-    font-weight: 500;
-    padding: 20rpx 10rpx;
-}
 
 .contactName {
     font-size: 30rpx;
@@ -74,6 +78,7 @@
 }
 
 .button {
+    margin:42rpx 16rpx;
     width: 100%;
     background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
     border-radius: 50rpx;

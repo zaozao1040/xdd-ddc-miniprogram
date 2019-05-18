@@ -36,6 +36,36 @@
     height: 40rpx;
 }
 
+
+/* 首页取餐--------qiuning */
+
+.add-wrapper {
+    margin: 0 30rpx;
+    position: relative;
+}
+
+.add-img {
+    width: 100%;
+}
+
+.add-title {
+    width: 140rpx;
+    height: 68rpx;
+    line-height: 68rpx;
+    position: absolute;
+    top:65rpx;
+    right:35rpx;    
+    background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
+    border-radius: 34rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 26rpx;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+
+/* -------首页取餐 */
+
 .takefood-title {
     font-family: PingFang-SC-Medium;
     font-size: 36rpx;
@@ -395,7 +425,7 @@
 
 .label-wrapper {
     display: flex;
-    margin: 0 80rpx 60rpx;
+    margin: 0 50rpx;
     justify-content: space-between;
 }
 

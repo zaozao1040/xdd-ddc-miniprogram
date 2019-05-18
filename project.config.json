@@ -39,7 +39,11 @@
 			"list": []
 		},
 		"miniprogram": {
+<<<<<<< HEAD
+			"current": 16,
+=======
 			"current": 19,
+>>>>>>> 99e77efdd81ff91c04247e1eb9c3efa774cda17b
 			"list": [
 				{
 					"id": -1,
@@ -138,10 +142,11 @@
 					"query": ""
 				},
 				{
-					"id": -1,
-					"name": "login-page2",
-					"pathName": "pages/login/page2/page2",
-					"query": ""
+					"id": 16,
+					"name": "login",
+					"pathName": "pages/login/login",
+					"query": "",
+					"scene": null
 				},
 				{
 					"id": -1,
@@ -175,6 +180,13 @@
 					"id": -1,
 					"name": "phone",
 					"pathName": "pages/mine/phone/phone",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "selectPhone",
+					"pathName": "pages/login/selectPhone/selectPhone",
 					"query": "",
 					"scene": null
 				}

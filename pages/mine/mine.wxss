@@ -55,6 +55,7 @@
 }
 
 .name {
+    position: relative;
     font-family: PingFang-SC-Medium;
     font-size: 36rpx;
     color: #FFFFFF;

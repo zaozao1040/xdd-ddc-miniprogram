@@ -1,21 +1,20 @@
 <view class="organize-wrapper">
     <view class="section-3" wx:if="{{!showNameFlag}}">
         <view class="section-3-1 ">
-
             <image src="../../../images/mine/organize_name@2x.png" style='width:48rpx;height:48rpx;'></image>
-
         </view>
-        <text wx:if="{{name}}" style="font-size:40rpx;color:#e79b37;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text>
+        <image wx:if="{{name}}" src="../../../images/mine/selected@2x.png"
+            style='width:52rpx;height:52rpx;position: absolute;top:24rpx;right:22rpx;'></image>
         <input bindinput="nameInput" value="{{name}}" class="section-3-2" placeholder="请输入真实姓名" type="string"></input>
     </view>
-    <view class="section-3" catchtap="showAddress">
-        <view class="section-3-1" style="text-align: center;display: table;">
-            <view style="display: table-cell;vertical-align: middle;">
-                <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-qiye'></text>
-            </view>
+    <view class="section-3" style="margin-bottom: 5rpx;" catchtap="showAddress">
+        <view class="section-3-1">
+            <image src="../../../images/mine/organize@2x.png" style='width:48rpx;height:48rpx;'></image>
         </view>
-        <text wx:if="{{organize}}" style="font-size:40rpx;color:#e79b37;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text>
-        <input bindinput="searchInput" value="{{organize}}" placeholder="搜索企业名..." data-organizecode="{{organizeCode}}" class="section-3-2" type="string"></input>
+        <image src="../../../images/mine/xiala@2x.png"
+            style='width:34rpx;height:34rpx;position: absolute;top:24rpx;right:22rpx;'></image>
+        <input bindinput="searchInput" value="{{organize}}" placeholder="搜索企业名..." data-organizecode="{{organizeCode}}"
+            class="section-3-2" type="string"></input>
     </view>
     <view class="section-3 {{usernumber?'':'section-3-empty'}}" wx:if="{{employeeNumber}}">
         <view class="section-3-1" style="text-align: center;display: table;">
@@ -23,21 +22,25 @@
                 <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-dingdanbianhao'></text>
             </view>
         </view>
-        <text wx:if="{{usernumber}}" style="font-size:40rpx;color:#e79b37;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text>
-        <input bindinput="usernumberInput" value="{{usernumber}}" class="section-3-2" placeholder="请输入企业工号" type="string"></input>
+        <text wx:if="{{usernumber}}" style="font-size:40rpx;color:#e79b37;position: absolute;right:40rpx;"
+            class='iconfont icon-dagou'></text>
+        <input bindinput="usernumberInput" value="{{usernumber}}" class="section-3-2" placeholder="请输入企业工号"
+            type="string"></input>
     </view>
     <!-- 企业选择 -->
     <view class="search-wrapper">
         <scroll-view scroll-y style="height: {{buttonTop - scrollTop}}px;" class="c_scrollPosition_forCalculate">
-            <view class="organizeItem-wrapper" wx:for="{{organizeList}}" wx:for-index="organizeIndex" wx:for-item="organizeItem" wx:key="organizeIndex" catchtap="selectOrganize" data-employeenumber="{{organizeItem.employeeNumber}}" data-organizename="{{organizeItem.organizeName}}"
+            <view class="organizeItem-wrapper" wx:for="{{organizeList}}" wx:for-index="organizeIndex"
+                wx:for-item="organizeItem" wx:key="organizeIndex" catchtap="selectOrganize"
+                data-employeenumber="{{organizeItem.employeeNumber}}" data-organizename="{{organizeItem.organizeName}}"
                 data-organizecode="{{organizeItem.organizeCode}}">
                 <view class="organizeItem-left">
                     <view class="organizeName">
                         {{organizeItem.organizeName}}
                     </view>
-                    <!--           <view class="organizeAddress">  安全考虑，先不考虑地址
-            {{organizeItem.address}}
-          </view> -->
+                    <view class="organizeAddress">
+                        {{organizeItem.organizeAddress}}
+                    </view>
                 </view>
                 <view class="organizeItem-right" wx:if="{{organizeItem.distance}}">
                     {{organizeItem.distance/1000}}公里
@@ -52,3 +55,28 @@
         <button loading="{{loading}}" class="button" catchtap="changeOrganize">绑定企业</button>
     </view>
 </view>
+<!--  <view class="organize-wrapper">
+    <view style='margin:132rpx 0 20rpx;text-align: center;'>
+        <image src="../../../images/mine/checkNo.jpg" style='width:216rpx;height:216rpx;'></image>
+    </view>
+    <view class='bind-title'>审核未通过</view>
+    <view class='bind-des'>您绑定的企业填写有误，请重新绑定</view>
+    <view class='bind-back' bindtap='goback'>去绑定</view>
+</view>
+<view class="organize-wrapper">
+    <view style='margin:132rpx 0 20rpx;text-align: center;'>
+        <image src="../../../images/mine/checkOk.jpg" style='width:216rpx;height:216rpx;'></image>
+    </view>
+    <view class='bind-title'>绑定成功</view>
+    <view class='bind-des'>管理员已审核通过您绑定的企业：</view>
+    <view class='bind-des'>苏州星点点科技有限公司</view>
+    <view class='bind-back' bindtap='goback'>完成</view>
+</view>
+<view class="organize-wrapper">
+    <view style='margin:132rpx 0 20rpx;text-align: center;'>
+        <image src="../../../images/mine/checking.jpg" style='width:216rpx;height:216rpx;'></image>
+    </view>
+    <view class='bind-title'>正在审核</view>
+    <view class='bind-des'>审核会尽快完成，请耐心等待</view>
+    <view class='bind-back' bindtap='goback'>返回</view>
+</view>  -->

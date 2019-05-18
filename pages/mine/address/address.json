@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "默认地址选择",
-  "navigationBarBackgroundColor": "#e79b37",
-  "navigationBarTextStyle":"white"
+  "navigationBarTitleText": "地址管理",
+  "navigationBarBackgroundColor": "#fff",
+  "navigationBarTextStyle": "black"
 }

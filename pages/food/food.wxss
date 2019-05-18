@@ -15,8 +15,10 @@ border-bottom-right-radius: 50rpx; */
 
 .header-item {
     font-family: PingFang-SC-Regular;
+    color: #999;
     font-size: 30rpx;
-    color: #999999;
+    background: #FFFFFF;
+    box-shadow: inset 0 0 0 0 #EBEBEB;
     letter-spacing: 0;
     line-height: 42rpx;
 }
@@ -46,7 +48,7 @@ border-bottom-right-radius: 50rpx; */
     bottom: 0;
     left: 0;
     right: 0;
-    background: #eee;
+    background: #fff;
 }
 
 .img-wrapper {
@@ -58,9 +60,9 @@ border-bottom-right-radius: 50rpx; */
 }
 
 .foodName {
-    font-size: 40rpx;
-    font-weight: 600;
-    color: #222;
+    font-size: 36rpx;
+    font-family: PingFangSC-Medium;
+    color: #333333;
 }
 
 .tag-wrapper {
@@ -81,13 +83,13 @@ border-bottom-right-radius: 50rpx; */
 
 .price-real {
     display: inline-block;
-    color: #F56C6C;
-    font-size: 35rpx;
+    color: #FF7800;
+    font-size: 46rpx;
 }
 
 .price-original {
     display: inline-block;
-    margin-left: 30rpx;
+    margin-left: 24rpx;
     font-style: italic;
     text-decoration: line-through;
 }
@@ -119,8 +121,9 @@ border-bottom-right-radius: 50rpx; */
 }
 
 .foodDes {
-    font-size: 30rpx;
-    color: #666;
+    font-family: PingFangSC-Regular;
+    font-size: 20rpx;
+    color: #999999;
 }
 
 
@@ -174,15 +177,15 @@ border-bottom-right-radius: 50rpx; */
 
 .ratingsItem {
     display: flex;
-    margin: 0 10rpx;
+    margin: 10rpx 30rpx 20rpx 30rpx;
     padding: 10rpx 0;
-    border-top: solid 1rpx #bbb;
+    border-bottom: solid 1rpx  #F5F5F5;
 }
 
 .left {
-    flex: 0 0 100rpx;
-    height: 100rpx;
-    width: 100rpx;
+    flex: 0 0 80rpx;
+    height: 80rpx;
+    width: 80rpx;
 }
 
 .left-image {
@@ -193,6 +196,7 @@ border-bottom-right-radius: 50rpx; */
 
 .right {
     flex: 1;
+    margin-left: 30rpx;
 }
 
 .line1 {
@@ -201,18 +205,19 @@ border-bottom-right-radius: 50rpx; */
     height: 30rpx;
     line-height: 30rpx;
     margin: 0 0 10rpx 10rpx;
+    
 }
 
 .user {
-    font-size: 30rpx;
-    font-weight: 500;
-    color: #666;
+    font-size: 26rpx;
+    font-family: PingFangSC-Regular;
+color: #666666;
 }
 
 .time {
-    font-size: 30rpx;
-    font-weight: 500;
-    color: #666;
+    font-family: PingFangSC-Regular;
+font-size: 20rpx;
+color: #999999;
 }
 
 .line2 {
@@ -224,10 +229,12 @@ border-bottom-right-radius: 50rpx; */
 }
 
 .line3 {
-    line-height: 40rpx;
-    margin: 0 0 10rpx 10rpx;
+    line-height: 42rpx;
+    margin: 22rpx 0 10rpx 10rpx;
     font-size: 30rpx;
     color: #333;
+    font-family: PingFangSC-Regular;
+color: #333333;
 }
 
 .ratings-swiper {
@@ -235,20 +242,13 @@ border-bottom-right-radius: 50rpx; */
     height: 200rpx;
 }
 
-.img1 {
-    width: 100%;
-}
-
-.img2 {
-    width: 45%;
-}
 
 .img3 {
     width: 33%;
 }
 
 .swiper-img {
-    width: 33%;
+    width: 100%;
     height: auto;
 }
 
