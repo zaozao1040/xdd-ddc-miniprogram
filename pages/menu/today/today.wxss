@@ -479,7 +479,11 @@
     letter-spacing: 0;
     text-align: left;
     line-height: 28rpx;
-    margin-right: 26rpx;
+    margin-right: 10rpx;
+    padding: 0 8rpx;
+    background: #F5F5F5;
+    border-radius: 4rpx;
+    white-space: nowrap;
 }
 
 .food-desc {
@@ -497,7 +501,18 @@
 }
 
 .foodLimitNum {
+    margin-top: 10rpx;
     display: flex;
+    line-height: 28rxp;
+}
+
+.food-stock {
+    font-family: PingFang-SC-Regular;
+    font-size: 20rpx;
+    color: #999;
+    letter-spacing: 0;
+    text-align: left;
+    padding-right: 10rpx;
 }
 
 .stockLeftNum {
