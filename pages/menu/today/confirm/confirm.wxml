@@ -32,7 +32,7 @@
                 <text wx:if="{{name}}" style="font-size:30rpx;color:#e79b37;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text>
                 <block wx:if="{{bindOrganized}}">
                     <!-- 企业用户 姓名input只要展示了就不允许修改 -->
-                    <input bindinput="nameInput" value="{{name}}" class="section-3-2" placeholder="请输入真实姓名" type="string" disabled bindtap="handleClickName"></input>
+                    <input bindinput="nameInput" value="{{name}}" class="section-3-2" placeholder="请输入真实姓名" type="string" bindtap="handleClickName"></input>
                 </block>
                 <block wx:else>
                     <input bindinput="nameInput" value="{{name}}" class="section-3-2" placeholder="请输入真实姓名" type="string"></input>
