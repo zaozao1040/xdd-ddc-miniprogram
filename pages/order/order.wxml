@@ -8,65 +8,80 @@
             </view>
             <radio-group class="radio-group" style="margin:10rpx 40rpx;" bindchange="radioChange">
                 <label class="radio" style="display: block;margin-bottom: 40rpx;">
-          <radio value="WECHAT_PAY" checked="{{payType=='WECHAT_PAY'}}" />
-          <text style="font-size: 35rpx;" decode>&nbsp;微信支付</text>
-        </label>
+                    <radio value="WECHAT_PAY" checked="{{payType=='WECHAT_PAY'}}" />
+                    <text style="font-size: 35rpx;" decode>&nbsp;微信支付</text>
+                </label>
                 <label class="radio" style="display: block;margin-bottom: 40rpx;">
-          <radio value="BALANCE_PAY" checked="{{payType=='BALANCE_PAY'}}" />
-          <text style="font-size: 35rpx;" decode>&nbsp;余额支付</text>
-        </label>
+                    <radio value="BALANCE_PAY" checked="{{payType=='BALANCE_PAY'}}" />
+                    <text style="font-size: 35rpx;" decode>&nbsp;余额支付</text>
+                </label>
             </radio-group>
             <view style="display:flex;justify-content: space-between;margin:30rpx 20rpx;">
                 <button size="mini" class="selectPayType_line3" bindtap="buttonClickNo">
-          取消
-        </button>
+                    取消
+                </button>
                 <button size="mini" class="selectPayType_line3" bindtap="buttonClickYes" style="background:#e79b37;color:#fff;">
-          确定
-        </button>
+                    确定
+                </button>
             </view>
         </view>
     </view>
     <!-- 去评价弹出的对话框 -->
+
     <form report-submit="true" bindsubmit="buttonClickYes_ratings">
         <view class="ratings-wrapper" wx:if="{{showRatingsFlag}}">
-            <view class="ratings-wrapper-content">
-                <view wx:for="{{foods}}" wx:for-index="foodIndex" wx:for-item="foodItem" wx:key="foodIndex">
-                    <!-- 单个菜品的评价 -->
-                    <view style='padding:22rpx 30rpx 26rpx 30rpx;border-bottom: 1rpx solid #eee;display: flex;justify-content: space-between;'>
-
-                        <view style='display:flex;'>
-                            <view style='width:72rpx;height:72rpx;'></view>
-                        </view>
-                    </view>
-                    <view>
-                        <view class="foodname">
-                            {{foodItem.name}}
-                        </view>
-                        <view class="foodstar">
-                            <block wx:for="{{starNum}}" wx:for-index="starIndex" wx:for-item="starItem" wx:key="starIndex">
-                                <text class="iconfont icon-xingxing {{starIndex+1<=starActiveNum?'foodstar-active':''}}" decode bindtap="handleClickStar" data-num="{{starIndex+1}}">&nbsp;</text>
-                            </block>
-                        </view>
-                        <view class="foodratingcontent-wrapper">
-                            <textarea class="foodratingcontent" bindinput="ratingsInput" placeholder="我要提出建议..." maxlength="60" focus />
-                        </view>
-                        <view class="img-wrapper">
-                            <image class="image" src="{{imgItem}}" wx:for="{{tempFilePaths}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex" bindtap="handlePreviewImage" data-index="{{imgIndex}}"></image>
-                            <image class="image" wx:if="{{tempFilePaths.length<3}}" src="/images/order/shangchuantupian.png" bindtap="handleClickAddImg"></image>
-                        </view>
-                    </view>
-                </view>
-                <view style="display:flex;justify-content: space-between;margin:30rpx 20rpx;">
-                    <button style="width:200rpx;" bindtap="buttonClickNo_ratings">
-            取消
-          </button>
-                    <button style="width:200rpx;background:#e79b37;color:#fff;" formType="submit">
-            确定
-          </button>
-                </view>
+            <view class="close">
+                <image src="../../../images/order/guanbi@2x.png" style='width:88rpx;height:88rpx;'></image>
             </view>
+            <view class="title">
+                评价
+            </view>
+            <scroll-view class="scroll-wrapper" scroll-y style="height: {{windowHeight - 50}}px;">
+                <!-- 每个菜品的评价 -->
+                <view class="foodItem" wx:for="{{orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem" wx:key="foodIndex">
+                    <view style="display: flex;">
+                        <image src="{{foodItem.foodImage}}" style='width:88rpx;height:88rpx;border-radius: 6rpx;'>
+                        </image>
+                        <view style="margin-left: 20rpx;">
+                            <view class="foodName">
+                                {{foodItem.foodName}}
+                            </view>
+                            <view class="foodDes">
+                                {{foodItem.foodQuantity}}份
+                                <text class="foodPrice">¥{{foodItem.foodQuantity}}</text>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="welcome">
+                        感谢您的订餐,请给本次服务评价!
+                    </view>
+                    <view style="display: flex;justify-content: center;flex-direction: row;margin-bottom: 20rpx;">
+                        <block wx:for="{{paramsData[foodIndex].star}}" wx:for-index="starIndex" wx:for-item="starItem" wx:key="starIndex">
+                            <image src="../../../images/order/staryes@2x.png" bindtap="handleClickStar" data-foodindex="{{foodIndex}}" data-allstarindex="{{starIndex+1}}" data-starflag="yes" style='width:56rpx;height:56rpx;margin-right: 14rpx;margin-left: 14rpx;'></image>
+                        </block>
+                        <block wx:for="{{5-paramsData[foodIndex].star}}" wx:for-index="starIndex" wx:for-item="starItem" wx:key="starIndex">
+                            <image src="../../../images/order/starno@2x.png" bindtap="handleClickStar" data-foodindex="{{foodIndex}}" data-allstarindex="{{starIndex+1}}" data-starflag="no" data-yellowstar="{{paramsData[foodIndex].star}}" style='width:56rpx;height:56rpx;margin-right: 14rpx;margin-left: 14rpx;'></image>
+                        </block>
+                    </view>
+                    <view class="labelItem-wrapper" wx:for="{{tmp_arr}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex" bindtap="handleClickLabel" data-foodindex="{{foodIndex}}" data-labelindex="{{labelIndex}}" data-labelcode="{{labelItem.labelCode}}">
+                        <view class="{{labelItem.active==true?'labelItem-active':'labelItem'}}">
+                            {{labelItem.labelName}}
+                        </view>
+                    </view>
+
+                    <textarea class="content" placeholder="我们希望能倾听您的心声,请留下您宝贵的意见。" maxlength="60" focus></textarea>
+                    <view class="img-wrapper">
+                        <image class="image" src="{{imgItem}}" wx:for="{{tempFilePaths}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex" bindtap="handlePreviewImage" data-index="{{imgIndex}}">
+                        </image>
+                        <image class="image-shangchuan" wx:if="{{tempFilePaths.length<3}}" src="../../../images/order/xiangji@2x.png" bindtap="handleClickAddImg"></image>
+                        <view class="yingjifen">赢15积分</view>
+                    </view>
+                </view>
+            </scroll-view>
         </view>
     </form>
+
+
     <view class="mask" wx:if="{{cancelFlag}}" catchtouchmove="preventTouchMove"></view>
     <!--取消订单弹出框-->
     <view style='border-radius: 16rpx;position:fixed;width:560rpx;height:310rpx;bottom:0;top:0;left:0;right:0;margin:auto;background:#fff;z-index:10002;' wx:if='{{cancelFlag}}'>
@@ -165,8 +180,7 @@
                                     data-paystatus="{{orderItem.payStatus}}">
                                     取消订单
                                 </view>
-                                <view wx:if="{{orderItem.status== 2 &&orderItem.evaluateStatus  == 1}}" class='take-food' catchtap="handleEvaluateOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-foodcode="{{orderItem.orderFoodList[0].foodCode}}"
-                                    data-foods="{{orderItem.orderFoodList}}">
+                                <view wx:if="{{orderItem.status== 2 &&orderItem.evaluateStatus  == 1}}" class='take-food' catchtap="handleEvaluateOrder" data-ordercode="{{orderItem.orderCode}}" data-orderfoodlist="{{orderItem.orderFoodList}}" data-foods="{{orderItem.orderFoodList}}">
                                     评价
                                 </view>
                                 <view wx:if="{{orderItem.status== 2 &&orderItem.pickStatus  == 1}}" class='take-food' catchtap="handleTakeOrder" data-ordercode="{{orderItem.orderCode}}" data-cabinet="{{orderItem.cabinet}}">
