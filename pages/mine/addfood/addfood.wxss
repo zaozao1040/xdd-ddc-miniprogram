@@ -215,6 +215,7 @@
     text-align: left;
     padding-left: 22rpx;
     line-height: 60rpx;
+    content: ' '
 }
 
 .chart-num-control {
@@ -585,20 +586,6 @@
     text-align: center;
     width: 56rpx;
     line-height: 40rpx;
-}
-
-
-/* **********底部状态栏********** */
-
-.backToTop {
-    position: fixed;
-    right: 80rpx;
-    bottom: 170rpx;
-    width: 80rpx;
-    height: 80rpx;
-    font-size: 80rpx;
-    color: #e79b37;
-    z-index: 99;
 }
 
 

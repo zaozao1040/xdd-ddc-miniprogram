@@ -28,8 +28,7 @@ Page({
 
         timer: null,
         windowHeight: 0,
-        scrollLintenFlag: true, //默认允许触发滚动事件
-        showBackToTopFlag: false, //显示返回scroll顶部的标志
+        scrollLintenFlag: true, //默认允许触发滚动事件 
         scrollToView: 'id_0',
 
         totalMoneyRealDeduction: 0, //企业餐标一起减免的钱
@@ -220,8 +219,8 @@ Page({
                 tmp_lazyShowImage[tmp_mealTypeItem].push(oneLazyShow)
             })
 
-
-            //可以不用setData，因为都是0不需要显示
+            console.log('tmp_lazyShowImage', tmp_lazyShowImage)
+                //可以不用setData，因为都是0不需要显示
             _this.data.menuCountList[tmp_mealTypeItem] = tmp_menuCountList
             _this.data.menuCountListCopy[tmp_mealTypeItem] = tmp_menuCountListCopy
 
@@ -326,23 +325,12 @@ Page({
     },
     /* 滚动事件监听 */
     handleScroll: function(e) {
-        //console.log('scrollview滚动距离:',e.detail.scrollTop)
         let _this = this
-        if (e.detail.scrollTop > 300) {
-            _this.setData({
-                showBackToTopFlag: true
-            })
-        } else {
-            _this.setData({
-                showBackToTopFlag: false
-            })
-        }
+
         if (this.data.scrollLintenFlag) { //允许触发滚动事件，才执行滚动事件
 
             // 应该是执行滚动才执行加载，而且不是遍历全部，是遍历出现在屏幕中的就行了呀
-            // 而且在已经是true的就不需要再变为false了
-
-
+            // 而且在已经是true的就不需要再变为false了 
             let scrollY = e.detail.scrollTop
             let listHeightLength = _this.data.listHeight.length
             for (let i = 0; i < listHeightLength; i++) {
@@ -359,16 +347,6 @@ Page({
         }
     },
 
-    //返回页面顶端
-    backToTop: function() {
-        // wx.pageScrollTo({ //外层scrollview返回顶端
-        //     scrollTop: 0,
-        // })
-        this.setData({ //内层scrollview返回顶端（这样设置就可以）
-            menutypeActiveFlag: 0,
-            scrollToView: 'order0'
-        })
-    },
     handleClearFoods: function() {
         //清空时重新加载数据 
         this.setData({
@@ -437,7 +415,6 @@ Page({
 
             let tmp_menuCountList = this.data.menuCountList //menu菜单右上角加1
             tmp_menuCountList[tmp_mealTypeItem][menutypeIndex] -= 1 // 没有判断是不是大于0，这样会不会偶尔出bug？？后面这些代码都需要修整
-
 
 
             // 计算totalMoney, totalDeduction，totalRealMonty
@@ -532,10 +509,8 @@ Page({
 
             // 先menu增1
             this.data.allMenuData[tmp_mealTypeItem].foodList[menutypeIndex].foodList[foodIndex] = tmp_oneFood
-            this.setData({
-                    allMenuData: this.data.allMenuData
-                })
-                // 然后动画
+
+            // 然后动画
 
             let _this = this
             const query = wx.createSelectorQuery()
@@ -635,8 +610,8 @@ Page({
             let tmp_totalMoneyRealDeduction = parseFloat((this.data.totalMoneyRealDeduction - oldDeduction + new_deduction).toFixed(2))
             let tmp_realTotalMoney = (tmptotalMoney - tmp_totalMoneyRealDeduction) > 0 ? tmptotalMoney - tmp_totalMoneyRealDeduction : 0
 
-
             this.setData({
+                allMenuData: this.data.allMenuData,
                 totalMoney: parseFloat(tmptotalMoney.toFixed(2)),
                 realTotalMoney: parseFloat(tmp_realTotalMoney.toFixed(2)),
                 totalMoneyRealDeduction: tmp_totalMoneyRealDeduction
@@ -837,9 +812,7 @@ Page({
             tmp_oneFood.foodTotalOriginalPrice = tmpFoodTotalOriginalPrice
 
             this.data.allMenuData[tmp_mealTypeItem].foodList[menutypeIndex].foodList[foodIndex] = tmp_oneFood
-            this.setData({
-                allMenuData: this.data.allMenuData
-            })
+
 
             let tmptotalCount = this.data.totalCount + 1 //购物车中总数加1 
             this.setData({
@@ -889,6 +862,7 @@ Page({
             this.data.selectedFoodsIndex[tmp_mealTypeItem].selectedFoods[tmp_selectedFoodIndex] = tmp_selectedFood
             this.data.selectedFoodsIndex[tmp_mealTypeItem].deductionMoney = parseFloat(new_deduction.toFixed(2))
             this.setData({
+                allMenuData: this.data.allMenuData,
                 totalMoney: parseFloat(tmptotalMoney.toFixed(2)),
                 realTotalMoney: parseFloat(tmp_realTotalMoney.toFixed(2)),
                 totalMoneyRealDeduction: tmp_totalMoneyRealDeduction,

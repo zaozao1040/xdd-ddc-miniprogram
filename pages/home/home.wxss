@@ -53,8 +53,8 @@
     height: 68rpx;
     line-height: 68rpx;
     position: absolute;
-    top:65rpx;
-    right:35rpx;    
+    top: 65rpx;
+    right: 35rpx;
     background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
     border-radius: 34rpx;
     font-family: PingFangSC-Regular;
@@ -101,6 +101,10 @@
     color: #F79C4C;
     letter-spacing: 0;
     text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 270rpx;
 }
 
 .takefood-cabinet-title {
@@ -110,6 +114,7 @@
     letter-spacing: 0;
     text-align: left;
     margin-right: 20rpx;
+    white-space: nowrap;
 }
 
 .takefood-button {
@@ -124,7 +129,7 @@
     letter-spacing: 0;
     text-align: center;
     float: right;
-    margin: 50rpx 24rpx 50rpx 0;
+    margin: 50rpx 24rpx 0 0;
 }
 
 .takefood-mealType {
@@ -135,11 +140,11 @@
     letter-spacing: 0;
     text-align: left;
     margin-right: 20rpx;
+    white-space: nowrap;
 }
 
 .takefood-foodname {
-    /* width: 272rpx; */
-    flex: 1;
+    width: 272rpx;
     font-family: PingFang-SC-Medium;
     font-size: 28rpx;
     color: #333333;

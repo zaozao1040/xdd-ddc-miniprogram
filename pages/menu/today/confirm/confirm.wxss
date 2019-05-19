@@ -200,8 +200,7 @@
      font-size: 24rpx;
      letter-spacing: 0;
      text-align: left;
-     margin-top: 10rpx;
-     line-height: 34rpx;
+     line-height: 40rpx;
      font-family: HelveticaNeue-Medium;
      color: #FF5035;
  }
@@ -424,6 +423,15 @@
      width: 86rpx;
      height: 68rpx;
      margin-top: 14rpx;
+ }
+ 
+ .pay-integral-describe {
+     font-family: PingFang-SC-Regular;
+     font-size: 24rpx;
+     color: #999999;
+     letter-spacing: 0;
+     text-align: left;
+     line-height: 40rpx;
  }
  
  .pay-balance-describe {

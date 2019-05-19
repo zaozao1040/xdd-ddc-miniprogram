@@ -74,6 +74,7 @@ Page({
             dinner: '晚餐',
             night: '夜宵'
         },
+
         twoDaysInfo: [],
         oneDayInfo: {}
 
@@ -378,80 +379,96 @@ Page({
     getTakeMealInfo: function() {
         let _this = this
         let param = {
-            userCode: wx.getStorageSync('userCode')
+            url: '/home/getHomeOrderPick?userCode=' + wx.getStorageSync('userCode')
         }
-        homeModel.getTakeMealInfo(param, (res) => {
-            console.log('获取首页取餐信息后台反馈:', res)
-            if (res.code === 0 && res.data) {
-                let tmp_homeOrderList = res.data
-                tmp_homeOrderList.forEach(element => {
-                    element.mealTypeDes = _this.data.mealTypeMap[element.mealType]
-                    element.orderStatusDes = _this.data.orderStatusMap[element.orderStatus]
+        requestModel.request(param, (data) => {
+            //先处理取餐信息, pickStatus==1表示待取
+            let tmp_homeOrderList = []
+            data.forEach(item => {
+                if (item.pickStatus == 1) {
+                    if (item.orderFoodList) {
+                        item.orderFoodList.forEach(onefood => {
+                            let a = {}
+                            a.foodImage = onefood.foodImage //图片
+                            a.mealTypeShow = _this.data.mealTypeMap[item.mealType] //餐时
+                            a.foodName = onefood.foodName
+                            a.foodQuantity = onefood.foodQuantity
+                            a.orderCode = item.orderCode
+                                // 取餐时间
+                            let start = new Date(onefood.takeMealStartTime)
+                            let end = new Date(onefood.takeMealEndTime)
 
-                    let start = new Date(element.takeMealStartTime).getHours()
-                    let end = new Date(element.takeMealEndTime).getHours()
-                    element.takeMealStartTimeDes = start
-                    element.takeMealEndTimeDes = end == 0 ? 24 : end
+                            //取餐时间顶多是到明天吗？不管了，就是明天
+                            let s = '今天' + start.getHours() + '点' + (start.getMinutes() > 0 ? (start.getMinutes() + '分') : '')
+                            let endHours = end.getHours() == 0 ? 24 : end.getHours()
+                            let e = endHours < start.getHours() ? ('明天' + endHours + '点') : (endHours + '点') + (end.getMinutes() > 0 ? (end.getMinutes() + '分') : '')
+                            a.takeMealTimeDes = s + '到' + e
 
-                })
-                _this.setData({
-                    homeOrderList: tmp_homeOrderList
-                })
+                            //柜子还是箱子
+                            if (onefood.cabinet && onefood.cabinet.length > 0) {
+                                a.isBinding = true
+                                a.bindDes = '柜子号'
+                                let c = ''
+                                onefood.cabinet.forEach((cabinet, index) => {
+                                    c += cabinet.cabinetNumber + '-' + cabinet.cellNumber
+                                    if (index < onefood.cabinet.length - 1) {
+                                        c += ', '
+                                    }
+                                })
+                                a.bindNumber = c
+                            } else if (onefood.boxNumber && onefood.boxNumber.length > 0) {
+                                a.isBinding = true
+                                a.bindDes = '箱子号'
+                                a.bindNumber = onefood.boxNumber
+                            } else {
+                                a.isBinding = false
+                                a.bindDes = ''
+                                a.bindNumber = ''
+                            }
+                            tmp_homeOrderList.push(a)
+                        })
+                    }
+                }
+            })
 
-                console.log('homeOrderList', tmp_homeOrderList)
-            }
+            _this.setData({
+                homeOrderList: tmp_homeOrderList,
+                gethomeOrderList: true
+            })
+
+
         })
     },
     /* 取餐 */
     handleTakeOrder: function(e) {
-        console.log(e.currentTarget.dataset)
+
         let _this = this
         if (!_this.data.canClick) {
             return
         }
         _this.data.canClick = false
         let tmp_content = ''
-        if (e.currentTarget.dataset.cabinet.length > 0) {
-            let item = ''
-            e.currentTarget.dataset.cabinet.forEach(element => {
-                item = item + element.cabinetOrder + element.serialNum + ' '
-            })
-            tmp_content = '当前柜号为：' + item + ',请确认本人在柜子旁边'
+        if (e.currentTarget.dataset.isbinding) {
+            let { bindnumber, binddes } = e.currentTarget.dataset
+            tmp_content = '当前' + binddes + '为：' + bindnumber + ',请确认本人在' + binddes + '旁边'
         }
-        console.log(tmp_content)
+
         wx.showModal({
             title: '是否取餐?',
             content: tmp_content,
             success(res) {
                 if (res.confirm) {
+
                     let param = {
-                        userCode: wx.getStorageSync('userCode'),
-                        orderCode: e.currentTarget.dataset.ordercode
+                        url: '/order/orderPick?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + e.currentTarget.dataset.ordercode
                     }
-                    wx.showLoading({ //【防止狂点2】
-                        title: '加载中',
-                        mask: true
-                    })
-                    orderModel.takeOrder(param, (res) => {
-                        console.log('收到请求(取餐):', res)
-                        if (res.code === 0) {
-                            wx.hideLoading()
-                            wx.showToast({
-                                    title: '成功取餐',
-                                    image: '../../images/msg/success.png',
-                                    duration: 2000
-                                })
-                                /* wx.reLaunch({  //注释掉，取餐后不刷新，减少请求
-                                    url: '/pages/home/home'
-                                }) */
-                        } else {
-                            wx.hideLoading()
-                            wx.showToast({
-                                title: res.msg,
-                                image: '../../images/msg/error.png',
-                                duration: 2000
-                            })
-                        }
+                    requestModel.request(param, () => {
+                        wx.showToast({
+                            title: '成功取餐',
+                            image: '/images/msg/success.png',
+                            duration: 2000
+                        })
+
                     })
                 }
             }

@@ -28,6 +28,7 @@ Page({
         },
         rechargeList: [],
         rechargeListNoResult: false,
+
     },
     initWallet: function() {
         let _this = this
@@ -111,6 +112,11 @@ Page({
                 _this.setData({
                     moneyList: tmp_moneyList
                 })
+            } else {
+                _this.setData({
+                    itemStatusActiveFlag: false
+                })
+                _this.getRechargeList()
             }
         })
     },
@@ -213,16 +219,17 @@ Page({
 
             let param = {
                 userCode: wx.getStorageSync('userCode'),
-                rechargeMoney: _this.data.selectedMoney
+                rechargeAmount: _this.data.selectedMoney
             }
-            wx.showLoading({
-                title: '加载中',
-                mask: true
-            })
-            walletModel.RechargeBalance(param, (res) => {
-                console.log('收到请求(充值):', res)
-                if (res.code === 0) {
-                    let data = res.data
+            let params = {
+                data: param,
+                url: '/user/userRecharge',
+                method: 'post'
+            }
+            requestModel.request(params, (resdata) => {
+                if (resdata.needPay) {
+                    let data = resdata.payData
+
                     if (data.timeStamp) {
                         wx.requestPayment({
                             'timeStamp': data.timeStamp.toString(),
@@ -231,8 +238,14 @@ Page({
                             'signType': data.signType,
                             'paySign': data.paySign,
                             success: function(e) {
-                                wx.switchTab({
-                                    url: '/pages/mine/wallet/wallet',
+                                //刷新余额
+                                let param = {
+                                    url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
+                                }
+                                requestModel.request(param, data => {
+                                    _this.setData({
+                                        balance: data.balance
+                                    })
                                 })
                                 wx.showToast({
                                     title: '充值成功',
@@ -246,19 +259,11 @@ Page({
                                     icon: 'success',
                                     duration: 4000
                                 })
-                            },
-                            complete: function() {
-                                wx.hideLoading()
                             }
                         })
                     }
-                } else {
-                    wx.showToast({
-                        title: res.msg,
-                        icon: 'none',
-                        duration: 2000
-                    })
                 }
+
             })
 
         }

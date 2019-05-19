@@ -64,22 +64,22 @@ Page({
         this.initRegister()
         let _this = this
             //请求经纬度信息，以便注册
-        wx.getLocation({
-            type: 'gcj02',
-            success: function(res) {
-                let param = {
-                        url: '/organize/getOrganizeListByLocationNoDefault?userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude
-                    }
-                    //请求企业列表
-                requestModel.request(param, (data) => {
-                    _this.setData({
-                        organizeList: data,
-                        showGobackFlag: true
-                    })
+            // wx.getLocation({
+            //     type: 'gcj02',
+            //     success: function(res) {
+            //         let param = {
+            //                 url: '/organize/getOrganizeListByLocationNoDefault?userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude
+            //             }
+            //             //请求企业列表
+            //         requestModel.request(param, (data) => {
+            //             _this.setData({
+            //                 organizeList: data,
+            //                 showGobackFlag: true
+            //             })
 
-                })
-            }
-        })
+        //         })
+        //     }
+        // })
     },
     changeShowAddressFlag: function() {
         this.setData({

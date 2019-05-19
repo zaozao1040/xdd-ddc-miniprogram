@@ -101,55 +101,60 @@
                 <view class="labelDes">我的积分</view>
             </view>
         </view>
-        <!-- 首页补餐 3.0-->
-        <view class="add-wrapper">
-            <image src="/images/home/takefood.png" mode="widthFix" class="add-img">
-            </image>
-            <view class='add-title' catchtap='gotoAddfood'>去补餐</view>
-        </view>
         <!-- 首页提示取餐3.0-->
-        <view style="margin-left:30rpx;margin-bottom:60rpx;" wx:if="{{homeOrderList.length>0}}">
-            <view class='takefood-title'>今日餐品</view>
-            <view>
-                <swiper circular="true" next-margin='24rpx' style='width: 100%; height: 172rpx;'>
-                    <block wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem" wx:key="homeOrderIndex">
-                        <swiper-item>
-                            <view style="display: flex;" class="takefood-food">
-                                <view style="flex-shrink:0;">
-                                    <image class="takefood-img" src="{{homeOrderItem.foods[0].img}}"></image>
-                                </view>
-                                <view style="margin-top:16rpx;flex-grow:1;">
-                                    <view style="line-height:50rpx;display:flex;">
-                                        <view class="takefood-cabinet-title">柜子号</view>
-                                        <view class="takefood-cabinet-number" wx:if="{{homeOrderItem.cabinetNums.length>=0}}" data-ordercode="{{homeOrderItem.orderCode}}" data-cabinet="{{homeOrderItem.cabinetNums}}">
-                                            <block wx:for="{{homeOrderItem.cabinetNums}}" wx:for-index="cabinetIndex" wx:for-item="cabinetItem" wx:key="cabinetIndex">
-                                                {{cabinetItem.cabinetOrder}}-{{cabinetItem.serialNum}}
-                                            </block>
-                                            A-20
+        <view wx:if='{{gethomeOrderList}}'>
+            <view style="margin:60rpx 0 60rpx 30rpx;" wx:if="{{homeOrderList.length>0}}">
+                <view class='takefood-title'>今日餐品</view>
+                <view>
+                    <swiper circular="true" next-margin='24rpx' style='width: 100%; height: 172rpx;'>
+                        <block wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem" wx:key="homeOrderIndex">
+                            <swiper-item>
+                                <view style="display: flex;" class="takefood-food">
+                                    <view style="flex-shrink:0;">
+                                        <image class="takefood-img" src="{{homeOrderItem.foodImage}}"></image>
+                                    </view>
+                                    <view>
+                                        <view style='display: flex;'>
+                                            <view style="margin-top:16rpx;flex-grow:1;">
+                                                <view style="line-height:50rpx;display:flex;" wx:if='{{homeOrderItem.isBinding}}'>
+                                                    <view class="takefood-cabinet-title">{{homeOrderItem.bindDes}}</view>
+                                                    <view class="takefood-cabinet-number">
+                                                        {{homeOrderItem.bindNumber}}
+                                                    </view>
+                                                </view>
+                                                <view style="height:20rpx;" wx:else>
+
+                                                </view>
+                                                <view style="line-height: 52rpx;display:flex;">
+                                                    <view class="takefood-mealType">
+                                                        {{homeOrderItem.mealTypeShow}}</view>
+                                                    <view class="takefood-foodname"> {{homeOrderItem.foodName}}
+                                                    </view>
+                                                    <view wx:if="{{homeOrderItem.foodQuantity>1}}" class='takefood-foodcount'>
+                                                        x{{homeOrderItem.foodQuantity}}</view>
+                                                </view>
+
+                                            </view>
+                                            <view class="takefood-button" style="flex-shrink:0;" bindtap="handleTakeOrder" data-ordercode="{{homeOrderItem.orderCode}}" data-isbinding="{{homeOrderItem.isBinding}}" data-binddes="{{homeOrderItem.bindDes}}" data-bindnumber="{{homeOrderItem.bindNumber}}">取餐</view>
+                                        </view>
+                                        <view class='takefood-time'>
+                                            取餐时间: {{homeOrderItem.takeMealTimeDes}}
                                         </view>
                                     </view>
-                                    <view style="line-height: 52rpx;display:flex;">
-                                        <view class="takefood-mealType">
-                                            {{mealTypeMap[homeOrderItem.mealType]}}</view>
-                                        <view class="takefood-foodname"> {{homeOrderItem.foods[0].foodName}}
-                                        </view>
-                                        <view wx:if="{{homeOrderItem.foods.length>1}}" class='takefood-foodcount'>
-                                            *{{homeOrderItem.foods.length}}</view>
-                                    </view>
-                                    <view class='takefood-time'>
-                                        取餐时间: 今天{{homeOrderItem.takeMealStartTimeDes}}点到{{homeOrderItem.takeMealEndTimeDes}}点
-                                    </view>
                                 </view>
-                                <view class="takefood-button" style="flex-shrink:0;" bindtap="handleTakeOrder" data-ordercode="{{homeOrderItem.orderCode}}" data-cabinet="{{homeOrderItem.cabinetNums}}">取餐</view>
-                            </view>
-                        </swiper-item>
-                    </block>
-                </swiper>
+                            </swiper-item>
+                        </block>
+                    </swiper>
+                </view>
             </view>
+            <!-- 首页补餐 3.0-->
+            <view class="add-wrapper" wx:else>
+                <image src="/images/home/takefood.png" mode="widthFix" class="add-img">
+                </image>
+                <view class='add-title' catchtap='gotoAddfood'>去补餐</view>
+            </view>
+
         </view>
-
-
-
         <!-- 活动3.0 -->
         <view class="promotion-wrapper">
             <view class="promotionItem" wx:for="{{imagesList.centerImage}}" wx:for-index="promotionListIndex" wx:for-item="promotionListItem" wx:key="promotionListIndex">

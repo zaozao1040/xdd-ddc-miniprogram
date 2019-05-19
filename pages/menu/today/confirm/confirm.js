@@ -165,9 +165,13 @@ Page({
         } else if (options.orderType == 'seven') {
             selectedFoods = wx.getStorageSync('sevenSelectedFoods')
 
+        } else if (options.orderType == 'add') { //补餐
+            let a = wx.getStorageSync('addSelectedFoods')
+
+            selectedFoods.push(a)
         }
         //初始化，默认都选择使用积分抵扣
-        console.log('todaySelectedFoods', selectedFoods)
+
         for (let i = 0; i < selectedFoods.length; i++) {
             if (selectedFoods[i].count > 0) {
                 for (let m = 0; m < this.data.mealEnglistLabel.length; m++) {
@@ -178,14 +182,15 @@ Page({
                 }
             }
         }
-
+        console.log('todaySelectedFoods', selectedFoods)
         this.setData({
             selectedFoods: selectedFoods,
             totalMoney: options.totalMoney,
             totalMoneyRealDeduction: options.totalMoneyRealDeduction,
             realMoney: options.realMoney,
             realMoney_save: options.realMoney,
-            totalDeduction: options.totalMoneyRealDeduction
+            totalDeduction: options.totalMoneyRealDeduction,
+            orderType: options.orderType
         })
 
     },
@@ -401,7 +406,7 @@ Page({
             payType: this.data.payType, //支付方式
             userDiscountCode: tmp_userDiscountCode,
             orderPayMoney: this.data.realMoney, //自费的总价格
-            appendMealFlag: false,
+            appendMealFlag: this.data.orderType == 'add' ? true : false,
             order: []
 
         }

@@ -28,8 +28,7 @@
     "pages/order/comment/comment",
     "pages/mine/information/information",
     "pages/mine/orgAdminAddfood/orgAdminAddfood",
-    "pages/mine/integral/regular",
-    "pages/mine/addfood"
+    "pages/mine/integral/regular" 
   ],
   "permission": {
     "scope.userLocation": {

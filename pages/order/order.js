@@ -126,8 +126,13 @@ Page({
                 itemStatusActiveFlag: 0
             })
         }
-
-        // wx.showTabBar()
+        this.initOrder()
+        this.data.page = 1
+        this.setData({
+            orderList: [] //列表必须清空，否则分页会无限叠加
+        })
+        this.getOrderList()
+        wx.showTabBar()
     },
     /* 页面隐藏后回收定时器指针 */
     onHide: function() {
@@ -153,12 +158,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-        this.initOrder()
-        this.data.page = 1
-        this.setData({
-            orderList: [] //列表必须清空，否则分页会无限叠加
-        })
-        this.getOrderList()
+
     },
     onHide: function() {
         if (this.data.doOnHideFlag) { //执行onhide前先判断一下这个标志，允许不允许执行清空
@@ -266,16 +266,25 @@ Page({
                         element.orderStatusDes = _this.getOrderStatus(element) //订单状态  
 
                         //取餐时间
-                        element.takeMealEndTime = new Date().getTime() + 1000 * 3600
-                        element.takeMealStartTime = new Date().getTime()
+                        if (element.pickStatus == 1) { //待取餐
 
-                        let end = new Date(element.takeMealEndTime)
-                        element.takeMealEndTimeDes = (end.getHours() == 0 ? 24 : end.getHours()) + '点' + (end.getMinutes() < 1 ? "" : end.getMinutes() + '分')
-                        let start = new Date(element.takeMealStartTime)
-                        element.takeMealStartTimeDes = start.getHours() + '点' + (start.getMinutes() < 1 ? "" : start.getMinutes() + '分')
-                        let tmp_month = start.getMonth() + 1
-                        let tmp_day = start.getDate()
-                        element.takeMealDate = (tmp_month < 10 ? '0' + tmp_month : tmp_month) + '月' + (tmp_day < 10 ? '0' + tmp_day : tmp_day) + '日'
+                            // 取餐时间
+                            let start = new Date(element.orderFoodList[0].takeMealStartTime)
+                            let end = new Date(element.orderFoodList[0].takeMealEndTime)
+
+                            //取餐时间顶多是到明天吗？不管了，就是明天
+                            let s = '今天' + start.getHours() + '点' + (start.getMinutes() > 0 ? (start.getMinutes() + '分') : '')
+                            let endHours = end.getHours() == 0 ? 24 : end.getHours()
+                            let e = endHours < start.getHours() ? ('明天' + endHours + '点') : (endHours + '点') + (end.getMinutes() > 0 ? (end.getMinutes() + '分') : '')
+                            element.takeMealTimeDes = s + '到' + e
+
+                        } else {
+                            let a = element.mealDate.split('-')
+
+                            element.takeMealTimeDes = a[1] + '月' + a[2] + '日'
+                        }
+
+
                     })
                     //下面开始分页
                 if (page * limit >= res.amount) {
@@ -296,7 +305,7 @@ Page({
             }
 
 
-            console.log('收到响应并重新封装(订单列表):', _this.data.orderList)
+            console.log('orderList', _this.data.orderList)
 
         })
     },
@@ -496,41 +505,26 @@ Page({
             return
         }
         _this.data.canClick = false
-        let tmp_content = ''
-        if (e.currentTarget.dataset.cabinet != null) {
-            tmp_content = '当前柜号为：' + e.currentTarget.dataset.cabinet + ',请确认本人在柜子旁边'
-        }
+        let tmp_content = '请确定在柜子前'
+            // if (e.currentTarget.dataset.cabinet != null) {
+            //     tmp_content = '当前柜号为：' + e.currentTarget.dataset.cabinet + ',请确认本人在柜子旁边'
+            // }
         wx.showModal({
             title: '是否取餐?',
             content: tmp_content,
             success(res) {
                 if (res.confirm) {
-                    let param = {
-                        userCode: wx.getStorageSync('userCode'),
-                        orderCode: e.currentTarget.dataset.ordercode
-                    }
-                    wx.showLoading({ //【防止狂点2】
-                        title: '加载中',
-                        mask: true
-                    })
-                    orderModel.takeOrder(param, (res) => {
-                        console.log('收到请求(取餐):', res)
-                        if (res.code === 0) {
-                            wx.hideLoading()
-                            wx.showToast({
-                                title: '成功取餐',
-                                image: '../../images/msg/success.png',
-                                duration: 2000
-                            })
 
-                        } else {
-                            wx.hideLoading()
-                            wx.showToast({
-                                title: res.msg,
-                                image: '../../images/msg/error.png',
-                                duration: 2000
-                            })
-                        }
+                    let param = {
+                        url: '/order/orderPick?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + e.currentTarget.dataset.ordercode
+                    }
+                    requestModel.request(param, () => {
+                        wx.showToast({
+                            title: '成功取餐',
+                            image: '/images/msg/success.png',
+                            duration: 2000
+                        })
+
                     })
                 }
             }

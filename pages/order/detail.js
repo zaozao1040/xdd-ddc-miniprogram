@@ -42,23 +42,45 @@ Page({
         requestModel.request(param, data => {
 
 
-            let tmpData = data
-            tmpData.mealTypeDes = _this.data.mealTypeMap[data.mealType] //日期
-            tmpData.orderStatusDes = _this.getOrderStatus(data) //状态
-            tmpData.payStatusDes = _this.data.payStatusMap[data.payStatus]
-            tmpData.payTypeDes = _this.data.payTypeMap[data.payType]
-            tmpData.payTimeDes = data.payTime ? moment(data.payTime).format('YYYY-MM-DD HH:mm:ss') : data.payTime
-            tmpData.pickTimeDes = data.pickTime ? moment(data.pickTime).format('YYYY-MM-DD HH:mm:ss') : data.pickTime
-            tmpData.orderTimeDes = data.orderTime ? moment(data.orderTime).format('YYYY-MM-DD HH:mm:ss') : data.orderTime
-            tmpData.mealDateDes = data.mealDate ? moment(data.mealDate).format('MM月DD日') : data.mealDate
-            tmpData.takeMealEndTimeDes = data.takeMealEndTime ? moment(data.takeMealEndTime).format('MM月DD日HH:mm') : data.takeMealEndTime
-            tmpData.takeMealStartTimeDes = data.takeMealStartTime ? moment(data.takeMealStartTime).format('MM月DD日HH:mm') : data.takeMealStartTime
+
+            data.mealTypeDes = _this.data.mealTypeMap[data.mealType] //日期
+            data.orderStatusDes = _this.getOrderStatus(data) //状态
+            data.deduction = parseFloat((parseFloat(data.totalPrice) - parseFloat(data.payPrice)).toFixed(2))
+
+            if (data.pickStatus == 1) { //待取餐
+                //取餐时间
+                let starts = data.orderFoodList[0].takeMealStartTime.trim().split(' ')
+                let sd = starts[0].split('-')
+                let st = starts[1].split(':')
+                let ends = data.orderFoodList[0].takeMealEndTime.trim().split(' ')
+                let ed = ends[0].split('-')
+                let et = ends[1].split(':')
+                data.pickTimeDes = sd[1] + '-' + sd[2] + ' ' + st[0] + ':' + st[1] + '至' + ed[1] + '-' + ed[2] + ' ' + et[0] + ':' + et[1]
+
+            }
+
+            if (data.isPay) { //已支付，判断支付方式
+                if (data.payMethod == 2 || data.payMethod == 3) {
+                    if (data.defrayType == 1) {
+                        data.payTypeDes = '余额支付'
+                    } else if (data.defrayType == 2) {
+                        data.payTypeDes = '微信支付'
+                    } else {
+                        data.payTypeDes = '标准支付'
+                    }
+                } else if (data.payMethod == 1) {
+                    data.payTypeDes = '标准支付'
+                }
+            } else {
+                data.payTypeDes = '未支付'
+            }
+
 
             _this.setData({
-                detailInfo: tmpData
+                detailInfo: data
             })
 
-            console.log('detailInfo', tmpData)
+            console.log('detailInfo', data)
         })
     },
     //获取订单状态

@@ -162,9 +162,7 @@
                         </view>
                     </scroll-view>
                 </view>
-                <!-- 【第五排】返回顶部的按钮 -->
-                <view wx:if="{{ showBackToTopFlag }}" class="backToTop iconfont icon-fanhuidingduan" bindtap="backToTop">
-                </view>
+
                 <!-- 【第六排】底部状态栏 -->
                 <block wx:if="{{ !allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice   }}"></block>
                 <view class="footer-wrapper-top" wx:elif="{{ allMenuData[activeDayIndex][mealTypeItem].mealSet.userCanStandardPrice && totalCount > 0  }}">

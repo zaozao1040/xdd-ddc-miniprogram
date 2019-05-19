@@ -115,18 +115,20 @@
 
                                 <view class='cart-organize-deduction'>
                                     <view class='cart-discount-organize'>企业折扣</view>
-                                    <view class='cart-discount-organize-money'>￥{{oneday[item].deductionMoney}}</view>
+                                    <view class='cart-discount-organize-money'>-￥{{oneday[item].deductionMoney}}</view>
                                 </view>
                                 <view class='cart-organize-deduction'>
                                     <view class='cart-discount-organize'>积分抵扣</view>
 
                                     <view bindtap='changeUseIntegral' data-index='{{onedayindex}}' data-meal='{{item}}'>
                                         <view style='display:flex;' wx:if='{{oneday[item].useIntegral}}'>
-                                            <view class='pay-balance-describe'>当前{{oneday[item].current}}积分，可抵扣</view>
-                                            <view class='pay-balance-money'>￥{{oneday[item].integral}}</view>
+                                            <view class='pay-integral-describe'>当前{{oneday[item].current}}积分，可抵扣</view>
+                                            <view class='pay-balance-money'>-￥{{oneday[item].integral}}</view>
+                                            <image src='/images/menu/check.png' style='margin-left:10rpx;width:40rpx;height:40rpx;'></image>
                                         </view>
                                         <view style='display:flex;' wx:else>
-                                            <view class='pay-balance-describe'>暂不使用积分</view>
+                                            <view class='pay-integral-describe'>暂不使用积分</view>
+                                            <image src='/images/menu/uncheck.png' style='margin-left:10rpx;width:40rpx;height:40rpx;'></image>
                                         </view>
                                     </view>
 
@@ -138,6 +140,7 @@
 
                 </view>
             </view>
+
             <view style='margin:0 16rpx;'>
                 <view style='background:#fff;padding:30rpx;'>
                     <view style='display:flex;justify-content: space-between;padding-bottom:30rpx; border-bottom: 1rpx solid #F2F2F2;'>

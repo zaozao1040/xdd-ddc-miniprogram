@@ -16,9 +16,6 @@ Page({
         //订餐信息 
         mealTypeInfo: '', //当天企业可定的餐时是否可以预定及截止时间 
 
-
-
-
         menutypeActiveFlag: 0, //当前被点击的餐品类别 
         boxActiveFlag: false, //购物车的颜色，false时是灰色，true时有颜色
         totalCount: 0, // 购物车中物品个数
@@ -28,7 +25,7 @@ Page({
         timer: null,
         windowHeight: 0,
         scrollLintenFlag: true, //默认允许触发滚动事件
-        showBackToTopFlag: false, //显示返回scroll顶部的标志
+
         scrollToView: 'id_0',
 
         totalMoneyRealDeduction: 0, //企业餐标一起减免的钱
@@ -42,31 +39,35 @@ Page({
         // 购物车动画
         cartAnimationBottom: 0,
         cartAnimationHeight: 0,
-        lazyShowImage: {}, //用于懒加载图片的 
+        lazyShowImage: [], //用于懒加载图片的 
         // 懒加载
-        intersectionObserverList: [],
+
         mealEnglistLabel: ['breakfast', 'lunch', 'dinner', 'night'],
         mealTypeSmall: { lunch: '午餐', dinner: '晚餐', breakfast: '早餐', night: '夜宵' },
     },
     onLoad: function(options) {
-
+        let _this = this
+        wx.getSystemInfo({
+            success: function(res) {
+                _this.setData({
+                    windowHeight: res.windowHeight
+                })
+            }
+        })
         requestModel.getUserInfo(userInfo => {
             console.log('userInfo', userInfo)
             let { userType, orgAdmin } = userInfo
             if (userType == 'ORG_ADMIN' && orgAdmin == true) {
-                this.setData({
+                _this.setData({
                     orgAdmin: true
                 })
             } else {
-                this.setData({
+                _this.setData({
                     orgAdmin: false
                 })
             }
 
         }, true)
-
-
-
 
 
         this.getTimeDataByResponse()
@@ -85,22 +86,17 @@ Page({
     //懒加载
     lazyImg(_that, data, lazy_name) {
 
-
         for (let i = 0, len = data.length; i < len; i++) {
             for (let j = 0; j < data[i].length; j++) {
 
-
-                let ooo = wx.createIntersectionObserver()
-                ooo.relativeToViewport({
+                wx.createIntersectionObserver().relativeToViewport({
                     bottom: 20
                 }).observe('#food' + i + j, (ret) => {
 
                     if (ret.intersectionRatio > 0) {
                         data[i][j] = true
                     }
-
-                    _that.data.intersectionObserverList.push(ooo)
-                        // 总得加载完所有图片后就不执行这个lazyImg了吧，咋判断的
+                    // 总得加载完所有图片后就不执行这个lazyImg了吧，咋判断的
                     _that.setData({
                         [lazy_name]: data
                     })
@@ -118,88 +114,90 @@ Page({
         let _this = this
 
         let param = {
-            url: '/food/getFoodDateList?userCode=USER546379217957421056&mealDate=2019-05-19&mealType=LUNCH'
+            url: '/food/getFoodDateSupplementList?userCode=' + wx.getStorageSync('userCode')
+                // url: '/food/getFoodDateList?userCode=USER546379217957421056&mealDate=2019-05-20&mealType=LUNCH'
 
         }
         requestModel.request(param, resData => { //获取加餐所有信息
+            if (resData.mealType.orderStatus) {
 
-            //这是浅拷贝吧，不是深拷贝吧，所以这样和直接使用res的差别是什么？？
-            resData.totalMoney = 0 //给每天的每个餐时一个点餐的总的金额
-            resData.totalMoney_meal = 0 //可使用餐标的餐的总价格
-            resData.deductionMoney = 0
-                // 给每一个菜品添加一个foodCount，用于加号点击时加一减一
-                // 给每一个菜品添加一个foodTotalPrice
-                // 给每一个菜品添加一个foodTotalOriginalPrice
-            let tmp_menuCountList = []
-            let tmp_menuCountListCopy = []
 
-            // 带lazy的都用于懒加载
-            let tmp_lazyShowImage = _this.data.lazyShowImage
+                //这是浅拷贝吧，不是深拷贝吧，所以这样和直接使用res的差别是什么？？
+                resData.totalMoney = 0 //给每天的每个餐时一个点餐的总的金额
+                resData.totalMoney_meal = 0 //可使用餐标的餐的总价格
+                resData.deductionMoney = 0
+                    // 给每一个菜品添加一个foodCount，用于加号点击时加一减一
+                    // 给每一个菜品添加一个foodTotalPrice
+                    // 给每一个菜品添加一个foodTotalOriginalPrice
+                let tmp_menuCountList = []
+                let tmp_menuCountListCopy = []
 
-            let tmp_lazyShowImageCount = 0
-            resData.foodList.forEach(item => {
+                // 带lazy的都用于懒加载
+                let tmp_lazyShowImage = _this.data.lazyShowImage
 
-                let oneLazyShow = []
-                item.foodList.forEach(foodItem => {
-                    foodItem.foodTotalPrice = 0
-                    foodItem.foodTotalOriginalPrice = 0
-                    foodItem.foodCount = 0
-                    oneLazyShow.push(false)
-                    tmp_lazyShowImageCount++
+
+                resData.foodList.forEach(item => {
+
+                    let oneLazyShow = []
+                    item.foodList.forEach(foodItem => {
+                        foodItem.foodTotalPrice = 0
+                        foodItem.foodTotalOriginalPrice = 0
+                        foodItem.foodCount = 0
+                        oneLazyShow.push(false)
+
+                    })
+
+                    tmp_menuCountList.push(0)
+                    tmp_menuCountListCopy.push(0)
+
+                    tmp_lazyShowImage.push(oneLazyShow)
                 })
 
-                tmp_menuCountList.push(0)
-                tmp_menuCountListCopy.push(0)
 
-                tmp_lazyShowImage.push(oneLazyShow)
-            })
+                //可以不用setData，因为都是0不需要显示
+                _this.data.menuCountList = tmp_menuCountList
+                _this.data.menuCountListCopy = tmp_menuCountListCopy
+
+                let tmp_selectedFoodsIndex = {}
+                tmp_selectedFoodsIndex.foodList = []
+                tmp_selectedFoodsIndex.selectedFoods = []
+                _this.data.selectedFoodsIndex = tmp_selectedFoodsIndex
+                _this.data.selectedFoodsIndexCopy = tmp_selectedFoodsIndex
 
 
-            //可以不用setData，因为都是0不需要显示
-            _this.data.menuCountList = tmp_menuCountList
-            _this.data.menuCountListCopy = tmp_menuCountListCopy
+                _this.setData({
+                    allMenuData: resData, //保存下所有数据
+                    allMenuDataCopy: resData, //保存下所有数据
 
-            let tmp_allData = _this.data.allMenuData
-            tmp_allData = resData
+                    lazyShowImage: tmp_lazyShowImage,
+                    mealTypeItem: resData.mealType.mealType,
+                    mealDate: resData.mealType.mealDate,
+                    mealTypeItemShow: _this.data.mealTypeSmall[resData.mealType.mealType.toLowerCase()]
+                })
+
+
+
+                if (resData.mealType.orderStatus && resData.foodList.length !== 0) {
+
+                    // 计算购物车的高度
+                    const query2 = wx.createSelectorQuery()
+                    query2.select('#cartCount').boundingClientRect()
+                    query2.selectViewport().scrollOffset()
+                    query2.exec(function(res) {
+                        if (res[0]) {
+                            _this.setData({
+                                cartAnimationBottom: res[0].bottom
+                            })
+                        }
+                        console.log('#add-cart', res)
+
+                    })
+                    _this.calculateHeight()
+                }
+            }
             _this.setData({
-                allMenuData: tmp_allData, //保存下所有数据
-                allMenuDataCopy: tmp_allData, //保存下所有数据
-                getdataalready: true,
-                lazyShowImage: tmp_lazyShowImage,
-                lazyShowImageCount: tmp_lazyShowImageCount
+                getdataalready: true
             })
-
-
-            // 在没有得到数据就使用时，是有错误的，所以在得到数据后使用
-            // 2019/04/20 后面会检查这部分，顺便学习相关知识
-            // 这样就计算多遍了啊
-            if (_this.data.windowHeight == 0) {
-                wx.getSystemInfo({
-                    success: function(res) {
-                        _this.setData({
-                            windowHeight: res.windowHeight
-                        })
-                    }
-                })
-            }
-            if (resData.mealType.orderStatus && resData.foodList.length !== 0) {
-
-                // 计算购物车的高度
-                const query2 = wx.createSelectorQuery()
-                query2.select('#cartCount').boundingClientRect()
-                query2.selectViewport().scrollOffset()
-                query2.exec(function(res) {
-                    if (res[0]) {
-                        _this.setData({
-                            cartAnimationBottom: res[0].bottom
-                        })
-                    }
-                    console.log('#add-cart', res)
-
-                })
-                _this.calculateHeight()
-            }
-
         })
     },
     // 计算购物车高度，大于最大高度就滚动
@@ -230,7 +228,7 @@ Page({
     },
     // 处理最外层的滚动，使
     handleMostOuterScroll(e) {
-        let _this = this
+
         if (e.detail.scrollTop >= 40) { //大于等于40就显示
             wx.setNavigationBarTitle({
                 title: '预约补餐'
@@ -260,23 +258,12 @@ Page({
     },
     /* 滚动事件监听 */
     handleScroll: function(e) {
-        //console.log('scrollview滚动距离:',e.detail.scrollTop)
         let _this = this
-        if (e.detail.scrollTop > 300) {
-            _this.setData({
-                showBackToTopFlag: true
-            })
-        } else {
-            _this.setData({
-                showBackToTopFlag: false
-            })
-        }
+
         if (this.data.scrollLintenFlag) { //允许触发滚动事件，才执行滚动事件
 
             // 应该是执行滚动才执行加载，而且不是遍历全部，是遍历出现在屏幕中的就行了呀
-            // 而且在已经是true的就不需要再变为false了
-
-
+            // 而且在已经是true的就不需要再变为false了 
             let scrollY = e.detail.scrollTop
             let listHeightLength = _this.data.listHeight.length
             for (let i = 0; i < listHeightLength; i++) {
@@ -293,16 +280,6 @@ Page({
         }
     },
 
-    //返回页面顶端
-    backToTop: function() {
-        // wx.pageScrollTo({ //外层scrollview返回顶端
-        //     scrollTop: 0,
-        // })
-        this.setData({ //内层scrollview返回顶端（这样设置就可以）
-            menutypeActiveFlag: 0,
-            scrollToView: 'order0'
-        })
-    },
     handleClearFoods: function() {
         //清空时重新加载数据 
         this.setData({
@@ -466,10 +443,8 @@ Page({
 
             // 先menu增1
             this.data.allMenuData.foodList[menutypeIndex].foodList[foodIndex] = tmp_oneFood
-            this.setData({
-                    allMenuData: this.data.allMenuData
-                })
-                // 然后动画
+
+            // 然后动画
 
             let _this = this
             const query = wx.createSelectorQuery()
@@ -516,19 +491,10 @@ Page({
             if (tmp_oneFood.foodCount == 1) {
                 // 应该也不会添加几个的，先这么写写吧，不晓得对不对  
                 //是不是应该把selectedFoodsIndex和allMenuData合并啊
-                if (!this.data.selectedFoodsIndex) {
-                    let tmp = {}
-
-                    tmp.foodList = []
-                    this.data.selectedFoodsIndex = tmp
-
-                    let tmp_copy = {}
-                    tmp_copy.name = this.data.mealTypeSmall
-                    tmp_copy.foodList = []
-                    this.data.selectedFoodsIndexCopy = tmp_copy
-                }
 
                 let tmpselectFoodsIndex = this.data.selectedFoodsIndex
+
+
                 if (!tmpselectFoodsIndex.foodList[menutypeIndex]) {
                     tmpselectFoodsIndex.foodList[menutypeIndex] = []
                 }
@@ -571,6 +537,7 @@ Page({
 
 
             this.setData({
+                allMenuData: this.data.allMenuData,
                 totalMoney: parseFloat(tmptotalMoney.toFixed(2)),
                 realTotalMoney: parseFloat(tmp_realTotalMoney.toFixed(2)),
                 totalMoneyRealDeduction: tmp_totalMoneyRealDeduction
@@ -580,8 +547,6 @@ Page({
     // 点击购物车图标
     handleClickBox() {
         if (this.data.totalCount > 0) {
-
-
             this.setData({
                 boxActiveFlag: !this.data.boxActiveFlag
             })
@@ -590,43 +555,42 @@ Page({
                 this.calculteCartHeight()
             }
         }
-        console.log('selectedFoodsIndex', this.data.selectedFoodsIndex) //zll明天继续 为什么里面有undefined？？？
+
     },
     // 在点击购物车图标查看购物车或者点击去结算时，计算菜单信息
     getSelectedFoods() {
 
         let tmpselectFoodsIndex = this.data.selectedFoodsIndex
         let tmp_allData = this.data.allMenuData
-        let mealEnglistLabel = this.data.mealEnglistLabel
-        for (let i in mealEnglistLabel) { // x 为餐时 
-            let tmpselectedfoods = []
-            let x = mealEnglistLabel[i]
-            if (tmpselectFoodsIndex[x]) {
-                for (let y in tmpselectFoodsIndex[x].foodList) { // y 为选择的餐品index 
-                    let onecategoryfoods = tmp_allData[x].foodList[y].foodList
-                    for (let i = 0; i < tmpselectFoodsIndex[x].foodList[y].length; i++) {
-                        const onefood = onecategoryfoods[tmpselectFoodsIndex[x].foodList[y][i]]
-                        if (onefood.foodCount > 0) {
-                            onefood.menuItemIndex = parseInt(y)
-                            onefood.foodIndex = tmpselectFoodsIndex[x].foodList[y][i]
-                                // totalPrice只有在购物车列表和订单信息那里才需要展示，所以在menu列表那边add和minus时不需要写
-                                //不需要的时候就不要计算
-                            onefood.foodTotalPrice = parseFloat((onefood.foodPrice * onefood.foodCount).toFixed(2))
-                            onefood.foodTotalOriginalPrice = parseFloat((onefood.foodOriginalPrice * onefood.foodCount).toFixed(2))
-                            tmpselectedfoods.push(onefood)
-                        }
-                    }
+
+        let tmpselectedfoods = []
+
+
+        for (let y in tmpselectFoodsIndex.foodList) { // y 为选择的餐品index 
+            let onecategoryfoods = tmp_allData.foodList[y].foodList
+            for (let i = 0; i < tmpselectFoodsIndex.foodList[y].length; i++) {
+                const onefood = onecategoryfoods[tmpselectFoodsIndex.foodList[y][i]]
+                if (onefood.foodCount > 0) {
+                    onefood.menuItemIndex = parseInt(y)
+                    onefood.foodIndex = tmpselectFoodsIndex.foodList[y][i]
+                        // totalPrice只有在购物车列表和订单信息那里才需要展示，所以在menu列表那边add和minus时不需要写
+                        //不需要的时候就不要计算
+                    onefood.foodTotalPrice = parseFloat((onefood.foodPrice * onefood.foodCount).toFixed(2))
+                    onefood.foodTotalOriginalPrice = parseFloat((onefood.foodOriginalPrice * onefood.foodCount).toFixed(2))
+                    tmpselectedfoods.push(onefood)
                 }
-                tmpselectFoodsIndex[x].selectedFoods = tmpselectedfoods
-                tmpselectFoodsIndex[x].deductionMoney = this.data.allMenuData[x].deductionMoney
-                tmpselectFoodsIndex[x].payMoney = parseFloat((this.data.allMenuData[x].totalMoney - this.data.allMenuData[x].deductionMoney).toFixed(2))
             }
         }
+        tmpselectFoodsIndex.selectedFoods = tmpselectedfoods
+        tmpselectFoodsIndex.deductionMoney = this.data.allMenuData.deductionMoney
+        tmpselectFoodsIndex.payMoney = parseFloat((this.data.allMenuData.totalMoney - this.data.allMenuData.deductionMoney).toFixed(2))
+
+
 
         this.setData({
             selectedFoodsIndex: tmpselectFoodsIndex
         })
-
+        console.log('tmpselectFoodsIndex', tmpselectFoodsIndex)
     },
     // 点击减号，将餐品减一
     handleCartMinusfood(e) {
@@ -771,9 +735,7 @@ Page({
             tmp_oneFood.foodTotalOriginalPrice = tmpFoodTotalOriginalPrice
 
             this.data.allMenuData.foodList[menutypeIndex].foodList[foodIndex] = tmp_oneFood
-            this.setData({
-                allMenuData: this.data.allMenuData
-            })
+
 
             let tmptotalCount = this.data.totalCount + 1 //购物车中总数加1 
             this.setData({
@@ -823,6 +785,7 @@ Page({
             this.data.selectedFoodsIndex.selectedFoods[tmp_selectedFoodIndex] = tmp_selectedFood
             this.data.selectedFoodsIndex.deductionMoney = parseFloat(new_deduction.toFixed(2))
             this.setData({
+                allMenuData: this.data.allMenuData,
                 totalMoney: parseFloat(tmptotalMoney.toFixed(2)),
                 realTotalMoney: parseFloat(tmp_realTotalMoney.toFixed(2)),
                 totalMoneyRealDeduction: tmp_totalMoneyRealDeduction,
@@ -835,26 +798,20 @@ Page({
     verifyMealLabel() {
         console.log('this.data.allMenuData', this.data.allMenuData)
         let flag = true
-        for (let meal in this.data.allMenuData) {
-            if (!flag) {
-                break
-            }
-            // 是这么判断的吗？ 5/6
-            //1.餐标可用 2.当天当餐点餐了，用总价判断点餐没是否不妥？3.不能低于餐标 4.抵扣金额小于企业餐标
-            let { mealSet, deductionMoney, totalMoney_meal, mealType } = this.data.allMenuData[meal]
-            if (mealSet.userCanStandardPrice && totalMoney_meal > 0 && !mealSet.underStandardPrice && deductionMoney < mealType.standardPrice) {
-                wx.showModal({
-                    title: this.data.mealTypeSmall[meal],
-                    content: '未达餐标金额(¥' + mealType.standardPrice + ')' + ',请继续选餐',
-                    showCancel: false,
-                    confirmText: '返回'
-                })
 
-                flag = false
-            }
+        // 是这么判断的吗？ 5/6
+        //1.餐标可用 2.当天当餐点餐了，用总价判断点餐没是否不妥？3.不能低于餐标 4.抵扣金额小于企业餐标
+        let { mealSet, deductionMoney, totalMoney_meal, mealType } = this.data.allMenuData
+        if (mealSet.userCanStandardPrice && totalMoney_meal > 0 && !mealSet.underStandardPrice && deductionMoney < mealType.standardPrice) {
+            wx.showModal({
+                title: '',
+                content: '未达餐标金额(¥' + mealType.standardPrice + ')' + ',请继续选餐',
+                showCancel: false,
+                confirmText: '返回'
+            })
 
+            flag = false
         }
-
 
         return flag
     },
@@ -870,12 +827,19 @@ Page({
 
                 this.data.selectedFoodsIndex.mealDate = this.data.mealDate
 
-                wx.setStorageSync('todaySelectedFoods', this.data.selectedFoodsIndex)
-                console.log('todaySelectedFoods', this.data.selectedFoodsIndex)
+                //需要补餐的日期和餐时
+                let meal = this.data.mealTypeItem.toLowerCase()
+                let addSelectedFoods = {}
+                addSelectedFoods[meal] = this.data.selectedFoodsIndex
+                addSelectedFoods[meal].name = this.data.mealTypeItemShow
+                addSelectedFoods.count = this.data.selectedFoodsIndex.selectedFoods.length
+                addSelectedFoods.mealDate = this.data.mealDate
+                wx.setStorageSync('', addSelectedFoods)
+                console.log('addSelectedFoods', addSelectedFoods)
                 wx.navigateTo({
                     url: '/pages/menu/today/confirm/confirm?totalMoney=' +
                         this.data.totalMoney + '&totalMoneyRealDeduction=' +
-                        this.data.totalMoneyRealDeduction + '&realMoney=' + this.data.realTotalMoney + '&orderType=one'
+                        this.data.totalMoneyRealDeduction + '&realMoney=' + this.data.realTotalMoney + '&orderType=add'
 
                 })
             }

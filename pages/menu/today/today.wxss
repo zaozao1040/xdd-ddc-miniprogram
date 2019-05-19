@@ -590,20 +590,6 @@
 
 /* **********底部状态栏********** */
 
-.backToTop {
-    position: fixed;
-    right: 80rpx;
-    bottom: 170rpx;
-    width: 80rpx;
-    height: 80rpx;
-    font-size: 80rpx;
-    color: #e79b37;
-    z-index: 99;
-}
-
-
-/* **********底部状态栏********** */
-
 .footer-wrapper {
     position: fixed;
     left: 30rpx;

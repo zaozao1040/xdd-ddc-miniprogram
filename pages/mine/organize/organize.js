@@ -105,10 +105,12 @@ Page({
         wx.getLocation({
             type: 'gcj02',
             success: function(res) {
+                let urlP = encodeURI('userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude + '&organizeName=' + e.detail.value)
                 let param = {
-                        url: '/organize/getOrganizeListByLocationNoDefault?userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude + '&organizeName=' + e.detail.value
-                    }
-                    //请求企业列表
+                    url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
+                }
+
+                //请求企业列表
                 requestModel.request(param, (data) => {
                     _this.setData({
                         organizeList: data

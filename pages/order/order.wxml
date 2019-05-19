@@ -101,43 +101,61 @@
         <view wx:else>
             <view wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
                 <view style='box-shadow: 0 0 10px 0 rgba(0,0,0,0.08); border-radius: 6px;background: #FFFFFF;margin:24rpx 20rpx 0;padding:30rpx 30rpx 40rpx 30rpx;display:flex;'>
-                    <view style="height:88rpx;width:88rpx;flex-shrink: 0;">
+                    <view style="height:88rpx;width:88rpx;flex-shrink: 0;" wx:if='{{orderItem.pickStatus==1}}'>
+                        <!--待取餐-->
+                        <block wx:for='{{orderItem.orderFoodList}}' wx:for-item='imageItem' wx:for-index='imageIndex' wx:key='{{imageIndex}}'>
+                            <image src='{{imageItem.foodImage}}' style='height:88rpx;width:88rpx;margin-bottom:40rpx;border-radius:8rpx;'></image>
+                        </block>
+                    </view>
+                    <view style="height:88rpx;width:88rpx;flex-shrink: 0;" wx:else>
                         <image src='{{orderItem.orderFoodList[0].foodImage}}' style='height:88rpx;width:88rpx;border-radius:8rpx;'></image>
                     </view>
                     <view style="margin-left:20rpx;flex-grow:1;">
-                        <view style="display:flex;justify-content: space-between;border-bottom:1rpx solid #eee;height:108rpx;">
+                        <view wx:if='{{orderItem.pickStatus==1}}'>
+                            <block wx:for='{{orderItem.orderFoodList}}' wx:for-item='imageItem' wx:for-index='imageIndex' wx:key='{{imageIndex}}'>
+                                <view style="display:flex;justify-content: space-between;border-bottom:1rpx solid #eee;height:108rpx;margin-top:{{imageIndex!=0?20:0}}rpx;">
+                                    <view>
+                                        <view class='food-name'>
+                                            <!--名称可能会溢出，需要指定最长的width-->
+                                            <view>{{imageItem.foodName}}</view>
+                                            <view style="margin-left:14rpx;" wx:if='{{orderItem.orderFoodList.length>1}}'>等{{imageItem.foodQuantity}}件</view>
+                                        </view>
+                                        <view class='food-mealtype'>{{orderItem.mealTypeDes}}</view>
+                                    </view>
+
+                                    <view wx:if="{{imageItem.cabinet}}">
+                                        <view class='order-cabinet-title'>柜子号</view>
+                                        <view style='display: flex;'>
+                                            <block wx:for='{{imageItem.cabinet}}' wx:for-index='cIndex' wx:for-item='cItem' wx:key='{{cIndex}}'>
+                                                <view class='order-cabinet-num' wx:if="{{imageItem.cabinet.length-1!=cIndex}}">
+                                                    {{cItem.cabinetNumber}}-{{cItem.cellNumber}}, </view>
+                                                <view class='order-cabinet-num' wx:else>
+                                                    {{cItem.cabinetNumber}}-{{cItem.cellNumber}}</view>
+                                            </block>
+                                        </view>
+                                    </view>
+                                    <view wx:elif="{{imageItem.boxNumber}}">
+                                        <view class='order-cabinet-title'>箱子</view>
+                                        <view class='order-cabinet-num'>{{imageItem.boxNumber}}</view>
+                                    </view>
+                                </view>
+                            </block>
+                        </view>
+                        <view wx:else style="display:flex;justify-content: space-between;border-bottom:1rpx solid #eee;height:108rpx;">
                             <view>
                                 <view class='food-name'>
                                     <!--名称可能会溢出，需要指定最长的width-->
                                     <view>{{orderItem.orderFoodList[0].foodName}}</view>
-                                    <view style="margin-left:14rpx;" wx:if='{{orderItem.orderFoodList.length>1}}'>等{{orderItem.orderFoodList.length}}件</view>
+                                    <view style="margin-left:14rpx;" wx:if='{{orderItem.orderFoodList.length>1}}'>等{{orderItem.foodQuantity}}件</view>
                                 </view>
                                 <view class='food-mealtype'>{{orderItem.mealTypeDes}}</view>
                             </view>
-
-                            <view wx:if="{{orderItem.orderFoodList[0].cabinet}}">
-                                <view class='order-cabinet-title'>柜子号</view>
-                                <view style='display: flex;'>
-                                    <block wx:for='{{orderItem.orderFoodList[0].cabinet}}' wx:for-index='cIndex' wx:for-item='cItem' wx:key='{{cIndex}}'>
-                                        <view class='order-cabinet-num' wx:if="{{orderItem.orderFoodList[0].cabinet.length-1!=cIndex}}">
-                                            {{cItem.cabinetNumber}}-{{cItem.cellNumber}}, </view>
-                                        <view class='order-cabinet-num' wx:else>
-                                            {{cItem.cabinetNumber}}-{{cItem.cellNumber}}</view>
-                                    </block>
-                                </view>
-                            </view>
-                            <view wx:elif="{{orderItem.orderFoodList[0].boxNumber}}">
-                                <view class='order-cabinet-title'>箱子</view>
-                                <view class='order-cabinet-num'>{{orderItem.orderFoodList[0].boxNumber}}</view>
-                            </view>
-
-                            <view wx:else class='order-status'>
+                            <view class='order-status'>
                                 {{orderItem.orderStatusDes}}
                             </view>
                         </view>
                         <view style="display:flex;justify-content: space-between;padding:21rpx 0 40rpx;">
-                            <view class='food-takeorder' wx:if="{{itemStatusActiveFlag==1}}">取餐时间：今天{{orderItem.takeMealStartTimeDes}}到{{orderItem.takeMealEndTimeDes}}</view>
-                            <view class='food-takeorder' wx:else>取餐时间：{{orderItem.takeMealDate}}</view>
+                            <view class='food-takeorder'>取餐时间：{{orderItem.takeMealTimeDes}}</view>
                             <view class='food-money'>￥{{orderItem.payPrice}}</view>
                         </view>
                         <view style="display:flex;justify-content: flex-end;">

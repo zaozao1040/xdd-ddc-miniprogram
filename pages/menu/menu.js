@@ -29,7 +29,7 @@
          timer: null,
          windowHeight: 0,
          scrollLintenFlag: true, //默认允许触发滚动事件
-         showBackToTopFlag: false, //显示返回scroll顶部的标志
+
          scrollToView: 'id_0',
          selectedFoods: [], //选择的食物的 menutypeIndex和foodIndex
 
@@ -322,29 +322,16 @@
      },
      /* 滚动事件监听 */
      handleScroll: function(e) {
-         //console.log('scrollview滚动距离:',e.detail.scrollTop)
          let _this = this
-         if (e.detail.scrollTop > 300) {
-             _this.setData({
-                 showBackToTopFlag: true
-             })
-         } else {
-             _this.setData({
-                 showBackToTopFlag: false
-             })
-         }
-         if (this.data.scrollLintenFlag) { //允许触发滚动事件，才执行滚动事件
-
-
-
+         if (this.data.scrollLintenFlag) { //允许触发滚动事件，才执行滚动事件 
              let scrollY = e.detail.scrollTop
-                 //console.log(e.detail.scrollTop)
+
              let listHeightLength = _this.data.listHeight.length
              for (let i = 0; i < listHeightLength; i++) {
                  let height1 = _this.data.listHeight[i]
                  let height2 = _this.data.listHeight[i + 1]; //listHeight[length]返回undefined,所以可以用!height2做判断不是最后一个
                  if (scrollY >= height1 - 1 && scrollY < height2) {
-                     //console.log('当前menutypeIndex是：',i)
+
                      if (i != _this.data.menutypeActiveFlag) {
                          _this.setData({
                              menutypeActiveFlag: i
@@ -355,16 +342,6 @@
          }
      },
 
-     //返回页面顶端
-     backToTop: function() {
-         // wx.pageScrollTo({ //外层scrollview返回顶端
-         //     scrollTop: 0,
-         // })
-         this.setData({ //内层scrollview返回顶端（这样设置就可以）
-             menutypeActiveFlag: 0,
-             scrollToView: 'order0'
-         })
-     },
      handleClearFoods: function() {
          //清空时重新加载数据 
          this.setData({
@@ -653,7 +630,7 @@
                  totalMoneyRealDeduction: tmp_totalMoneyRealDeduction
              })
 
-             console.log('allMenuData', this.data.allMenuData)
+             console.log('menuCountList', this.data.menuCountList)
          }
      },
      // 点击购物车图标

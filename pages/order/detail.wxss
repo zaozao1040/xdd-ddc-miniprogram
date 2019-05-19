@@ -3,6 +3,43 @@
     padding: 16rpx;
 }
 
+.yy-1 {
+    font-family: PingFang-SC-Regular;
+    font-size: 30rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 60rpx;
+}
+
+.yy-2 {
+    font-family: PingFang-SC-Regular;
+    font-size: 30rpx;
+    color: #FF5035;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 60rpx;
+}
+
+.yy-3 {
+    margin-left: 30rpx;
+    font-family: PingFang-SC-Regular;
+    font-size: 32rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 60rpx;
+}
+
+.yy-4 {
+    font-family: PingFang-SC-Medium;
+    font-size: 44rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 60rpx;
+}
+
 .header-status {
     font-family: PingFang-SC-Medium;
     font-size: 40rpx;
