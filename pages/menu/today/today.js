@@ -298,7 +298,7 @@ Page({
         let _this = this
         if (e.detail.scrollTop >= 40) { //大于等于40就显示
             wx.setNavigationBarTitle({
-                title: '预约' + _this.data.appointment
+                title: '预约' + _this.data.appointment + ' ' + _this.mealTypeSmall[_this.data.mealTypeItem]
             })
         } else {
             wx.setNavigationBarTitle({

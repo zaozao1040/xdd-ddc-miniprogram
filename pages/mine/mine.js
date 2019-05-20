@@ -40,19 +40,24 @@
          let _this = this
 
          if (clickIndex == 2) { //绑定企业
-             requestModel.getUserInfo(userInfo => {
-                 if (userInfo.bindOrganized == true) {
-                     wx.showToast({
-                         title: '已绑定过企业',
-                         image: '../../images/msg/warning.png',
-                         duration: 3000
-                     })
-                 } else {
-                     wx.navigateTo({
-                         url: _this.data.navigatorUrl[clickIndex]
-                     })
-                 }
-             })
+             wx.navigateTo({
+                     url: _this.data.navigatorUrl[clickIndex]
+                 })
+                 //  requestModel.getUserInfo(userInfo => {
+                 //      console.log('userInfo', userInfo)
+                 //      userType为普通用户和企业管理员的不允许再绑定企业
+                 //      if (userInfo.userType == 'B_USER' || userInfo.userType == 'ORG_ADMIN') {
+                 //          wx.showToast({
+                 //              title: '已绑定过企业',
+                 //              image: '../../images/msg/warning.png',
+                 //              duration: 3000
+                 //          })
+                 //      } else {
+                 //          wx.navigateTo({
+                 //              url: _this.data.navigatorUrl[clickIndex]
+                 //          })
+                 //      }
+                 //  })
          } else if (clickIndex == 3) { //客户服务
              //请求客服电话
 
@@ -105,6 +110,22 @@
      gotoSaySomething() {
          wx.navigateTo({
              url: '/pages/mine/complaint/complaint'
+         })
+     },
+     //跳转到余额
+     gotoWallet() {
+         wx.navigateTo({
+             url: '/pages/mine/wallet/wallet?balance=' + this.data.balance
+         })
+     },
+     gotoDiscount() {
+         wx.navigateTo({
+             url: '/pages/mine/discount/discount'
+         })
+     },
+     gotoIntegral() {
+         wx.navigateTo({
+             url: '/pages/mine/integral/integral?integral=' + this.data.integral
          })
      },
      /**

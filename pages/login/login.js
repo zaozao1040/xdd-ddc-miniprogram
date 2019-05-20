@@ -2,9 +2,6 @@ import { base } from '../../comm/public/request'
 let requestModel = new base()
 Page({
 
-    /**
-     * 页面的初始数据
-     */
     data: {
         //
         timer: null,
@@ -21,7 +18,7 @@ Page({
         usernumber: '', //工号
         organizeCode: '',
         code: '',
-        name: '',
+        userName: '',
         /*     target:'', */
         firstCode: true,
         waitTime: -1,
@@ -34,7 +31,15 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
+        let _this = this
+        requestModel.getUserInfo(userInfo => {
+            console.log('organize-userInfo', userInfo)
+            _this.setData({
+                userName: userInfo.userName,
+                userType: userInfo.userType,
 
+            })
+        })
     },
     /* 页面隐藏后回收定时器指针 */
     onHide: function() {},
@@ -62,24 +67,11 @@ Page({
             showAddressFlag: true
         })
         this.initRegister()
-        let _this = this
-            //请求经纬度信息，以便注册
-            // wx.getLocation({
-            //     type: 'gcj02',
-            //     success: function(res) {
-            //         let param = {
-            //                 url: '/organize/getOrganizeListByLocationNoDefault?userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude
-            //             }
-            //             //请求企业列表
-            //         requestModel.request(param, (data) => {
-            //             _this.setData({
-            //                 organizeList: data,
-            //                 showGobackFlag: true
-            //             })
-
-        //         })
-        //     }
-        // })
+    },
+    closeAddress() {
+        this.setData({
+            showAddressFlag: false
+        })
     },
     changeShowAddressFlag: function() {
         this.setData({
@@ -96,7 +88,7 @@ Page({
     },
     nameInput: function(e) {
         this.setData({
-            name: e.detail.value
+            userName: e.detail.value
         });
     },
     usernumberInput: function(e) {
@@ -110,49 +102,79 @@ Page({
         });
     },
     searchInput: function(e) {
+        console.log('searchInput', e)
         let _this = this
+        if (_this.data.userType == 'VISITOR' && e.detail.value.length >= 2) {
+            wx.getLocation({
+                type: 'gcj02',
+                success: function(res) {
+                    let urlP = encodeURI('userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude + '&organizeName=' + e.detail.value)
+                    let param = {
+                        url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
+                    }
 
-        wx.getLocation({
-            type: 'gcj02',
-            success: function(res) {
-                let param = {
-                        url: '/organize/getOrganizeListByLocationNoDefault?userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude + '&organizeName=' + e.detail.value
-                    }
                     //请求企业列表
-                requestModel.request(param, (data) => {
-                    _this.setData({
-                        organizeList: data
+                    requestModel.request(param, (data) => {
+                        _this.setData({
+                            employeeNumber: false,
+                            organizeList: data,
+                            organizeSelected: false,
+                            organizeCode: ''
+                        })
+                        if (data.length == 0) {
+                            _this.setData({
+                                organizeListNoResult: true //查到企业列表无结果，则相应视图
+                            })
+                        } else {
+                            _this.setData({
+                                organizeListNoResult: false
+                            })
+                        }
                     })
-                    if (data.length == 0) {
-                        _this.setData({
-                            organizeListNoResult: true //查到企业列表无结果，则相应视图
-                        })
-                    } else {
-                        _this.setData({
-                            organizeListNoResult: false
-                        })
-                    }
+                }
+            })
+        } else if (_this.data.userType == 'ADMIN') {
+            let param = {
+                    url: '/organize/getOrganizeList?userCode=' + wx.getStorageSync('userCode') + '&organizeName=' + e.detail.value
+                }
+                //请求企业列表
+            requestModel.request(param, (data) => {
+                _this.setData({
+                    organizeList: data,
+                    employeeNumber: false,
                 })
-            }
-        })
+                if (data.length == 0) {
+                    _this.setData({
+                        organizeListNoResult: true //查到企业列表无结果，则相应视图
+                    })
+                } else {
+                    _this.setData({
+                        organizeListNoResult: false
+                    })
+                }
+            })
+
+
+        }
     },
+
 
     /* 绑定企业 */
     bindOrganize: function() { //点击注册，先获取个人信息，这个是微信小程序的坑，只能通过这个button来实现
         let _this = this
-        if (_this.data.name == '') {
+        if (!_this.data.userName) {
             wx.showToast({
                 title: "请输入姓名",
                 image: '../../images/msg/error.png',
                 duration: 2000
             })
-        } else if (_this.data.organize == '') {
+        } else if (!_this.data.organize || !_this.data.organizeCode) {
             wx.showToast({
                 title: "请选择企业",
                 image: '../../images/msg/error.png',
                 duration: 2000
             })
-        } else if (_this.data.employeeNumber == true && _this.data.usernumber == '') {
+        } else if (_this.data.employeeNumber == true && !_this.data.usernumber) {
             wx.showToast({
                 title: "请输入工号",
                 image: '../../images/msg/error.png',
@@ -161,8 +183,9 @@ Page({
         } else {
             let param = {
                 userCode: wx.getStorageSync('userCode'),
-                userName: _this.data.name,
-                organizeCode: _this.data.organizeCode
+                userName: _this.data.userName,
+                organizeCode: _this.data.organizeCode,
+                userOrganizeCode: _this.data.employeeNumber ? _this.data.usernumber : null
             }
             let params = {
                 data: param,

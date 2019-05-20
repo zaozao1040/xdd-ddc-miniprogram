@@ -24,15 +24,57 @@
 
 .selectPayType {
     position: absolute;
-    height: 350rpx;
-    width: 350rpx;
+    height: 440rpx;
+    width: 560rpx;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     margin: auto;
     background: #fff;
-    border-radius: 20rpx;
+    border-radius: 16rpx;
+}
+
+.selectPayType_line1 {
+    font-family: PingFangSC-Medium;
+    font-size: 36rpx;
+    color: #333333;
+    text-align: center;
+    padding: 50rpx 0 44rpx;
+}
+
+.selectPayType_Des {
+    font-family: PingFangSC-Regular;
+    font-size: 30rpx;
+    color: #333;
+    text-align: left;
+    line-height: 44rpx;
+}
+
+.selectPayType_button {
+    border: 2rpx solid #CCCCCC;
+    border-radius: 50rpx;
+    width: 216rpx;
+    height: 68rpx;
+    line-height: 68rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 30rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: center;
+}
+
+.selectPayType_button_check {
+    background: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
+    border-radius: 50rpx;
+    width: 220rpx;
+    height: 72rpx;
+    line-height: 72rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 30rpx;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    text-align: center;
 }
 
 
@@ -66,6 +108,7 @@
     padding: 30rpx 60rpx;
     border-bottom: #F5F5F5 solid 22rpx;
 }
+
 .foodItem:last-child {
     border-bottom: none;
 }
@@ -106,8 +149,9 @@
     padding: 10rpx 5rpx;
     box-sizing: border-box;
 }
+
 .labelItem {
-    background:white;
+    background: white;
     border-radius: 25px;
     height: 48rpx;
     line-height: 48rpx;
@@ -118,7 +162,8 @@
     text-align: center;
     border: 2rpx solid #EBEBEB;
 }
-.labelItem-active{
+
+.labelItem-active {
     background-image: linear-gradient(270deg, #F79C4C 0%, #F79C4C 100%);
     border-radius: 25px;
     height: 48rpx;
@@ -129,6 +174,7 @@
     color: #FFFFFF;
     text-align: center;
 }
+
 .content {
     padding: 22rpx;
     margin: 30rpx 0 20rpx 0;
@@ -327,7 +373,13 @@
     letter-spacing: 0;
     text-align: right;
     line-height: 42rpx;
-    margin-top: 18rpx;
+    margin-top: 48rpx;
+}
+
+.order-status-image {
+    position: absolute;
+    right: 70rpx;
+    z-index: 99;
 }
 
 .mask {

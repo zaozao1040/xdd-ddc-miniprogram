@@ -32,6 +32,7 @@ Page({
     },
     // 注销账户 
     logout: function() {
+        wx.removeStorageSync('userCode')
         wx.removeStorageSync('userInfo')
         wx.removeStorageSync('getWxUserInfo')
         wx.removeStorageSync('tmp_storage')

@@ -7,38 +7,70 @@ Page({
         location: {},
         organizeList: [],
         organize: '',
-        showNameFlag: '', //这个标志表示选择绑定企业时，展示不展示需要输入姓名
-        name: '',
+
+        userName: '',
         employeeNumber: '', //是否需要填写企业员工的工号  true需要 false不需要
         usernumber: '', //工号
         organizeCode: '',
         search: '',
-        organizeListNoResult: false
+        organizeListNoResult: false,
+        organizeSelected: false
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        this.initAddress()
+
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function() {
+    getBindStatus() {
         let _this = this
         requestModel.getUserInfo(userInfo => {
+            console.log('organize-userInfo', userInfo)
+            let { userName, userType, userStatus } = userInfo
             _this.setData({
-                showNameFlag: userInfo.name
-            })
-        })
-
-        wx.getLocation({
-            type: 'gcj02',
-            success: function(res) {
+                    userName: userName,
+                    userType: userType,
+                    userStatus: userStatus
+                })
+                // 企业用户
+            if (userType == 'B_USER') {
+                if (userStatus == 'NORMAL') {
+                    _this.setData({
+                        bindAlready: true, //已经绑定
+                        bindUncheck: false, //审核未通过
+                        canBinding: false, //可绑定
+                        bindChecking: false //审核中
+                    })
+                } else if (userStatus == 'NO_CHECK') {
+                    _this.setData({
+                        bindAlready: false, //已经绑定
+                        bindUncheck: false, //审核未通过
+                        canBinding: false, //可绑定
+                        bindChecking: true //审核中
+                    })
+                } else if (userStatus == 'CHECK_NO_PASS') {
+                    _this.setData({
+                        bindAlready: false, //已经绑定
+                        bindUncheck: true, //审核未通过
+                        canBinding: false, //可绑定
+                        bindChecking: false //审核中
+                    })
+                }
+                //超级管理员
+            } else if (userType == 'ADMIN') {
+                _this.setData({
+                    bindAlready: false, //已经绑定
+                    bindUncheck: false, //审核未通过
+                    canBinding: true, //可绑定
+                    bindChecking: false //审核中
+                })
                 let param = {
-                        url: '/organize/getOrganizeListByLocationNoDefault?userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude
+                        url: '/organize/getOrganizeList?userCode=' + wx.getStorageSync('userCode')
                     }
                     //请求企业列表
                 requestModel.request(param, (data) => {
@@ -47,8 +79,38 @@ Page({
                     })
 
                 })
+                _this.initAddress()
+            } else if (userType == 'VISITOR') {
+                _this.setData({
+                    bindAlready: false, //已经绑定
+                    bindUncheck: false, //审核未通过
+                    canBinding: true, //可绑定
+                    bindChecking: false //审核中
+                })
+                _this.initAddress()
+                    //企业管理员
+            } else if (userType == 'ORG_ADMIN') {
+                _this.setData({
+                    bindAlready: true, //已经绑定
+                    bindUncheck: false, //审核未通过
+                    canBinding: false, //可绑定
+                    bindChecking: false //审核中
+                })
             }
+        }, true)
+    },
+    //再次绑定
+    goBindAgain() {
+        this.setData({
+            bindAlready: false, //已经绑定
+            bindUncheck: false, //审核未通过
+            canBinding: true, //可绑定
+            bindChecking: false //审核中
         })
+        this.initAddress()
+    },
+    onShow: function() {
+        this.getBindStatus()
     },
     /* 页面隐藏后回收定时器指针 */
     onHide: function() {},
@@ -74,10 +136,12 @@ Page({
     selectOrganize: function(e) {
         this.setData({
             organize: e.currentTarget.dataset.organizename,
-            employeeNumber: e.currentTarget.dataset.employeenumber
+            employeeNumber: e.currentTarget.dataset.employeenumber,
+            organizeList: [],
+            organizeSelected: true
         });
         this.data.organizeCode = e.currentTarget.dataset.organizecode
-        console.log(this.data.employeeNumber)
+
         wx.showToast({
             title: '选择成功',
             image: '../../../images/msg/success.png',
@@ -86,7 +150,7 @@ Page({
     },
     nameInput: function(e) {
         this.setData({
-            name: e.detail.value
+            userName: e.detail.value
         });
     },
     usernumberInput: function(e) {
@@ -100,51 +164,76 @@ Page({
         });
     },
     searchInput: function(e) {
+        console.log('searchInput', e)
         let _this = this
-
-        wx.getLocation({
-            type: 'gcj02',
-            success: function(res) {
-                let urlP = encodeURI('userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude + '&organizeName=' + e.detail.value)
-                let param = {
-                    url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
+        if (_this.data.userType == 'ADMIN') {
+            let param = {
+                    url: '/organize/getOrganizeList?userCode=' + wx.getStorageSync('userCode') + '&organizeName=' + e.detail.value
                 }
-
                 //请求企业列表
-                requestModel.request(param, (data) => {
-                    _this.setData({
-                        organizeList: data
-                    })
-                    if (data.length == 0) {
-                        _this.setData({
-                            organizeListNoResult: true //查到企业列表无结果，则相应视图
-                        })
-                    } else {
-                        _this.setData({
-                            organizeListNoResult: false
-                        })
-                    }
+            requestModel.request(param, (data) => {
+                _this.setData({
+                    organizeList: data,
+                    employeeNumber: false,
                 })
-            }
-        })
+                if (data.length == 0) {
+                    _this.setData({
+                        organizeListNoResult: true //查到企业列表无结果，则相应视图
+                    })
+                } else {
+                    _this.setData({
+                        organizeListNoResult: false
+                    })
+                }
+            })
+        } else if (e.detail.value.length >= 2) {
+            wx.getLocation({
+                type: 'gcj02',
+                success: function(res) {
+                    let urlP = encodeURI('userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude + '&organizeName=' + e.detail.value)
+                    let param = {
+                        url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
+                    }
+
+                    //请求企业列表
+                    requestModel.request(param, (data) => {
+                        _this.setData({
+                            employeeNumber: false,
+                            organizeList: data,
+                            organizeSelected: false,
+                            organizeCode: ''
+                        })
+                        if (data.length == 0) {
+                            _this.setData({
+                                organizeListNoResult: true //查到企业列表无结果，则相应视图
+                            })
+                        } else {
+                            _this.setData({
+                                organizeListNoResult: false
+                            })
+                        }
+                    })
+                }
+            })
+        }
     },
 
     /* button的绑定企业 */
     changeOrganize: function() {
         let _this = this
-        if ((_this.data.showNameFlag == null) && (_this.data.name == '')) {
+        if (!_this.data.userName) {
             wx.showToast({
                 title: "请输入姓名",
                 image: '../../../images/msg/error.png',
                 duration: 2000
             })
-        } else if (_this.data.organize == '') {
+        } else if (!_this.data.organize || !_this.data.organizeCode) {
             wx.showToast({
                 title: "请选择企业",
                 image: '../../../images/msg/error.png',
                 duration: 2000
             })
-        } else if (_this.data.employeeNumber == true && _this.data.usernumber == '') {
+        } else if (_this.data.employeeNumber == true && !_this.data.usernumber) {
             wx.showToast({
                 title: "请输入工号",
                 image: '../../../images/msg/error.png',
@@ -153,8 +242,9 @@ Page({
         } else {
             let param = {
                 userCode: wx.getStorageSync('userCode'),
-                userName: _this.data.name,
-                organizeCode: _this.data.organizeCode
+                userName: _this.data.userName,
+                organizeCode: _this.data.organizeCode,
+                userOrganizeCode: _this.data.employeeNumber ? _this.data.usernumber : null
             }
             let params = {
                 data: param,
@@ -165,17 +255,20 @@ Page({
             requestModel.request(params, () => {
 
                 requestModel.getUserInfo(() => {}, true)
-                wx.reLaunch({ //销毁所有页面后跳转到首页，销毁页面是为了防止个人用户登录后再次换绑企业可以点击订单导航，而导航栏应该隐藏才对
-                    url: '/pages/home/home',
-                })
-
-                wx.showToast({
-                    title: '登录成功',
-                    image: '../../images/msg/success.png',
-                    duration: 2000
+                _this.setData({
+                    bindAlready: false, //已经绑定
+                    bindUncheck: false, //审核未通过
+                    canBinding: false, //可绑定
+                    bindChecking: true //审核中
                 })
             })
 
         }
     },
+
+    goback() {
+        wx.switchTab({
+            url: '/pages/mine/mine',
+        })
+    }
 })

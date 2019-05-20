@@ -389,21 +389,42 @@
 }
 
 .img-wrapper {
-    display: flex;
-    justify-content: center;
-    margin: 200rpx auto;
+    margin: auto;
+    height: 648rpx;
+    width: 520rpx;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 .image-dali {
-    width: 600rpx;
-    height: 745rpx;
+    width: 520rpx;
+    height: 560rpx;
+}
+
+.button-dali {
+    position: absolute;
+    bottom: 52rpx;
+    z-index: 1002;
+    background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
+    border-radius: 40rpx;
+    font-family: PingFangSC;
+    font-size: 30rpx;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    text-align: center;
+    height: 80rpx;
+    line-height: 80rpx;
+    width: 320rpx;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
 }
 
 .icon-wrapper {
-    position: absolute;
-    top: 100rpx;
-    right: 50rpx;
-    margin: auto;
+    text-align: right;
 }
 
 .icon-dacha1 {
@@ -494,6 +515,20 @@
     border-radius: 10rpx;
 }
 
+.modulebox-wrapper-organize {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    height: 540rpx;
+    width: 70%;
+    padding: 20rpx;
+    background: #fff;
+    border-radius: 10rpx;
+}
+
 .modulebox-background-wrapper-notice {
     position: fixed;
     left: 0;
@@ -558,6 +593,24 @@
     height: 450rpx;
 }
 
+.bind-title {
+    font-family: PingFangSC-Regular;
+    font-size: 40rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: center;
+    margin-bottom: 20rpx;
+}
+
+.bind-des {
+    font-family: PingFangSC-Regular;
+    font-size: 30rpx;
+    color: #999999;
+    letter-spacing: 0;
+    text-align: center;
+    margin-bottom: 60rpx;
+}
+
 .modulebox-img-wrapper {
     padding: 60rpx 50rpx;
     box-sizing: border-box;
@@ -571,25 +624,27 @@
 
 .modulebox-des {
     text-align: center;
-    color: #666;
-    font-weight: 500;
-    font-size: 35rpx;
-    margin-top: 50rpx;
+    margin-top: 30rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 34rpx;
+    color: #1A1A1A;
+    letter-spacing: 0;
+    text-align: center;
 }
 
 .modulebox-button {
     position: absolute;
-    bottom: 20rpx;
+    bottom: 40rpx;
     left: 40rpx;
     right: 40rpx;
     height: 80rpx;
     text-align: center;
-    background-color: #e79b37;
-    border-radius: 15rpx;
-    line-height: 80rpx;
-    color: #FFF;
-    font-weight: bold;
-    font-size: 36rpx;
+    background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
+    border-radius: 50rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 34rpx;
+    color: #FFFFFF;
+    letter-spacing: 0;
 }
 
 

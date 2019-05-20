@@ -15,10 +15,14 @@
         <view style='display: flex;justify-content: space-between;margin-bottom:20rpx;' wx:for="{{moneyList}}" wx:for-index="moneyIndex_line" wx:for-item="moneyItem_line" wx:key="moneyIndex_line">
             <view wx:for="{{moneyItem_line}}" wx:for-index="moneyIndex" wx:for-item="moneyItem" wx:key="moneyIndex" class="{{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex?'chongzhi-item-active':'chongzhi-item'}}" catchtap="changeMoneyActiveFlag" data-activeflag1="{{moneyIndex_line}}"
                 data-activeflag2="{{moneyIndex}}" data-selectedmoney="{{moneyItem.rechargeAmount}}">
-                <view class='item-icon' style="color:{{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex?'#fff':'#333'}}">
-                    {{moneyItem.rechargeAmount}}个餐币
+                <view class='item-icon'>
+                    <view syle='display:flex;'>
+                        <image wx:if='{{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex}}' src='/images/mine/diancanbi_c.png' style='height:28rpx;width:28rpx;margin-right:6rpx;'></image>
+                        <image wx:else src='/images/mine/diancanbi_u.png' style='height:28rpx;width:28rpx;margin-right:6rpx;'></image>
+                        <text style="color:{{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex?'#fff':'#333'}}">{{moneyItem.rechargeAmount}}</text>
+                    </view>
                 </view>
-                <view class='item-money' style="color:{{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex?'#fff':'#999'}}">{{moneyItem.rechargeAmount}}元</view>
+                <view class='item-money' style="color:{{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex?'#fff':'#999'}}">￥{{moneyItem.rechargeAmount}}</view>
             </view>
         </view>
         <view class='recharge-title'>充值方式</view>
@@ -27,7 +31,7 @@
             <view class='wechat'>微信支付</view>
             <image src='/images/mine/selected.png' style='height:52rpx;width:52rpx;'></image>
         </view>
-        <view class='description'>充值说明：点餐币由点点餐平台开发使用，点餐币仅能用于购买 本平台运营的餐品，用于余额不能兑换现金，不能进行转账交易， 不支持退款、提现和转赠他人，不支持跨平台使用。
+        <view class='description'>充值说明：点餐币由点点餐平台开发使用，点餐币仅能用于购买本平台运营的餐品，用于余额支付，不能兑换现金，不能进行转 账交易，不支持退款、提现和转赠他人，不支持跨平台使用。
         </view>
         <view class="c_buttonPosition_forCalculate" wx:if="{{itemStatusActiveFlag}}">
             <button catchtap="handleRecharge" loading="{{loading}}" class="button">立即充值</button>

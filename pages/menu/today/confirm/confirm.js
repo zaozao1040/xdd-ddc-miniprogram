@@ -22,7 +22,7 @@ Page({
         canClick: true,
         //这四个记录缓存的值
         address: '',
-        name: '',
+        userName: '',
         phoneNumber: '',
 
         selectedFoods: [],
@@ -202,12 +202,12 @@ Page({
         requestModel.getUserInfo(userInfo => {
             _this.setData({
                 address: userInfo.deliveryAddress,
-                name: userInfo.name || wx.getStorageSync('tmp_storage'),
+                userName: userInfo.userName || wx.getStorageSync('tmp_storage'),
                 phoneNumber: userInfo.phoneNumber,
                 userInfo: userInfo
             })
 
-            if (!_this.data.name || !userInfo.deliveryAddress) {
+            if (!_this.data.userName || !userInfo.deliveryAddress) {
                 _this.setData({
                     showSelectFlag: true
                 })
@@ -233,7 +233,7 @@ Page({
         })
 
         //从后端获取优惠券信息
-        _this.getDiscount()
+        // _this.getDiscount()
     },
     /* 页面隐藏后回收定时器指针 */
     onHide: function() {
@@ -333,7 +333,7 @@ Page({
     nameInput: function(e) {
         wx.setStorageSync('tmp_storage', e.detail.value)
         this.setData({
-            name: e.detail.value
+            userName: e.detail.value
         })
     },
     addressInput: function(e) {
@@ -349,7 +349,7 @@ Page({
     },
     /* 校验参数(选择姓名和取餐低脂) */
     handleCheckParams: function() {
-        if (!this.data.name) {
+        if (!this.data.userName) {
             wx.showToast({
                 title: '请填写姓名',
                 image: '../../../images/msg/error.png',
@@ -376,7 +376,7 @@ Page({
      * 付款 提交菜单
      */
     handleCommitPay: function() {
-        if (!this.data.name) {
+        if (!this.data.userName) {
             wx.showToast({
                 title: '请填写姓名',
                 image: '../../../images/msg/error.png',

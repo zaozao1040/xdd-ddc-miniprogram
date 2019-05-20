@@ -23,7 +23,7 @@ Page({
         hasMoreDataFlag: true, //是否还有更多数据  默认还有
         //
         showPayTypeFlag: false,
-        e: null,
+
         payType: 'BALANCE_PAY',
         //评价
         showRatingsFlag: false,
@@ -251,36 +251,49 @@ Page({
     },
     //获取订单状态
     getOrderStatus(element) {
+        let a = { has: true }
         if (element.status == 1) {
             if (element.isPay == 0) {
-                return '未支付'
+                a.label = '未支付'
+                a.has = false
+
             } else {
-                return '已支付'
+                a.label = '已支付'
+                a.image = 'yizhifu'
             }
         } else if (element.status == 2) {
             if (element.confirmStatus == 2) {
-                if (element.isBox == 1 && element.cabinetStatus == 0 && element.evaluateStatus == 0) {
-                    return '待配送'
+                if (element.evaluateStatus == 1) {
+                    a.label = '待评价'
+                    a.image = 'daipingjia'
+                } else if (element.pickStatus == 1) {
+                    a.label = '待取餐'
+                    a.image = 'daiqucan'
+
+                } else if (element.deliveryStatus == 1) {
+                    a.label = '待配送'
+                    a.image = 'daipeisong'
+                } else if (element.deliveryStatus == 2) {
+                    a.label = '配送中'
+                    a.image = 'peisongzhong'
+
                 } else {
-                    if (element.cabinetStatus == 0 && element.evaluateStatus == 0) {
-                        return '配送中'
-                    } else {
-                        if (element.cabinetStatus != 0 && element.pickStatus == 1 && element.evaluateStatus == 0) {
-                            return '可取餐'
-                        } else {
-                            if (element.cabinetStatus != 0 && element.pickStatus == 2 && element.evaluateStatus == 1) {
-                                return '待评价'
-                            }
-                        }
-                    }
+                    a.label = '制作中'
+                    a.image = 'zhizuozhong'
                 }
+            } else {
+                a.label = '已支付'
+                a.image = 'yizhifu'
             }
 
         } else if (element.status == 3) {
-            return '已完成'
+            a.label = '已完成'
+            a.image = 'yiwancheng'
         } else {
-            return '已取消'
+            a.label = '已取消'
+            a.image = 'yiquxiao'
         }
+        return a
     },
 
 
@@ -393,41 +406,54 @@ Page({
     },
 
     /* radio选择支付方式 */
-    radioChange(e) {
+    radioChange() {
         this.setData({
-            payType: e.detail.value
+            payType: this.data.payType == "WECHAT_PAY" ? "BALANCE_PAY" : 'WECHAT_PAY'
         })
     },
     /* 去付款的对话框的确定 */
     buttonClickYes: function() {
-        let _this = this;
-        if (_this.data.payType == 'WECHAT_PAY') {
-            _this.payNowByWx(_this.data.e)
+
+        if (this.data.payType == 'WECHAT_PAY') {
+            this.payNowByWx()
         } else {
-            _this.payNowByBalance(_this.data.e)
+            this.payNowByBalance()
         }
 
-        _this.setData({
-            showPayTypeFlag: !_this.data.showPayTypeFlag
+        this.setData({
+            showPayTypeFlag: false
         })
     },
     /* 去付款的对话框的取消 */
     buttonClickNo: function() {
-        let _this = this;
-        _this.setData({
-            showPayTypeFlag: !_this.data.showPayTypeFlag
+
+        this.setData({
+            showPayTypeFlag: false
         })
     },
     /* 去付款 */
     handleSecondpayOrder: function(e) {
         let _this = this;
-        _this.data.e = e
-        _this.setData({
-            showPayTypeFlag: !_this.data.showPayTypeFlag
+
+        let payPrice = e.currentTarget.dataset.payprice
+        let orderCode = e.currentTarget.dataset.ordercode
+            // 判断余额够不够
+        let param = {
+            url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
+        }
+        requestModel.request(param, data => {
+
+            _this.setData({
+                showPayTypeFlag: true,
+                balanceEnough: data.balance < payPrice ? false : true,
+                payOrderCode: orderCode,
+                payType: data.balance < payPrice ? "WECHAT_PAY" : 'BALANCE_PAY'
+
+            })
         })
     },
     /* 去付款-微信支付 */
-    payNowByWx: function(e) {
+    payNowByWx: function() {
         let _this = this
         if (!_this.data.canClick) {
             return
@@ -443,7 +469,7 @@ Page({
 
         let param = {
             userCode: wx.getStorageSync('userCode'),
-            orderCode: e.currentTarget.dataset.ordercode,
+            orderCode: _this.data.payOrderCode,
             payType: 'WECHAT_PAY'
         }
 
@@ -494,7 +520,7 @@ Page({
         })
     },
     /* 去付款-余额支付 */
-    payNowByBalance: function(e) {
+    payNowByBalance: function() {
         let _this = this
         if (!_this.data.canClick) {
             return
@@ -509,7 +535,7 @@ Page({
 
         let param = {
             userCode: wx.getStorageSync('userCode'),
-            orderCode: e.currentTarget.dataset.ordercode,
+            orderCode: _this.data.payOrderCode,
             payType: 'BALANCE_PAY'
         }
 
@@ -599,11 +625,10 @@ Page({
         _this.setData({
             showRatingsFlag: true,
             starActiveNum: 0, //这三个都要清空
-            /*       ratingsContent: '', */
+
             tempFilePaths: [],
             orderCode: e.currentTarget.dataset.ordercode,
             orderFoodList: orderFoodList,
-            //foods: [e.currentTarget.dataset.foods[0]] //---------暂时只做成评价一个菜品，取数组第一个
 
             paramsData: tmp_paramsData
 

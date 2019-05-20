@@ -46,14 +46,14 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-        let _this = this
-        _this.initDiscount()
-        _this.getDiscountList()
-        _this.setData({
-            page: 1,
-            limit: 20,
-            discountList: [] //列表必须清空，否则分页会无限叠加
-        })
+
+        // this.initDiscount()
+        // this.getDiscountList()
+        // this.setData({
+        //     page: 1,
+        //     limit: 20,
+        //     discountList: [] //列表必须清空，否则分页会无限叠加
+        // })
     },
     /* 页面隐藏后回收定时器指针 */
     onHide: function() {
@@ -95,32 +95,36 @@ Page({
         }
     },
     changeItemStatusActiveFlag: function(e) {
-        let _this = this
-        if (!_this.data.canClick) {
-            return
-        }
-        _this.data.canClick = false
-        if (_this.data.timer) {
-            clearTimeout(_this.data.timer)
-        }
-        _this.data.timer = setTimeout(function() {
-            _this.data.canClick = true
-        }, 500)
-        let tmp_useType = 99
-        if (e.currentTarget.dataset.flag == 'weishiyong') {
-            tmp_useType = 'USEABLE'
-        } else if (e.currentTarget.dataset.flag == 'yishiyong') {
-            tmp_useType = 'USED'
-        } else if (e.currentTarget.dataset.flag == 'yiguoqi') {
-            tmp_useType = 'EXPIRED'
-        }
-        _this.setData({
-            itemStatusActiveFlag: e.currentTarget.dataset.flag,
-            discountListNoResult: false,
-            discountList: [],
-            useType: tmp_useType,
-        })
-        _this.getDiscountList()
+        this.setData({
+                itemStatusActiveFlag: e.currentTarget.dataset.flag,
+
+            })
+            // let _this = this
+            // if (!_this.data.canClick) {
+            //     return
+            // }
+            // _this.data.canClick = false
+            // if (_this.data.timer) {
+            //     clearTimeout(_this.data.timer)
+            // }
+            // _this.data.timer = setTimeout(function() {
+            //     _this.data.canClick = true
+            // }, 500)
+            // let tmp_useType = 99
+            // if (e.currentTarget.dataset.flag == 'weishiyong') {
+            //     tmp_useType = 'USEABLE'
+            // } else if (e.currentTarget.dataset.flag == 'yishiyong') {
+            //     tmp_useType = 'USED'
+            // } else if (e.currentTarget.dataset.flag == 'yiguoqi') {
+            //     tmp_useType = 'EXPIRED'
+            // }
+            // _this.setData({
+            //     itemStatusActiveFlag: e.currentTarget.dataset.flag,
+            //     discountListNoResult: false,
+            //     discountList: [],
+            //     useType: tmp_useType,
+            // })
+            // _this.getDiscountList()
     },
     /* 获取优惠券列表 */
     getDiscountList: function() {

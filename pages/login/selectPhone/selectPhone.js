@@ -67,12 +67,13 @@ Page({
     },
     getPhoneNumber(e) {
         var _this = this
-
+        console.log('getPhoneNumber', e)
         if (e.detail.iv) { //这个字段存在 代表用户选择了“授权”
             wx.login({ //调用微信login接口，获取code，然后根据code获取是否是新用户
                 success: function(res) {
                     if (res.code) {
                         let wxCode = res.code
+                        let { avatarUrl, nickName, gender } = wx.getStorageSync('getWxUserInfo')
                         let param = {
                             encryptedData: {
                                 encryptedData: e.detail.encryptedData,
@@ -80,9 +81,9 @@ Page({
                                 code: wxCode //微信code
                             },
                             userInfo: {
-                                headImage: wx.getStorageSync('getWxUserInfo').avatarUrl,
-                                nickName: wx.getStorageSync('getWxUserInfo').nickName,
-                                sex: wx.getStorageSync('getWxUserInfo').gender
+                                headImage: avatarUrl,
+                                nickName: nickName,
+                                sex: gender
                             }
                         }
 

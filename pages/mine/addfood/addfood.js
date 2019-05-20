@@ -231,7 +231,7 @@ Page({
 
         if (e.detail.scrollTop >= 40) { //大于等于40就显示
             wx.setNavigationBarTitle({
-                title: '预约补餐'
+                title: '预约补餐 ' + this.data.mealTypeItemShow
             })
         } else {
             wx.setNavigationBarTitle({
@@ -834,7 +834,14 @@ Page({
                 addSelectedFoods[meal].name = this.data.mealTypeItemShow
                 addSelectedFoods.count = this.data.selectedFoodsIndex.selectedFoods.length
                 addSelectedFoods.mealDate = this.data.mealDate
-                wx.setStorageSync('', addSelectedFoods)
+
+                //只要时间不是今天就是补明天的，相等就是补今天的
+                if (new Date().getDate() == new Date(this.data.mealDate).getDate()) {
+                    addSelectedFoods.appointment = '今天'
+                } else {
+                    addSelectedFoods.appointment = '明天'
+                }
+                wx.setStorageSync('addSelectedFoods', addSelectedFoods)
                 console.log('addSelectedFoods', addSelectedFoods)
                 wx.navigateTo({
                     url: '/pages/menu/today/confirm/confirm?totalMoney=' +

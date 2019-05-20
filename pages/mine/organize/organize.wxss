@@ -113,9 +113,7 @@
     right: 0;
 }
 
-.search-wrapper {
-    
-}
+.search-wrapper {}
 
 .inputSearch-wrapper {
     border: #ddd 1rpx solid;
@@ -131,9 +129,7 @@
     font-size: 30rpx;
 }
 
-.c_scrollPosition_forCalculate {
-
-}
+.c_scrollPosition_forCalculate {}
 
 .organizeItem-wrapper {
     background: #FFF;
@@ -152,14 +148,14 @@
     letter-spacing: 0;
     text-align: left;
 }
-.organizeAddress{
-    font-family: PingFangSC-Regular;
-font-size: 14px;
-color: #999999;
-letter-spacing: 0;
-text-align: left;
-}
 
+.organizeAddress {
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #999999;
+    letter-spacing: 0;
+    text-align: left;
+}
 
 .organizeItem-right {
     font-size: 30rpx;
@@ -185,9 +181,12 @@ text-align: left;
 }
 
 .noResult {
-    padding: 10rpx 20rpx;
-    font-size: 40rpx;
-    color: #666;
+    font-family: PingFangSC-Regular;
+    font-size: 30rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: center;
+    margin: 30rpx;
 }
 
 .c_buttonPosition_forCalculate {

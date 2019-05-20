@@ -15,27 +15,25 @@
         </view>
         <view wx:if="{{userInfo}}" style='display:flex;padding:40rpx 0 60rpx;'>
             <!-- 钱包 优惠券 积分 -->
-            <navigator url="/pages/mine/wallet/wallet?balance={{balance}}" class="offerItem-wrapper">
+            <view class="offerItem-wrapper" bindtap='gotoWallet'>
                 <view class='offer-num'> {{balance}} </view>
                 <view class='offer-title'> 余额 </view>
-            </navigator>
+            </view>
             <view style="position: relative;">
                 <image src="/images/mine/fengexian.png" style='width:1rpx;height:30rpx;position: absolute;top:0;bottom: 0;margin: auto;'></image>
             </view>
-            <navigator url="/pages/mine/discount/discount" class="offerItem-wrapper">
+            <view class="offerItem-wrapper" bindtap='gotoDiscount'>
                 <view class='offer-num'> {{discount}} </view>
-                <view class='offer-title'> 优惠券
-                </view>
-            </navigator>
+                <view class='offer-title'> 优惠券 </view>
+            </view>
+
             <view style="position: relative;">
                 <image src="/images/mine/fengexian.png" style='width:1rpx;height:30rpx;position: absolute;top:0;bottom: 0;margin: auto;'></image>
             </view>
-            <navigator url="/pages/mine/integral/integral?integral={{integral}}" class="offerItem-wrapper">
-                <view class='offer-num'> {{integral}}
-                </view>
-                <view class='offer-title'> 积分
-                </view>
-            </navigator>
+            <view class="offerItem-wrapper" bindtap='gotoIntegral'>
+                <view class='offer-num'> {{integral}} </view>
+                <view class='offer-title'> 积分 </view>
+            </view>
         </view>
     </view>
 

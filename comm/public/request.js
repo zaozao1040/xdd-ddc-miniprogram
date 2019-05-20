@@ -117,8 +117,11 @@ class base {
                     let { data, code } = result.data
                         // 成功
                     if (code == 200) {
+
                         sCallback && sCallback(data);
+                        wx.hideLoading()
                     } else {
+                        wx.hideLoading()
                         if (code == 2004) {
                             //清除所有缓存，并跳到首页。
                             //清除所有缓存咋写的2019-05-19
@@ -131,7 +134,7 @@ class base {
                         }
                         wx.showToast({
                             title: this.a[code],
-                            icon: 'none',
+                            image: '/images/msg/error.png',
                             duration: 2000
                         })
                     }
@@ -140,7 +143,7 @@ class base {
                     console.log(error)
                 },
                 complete: () => {
-                    wx.hideLoading()
+
                 }
             });
         }

@@ -272,6 +272,20 @@
     }
 }
 
+.mealtype-active {
+    background: rgba(247, 156, 76, 0.20);
+    border-radius: 15.5px;
+    font-family: PingFang-SC-Regular;
+    font-size: 15px;
+    color: #F79C4C;
+    letter-spacing: 0;
+    text-align: center;
+    height: 62rpx;
+    width: 148rpx;
+    line-height: 62rpx;
+    margin-left: 30rpx;
+}
+
 
 /*3.0*/
 

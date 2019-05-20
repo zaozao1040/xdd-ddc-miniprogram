@@ -1,9 +1,5 @@
 import { home } from '../home/home-model.js'
 let homeModel = new home()
-import { mine } from '../mine/mine-model.js'
-let mineModel = new mine()
-import { order } from '../order/order-model.js'
-let orderModel = new order()
 
 import { base } from '../../comm/public/request'
 let requestModel = new base()
@@ -160,7 +156,7 @@ Page({
                         url: url,
                     })
                 }
-            })
+            }, true)
 
         } else {
             wx.showToast({
@@ -268,10 +264,10 @@ Page({
             wx.hideTabBar()
         } else { //已登录状态，直接登录
             requestModel.getUserInfo(userInfo => {
-
+                console.log('userInfo', userInfo)
                 wx.showTabBar()
                 let { userStatus, canTakeDiscount } = userInfo
-                if (userStatus == 'NO_CHECK') { //企业用户的'审核中'状态,而其他的状态无需隐藏
+                if (userStatus == 'NO_CHECK') { //企业用户的'审核中'状态
                     this.setData({
                         showCheckFlag: true
                     })
@@ -480,19 +476,7 @@ Page({
             _this.data.canClick = true
         }, 2000)
     },
-    logout: function() {
-        wx.removeStorageSync('userInfo')
-        wx.removeStorageSync('getWxUserInfo')
-        wx.removeStorageSync('tmp_storage')
-        wx.reLaunch({
-            url: '/pages/home/home',
-        })
-        wx.showToast({
-            title: '注销成功',
-            image: '../../images/msg/success.png',
-            duration: 2000
-        })
-    },
+
     closeDali: function() {
         this.setData({
             showDaliFlag: false
@@ -546,41 +530,26 @@ Page({
     /* 刷新用户状态信息 用于用户注册登录后，此时后台还没有审核该企业用户，当前小程序home页最上面显示button“刷新用户”*/
     handleRefreshUser: function() {
         let _this = this
-
-        wx.login({
-            success: function(res) {
-                if (res.code) {
-                    if (wx.getStorageSync('userCode')) { //已经登录
-                        let param = {
-                            code: res.code, //微信code
-                            userCode: wx.getStorageSync('userCode')
-                        }
-                        mineModel.getMineData(param, (res) => { //刷新用户信息后再跳转到首页
-                            if (res.code == 0) {
-                                if (res.data.userStatus == 'NORMAL') {
-                                    wx.setStorageSync('userInfo', res.data)
-                                    wx.reLaunch({ //销毁所有页面后跳转到首页，销毁页面是为了防止个人用户登录后再次换绑企业可以点击订单导航，而导航栏应该隐藏才对
-                                        url: '/pages/home/home',
-                                    })
-                                    wx.showToast({
-                                        title: '登录成功',
-                                        image: '../../images/msg/success.png',
-                                        duration: 2000
-                                    })
-                                } else {
-                                    wx.showToast({
-                                        title: '企业审核中..',
-                                        image: '../../images/msg/warning.png',
-                                        duration: 3000
-                                    })
-                                }
-                            }
-                        })
-                    }
-                }
+        requestModel.getUserInfo(userInfo => {
+            if (userInfo.userStatus == 'NORMAL') {
+                _this.setData({
+                    showCheckFlag: false
+                })
+                wx.showToast({
+                    title: '登录成功',
+                    image: '/images/msg/success.png',
+                    duration: 2000
+                })
+            } else {
+                wx.showToast({
+                    title: '企业审核中',
+                    image: '/images/msg/warning.png',
+                    duration: 3000
+                })
             }
-        })
+            wx.showTabBar()
 
+        }, true)
     },
     /*   用户授权弹框-获取微信授权 */
     getWxUserInfo(e) {

@@ -2,22 +2,6 @@
 <scroll-view>
     <view class="home-container" bindtap="closeNotice">
 
-        <!-- <view class="h-v1" wx:if="{{userInfo}}">
-            <view class="has-login">{{wel}}
-                <block wx:if="{{userInfo.nickName}}">{{userInfo.nickName}}</block>
-                <open-data wx:else type="userNickName"></open-data>
-                <text catchtap="logout" class="logout">退出</text>
-            </view>
-        </view> -->
-        <!-- <view class="h-v1" wx:else>
-            <view bindtap="login" class="h-v1-1">
-                <navigator url="/pages/login/login" style="display: inline-block">
-                    <view class="" style="display: inline-block;width:90rpx;height: 50rpx;font-size:30rpx;color:2b2b2b;line-height: 45rpx;text-align: center;" bindtap="login" decode>
-                        登录
-                    </view>
-                </navigator>
-            </view>
-        </view> -->
         <!-- 轮播图 autoplay="true"3.0-->
         <swiper autoplay class="h-v2-swiper-item" circular="true" duration="300" indicatorActiveColor="#fff" indicatorColor="rgba(255,255,255,0.50)" indicatorDots interval="5000" bindchange="onSwiperChange">
             <block wx:for="{{imagesList.bannerImage}}" wx:for-index="swiperListIndex" wx:for-item="swiperListItem" wx:key="swiperListIndex">
@@ -170,19 +154,6 @@
 
         <!-- --------------------------------------- 下面是各种弹出层 --------------------------------------- -->
 
-        <!--弹出公告2.6.1-->
-        <view class="modulebox-background-wrapper-notice" wx:if="{{showWindowNotice}}">
-            <scroll-view scroll-y class="modulebox-wrapper-notice">
-                <block wx:for="{{windowNoticeData}}" wx:key="{{index}}">
-                    <view style="font-size:28rpx;text-align: center;">
-                        {{index+1}}.{{item.noticeTitle}}
-                    </view>
-                    <view style="font-size:22rpx;padding:20rpx 0;">
-                        {{item.content}}
-                    </view>
-                </block>
-            </scroll-view>
-        </view>
         <!-- 用户授权框 弹出 2.6.1-->
         <view class="modulebox-background-wrapper" wx:if="{{showUserAuthFlag}}">
             <view class="modulebox-wrapper">
@@ -197,14 +168,14 @@
         </view>
         <!-- 审核状态框 弹出2.6.1 -->
         <view class="modulebox-background-wrapper" wx:if="{{showCheckFlag}}">
-            <view class="modulebox-wrapper">
-                <view class="modulebox-img-wrapper">
-                    <image class="modulebox-img" src="/images/login/logo.png" mode="widthFix" style="width:100%;"></image>
+            <view class="modulebox-wrapper-organize">
+                <view style='margin:32rpx 0 20rpx;text-align: center;'>
+                    <image src="/images/mine/checking.jpg" style='width:216rpx;height:216rpx;'></image>
                 </view>
-                <view class="modulebox-des">
-                    企业审核中..
-                </view>
-                <button class="modulebox-button" bindtap="handleRefreshUser">点击刷新</button>
+                <view class='bind-title'>正在审核</view>
+                <view class='bind-des'>企业审核会尽快完成，请耐心等待</view>
+
+                <button class="modulebox-button" catchtap="handleRefreshUser">点击刷新</button>
             </view>
         </view>
 
@@ -212,9 +183,11 @@
         <view class="newuser-wrapper" wx:if="{{showDaliFlag}}">
             <view class="img-wrapper">
                 <view class="icon-wrapper">
-                    <view class="iconfont icon-dacha1" bindtap="closeDali"></view>
+                    <image style='height:88rpx;width:88rpx;' src="/images/home/guanbi.png" catchtap="closeDali"></image>
+
                 </view>
-                <image class="image-dali" src="{{imagesList.alertImage.image}}" bindtap="getNewUserGift"></image>
+                <image class="image-dali" src="/images/home/new_user.png"></image>
+                <view class='button-dali' catchtap="getNewUserGift">立即领取</view>
             </view>
         </view>
         <!-- layer弹出层 （优惠券活动 弹出） 2.6.1 -->
