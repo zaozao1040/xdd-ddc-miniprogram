@@ -286,7 +286,7 @@ Page({
 
     /* 获取公告信息 */
     getNotice() {
-
+        let _this = this
         let url = '/home/getHomeNotice?userCode=' + wx.getStorageSync('userCode')
         let param = {
             url
@@ -294,8 +294,9 @@ Page({
 
         requestModel.request(param, data => {
             console.log('getNotice', data)
-            if (!data && data.length > 0) { //后台是在没有公告的时候返回空数组
+            if (data && data.length > 0) { //后台是在没有公告的时候返回空数组
                 let temp_noticeData = data
+
                 _this.setData({
                     noticeData: temp_noticeData,
                     hasNotice: true
@@ -310,26 +311,24 @@ Page({
 
                 if (window_noticeData.length > 0) {
                     _this.setData({
-                        windowNoticeData: window_noticeData,
-                        hasWindowNotice: true
-                    })
-                    let windowNoticeStorage = wx.getStorageSync("windowNoticeCodeList")
-                    console.log('windowNoticeStorage', windowNoticeStorage)
-                    let windowNoticeCodeList = '' //本次公告的code
-                    window_noticeData.forEach(item => {
-                        windowNoticeCodeList += item.noticeCode
-                    })
-
-                    console.log('日期', (new Date()).toLocaleDateString() + (new Date().getHours()))
-                        //设置为当天第一次打开或者公告更新时在首页跳出
-                    if (windowNoticeStorage != (windowNoticeCodeList + (new Date()).toLocaleDateString())) {
-                        wx.setStorageSync("windowNoticeCodeList", windowNoticeCodeList + (new Date()).toLocaleDateString())
-                        _this.setData({
-                            showWindowNotice: true
+                            showedNoticeData: window_noticeData,
+                            showOneNotice: true
                         })
+                        // let windowNoticeStorage = wx.getStorageSync("windowNoticeCodeList")
 
-                        console.log('windowNoticeStorage', windowNoticeStorage)
-                    }
+                    // let windowNoticeCodeList = '' //本次公告的code
+                    // window_noticeData.forEach(item => {
+                    //     windowNoticeCodeList += item.noticeCode
+                    // })
+
+
+                    // //设置为当天第一次打开或者公告更新时在首页跳出
+                    // if (windowNoticeStorage != (windowNoticeCodeList + (new Date()).toLocaleDateString())) {
+                    //     wx.setStorageSync("windowNoticeCodeList", windowNoticeCodeList + (new Date()).toLocaleDateString())
+                    //     _this.setData({
+                    //         showWindowNotice: true
+                    //     })
+                    // }
                 }
             }
         })
@@ -353,6 +352,7 @@ Page({
     },
     // 点击页面除（显示公告外）关闭window公告和详细公告
     closeNotice() {
+        console.log('closeNotice')
         this.setData({
             showWindowNotice: false,
             showOneNotice: false
@@ -540,6 +540,7 @@ Page({
                     image: '/images/msg/success.png',
                     duration: 2000
                 })
+                wx.showTabBar()
             } else {
                 wx.showToast({
                     title: '企业审核中',
@@ -547,8 +548,6 @@ Page({
                     duration: 3000
                 })
             }
-            wx.showTabBar()
-
         }, true)
     },
     /*   用户授权弹框-获取微信授权 */

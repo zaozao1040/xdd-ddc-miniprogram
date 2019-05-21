@@ -21,7 +21,8 @@ Page({
         ratingsListNoResult: false,
         ratingsInfoListAll: [],
         hasContentFlag: false,
-        hasImgFlag: false
+        hasImgFlag: false,
+        enLargeImageShow: false
     },
 
     /**
@@ -44,7 +45,23 @@ Page({
 
         this.initRatings()
     },
+    //放大图片
+    showImage(e) {
+        this.setData({
+            enLargeImageShow: true,
+            enLargeImage: e.currentTarget.dataset.image
+        })
+    },
+    handleCloseImage() {
+        this.setData({
+            enLargeImageShow: false,
+            enLargeImage: ''
+        })
+    },
+    //用于解决小程序的遮罩层滚动穿透
+    preventTouchMove: function() {
 
+    },
     /**
      * 生命周期函数--监听页面显示
      */
