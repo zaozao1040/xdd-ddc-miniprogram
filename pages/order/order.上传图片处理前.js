@@ -32,15 +32,13 @@ Page({
         starActiveNum: 0,
         ratingsContent: '',
         currentUploadImgs: null,
-
-        foodCode: '',
         tempFilePaths: [],
         imagesArr: [], //评价上传图片时 存储参数
+        foodCode: '',
+
         evaluateLabels: [],
         evaluateLabelsActive: [],
-        labels: [],
         content: [], //绑定多道菜的每个文字评价内容
-        paramsdata: {},
         //
         windowHeight: 0,
         scrollTop: 0,
@@ -568,35 +566,11 @@ Page({
             _this.data.canClick = true
         }, 2000)
     },
-    /* 关闭评价标签 */
-    handleClickClose: function () {
-        this.setData({
-            showRatingsFlag: !this.data.showRatingsFlag
-        })
-    },
     /* 去评价 */
     handleEvaluateOrder: function (e) {
         let _this = this
         this.data.ratingsContent = ''
-        this.data.orderCode = e.currentTarget.dataset.ordercode
 
-        let orderFoodList = e.currentTarget.dataset.orderfoodlist
-        let orderFoodListLength = orderFoodList.length
-
-        /* 先初始化一下tempFilePaths和content数组的内部子数组的个数 */
-        let tmp_emptyArr = []
-        for (let i = 0; i < orderFoodListLength; i++) {
-            tmp_emptyArr.push([])
-        }
-        _this.setData({
-            tempFilePaths: tmp_emptyArr,
-            content: tmp_emptyArr,
-            imagesArr: tmp_emptyArr,
-            labels: tmp_emptyArr,
-            evaluateLabelsActive: tmp_emptyArr
-        })
-
-        console.log('444455555', _this.data.tempFilePaths)
         wx.setNavigationBarColor({
             frontColor: '#ffffff',
             backgroundColor: '#969696',
@@ -605,42 +579,48 @@ Page({
                 timingFunc: 'easeIn'
             }
         })
+        let orderFoodList = e.currentTarget.dataset.orderfoodlist
+        let orderFoodListLength = orderFoodList.length
 
         /* 请求星级标签列表 */
-        let param = {
-            userCode: wx.getStorageSync('userCode')
-        }
-        orderModel.evaluateTag(param, (res) => {
-            console.log('收到请求(评价星级列表):', res)
-
-            if (res.code === 200) {
-                _this.evaluateLabels = res.data
-
-
-                for (let i = 0; i < orderFoodListLength; i++) { //当前默认五星,以及五星对应的标签
-                    orderFoodList[i].star = 5
-                    // 大坑 这里必须用深拷贝！ 错误写法：orderFoodList[i].evaluateLabelsActive = _this.evaluateLabels[4].tagList
-                    orderFoodList[i].evaluateLabelsActive = JSON.parse(JSON.stringify(_this.evaluateLabels[4].tagList))
-                }
-
-                _this.setData({
-                    orderFoodList: orderFoodList,
-                    evaluateLabels: res.data,
-                    evaluateLabelsActive: res.data[4].tagList //当前默认五星
-                })
-                console.log('4444444', _this.data.orderFoodList)
-            } else {
-                wx.showToast({
-                    title: res.msg,
-                    image: '../../images/msg/error.png',
-                    duration: 2000
-                })
+        if (_this.data.evaluateLabels.length == 0) {
+            let param = {
+                userCode: wx.getStorageSync('userCode')
             }
-        })
+            orderModel.evaluateTag(param, (res) => {
+                console.log('收到请求(评价星级列表):', res)
+
+                if (res.code === 200) {
+                    _this.evaluateLabels = res.data
+
+
+                    for (let i = 0; i < orderFoodListLength; i++) { //当前默认五星,以及五星对应的标签
+                        orderFoodList[i].star = 5
+                        orderFoodList[i].evaluateLabelsActive = _this.evaluateLabels[4].tagList
+                    }
+
+
+
+                    _this.setData({
+                        orderFoodList: orderFoodList,
+                        evaluateLabels: res.data,
+                        evaluateLabelsActive: res.data[4].tagList //当前默认五星
+                    })
+                    console.log('4444444', _this.data.orderFoodList)
+                } else {
+                    wx.showToast({
+                        title: res.msg,
+                        image: '../../images/msg/error.png',
+                        duration: 2000
+                    })
+                }
+            })
+        }
         _this.setData({
             showRatingsFlag: true,
             starActiveNum: 0, //这三个都要清空
 
+            tempFilePaths: [],
             orderCode: e.currentTarget.dataset.ordercode,
             orderFoodList: orderFoodList,
 
@@ -652,89 +632,64 @@ Page({
     /* 去评价的对话框的确定 */
     buttonClickYes_ratings: function (e) {
         let _this = this
-        let tmpData = {
-            userCode: wx.getStorageSync('userCode'),
-            orderCode: _this.data.orderCode,
-            wechatFormId: e.detail.formId,
-            foodEvaluateList: []
-        }
-        let length = _this.data.orderFoodList.length
-        for (let i = 0; i < length; i++) {
-            _this.data.orderFoodList[i].evaluateLabelsActive.forEach(element => {
-                if (element.active) {
-                    _this.data.labels[i].push(element.tagCode)
+        if (!_this.data.starActiveNum) {
+            wx.showToast({
+                title: '请选择星级',
+                image: '../../images/msg/warning.png',
+                duration: 2000
+            })
+        } else if (_this.data.tempFilePaths != [] && _this.data.ratingsContent == '') {
+            console.log(_this.data.tempFilePaths, _this.data.ratingsContent, _this.data.tempFilePaths && !_this.data.ratingsContent)
+            wx.showToast({
+                title: '请填写评价',
+                image: '../../images/msg/warning.png',
+                duration: 2000
+            })
+        } else {
+            let param = {
+                order: {
+                    orderCode: _this.data.orderCode,
+                    star: 0,
+                    images: [],
+                    wechatFormId: ''
+                },
+                foods: [{
+                    foodCode: _this.data.foodCode,
+                    star: _this.data.starActiveNum,
+                    content: _this.data.ratingsContent,
+                    wechatFormId: e.detail.formId,
+                    images: _this.data.imagesArr
+                }]
+            }
+            console.log('评价请求的参数：', param)
+            wx.showLoading({ //【防止狂点2】
+                title: '加载中',
+                mask: true
+            })
+            orderModel.evaluateOrder(param, (res) => {
+                console.log('收到请求(评价):', res)
+                if (res.code === 0) {
+                    wx.hideLoading()
+                    wx.reLaunch({
+                        url: '/pages/order/order',
+                        success: function (res) {
+                            wx.showToast({
+                                title: '成功评价,已送您' + res.data + '积分',
+                                image: '../../images/msg/success.png',
+                                duration: 2000
+                            })
+                        }
+                    })
+                } else {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: res.msg,
+                        image: '../../images/msg/error.png',
+                        duration: 2000
+                    })
                 }
             })
-            let a = {}
-            a.foodCode = _this.data.orderFoodList[i].foodCode
-            a.star = _this.data.orderFoodList[i].star
-            a.content = _this.data.content[i]
-            a.images = _this.data.imagesArr[i]
-            a.tagCodeList = _this.data.labels[i]
-            tmpData.foodEvaluateList.push(a)
-            a = {}
         }
-
-
-        console.log('xxxxxx', tmpData)
-        /*     if (!_this.data.starActiveNum) {
-                wx.showToast({
-                    title: '请选择星级',
-                    image: '../../images/msg/warning.png',
-                    duration: 2000
-                })
-            } else if (_this.data.tempFilePaths != [] && _this.data.ratingsContent == '') {
-                console.log(_this.data.tempFilePaths, _this.data.ratingsContent, _this.data.tempFilePaths && !_this.data.ratingsContent)
-                wx.showToast({
-                    title: '请填写评价',
-                    image: '../../images/msg/warning.png',
-                    duration: 2000
-                })
-            } else {
-                let param = {
-                    order: {
-                        orderCode: _this.data.orderCode,
-                        star: 0,
-                        images: [],
-                        wechatFormId: ''
-                    },
-                    foods: [{
-                        foodCode: _this.data.foodCode,
-                        star: _this.data.starActiveNum,
-                        content: _this.data.ratingsContent,
-                        wechatFormId: e.detail.formId,
-                        images: _this.data.imagesArr
-                    }]
-                }
-                console.log('评价请求的参数：', param)
-                wx.showLoading({ //【防止狂点2】
-                    title: '加载中',
-                    mask: true
-                })
-                orderModel.evaluateOrder(param, (res) => {
-                    console.log('收到请求(评价):', res)
-                    if (res.code === 0) {
-                        wx.hideLoading()
-                        wx.reLaunch({
-                            url: '/pages/order/order',
-                            success: function (res) {
-                                wx.showToast({
-                                    title: '成功评价,已送您' + res.data + '积分',
-                                    image: '../../images/msg/success.png',
-                                    duration: 2000
-                                })
-                            }
-                        })
-                    } else {
-                        wx.hideLoading()
-                        wx.showToast({
-                            title: res.msg,
-                            image: '../../images/msg/error.png',
-                            duration: 2000
-                        })
-                    }
-                })
-            } */
     },
     /* 去评价的对话框的取消 */
     buttonClickNo_ratings: function () {
@@ -767,7 +722,6 @@ Page({
         this.setData({
             orderFoodList: tmp_orderFoodList,
         })
-
     },
     contentInput: function (e) {
         console.log(e.currentTarget.dataset.foodindex)
@@ -780,23 +734,13 @@ Page({
     /* 点击标签 */
     handleClickLabel: function (e) {
         let _this = this
-
-
         let tmp_orderFoodList = _this.data.orderFoodList
-        console.log('xingji--qian', tmp_orderFoodList)
         let tmp_activeStatus = tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active
-        /*        tmp_orderFoodList[2].evaluateLabelsActive[9].active = true
-                console.log('bian',tmp_orderFoodList[2].evaluateLabelsActive[9].active,tmp_orderFoodList[1].evaluateLabelsActive[9].active)
-               console.log('555',tmp_activeStatus,tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active)
-         */
         tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active = !tmp_activeStatus
-        console.log('xingji--hoiu', tmp_orderFoodList)
         this.setData({
             orderFoodList: tmp_orderFoodList,
         })
-        console.log('ffffff', _this.data.orderFoodList)
-        console.log('jjjjjj', e.currentTarget.dataset.foodindex, e.currentTarget.dataset.labelindex)
-        console.log('gggggg', _this.data.orderFoodList)
+
     },
     /* 点击预览图片 */
     handlePreviewImage: function (e) {
@@ -814,7 +758,7 @@ Page({
         })
     },
     /* 点击上传图片 */
-    handleClickAddImg: function (e) {
+    handleClickAddImg: function () {
         let _this = this
         _this.data.doOnHideFlag = false
         /*     _this.setData({ //置为false，onhide里面的代码不允许执行
@@ -831,7 +775,6 @@ Page({
                     mask: true,
                     duration: 1000
                 })
-
                 wx.uploadFile({
                     url: baseUrl + '/file/uploadFile', //开发者服务器 url
                     filePath: res_0.tempFilePaths[0], //要上传文件资源的路径
@@ -843,27 +786,14 @@ Page({
                     },
                     success: function (res) {
                         let tmp_data = JSON.parse(res.data)
-                        if (tmp_data.code == 200) {
-
-                            console.log('ttttt', tmp_data)
-
+                        if (tmp_data.code == 0) {
+                            // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
                             let tmp_tempFilePaths = _this.data.tempFilePaths
-                            console.log('aaaaa', _this.data.tempFilePaths, e.currentTarget.dataset.foodindex)
-                            tmp_tempFilePaths[e.currentTarget.dataset.foodindex].push(res_0.tempFilePaths[0])
+                            tmp_tempFilePaths.push(res_0.tempFilePaths[0])
                             _this.setData({
                                 tempFilePaths: tmp_tempFilePaths //预览图片响应式
                             })
-                            console.log('667677777', _this.data.tempFilePaths)
-                            /* 
-                                                        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-                                                        let tmp_tempFilePaths = _this.data.tempFilePaths
-                                                        tmp_tempFilePaths.push(res_0.tempFilePaths[0])
-                                                        _this.setData({
-                                                            tempFilePaths: tmp_tempFilePaths //预览图片响应式
-                                                        })
-                                                         */
-                            _this.data.imagesArr[e.currentTarget.dataset.foodindex].push(tmp_data.data)
-                            console.log('aaaaaaa', _this.data.imagesArr)
+                            _this.data.imagesArr.push(tmp_data.data)
                         } else {
                             wx.showToast({
                                 title: tmp_data.msg,
