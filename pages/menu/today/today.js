@@ -470,11 +470,12 @@ Page({
     },
     // 点击加号，将餐品加一
     handleAddfood(e) {
+        let _this = this
         let menutypeIndex = e.currentTarget.dataset.menutypeindex // 餐品类别的index
         let foodIndex = e.currentTarget.dataset.foodindex // 在menutypeIndex的foods的index 
 
         //被点击的那道菜，不知道要不要做是否为空判断
-        let tmp_oneFood = this.data.allMenuData[this.data.mealTypeItem].foodList[menutypeIndex].foodList[foodIndex]
+        let tmp_oneFood = _this.data.allMenuData[_this.data.mealTypeItem].foodList[menutypeIndex].foodList[foodIndex]
 
         // 考虑库存和限购
         let canAddFlag = true
@@ -504,50 +505,50 @@ Page({
 
             // 说明可以再点餐
             // 应该是先menu那增1，然后动画过去，然后购物车那里增1
-            let tmp_mealTypeItem = this.data.mealTypeItem
+            let tmp_mealTypeItem = _this.data.mealTypeItem
             tmp_oneFood.foodCount += 1 // 需不需要判断库存
 
             // 先menu增1
-            this.data.allMenuData[tmp_mealTypeItem].foodList[menutypeIndex].foodList[foodIndex] = tmp_oneFood
+            _this.data.allMenuData[tmp_mealTypeItem].foodList[menutypeIndex].foodList[foodIndex] = tmp_oneFood
 
             // 然后动画
 
-            let _this = this
-            const query = wx.createSelectorQuery()
-            query.select('#add' + menutypeIndex + foodIndex).boundingClientRect()
-            query.selectViewport().scrollOffset()
-            query.exec(function(res) {
-                if (res[0]) {
-                    let bottom = res[0].bottom
-                    _this.setData({
-                        cartAnimationHeight: _this.data.cartAnimationBottom - bottom
-                    })
-                }
-                console.log('#add' + menutypeIndex + foodIndex, res)
+            // let _this = this
+            // const query = wx.createSelectorQuery()
+            // query.select('#add' + menutypeIndex + foodIndex).boundingClientRect()
+            // query.selectViewport().scrollOffset()
+            // query.exec(function(res) {
+            //     if (res[0]) {
+            //         let bottom = res[0].bottom
+            //         _this.setData({
+            //             cartAnimationHeight: _this.data.cartAnimationBottom - bottom
+            //         })
+            //     }
+            //     console.log('#add' + menutypeIndex + foodIndex, res)
 
-            })
+            // })
 
-            this.setData({
+            _this.setData({
                 shakeshake: true
             })
-            if (!this.data.shakeTimer) {
-                clearTimeout(this.data.shakeTimer)
+            if (!_this.data.shakeTimer) {
+                clearTimeout(_this.data.shakeTimer)
             }
 
-            this.data.shakeTimer = setTimeout(function() {
+            _this.data.shakeTimer = setTimeout(function() {
                 _this.setData({
                     shakeshake: false
                 })
-            }, 1000)
+            }, 500)
 
-            let tmptotalCount = this.data.totalCount + 1 //购物车中总数加1 
-            this.setData({
+            let tmptotalCount = _this.data.totalCount + 1 //购物车中总数加1 
+            _this.setData({
                 totalCount: tmptotalCount
             })
 
-            let tmp_menuCountList = this.data.menuCountList //menu菜单右上角加1
+            let tmp_menuCountList = _this.data.menuCountList //menu菜单右上角加1
             tmp_menuCountList[tmp_mealTypeItem][menutypeIndex] += 1
-            this.setData({
+            _this.setData({
                 menuCountList: tmp_menuCountList
             })
 
@@ -557,32 +558,32 @@ Page({
             if (tmp_oneFood.foodCount == 1) {
                 // 应该也不会添加几个的，先这么写写吧，不晓得对不对  
                 //是不是应该把selectedFoodsIndex和allMenuData合并啊
-                if (!this.data.selectedFoodsIndex[tmp_mealTypeItem]) {
+                if (!_this.data.selectedFoodsIndex[tmp_mealTypeItem]) {
                     let tmp = {}
-                    tmp.name = this.data.mealTypeSmall[tmp_mealTypeItem]
+                    tmp.name = _this.data.mealTypeSmall[tmp_mealTypeItem]
                     tmp.foodList = []
-                    this.data.selectedFoodsIndex[tmp_mealTypeItem] = tmp
+                    _this.data.selectedFoodsIndex[tmp_mealTypeItem] = tmp
 
                     let tmp_copy = {}
-                    tmp_copy.name = this.data.mealTypeSmall[tmp_mealTypeItem]
+                    tmp_copy.name = _this.data.mealTypeSmall[tmp_mealTypeItem]
                     tmp_copy.foodList = []
-                    this.data.selectedFoodsIndexCopy[tmp_mealTypeItem] = tmp_copy
+                    _this.data.selectedFoodsIndexCopy[tmp_mealTypeItem] = tmp_copy
                 }
 
-                let tmpselectFoodsIndex = this.data.selectedFoodsIndex
+                let tmpselectFoodsIndex = _this.data.selectedFoodsIndex
                 if (!tmpselectFoodsIndex[tmp_mealTypeItem].foodList[menutypeIndex]) {
                     tmpselectFoodsIndex[tmp_mealTypeItem].foodList[menutypeIndex] = []
                 }
                 tmpselectFoodsIndex[tmp_mealTypeItem].foodList[menutypeIndex].push(foodIndex)
-                this.setData({
+                _this.setData({
                     selectedFoodsIndex: tmpselectFoodsIndex
                 })
             }
 
             // 计算totalMoney, totalDeduction，totalRealMonty
-            let tmptotalMoney = this.data.totalMoney + tmp_oneFood.foodPrice
+            let tmptotalMoney = _this.data.totalMoney + tmp_oneFood.foodPrice
 
-            let currnt_menuData = this.data.allMenuData[tmp_mealTypeItem]
+            let currnt_menuData = _this.data.allMenuData[tmp_mealTypeItem]
             currnt_menuData.totalMoney += tmp_oneFood.foodPrice
 
             if (tmp_oneFood.canMeal) { //可使用餐标
@@ -592,7 +593,7 @@ Page({
             // 这种每次重新计算的方法好吗
             let new_deduction = 0
                 //如果是企业管理员
-            if (this.data.orgAdmin) {
+            if (_this.data.orgAdmin) {
                 new_deduction = currnt_menuData.totalMoney
             } else {
                 if (currnt_menuData.mealSet.userCanStandardPrice && currnt_menuData.mealType.standardPrice > 0) { // 企业餐标可用并且大于0 
@@ -607,11 +608,11 @@ Page({
             let oldDeduction = currnt_menuData.deductionMoney
             currnt_menuData.deductionMoney = parseFloat(new_deduction.toFixed(2))
 
-            let tmp_totalMoneyRealDeduction = parseFloat((this.data.totalMoneyRealDeduction - oldDeduction + new_deduction).toFixed(2))
+            let tmp_totalMoneyRealDeduction = parseFloat((_this.data.totalMoneyRealDeduction - oldDeduction + new_deduction).toFixed(2))
             let tmp_realTotalMoney = (tmptotalMoney - tmp_totalMoneyRealDeduction) > 0 ? tmptotalMoney - tmp_totalMoneyRealDeduction : 0
 
-            this.setData({
-                allMenuData: this.data.allMenuData,
+            _this.setData({
+                allMenuData: _this.data.allMenuData,
                 totalMoney: parseFloat(tmptotalMoney.toFixed(2)),
                 realTotalMoney: parseFloat(tmp_realTotalMoney.toFixed(2)),
                 totalMoneyRealDeduction: tmp_totalMoneyRealDeduction
@@ -777,21 +778,22 @@ Page({
         // 考虑库存和限购
         let canAddFlag = true
 
-        if (tmp_oneFood.stock) { //说明有库存 要不要判断不为0啊
+        if (tmp_oneFood.foodQuota) { //说明有库存 要不要判断不为0啊
             let tmpstock = tmp_oneFood.foodQuota
             let tmpfoodCount = tmp_oneFood.foodCount
-            if (tmpstock.quotaNum && (tmpfoodCount >= tmpstock.quotaNum)) {
+            if ((tmpstock.quotaNum || tmpstock.quotaNum == 0) && (tmpfoodCount >= tmpstock.quotaNum)) {
                 wx.showToast({
                     title: '限购' + tmpstock.quotaNum + '份',
-                    image: '../../../images/msg/error.png',
+                    image: '/images/msg/error.png',
                     duration: 2000
                 })
                 canAddFlag = false
             }
-            if (tmpstock.surplusNum && tmpfoodCount >= tmpstock.surplusNum) {
+            // 要记住 if(0) 为false
+            else if ((tmpstock.surplusNum || tmpstock.surplusNum == 0) && tmpfoodCount >= tmpstock.surplusNum) {
                 wx.showToast({
                     title: '库存不足',
-                    image: '../../../images/msg/error.png',
+                    image: '/images/msg/error.png',
                     duration: 2000
                 })
                 canAddFlag = false

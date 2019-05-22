@@ -172,6 +172,15 @@
     line-height: 34rpx;
 }
 
+.appointment-remind {
+    font-family: PingFangSC-Regular;
+    font-size: 28rpx;
+    color: #999999;
+    letter-spacing: 0;
+    text-align: left;
+    margin-top: 66rpx;
+}
+
 .appointment-title {
     font-family: PingFang-SC-Medium;
     font-size: 36rpx;
@@ -451,7 +460,7 @@
 
 .label-wrapper {
     display: flex;
-    margin: 0 50rpx;
+    margin: 0 50rpx 60rpx;
     justify-content: space-between;
 }
 
@@ -638,6 +647,7 @@
     left: 40rpx;
     right: 40rpx;
     height: 80rpx;
+    line-height: 80rpx;
     text-align: center;
     background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
     border-radius: 50rpx;

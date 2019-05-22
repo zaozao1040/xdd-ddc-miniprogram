@@ -33,10 +33,10 @@
 
                                 <!-- 单个食物 -->
                                 <view class="food-wrapper" wx:for="{{ menutypeItem.foodList }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodItem.dateId">
+                                    <view wx:if="{{foodItem.foodQuota &&foodItem.foodQuota.surplusNum==0 }}" class="img-wrapper-stock"></view>
                                     <view class="img-wrapper" bindtap="handleGotoFoodDetail" data-foodcode="{{ foodItem.foodCode }}" id="food{{menutypeIndex}}{{foodIndex}}">
-                                        <!-- <image class="food-img" src="{{lazyShowImage[menutypeIndex][foodIndex]?foodItem.image:'https://img.alicdn.com/tps/i3/T1QYOyXqRaXXaY1rfd-32-32.gif'}}"></image> -->
+                                        <image wx:if="{{ foodItem.foodQuota &&foodItem.foodQuota.quotaNum }}" class='food-img-res' src="/images/menu/today/order_purchase.png"></image>
                                         <image class="food-img" src="{{foodItem.image}}"></image>
-
                                     </view>
                                     <view class="food-info-wrapper">
                                         <view>

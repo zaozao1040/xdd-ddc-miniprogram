@@ -35,7 +35,7 @@ Page({
         wx.removeStorageSync('userCode')
         wx.removeStorageSync('userInfo')
         wx.removeStorageSync('getWxUserInfo')
-        wx.removeStorageSync('tmp_storage')
+
         wx.reLaunch({
             url: '/pages/home/home',
         })

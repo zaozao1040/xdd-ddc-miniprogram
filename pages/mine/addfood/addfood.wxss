@@ -618,6 +618,22 @@
     z-index: 501;
 }
 
+.img-wrapper-stock {
+    width: 196rpx;
+    height: 196rpx;
+    background: rgba(255, 255, 255, 0.60);
+    border-radius: 6rpx;
+    z-index: 480;
+    position: absolute;
+}
+
+.food-img-res {
+    position: absolute;
+    z-index: 490;
+    width: 88rpx;
+    height: 44rpx;
+}
+
 .footer-wrapper-top {
     position: fixed;
     left: 30rpx;

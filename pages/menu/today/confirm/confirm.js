@@ -173,6 +173,7 @@ Page({
         //初始化，默认都选择使用积分抵扣
 
         for (let i = 0; i < selectedFoods.length; i++) {
+            //是否使用积分
             if (selectedFoods[i].count > 0) {
                 for (let m = 0; m < this.data.mealEnglistLabel.length; m++) {
                     let meal = this.data.mealEnglistLabel[m]
@@ -181,7 +182,13 @@ Page({
                     }
                 }
             }
+            //显示的日期
+            if (selectedFoods[i].mealDate) {
+                let a = selectedFoods[i].mealDate.split('-')
+                selectedFoods[i].mealDateShow = a[1] + '/' + a[2]
+            }
         }
+
         console.log('todaySelectedFoods', selectedFoods)
         this.setData({
             selectedFoods: selectedFoods,
@@ -202,7 +209,7 @@ Page({
         requestModel.getUserInfo(userInfo => {
             _this.setData({
                 address: userInfo.deliveryAddress,
-                userName: userInfo.userName || wx.getStorageSync('tmp_storage'),
+                userName: userInfo.userName,
                 phoneNumber: userInfo.phoneNumber,
                 userInfo: userInfo
             })
@@ -331,7 +338,8 @@ Page({
 
 
     nameInput: function(e) {
-        wx.setStorageSync('tmp_storage', e.detail.value)
+
+
         this.setData({
             userName: e.detail.value
         })
@@ -401,7 +409,7 @@ Page({
         }
         let tmp_param = {
             userCode: wx.getStorageSync('userCode'),
-            userName: wx.getStorageSync('tmp_storage'),
+            userName: this.data.userName,
             addressCode: this.data.userInfo.deliveryAddressCode,
             payType: this.data.payType, //支付方式
             userDiscountCode: tmp_userDiscountCode,

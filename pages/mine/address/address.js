@@ -18,12 +18,19 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        let tmp_frontPageFlag = options.frontPageFlag
-        if (tmp_frontPageFlag) {
+        let _this = this
+
+        if (options.frontPageFlag) {
             this.setData({
-                frontPageFlag: tmp_frontPageFlag
+                frontPageFlag: options.frontPageFlag
             })
         }
+        requestModel.getUserInfo((userInfo) => {
+            _this.setData({
+                addressDes: userInfo.deliveryAddress
+            })
+            this.data.addressCode = userInfo.deliveryAddressCode
+        })
     },
 
     /**

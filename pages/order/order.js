@@ -315,7 +315,7 @@ Page({
                         element.orderStatusDes = _this.getOrderStatus(element) //订单状态  
 
                         //取餐时间
-                        if (element.pickStatus == 1) { //待取餐
+                        if (element.pickStatus == 1 && element.status == 2 && element.orderFoodList && element.orderFoodList[0].takeMealStartTime) { //待取餐
 
                             // 取餐时间
                             let start = new Date(element.orderFoodList[0].takeMealStartTime)

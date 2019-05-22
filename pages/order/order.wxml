@@ -28,16 +28,7 @@
                 </view>
                 <image src='/images/order/uncheck.png' style='width:44rpx;height:44rpx;'></image>
             </view>
-            <!-- <radio-group class="radio-group" style="margin:10rpx 40rpx;" bindchange="radioChange">
-                <label class="radio" style="display: block;margin-bottom: 40rpx;">
-                    <radio value="WECHAT_PAY" checked="{{payType=='WECHAT_PAY'}}"/>
-                    <text style="font-size: 35rpx;" decode>&nbsp;微信支付</text>
-                </label>
-                <label class="radio" style="display: block;margin-bottom: 40rpx;">
-                    <radio value="BALANCE_PAY" checked="{{payType=='BALANCE_PAY'}}" />
-                    <text style="font-size: 35rpx;" decode>&nbsp;余额支付</text>
-                </label>
-            </radio-group> -->
+
             <view style="display:flex;justify-content: space-between;padding:0 36rpx;">
                 <view class='selectPayType_button' catchtap="buttonClickNo">取消</view>
                 <view class='selectPayType_button_check' catchtap="buttonClickYes"> 确定</view>
@@ -135,7 +126,7 @@
         <view wx:else>
             <view wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
                 <view style='box-shadow: 0 0 10px 0 rgba(0,0,0,0.08); border-radius: 6px;background: #FFFFFF;margin:24rpx 20rpx 0;padding:0 30rpx 40rpx 30rpx;display:flex;'>
-                    <view style="height:88rpx;width:88rpx;flex-shrink: 0;" wx:if='{{orderItem.pickStatus==1}}'>
+                    <view style="height:88rpx;width:88rpx;flex-shrink: 0;" wx:if='{{orderItem.status== 2 &&orderItem.pickStatus==1}}'>
                         <!--待取餐-->
                         <block wx:for='{{orderItem.orderFoodList}}' wx:for-item='imageItem' wx:for-index='imageIndex' wx:key='{{imageIndex}}'>
                             <image src='{{imageItem.foodImage}}' style='height:88rpx;width:88rpx;margin-top:30rpx;margin-bottom:10rpx;border-radius:8rpx;'></image>
@@ -145,7 +136,7 @@
                         <image src='{{orderItem.orderFoodList[0].foodImage}}' style='margin-top:30rpx;height:88rpx;width:88rpx;border-radius:8rpx;'></image>
                     </view>
                     <view style="margin-left:20rpx;flex-grow:1;">
-                        <view wx:if='{{orderItem.pickStatus==1}}'>
+                        <view wx:if='{{orderItem.status== 2 &&orderItem.pickStatus==1}}'>
                             <block wx:for='{{orderItem.orderFoodList}}' wx:for-item='imageItem' wx:for-index='imageIndex' wx:key='{{imageIndex}}'>
                                 <view style="display:flex;justify-content: space-between;border-bottom:1rpx solid #eee;height:138rpx;margin-top:{{imageIndex!=0?20:0}}rpx;">
                                     <view style='margin-top:30rpx;'>

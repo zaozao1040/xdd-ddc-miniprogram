@@ -34,10 +34,12 @@
 
                                 <!-- 单个食物 -->
                                 <view class="food-wrapper" wx:for="{{ menutypeItem.foodList }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodItem.dateId">
+                                    <view wx:if="{{foodItem.foodQuota &&foodItem.foodQuota.surplusNum==0 }}" class="img-wrapper-stock"></view>
                                     <view class="img-wrapper" bindtap="handleGotoFoodDetail" data-foodcode="{{ foodItem.foodCode }}" id="{{mealTypeItem}}food{{menutypeIndex}}{{foodIndex}}">
+                                        <image wx:if="{{ foodItem.foodQuota &&foodItem.foodQuota.quotaNum }}" class='food-img-res' src="/images/menu/today/order_purchase.png"></image>
                                         <image class="food-img" src="{{lazyShowImage[mealTypeItem][menutypeIndex][foodIndex]?foodItem.image:'https://img.alicdn.com/tps/i3/T1QYOyXqRaXXaY1rfd-32-32.gif'}}"></image>
                                         <!-- <image class="food-img" src="{{foodItem.image}}"></image> -->
-                                        <!-- <view style='font-size:20rpx;'>{{lazyShowImage[mealTypeItem][menutypeIndex][foodIndex]?foodItem.image}}</view> -->
+
                                     </view>
                                     <view class="food-info-wrapper">
                                         <view>
@@ -165,12 +167,12 @@
                         当前额度已被使用
                     </view>
                 </view>
-                <view wx:if="{{shakeshake}}" style='height:{{2*cartAnimationHeight-90}}rpx;width:540rpx;z-index:1000;position:fixed; left:100rpx;bottom:120rpx;'>
+                <!-- <view wx:if="{{shakeshake}}" style='height:{{2*cartAnimationHeight-90}}rpx;width:540rpx;z-index:1000;position:fixed; left:100rpx;bottom:120rpx;'>
                     <view class="{{shakeshake?'cart-count':''}}">
                     </view>
-                </view>
+                </view> -->
                 <view class="footer-wrapper c_scrollPosition_2_forCalculate" style="z-index:1200;">
-                    <view style="height:126rpx;width:126rpx;position:absolute; left:28rpx; bottom:0;" bindtap="handleClickBox" id='cartCount'>
+                    <view class="{{shakeshake?'cartShake':'box-wrapper'}}" bindtap="handleClickBox" id='cartCount'>
                         <view wx:if="{{ totalCount > 0 }}" id='cartCount2' style="right:14rpx;position:absolute;z-index:1003;height:32rpx;width:32rpx;background:#FF5035;text-align:center;line-height:32rpx;border-radius:32rpx;font-family: PingFang-SC-Medium;font-size: 22rpx; color: #FFF; letter-spacing: 0;">
                             {{totalCount}}</view>
                         <image src="/images/menu/today/order_closeshop.png" style="height:126rpx;width:126rpx;" wx:if="{{ totalCount == 0 }}"></image>

@@ -24,8 +24,7 @@
     "pages/components/discount/discount",
     "pages/components/discountPromotion/discountPromotion",
     "pages/menu/today/today",
-    "pages/menu/today/confirm/confirm",
-    "pages/order/comment/comment",
+    "pages/menu/today/confirm/confirm", 
     "pages/mine/information/information",
     "pages/mine/orgAdminAddfood/orgAdminAddfood",
     "pages/mine/integral/regular" 

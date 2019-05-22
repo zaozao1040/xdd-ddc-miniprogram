@@ -6,5 +6,5 @@
         欢迎来到点点餐
     </view>
     <button class="button" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">微信手机号快捷登录</button>
-    <button class="button-phone">手机号验证码登录</button>
+    <!-- <button class="button-phone">手机号验证码登录</button> -->
 </view>

@@ -246,11 +246,13 @@ Page({
         this.initHome()
         this.getNotice()
 
-        wx.loadFontFace({
-            family: 'PingFangSC-Medium',
-            source: 'url("https://www.your-server.com/PingFangSC-Medium.ttf")',
-            success: function() { console.log('load font success') }
-        })
+        // wx.loadFontFace({
+        //     family: 'PingFangSC-Medium',
+        //     source: 'url("https://www.your-server.com/PingFangSC-Medium.ttf")',
+        //     success: function() { console.log('load font success') }
+        // })
+        const a = '预想肉丝双拼饭'
+        console.log(a, a.length)
     },
 
     /**
@@ -312,7 +314,8 @@ Page({
                 if (window_noticeData.length > 0) {
                     _this.setData({
                             showedNoticeData: window_noticeData,
-                            showOneNotice: true
+                            // showOneNotice: true,
+                            showOneNotice: false,
                         })
                         // let windowNoticeStorage = wx.getStorageSync("windowNoticeCodeList")
 
@@ -381,7 +384,7 @@ Page({
             //先处理取餐信息, pickStatus==1表示待取
             let tmp_homeOrderList = []
             data.forEach(item => {
-                if (item.pickStatus == 1) {
+                if (item.pickStatus == 1 && item.status == 2) {
                     if (item.orderFoodList) {
                         item.orderFoodList.forEach(onefood => {
                             let a = {}
@@ -390,15 +393,22 @@ Page({
                             a.foodName = onefood.foodName
                             a.foodQuantity = onefood.foodQuantity
                             a.orderCode = item.orderCode
-                                // 取餐时间
-                            let start = new Date(onefood.takeMealStartTime)
-                            let end = new Date(onefood.takeMealEndTime)
 
-                            //取餐时间顶多是到明天吗？不管了，就是明天
-                            let s = '今天' + start.getHours() + '点' + (start.getMinutes() > 0 ? (start.getMinutes() + '分') : '')
-                            let endHours = end.getHours() == 0 ? 24 : end.getHours()
-                            let e = endHours < start.getHours() ? ('明天' + endHours + '点') : (endHours + '点') + (end.getMinutes() > 0 ? (end.getMinutes() + '分') : '')
-                            a.takeMealTimeDes = s + '到' + e
+                            if (onefood.takeMealStartTime) {
+                                // 取餐时间
+                                let start = new Date(onefood.takeMealStartTime)
+                                let end = new Date(onefood.takeMealEndTime)
+
+                                //取餐时间顶多是到明天吗？不管了，就是明天
+                                let s = '今天' + start.getHours() + '点' + (start.getMinutes() > 0 ? (start.getMinutes() + '分') : '')
+                                let endHours = end.getHours() == 0 ? 24 : end.getHours()
+                                let e = endHours < start.getHours() ? ('明天' + endHours + '点') : (endHours + '点') + (end.getMinutes() > 0 ? (end.getMinutes() + '分') : '')
+                                a.takeMealTimeDes = s + '到' + e
+                            } else {
+                                let b = item.mealDate.split('-')
+
+                                a.takeMealTimeDes = b[1] + '月' + b[2] + '日'
+                            }
 
                             //柜子还是箱子
                             if (onefood.cabinet && onefood.cabinet.length > 0) {
@@ -426,7 +436,7 @@ Page({
                     }
                 }
             })
-
+            console.log('tmp_homeOrderList', tmp_homeOrderList)
             _this.setData({
                 homeOrderList: tmp_homeOrderList,
                 gethomeOrderList: true
@@ -564,11 +574,6 @@ Page({
     preventTouchMove: function() {
 
     },
-    //加餐
-    gotoAddfood() {
-        wx.navigateTo({
-            url: '/pages/mine/addfood/addfood'
-        })
-    },
+
 
 })

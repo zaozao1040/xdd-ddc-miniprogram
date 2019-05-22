@@ -90,7 +90,7 @@
                         <view wx:for="{{mealEnglistLabel}}" wx:key="{{index}}">
                             <view wx:if='{{oneday[item]&&oneday[item].selectedFoods.length>0}}'>
                                 <view class="cart-day-title">
-                                    {{oneday.appointment}}({{oneday.mealDate}}){{oneday[item].name}}
+                                    {{oneday.appointment}}({{oneday.mealDateShow}}) {{oneday[item].name}}
                                 </view>
 
                                 <view class="cart-menuItem" wx:for="{{oneday[item].selectedFoods}}" wx:for-item="foodtypeinfoItem" wx:for-index="foodtypeinfoIndex" wx:key="{{foodtypeinfoIndex}}">
@@ -142,16 +142,16 @@
             </view>
 
             <view style='margin:0 16rpx;'>
-                <view style='background:#fff;padding:30rpx;'>
+                <view style='background:#fff;padding:28rpx 30rpx 30rpx;'>
                     <view style='display:flex;justify-content: space-between;padding-bottom:30rpx; border-bottom: 1rpx solid #F2F2F2;'>
-                        <view class='pay-title'>支付方式</view>
+                        <view class='pay-title' style='margin-top:2rpx;'>支付方式</view>
                         <view style='display:flex;'>
-                            <view style='padding:5rpx 10rpx 5rpx 0;'>
+                            <view style='padding:0 10rpx;'>
                                 <image src="/images/menu/today/order_wechatpay.png" style="width:32rpx;height:32rpx;">
                                 </image>
                             </view>
 
-                            <view class='pay-wechat'>微信支付</view>
+                            <view class='pay-wechat' style='margin-top:2rpx;'>微信支付</view>
                         </view>
 
                     </view>
@@ -168,10 +168,10 @@
                                 <view wx:else class='pay-no-discount'>暂无可用</view>
                             </view>
                             <view wx:if="{{adviceDiscountObj}}" bindtap="handleChangeSelectDiscountFlag">
-                                <image src='/images/home/filter_more.png' style="height:88rpx;width:88rpx; margin:7rpx 0 7rpx;"></image>
+                                <image src='/images/menu/right.png' style="height:22rpx;width:12rpx; margin:42rpx 0 0 20rpx;"></image>
                             </view>
                             <view wx:else>
-                                <image src='/images/home/filter_more.png' style="height:88rpx;width:88rpx; margin:7rpx 0 7rpx;"></image>
+                                <image src='/images/menu/right.png' style="height:22rpx;width:12rpx; margin:42rpx 0 0 20rpx;"></image>
                             </view>
                         </view>
 
@@ -190,87 +190,9 @@
                     </view>
                 </view>
             </view>
-            <!-- 合计 -->
-            <!-- <view class="total-wrapper">
-
-            <view class="discount-wrapper" wx:if="{{adviceDiscountObj}}" bindtap="handleChangeSelectDiscountFlag">
-                <view class="discount-left">
-                    <view class="discount-title">优惠券</view>
-                    <block wx:if="{{useDiscountFlag}}">
-                        <view class="discount-des">
-                            <block wx:if="{{adviceDiscountObj.discountType=='REDUCTION'}}">
-                                满<text style="font-size:20rpx;">¥</text>{{adviceDiscountObj.discountStandardPrice}}减<text style="font-size:20rpx;">¥</text>{{adviceDiscountObj.discountPrice}}
-                            </block>
-                            <block wx:if="{{adviceDiscountObj.discountType=='DISCOUNT'}}">
-                                满<text style="font-size:20rpx;">¥</text>{{adviceDiscountObj.discountStandardPrice}}打{{10*adviceDiscountObj.discountPrice}}折
-                            </block>
-                        </view>
-                        <view class="discount-tuijian">推荐</view>
-                    </block>
-                    <block wx:else>
-                        <view class="discount-des" style="color:#F56C6C;">
-                            {{canusedDiscountList.length}}张可用
-                        </view>
-                    </block>
-                </view>
-                <view class='discount-right iconfont icon-icon_on_the_right'></view>
-            </view>
-            <view class="total-wrapper-top">
-                <view class="total-left">合计</view>
-                <view class="total-right">
-                    <view class="total-right-line line1">
-                        <view class="">
-                            总额
-                        </view>
-                        <view class="">
-                            <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:#fff;">{{totalMoney}}</text>
-                        </view>
-                    </view>
-                    <block wx:if="{{totalMoneyRealDeduction!=0}}">
-                        <view class="total-right-line line2">
-                            <view class="">
-                                企业总抵扣
-                            </view>
-                            <view class="">
-                                <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text>
-                                <text wx:if="{{totalMoneyRealDeduction!=0}}" style="font-size: 35rpx;color:#fff;">-{{totalMoneyRealDeduction}}</text>
-                                <text wx:else style="font-size: 35rpx;color:#fff;">0</text>
-                            </view>
-                        </view>
-                    </block>
-                    <block wx:if="{{adviceDiscountObj&&adviceDiscountObj.discountPrice!=0}}">
-                        <view class="total-right-line line2">
-                            <view class="">
-                                优惠券抵扣
-                            </view>
-                            <view class="">
-                                <text style="font-size: 25rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 35rpx;color:#fff;">-{{discountMoney}}</text>
-                            </view>
-                        </view>
-                    </block>
-                    <view class="total-right-line line3">
-                        <view class="">
-                            实际支付
-                        </view>
-                        <view class="">
-                            <text style="font-size: 30rpx;color:#fff;" decode>￥&nbsp;</text><text style="font-size: 40rpx;color:#fff;font-weight: 700;">{{realMoney}}</text>
-                        </view>
-                    </view>
-                </view>
-            </view>
-            <view class="total-wrapper-bottom">
-                <view class="bottom-des">
-                    余额支付(余额<text style="font-size:25rpx;">￥</text><text style="color:#222;">{{balance}}</text>)
-                </view>
-                <view class="bottom-icon">
-                    <view bindtap="handleChangeWalletSelectedFlag" wx:if="{{walletSelectedFlag}}" class='iconfont icon-kaiguan-copy' style="font-size: 40rpx;color:#e79b37;"></view>
-                    <view bindtap="handleChangeWalletSelectedFlag" wx:else class='iconfont icon-kaiguan-copy1' style="font-size: 40rpx;color:#666;"></view>
-                </view>
-            </view>
-        </view> -->
         </view>
     </scroll-view>
-    <!-- button -->
+
     <view class=" c_buttonPosition_forCalculate" style='position:fixed;bottom:0;left:0;right:0;height:100rpx;display:flex;background: #4D4D4D; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);'>
         <view style='width:530rpx;display:flex;padding:30rpx 0;'>
             <view style='width:158rpx;text-align:center;font-family: PingFang-SC-Medium; font-size: 40rpx; color: #FFFFFF;letter-spacing: 0;border-right:1rpx solid rgba(255,255,255,0.40);line-height:40rpx;'>

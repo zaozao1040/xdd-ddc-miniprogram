@@ -51,7 +51,6 @@
                     </swiper-item>
                 </block>
             </swiper>
-
         </view>
 
         <!-- 开始点餐 3.0-->
@@ -87,7 +86,7 @@
         </view>
         <!-- 首页提示取餐3.0-->
         <view wx:if='{{gethomeOrderList}}'>
-            <view style="margin:60rpx 0 60rpx 30rpx;" wx:if="{{homeOrderList.length>0}}">
+            <view style="margin:0 0 60rpx 30rpx;" wx:if="{{homeOrderList.length>0}}">
                 <view class='takefood-title'>今日餐品</view>
                 <view>
                     <swiper circular="true" next-margin='24rpx' style='width: 100%; height: 172rpx;'>
@@ -106,16 +105,27 @@
                                                         {{homeOrderItem.bindNumber}}
                                                     </view>
                                                 </view>
-                                                <view style="height:20rpx;" wx:else>
-
+                                                <view style="line-height:50rpx;" wx:else>
+                                                    <view class="takefood-cabinet-title">柜子号</view>
                                                 </view>
                                                 <view style="line-height: 52rpx;display:flex;">
                                                     <view class="takefood-mealType">
                                                         {{homeOrderItem.mealTypeShow}}</view>
-                                                    <view class="takefood-foodname"> {{homeOrderItem.foodName}}
+                                                    <view style='display:flex;' wx:if='{{homeOrderItem.foodName.length<9}}'>
+                                                        <view class="takefood-foodname" wx:if='{{homeOrderItem.foodQuantity>1}}'>
+                                                            {{homeOrderItem.foodName}}x{{homeOrderItem.foodQuantity}}
+                                                        </view>
+                                                        <view class="takefood-foodname" wx:else>
+                                                            {{homeOrderItem.foodName}}
+                                                        </view>
                                                     </view>
-                                                    <view wx:if="{{homeOrderItem.foodQuantity>1}}" class='takefood-foodcount'>
-                                                        x{{homeOrderItem.foodQuantity}}</view>
+                                                    <view style='display:flex;' wx:else>
+                                                        <view class="takefood-foodname"> {{homeOrderItem.foodName}}
+                                                        </view>
+                                                        <view wx:if="{{homeOrderItem.foodQuantity>1}}" class='takefood-foodcount'>
+                                                            x{{homeOrderItem.foodQuantity}}</view>
+                                                    </view>
+
                                                 </view>
 
                                             </view>
@@ -131,12 +141,7 @@
                     </swiper>
                 </view>
             </view>
-            <!-- 首页补餐 3.0-->
-            <view class="add-wrapper" wx:else>
-                <image src="/images/home/takefood.png" mode="widthFix" class="add-img">
-                </image>
-                <view class='add-title' catchtap='gotoAddfood'>去补餐</view>
-            </view>
+
 
         </view>
         <!-- 活动3.0 -->
@@ -175,7 +180,7 @@
                 <view class='bind-title'>正在审核</view>
                 <view class='bind-des'>企业审核会尽快完成，请耐心等待</view>
 
-                <button class="modulebox-button" catchtap="handleRefreshUser">点击刷新</button>
+                <view class="modulebox-button" catchtap="handleRefreshUser">点击刷新</view>
             </view>
         </view>
 
@@ -200,9 +205,13 @@
         <view class="mask" wx:if="{{showMenuSelect}}" catchtouchmove="preventTouchMove"></view>
 
         <view style="position:fixed;bottom:0;width:100%; z-index:1001;background:#fff;" wx:if="{{showMenuSelect}}">
-            <view class="appointment-title">
-                选择预约
+            <view style='display:flex;'>
+                <view class="appointment-title">
+                    选择预约
+                </view>
+                <view class='appointment-remind'>（请在投柜后两小时内用餐）</view>
             </view>
+
             <view style="position:absolute;right:10rpx;top:10rpx;" catchtap='closeMenuSelect'>
                 <image src='/images/home/filter_close.png' style="height:88rpx;width:88rpx;"></image>
             </view>

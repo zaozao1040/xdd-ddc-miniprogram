@@ -35,6 +35,47 @@
     }
 }
 
+.box-wrapper {
+    height: 126rpx;
+    width: 126rpx;
+    position: absolute;
+    left: 28rpx;
+    bottom: 0;
+}
+
+.cartShake {
+    animation-name: cartScale;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+    height: 126rpx;
+    width: 126rpx;
+    position: absolute;
+    left: 28rpx;
+    bottom: 0;
+}
+
+@keyframes cartScale {
+    0% {
+        transform: scale(1);
+    }
+    20% {
+        transform: scale(0.9);
+    }
+    40% {
+        transform: scale(0.75);
+    }
+    60% {
+        transform: scale(1);
+    }
+    80% {
+        transform: scale(0.8);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 .active-day {
     font-family: PingFang-SC-Medium;
     font-size: 56rpx;
@@ -193,7 +234,7 @@
     height: 196rpx;
     background: rgba(255, 255, 255, 0.60);
     border-radius: 6rpx;
-    z-index: 1200;
+    z-index: 480;
     position: absolute;
 }
 
@@ -204,9 +245,9 @@
 }
 
 .food-img-res {
-    position: relative;
-    z-index: 1300;
-    top: -206rpx;
+    position: absolute;
+    z-index: 490;
+    /* top: -206rpx; */
     width: 88rpx;
     height: 44rpx;
 }
@@ -283,40 +324,6 @@
     text-align: center;
     width: 56rpx;
     line-height: 40rpx;
-}
-
-.cart-count {
-    position: absolute;
-    z-index: 1003;
-    height: 32rpx;
-    width: 32rpx;
-    background: #FF5035;
-    text-align: center;
-    line-height: 32rpx;
-    border-radius: 32rpx;
-    font-family: PingFang-SC-Medium;
-    font-size: 22rpx;
-    color: #FFF;
-    letter-spacing: 0;
-    left: 0;
-    top: 100%;
-    animation: cartCountAnimation 0.5s;
-    animation-timing-function: linear;
-}
-
-@keyframes cartCountAnimation {
-    0% {
-        left: 100%;
-        top: 0;
-    }
-    50% {
-        left: 50%;
-        top: 50%;
-    }
-    100% {
-        left: 0;
-        top: 100%;
-    }
 }
 
 
@@ -663,16 +670,6 @@
     position: absolute;
     bottom: 0;
     right: 0;
-}
-
-.box-wrapper {
-    width: 130rpx;
-    height: 130rpx;
-    background-color: black;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    border-radius: 65rpx;
 }
 
 .box {

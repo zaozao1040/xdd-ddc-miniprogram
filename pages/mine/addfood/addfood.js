@@ -419,7 +419,7 @@ Page({
             if (tmpstock.quotaNum && (tmpfoodCount >= tmpstock.quotaNum)) {
                 wx.showToast({
                     title: '限购' + tmpstock.quotaNum + '份',
-                    image: '../../../images/msg/error.png',
+                    image: '/images/msg/error.png',
                     duration: 2000
                 })
                 canAddFlag = false
@@ -427,7 +427,7 @@ Page({
             if (tmpstock.surplusNum && tmpfoodCount >= tmpstock.surplusNum) {
                 wx.showToast({
                     title: '库存不足',
-                    image: '../../../images/msg/error.png',
+                    image: '/images/msg/error.png',
                     duration: 2000
                 })
                 canAddFlag = false
@@ -700,13 +700,13 @@ Page({
         // 考虑库存和限购
         let canAddFlag = true
 
-        if (tmp_oneFood.stock) { //说明有库存 要不要判断不为0啊
+        if (tmp_oneFood.foodQuota) { //说明有库存 要不要判断不为0啊
             let tmpstock = tmp_oneFood.foodQuota
             let tmpfoodCount = tmp_oneFood.foodCount
             if (tmpstock.quotaNum && (tmpfoodCount >= tmpstock.quotaNum)) {
                 wx.showToast({
                     title: '限购' + tmpstock.quotaNum + '份',
-                    image: '../../../images/msg/error.png',
+                    image: '/images/msg/error.png',
                     duration: 2000
                 })
                 canAddFlag = false
@@ -714,7 +714,7 @@ Page({
             if (tmpstock.surplusNum && tmpfoodCount >= tmpstock.surplusNum) {
                 wx.showToast({
                     title: '库存不足',
-                    image: '../../../images/msg/error.png',
+                    image: '/images/msg/error.png',
                     duration: 2000
                 })
                 canAddFlag = false
