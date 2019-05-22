@@ -1,4 +1,4 @@
-<view class="wrapper">
+<view class="wrapper" wx:if='{{getdataalready}}'>
     <view class='header-status'>{{detailInfo.orderStatusDes}}</view>
     <view class="orderItem-wrapper">
         <view class="cart-day-title">

@@ -483,15 +483,14 @@ Page({
         if (tmp_oneFood.foodQuota) { //说明有库存 要不要判断不为0啊
             let tmpstock = tmp_oneFood.foodQuota
             let tmpfoodCount = tmp_oneFood.foodCount
-            if (tmpstock.quotaNum && (tmpfoodCount >= tmpstock.quotaNum)) {
+            if ((tmpstock.quotaNum || tmpstock.quotaNum == 0) && (tmpfoodCount >= tmpstock.quotaNum)) {
                 wx.showToast({
                     title: '限购' + tmpstock.quotaNum + '份',
                     image: '../../../images/msg/error.png',
                     duration: 2000
                 })
                 canAddFlag = false
-            }
-            if (tmpstock.surplusNum && tmpfoodCount >= tmpstock.surplusNum) {
+            } else if ((tmpstock.surplusNum || tmpstock.surplusNum == 0) && tmpfoodCount >= tmpstock.surplusNum) {
                 wx.showToast({
                     title: '库存不足',
                     image: '../../../images/msg/error.png',

@@ -173,7 +173,17 @@ Page({
                 element.recordTypeDes = typeMap[element.recordType]
                 element.operateTimeDes = element.operateTime
             })
-
+            if (page == 1) {
+                _this.setData({
+                    rechargeList: tmp_rechargeList,
+                    loadingData: false
+                })
+            } else {
+                _this.setData({
+                    rechargeList: _this.data.rechargeList.concat(tmp_rechargeList),
+                    loadingData: false
+                })
+            }
             //下面开始分页 
             if (page * limit >= data.amount) { //说明已经请求完了 
                 _this.setData({
@@ -185,11 +195,7 @@ Page({
                 })
                 _this.data.page = page + 1
             }
-            _this.setData({
-                rechargeList: _this.data.rechargeList.concat(tmp_rechargeList),
-                hasMoreDataFlag: true,
-                loadingData: false
-            })
+
 
         })
     },

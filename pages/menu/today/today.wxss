@@ -312,6 +312,15 @@
     }
 }
 
+.num-control-stock {
+    font-family: PingFang-SC-Regular;
+    font-size: 24rpx;
+    color: #999999;
+    letter-spacing: 0;
+    text-align: left;
+    margin-top: 8rpx;
+}
+
 
 /*3.0*/
 

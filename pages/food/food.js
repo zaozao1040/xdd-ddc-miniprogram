@@ -107,6 +107,17 @@ Page({
         requestModel.request(param, (data) => {
 
             let { list, amount } = data
+            if (page == 1) {
+                _this.setData({
+                    ratingsInfoList: list, //concat是拆开数组参数，一个元素一个元素地加进去
+                    loadingData: false
+                })
+            } else {
+                _this.setData({
+                    ratingsInfoList: _this.data.ratingsInfoList.concat(list), //concat是拆开数组参数，一个元素一个元素地加进去
+                    loadingData: false
+                })
+            }
             // 大于amount，说明已经加载完了
             if (page * limit >= amount) {
                 _this.setData({
@@ -118,10 +129,7 @@ Page({
                     page: page + 1
                 })
             }
-            _this.setData({
-                ratingsInfoList: _this.data.ratingsInfoList.concat(list), //concat是拆开数组参数，一个元素一个元素地加进去
-                loadingData: false
-            })
+
 
         })
     },

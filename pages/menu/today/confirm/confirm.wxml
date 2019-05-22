@@ -178,7 +178,7 @@
                     </view>
                     <view>
                         <view style='display:flex;justify-content: space-between;'>
-                            <view class='pay-title' style="margin-top:30rpx;"> 余额支付(余额￥{{balance}})</view>
+                            <view class='pay-title' style="margin-top:30rpx;"> 余额支付(点餐币余额￥{{balance}})</view>
                             <view class='pay-balance-image'>
                                 <image src="/images/menu/today/order_open.png" style="width:86rpx;height:68rpx;" bindtap="handleChangeWalletSelectedFlag" wx:if="{{walletSelectedFlag}}">
                                 </image>

@@ -43,7 +43,7 @@
                                 <view class="food-wrapper" wx:for="{{ menutypeItem.foodList }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex">
                                     <view wx:if="{{foodItem.foodQuota &&foodItem.foodQuota.surplusNum==0 }}" class="img-wrapper-stock"></view>
                                     <view class="img-wrapper" bindtap="handleGotoFoodDetail" data-foodcode="{{ foodItem.foodCode }}" id="{{mealTypeItem}}food{{menutypeIndex}}{{foodIndex}}">
-                                        <image wx:if="{{ foodItem.foodQuota &&foodItem.foodQuota.quotaNum }}" class='food-img-res' src="/images/menu/today/order_purchase.png"></image>
+                                        <image wx:if="{{ foodItem.foodQuota &&foodItem.foodQuota.quotaNum  }}" class='food-img-res' src="/images/menu/today/order_purchase.png"></image>
                                         <!-- <image class="food-img" src="{{lazyShowImage[mealTypeItem][menutypeIndex][foodIndex]?foodItem.foodImage:''}}"></image> -->
                                         <image class="food-img" src="{{foodItem.image}}"></image>
 
@@ -62,10 +62,10 @@
                                                 不可使用餐标
                                             </view>
                                             <view class="foodLimitNum" wx:if="{{foodItem.foodQuota}}">
-                                                <view class="food-stock" wx:if="{{foodItem.foodQuota.surplusNum }}">
+                                                <view class="food-stock" wx:if="{{foodItem.foodQuota.surplusNum||foodItem.foodQuota.surplusNum==0 }}">
                                                     库存:{{foodItem.foodQuota.surplusNum }}
                                                 </view>
-                                                <view class="food-stock" wx:if="{{ foodItem.foodQuota.quotaNum }}">
+                                                <view class="food-stock" wx:if="{{ foodItem.foodQuota.quotaNum ||foodItem.foodQuota.quotaNum==0}}">
                                                     限购:{{foodItem.foodQuota.quotaNum }}
                                                 </view>
                                             </view>

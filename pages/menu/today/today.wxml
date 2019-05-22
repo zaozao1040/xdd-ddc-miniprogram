@@ -54,10 +54,10 @@
                                                 不可使用餐标
                                             </view>
                                             <view class="foodLimitNum" wx:if="{{foodItem.foodQuota}}">
-                                                <view class="food-stock" wx:if="{{foodItem.foodQuota.surplusNum }}">
+                                                <view class="food-stock" wx:if="{{foodItem.foodQuota.surplusNum ||foodItem.foodQuota.surplusNum==0}}">
                                                     库存:{{foodItem.foodQuota.surplusNum }}
                                                 </view>
-                                                <view class="food-stock" wx:if="{{ foodItem.foodQuota.quotaNum }}">
+                                                <view class="food-stock" wx:if="{{ foodItem.foodQuota.quotaNum ||foodItem.foodQuota.quotaNum==0}}">
                                                     限购:{{foodItem.foodQuota.quotaNum }}
                                                 </view>
                                             </view>
@@ -79,7 +79,8 @@
                                                 </view>
                                             </view>
                                             <!-- ***************  + - 添加、减掉餐品的小控件(菜单中) *************** -->
-                                            <view class="num-control">
+                                            <view wx:if="{{foodItem.foodQuota &&foodItem.foodQuota.surplusNum==0}}" class="num-control-stock">餐品已售完</view>
+                                            <view wx:else class="num-control">
                                                 <image src="/images/menu/today/order_less.png" style="width:40rpx;height:40rpx; " wx:if="{{ foodItem.foodCount > 0 }}" data-menutypeindex="{{ menutypeIndex }}" data-foodindex="{{ foodIndex }}" catchtap="handleMinusfood">
                                                 </image>
                                                 <view wx:if="{{ foodItem.foodCount > 0 }}" class="num">

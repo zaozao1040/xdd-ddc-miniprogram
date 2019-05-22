@@ -114,7 +114,17 @@ Page({
                 element.recordTypeDes = typeMap[element.recordType]
                 element.operateTimeDes = element.operateTime
             })
-
+            if (page == 1) {
+                _this.setData({
+                    integralList: tmp_integralList,
+                    loadingData: false
+                })
+            } else {
+                _this.setData({
+                    integralList: _this.data.integralList.concat(tmp_integralList),
+                    loadingData: false
+                })
+            }
             //下面开始分页  
             if (page * limit >= data.amount) { //说明已经请求完了 
 
@@ -127,11 +137,7 @@ Page({
                 })
                 _this.data.page = page + 1
             }
-            _this.setData({
-                integralList: _this.data.integralList.concat(tmp_integralList),
 
-                loadingData: false
-            })
         })
     },
 

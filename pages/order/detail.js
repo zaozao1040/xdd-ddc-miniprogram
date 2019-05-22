@@ -28,6 +28,7 @@ Page({
             DINNER: '晚餐',
             NIGHT: '夜宵'
         },
+        getdataalready: false
     },
 
     /**
@@ -40,9 +41,6 @@ Page({
             url: '/order/getOrderDetail?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + options.orderCode
         }
         requestModel.request(param, data => {
-
-
-
             data.mealTypeDes = _this.data.mealTypeMap[data.mealType] //日期
             data.orderStatusDes = _this.getOrderStatus(data) //状态
             data.deduction = parseFloat((parseFloat(data.totalPrice) - parseFloat(data.payPrice)).toFixed(2))
@@ -65,6 +63,8 @@ Page({
                         data.payTypeDes = '余额支付'
                     } else if (data.defrayType == 2) {
                         data.payTypeDes = '微信支付'
+                    } else if (data.defrayType == 4) {
+                        data.payTypeDes = '积分支付'
                     } else {
                         data.payTypeDes = '标准支付'
                     }
@@ -77,11 +77,13 @@ Page({
 
 
             _this.setData({
-                detailInfo: data
+                detailInfo: data,
+                getdataalready: true
             })
 
             console.log('detailInfo', data)
         })
+
     },
     //获取订单状态
     getOrderStatus(element) {

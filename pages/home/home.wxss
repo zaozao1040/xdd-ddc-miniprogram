@@ -351,7 +351,7 @@
 }
 
 .h-v3 {
-    margin: 0 30rpx 70rpx;
+    margin: 0 30rpx 50rpx;
 }
 
 .h-v3-1 {
@@ -359,9 +359,8 @@
     font-size: 36rpx;
     color: #fff;
     text-align: center;
-    background: linear-gradient(90deg, #F7CD4E 0%, #F79C4C 99%);
-    /* background: linear-gradient(-270deg, #F79C4C 0%, #F7CD4E 99%); */
-    border-radius: 50rpx;
+    background-image: linear-gradient(270deg, #F79C4C 0%, #F79C4C 99%);
+    border-radius: 57rpx;
     font-family: PingFang-SC-Medium;
     letter-spacing: 0;
     width: 100%;

@@ -27,6 +27,8 @@ Page({
         this.setData({
             code: e.detail.value
         });
+
+
     },
     sendCode: function() {
         let _this = this
