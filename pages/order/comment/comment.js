@@ -1,5 +1,6 @@
 import { base } from '../../../comm/public/request'
 let requestModel = new base()
+const baseUrl = getApp().globalData.baseUrl
 Page({
 
     /**

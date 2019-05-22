@@ -42,7 +42,7 @@
                 </view>
             </view>
             <view class="content">
-                <textarea style="touch-action: none;height:320rpx;font-family: PingFangSC-Regular;font-size: 30rpx;color: #333;" placeholder="我们希望能倾听您的心声,请留下您宝贵的意见。" maxlength="60" bindinput="contentInput" data-foodindex="{{foodIndex}}"></textarea>
+                <textarea style=" height:190rpx;font-family: PingFangSC-Regular;font-size: 30rpx;color: #333;" placeholder="我们希望能倾听您的心声,请留下您宝贵的意见。" maxlength="60" bindinput="contentInput" data-foodindex="{{foodIndex}}"></textarea>
             </view>
 
             <view class="img-wrapper">
