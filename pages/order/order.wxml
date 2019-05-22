@@ -79,7 +79,7 @@
                             </view>
                         </view>
                         <view class="welcome">
-                            感谢您的订餐,请给本次服务评价!
+                            感谢您的订餐,请对本次餐品进行评价!
                         </view>
                         <view style="display: flex;justify-content: center;flex-direction: row;margin-bottom: 20rpx;">
                             <block wx:for="{{foodItem.star}}" wx:for-index="starIndex" wx:for-item="starItem"
@@ -104,12 +104,12 @@
                                 {{labelItem.name}}
                             </view>
                         </view>
-                        <textarea class="content" placeholder="我们希望能倾听您的心声,请留下您宝贵的意见。" maxlength="60"
+                        <textarea class="content" style="font-family: PingFangSC-Regular;font-size: 30rpx;color: #333;" placeholder="我们希望能倾听您的心声,请留下您宝贵的意见。" maxlength="60"
                             bindinput="contentInput" data-foodindex="{{foodIndex}}" focus></textarea>
                         <view class="img-wrapper">
                             <image class="image" src="{{imgItem}}" wx:for="{{tempFilePaths[foodIndex]}}"
                                 wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex"
-                                bindtap="handlePreviewImage" data-index="{{imgIndex}}">
+                                bindtap="handlePreviewImage" data-foodindex="{{foodIndex}}" data-index="{{imgIndex}}">
                             </image>
                             <image class="image-shangchuan" wx:if="{{tempFilePaths[foodIndex].length<3}}"
                                 src="../../../images/order/xiangji@2x.png" bindtap="handleClickAddImg"

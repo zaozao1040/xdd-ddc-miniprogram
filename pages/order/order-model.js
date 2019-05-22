@@ -44,7 +44,7 @@ class order extends base {
         /* 评价 */
         evaluateOrder(param, callback) {
             let allParams = {
-                url: baseUrl + '/order/evaluate',
+                url: baseUrl + '/orderEvaluate/orderEvaluate',
                 type: 'post',
                 data: param,
                 sCallback: function(data) {

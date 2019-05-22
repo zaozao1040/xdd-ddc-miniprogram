@@ -129,9 +129,6 @@ border-bottom-right-radius: 50rpx; */
 
 /* 评价 */
 
-.ratingsContent {
-    overflow: hidden;
-}
 
 .btn {
     display: inline-block;

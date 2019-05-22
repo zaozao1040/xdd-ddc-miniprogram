@@ -28,11 +28,6 @@ Page({
         //评价
         showRatingsFlag: false,
         orderFoodList: null,
-        starNum: [0, 1, 2, 3, 4],
-        starActiveNum: 0,
-        ratingsContent: '',
-        currentUploadImgs: null,
-
         foodCode: '',
         tempFilePaths: [],
         imagesArr: [], //评价上传图片时 存储参数
@@ -40,7 +35,6 @@ Page({
         evaluateLabelsActive: [],
         labels: [],
         content: [], //绑定多道菜的每个文字评价内容
-        paramsdata: {},
         //
         windowHeight: 0,
         scrollTop: 0,
@@ -68,7 +62,6 @@ Page({
             NIGHT: '夜宵'
         },
         orderCode: '',
-        doOnHideFlag: true, //是否执行生命周期函数onhide 默认当然是执行，只有在点击上传图片时，修改这个值为false不允许
         //订单状态
         status: { 0: '未下单', 1: '下单成功', 2: '已生效', 3: '已完成', 4: '已取消' },
         //付款
@@ -140,12 +133,7 @@ Page({
         this.getOrderList()
         wx.showTabBar()
     },
-    /* 页面隐藏后回收定时器指针 */
-    onHide: function () {
-        if (this.data.timer) {
-            clearTimeout(this.data.timer)
-        }
-    },
+
     /* 手动点击触发下一页 */
     gotoNextPage: function () {
         if (this.data.hasMoreDataFlag) {
@@ -164,17 +152,14 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-
     },
     onHide: function () {
-        if (this.data.doOnHideFlag) { //执行onhide前先判断一下这个标志，允许不允许执行清空
-            this.data.ratingsContent = ''
-            this.setData({
-                showRatingsFlag: false,
-                starActiveNum: 0,
-                tempFilePaths: [],
-            })
-        }
+    },
+    //点击这个订单的tab标签，即触发这个钩子
+    onTabItemTap(item) {
+        this.setData({
+            showRatingsFlag: false,
+        })
     },
     changeItemStatusActiveFlag: function (e) {
 
@@ -277,16 +262,13 @@ Page({
             url: '/order/getOrderList?userCode=' + wx.getStorageSync('userCode') + '&page=' + page + '&limit=' + limit + '&type=' + _this.data.itemStatusActiveFlag
         }
         requestModel.request(param, (res) => {
-
             let tmp_orderList = res.list
             if (tmp_orderList) {
                 tmp_orderList.forEach(element => {
                     element.mealTypeDes = _this.data.mealTypeMap[element.mealType] //类型
                     element.orderStatusDes = _this.getOrderStatus(element) //订单状态  
-
                     //取餐时间
                     if (element.pickStatus == 1) { //待取餐
-
                         // 取餐时间
                         let start = new Date(element.orderFoodList[0].takeMealStartTime)
                         let end = new Date(element.orderFoodList[0].takeMealEndTime)
@@ -299,11 +281,8 @@ Page({
 
                     } else {
                         let a = element.mealDate.split('-')
-
                         element.takeMealTimeDes = a[1] + '月' + a[2] + '日'
                     }
-
-
                 })
                 //下面开始分页
                 if (page * limit >= res.amount) {
@@ -322,9 +301,6 @@ Page({
 
                 })
             }
-
-
-            console.log('orderList', _this.data.orderList)
 
         })
     },
@@ -577,26 +553,25 @@ Page({
     /* 去评价 */
     handleEvaluateOrder: function (e) {
         let _this = this
-        this.data.ratingsContent = ''
         this.data.orderCode = e.currentTarget.dataset.ordercode
-
         let orderFoodList = e.currentTarget.dataset.orderfoodlist
         let orderFoodListLength = orderFoodList.length
 
         /* 先初始化一下tempFilePaths和content数组的内部子数组的个数 */
         let tmp_emptyArr = []
+        let tmp_emptyArrString = []
         for (let i = 0; i < orderFoodListLength; i++) {
             tmp_emptyArr.push([])
+            tmp_emptyArrString.push('')
         }
         _this.setData({
             tempFilePaths: tmp_emptyArr,
-            content: tmp_emptyArr,
+            content: tmp_emptyArrString,
             imagesArr: tmp_emptyArr,
             labels: tmp_emptyArr,
             evaluateLabelsActive: tmp_emptyArr
         })
 
-        console.log('444455555', _this.data.tempFilePaths)
         wx.setNavigationBarColor({
             frontColor: '#ffffff',
             backgroundColor: '#969696',
@@ -612,11 +587,8 @@ Page({
         }
         orderModel.evaluateTag(param, (res) => {
             console.log('收到请求(评价星级列表):', res)
-
             if (res.code === 200) {
                 _this.evaluateLabels = res.data
-
-
                 for (let i = 0; i < orderFoodListLength; i++) { //当前默认五星,以及五星对应的标签
                     orderFoodList[i].star = 5
                     // 大坑 这里必须用深拷贝！ 错误写法：orderFoodList[i].evaluateLabelsActive = _this.evaluateLabels[4].tagList
@@ -628,7 +600,6 @@ Page({
                     evaluateLabels: res.data,
                     evaluateLabelsActive: res.data[4].tagList //当前默认五星
                 })
-                console.log('4444444', _this.data.orderFoodList)
             } else {
                 wx.showToast({
                     title: res.msg,
@@ -639,12 +610,8 @@ Page({
         })
         _this.setData({
             showRatingsFlag: true,
-            starActiveNum: 0, //这三个都要清空
-
             orderCode: e.currentTarget.dataset.ordercode,
             orderFoodList: orderFoodList,
-
-
         })
 
     },
@@ -659,7 +626,9 @@ Page({
             foodEvaluateList: []
         }
         let length = _this.data.orderFoodList.length
+        console.log('555555',_this.data.orderFoodList)
         for (let i = 0; i < length; i++) {
+            _this.data.labels[i]=[]
             _this.data.orderFoodList[i].evaluateLabelsActive.forEach(element => {
                 if (element.active) {
                     _this.data.labels[i].push(element.tagCode)
@@ -674,82 +643,37 @@ Page({
             tmpData.foodEvaluateList.push(a)
             a = {}
         }
-
-
-        console.log('xxxxxx', tmpData)
-        /*     if (!_this.data.starActiveNum) {
-                wx.showToast({
-                    title: '请选择星级',
-                    image: '../../images/msg/warning.png',
-                    duration: 2000
-                })
-            } else if (_this.data.tempFilePaths != [] && _this.data.ratingsContent == '') {
-                console.log(_this.data.tempFilePaths, _this.data.ratingsContent, _this.data.tempFilePaths && !_this.data.ratingsContent)
-                wx.showToast({
-                    title: '请填写评价',
-                    image: '../../images/msg/warning.png',
-                    duration: 2000
-                })
-            } else {
-                let param = {
-                    order: {
-                        orderCode: _this.data.orderCode,
-                        star: 0,
-                        images: [],
-                        wechatFormId: ''
-                    },
-                    foods: [{
-                        foodCode: _this.data.foodCode,
-                        star: _this.data.starActiveNum,
-                        content: _this.data.ratingsContent,
-                        wechatFormId: e.detail.formId,
-                        images: _this.data.imagesArr
-                    }]
-                }
-                console.log('评价请求的参数：', param)
-                wx.showLoading({ //【防止狂点2】
-                    title: '加载中',
-                    mask: true
-                })
-                orderModel.evaluateOrder(param, (res) => {
-                    console.log('收到请求(评价):', res)
-                    if (res.code === 0) {
-                        wx.hideLoading()
-                        wx.reLaunch({
-                            url: '/pages/order/order',
-                            success: function (res) {
-                                wx.showToast({
-                                    title: '成功评价,已送您' + res.data + '积分',
-                                    image: '../../images/msg/success.png',
-                                    duration: 2000
-                                })
-                            }
-                        })
-                    } else {
-                        wx.hideLoading()
+        console.log('评价请求的参数：', tmpData)
+        wx.showLoading({ //【防止狂点2】
+            title: '加载中',
+            mask: true
+        })
+        orderModel.evaluateOrder(tmpData, (res) => {
+            console.log('收到请求(评价):', res)
+            if (res.code === 200) {
+                wx.hideLoading()
+                wx.reLaunch({
+                    url: '/pages/order/order',
+                    success: function (res) {
                         wx.showToast({
-                            title: res.msg,
-                            image: '../../images/msg/error.png',
+                            //title: '成功评价,已送您' + res.data + '积分',
+                            title: '成功评价',
+                            image: '../../images/msg/success.png',
                             duration: 2000
                         })
                     }
                 })
-            } */
-    },
-    /* 去评价的对话框的取消 */
-    buttonClickNo_ratings: function () {
-        let _this = this;
-        _this.setData({
-            showRatingsFlag: !_this.data.showRatingsFlag
+            } else {
+                wx.hideLoading()
+                wx.showToast({
+                    title: res.msg,
+                    image: '../../images/msg/error.png',
+                    duration: 2000
+                })
+            }
         })
     },
 
-    ratingsInput: function (e) {
-        /*     this.setData({
-              ratingsContent: e.detail.value
-            }) */
-        this.data.ratingsContent = e.detail.value
-    },
     /* 点击星星 */
     handleClickStar: function (e) {
         let _this = this
@@ -770,41 +694,60 @@ Page({
 
     },
     contentInput: function (e) {
-        console.log(e.currentTarget.dataset.foodindex)
         this.data.content[e.currentTarget.dataset.foodindex] = e.detail.value
         this.setData({
             content: this.data.content,
         })
-        console.log(this.data.content)
     },
     /* 点击标签 */
     handleClickLabel: function (e) {
         let _this = this
-
-
         let tmp_orderFoodList = _this.data.orderFoodList
-        console.log('xingji--qian', tmp_orderFoodList)
         let tmp_activeStatus = tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active
-        /*        tmp_orderFoodList[2].evaluateLabelsActive[9].active = true
-                console.log('bian',tmp_orderFoodList[2].evaluateLabelsActive[9].active,tmp_orderFoodList[1].evaluateLabelsActive[9].active)
-               console.log('555',tmp_activeStatus,tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active)
-         */
-        tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active = !tmp_activeStatus
-        console.log('xingji--hoiu', tmp_orderFoodList)
-        this.setData({
-            orderFoodList: tmp_orderFoodList,
-        })
-        console.log('ffffff', _this.data.orderFoodList)
-        console.log('jjjjjj', e.currentTarget.dataset.foodindex, e.currentTarget.dataset.labelindex)
-        console.log('gggggg', _this.data.orderFoodList)
+        let labelLength = tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive.length
+        const maxNumber = 3
+        if (tmp_activeStatus === true) {  //原来是true的话，正常修改为false
+            tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active = !tmp_activeStatus
+            _this.setData({
+                orderFoodList: tmp_orderFoodList,
+            })
+        } else {  //原来是false的话，需要考虑做多n个标签的情况
+            if (labelLength > maxNumber) {  //只有当前的label列表数量大于n个时候才做判断
+                let selectedLength = 0
+                tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive.forEach(element => {
+                    if (element.active === true) {
+                        selectedLength++
+                    }
+                })
+                if (selectedLength >= maxNumber) {
+                    wx.showToast({
+                        title: '做多选' + maxNumber + '个',
+                        image: '/images/msg/warning.png',
+                        duration: 1500
+                    })
+                } else {
+                    tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active = !tmp_activeStatus
+                    _this.setData({
+                        orderFoodList: tmp_orderFoodList,
+                    })
+                }
+            } else {
+                tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active = !tmp_activeStatus
+                _this.setData({
+                    orderFoodList: tmp_orderFoodList,
+                })
+            }
+        }
+        console.log('333333',_this.data.orderFoodList)
     },
     /* 点击预览图片 */
     handlePreviewImage: function (e) {
         let _this = this
+        let foodIndex = e.currentTarget.dataset.foodindex;
         let index = e.currentTarget.dataset.index; //预览图片的编号
         wx.previewImage({
-            current: _this.data.tempFilePaths[index], //预览图片链接
-            urls: _this.data.tempFilePaths, //图片预览list列表
+            current: _this.data.tempFilePaths[foodIndex][index], //预览图片链接
+            urls: _this.data.tempFilePaths[foodIndex], //图片预览list列表
             success: function (res) {
                 console.log(res);
             },
@@ -816,10 +759,6 @@ Page({
     /* 点击上传图片 */
     handleClickAddImg: function (e) {
         let _this = this
-        _this.data.doOnHideFlag = false
-        /*     _this.setData({ //置为false，onhide里面的代码不允许执行
-              doOnHideFlag: false
-            }) */
         wx.chooseImage({
             count: 1, //最多可以选择的图片数，默认为9
             sizeType: ['orignal', 'compressed'], //original 原图，compressed 压缩图，默认二者都有
@@ -831,7 +770,6 @@ Page({
                     mask: true,
                     duration: 1000
                 })
-
                 wx.uploadFile({
                     url: baseUrl + '/file/uploadFile', //开发者服务器 url
                     filePath: res_0.tempFilePaths[0], //要上传文件资源的路径
@@ -844,26 +782,12 @@ Page({
                     success: function (res) {
                         let tmp_data = JSON.parse(res.data)
                         if (tmp_data.code == 200) {
-
-                            console.log('ttttt', tmp_data)
-
                             let tmp_tempFilePaths = _this.data.tempFilePaths
-                            console.log('aaaaa', _this.data.tempFilePaths, e.currentTarget.dataset.foodindex)
                             tmp_tempFilePaths[e.currentTarget.dataset.foodindex].push(res_0.tempFilePaths[0])
                             _this.setData({
                                 tempFilePaths: tmp_tempFilePaths //预览图片响应式
                             })
-                            console.log('667677777', _this.data.tempFilePaths)
-                            /* 
-                                                        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-                                                        let tmp_tempFilePaths = _this.data.tempFilePaths
-                                                        tmp_tempFilePaths.push(res_0.tempFilePaths[0])
-                                                        _this.setData({
-                                                            tempFilePaths: tmp_tempFilePaths //预览图片响应式
-                                                        })
-                                                         */
                             _this.data.imagesArr[e.currentTarget.dataset.foodindex].push(tmp_data.data)
-                            console.log('aaaaaaa', _this.data.imagesArr)
                         } else {
                             wx.showToast({
                                 title: tmp_data.msg,
@@ -873,14 +797,8 @@ Page({
                         }
                     }
                 })
-            },
-            fail: function () { }, //接口调用失败的回调函数
-            complete: function () {
-                _this.data.doOnHideFlag = false
-                /*         _this.setData({ //还原为true，onhide里面的代码允许执行
-                          doOnHideFlag: true
-                        }) */
-            } //接口调用结束的回调函数（调用成功:'失败都会执行）
+            }
+
         })
     },
     //用于解决小程序的遮罩层滚动穿透
