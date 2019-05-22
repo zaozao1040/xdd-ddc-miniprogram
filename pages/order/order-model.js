@@ -42,9 +42,9 @@ class order extends base {
             this.request(allParams)
         }
         /* 评价 */
-    evaluateOrder(param, callback) {
+        evaluateOrder(param, callback) {
             let allParams = {
-                url: baseUrl + '/order/evaluate',
+                url: baseUrl + '/orderEvaluate/orderEvaluate',
                 type: 'post',
                 data: param,
                 sCallback: function(data) {
@@ -54,6 +54,19 @@ class order extends base {
             }
             this.request(allParams)
         }
+                /* 获取评价星级列表 */
+    evaluateTag(param, callback) {
+        let allParams = {
+            url: baseUrl + '/orderEvaluate/getEvaluateTagList',
+            type: 'get',
+            data: param,
+            sCallback: function(data) {
+                callback && callback(data);
+            },
+            eCallback: function() {}
+        }
+        this.request(allParams)
+    }
         /* 取餐 */
     takeOrder(param, callback) {
             let allParams = {

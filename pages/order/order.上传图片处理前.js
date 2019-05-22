@@ -28,12 +28,16 @@ Page({
         //评价
         showRatingsFlag: false,
         orderFoodList: null,
-        foodCode: '',
+        starNum: [0, 1, 2, 3, 4],
+        starActiveNum: 0,
+        ratingsContent: '',
+        currentUploadImgs: null,
         tempFilePaths: [],
         imagesArr: [], //评价上传图片时 存储参数
+        foodCode: '',
+
         evaluateLabels: [],
         evaluateLabelsActive: [],
-        labels: [],
         content: [], //绑定多道菜的每个文字评价内容
         //
         windowHeight: 0,
@@ -62,6 +66,7 @@ Page({
             NIGHT: '夜宵'
         },
         orderCode: '',
+        doOnHideFlag: true, //是否执行生命周期函数onhide 默认当然是执行，只有在点击上传图片时，修改这个值为false不允许
         //订单状态
         status: { 0: '未下单', 1: '下单成功', 2: '已生效', 3: '已完成', 4: '已取消' },
         //付款
@@ -88,14 +93,14 @@ Page({
 
     },
     /* 跳转订单详情 */
-    handleGotoOrderDetail: function(e) {
+    handleGotoOrderDetail: function (e) {
         wx.navigateTo({
             url: '/pages/order/detail?orderCode=' + e.currentTarget.dataset.ordercode,
         })
     },
-    getOrderDataByResponse: function() {
+    getOrderDataByResponse: function () {
         let _this = this
-            //获取后台数据
+        //获取后台数据
         let param = {
             userId: _this.data.userId
         }
@@ -111,7 +116,7 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function(options) {
+    onLoad: function (options) {
         if (options.content) {
             let content = options.content
             wx.showModal({
@@ -133,9 +138,14 @@ Page({
         this.getOrderList()
         wx.showTabBar()
     },
-
+    /* 页面隐藏后回收定时器指针 */
+    onHide: function () {
+        if (this.data.timer) {
+            clearTimeout(this.data.timer)
+        }
+    },
     /* 手动点击触发下一页 */
-    gotoNextPage: function() {
+    gotoNextPage: function () {
         if (this.data.hasMoreDataFlag) {
             this.getOrderList()
             wx.showLoading({
@@ -151,15 +161,20 @@ Page({
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function() {},
-    onHide: function() {},
-    //点击这个订单的tab标签，即触发这个钩子
-    onTabItemTap(item) {
-        this.setData({
-            showRatingsFlag: false,
-        })
+    onShow: function () {
+
     },
-    changeItemStatusActiveFlag: function(e) {
+    onHide: function () {
+        if (this.data.doOnHideFlag) { //执行onhide前先判断一下这个标志，允许不允许执行清空
+            this.data.ratingsContent = ''
+            this.setData({
+                showRatingsFlag: false,
+                starActiveNum: 0,
+                tempFilePaths: [],
+            })
+        }
+    },
+    changeItemStatusActiveFlag: function (e) {
 
 
         if (e.currentTarget.dataset.flag == 'jinridaiqu') {
@@ -183,10 +198,10 @@ Page({
         })
         this.getOrderList()
     },
-    initOrder: function() {
+    initOrder: function () {
         let _this = this
         wx.getSystemInfo({
-            success: function(res) {
+            success: function (res) {
                 _this.setData({
                     windowHeight: res.windowHeight
                 })
@@ -195,7 +210,7 @@ Page({
         const query = wx.createSelectorQuery()
         query.select('.c_scrollPosition_forCalculate').boundingClientRect()
         query.selectViewport().scrollOffset()
-        query.exec(function(res) {
+        query.exec(function (res) {
             _this.setData({
                 scrollTop: res[0].top // #the-id节点的上边界坐标
             })
@@ -251,7 +266,7 @@ Page({
 
 
     /* 获取订单列表 */
-    getOrderList: function() {
+    getOrderList: function () {
         let _this = this
 
         let page = _this.data.page
@@ -260,34 +275,35 @@ Page({
             url: '/order/getOrderList?userCode=' + wx.getStorageSync('userCode') + '&page=' + page + '&limit=' + limit + '&type=' + _this.data.itemStatusActiveFlag
         }
         requestModel.request(param, (res) => {
+
             let tmp_orderList = res.list
             if (tmp_orderList) {
                 tmp_orderList.forEach(element => {
-                        element.mealTypeDes = _this.data.mealTypeMap[element.mealType] //类型
-                        element.orderStatusDes = _this.getOrderStatus(element) //订单状态  
+                    element.mealTypeDes = _this.data.mealTypeMap[element.mealType] //类型
+                    element.orderStatusDes = _this.getOrderStatus(element) //订单状态  
 
-                        //取餐时间
-                        if (element.pickStatus == 1 && element.status == 2 && element.orderFoodList && element.orderFoodList[0].takeMealStartTime) { //待取餐
+                    //取餐时间
+                    if (element.pickStatus == 1) { //待取餐
 
-                            // 取餐时间
-                            let start = new Date(element.orderFoodList[0].takeMealStartTime)
-                            let end = new Date(element.orderFoodList[0].takeMealEndTime)
+                        // 取餐时间
+                        let start = new Date(element.orderFoodList[0].takeMealStartTime)
+                        let end = new Date(element.orderFoodList[0].takeMealEndTime)
 
-                            //取餐时间顶多是到明天吗？不管了，就是明天
-                            let s = '今天' + start.getHours() + '点' + (start.getMinutes() > 0 ? (start.getMinutes() + '分') : '')
-                            let endHours = end.getHours() == 0 ? 24 : end.getHours()
-                            let e = endHours < start.getHours() ? ('明天' + endHours + '点') : (endHours + '点') + (end.getMinutes() > 0 ? (end.getMinutes() + '分') : '')
-                            element.takeMealTimeDes = s + '到' + e
+                        //取餐时间顶多是到明天吗？不管了，就是明天
+                        let s = '今天' + start.getHours() + '点' + (start.getMinutes() > 0 ? (start.getMinutes() + '分') : '')
+                        let endHours = end.getHours() == 0 ? 24 : end.getHours()
+                        let e = endHours < start.getHours() ? ('明天' + endHours + '点') : (endHours + '点') + (end.getMinutes() > 0 ? (end.getMinutes() + '分') : '')
+                        element.takeMealTimeDes = s + '到' + e
 
-                        } else {
-                            let a = element.mealDate.split('-')
+                    } else {
+                        let a = element.mealDate.split('-')
 
-                            element.takeMealTimeDes = a[1] + '月' + a[2] + '日'
-                        }
+                        element.takeMealTimeDes = a[1] + '月' + a[2] + '日'
+                    }
 
 
-                    })
-                    //下面开始分页
+                })
+                //下面开始分页
                 if (page * limit >= res.amount) {
                     _this.setData({
                         hasMoreDataFlag: false
@@ -304,6 +320,9 @@ Page({
 
                 })
             }
+
+
+            console.log('orderList', _this.data.orderList)
 
         })
     },
@@ -361,7 +380,7 @@ Page({
         })
     },
     /* 去付款的对话框的确定 */
-    buttonClickYes: function() {
+    buttonClickYes: function () {
 
         if (this.data.payType == 'WECHAT_PAY') {
             this.payNowByWx()
@@ -374,19 +393,19 @@ Page({
         })
     },
     /* 去付款的对话框的取消 */
-    buttonClickNo: function() {
+    buttonClickNo: function () {
 
         this.setData({
             showPayTypeFlag: false
         })
     },
     /* 去付款 */
-    handleSecondpayOrder: function(e) {
+    handleSecondpayOrder: function (e) {
         let _this = this;
 
         let payPrice = e.currentTarget.dataset.payprice
         let orderCode = e.currentTarget.dataset.ordercode
-            // 判断余额够不够
+        // 判断余额够不够
         let param = {
             url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
         }
@@ -402,7 +421,7 @@ Page({
         })
     },
     /* 去付款-微信支付 */
-    payNowByWx: function() {
+    payNowByWx: function () {
         let _this = this
         if (!_this.data.canClick) {
             return
@@ -411,7 +430,7 @@ Page({
         if (_this.data.timer) {
             clearTimeout(_this.data.timer)
         }
-        _this.data.timer = setTimeout(function() {
+        _this.data.timer = setTimeout(function () {
             _this.data.canClick = true
         }, 2000)
 
@@ -429,7 +448,7 @@ Page({
         }
         requestModel.request(params, resdata => {
             let data = resdata.payData
-                // 如果需要支付。选择微信支付哪还有不要支付的5/18
+            // 如果需要支付。选择微信支付哪还有不要支付的5/18
             if (resdata.needPay) {
                 if (data.timeStamp) {
                     wx.requestPayment({
@@ -438,7 +457,7 @@ Page({
                         'package': data.packageValue,
                         'signType': data.signType,
                         'paySign': data.paySign,
-                        success: function(e) {
+                        success: function (e) {
 
                             wx.showToast({
                                 title: '成功支付订单',
@@ -453,14 +472,14 @@ Page({
                             })
                             _this.getOrderList()
                         },
-                        fail: function(e) {
+                        fail: function (e) {
                             wx.showToast({
                                 title: '已取消支付',
                                 image: '../../images/msg/success.png',
                                 duration: 4000
                             })
                         },
-                        complete: function() {
+                        complete: function () {
                             wx.hideLoading()
                         }
                     })
@@ -469,7 +488,7 @@ Page({
         })
     },
     /* 去付款-余额支付 */
-    payNowByBalance: function() {
+    payNowByBalance: function () {
         let _this = this
         if (!_this.data.canClick) {
             return
@@ -478,7 +497,7 @@ Page({
         if (_this.data.timer) {
             clearTimeout(_this.data.timer)
         }
-        _this.data.timer = setTimeout(function() {
+        _this.data.timer = setTimeout(function () {
             _this.data.canClick = true
         }, 2000)
 
@@ -495,11 +514,11 @@ Page({
         }
         requestModel.request(params, data => {
             wx.showToast({
-                    title: '成功支付订单',
-                    image: '../../images/msg/success.png',
-                    duration: 2000
-                })
-                //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
+                title: '成功支付订单',
+                image: '../../images/msg/success.png',
+                duration: 2000
+            })
+            //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
             _this.setData({
                 page: 1,
                 orderList: []
@@ -509,7 +528,7 @@ Page({
 
     },
     /* 去取餐 */
-    handleTakeOrder: function(e) {
+    handleTakeOrder: function (e) {
         //console.log(e)
         let _this = this
         if (!_this.data.canClick) {
@@ -517,9 +536,9 @@ Page({
         }
         _this.data.canClick = false
         let tmp_content = '请确定在柜子前'
-            // if (e.currentTarget.dataset.cabinet != null) {
-            //     tmp_content = '当前柜号为：' + e.currentTarget.dataset.cabinet + ',请确认本人在柜子旁边'
-            // }
+        // if (e.currentTarget.dataset.cabinet != null) {
+        //     tmp_content = '当前柜号为：' + e.currentTarget.dataset.cabinet + ',请确认本人在柜子旁边'
+        // }
         wx.showModal({
             title: '是否取餐?',
             content: tmp_content,
@@ -543,37 +562,14 @@ Page({
         if (_this.data.timer) {
             clearTimeout(_this.data.timer)
         }
-        _this.data.timer = setTimeout(function() {
+        _this.data.timer = setTimeout(function () {
             _this.data.canClick = true
         }, 2000)
     },
-    /* 关闭评价标签 */
-    handleClickClose: function() {
-        this.setData({
-            showRatingsFlag: !this.data.showRatingsFlag
-        })
-    },
     /* 去评价 */
-    handleEvaluateOrder: function(e) {
+    handleEvaluateOrder: function (e) {
         let _this = this
-        this.data.orderCode = e.currentTarget.dataset.ordercode
-        let orderFoodList = e.currentTarget.dataset.orderfoodlist
-        let orderFoodListLength = orderFoodList.length
-
-        /* 先初始化一下tempFilePaths和content数组的内部子数组的个数 */
-        let tmp_emptyArr = []
-        let tmp_emptyArrString = []
-        for (let i = 0; i < orderFoodListLength; i++) {
-            tmp_emptyArr.push([])
-            tmp_emptyArrString.push('')
-        }
-        _this.setData({
-            tempFilePaths: tmp_emptyArr,
-            content: tmp_emptyArrString,
-            imagesArr: tmp_emptyArr,
-            labels: tmp_emptyArr,
-            evaluateLabelsActive: tmp_emptyArr
-        })
+        this.data.ratingsContent = ''
 
         wx.setNavigationBarColor({
             frontColor: '#ffffff',
@@ -583,102 +579,134 @@ Page({
                 timingFunc: 'easeIn'
             }
         })
+        let orderFoodList = e.currentTarget.dataset.orderfoodlist
+        let orderFoodListLength = orderFoodList.length
 
         /* 请求星级标签列表 */
-        let param = {
-            userCode: wx.getStorageSync('userCode')
-        }
-        orderModel.evaluateTag(param, (res) => {
-            console.log('收到请求(评价星级列表):', res)
-            if (res.code === 200) {
-                _this.evaluateLabels = res.data
-                for (let i = 0; i < orderFoodListLength; i++) { //当前默认五星,以及五星对应的标签
-                    orderFoodList[i].star = 5
-                        // 大坑 这里必须用深拷贝！ 错误写法：orderFoodList[i].evaluateLabelsActive = _this.evaluateLabels[4].tagList
-                    orderFoodList[i].evaluateLabelsActive = JSON.parse(JSON.stringify(_this.evaluateLabels[4].tagList))
-                }
-
-                _this.setData({
-                    orderFoodList: orderFoodList,
-                    evaluateLabels: res.data,
-                    evaluateLabelsActive: res.data[4].tagList //当前默认五星
-                })
-            } else {
-                wx.showToast({
-                    title: res.msg,
-                    image: '../../images/msg/error.png',
-                    duration: 2000
-                })
+        if (_this.data.evaluateLabels.length == 0) {
+            let param = {
+                userCode: wx.getStorageSync('userCode')
             }
-        })
+            orderModel.evaluateTag(param, (res) => {
+                console.log('收到请求(评价星级列表):', res)
+
+                if (res.code === 200) {
+                    _this.evaluateLabels = res.data
+
+
+                    for (let i = 0; i < orderFoodListLength; i++) { //当前默认五星,以及五星对应的标签
+                        orderFoodList[i].star = 5
+                        orderFoodList[i].evaluateLabelsActive = _this.evaluateLabels[4].tagList
+                    }
+
+
+
+                    _this.setData({
+                        orderFoodList: orderFoodList,
+                        evaluateLabels: res.data,
+                        evaluateLabelsActive: res.data[4].tagList //当前默认五星
+                    })
+                    console.log('4444444', _this.data.orderFoodList)
+                } else {
+                    wx.showToast({
+                        title: res.msg,
+                        image: '../../images/msg/error.png',
+                        duration: 2000
+                    })
+                }
+            })
+        }
         _this.setData({
             showRatingsFlag: true,
+            starActiveNum: 0, //这三个都要清空
+
+            tempFilePaths: [],
             orderCode: e.currentTarget.dataset.ordercode,
             orderFoodList: orderFoodList,
+
+
         })
 
     },
 
     /* 去评价的对话框的确定 */
-    buttonClickYes_ratings: function(e) {
+    buttonClickYes_ratings: function (e) {
         let _this = this
-        let tmpData = {
-            userCode: wx.getStorageSync('userCode'),
-            orderCode: _this.data.orderCode,
-            wechatFormId: e.detail.formId,
-            foodEvaluateList: []
-        }
-        let length = _this.data.orderFoodList.length
-        console.log('555555', _this.data.orderFoodList)
-        for (let i = 0; i < length; i++) {
-            _this.data.labels[i] = []
-            _this.data.orderFoodList[i].evaluateLabelsActive.forEach(element => {
-                if (element.active) {
-                    _this.data.labels[i].push(element.tagCode)
+        if (!_this.data.starActiveNum) {
+            wx.showToast({
+                title: '请选择星级',
+                image: '../../images/msg/warning.png',
+                duration: 2000
+            })
+        } else if (_this.data.tempFilePaths != [] && _this.data.ratingsContent == '') {
+            console.log(_this.data.tempFilePaths, _this.data.ratingsContent, _this.data.tempFilePaths && !_this.data.ratingsContent)
+            wx.showToast({
+                title: '请填写评价',
+                image: '../../images/msg/warning.png',
+                duration: 2000
+            })
+        } else {
+            let param = {
+                order: {
+                    orderCode: _this.data.orderCode,
+                    star: 0,
+                    images: [],
+                    wechatFormId: ''
+                },
+                foods: [{
+                    foodCode: _this.data.foodCode,
+                    star: _this.data.starActiveNum,
+                    content: _this.data.ratingsContent,
+                    wechatFormId: e.detail.formId,
+                    images: _this.data.imagesArr
+                }]
+            }
+            console.log('评价请求的参数：', param)
+            wx.showLoading({ //【防止狂点2】
+                title: '加载中',
+                mask: true
+            })
+            orderModel.evaluateOrder(param, (res) => {
+                console.log('收到请求(评价):', res)
+                if (res.code === 0) {
+                    wx.hideLoading()
+                    wx.reLaunch({
+                        url: '/pages/order/order',
+                        success: function (res) {
+                            wx.showToast({
+                                title: '成功评价,已送您' + res.data + '积分',
+                                image: '../../images/msg/success.png',
+                                duration: 2000
+                            })
+                        }
+                    })
+                } else {
+                    wx.hideLoading()
+                    wx.showToast({
+                        title: res.msg,
+                        image: '../../images/msg/error.png',
+                        duration: 2000
+                    })
                 }
             })
-            let a = {}
-            a.foodCode = _this.data.orderFoodList[i].foodCode
-            a.star = _this.data.orderFoodList[i].star
-            a.content = _this.data.content[i]
-            a.images = _this.data.imagesArr[i]
-            a.tagCodeList = _this.data.labels[i]
-            tmpData.foodEvaluateList.push(a)
-            a = {}
         }
-        console.log('评价请求的参数：', tmpData)
-        wx.showLoading({ //【防止狂点2】
-            title: '加载中',
-            mask: true
-        })
-        orderModel.evaluateOrder(tmpData, (res) => {
-            console.log('收到请求(评价):', res)
-            if (res.code === 200) {
-                wx.hideLoading()
-                wx.reLaunch({
-                    url: '/pages/order/order',
-                    success: function(res) {
-                        wx.showToast({
-                            //title: '成功评价,已送您' + res.data + '积分',
-                            title: '成功评价',
-                            image: '../../images/msg/success.png',
-                            duration: 2000
-                        })
-                    }
-                })
-            } else {
-                wx.hideLoading()
-                wx.showToast({
-                    title: res.msg,
-                    image: '../../images/msg/error.png',
-                    duration: 2000
-                })
-            }
+    },
+    /* 去评价的对话框的取消 */
+    buttonClickNo_ratings: function () {
+        let _this = this;
+        _this.setData({
+            showRatingsFlag: !_this.data.showRatingsFlag
         })
     },
 
+    ratingsInput: function (e) {
+        /*     this.setData({
+              ratingsContent: e.detail.value
+            }) */
+        this.data.ratingsContent = e.detail.value
+    },
     /* 点击星星 */
-    handleClickStar: function(e) {
+    handleClickStar: function (e) {
         let _this = this
         let starWillBeNum = 0
         if (e.currentTarget.dataset.starflag === 'yes') { //黄星
@@ -694,79 +722,53 @@ Page({
         this.setData({
             orderFoodList: tmp_orderFoodList,
         })
-
     },
-    contentInput: function(e) {
+    contentInput: function (e) {
+        console.log(e.currentTarget.dataset.foodindex)
         this.data.content[e.currentTarget.dataset.foodindex] = e.detail.value
         this.setData({
             content: this.data.content,
         })
+        console.log(this.data.content)
     },
     /* 点击标签 */
-    handleClickLabel: function(e) {
+    handleClickLabel: function (e) {
         let _this = this
         let tmp_orderFoodList = _this.data.orderFoodList
         let tmp_activeStatus = tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active
-        let labelLength = tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive.length
-        const maxNumber = 3
-        if (tmp_activeStatus === true) { //原来是true的话，正常修改为false
-            tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active = !tmp_activeStatus
-            _this.setData({
-                orderFoodList: tmp_orderFoodList,
-            })
-        } else { //原来是false的话，需要考虑做多n个标签的情况
-            if (labelLength > maxNumber) { //只有当前的label列表数量大于n个时候才做判断
-                let selectedLength = 0
-                tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive.forEach(element => {
-                    if (element.active === true) {
-                        selectedLength++
-                    }
-                })
-                if (selectedLength >= maxNumber) {
-                    wx.showToast({
-                        title: '做多选' + maxNumber + '个',
-                        image: '/images/msg/warning.png',
-                        duration: 1500
-                    })
-                } else {
-                    tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active = !tmp_activeStatus
-                    _this.setData({
-                        orderFoodList: tmp_orderFoodList,
-                    })
-                }
-            } else {
-                tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active = !tmp_activeStatus
-                _this.setData({
-                    orderFoodList: tmp_orderFoodList,
-                })
-            }
-        }
-        console.log('333333', _this.data.orderFoodList)
+        tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active = !tmp_activeStatus
+        this.setData({
+            orderFoodList: tmp_orderFoodList,
+        })
+
     },
     /* 点击预览图片 */
-    handlePreviewImage: function(e) {
+    handlePreviewImage: function (e) {
         let _this = this
-        let foodIndex = e.currentTarget.dataset.foodindex;
         let index = e.currentTarget.dataset.index; //预览图片的编号
         wx.previewImage({
-            current: _this.data.tempFilePaths[foodIndex][index], //预览图片链接
-            urls: _this.data.tempFilePaths[foodIndex], //图片预览list列表
-            success: function(res) {
+            current: _this.data.tempFilePaths[index], //预览图片链接
+            urls: _this.data.tempFilePaths, //图片预览list列表
+            success: function (res) {
                 console.log(res);
             },
-            fail: function() {
+            fail: function () {
                 console.log('fail')
             }
         })
     },
     /* 点击上传图片 */
-    handleClickAddImg: function(e) {
+    handleClickAddImg: function () {
         let _this = this
+        _this.data.doOnHideFlag = false
+        /*     _this.setData({ //置为false，onhide里面的代码不允许执行
+              doOnHideFlag: false
+            }) */
         wx.chooseImage({
             count: 1, //最多可以选择的图片数，默认为9
             sizeType: ['orignal', 'compressed'], //original 原图，compressed 压缩图，默认二者都有
             sourceType: ['album', 'camera'], //album 从相册选图，camera 使用相机，默认二者都有
-            success: function(res_0) {
+            success: function (res_0) {
                 wx.showToast({
                     title: '正在上传...',
                     icon: 'loading',
@@ -782,15 +784,16 @@ Page({
                         userCode: wx.getStorageSync('userCode'),
                         type: 'EVALUATE'
                     },
-                    success: function(res) {
+                    success: function (res) {
                         let tmp_data = JSON.parse(res.data)
-                        if (tmp_data.code == 200) {
+                        if (tmp_data.code == 0) {
+                            // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
                             let tmp_tempFilePaths = _this.data.tempFilePaths
-                            tmp_tempFilePaths[e.currentTarget.dataset.foodindex].push(res_0.tempFilePaths[0])
+                            tmp_tempFilePaths.push(res_0.tempFilePaths[0])
                             _this.setData({
                                 tempFilePaths: tmp_tempFilePaths //预览图片响应式
                             })
-                            _this.data.imagesArr[e.currentTarget.dataset.foodindex].push(tmp_data.data)
+                            _this.data.imagesArr.push(tmp_data.data)
                         } else {
                             wx.showToast({
                                 title: tmp_data.msg,
@@ -800,12 +803,18 @@ Page({
                         }
                     }
                 })
-            }
-
+            },
+            fail: function () { }, //接口调用失败的回调函数
+            complete: function () {
+                _this.data.doOnHideFlag = false
+                /*         _this.setData({ //还原为true，onhide里面的代码允许执行
+                          doOnHideFlag: true
+                        }) */
+            } //接口调用结束的回调函数（调用成功:'失败都会执行）
         })
     },
     //用于解决小程序的遮罩层滚动穿透
-    preventTouchMove: function() {
+    preventTouchMove: function () {
 
     }
 

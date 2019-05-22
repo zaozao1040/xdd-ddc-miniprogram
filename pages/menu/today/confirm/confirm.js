@@ -114,14 +114,12 @@ Page({
                                 selectedFoods[i][meal].current = total * 100 + left
                                 newIntegralDeduction += total
                                 total = 0
-
                             } else {
                                 //剩余积分多，还剩下积分
                                 let a = parseInt(selectedFoods[i][meal].payMoney)
                                 selectedFoods[i][meal].integral = a
                                 selectedFoods[i][meal].current = total * 100 + left
                                 total = total - a
-
                                 newIntegralDeduction += a
                             }
                         } else {
