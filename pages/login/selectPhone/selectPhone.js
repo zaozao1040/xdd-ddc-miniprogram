@@ -7,6 +7,7 @@ Page({
      */
     data: {
         showChooseOrganizeFlag: false, //显示开关
+        loginType: 'wxAuthorization'
     },
 
     /**
@@ -102,7 +103,7 @@ Page({
                                 })
                                 wx.showToast({
                                     title: '登录成功',
-                                    image: '../../../images/msg/success.png',
+                                    image: ' /images/msg/success.png',
                                     duration: 2000
                                 })
                             }
@@ -112,5 +113,56 @@ Page({
                 }
             })
         }
-    }
+    },
+    // 修改验证方式
+    changeValidateType() {
+        let tmp_type = this.data.loginType
+        if (tmp_type === 'wxAuthorization') {
+            this.setData({
+                loginType: 'namePwd'
+            })
+        } else {
+            this.setData({
+                loginType: 'wxAuthorization'
+            })
+        }
+    },
+    // 用户名
+    bindNameInput(e) {
+        this.setData({
+            name: e.detail.value
+        })
+    },
+    //密码
+    bindPwdInput(e) {
+        this.setData({
+            password: e.detail.value
+        })
+    },
+    // 用户名密码登录
+    loginWithNamePwd() {
+        let param = {}
+        param.account = this.data.name
+        param.password = this.data.password
+        let params = {
+            url: '/login/accountLogin',
+            method: 'post',
+            data: param
+        }
+        requestModel.request(params, (data) => {
+
+            //刷新userInfo 
+            wx.setStorageSync('userCode', data.userCode)
+
+            wx.switchTab({
+                url: '/pages/home/home',
+            })
+            wx.showToast({
+                title: '登录成功',
+                image: '/images/msg/success.png',
+                duration: 2000
+            })
+
+        })
+    },
 })

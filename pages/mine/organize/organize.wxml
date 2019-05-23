@@ -12,7 +12,7 @@
         </view>
         <image wx:if='{{organizeSelected}}' src="/images/mine/selected.png" style='width:52rpx;height:52rpx;position: absolute;top:24rpx;right:22rpx;'></image>
         <image wx:else src="/images/mine/xiala.png" style='width:34rpx;height:34rpx;position: absolute;top:24rpx;right:22rpx;'></image>
-        <input bindinput="searchInput" value="{{organize}}" placeholder="搜索企业名..22." data-organizecode="{{organizeCode}}" class="section-3-2" type="string"></input>
+        <input bindinput="searchInput" value="{{organize}}" placeholder="搜索企业名..." data-organizecode="{{organizeCode}}" class="section-3-2" type="string"></input>
     </view>
     <view class="section-3" style="margin-top:20rpx;" wx:if="{{employeeNumber}}">
         <view class="section-3-1">
@@ -46,16 +46,16 @@
         <button loading="{{loading}}" class="button" catchtap="changeOrganize">绑定企业</button>
     </view>
 </view>
-<view class="organize-wrapper" wx:if='{{bindAlready }}'>
+<view class="organize-wrapper-s" wx:if='{{bindAlready }}'>
     <view style='margin:132rpx 0 20rpx;text-align: center;'>
         <image src="/images/mine/checkOk.jpg" style='width:216rpx;height:216rpx;'></image>
     </view>
     <view class='bind-title'>绑定成功</view>
-    <view class='bind-des'>管理员已审核通过您绑定的企业：</view>
+    <view class='bind-des' style="margin-bottom:0;">管理员已审核通过您绑定的企业：</view>
     <view class='bind-des'>苏州星点点科技有限公司</view>
     <view class='bind-back' bindtap='goback'>完成</view>
 </view>
-<view class="organize-wrapper" wx:if='{{bindUncheck}}'>
+<view class="organize-wrapper-s" wx:if='{{bindUncheck}}'>
     <view style='margin:132rpx 0 20rpx;text-align: center;'>
         <image src="/images/mine/checkNo.jpg" style='width:216rpx;height:216rpx;'></image>
     </view>
@@ -64,7 +64,7 @@
     <view class='bind-back' bindtap='goBindAgain'>重新绑定</view>
 </view>
 
-<view class="organize-wrapper" wx:if='{{bindChecking}}'>
+<view class="organize-wrapper-s" wx:if='{{bindChecking}}'>
     <view style='margin:132rpx 0 20rpx;text-align: center;'>
         <image src="/images/mine/checking.jpg" style='width:216rpx;height:216rpx;'></image>
     </view>

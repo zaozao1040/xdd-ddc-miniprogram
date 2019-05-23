@@ -66,10 +66,10 @@
      left: 0;
      right: 0;
      margin: auto;
-     height: 460rpx;
+     height: 380rpx;
      width: 80%;
      padding: 10rpx 20rpx 20rpx 20rpx;
-     background: #fff;
+     background: #F5F5F5;
      border-radius: 10rpx;
  }
  
@@ -82,6 +82,32 @@
  
  .modulebox-img {
      width: 100%;
+ }
+ 
+ .selectPayType_button {
+     border: 2rpx solid #CCCCCC;
+     border-radius: 50rpx;
+     width: 216rpx;
+     height: 68rpx;
+     line-height: 68rpx;
+     font-family: PingFangSC-Regular;
+     font-size: 30rpx;
+     color: #333333;
+     letter-spacing: 0;
+     text-align: center;
+ }
+ 
+ .selectPayType_button_check {
+     background: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
+     border-radius: 50rpx;
+     width: 220rpx;
+     height: 72rpx;
+     line-height: 72rpx;
+     font-family: PingFangSC-Regular;
+     font-size: 30rpx;
+     color: #FFFFFF;
+     letter-spacing: 0;
+     text-align: center;
  }
  
  .modulebox-des {
@@ -105,6 +131,7 @@
      font-weight: bold;
      font-size: 36rpx;
      display: flex;
+     justify-content: space-around;
  }
  
  .modulebox-button-quxiao {
@@ -120,13 +147,10 @@
  }
  
  .section-3 {
-     border: 1rpx solid #bbbbbb;
-     height: 80rpx;
      display: flex;
-     border-radius: 10rpx;
-     background-color: #FFF;
-     align-items: center;
-     margin-top: 10rpx;
+     border-radius: 6rpx;
+     height: 100rpx;
+     position: relative;
  }
  
  .section-3-cannotChange {
@@ -138,20 +162,23 @@
  }
  
  .section-3-1 {
-     width: 70rpx;
-     height: 100%;
-     border-right: 1rpx solid #e0e0e0;
+     padding: 22rpx 36rpx 24rpx;
+     border-top-left-radius: 6rpx;
+     border-bottom-left-radius: 6rpx;
+     background: #FAFAFA;
  }
  
  .section-3-2 {
-     flex: 1;
-     align-items: center;
-     padding: 0 50rpx 0 10rpx;
+     font-family: PingFangSC-Regular;
      font-size: 30rpx;
-     font-family: "微软雅黑", "华文细黑", Arial, Helvetica, sans-serif;
-     overflow: hidden;
-     text-overflow: ellipsis;
-     white-space: nowrap;
+     color: #333333;
+     letter-spacing: 0;
+     text-align: left;
+     flex: 1;
+     background: #fff;
+     height: 100rpx;
+     line-height: 100rpx;
+     padding-left: 20rpx;
  }
  /* 默认地址 */
  

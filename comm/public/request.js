@@ -60,7 +60,8 @@ class base {
         3006: "未获取到组织餐时设置",
         3007: "企业名称过短",
         3008: "企业名称过长",
-        3006: "配送地址不可用",
+        3009: "配送地址不可用",
+        3010: "企业当前餐时不可点餐，请联系管理员",
         4020: "报餐日期错误",
         4021: "当前时餐不可报餐",
         4022: "报餐数量错误",
@@ -98,6 +99,9 @@ class base {
         5001: "就餐日期为空",
         5002: "餐时错误",
         5003: "餐品编号为空",
+        6001: "文件错误",
+        6002: "文件过大",
+        6003: "文件上传失败",
         9001: "建议内容不可为空",
         9002: "建议内容长度过长",
         9003: "建议提交失败"
@@ -133,15 +137,36 @@ class base {
                                 url: '/pages/home/home',
                             })
                         }
-                        wx.showToast({
-                            title: this.a[code],
-                            image: '/images/msg/error.png',
-                            duration: 2000
-                        })
+                        let content = this.a[code]
+                        if (!content) {
+                            content = '请求失败'
+                        }
+
+                        if (content.length > 6) {
+                            wx.showModal({
+                                title: '提示',
+                                content: content,
+                                success(res) {
+                                    if (res.confirm) {
+                                        console.log('用户点击确定')
+                                    } else if (res.cancel) {
+                                        console.log('用户点击取消')
+                                    }
+                                }
+                            })
+                        } else {
+                            wx.showToast({
+                                title: content,
+                                image: '/images/msg/error.png',
+                                duration: 2000
+                            })
+                        }
                     }
+
                 },
                 fail: error => {
                     console.log(error)
+                    wx.hideLoading()
                 },
                 complete: () => {
 

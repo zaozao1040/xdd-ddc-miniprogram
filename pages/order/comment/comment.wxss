@@ -1,590 +1,141 @@
-/* pages/order/order.wxss */
-
-.wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #eee;
-}
-
-.in {
-    animation-name: show;
-    animation-duration: 0.3s;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
-}
-
-.out {
-    animation-name: fade;
-    animation-duration: 0.3s;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
-}
-
-@keyframes show {
-    from {
-        transform: translate(0, 100%);
-    }
-    to {
-        transform: translate(0, 0);
-    }
-}
-
-@keyframes fade {
-    from {
-        transform: translate(0, 0);
-    }
-    to {
-        transform: translate(0, 100%);
-    }
-}
-
-
-/********** 去付款弹出的选择支付方式对话框 **********/
-
-.selectPayType-wrapper {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    background: rgba(102, 102, 102, 0.5);
-}
-
-.selectPayType {
-    position: absolute;
-    height: 440rpx;
-    width: 560rpx;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    background: #fff;
-    border-radius: 16rpx;
-}
-
-.selectPayType_line1 {
-    font-family: PingFangSC-Medium;
-    font-size: 36rpx;
-    color: #333333;
-    text-align: center;
-    padding: 50rpx 0 44rpx;
-}
-
-.selectPayType_Des {
-    font-family: PingFangSC-Regular;
-    font-size: 30rpx;
-    color: #333;
-    text-align: left;
-    line-height: 44rpx;
-}
-
-.selectPayType_button {
-    border: 2rpx solid #CCCCCC;
-    border-radius: 50rpx;
-    width: 216rpx;
-    height: 68rpx;
-    line-height: 68rpx;
-    font-family: PingFangSC-Regular;
-    font-size: 30rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: center;
-}
-
-.selectPayType_button_check {
-    background: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
-    border-radius: 50rpx;
-    width: 220rpx;
-    height: 72rpx;
-    line-height: 72rpx;
-    font-family: PingFangSC-Regular;
-    font-size: 30rpx;
-    color: #FFFFFF;
-    letter-spacing: 0;
-    text-align: center;
-}
-
-
-/********** 去评价弹出的对话框 **********/
-
-.ratings-wrapper {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 500;
-    background: white;
-    top: 0;
-}
-
-.mask {
-    z-index: 100;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-}
-
-.close {
-    position: absolute;
-    top: 10rpx;
-    right: 10rpx;
-}
-
-.title {
-    border-top: 1rpx solid #F5F5F5;
-    line-height: 100rpx;
-    text-align: left;
-    font-family: PingFangSC-Medium;
-    font-size: 36rpx;
-    color: #333333;
-    padding-left: 60rpx;
-}
-
-.foodItem {
-    padding: 30rpx 60rpx;
-    border-bottom: #F5F5F5 solid 2rpx;
-}
-
-.foodItem:last-child {
-    border-bottom: none;
-}
-
-.foodName {
-    font-family: PingFangSC-Medium;
-    font-size: 30rpx;
-    color: #333333;
-    height: 42rpx;
-    margin-bottom: 12rpx;
-}
-
-.foodDes {
-    font-family: PingFangSC-Regular;
-    font-size: 24rpx;
-    color: #999999;
-}
-
-.foodPrice {
-    color: #FF7800;
-}
-
-.welcome {
-    font-family: PingFangSC-Regular;
-    font-size: 30rpx;
-    color: #666666;
-    height: 42rpx;
-    margin-top: 30rpx;
-    padding: 30rpx 0 20rpx 0;
-    text-align: center;
-    border-top: #F5F5F5 solid 2rpx;
-}
-
-.labelItem {
-    background: #fff;
-    border-radius: 30rpx;
-    height: 56rpx;
-    line-height: 56rpx;
-    width: 186rpx;
-    font-family: PingFangSC-Regular;
-    font-size: 26rpx;
-    color: #999999;
-    text-align: center;
-    border: 2rpx solid #EBEBEB;
-    margin-bottom: 20rpx;
-}
-
-.labelItem-active {
-    background-image: linear-gradient(270deg, #F79C4C 0%, #F79C4C 100%);
-    border-radius: 30rpx;
-    height: 60rpx;
-    line-height: 60rpx;
-    width: 190rpx;
-    font-family: PingFangSC-Regular;
-    font-size: 26rpx;
-    color: #FFFFFF;
-    text-align: center;
-    margin-bottom: 20rpx;
-}
-
-.content {
-    padding: 22rpx;
-    margin: 10rpx 0 20rpx;
-    height: 140rpx;
-    border: 2rpx solid #F5F5F5;
-    border-radius: 6rpx;
-    font-family: PingFangSC-Regular;
-    font-size: 30rpx;
-    color: #CCCCCC;
-}
-
-.yingjifen {
-    font-family: PingFangSC-Regular;
-    font-size: 26rpx;
-    color: #F79C4C;
-    margin-top: 120rpx;
-}
-
-
-/* 上传图片 */
-
-.img-wrapper {
-    display: flex;
-    margin-top: 20rpx;
-    width: 100%;
-}
-
-.image {
-    margin-right: 10rpx;
-    height: 160rpx;
-    width: 160rpx;
-    color: #999;
-    background: #F9F9F9;
-    border: 1px solid #CCCCCC;
-    border-radius: 3px;
-}
-
-.image-shangchuan {
-    margin-right: 10rpx;
-    height: 160rpx;
-    width: 160rpx;
-}
-
-
-/* 完结 */
-
-.ratings-wrapper-content {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-
-.foodList-wrapper {
-    padding: 10rpx;
-}
-
-.fooditem-wrapper {
-    margin: 10rpx;
-}
-
-.foodname {
-    text-align: center;
-}
-
-.foodstar {
-    text-align: center;
-    margin-top: 40rpx;
-    margin-bottom: 40rpx;
-    color: #999;
-}
-
-.icon-xingxing {
-    font-size: 50rpx;
-}
-
-.foodstar-active {
-    color: #e79b37;
-}
-
-.foodratingcontent-wrapper {
-    padding: 10rpx;
-    border: 1rpx solid#999;
-    border-radius: 10rpx;
-}
-
-.foodratingcontent {
-    height: 250rpx;
-    width: 100%;
-}
-
-
-/********** 标题 **********/
-
-.header-wrapper {
-    display: flex;
-    justify-content: space-between;
-    padding: 12rpx 80rpx 20rpx;
-    border-bottom: 1rpx solid #eee;
-}
-
-.header-item {
-    font-family: PingFang-SC-Regular;
-    font-size: 30rpx;
-    color: #999999;
-    letter-spacing: 0;
-    line-height: 42rpx;
-}
-
-.header-item-active {
-    font-family: PingFang-SC-Medium;
-    font-size: 30rpx;
-    color: #333333;
-    letter-spacing: 0;
-    line-height: 42rpx;
-}
-
-.header-item-border {
-    height: 14rpx;
-}
-
-.header-item-border-active {
-    height: 6rpx;
-    background: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
-    border-radius: 4rpx;
-    width: 60rpx;
-    margin: 8rpx auto 0;
-}
-
-
-/********** 内容 **********/
-
-.order-wrapper {
-    box-sizing: border-box;
-    padding: 20rpx;
-    overflow: hidden;
-}
-
-.order-item {
-    margin-bottom: 25rpx;
-    box-shadow: 0rpx 5rpx 8rpx #ccc;
-    /*   border-bottom: #aaa solid 1rpx; */
-}
-
-.order-item-header {
-    padding: 10rpx 10rpx;
-    background: #e79b37;
-    border-top-left-radius: 20rpx;
-    border-top-right-radius: 20rpx;
-}
-
-.order-item-header-old {
-    background: #999;
-}
-
-.order-item-content {
-    padding: 10rpx 20rpx 20rpx 20rpx;
-    background: #fff;
-}
-
-.order-item-content-old {
-    background: #ccc;
-}
-
-.order-item:last-child {
-    border-bottom: none;
-}
-
-.order-type {
-    font-size: 35rpx;
-    font-weight: 500;
-    color: #fff;
-    padding-left: 10rpx;
-}
-
-.order-cabinet {
-    font-size: 35rpx;
-    font-weight: 800;
-    color: #43964e;
-    background: #FFF;
-    border-radius: 10rpx;
-    padding: 2rpx 8rpx 2rpx 8rpx;
-}
-
-.order-cabinet-old {
-    color: #FFF;
-    font-weight: 500;
-    background: #ccc;
-}
-
-.order-status {
-    font-family: PingFang-SC-Regular;
-    font-size: 30rpx;
-    color: #666666;
-    letter-spacing: 0;
-    text-align: right;
-    line-height: 42rpx;
-    margin-top: 48rpx;
-}
-
-.order-status-image {
-    position: absolute;
-    right: 70rpx;
-    z-index: 99;
-}
-
-.order-time {
-    margin: auto 20rpx;
-    font-size: 30rpx;
-    font-weight: 500;
-    color: #fff;
-}
-
-.order-time-warnning {
-    color: lightyellow;
-}
-
-.cancel-wait {
-    border: 2rpx solid #CCCCCC;
-    border-radius: 40rpx;
-    font-family: PingFang-SC-Regular;
-    font-size: 30rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: center;
-    width: 236rpx;
-    height: 76rpx;
-    line-height: 76rpx;
-}
-
-.cancel-confirm {
-    background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
-    border-radius: 50rpx;
-    font-family: PingFang-SC-Medium;
-    font-size: 30rpx;
-    color: #FFFFFF;
-    letter-spacing: 0;
-    text-align: center;
-    text-align: center;
-    width: 240rpx;
-    height: 80rpx;
-    line-height: 80rpx;
-}
-
-.foods-wrapper {
-    margin: auto 20rpx;
-}
-
-.food-item {
-    margin: auto 20rpx;
-    font-size: 30rpx;
-    font-weight: 500;
-    color: #666;
-}
-
-.food-name {
-    font-family: PingFang-SC-Medium;
-    font-size: 30rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 42rpx;
-    margin-bottom: 12rpx;
-    display: flex;
-}
-
-.food-mealtype {
-    font-family: PingFang-SC-Regular;
-    font-size: 24rpx;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 34rpx;
-}
-
-.food-count {
-    margin: auto 50rpx;
-    font-size: 35rpx;
-    font-weight: 500;
-    color: #222;
-}
-
-.food-item-count {
-    text-align: right;
-    font-size: 30rpx;
-    font-weight: 500;
-    color: #222;
-}
-
-.food-money {
-    font-family: HelveticaNeue-Medium;
-    font-size: 32rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 40rpx;
-}
-
-.food-takeorder {
-    font-family: PingFang-SC-Regular;
-    font-size: 28rpx;
-    color: #666666;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 40rpx;
-}
-
-.food-des {
-    font-size: 30rpx;
-    font-weight: 500;
-    color: #222;
-}
-
-.see-detail {
-    border: 1rpx solid #CCCCCC;
-    border-radius: 30rpx;
-    font-family: PingFang-SC-Regular;
-    font-size: 26rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: center;
-    width: 154rpx;
-    height: 58rpx;
-    line-height: 58rpx;
-}
-
-.take-food {
-    background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
-    border-radius: 30rpx;
-    font-family: PingFang-SC-Medium;
-    font-size: 26rpx;
-    color: #FFFFFF;
-    letter-spacing: 0;
-    text-align: center;
-    width: 156rpx;
-    height: 60rpx;
-    line-height: 60rpx;
-    margin-left: 16rpx;
-}
-
-.order-cabinet-title {
-    font-family: PingFang-SC-Regular;
-    font-size: 24rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: right;
-    line-height: 34rpx;
-    margin-bottom: 6rpx;
-}
-
-.order-cabinet-num {
-    font-family: PingFang-SC-Medium;
-    font-size: 30rpx;
-    color: #F79C4C;
-    letter-spacing: 0;
-    text-align: left;
-}
-
-.button {
-    background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
-    border-radius: 50rpx;
-    font-family: PingFangSC-Regular;
-    font-size: 34rpx;
-    color: #FFFFFF;
-    text-align: center;
-    height: 96rpx;
-    line-height: 96rpx;
-    margin-top: 30rpx;
-    /* bottom: 12rpx; */
-    /* left: 0;
-    right: 0; */
-    width: 630rpx;
-    /* margin: auto; */
-}
+ .foodItem {
+     padding: 30rpx 60rpx;
+     border-bottom: #F5F5F5 solid 2rpx;
+ }
+ 
+ .foodItem:last-child {
+     border-bottom: none;
+ }
+ 
+ .foodName {
+     font-family: PingFangSC-Medium;
+     font-size: 30rpx;
+     color: #333333;
+     height: 42rpx;
+     margin-bottom: 12rpx;
+ }
+ 
+ .foodDes {
+     font-family: PingFangSC-Regular;
+     font-size: 24rpx;
+     color: #999999;
+ }
+ 
+ .foodPrice {
+     color: #FF7800;
+ }
+ 
+ .welcome {
+     font-family: PingFangSC-Regular;
+     font-size: 30rpx;
+     color: #666666;
+     height: 42rpx;
+     margin-top: 30rpx;
+     padding: 30rpx 0 20rpx 0;
+     text-align: center;
+     border-top: #F5F5F5 solid 2rpx;
+ }
+ 
+ .labelItem {
+     background: #fff;
+     border-radius: 30rpx;
+     height: 56rpx;
+     line-height: 56rpx;
+     width: 186rpx;
+     font-family: PingFangSC-Regular;
+     font-size: 26rpx;
+     color: #999999;
+     text-align: center;
+     border: 2rpx solid #EBEBEB;
+     margin-bottom: 20rpx;
+ }
+ 
+ .labelItem-active {
+     background-image: linear-gradient(270deg, #F79C4C 0%, #F79C4C 100%);
+     border-radius: 30rpx;
+     height: 60rpx;
+     line-height: 60rpx;
+     width: 190rpx;
+     font-family: PingFangSC-Regular;
+     font-size: 26rpx;
+     color: #FFFFFF;
+     text-align: center;
+     margin-bottom: 20rpx;
+ }
+ 
+ .content {
+     padding: 22rpx;
+     margin: 10rpx 0 20rpx;
+     height: 140rpx;
+     border: 2rpx solid #F5F5F5;
+     border-radius: 6rpx;
+     font-family: PingFangSC-Regular;
+     font-size: 30rpx;
+     color: #CCCCCC;
+ }
+ 
+ .yingjifen {
+     font-family: PingFangSC-Regular;
+     font-size: 26rpx;
+     color: #F79C4C;
+     margin-top: 120rpx;
+ }
+ /* 上传图片 */
+ 
+ .img-wrapper {
+     display: flex;
+     margin-top: 20rpx;
+     width: 100%;
+ }
+ 
+ .image {
+     margin-right: 10rpx;
+     height: 160rpx;
+     width: 160rpx;
+     color: #999;
+     background: #F9F9F9;
+     border: 1px solid #CCCCCC;
+     border-radius: 3px;
+ }
+ 
+ .image-shangchuan {
+     margin-right: 10rpx;
+     height: 160rpx;
+     width: 160rpx;
+ }
+ 
+ .foodList-wrapper {
+     padding: 10rpx;
+ }
+ 
+ .fooditem-wrapper {
+     margin: 10rpx;
+ }
+ 
+ .foodname {
+     text-align: center;
+ }
+ 
+ .foodstar {
+     text-align: center;
+     margin-top: 40rpx;
+     margin-bottom: 40rpx;
+     color: #999;
+ }
+ 
+ .button {
+     background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
+     border-radius: 50rpx;
+     font-family: PingFangSC-Regular;
+     font-size: 34rpx;
+     color: #FFFFFF;
+     text-align: center;
+     height: 96rpx;
+     line-height: 96rpx;
+     bottom: 12rpx;
+     left: 0;
+     right: 0;
+     width: 630rpx;
+     margin: auto;
+     position: fixed;
+ }

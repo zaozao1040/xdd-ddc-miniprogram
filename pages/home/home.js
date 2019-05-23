@@ -251,8 +251,7 @@ Page({
         //     source: 'url("https://www.your-server.com/PingFangSC-Medium.ttf")',
         //     success: function() { console.log('load font success') }
         // })
-        const a = '预想肉丝双拼饭'
-        console.log(a, a.length)
+
     },
 
     /**
@@ -314,8 +313,8 @@ Page({
                 if (window_noticeData.length > 0) {
                     _this.setData({
                             showedNoticeData: window_noticeData,
-                            // showOneNotice: true,
-                            showOneNotice: false,
+                            showOneNotice: true,
+
                         })
                         // let windowNoticeStorage = wx.getStorageSync("windowNoticeCodeList")
 
@@ -514,7 +513,7 @@ Page({
                 wx.setStorageSync('userInfo', tmp_userInfo)
                 wx.showToast({
                     title: '领取成功',
-                    image: '../../images/msg/success.png',
+                    image: '/images/msg/success.png',
                     duration: 2000
                 })
                 _this.setData({
@@ -523,7 +522,7 @@ Page({
             } else {
                 wx.showToast({
                     title: res.msg,
-                    image: '../../images/msg/error.png',
+                    image: '/images/msg/error.png',
                     duration: 2000
                 })
                 if (_this.data.timer) {

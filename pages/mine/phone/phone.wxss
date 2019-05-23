@@ -19,6 +19,7 @@
     text-align: left;
     height: 80rpx;
     line-height: 80rpx;
+    width: 620rpx;
 }
 
 .section-3 {
@@ -68,6 +69,20 @@
     font-family: PingFangSC-Regular;
     font-size: 24rpx;
     color: #F2994A;
+    letter-spacing: 0;
+    text-align: center;
+    border-radius: 28rpx;
+    width: 160rpx;
+    height: 56rpx;
+    line-height: 56rpx;
+}
+
+.rg-section-v7 {
+    background: #F5F5F5;
+    border-radius: 28rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 24rpx;
+    color: #999;
     letter-spacing: 0;
     text-align: center;
     border-radius: 28rpx;

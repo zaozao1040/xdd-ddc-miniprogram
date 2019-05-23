@@ -74,7 +74,7 @@ Page({
         if (!_this.data.addressCode) {
             wx.showToast({
                 title: "请先选择一个地址",
-                image: '../../../images/msg/error.png',
+                image: '/images/msg/error.png',
                 duration: 2000
             })
         } else {
@@ -108,7 +108,7 @@ Page({
 
                     wx.showToast({
                         title: '地址选择成功',
-                        image: '../../../images/msg/success.png',
+                        image: '/images/msg/success.png',
                         duration: 2000
                     })
                 }, 2000)

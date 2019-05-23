@@ -41,7 +41,7 @@ Page({
 
                 wx.showToast({
                     title: '发送成功',
-                    image: '../../../images/msg/success.png',
+                    image: '/images/msg/success.png',
                     duration: 2000
                 })
                 _this.setData({
@@ -61,7 +61,7 @@ Page({
         } else {
             wx.showToast({
                 title: "手机必须11位数字",
-                image: '../../../images/msg/error.png',
+                image: '/images/msg/error.png',
                 duration: 2000
             })
         }
@@ -72,7 +72,7 @@ Page({
             if (_this.data.code == '') {
                 wx.showToast({
                     title: "请输入验证码",
-                    image: '../../../images/msg/error.png',
+                    image: '/images/msg/error.png',
                     duration: 2000
                 })
             } else {
@@ -105,7 +105,7 @@ Page({
         } else {
             wx.showToast({
                 title: "手机必须11位数字",
-                image: '../../../images/msg/error.png',
+                image: '/images/msg/error.png',
                 duration: 2000
             })
         }

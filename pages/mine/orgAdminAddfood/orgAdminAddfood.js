@@ -71,7 +71,14 @@ Page({
         if (!this.data.value & this.data.value != 0) {
             wx.showToast({
                 title: '请输入份数',
-                icon: 'none'
+                image: '/images/msg/error.png',
+                duration: 2000
+            })
+        } else if (this.data.quantity == this.data.value) {
+            wx.showToast({
+                title: '报餐数目相同',
+                image: '/images/msg/error.png',
+                duration: 2000
             })
         } else {
             let param = {

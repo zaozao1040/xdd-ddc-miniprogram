@@ -47,14 +47,19 @@ Page({
 
             if (data.pickStatus == 1) { //待取餐
                 //取餐时间
-                let starts = data.orderFoodList[0].takeMealStartTime.trim().split(' ')
-                let sd = starts[0].split('-')
-                let st = starts[1].split(':')
-                let ends = data.orderFoodList[0].takeMealEndTime.trim().split(' ')
-                let ed = ends[0].split('-')
-                let et = ends[1].split(':')
-                data.pickTimeDes = sd[1] + '-' + sd[2] + ' ' + st[0] + ':' + st[1] + '至' + ed[1] + '-' + ed[2] + ' ' + et[0] + ':' + et[1]
+                if (data.orderFoodList[0].takeMealStartTime && data.orderFoodList[0].takeMealEndTime) {
 
+
+                    let starts = data.orderFoodList[0].takeMealStartTime.split(' ')
+                    let sd = starts[0].split('-')
+                    let st = starts[1].split(':')
+                    let ends = data.orderFoodList[0].takeMealEndTime.split(' ')
+                    let ed = ends[0].split('-')
+                    let et = ends[1].split(':')
+                    data.pickTimeDes = sd[1] + '-' + sd[2] + ' ' + st[0] + ':' + st[1] + '至' + ed[1] + '-' + ed[2] + ' ' + et[0] + ':' + et[1]
+                } else {
+                    data.pickTimeDes = data.mealDate
+                }
             }
 
             if (data.isPay) { //已支付，判断支付方式

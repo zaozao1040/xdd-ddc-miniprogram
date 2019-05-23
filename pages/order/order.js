@@ -34,50 +34,12 @@
          itemStatusActiveFlag: 0, //0：全部订单，1：今日待取，2：待评价
          orderList: [],
          orderListNoResult: false,
-         //
-         orderStatusMap: {
-             NO_PAY: '未支付', // status = 1，is_pay=0
-             PAYED_WAITINT_CONFIRM: '已支付', // status 1，is_pay=1
-             CONFIRM_WAITING_MAKE: '待制作', //status = 2， confirm_status=2 
-             MAKED_WAITING_DELIVERY: '待配送', //status = 2， confirm_status=2，is_box=1
-             DELIVERING: '配送中', //status = 2， confirm_status=2，is_box=!=0
-             DELIVERED_WAITING_PICK: '待取货', //status = 2， confirm_status=2，cabinet_status!=0
-             PICKED_WAITING_EVALUATE: '待评价', //status = 2， confirm_status=2，evaluate_status=1
-             COMPLETED_EVALUATED: '已评价', //status = 2， confirm_status=2，evaluate_status=2 
-             USER_CANCEL: '已取消', //status=4 取消类型看cancel_type 
-         },
-
          mealTypeMap: {
              BREAKFAST: '早餐',
              LUNCH: '午餐',
              DINNER: '晚餐',
              NIGHT: '夜宵'
          },
-         orderCode: '',
-         //订单状态
-         status: { 0: '未下单', 1: '下单成功', 2: '已生效', 3: '已完成', 4: '已取消' },
-         //付款
-         is_pay: { 0: '未付款', 1: '已付款' },
-         //付款方式：
-         pay_method: { 0: '无', 1: '标准付款（企业付款）', 2: '非标准付款（全部用户付款）', 3: '混合付款（标准付款+另一种支付方式）' },
-         //支付方式
-         defray_type: { 0: '无（标准支付情况下无）', 1: '余额支付', 2: '微信支付', 3: '支付宝支付' },
-         //确认状态
-         confirm_status: { 0: '不可确认', 1: '待确认', 2: '已确认' },
-         //绑箱状态：
-         is_box: { 0: '无', 1: '已部分绑箱', 2: '已全部绑箱' },
-         //配送状态：
-         delivery_status: { 0: '无', 1: '待配送', 2: '配送中', 3: '已完成配送' },
-         //投柜状态：
-         cabinet_status: { 0: '无', 1: '已部分投柜', 2: '已投柜（全部）', 3: '已部分取餐', 4: ' 已取餐（全部取餐）' },
-         //取餐：
-         pick_status: { 0: '不可取餐', 1: '可取餐', 2: '已取餐' },
-         //评价：
-         evaluate_status: { 0: '不可评价', 1: '可评价', 2: '已评价' },
-         //取消类型：
-         cancel_type: { 0: '无取消类型', 1: '系统自动取消', 2: '用户取消', 3: '系统后台取消' },
-
-
      },
      /* 跳转订单详情 */
      handleGotoOrderDetail: function(e) {
@@ -123,7 +85,7 @@
              })
          } else {
              wx.showToast({
-                 image: '../../images/msg/warning.png',
+                 image: '/images/msg/warning.png',
                  title: '没有更多数据'
              })
          }
@@ -431,7 +393,7 @@
 
                              wx.showToast({
                                  title: '成功支付订单',
-                                 image: '../../images/msg/success.png',
+                                 image: '/images/msg/success.png',
                                  duration: 2000
                              })
 
@@ -445,7 +407,7 @@
                          fail: function(e) {
                              wx.showToast({
                                  title: '已取消支付',
-                                 image: '../../images/msg/success.png',
+                                 image: '/images/msg/success.png',
                                  duration: 4000
                              })
                          },
@@ -485,7 +447,7 @@
          requestModel.request(params, data => {
              wx.showToast({
                      title: '成功支付订单',
-                     image: '../../images/msg/success.png',
+                     image: '/images/msg/success.png',
                      duration: 2000
                  })
                  //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
@@ -643,7 +605,7 @@
                  success: function(res) {
                      wx.showToast({
                          title: '成功评价',
-                         image: '../../images/msg/success.png',
+                         image: '/images/msg/success.png',
                          duration: 2000
                      })
                  }
@@ -769,7 +731,7 @@
                          } else {
                              wx.showToast({
                                  title: tmp_data.msg,
-                                 image: '../../images/msg/error.png',
+                                 image: '/images/msg/error.png',
                                  duration: 2000
                              })
                          }

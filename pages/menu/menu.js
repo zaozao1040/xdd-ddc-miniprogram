@@ -6,7 +6,7 @@
          allMenuData: [{}, {}, {}, {}, {}, {}, {}], // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
          allMenuDataCopy: [{}, {}, {}, {}, {}, {}, {}], //初始化为allMenuData，在清空购物车时，赋值给allMenuData
 
-         activeDayIndex: 1, //当前被点击的日期的index
+         activeDayIndex: 0, //当前被点击的日期的index
 
          selectedFoodsIndex: [{ count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }], //选择的食物的 menutypeIndex和foodIndex ，以及选中的食物，选中的餐品的个数
          selectedFoodsIndexCopy: [{ count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }], //用于清空购物车copy的

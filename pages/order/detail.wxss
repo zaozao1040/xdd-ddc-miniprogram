@@ -84,6 +84,8 @@
     letter-spacing: 0;
     text-align: left;
     line-height: 42rpx;
+    position: relative;
+    left: -12rpx;
 }
 
 .cart-menuItem-money {
@@ -93,7 +95,6 @@
     letter-spacing: 0;
     text-align: left;
     line-height: 42rpx;
-    padding-right: 7rpx;
 }
 
 .cart-menuItem-originmoney {

@@ -20,35 +20,26 @@
     <!-- 弹出层 填写取餐人 送餐地址 -->
     <view class="modulebox-background-wrapper" wx:if="{{showSelectFlag}}">
         <view class="modulebox-wrapper">
-            <view class="modulebox-des">
-                您的姓名
-            </view>
-            <view class="section-3 section-3-cannotChange {{userName?'':'section-3-empty'}}">
-                <view class="section-3-1" style="text-align: center;display: table;">
-                    <view style="display: table-cell;vertical-align: middle;">
-                        <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-wode'></text>
-                    </view>
+            <view class="section-3" style='margin-top:40rpx;'>
+                <view class="section-3-1 ">
+                    <image src="/images/mine/organize_name.png" style='width:48rpx;height:48rpx;'></image>
                 </view>
-                <text wx:if="{{userName}}" style="font-size:30rpx;color:#e79b37;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text>
 
                 <input bindinput="nameInput" value="{{userName}}" class="section-3-2" placeholder="请输入真实姓名" type="string"></input>
-
             </view>
-            <view class="modulebox-des">
-                您的取餐地址
-            </view>
-            <view class="section-3 {{address?'':'section-3-empty'}}" catchtap="showAddress">
-                <view class="section-3-1" style="text-align: center;display: table;">
-                    <view style="display: table-cell;vertical-align: middle;">
-                        <text style="font-size:40rpx;color:#e79b37;" class='iconfont icon-dizhi'></text>
-                    </view>
+            <view class="section-3" style="margin-top: 20rpx;" catchtap="showAddress">
+                <view class="section-3-1">
+                    <image src="/images/mine/organize.png" style='width:48rpx;height:48rpx;'></image>
                 </view>
-                <text wx:if="{{address}}" style="font-size:30rpx;color:#e79b37;position: absolute;right:40rpx;" class='iconfont icon-dagou'></text>
-                <input bindinput="addressInput" value="{{address}}" placeholder="请选择取餐地址" class="section-3-2" type="string" disabled bindtap="handleSelectAddress"></input>
+                <!-- <image wx:if='{{address}}' src="/images/mine/selected.png" style='width:52rpx;height:52rpx;position: absolute;top:24rpx;right:22rpx;'></image>
+                <image wx:else src="/images/mine/xiala.png" style='width:34rpx;height:34rpx;position: absolute;top:24rpx;right:22rpx;'></image> -->
+                <input bindinput="addressInput" value="{{address}}" placeholder="搜索企业名..." data-organizecode="{{organizeCode}}" class="section-3-2" type="string" bindtap="handleSelectAddress"></input>
             </view>
+
+
             <view class="modulebox-button-wrapper">
-                <button class="modulebox-button-quxiao" bindtap="handleChangeSelectFlag">取消</button>
-                <button class="modulebox-button-queding" bindtap="handleCheckParams">确定</button>
+                <view class="selectPayType_button" bindtap="handleChangeSelectFlag">取消</view>
+                <view class="selectPayType_button_check" bindtap="handleCheckParams">确定</view>
             </view>
         </view>
     </view>
@@ -114,7 +105,7 @@
                                 </view>
 
                                 <view class='cart-organize-deduction'>
-                                    <view class='cart-discount-organize'>企业折扣</view>
+                                    <view class='cart-discount-organize'>企业抵扣</view>
                                     <view class='cart-discount-organize-money'>-￥{{oneday[item].deductionMoney}}</view>
                                 </view>
                                 <view class='cart-organize-deduction'>

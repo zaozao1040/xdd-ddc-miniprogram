@@ -358,19 +358,19 @@ Page({
         if (!this.data.userName) {
             wx.showToast({
                 title: '请填写姓名',
-                image: '../../../images/msg/error.png',
+                image: '/images/msg/error.png',
                 duration: 2000
             })
         } else if (!this.data.address) {
             wx.showToast({
                 title: '请选择送餐地址',
-                image: '../../../images/msg/error.png',
+                image: '/images/msg/error.png',
                 duration: 2000
             })
         } else {
             wx.showToast({
                 title: '填写成功',
-                image: '../../../images/msg/success.png',
+                image: '/images/msg/success.png',
                 duration: 2000
             })
             this.setData({
@@ -385,7 +385,7 @@ Page({
         if (!this.data.userName) {
             wx.showToast({
                 title: '请填写姓名',
-                image: '../../../images/msg/error.png',
+                image: '/images/msg/error.png',
                 duration: 2000
             })
             return
@@ -393,7 +393,7 @@ Page({
         if (!this.data.userInfo.deliveryAddressCode) {
             wx.showToast({
                 title: '请选择送餐地址',
-                image: '../../../images/msg/error.png',
+                image: '/images/msg/error.png',
                 duration: 2000
             })
             return
@@ -507,7 +507,7 @@ Page({
             if (_this.data.balance < _this.data.realMoney) { //如果用户余额少于用户需要支付的价格，不允许用余额,也就是禁止打开switch
                 wx.showToast({
                     title: '余额不足,请充值',
-                    image: '../../../images/msg/error.png',
+                    image: '/images/msg/error.png',
                     duration: 2000
                 })
                 return

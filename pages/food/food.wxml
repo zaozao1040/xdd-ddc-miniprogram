@@ -18,7 +18,7 @@
         <view wx:if="{{itemStatusActiveFlag==true}}" class="img-wrapper">
             <!-- 基本信息 -->
             <view class="basic-info">
-                <view class="img-wrapper">
+                <view class="img-wrapper" wx:if='{{foodInfo.bannerImage&&foodInfo.bannerImage.length>0}}'>
                     <image class="foodImg" src="{{foodInfo.bannerImage[0]}}" style="width:100%;"></image>
                 </view>
                 <view class="food-info-wrapper">
@@ -54,7 +54,7 @@
         <view wx:else>
 
             <scroll-view class="ratingsDetailList-wrapper" scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower='gotoNextPage'>
-                <view wx:if="{{orderListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+                <view wx:if="{{amount==0}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
                     未查询到评价记录..
                 </view>
                 <view wx:else>

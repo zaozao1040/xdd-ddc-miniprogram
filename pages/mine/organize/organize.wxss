@@ -113,7 +113,15 @@
     right: 0;
 }
 
-.search-wrapper {}
+.organize-wrapper-s {
+    background: #fff;
+    padding: 16rpx;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
 
 .inputSearch-wrapper {
     border: #ddd 1rpx solid;
@@ -138,8 +146,6 @@
     padding: 16rpx 30rpx;
     margin-bottom: 2rpx;
 }
-
-.organizeItem-left {}
 
 .organizeName {
     font-family: PingFangSC-Regular;

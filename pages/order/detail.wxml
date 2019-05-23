@@ -26,7 +26,7 @@
         </view>
 
         <view class='cart-organize-deduction'>
-            <view class='cart-discount-organize'>企业折扣</view>
+            <view class='cart-discount-organize'>企业抵扣</view>
             <view class='cart-discount-organize-money'>-￥{{detailInfo.standardPrice}}</view>
         </view>
         <view class='cart-organize-deduction'>
@@ -71,7 +71,7 @@
         </view>
     </view>
     <!--订单信息-->
-    <view class="order-info-wrapper">
+    <view class="order-info-wrapper" style='margin-bottom:0;'>
         <view class='order-info-title'>订单信息</view>
         <view class="order-info-one">
             <view class="left-label">

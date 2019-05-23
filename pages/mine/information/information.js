@@ -2,7 +2,7 @@ import { base } from '../../../comm/public/request'
 let requestModel = new base()
 Page({
     data: {
-
+        getalready: false
     },
 
     /**
@@ -26,7 +26,8 @@ Page({
         }
         requestModel.request(param, data => {
             this.setData({
-                userInfo: data
+                userInfo: data,
+                getalready: true
             })
         })
     },
@@ -41,7 +42,7 @@ Page({
         })
         wx.showToast({
             title: '注销成功',
-            image: '../../images/msg/success.png',
+            image: '/images/msg/success.png',
             duration: 2000
         })
     },
@@ -50,7 +51,7 @@ Page({
         let _this = this
         wx.showModal({
             title: '提示',
-            content: _this.data.orgAdmin ? '您确定要从企业管理员切换为普通用户吗?' : '您确定要从普通用户切换为企业管理员吗?',
+            content: _this.data.userInfo.orgAdmin ? '您确定要从企业管理员切换为普通用户吗?' : '您确定要从普通用户切换为企业管理员吗?',
             success(res) {
                 if (res.confirm) {
                     let param = {

@@ -102,7 +102,7 @@ Page({
         let limit = _this.data.limit
 
         let url = '/food/getFoodEvaluate?userCode=' + wx.getStorageSync('userCode') + '&foodCode=' + _this.data.foodCode + '&page=' + page + '&limit=' + limit
-            // let url = '/food/getFoodEvaluate?userCode=' + wx.getStorageSync('userCode') + '&foodCode=FOOD532153295062564864&page=' + page + '&limit=' + limit
+
         let param = { url }
         requestModel.request(param, (data) => {
 
@@ -110,12 +110,14 @@ Page({
             if (page == 1) {
                 _this.setData({
                     ratingsInfoList: list, //concat是拆开数组参数，一个元素一个元素地加进去
-                    loadingData: false
+                    loadingData: false,
+                    amount: amount
                 })
             } else {
                 _this.setData({
                     ratingsInfoList: _this.data.ratingsInfoList.concat(list), //concat是拆开数组参数，一个元素一个元素地加进去
-                    loadingData: false
+                    loadingData: false,
+                    amount: amount
                 })
             }
             // 大于amount，说明已经加载完了

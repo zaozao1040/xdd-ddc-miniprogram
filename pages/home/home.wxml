@@ -26,11 +26,10 @@
                     </swiper-item>
                 </block>
             </swiper>
-            <!-- <view class="notice-detail">积分规则变化详情</view> -->
         </view>
 
         <!--弹出公告-->
-        <view class="modulebox-background-wrapper-notice" wx:if="{{showOneNotice}}">
+        <view class="modulebox-background-wrapper-notice" wx:if="{{showOneNotice&&!showUserAuthFlag&&!showCheckFlag}}">
             <view>
                 <image src='/images/home/announcement_pic.png' class='modulebox-image'></image>
             </view>
@@ -56,7 +55,7 @@
         <!-- 开始点餐 3.0-->
         <view class="h-v3">
             <view class="h-v3-1" catchtap="handleGotoMenu">
-                开始点餐
+                <text class='iconfont icon-canting'></text> 开始点餐
             </view>
             <view style="position:absolute;top:{{hasNotice?460:328}}rpx;height:100rpx;width:600rpx;margin-left:46rpx;z-index:-1;">
                 <image src="/images/home/home_projection.png" style="height:100rpx;width:600rpx;"></image>

@@ -31,8 +31,8 @@
             <view class="content-header-right">全部 </view>
         </view>
         <view class="content-time">
-            <view class="content-time-left"> </view>
-            <view class="content-time-right">获取积分：<text style='color: #F79C4C;'>{{integral}}</text> </view>
+            <view class="content-time-left" style='margin-right:10rpx;'> </view>
+            <view class="content-time-right">我的积分：<text style='color: #F79C4C;'>{{integral}}</text> </view>
         </view>
         <view class="c_scrollPosition_forCalculate">
             <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower='gotoNextPage'>

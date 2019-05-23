@@ -89,7 +89,7 @@ Page({
             })
         } else {
             wx.showToast({
-                image: '../../../images/msg/warning.png',
+                image: '/images/msg/warning.png',
                 title: '没有更多数据'
             })
         }
@@ -165,7 +165,7 @@ Page({
                     if (tmp_discountList.length < _this.data.limit) {
                         if (tmp_discountList.length === 0) {
                             wx.showToast({
-                                image: '../../../images/msg/warning.png',
+                                image: '/images/msg/warning.png',
                                 title: '没有更多数据'
                             })
                             _this.setData({
@@ -192,7 +192,7 @@ Page({
             } else {
                 wx.showToast({
                     title: res.msg,
-                    image: '../../../images/msg/error.png',
+                    image: '/images/msg/error.png',
                     duration: 2000
                 })
             }

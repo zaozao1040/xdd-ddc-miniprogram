@@ -156,7 +156,7 @@
                                             <!--名称可能会溢出，需要指定最长的width-->
                                             <view>{{imageItem.foodName}}</view>
                                             <view style="margin-left:14rpx;" wx:if='{{orderItem.orderFoodList.length>1}}'>
-                                                等{{imageItem.foodQuantity}}件</view>
+                                                x{{imageItem.foodQuantity}}</view>
                                         </view>
                                         <view class='food-mealtype'>{{orderItem.mealTypeDes}}</view>
                                     </view>
@@ -175,6 +175,14 @@
                                     <view wx:elif="{{imageItem.boxNumber}}" style='margin-top:30rpx;'>
                                         <view class='order-cabinet-title'>箱子</view>
                                         <view class='order-cabinet-num'>{{imageItem.boxNumber}}</view>
+                                    </view>
+                                    <view wx:else>
+                                        <view class='order-status-image'>
+                                            <image src='/images/order/{{orderItem.orderStatusDes.image}}.png' style=' width:120rpx;height:120rpx;'></image>
+                                        </view>
+                                        <view class='order-status'>
+                                            {{orderItem.orderStatusDes.label}}
+                                        </view>
                                     </view>
                                 </view>
                             </block>

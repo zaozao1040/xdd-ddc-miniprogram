@@ -61,7 +61,7 @@ Page({
                 wx.hideLoading()
                 wx.showToast({
                     title: '成功领取',
-                    image: '../../images/msg/success.png',
+                    image: '/images/msg/success.png',
                     duration: 2000
                 })
                 wx.reLaunch({
@@ -71,7 +71,7 @@ Page({
                 wx.hideLoading()
                 wx.showToast({
                     title: res.msg,
-                    image: '../../images/msg/error.png',
+                    image: '/images/msg/error.png',
                     duration: 2000
                 })
             }

@@ -144,7 +144,7 @@ Page({
 
         wx.showToast({
             title: '选择成功',
-            image: '../../../images/msg/success.png',
+            image: '/images/msg/success.png',
             duration: 2000
         })
     },
@@ -224,19 +224,19 @@ Page({
         if (!_this.data.userName) {
             wx.showToast({
                 title: "请输入姓名",
-                image: '../../../images/msg/error.png',
+                image: '/images/msg/error.png',
                 duration: 2000
             })
         } else if (!_this.data.organize || !_this.data.organizeCode) {
             wx.showToast({
                 title: "请选择企业",
-                image: '../../../images/msg/error.png',
+                image: '/images/msg/error.png',
                 duration: 2000
             })
         } else if (_this.data.employeeNumber == true && !_this.data.usernumber) {
             wx.showToast({
                 title: "请输入工号",
-                image: '../../../images/msg/error.png',
+                image: '/images/msg/error.png',
                 duration: 2000
             })
         } else {

@@ -416,7 +416,7 @@
 
 .order-status-image {
     position: absolute;
-    right: 70rpx;
+    right: 100rpx;
     z-index: 99;
 }
 

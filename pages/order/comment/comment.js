@@ -164,7 +164,7 @@ Page({
                         } else {
                             wx.showToast({
                                 title: tmp_data.msg,
-                                image: '../../images/msg/error.png',
+                                image: '/images/msg/error.png',
                                 duration: 2000
                             })
                         }
@@ -184,7 +184,7 @@ Page({
             foodEvaluateList: []
         }
         let length = _this.data.orderFoodList.length
-        console.log('555555', _this.data.orderFoodList)
+
         for (let i = 0; i < length; i++) {
             _this.data.labels[i] = []
             _this.data.orderFoodList[i].evaluateLabelsActive.forEach(element => {
@@ -201,7 +201,7 @@ Page({
             tmpData.foodEvaluateList.push(a)
             a = {}
         }
-        console.log('评价请求的参数：', tmpData)
+
         let param = {
             url: '/orderEvaluate/orderEvaluate',
             method: 'post',
@@ -213,7 +213,7 @@ Page({
                 success: function(res) {
                     wx.showToast({
                         title: '成功评价',
-                        image: '../../images/msg/success.png',
+                        image: '/images/msg/success.png',
                         duration: 2000
                     })
                 }

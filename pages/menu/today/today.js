@@ -84,63 +84,61 @@ Page({
         if (!this.data.allMenuData[this.data.mealTypeItem]) {
             this.getTimeDataByResponse()
 
-            this.data.lazyTimer = setInterval(() => {
-                if (this.data.allMenuData[this.data.mealTypeItem]) {
-                    // 懒加载 
-                    this.lazyImg(this, this.data.lazyShowImage, 'lazyShowImage', this.data.mealTypeItem)
+            // this.data.lazyTimer = setInterval(() => {
+            //     if (this.data.allMenuData[this.data.mealTypeItem]) {
+            //         // 懒加载 
+            //         this.lazyImg(this, this.data.lazyShowImage, 'lazyShowImage', this.data.mealTypeItem)
 
-                    clearInterval(this.data.lazyTimer)
-                }
-            }, 1000)
+            //         clearInterval(this.data.lazyTimer)
+            //     }
+            // }, 1000)
         }
 
     },
     //懒加载
-    lazyImg(_that, data, lazy_name, mealTypeItem) {
-        console.log('_that.data.intersectionObserverList', _that.data.intersectionObserverList)
+    // lazyImg(_that, data, lazy_name, mealTypeItem) { 
 
+    //     for (let i = 0, len = data[mealTypeItem].length; i < len; i++) {
+    //         for (let j = 0; j < data[mealTypeItem][i].length; j++) {
 
-        for (let i = 0, len = data[mealTypeItem].length; i < len; i++) {
-            for (let j = 0; j < data[mealTypeItem][i].length; j++) {
+    //             if (mealTypeItem == 'LUNCH') {
+    //                 let ooo = wx.createIntersectionObserver()
+    //                 ooo.relativeToViewport({
+    //                     bottom: 20
+    //                 }).observe('#' + mealTypeItem + 'food' + i + j, (ret) => {
 
-                if (mealTypeItem == 'LUNCH') {
-                    let ooo = wx.createIntersectionObserver()
-                    ooo.relativeToViewport({
-                        bottom: 20
-                    }).observe('#' + mealTypeItem + 'food' + i + j, (ret) => {
+    //                     if (ret.intersectionRatio > 0) {
+    //                         data[mealTypeItem][i][j] = true
+    //                         console.log("&&observe" + mealTypeItem + '' + i + '' + j);
+    //                     }
 
-                        if (ret.intersectionRatio > 0) {
-                            data[mealTypeItem][i][j] = true
-                            console.log("&&observe" + mealTypeItem + '' + i + '' + j);
-                        }
+    //                     _that.data.intersectionObserverList.push(ooo)
+    //                         // 总得加载完所有图片后就不执行这个lazyImg了吧，咋判断的
+    //                     _that.setData({
+    //                         [lazy_name]: data
+    //                     })
+    //                 })
+    //             } else {
+    //                 let ooo = wx.createIntersectionObserver()
+    //                 ooo.relativeToViewport({
+    //                     bottom: 20
+    //                 }).observe('#' + mealTypeItem + 'food' + i + j, (ret) => {
 
-                        _that.data.intersectionObserverList.push(ooo)
-                            // 总得加载完所有图片后就不执行这个lazyImg了吧，咋判断的
-                        _that.setData({
-                            [lazy_name]: data
-                        })
-                    })
-                } else {
-                    let ooo = wx.createIntersectionObserver()
-                    ooo.relativeToViewport({
-                        bottom: 20
-                    }).observe('#' + mealTypeItem + 'food' + i + j, (ret) => {
+    //                     if (ret.intersectionRatio > 0) {
+    //                         data[mealTypeItem][i][j] = true
+    //                         console.log("&&observe---222" + mealTypeItem + '' + i + '' + j);
+    //                     }
 
-                        if (ret.intersectionRatio > 0) {
-                            data[mealTypeItem][i][j] = true
-                            console.log("&&observe---222" + mealTypeItem + '' + i + '' + j);
-                        }
-
-                        _that.data.intersectionObserverList.push(ooo)
-                            // 总得加载完所有图片后就不执行这个lazyImg了吧，咋判断的
-                        _that.setData({
-                            [lazy_name]: data
-                        })
-                    })
-                }
-            }
-        }
-    },
+    //                     _that.data.intersectionObserverList.push(ooo)
+    //                         // 总得加载完所有图片后就不执行这个lazyImg了吧，咋判断的
+    //                     _that.setData({
+    //                         [lazy_name]: data
+    //                     })
+    //                 })
+    //             }
+    //         }
+    //     }
+    // },
 
     // 点击餐时
     handleChangeMealtypeActive(e) {
@@ -155,23 +153,6 @@ Page({
                 getdataalready: false
             })
             this.getTimeDataByResponse()
-            this.data.lazyTimer = setInterval(() => {
-                if (this.data.allMenuData[this.data.mealTypeItem]) {
-                    // 懒加载 
-                    this.lazyImg(this, this.data.lazyShowImage, 'lazyShowImage', this.data.mealTypeItem)
-
-                    clearInterval(this.data.lazyTimer)
-                }
-            }, 1000)
-        } else {
-            this.data.lazyTimer = setInterval(() => {
-                if (this.data.allMenuData[this.data.mealTypeItem]) {
-                    // 懒加载 
-                    this.lazyImg(this, this.data.lazyShowImage, 'lazyShowImage', this.data.mealTypeItem)
-
-                    clearInterval(this.data.lazyTimer)
-                }
-            }, 1000)
         }
 
     },
@@ -486,14 +467,14 @@ Page({
             if ((tmpstock.quotaNum || tmpstock.quotaNum == 0) && (tmpfoodCount >= tmpstock.quotaNum)) {
                 wx.showToast({
                     title: '限购' + tmpstock.quotaNum + '份',
-                    image: '../../../images/msg/error.png',
+                    image: '/images/msg/error.png',
                     duration: 2000
                 })
                 canAddFlag = false
             } else if ((tmpstock.surplusNum || tmpstock.surplusNum == 0) && tmpfoodCount >= tmpstock.surplusNum) {
                 wx.showToast({
                     title: '库存不足',
-                    image: '../../../images/msg/error.png',
+                    image: '/images/msg/error.png',
                     duration: 2000
                 })
                 canAddFlag = false

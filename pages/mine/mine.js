@@ -41,23 +41,8 @@
 
          if (clickIndex == 2) { //绑定企业
              wx.navigateTo({
-                     url: _this.data.navigatorUrl[clickIndex]
-                 })
-                 //  requestModel.getUserInfo(userInfo => {
-                 //      console.log('userInfo', userInfo)
-                 //      userType为普通用户和企业管理员的不允许再绑定企业
-                 //      if (userInfo.userType == 'B_USER' || userInfo.userType == 'ORG_ADMIN') {
-                 //          wx.showToast({
-                 //              title: '已绑定过企业',
-                 //              image: '../../images/msg/warning.png',
-                 //              duration: 3000
-                 //          })
-                 //      } else {
-                 //          wx.navigateTo({
-                 //              url: _this.data.navigatorUrl[clickIndex]
-                 //          })
-                 //      }
-                 //  })
+                 url: _this.data.navigatorUrl[clickIndex]
+             })
          } else if (clickIndex == 3) { //客户服务
              //请求客服电话
 
