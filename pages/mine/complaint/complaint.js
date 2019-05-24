@@ -46,8 +46,6 @@ Page({
                     value: '',
                     count: 0
                 })
-
-
             })
         }
     },

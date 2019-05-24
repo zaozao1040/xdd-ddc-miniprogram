@@ -1,5 +1,3 @@
-import moment from "../../comm/script/moment"
-
 import { base } from '../../comm/public/request'
 let requestModel = new base()
 
@@ -87,42 +85,69 @@ Page({
             })
 
             console.log('detailInfo', data)
+
+            //获取windowHeight
+            wx.getSystemInfo({
+                    success: function(res) {
+                        _this.setData({
+                            windowHeight: res.windowHeight,
+                            wrapperHeight: res.windowHeight
+                        })
+                    }
+                })
+                //计算最外层view的bottom
+            const query = wx.createSelectorQuery()
+            query.select('.wrapper').boundingClientRect()
+            query.selectViewport().scrollOffset()
+            query.exec(function(res) {
+                if (res[0]) {
+                    _this.setData({
+                        wrapperHeight: res[0].bottom
+                    })
+                }
+
+            })
         })
 
     },
+
     //获取订单状态
     getOrderStatus(element) {
+        let a = ''
         if (element.status == 1) {
             if (element.isPay == 0) {
-                return '未支付'
+                a = '未支付'
+
             } else {
-                return '已支付'
+                a = '已支付'
             }
         } else if (element.status == 2) {
             if (element.confirmStatus == 2) {
-                if (element.isBox == 1 && element.cabinetStatus == 0 && element.evaluateStatus == 0) {
-                    return '待配送'
+                if (element.evaluateStatus == 1) {
+                    a = '待评价'
+                } else if (element.pickStatus == 1) {
+                    a = '待取餐'
+
+                } else if (element.deliveryStatus == 1) {
+                    a = '待配送'
+                } else if (element.deliveryStatus == 2) {
+                    a = '配送中'
+
                 } else {
-                    if (element.cabinetStatus == 0 && element.evaluateStatus == 0) {
-                        return '配送中'
-                    } else {
-                        if (element.cabinetStatus != 0 && element.pickStatus == 1 && element.evaluateStatus == 0) {
-                            return '可取餐'
-                        } else {
-                            if (element.cabinetStatus != 0 && element.pickStatus == 2 && element.evaluateStatus == 1) {
-                                return '待评价'
-                            }
-                        }
-                    }
+                    a = '制作中'
                 }
+            } else {
+                a = '已支付'
             }
 
         } else if (element.status == 3) {
-            return '已完成'
+            a = '已完成'
         } else {
-            return '已取消'
+            a = '已取消'
         }
+        return a
     },
+
 
     /**
      * 生命周期函数--监听页面初次渲染完成

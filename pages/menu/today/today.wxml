@@ -198,8 +198,8 @@
                             <block wx:if="{{orgAdmin}}">
                                 您当前是管理员
                             </block>
-                            <block wx:elif="{{ allMenuData[activeDayIndex][mealTypeItem].mealSet.userCanStandardPrice }}">
-                                企业单餐抵扣：￥{{allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice}}
+                            <block wx:elif="{{ allMenuData[mealTypeItem].mealSet.userCanStandardPrice }}">
+                                企业单餐抵扣：￥{{allMenuData[mealTypeItem].mealType.standardPrice}}
                             </block>
                             <block wx:else>
                                 当前额度已被使用

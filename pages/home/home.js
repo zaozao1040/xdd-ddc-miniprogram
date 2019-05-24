@@ -195,7 +195,7 @@ Page({
             for (let x = 0; x < data.length; x++) {
                 let one = data[x].mealTypeOrder
                 for (let i = 0; i < _this.data.twoDaysMealName.length; i++) {
-                    let meal = _this.data.twoDaysMealName[i]
+                    let meal = _this.data.twoDaysMealName[i] //餐时
 
                     if (one[meal + 'EndTime']) {
                         let deadDate = new Date(one[meal + 'EndTime']) //截止时间

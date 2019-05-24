@@ -58,7 +58,6 @@ Page({
             let evaluateLabels = data
             for (let i = 0; i < orderFoodListLength; i++) { //当前默认五星,以及五星对应的标签
                 orderFoodList[i].star = 5
-                    // 大坑 这里必须用深拷贝！ 错误写法：orderFoodList[i].evaluateLabelsActive = _this.evaluateLabels[4].tagList
                 orderFoodList[i].evaluateLabelsActive = JSON.parse(JSON.stringify(evaluateLabels[4].tagList))
             }
 
@@ -111,7 +110,6 @@ Page({
                 })
             }
         }
-        console.log('333333', _this.data.orderFoodList)
     },
     /* 点击预览图片 */
     handlePreviewImage: function(e) {
@@ -127,6 +125,21 @@ Page({
             fail: function() {
                 console.log('fail')
             }
+        })
+    },
+    //删除图片
+    removeOneImage(e) {
+        let _this = this
+        let foodIndex = e.currentTarget.dataset.foodindex;
+        let index = e.currentTarget.dataset.index; //预览图片的编号
+        let a = _this.data.tempFilePaths
+        let b = _this.data.imagesArr
+        a[foodIndex].splice(index, 1)
+        b[foodIndex].splice(index, 1)
+        console.log(a)
+        _this.setData({
+            tempFilePaths: a,
+            imagesArr: b
         })
     },
     /* 点击上传图片 */
@@ -208,17 +221,16 @@ Page({
             data: tmpData
         }
         requestModel.request(param, (res) => {
-            wx.reLaunch({
-                url: '/pages/order/order',
-                success: function(res) {
-                    wx.showToast({
-                        title: '成功评价',
-                        image: '/images/msg/success.png',
-                        duration: 2000
-                    })
-                }
+            wx.showToast({
+                title: '成功评价',
+                image: '/images/msg/success.png',
+                duration: 1500
             })
-
+            setTimeout(() => {
+                wx.reLaunch({
+                    url: '/pages/order/order'
+                })
+            }, 1500)
         })
     },
 

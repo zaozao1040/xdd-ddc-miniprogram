@@ -35,12 +35,20 @@
             </view>
         </view>
         <view class="content">
-            <textarea style=" height:190rpx;font-family: PingFangSC-Regular;font-size: 30rpx;color: #333;" placeholder="我们希望能倾听您的心声,请留下您宝贵的意见。" maxlength="60" bindinput="contentInput" data-foodindex="{{foodIndex}}"></textarea>
+            <textarea style=" height:160rpx;font-family: PingFangSC-Regular;font-size: 30rpx;color: #333;" placeholder="我们希望能倾听您的心声,请留下您宝贵的意见。" maxlength="60" bindinput="contentInput" data-foodindex="{{foodIndex}}"></textarea>
         </view>
 
         <view class="img-wrapper">
-            <image class="image" src="{{imgItem}}" wx:for="{{tempFilePaths[foodIndex]}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex" bindtap="handlePreviewImage" data-foodindex="{{foodIndex}}" data-index="{{imgIndex}}">
-            </image>
+            <view style='display: flex;'>
+                <view wx:for="{{tempFilePaths[foodIndex]}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex">
+                    <view class='image-remove' catchtap='removeOneImage' data-foodindex="{{foodIndex}}" data-index="{{imgIndex}}">x</view>
+                    <image class="image" src="{{imgItem}}" catchtap="handlePreviewImage" data-foodindex="{{foodIndex}}" data-index="{{imgIndex}}">
+                    </image>
+
+                </view>
+            </view>
+
+
             <image class="image-shangchuan" wx:if="{{tempFilePaths[foodIndex].length<3}}" src="/images/order/xiangji.png" bindtap="handleClickAddImg" data-foodindex="{{foodIndex}}"></image>
             <view class="yingjifen">赢15积分</view>
         </view>

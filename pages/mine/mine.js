@@ -54,7 +54,7 @@
                  url: '/help/getHelp'
              }
              requestModel.request(param, data => {
-                 wx.hideLoading()
+
                  _this.data.servicePhone = data.contactPhone
 
                  wx.showModal({
@@ -165,20 +165,34 @@
              //初始化，获取一些必要参数，如高度
 
          wx.showNavigationBarLoading();
-         wx.login({
-             success: function(res) {
-                 if (res.code) {
-                     _this.setData({
-                             userInfo: requestModel.getUserInfo(() => {}, true)
-                         })
-                         // bug 因为是异步刷新，所以userInfo还没获取到，就hideLoading了
+         //刷新积分、余额、优惠券
+         let param = {
+             url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
+         }
+         requestModel.request(param, data => {
+                 this.setData({
+                     balance: data.balance,
+                     integral: data.integral,
+                     discount: data.discount
+                 })
+                 wx.hideNavigationBarLoading();
+                 wx.stopPullDownRefresh()
+             })
+             //  wx.login({
+             //      success: function(res) {
+             //          if (res.code) {
 
-                     wx.hideNavigationBarLoading();
-                     wx.stopPullDownRefresh()
+         //              requestModel.getUserInfo((userInfo) => {
+         //                  _this.setData({
+         //                      userInfo: userInfo
+         //                  })
+         //              }, true) 
+         //              wx.hideNavigationBarLoading();
+         //              wx.stopPullDownRefresh()
 
-                 }
-             }
-         })
+         //          }
+         //      }
+         //  })
      },
 
      /**

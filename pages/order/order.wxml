@@ -161,7 +161,7 @@
                                         <view class='food-mealtype'>{{orderItem.mealTypeDes}}</view>
                                     </view>
 
-                                    <view wx:if="{{imageItem.cabinet}}" style='margin-top:30rpx;'>
+                                    <view wx:if="{{imageItem.cabinet&&imageItem.cabinet.length>0}}" style='margin-top:30rpx;'>
                                         <view class='order-cabinet-title'>柜子号</view>
                                         <view style='display: flex;'>
                                             <block wx:for='{{imageItem.cabinet}}' wx:for-index='cIndex' wx:for-item='cItem' wx:key='{{cIndex}}'>
@@ -172,7 +172,7 @@
                                             </block>
                                         </view>
                                     </view>
-                                    <view wx:elif="{{imageItem.boxNumber}}" style='margin-top:30rpx;'>
+                                    <view wx:elif="{{imageItem.boxNumber&&imageItem.boxNumber.length>0}}" style='margin-top:30rpx;'>
                                         <view class='order-cabinet-title'>箱子</view>
                                         <view class='order-cabinet-num'>{{imageItem.boxNumber}}</view>
                                     </view>

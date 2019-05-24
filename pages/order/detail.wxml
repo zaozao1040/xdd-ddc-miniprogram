@@ -89,7 +89,7 @@
                 {{detailInfo.orderTime}}
             </view>
         </view>
-        <view class="order-info-one">
+        <view class="order-info-one" wx:if='{{detailInfo.isPay}}'>
             <view class="left-label">
                 支付时间
             </view>
@@ -106,4 +106,5 @@
             </view>
         </view>
     </view>
+    <view wx:if='{{windowHeight>wrapperHeight}}' style='height:{{windowHeight-wrapperHeight}}px;background:#f5f5f5;'></view>
 </view>

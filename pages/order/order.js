@@ -252,8 +252,6 @@
                          page: page + 1
                      })
                  }
-
-
              }
 
          })
@@ -289,17 +287,20 @@
                  method: 'post'
              }
              requestModel.request(params, () => {
+
                  wx.showToast({
                      title: '成功取消订单',
-                     duration: 2000
+                     duration: 1000
                  })
+                 setTimeout(() => {
+                     //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
+                     _this.setData({
+                         page: 1,
+                         orderList: []
+                     })
+                     _this.getOrderList()
+                 }, 1000)
 
-                 //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
-                 _this.setData({
-                     page: 1,
-                     orderList: []
-                 })
-                 _this.getOrderList()
              })
 
          }
@@ -394,21 +395,23 @@
                              wx.showToast({
                                  title: '成功支付订单',
                                  image: '/images/msg/success.png',
-                                 duration: 2000
+                                 duration: 1000
                              })
+                             setTimeout(() => {
+                                 //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
+                                 _this.setData({
+                                     page: 1,
+                                     orderList: []
+                                 })
+                                 _this.getOrderList()
+                             }, 1000)
 
-                             //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
-                             _this.setData({
-                                 page: 1,
-                                 orderList: []
-                             })
-                             _this.getOrderList()
                          },
                          fail: function(e) {
                              wx.showToast({
                                  title: '已取消支付',
                                  image: '/images/msg/success.png',
-                                 duration: 4000
+                                 duration: 1000
                              })
                          },
                          complete: function() {
@@ -445,17 +448,21 @@
              method: 'post'
          }
          requestModel.request(params, data => {
+
              wx.showToast({
-                     title: '成功支付订单',
-                     image: '/images/msg/success.png',
-                     duration: 2000
-                 })
-                 //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
-             _this.setData({
-                 page: 1,
-                 orderList: []
+                 title: '成功支付订单',
+                 image: '/images/msg/success.png',
+                 duration: 1000
              })
-             _this.getOrderList()
+
+             setTimeout(() => {
+                 //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
+                 _this.setData({
+                     page: 1,
+                     orderList: []
+                 })
+                 _this.getOrderList()
+             }, 1000)
          })
 
      },
@@ -481,12 +488,20 @@
                          url: '/order/orderPick?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + e.currentTarget.dataset.ordercode
                      }
                      requestModel.request(param, () => {
+
                          wx.showToast({
                              title: '成功取餐',
                              image: '/images/msg/success.png',
-                             duration: 2000
+                             duration: 1000
                          })
-
+                         setTimeout(() => {
+                             //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
+                             _this.setData({
+                                 page: 1,
+                                 orderList: []
+                             })
+                             _this.getOrderList()
+                         }, 1000)
                      })
                  }
              }
@@ -517,53 +532,8 @@
          a.orderFoodList = orderFoodList
          wx.setStorageSync('commentOrder', a)
          wx.navigateTo({
-                 url: './comment/comment'
-             })
-             /* 先初始化一下tempFilePaths和content数组的内部子数组的个数 */
-             //  let tmp_emptyArr = []
-             //  let tmp_emptyArrString = []
-             //  for (let i = 0; i < orderFoodListLength; i++) {
-             //      tmp_emptyArr.push([])
-             //      tmp_emptyArrString.push('')
-             //  }
-             //  _this.setData({
-             //      tempFilePaths: tmp_emptyArr,
-             //      content: tmp_emptyArrString,
-             //      imagesArr: tmp_emptyArr,
-             //      labels: tmp_emptyArr,
-             //      evaluateLabelsActive: tmp_emptyArr
-             //  })
-
-         //  //关闭底部 
-         //  wx.hideTabBar()
-         //  _this.setData({
-         //          showRatingsFlag: true,
-         //          orderCode: e.currentTarget.dataset.ordercode,
-         //          orderFoodList: orderFoodList,
-         //      })
-         //      //获取弹窗的高 
-         //      /* 请求星级标签列表 */
-         //  let param = {
-         //      url: '/orderEvaluate/getEvaluateTagList?userCode=' + wx.getStorageSync('userCode')
-         //  }
-         //  requestModel.request(param, (data) => {
-
-         //      let evaluateLabels = data
-         //      for (let i = 0; i < orderFoodListLength; i++) { //当前默认五星,以及五星对应的标签
-         //          orderFoodList[i].star = 5
-         //              // 大坑 这里必须用深拷贝！ 错误写法：orderFoodList[i].evaluateLabelsActive = _this.evaluateLabels[4].tagList
-         //          orderFoodList[i].evaluateLabelsActive = JSON.parse(JSON.stringify(evaluateLabels[4].tagList))
-         //      }
-
-         //      _this.setData({
-         //          orderFoodList: orderFoodList,
-         //          evaluateLabels: data,
-         //          evaluateLabelsActive: data[4].tagList //当前默认五星
-         //      })
-
-         //  })
-
-
+             url: './comment/comment'
+         })
      },
 
      /* 去评价的对话框的确定 */
@@ -600,6 +570,7 @@
              data: tmpData
          }
          requestModel.request(param, (res) => {
+             wx.hideLoading()
              wx.reLaunch({
                  url: '/pages/order/order',
                  success: function(res) {
@@ -611,7 +582,7 @@
                  }
              })
 
-         })
+         }, true)
      },
 
      /* 点击星星 */

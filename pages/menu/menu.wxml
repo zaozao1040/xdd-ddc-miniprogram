@@ -159,7 +159,7 @@
                                     </view>
                                 </view>
                             </block>
-                            <view style="height:180rpx;background:#FFFFFF;"></view>
+                            <view style="height:250rpx;background:#FFFFFF;"></view>
                         </view>
                     </scroll-view>
                 </view>
