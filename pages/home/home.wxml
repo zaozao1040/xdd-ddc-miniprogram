@@ -88,7 +88,7 @@
             <view style="margin:0 0 60rpx 30rpx;" wx:if="{{homeOrderList.length>0}}">
                 <view class='takefood-title'>今日餐品</view>
                 <view>
-                    <swiper circular="true" next-margin='24rpx' style='width: 100%; height: 172rpx;'>
+                    <swiper next-margin='24rpx' style='width: 100%; height: 172rpx;'>
                         <block wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem" wx:key="homeOrderIndex">
                             <swiper-item>
                                 <view style="display: flex;" class="takefood-food">
@@ -261,7 +261,7 @@
                                 <view class="appointment-choice-foodtype-name"> {{mealTypeMapSmall[item]}}</view>
                                 <view class="appointment-choice-foodtype-deadlilne">
                                     <view>截止时间</view>
-                                    <view style="margin-left:10rpx;">{{oneDayInfo[item+"deadlineDesc"]}}</view>
+                                    <view style="margin-left:10rpx;">{{oneDayInfo[item+"DeadlineDesc"]}}</view>
                                 </view>
                             </view>
                             <image src='/images/home/filter_more.png' style="height:88rpx;width:88rpx; margin-top: 16rpx;"></image>

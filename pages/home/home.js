@@ -197,28 +197,31 @@ Page({
                 for (let i = 0; i < _this.data.twoDaysMealName.length; i++) {
                     let meal = _this.data.twoDaysMealName[i] //餐时
 
-                    if (one[meal + 'EndTime']) {
-                        let deadDate = new Date(one[meal + 'EndTime']) //截止时间
-                            // 判断是哪天 
-                        let day = parseInt((deadDate.getTime() - todayBegin) / (1000 * 60 * 60 * 24))
-                        let hour = deadDate.getHours()
-                        let duration = parseInt(hour / 6)
-                        let duration_hour = hour > 12 ? hour - 12 : hour
+                    //如果志康把时间描述传给我了，就直接用，没有再重新计算
+                    if (!one[meal + 'DeadlineDesc']) {
+                        if (one[meal + 'EndTime']) {
+                            let deadDate = new Date(one[meal + 'EndTime']) //截止时间
+                                // 判断是哪天 
+                            let day = parseInt((deadDate.getTime() - todayBegin) / (1000 * 60 * 60 * 24))
+                            let hour = deadDate.getHours()
+                            let duration = parseInt(hour / 6)
+                            let duration_hour = hour > 12 ? hour - 12 : hour
 
-                        let minutes = deadDate.getMinutes()
-                        if (minutes == 0) {
-                            one[meal + 'deadlineDesc'] = dayInfo[day] + durationInfo[duration] + duration_hour + '点'
+                            let minutes = deadDate.getMinutes()
+                            if (minutes == 0) {
+                                one[meal + 'DeadlineDesc'] = dayInfo[day] + durationInfo[duration] + duration_hour + '点'
+                            } else {
+                                one[meal + 'DeadlineDesc'] = dayInfo[day] + durationInfo[duration] + duration_hour + '点' + minutes + '分'
+                            }
                         } else {
-                            one[meal + 'deadlineDesc'] = dayInfo[day] + durationInfo[duration] + duration_hour + '点' + minutes + '分'
+                            one[meal + 'DeadlineDesc'] = '已截止订餐'
                         }
-                    } else {
-                        one[meal + 'deadlineDesc'] = '已截止订餐'
                     }
 
                 }
                 data[x].mealTypeOrder = one
             }
-
+            console.log('twoDaysInfo', data)
             wx.setStorageSync('twoDaysInfo', data)
             _this.setData({
                 twoDaysInfo: data,

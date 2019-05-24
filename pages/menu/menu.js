@@ -51,6 +51,7 @@
 
          mealEnglistLabel: ['breakfast', 'lunch', 'dinner', 'night'],
          mealTypeSmall: { lunch: '午餐', dinner: '晚餐', breakfast: '早餐', night: '夜宵' },
+         getTimeDataByResponseNow: false //是否可点击日期和餐时
      },
      //处理七天日期
      handleSevenDays() {
@@ -152,6 +153,9 @@
      },
      // 点击日期(e)
      changeActiveDay(e) {
+         if (this.data.getTimeDataByResponseNow) {
+             return
+         }
          let a = e.currentTarget.dataset
          if (a) {
              let day = a.day
@@ -184,6 +188,9 @@
      },
      // 点击餐时
      handleChangeMealtypeActive(e) {
+         if (this.data.getTimeDataByResponseNow) {
+             return
+         }
          let mealtypeitem = e.currentTarget.dataset.mealtypeitem
          this.setData({
              mealTypeItem: mealtypeitem
@@ -200,6 +207,10 @@
 
      /* 获取餐品menu信息 */
      getTimeDataByResponse: function() {
+         //正在后台请求菜单
+         this.setData({
+             getTimeDataByResponseNow: true
+         })
          let tmp_mealTypeItem = this.data.mealTypeItem
          let activeDayIndex = this.data.activeDayIndex
          let param = {
@@ -262,7 +273,9 @@
                  })
                  _this.calculateHeight()
              }
-
+             _this.setData({
+                 getTimeDataByResponseNow: false
+             })
          })
      },
      // 计算购物车高度，大于最大高度就滚动

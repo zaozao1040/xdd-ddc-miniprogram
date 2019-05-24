@@ -52,6 +52,7 @@ Page({
 
         showSelectFlag: false, //展示填写姓名和配送地址的弹出框，默认不展示
         mealEnglistLabel: ['breakfast', 'lunch', 'dinner', 'night'],
+        generateOrderNow: false //防止狂点去付款
     },
 
     initAddress: function() {
@@ -382,7 +383,12 @@ Page({
      * 付款 提交菜单
      */
     handleCommitPay: function() {
-        if (!this.data.userName) {
+
+        let _this = this
+        if (_this.data.generateOrderNow) {
+            return
+        }
+        if (!_this.data.userName) {
             wx.showToast({
                 title: '请填写姓名',
                 image: '/images/msg/error.png',
@@ -390,7 +396,7 @@ Page({
             })
             return
         }
-        if (!this.data.userInfo.deliveryAddressCode) {
+        if (!_this.data.userInfo.deliveryAddressCode) {
             wx.showToast({
                 title: '请选择送餐地址',
                 image: '/images/msg/error.png',
@@ -399,26 +405,29 @@ Page({
             return
         }
 
-
-        /**** 拼接这个庞大的参数 ****/
+        //不允许再点击
+        _this.setData({
+                generateOrderNow: true
+            })
+            /**** 拼接这个庞大的参数 ****/
         let tmp_userDiscountCode = null
-        if (this.data.adviceDiscountObj) {
-            tmp_userDiscountCode = this.data.adviceDiscountObj.userDiscountCode
+        if (_this.data.adviceDiscountObj) {
+            tmp_userDiscountCode = _this.data.adviceDiscountObj.userDiscountCode
         }
         let tmp_param = {
             userCode: wx.getStorageSync('userCode'),
-            userName: this.data.userName,
-            addressCode: this.data.userInfo.deliveryAddressCode,
-            payType: this.data.payType, //支付方式
+            userName: _this.data.userName,
+            addressCode: _this.data.userInfo.deliveryAddressCode,
+            payType: _this.data.payType, //支付方式
             userDiscountCode: tmp_userDiscountCode,
-            orderPayMoney: this.data.realMoney, //自费的总价格
-            appendMealFlag: this.data.orderType == 'add' ? true : false,
+            orderPayMoney: _this.data.realMoney, //自费的总价格
+            appendMealFlag: _this.data.orderType == 'add' ? true : false,
             order: []
 
         }
-        for (let i = 0; i < this.data.selectedFoods.length; i++) {
-            let tmp_selectedFoods = this.data.selectedFoods[i]
-            this.data.mealEnglistLabel.forEach(mealType => {
+        for (let i = 0; i < _this.data.selectedFoods.length; i++) {
+            let tmp_selectedFoods = _this.data.selectedFoods[i]
+            _this.data.mealEnglistLabel.forEach(mealType => {
                 if (tmp_selectedFoods[mealType]) { //选了这个餐时的菜
 
                     let order_item = {
@@ -452,13 +461,15 @@ Page({
             method: 'post'
         }
         requestModel.request(params, resdata => {
-            let data = resdata.payData
-            console.log('支付结果返回：', data)
-            if (!data || param.payType == 'BALANCE_PAY' || param.payType == 'STANDARD_PAY') {
-                console.log('支付结果返回：hideLoading')
 
+            let data = resdata.payData
+
+            if (!data || param.payType == 'BALANCE_PAY' || param.payType == 'STANDARD_PAY') {
                 wx.reLaunch({
                     url: '/pages/order/order?content=' + '订单已生成',
+                })
+                _this.setData({
+                    generateOrderNow: false
                 })
             } else if (param.payType == 'WECHAT_PAY' && resdata.needPay) { //微信支付
                 if (data.timeStamp) {
@@ -474,6 +485,9 @@ Page({
                                     url: '/pages/order/order?content=' + '订单已生成',
                                 })
                             }, 200)
+                            _this.setData({
+                                generateOrderNow: false
+                            })
                         },
                         fail: function(e) {
                             setTimeout(function() {
@@ -481,6 +495,9 @@ Page({
                                     url: '/pages/order/order?content=' + '订单已生成,请尽快支付',
                                 })
                             }, 200)
+                            _this.setData({
+                                generateOrderNow: false
+                            })
                         }
                     })
                 }

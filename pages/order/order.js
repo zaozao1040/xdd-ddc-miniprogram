@@ -64,7 +64,7 @@
          } else {
 
              this.setData({
-                 itemStatusActiveFlag: 2
+                 itemStatusActiveFlag: 0
              })
          }
          this.initOrder()
