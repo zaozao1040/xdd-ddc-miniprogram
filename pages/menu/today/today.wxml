@@ -34,7 +34,7 @@
 
                                 <!-- 单个食物 -->
                                 <view class="food-wrapper" wx:for="{{ menutypeItem.foodList }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodItem.dateId">
-                                    <view wx:if="{{foodItem.foodQuota &&foodItem.foodQuota.surplusNum==0 }}" class="img-wrapper-stock"></view>
+                                    <view wx:if="{{foodItem.foodQuota &&foodItem.foodQuota.surplusNum==0 }}" class="img-wrapper-stock" bindtap="handleGotoFoodDetail" data-foodcode="{{ foodItem.foodCode }}"></view>
                                     <view class="img-wrapper" bindtap="handleGotoFoodDetail" data-foodcode="{{ foodItem.foodCode }}" id="{{mealTypeItem}}food{{menutypeIndex}}{{foodIndex}}">
                                         <image wx:if="{{ foodItem.foodQuota &&foodItem.foodQuota.quotaNum }}" class='food-img-res' src="/images/menu/today/order_purchase.png"></image>
                                         <!-- <image class="food-img" src="{{lazyShowImage[mealTypeItem][menutypeIndex][foodIndex]?foodItem.image:'/images/menu/lazy.png'}}"></image> -->
@@ -74,7 +74,7 @@
                                                 <view class="price-real">
                                                     {{ foodItem.foodPrice }}
                                                 </view>
-                                                <view class="price-original" wx:if="{{foodItem.foodPrice != foodItem.foodOriginalPrice }}">
+                                                <view class="price-original" wx:if="{{foodItem.foodPrice < foodItem.foodOriginalPrice }}">
                                                     ￥{{ foodItem.foodOriginalPrice }}
                                                 </view>
                                             </view>
@@ -131,7 +131,7 @@
                                         </view>
 
                                         <!--原价-->
-                                        <view class="chart-food-originalprice" wx:if="{{ onefood.foodTotalPrice != onefood.foodTotalOriginalPrice}}">￥<text style="position:relative;right:6rpx;">{{onefood.foodTotalOriginalPrice}}</text></view>
+                                        <view class="chart-food-originalprice" wx:if="{{ onefood.foodTotalPrice <onefood.foodTotalOriginalPrice}}">￥<text style="position:relative;right:6rpx;">{{onefood.foodTotalOriginalPrice}}</text></view>
                                         <view class="chart-food-originalprice" wx:else> </view>
 
                                         <!-- ***************  + - 添加、减掉餐品的小控件(购物车中) *************** -->

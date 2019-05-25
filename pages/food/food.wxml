@@ -34,7 +34,7 @@
                         <view class="price-real">
                             <text style="font-size: 20rpx;margin-top:20rpx;">￥</text>{{foodInfo.foodPrice}}
                         </view>
-                        <view wx:if="{{foodInfo.foodOriginalPrice!=foodInfo.foodPrice}}" class="price-original">
+                        <view wx:if="{{foodInfo.foodOriginalPrice>foodInfo.foodPrice}}" class="price-original">
                             ￥{{foodInfo.foodOriginalPrice}}
                         </view>
                     </view>

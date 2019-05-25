@@ -6,7 +6,7 @@
                 <image wx:if="{{userInfo.headImage}}" style='width:160rpx;height:160rpx;border-radius: 50%;' src="{{userInfo.headImage}}"></image>
                 <image wx:else style='width:160rpx;height:160rpx;' src="/images/mine/huiyuan.png" alt=""></image>
             </view>
-            <view class="org" bindtap="changeRole" wx:if='{{userInfo.userType=="ORG_ADMIN"}}'>
+            <view class="org" bindtap="changeRole" wx:if='{{userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN"}}'>
                 <text wx:if="{{userInfo.orgAdmin}}">切换为"企业员工"</text>
                 <text wx:else>切换为"企业管理员"</text>
             </view>
@@ -31,7 +31,7 @@
             </view>
         </view>
     </view>
-    <view style='margin:16rpx;padding:30rpx;background:#fff;border-radius: 6rpx;display: flex;justify-content: space-between;' wx:if='{{userInfo.userType=="ORG_ADMIN"&&userInfo.orgAdmin==true}}'>
+    <view style='margin:16rpx;padding:30rpx;background:#fff;border-radius: 6rpx;display: flex;justify-content: space-between;' wx:if='{{(userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN")&&userInfo.orgAdmin==true}}'>
         <view class='org-addfood' bindtap="gotoAddfood">
             <image src="/images/mine/data_meal.png" class='org-addfood'></image>
         </view>

@@ -94,7 +94,7 @@
                                                 {{foodtypeinfoItem.foodName}}
                                             </view>
                                             <view style='display:flex;'>
-                                                <view class="cart-menuItem-originmoney" wx:if="{{foodtypeinfoItem.foodTotalOriginalPrice!=foodtypeinfoItem.foodTotalPrice}}">¥{{foodtypeinfoItem.foodTotalOriginalPrice}}</view>
+                                                <view class="cart-menuItem-originmoney" wx:if="{{foodtypeinfoItem.foodTotalOriginalPrice>foodtypeinfoItem.foodTotalPrice}}">¥{{foodtypeinfoItem.foodTotalOriginalPrice}}</view>
                                                 <view class="cart-menuItem-money">¥{{foodtypeinfoItem.foodTotalPrice}}</view>
                                             </view>
                                         </view>

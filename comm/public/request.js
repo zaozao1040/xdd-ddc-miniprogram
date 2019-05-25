@@ -108,10 +108,13 @@ class base {
         }
         //hasToast表示sCallback回调函数中有没有wx.showToast
         //有的话，就在回调函数中执行wx.hideLoading,有的话hasToast=true
-    request(params, sCallback) {
-            wx.showLoading({
-                title: '正在加载'
-            })
+    request(params, sCallback, flag) {
+            if (!flag) {
+                wx.showLoading({
+                    title: '正在加载'
+                })
+            }
+
             wx.request({
                 url: baseUrl + params.url,
                 data: params.data || {}, //这个是不是可以传null或者undefined？
@@ -123,12 +126,17 @@ class base {
                     let { data, code } = result.data
                         // 成功
                     if (code == 200) {
-                        wx.hideLoading()
+                        if (!flag) {
+                            wx.hideLoading()
+                        }
+
 
                         sCallback && sCallback(data);
 
                     } else {
-                        wx.hideLoading()
+                        if (!flag) {
+                            wx.hideLoading()
+                        }
                         if (code == 2004) {
                             //清除所有缓存，并跳到首页。
                             //清除所有缓存咋写的2019-05-19
@@ -168,7 +176,9 @@ class base {
                 },
                 fail: error => {
                     console.log(error)
-                    wx.hideLoading()
+                    if (!flag) {
+                        wx.hideLoading()
+                    }
                 }
             });
         }

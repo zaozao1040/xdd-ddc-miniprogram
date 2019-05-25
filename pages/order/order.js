@@ -11,7 +11,7 @@
          listCanGet: true,
          //分页
          page: 1, // 设置加载的第几次，默认是第一次
-         limit: 10, // 每页条数
+         limit: 5, // 每页条数
          hasMoreDataFlag: true, //是否还有更多数据  默认还有
          //
          showPayTypeFlag: false,
@@ -40,6 +40,7 @@
              DINNER: '晚餐',
              NIGHT: '夜宵'
          },
+         getOrdersNow: false
      },
      /* 跳转订单详情 */
      handleGotoOrderDetail: function(e) {
@@ -102,7 +103,12 @@
          })
      },
      changeItemStatusActiveFlag: function(e) {
-
+         if (this.data.getOrdersNow) {
+             return
+         }
+         this.setData({
+             getOrdersNow: true
+         })
 
          if (e.currentTarget.dataset.flag == 'jinridaiqu') {
              this.setData({
@@ -212,13 +218,14 @@
                      if (element.pickStatus == 1 && element.status == 2 && element.orderFoodList && element.orderFoodList[0].takeMealStartTime) { //待取餐
 
                          // 取餐时间
-                         let start = new Date(element.orderFoodList[0].takeMealStartTime)
-                         let end = new Date(element.orderFoodList[0].takeMealEndTime)
+                         let start = (element.orderFoodList[0].takeMealStartTime.split(' '))[1].split(':') //时 分 秒
+
+                         let end = (element.orderFoodList[0].takeMealEndTime.split(' '))[1].split(':')
 
                          //取餐时间顶多是到明天吗？不管了，就是明天
-                         let s = '今天' + start.getHours() + '点' + (start.getMinutes() > 0 ? (start.getMinutes() + '分') : '')
-                         let endHours = end.getHours() == 0 ? 24 : end.getHours()
-                         let e = endHours < start.getHours() ? ('明天' + endHours + '点') : (endHours + '点') + (end.getMinutes() > 0 ? (end.getMinutes() + '分') : '')
+                         let s = '今天' + start[0] + '点' + (start[1] != '00' ? (start[1] + '分') : '')
+                         let endHours = end[0] == '00' ? 24 : end[0]
+                         let e = endHours < start[0] ? ('明天' + endHours + '点') : (endHours + '点') + (end[1] != '00' ? (end[1] + '分') : '')
                          element.takeMealTimeDes = s + '到' + e
 
                      } else {
@@ -253,7 +260,9 @@
                      })
                  }
              }
-
+             _this.setData({
+                 getOrdersNow: false
+             })
          })
      },
      /* 取消订单 */

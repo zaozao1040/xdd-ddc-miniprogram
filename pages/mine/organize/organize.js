@@ -255,12 +255,22 @@ Page({
             requestModel.request(params, () => {
 
                 requestModel.getUserInfo(() => {}, true)
-                _this.setData({
-                    bindAlready: false, //已经绑定
-                    bindUncheck: false, //审核未通过
-                    canBinding: false, //可绑定
-                    bindChecking: true //审核中
-                })
+                if (_this.data.userType == 'ADMIN') {
+                    _this.setData({
+                        bindAlready: true, //已经绑定
+                        bindUncheck: false, //审核未通过
+                        canBinding: false, //可绑定
+                        bindChecking: false //审核中
+                    })
+                } else {
+                    _this.setData({
+                        bindAlready: false, //已经绑定
+                        bindUncheck: false, //审核未通过
+                        canBinding: false, //可绑定
+                        bindChecking: true //审核中
+                    })
+                }
+
             })
 
         }

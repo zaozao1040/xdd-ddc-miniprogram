@@ -19,6 +19,7 @@
         <view class="welcome">
             感谢您的订餐,请对本次餐品进行评价!
         </view>
+
         <view style="display: flex;justify-content: center;flex-direction: row;margin-bottom: 20rpx;">
             <block wx:for="{{foodItem.star}}" wx:for-index="starIndex" wx:for-item="starItem" wx:key="starIndex">
                 <image src="/images/order/staryes.png" bindtap="handleClickStar" data-foodindex="{{foodIndex}}" data-allstarindex="{{starIndex+1}}" data-starflag="yes" style='width:56rpx;height:56rpx;margin-right: 14rpx;margin-left: 14rpx;'></image>

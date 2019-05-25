@@ -396,16 +396,29 @@ Page({
                             a.foodQuantity = onefood.foodQuantity
                             a.orderCode = item.orderCode
 
-                            if (onefood.takeMealStartTime) {
+                            if (onefood.takeMealStartTime && onefood.takeMealEndTime) {
+
+
                                 // 取餐时间
-                                let start = new Date(onefood.takeMealStartTime)
-                                let end = new Date(onefood.takeMealEndTime)
+                                let start = (onefood.takeMealStartTime.split(' '))[1].split(':') //时 分 秒
+
+                                let end = (onefood.takeMealEndTime.split(' '))[1].split(':')
 
                                 //取餐时间顶多是到明天吗？不管了，就是明天
-                                let s = '今天' + start.getHours() + '点' + (start.getMinutes() > 0 ? (start.getMinutes() + '分') : '')
-                                let endHours = end.getHours() == 0 ? 24 : end.getHours()
-                                let e = endHours < start.getHours() ? ('明天' + endHours + '点') : (endHours + '点') + (end.getMinutes() > 0 ? (end.getMinutes() + '分') : '')
+                                let s = '今天' + start[0] + '点' + (start[1] != '00' ? (start[1] + '分') : '')
+                                let endHours = end[0] == '00' ? 24 : end[0]
+                                let e = endHours < start[0] ? ('明天' + endHours + '点') : (endHours + '点') + (end[1] != '00' ? (end[1] + '分') : '')
                                 a.takeMealTimeDes = s + '到' + e
+
+                                // // 取餐时间
+                                // let start = new Date(onefood.takeMealStartTime)
+                                // let end = new Date(onefood.takeMealEndTime)
+
+                                // //取餐时间顶多是到明天吗？不管了，就是明天
+                                // let s = '今天' + start.getHours() + '点' + (start.getMinutes() > 0 ? (start.getMinutes() + '分') : '')
+                                // let endHours = end.getHours() == 0 ? 24 : end.getHours()
+                                // let e = endHours < start.getHours() ? ('明天' + endHours + '点') : (endHours + '点') + (end.getMinutes() > 0 ? (end.getMinutes() + '分') : '')
+                                // a.takeMealTimeDes = s + '到' + e
                             } else {
                                 let b = item.mealDate.split('-')
 
@@ -445,7 +458,7 @@ Page({
             })
 
 
-        })
+        }, true)
     },
     /* 取餐 */
     handleTakeOrder: function(e) {

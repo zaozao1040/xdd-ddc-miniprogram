@@ -7,7 +7,7 @@ Page({
      * 页面的初始数据
      */
     data: {
-
+        activeIndex: 3
     },
 
     /**
@@ -66,7 +66,6 @@ Page({
                 evaluateLabels: data,
                 evaluateLabelsActive: data[4].tagList //当前默认五星
             })
-
         })
 
 
@@ -95,7 +94,7 @@ Page({
                     wx.showToast({
                         title: '最多选' + maxNumber + '个',
                         image: '/images/msg/warning.png',
-                        duration: 1500
+                        duration: 1000
                     })
                 } else {
                     tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active = !tmp_activeStatus
@@ -220,17 +219,18 @@ Page({
             method: 'post',
             data: tmpData
         }
+        console.log('param', param)
         requestModel.request(param, (res) => {
             wx.showToast({
                 title: '成功评价',
                 image: '/images/msg/success.png',
-                duration: 1500
+                duration: 1000
             })
             setTimeout(() => {
                 wx.reLaunch({
                     url: '/pages/order/order'
                 })
-            }, 1500)
+            }, 1000)
         })
     },
 
@@ -253,6 +253,7 @@ Page({
         })
 
     },
+
     contentInput: function(e) {
         this.data.content[e.currentTarget.dataset.foodindex] = e.detail.value
         this.setData({
