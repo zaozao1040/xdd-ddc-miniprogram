@@ -87,7 +87,7 @@
              this.setData({
                  userInfo: userInfo
              })
-             console.log('requestModel', userInfo)
+             console.log('userInfo', userInfo)
          })
 
      },

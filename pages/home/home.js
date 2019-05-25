@@ -268,7 +268,7 @@ Page({
             wx.hideTabBar()
         } else { //已登录状态，直接登录
             requestModel.getUserInfo(userInfo => {
-                console.log('userInfo', userInfo)
+
                 wx.showTabBar()
                 let { userStatus, canTakeDiscount } = userInfo
                 if (userStatus == 'NO_CHECK') { //企业用户的'审核中'状态
@@ -395,6 +395,7 @@ Page({
                             a.foodName = onefood.foodName
                             a.foodQuantity = onefood.foodQuantity
                             a.orderCode = item.orderCode
+                            a.foodCode = onefood.foodCode
 
                             if (onefood.takeMealStartTime && onefood.takeMealEndTime) {
 
@@ -429,6 +430,7 @@ Page({
                             if (onefood.cabinet && onefood.cabinet.length > 0) {
                                 a.isBinding = true
                                 a.bindDes = '柜子号'
+                                a.hasCabinet = true
                                 let c = ''
                                 onefood.cabinet.forEach((cabinet, index) => {
                                     c += cabinet.cabinetNumber + '-' + cabinet.cellNumber
@@ -460,40 +462,66 @@ Page({
 
         }, true)
     },
+    //取餐private函数
+    takeFoodOrder(ordercode, foodcode, again) {
+        let _this = this
+            //就调用接口加载柜子号 
+        let param = {
+            url: '/order/orderPickPre?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + ordercode + '&foodCode=' + foodcode + '&again=' + again
+        }
+        requestModel.request(param, (data) => {
+            let tmp_content = ''
+            if (data) {
+                let bindnumber = ''
+                if (data.length > 0) {
+                    for (let i = 0; i < data.length - 1; i++) {
+                        bindnumber += data[i].cabinetNumber + '-' + data[i].cellNumber + ', '
+                    }
+                    bindnumber += data[data.length - 1].cabinetNumber + '-' + data[data.length - 1].cellNumber
+
+                    tmp_content = '当前柜子为：' + bindnumber + ',请确认本人在柜子旁边'
+                } else {
+                    tmp_content = '请确认取餐'
+                }
+
+
+                wx.showModal({
+                    title: '是否取餐?',
+                    content: tmp_content,
+                    success(res) {
+                        if (res.confirm) {
+
+                            let param = {
+                                url: '/order/orderPick?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + ordercode
+                            }
+                            requestModel.request(param, () => {
+                                wx.showModal({
+                                    title: '是否再次取餐?',
+                                    content: data.length > 0 ? '如果柜子' + bindnumber + '中餐品未取出，可点击确定再次取餐' : '如果餐品未取出，可点击确定再次取餐',
+                                    success(res) {
+                                        _this.takeFoodOrder(ordercode, foodcode, true)
+                                    }
+                                })
+
+                            })
+                        }
+                    }
+                })
+            }
+        })
+    },
     /* 取餐 */
-    handleTakeOrder: function(e) {
+    handleTakeOrder: function(e, again) {
 
         let _this = this
         if (!_this.data.canClick) {
             return
         }
         _this.data.canClick = false
-        let tmp_content = ''
-        if (e.currentTarget.dataset.isbinding) {
-            let { bindnumber, binddes } = e.currentTarget.dataset
-            tmp_content = '当前' + binddes + '为：' + bindnumber + ',请确认本人在' + binddes + '旁边'
-        }
 
-        wx.showModal({
-            title: '是否取餐?',
-            content: tmp_content,
-            success(res) {
-                if (res.confirm) {
+        _this.takeFoodOrder(e.currentTarget.dataset.ordercode, e.currentTarget.dataset.foodcode, false)
 
-                    let param = {
-                        url: '/order/orderPick?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + e.currentTarget.dataset.ordercode
-                    }
-                    requestModel.request(param, () => {
-                        wx.showToast({
-                            title: '成功取餐',
-                            image: '/images/msg/success.png',
-                            duration: 2000
-                        })
 
-                    })
-                }
-            }
-        })
         if (_this.data.timer) {
             clearTimeout(_this.data.timer)
         }

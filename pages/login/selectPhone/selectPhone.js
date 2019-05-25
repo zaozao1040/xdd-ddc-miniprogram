@@ -38,7 +38,7 @@ Page({
             success() {
                 console.log('####### session_key 未过期')
                     // session_key 未过期，并且在本生命周期一直有效
-                wx.login()
+                    // wx.login()
             },
             fail() {
                 console.log('@@@@@@@ session_key 已经失效')
@@ -67,8 +67,9 @@ Page({
         })
     },
     getPhoneNumber(e) {
-        var _this = this
+
         console.log('getPhoneNumber', e)
+        var _this = this
         if (e.detail.iv) { //这个字段存在 代表用户选择了“授权”
             wx.login({ //调用微信login接口，获取code，然后根据code获取是否是新用户
                 success: function(res) {
@@ -107,7 +108,6 @@ Page({
                                     duration: 2000
                                 })
                             }
-
                         })
                     }
                 }
