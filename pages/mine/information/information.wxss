@@ -58,3 +58,29 @@
     width: 314rpx;
     height: 160rpx;
 }
+
+.item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40rpx;
+}
+
+.item-last {
+    display: flex;
+    justify-content: space-between;
+}
+
+.org-admin {
+    margin: 16rpx;
+    padding: 30rpx;
+    background: #fff;
+    border-radius: 6rpx;
+    display: flex;
+    justify-content: space-between;
+}
+
+.top {
+    display: flex;
+    padding: 0 30rpx;
+    justify-content: space-between;
+}

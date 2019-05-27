@@ -475,6 +475,75 @@
          })
 
      },
+
+     //取餐private函数
+     takeFoodOrder(ordercode) {
+         let _this = this
+             //就调用接口加载柜子号 
+         let param = {
+             url: '/order/orderPickPre?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + ordercode
+         }
+         requestModel.request(param, (data) => {
+             let tmp_content = ''
+             if (data) {
+                 let bindnumber = ''
+                 if (data.length > 0) {
+                     for (let i = 0; i < data.length - 1; i++) {
+                         bindnumber += data[i].cabinetNumber + '-' + data[i].cellNumber + ', '
+                     }
+                     bindnumber += data[data.length - 1].cabinetNumber + '-' + data[data.length - 1].cellNumber
+
+                     tmp_content = '当前柜子为：' + bindnumber + ',请确认本人在柜子旁边'
+                 } else {
+                     tmp_content = '请确认取餐'
+                 }
+
+                 let content = data.length > 0 ? '如果柜子' + bindnumber + '中餐品未取出，可点击确定再次取餐' : '如果餐品未取出，可点击确定再次取餐'
+
+                 wx.showModal({
+                     title: '是否取餐?',
+                     content: tmp_content,
+                     success(res) {
+                         if (res.confirm) {
+                             _this.takeFoodOrderAgain(ordercode, false, content)
+                         } else if (res.cancel) {
+                             wx.hideToast()
+                                 //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
+
+                         }
+                     }
+                 })
+             }
+         })
+     },
+     //取餐private函数
+     takeFoodOrderAgain(ordercode, again, content) {
+         let _this = this
+
+         let param = {
+             url: '/order/orderPick?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + ordercode + '&again=' + again
+         }
+         requestModel.request(param, () => {
+             wx.showModal({
+                 title: '是否再次取餐?',
+                 content: content,
+                 success(res) {
+                     if (res.confirm) {
+                         _this.takeFoodOrderAgain(ordercode, true, content)
+                     } else if (res.cancel) {
+                         wx.hideToast()
+                             //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
+                         _this.setData({
+                             page: 1,
+                             orderList: []
+                         })
+                         _this.getOrderList()
+                     }
+                 }
+
+             })
+         })
+     },
      /* 去取餐 */
      handleTakeOrder: function(e) {
          //console.log(e)
@@ -483,38 +552,37 @@
              return
          }
          _this.data.canClick = false
-         let tmp_content = '请确定在柜子前'
-             // if (e.currentTarget.dataset.cabinet != null) {
-             //     tmp_content = '当前柜号为：' + e.currentTarget.dataset.cabinet + ',请确认本人在柜子旁边'
-             // }
-         wx.showModal({
-             title: '是否取餐?',
-             content: tmp_content,
-             success(res) {
-                 if (res.confirm) {
+             //  let tmp_content = '请确定在柜子前'
 
-                     let param = {
-                         url: '/order/orderPick?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + e.currentTarget.dataset.ordercode
-                     }
-                     requestModel.request(param, () => {
+         //  wx.showModal({
+         //      title: '是否取餐?',
+         //      content: tmp_content,
+         //      success(res) {
+         //          if (res.confirm) {
 
-                         wx.showToast({
-                             title: '成功取餐',
-                             image: '/images/msg/success.png',
-                             duration: 1000
-                         })
-                         setTimeout(() => {
-                             //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
-                             _this.setData({
-                                 page: 1,
-                                 orderList: []
-                             })
-                             _this.getOrderList()
-                         }, 1000)
-                     })
-                 }
-             }
-         })
+         //              let param = {
+         //                  url: '/order/orderPick?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + e.currentTarget.dataset.ordercode
+         //              }
+         //              requestModel.request(param, () => {
+
+         //                  wx.showToast({
+         //                      title: '成功取餐',
+         //                      image: '/images/msg/success.png',
+         //                      duration: 1000
+         //                  })
+         //                  setTimeout(() => {
+         //                      //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
+         //                      _this.setData({
+         //                          page: 1,
+         //                          orderList: []
+         //                      })
+         //                      _this.getOrderList()
+         //                  }, 1000)
+         //              })
+         //          }
+         //      }
+         //  })
+         _this.takeFoodOrder(e.currentTarget.dataset.ordercode)
          if (_this.data.timer) {
              clearTimeout(_this.data.timer)
          }
@@ -522,205 +590,19 @@
              _this.data.canClick = true
          }, 2000)
      },
-     /* 关闭评价标签 */
-     handleClickClose: function() {
-         this.setData({
-             showRatingsFlag: !this.data.showRatingsFlag
-         })
-         wx.showTabBar()
-     },
+
      /* 去评价 */
      handleEvaluateOrder: function(e) {
-         let _this = this
-         this.data.orderCode = e.currentTarget.dataset.ordercode
-         let orderFoodList = e.currentTarget.dataset.orderfoodlist
-         let orderFoodListLength = orderFoodList.length
-
          let a = {}
          a.orderCode = e.currentTarget.dataset.ordercode
-         a.orderFoodList = orderFoodList
+         a.orderFoodList = e.currentTarget.dataset.orderfoodlist
          wx.setStorageSync('commentOrder', a)
          wx.navigateTo({
              url: './comment/comment'
          })
      },
 
-     /* 去评价的对话框的确定 */
-     buttonClickYes_ratings: function(e) {
-         let _this = this
-         let tmpData = {
-             userCode: wx.getStorageSync('userCode'),
-             orderCode: _this.data.orderCode,
-             wechatFormId: e.detail.formId,
-             foodEvaluateList: []
-         }
-         let length = _this.data.orderFoodList.length
-         console.log('555555', _this.data.orderFoodList)
-         for (let i = 0; i < length; i++) {
-             _this.data.labels[i] = []
-             _this.data.orderFoodList[i].evaluateLabelsActive.forEach(element => {
-                 if (element.active) {
-                     _this.data.labels[i].push(element.tagCode)
-                 }
-             })
-             let a = {}
-             a.foodCode = _this.data.orderFoodList[i].foodCode
-             a.star = _this.data.orderFoodList[i].star
-             a.content = _this.data.content[i]
-             a.images = _this.data.imagesArr[i]
-             a.tagCodeList = _this.data.labels[i]
-             tmpData.foodEvaluateList.push(a)
-             a = {}
-         }
-         console.log('评价请求的参数：', tmpData)
-         let param = {
-             url: '/orderEvaluate/orderEvaluate',
-             method: 'post',
-             data: tmpData
-         }
-         requestModel.request(param, (res) => {
-             wx.hideLoading()
-             wx.reLaunch({
-                 url: '/pages/order/order',
-                 success: function(res) {
-                     wx.showToast({
-                         title: '成功评价',
-                         image: '/images/msg/success.png',
-                         duration: 2000
-                     })
-                 }
-             })
 
-         }, true)
-     },
-
-     /* 点击星星 */
-     handleClickStar: function(e) {
-         let _this = this
-         let starWillBeNum = 0
-         if (e.currentTarget.dataset.starflag === 'yes') { //黄星
-             starWillBeNum = e.currentTarget.dataset.allstarindex
-         }
-         if (e.currentTarget.dataset.starflag === 'no') { //灰星
-             starWillBeNum = e.currentTarget.dataset.yellowstar + e.currentTarget.dataset.allstarindex
-         }
-         /* 同时更新orderFoodList的star和orderFoodList属性 */
-         let tmp_orderFoodList = _this.data.orderFoodList
-         tmp_orderFoodList[e.currentTarget.dataset.foodindex].star = starWillBeNum
-         tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive = _this.data.evaluateLabels[starWillBeNum - 1].tagList
-         this.setData({
-             orderFoodList: tmp_orderFoodList,
-         })
-
-     },
-     contentInput: function(e) {
-         this.data.content[e.currentTarget.dataset.foodindex] = e.detail.value
-         this.setData({
-             content: this.data.content,
-         })
-     },
-     /* 点击标签 */
-     handleClickLabel: function(e) {
-         let _this = this
-         let tmp_orderFoodList = _this.data.orderFoodList
-         let tmp_activeStatus = tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active
-         let labelLength = tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive.length
-         const maxNumber = 3
-         if (tmp_activeStatus === true) { //原来是true的话，正常修改为false
-             tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active = !tmp_activeStatus
-             _this.setData({
-                 orderFoodList: tmp_orderFoodList,
-             })
-         } else { //原来是false的话，需要考虑做多n个标签的情况
-             if (labelLength > maxNumber) { //只有当前的label列表数量大于n个时候才做判断
-                 let selectedLength = 0
-                 tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive.forEach(element => {
-                     if (element.active === true) {
-                         selectedLength++
-                     }
-                 })
-                 if (selectedLength >= maxNumber) {
-                     wx.showToast({
-                         title: '最多选' + maxNumber + '个',
-                         image: '/images/msg/warning.png',
-                         duration: 1500
-                     })
-                 } else {
-                     tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active = !tmp_activeStatus
-                     _this.setData({
-                         orderFoodList: tmp_orderFoodList,
-                     })
-                 }
-             } else {
-                 tmp_orderFoodList[e.currentTarget.dataset.foodindex].evaluateLabelsActive[e.currentTarget.dataset.labelindex].active = !tmp_activeStatus
-                 _this.setData({
-                     orderFoodList: tmp_orderFoodList,
-                 })
-             }
-         }
-         console.log('333333', _this.data.orderFoodList)
-     },
-     /* 点击预览图片 */
-     handlePreviewImage: function(e) {
-         let _this = this
-         let foodIndex = e.currentTarget.dataset.foodindex;
-         let index = e.currentTarget.dataset.index; //预览图片的编号
-         wx.previewImage({
-             current: _this.data.tempFilePaths[foodIndex][index], //预览图片链接
-             urls: _this.data.tempFilePaths[foodIndex], //图片预览list列表
-             success: function(res) {
-                 console.log(res);
-             },
-             fail: function() {
-                 console.log('fail')
-             }
-         })
-     },
-     /* 点击上传图片 */
-     handleClickAddImg: function(e) {
-         let _this = this
-         wx.chooseImage({
-             count: 1, //最多可以选择的图片数，默认为9
-             sizeType: ['orignal', 'compressed'], //original 原图，compressed 压缩图，默认二者都有
-             sourceType: ['album', 'camera'], //album 从相册选图，camera 使用相机，默认二者都有
-             success: function(res_0) {
-                 wx.showToast({
-                     title: '正在上传...',
-                     icon: 'loading',
-                     mask: true,
-                     duration: 1000
-                 })
-                 wx.uploadFile({
-                     url: baseUrl + '/file/uploadFile', //开发者服务器 url
-                     filePath: res_0.tempFilePaths[0], //要上传文件资源的路径
-                     name: 'file', //文件对应的 key , 开发者在服务器端通过这个 key 可以获取到文件二进制内容
-                     formData: { //HTTP 请求中其他额外的 form data
-                         orderCode: _this.data.orderCode,
-                         userCode: wx.getStorageSync('userCode'),
-                         type: 'EVALUATE'
-                     },
-                     success: function(res) {
-                         let tmp_data = JSON.parse(res.data)
-                         if (tmp_data.code == 200) {
-                             let tmp_tempFilePaths = _this.data.tempFilePaths
-                             tmp_tempFilePaths[e.currentTarget.dataset.foodindex].push(res_0.tempFilePaths[0])
-                             _this.setData({
-                                 tempFilePaths: tmp_tempFilePaths //预览图片响应式
-                             })
-                             _this.data.imagesArr[e.currentTarget.dataset.foodindex].push(tmp_data.data)
-                         } else {
-                             wx.showToast({
-                                 title: tmp_data.msg,
-                                 image: '/images/msg/error.png',
-                                 duration: 2000
-                             })
-                         }
-                     }
-                 })
-             }
-
-         })
-     },
      //用于解决小程序的遮罩层滚动穿透
      preventTouchMove: function() {
 

@@ -150,7 +150,6 @@ border-bottom-right-radius: 50rpx; */
 
 /* 评价 */
 
-
 .btn {
     display: inline-block;
     margin: 30rpx 30rpx 20rpx 20rpx;
@@ -319,4 +318,9 @@ border-bottom-right-radius: 50rpx; */
     border-bottom: 10rpx solid #e79b37;
     color: #e79b37;
     font-size: 40rpx;
+}
+
+.image-list {
+    display: flex;
+    margin-bottom: 10rpx;
 }

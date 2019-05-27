@@ -567,8 +567,6 @@
      font-weight: 500;
      color: #666;
  }
- 
- .bottom-icon {}
  /* button按钮 */
  
  .button-wrapper {
@@ -590,4 +588,64 @@
      color: #FFF;
      font-weight: bold;
      font-size: 36rpx;
+ }
+ 
+ .address-wrapper-top {
+     flex: 1;
+     width: 80%;
+     padding-left: 30rpx;
+ }
+ 
+ .address-wrapper-bottom {
+     flex: 0 0 70rpx;
+     margin: auto;
+     text-align: center;
+ }
+ 
+ .flex-1 {
+     flex: 1;
+ }
+ 
+ .cart-menuItem-name {
+     display: flex;
+     justify-content: space-between;
+ }
+ 
+ .flex-a {
+     display: flex;
+ }
+ 
+ .pay-item {
+     display: flex;
+     justify-content: space-between;
+     padding-bottom: 30rpx;
+     border-bottom: 1rpx solid #F2F2F2;
+ }
+ 
+ .pay-item-last {
+     display: flex;
+     justify-content: space-between;
+     border-bottom: 1rpx solid #F2F2F2;
+ }
+ 
+ .pay-item-top {
+     display: flex;
+     justify-content: space-between;
+ }
+ 
+ .pay-bottom-wrapper {
+     position: fixed;
+     bottom: 0;
+     left: 0;
+     right: 0;
+     height: 100rpx;
+     display: flex;
+     background: #4D4D4D;
+     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.20);
+ }
+ 
+ .pay-bottom-money {
+     width: 530rpx;
+     display: flex;
+     padding: 30rpx 0;
  }

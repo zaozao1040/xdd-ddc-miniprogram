@@ -9,15 +9,15 @@
             <view class="cart-menuItem-left">
                 <image class="cart-menuItem-img" src="{{item.foodImage}}"></image>
             </view>
-            <view style="flex:1;">
-                <view style="display: flex;justify-content: space-between;">
+            <view class='flex-1'>
+                <view class='food-name'>
                     <view class="cart-menuItemDes">
                         {{item.foodName}}
                     </view>
-                    <view style='display:flex;'>
-                        <!-- <view class="cart-menuItem-originmoney" wx:if="{{item.foodTotalOriginalPrice!=item.foodTotalPrice}}">¥{{item.foodTotalOriginalPrice}}</view> -->
-                        <view class="cart-menuItem-money">¥{{item.foodPrice}}</view>
-                    </view>
+
+                    <!-- <view class="cart-menuItem-originmoney" wx:if="{{item.foodTotalOriginalPrice!=item.foodTotalPrice}}">¥{{item.foodTotalOriginalPrice}}</view> -->
+                    <view class="cart-menuItem-money">¥{{item.foodPrice}}</view>
+
                 </view>
                 <view class="cart-menuItem-mealtype">
                     <text style="margin-right:10rpx;">{{detailInfo.mealTypeDes}}</text><text>x{{item.foodQuantity}}</text>
@@ -41,7 +41,7 @@
             <view class='cart-discount-organize-money'>-￥{{detailInfo.discountPrice}}</view>
 
         </view>
-        <view style='display:flex;justify-content: flex-end;padding-top:30rpx;'>
+        <view class='order-money'>
             <view class='yy-1'>已优惠</view>
             <view class='yy-2'>￥{{detailInfo.deduction}}</view>
             <view class='yy-3'>合计</view>
@@ -67,6 +67,25 @@
             </view>
             <view class="right-content">
                 {{detailInfo.orderAddress}}
+            </view>
+        </view>
+    </view>
+    <view class="order-info-wrapper">
+        <view class='order-info-title'>存箱/柜信息</view>
+        <view class="order-info-one">
+            <view class="left-label">
+                箱子
+            </view>
+            <view class="right-content">
+                {{detailInfo.boxes}}
+            </view>
+        </view>
+        <view class="order-info-one">
+            <view class="left-label">
+                柜子
+            </view>
+            <view class="right-content">
+                {{detailInfo.cabinets}}
             </view>
         </view>
     </view>

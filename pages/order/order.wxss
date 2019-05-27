@@ -1,44 +1,69 @@
-/* pages/order/order.wxss */
+/*去付款的弹窗*/
 
-.wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #eee;
+.pay-wechat {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 40rpx;
 }
 
-.in {
-    animation-name: show;
-    animation-duration: 0.3s;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
+.pay-balance {
+    display: flex;
+    justify-content: space-between;
+    padding: 32rpx 40rpx 56rpx;
 }
 
-.out {
-    animation-name: fade;
-    animation-duration: 0.3s;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
+.pay-button {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 36rpx;
 }
 
-@keyframes show {
-    from {
-        transform: translate(0, 100%);
-    }
-    to {
-        transform: translate(0, 0);
-    }
+.cancel-button {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 30rpx;
 }
 
-@keyframes fade {
-    from {
-        transform: translate(0, 0);
-    }
-    to {
-        transform: translate(0, 100%);
-    }
+.one-order {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.08);
+    border-radius: 6px;
+    background: #FFFFFF;
+    margin: 24rpx 20rpx 0;
+    padding: 0 30rpx 40rpx 30rpx;
+    display: flex;
+}
+
+.order-image {
+    height: 88rpx;
+    width: 88rpx;
+    flex-shrink: 0;
+}
+
+.order-right {
+    margin-left: 20rpx;
+    flex-grow: 1;
+}
+
+.order-right-top {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1rpx solid #eee;
+    height: 138rpx;
+}
+
+.order-cabinet-num-group {
+    display: flex;
+}
+
+.food-take {
+    display: flex;
+    justify-content: space-between;
+    padding: 21rpx 0 40rpx;
+}
+
+.order-button {
+    display: flex;
+    justify-content: flex-end;
 }
 
 
@@ -107,19 +132,6 @@
     color: #FFFFFF;
     letter-spacing: 0;
     text-align: center;
-}
-
-
-/********** 去评价弹出的对话框 **********/
-
-.ratings-wrapper {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 500;
-    background: white;
-    top: 0;
 }
 
 .mask {
@@ -229,80 +241,6 @@
     font-size: 26rpx;
     color: #F79C4C;
     margin-top: 120rpx;
-}
-
-
-/* 上传图片 */
-
-.img-wrapper {
-    display: flex;
-    margin-top: 20rpx;
-    width: 100%;
-}
-
-.image {
-    margin-right: 10rpx;
-    height: 160rpx;
-    width: 160rpx;
-    color: #999;
-    background: #F9F9F9;
-    border: 1px solid #CCCCCC;
-    border-radius: 3px;
-}
-
-.image-shangchuan {
-    margin-right: 10rpx;
-    height: 160rpx;
-    width: 160rpx;
-}
-
-
-/* 完结 */
-
-.ratings-wrapper-content {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-
-.foodList-wrapper {
-    padding: 10rpx;
-}
-
-.fooditem-wrapper {
-    margin: 10rpx;
-}
-
-.foodname {
-    text-align: center;
-}
-
-.foodstar {
-    text-align: center;
-    margin-top: 40rpx;
-    margin-bottom: 40rpx;
-    color: #999;
-}
-
-.icon-xingxing {
-    font-size: 50rpx;
-}
-
-.foodstar-active {
-    color: #e79b37;
-}
-
-.foodratingcontent-wrapper {
-    padding: 10rpx;
-    border: 1rpx solid#999;
-    border-radius: 10rpx;
-}
-
-.foodratingcontent {
-    height: 250rpx;
-    width: 100%;
 }
 
 
@@ -570,21 +508,4 @@
     color: #F79C4C;
     letter-spacing: 0;
     text-align: left;
-}
-
-.button {
-    background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
-    border-radius: 50rpx;
-    font-family: PingFangSC-Regular;
-    font-size: 34rpx;
-    color: #FFFFFF;
-    text-align: center;
-    height: 96rpx;
-    line-height: 96rpx;
-    margin-top: 30rpx;
-    /* bottom: 12rpx; */
-    /* left: 0;
-    right: 0; */
-    width: 630rpx;
-    /* margin: auto; */
 }

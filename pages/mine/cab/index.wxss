@@ -12,6 +12,10 @@
  * Licensed under the MIT license
  */
 
+.flex-a {
+    display: flex;
+}
+
 
 /*下拉列表*/
 

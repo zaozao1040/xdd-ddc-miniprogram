@@ -171,8 +171,6 @@
     border-bottom: 1rpx solid #F5F5F5;
 }
 
-.organizeItem-left {}
-
 .organizeName {
     font-family: PingFangSC-Regular;
     font-size: 34rpx;
@@ -197,4 +195,14 @@
     padding: 10rpx 20rpx;
     font-size: 40rpx;
     color: #666;
+}
+
+.organize-select {
+    position: relative;
+    display: flex;
+    padding-bottom: 2rpx;
+}
+
+.grow {
+    flex-grow: 1;
 }

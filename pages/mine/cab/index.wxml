@@ -4,7 +4,7 @@
         <view class="page__bd">
             <view class="page__hd ff" style="border-top:15rpx solid rgb(245,245,245);border-bottom:15rpx solid rgb(245,245,245);">
                 <view class="page__desc more-content">
-                    <view style="display:flex;">
+                    <view class='flex-a'>
                         <view style='width:190rpx;text-align:right;color:#333;font-size:36rpx;margin-right:10rpx;'>柜子地址:</view>
                         <view>{{cabinetList[0].deviceAddress}}</view>
                     </view>

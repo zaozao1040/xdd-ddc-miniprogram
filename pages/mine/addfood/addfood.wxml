@@ -4,7 +4,7 @@
             <view>
                 <view class="mask" catchtap="handleCloseCart" wx:if="{{boxActiveFlag}}" catchtouchmove="preventTouchMove"></view>
                 <view class="book-title">预约补餐</view>
-                <view style="padding:30rpx 0 29rpx;display:flex;border-bottom:1rpx solid #EBEBEB;">
+                <view class='mealtype-list'>
 
                     <view class="mealtype-active">{{mealTypeItemShow}}</view>
 
@@ -43,7 +43,7 @@
                                             <view class="food-name">
                                                 {{foodItem.foodName}}
                                             </view>
-                                            <view class="food-label" style="margin-top:10rpx;display: flex;overflow: hidden;">
+                                            <view class="food-label">
                                                 <view class="food-label-item">{{ menutypeItem.typeName }}</view>
                                                 <view class="food-label-item" wx:for="{{foodItem.foodLabels}}" wx:key="{{ index }}">{{ item }}</view>
                                             </view>
@@ -65,8 +65,8 @@
 
 
                                         </view>
-                                        <view style="display: flex;justify-content: space-between; width:100%; height:40rpx;">
-                                            <view style="display: flex;">
+                                        <view class='price-num-control'>
+                                            <view class='flex-a'>
                                                 <view class="price-real-icon">￥</view>
                                                 <view class="price-real">
                                                     {{ foodItem.foodPrice }}
@@ -98,7 +98,7 @@
                 <!--  弹出 购物车 -->
                 <view class="{{ boxActiveFlag ? 'in' : 'out' }}" style="position: fixed; bottom: 0; left: 0; right: 0;z-index:1001;" catchtouchmove="preventTouchMove">
                     <view class="chart-top">企业总抵扣：￥{{totalMoneyRealDeduction}}</view>
-                    <view style="display: flex;line-height:60rpx;background:#FFFFFF;padding:0 30rpx;justify-content: space-between;">
+                    <view class="chart-top-2">
                         <view style="font-family: PingFang-SC-Regular; font-size: 11px; color: #999999; letter-spacing: 0; text-align: left;">
                             已选餐品
                         </view>
@@ -113,7 +113,7 @@
                             <view class="chart-date">{{mealDate}}{{' '+mealTypeItemShow}} </view>
 
                             <view wx:for="{{ selectedFoodsIndex.selectedFoods }}" wx:for-item="onefood" wx:for-index="selectedFoodIndex" wx:key="selectedFoodIndex">
-                                <view style="display: flex;background: #FFFFFF;box-shadow: inset 0 0 0 0 #E6E6E6;border-bottom:2rpx solid #F5F5F5;" wx:if="{{onefood.foodCount>0}}">
+                                <view class='chart-item' wx:if="{{onefood.foodCount>0}}">
                                     <!--午餐-->
                                     <view class="chart-mealtype">{{ selectedFoodsIndex[item].name }}
                                     </view>
@@ -181,7 +181,7 @@
                     </view>
 
                     <!-- 购物车激活状态 -->
-                    <view wx:if="{{ boxActiveFlag }}" style="display: flex;" wx:if="{{ totalCount > 0 }}">
+                    <view wx:if="{{totalCount > 0}}" class='flex-a'>
                         <view wx:if="{{ totalMoney > 0 }}" style="line-height:100rpx;bottom:0;position:relative;left:160rpx;font-family: PingFang-SC-Medium; font-size: 20px; color: #FFFFFF; letter-spacing: 0; text-align: left;">
                             ￥{{ realTotalMoney }}
                         </view>

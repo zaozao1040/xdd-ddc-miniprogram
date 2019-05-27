@@ -2,7 +2,7 @@
 <view>
     <view class='header-wrapper'>
         <view class="header">
-            <view style='display:flex;'>
+            <view class='header-desc'>
                 <view class='header-title-left'>可用积分</view>
                 <navigator url="./regular">
                     <view class='header-title-right'>?</view>
@@ -13,14 +13,14 @@
                 {{integral}}
             </view>
         </view>
-        <view style='background: rgba(102,102,102,0.1);display: flex;padding:16rpx 0;'>
-            <view style='flex-grow:1;text-align:center;border-right:2rpx solid #fff;'>
+        <view class='header-3'>
+            <view class='header-3-left'>
                 <view class='header-bottom-top'>送积分</view>
                 <view class='header-bottom-bottom'>消费、评价可得</view>
             </view>
-            <view style='flex-grow:1;text-align:center;'>
-                <view class='header-bottom-top'>积分当钱花</view>
-                <view class='header-bottom-bottom'>100积分抵扣1元</view>
+            <view class='header-3-right'>
+                <view class='header-bottom-top '>积分当钱花</view>
+                <view class='header-bottom-bottom '>100积分抵扣1元</view>
             </view>
         </view>
     </view>
@@ -31,16 +31,16 @@
             <view class="content-header-right">全部 </view>
         </view>
         <view class="content-time">
-            <view class="content-time-left" style='margin-right:10rpx;'> </view>
-            <view class="content-time-right">我的积分：<text style='color: #F79C4C;'>{{integral}}</text> </view>
+            <view class="content-time-left" style='margin-right:10rpx; '> </view>
+            <view class="content-time-right">我的积分：<text style='color: #F79C4C; '>{{integral}}</text> </view>
         </view>
         <view class="c_scrollPosition_forCalculate">
-            <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower='gotoNextPage'>
+            <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower='gotoNextPage '>
                 <view wx:if="{{integralListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
                     未查询到积分记录..
                 </view>
                 <view wx:else>
-                    <view class="integral-item" style='background:{{integralIndex%2==0?"#FBFBFB":"#fff"}}' wx:for="{{integralList}}" wx:for-index="integralIndex" wx:for-item="integralItem" wx:key="integralIndex">
+                    <view class="integral-item" style='background:{{integralIndex%2==0? "#FBFBFB": "#fff"}} ' wx:for="{{integralList}}" wx:for-index="integralIndex" wx:for-item="integralItem" wx:key="integralIndex">
                         <view>
                             <view class="integral-type">
                                 {{integralItem.recordTypeDes}}
@@ -49,7 +49,7 @@
                                 {{integralItem.operateTimeDes}}
                             </view>
                         </view>
-                        <view class="{{integralItem.integral>0?'Integral-value-add':'Integral-value-minus'}}">
+                        <view class="{{integralItem.integral>0?'Integral-value-add ':'Integral-value-minus '}}">
                             {{integralItem.integral}}
                         </view>
 

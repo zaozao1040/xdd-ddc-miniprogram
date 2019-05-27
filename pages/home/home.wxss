@@ -95,6 +95,15 @@
     margin: 24rpx 20rpx 24rpx 24rpx;
 }
 
+.takefood-img-wrapper {
+    flex-shrink: 0;
+}
+
+.takefood-cabinet {
+    margin-top: 16rpx;
+    flex-grow: 1;
+}
+
 .takefood-cabinet-number {
     font-family: PingFang-SC-Medium;
     font-size: 18px;
@@ -130,6 +139,7 @@
     text-align: center;
     float: right;
     margin: 50rpx 24rpx 0 0;
+    flex-shrink: 0;
 }
 
 .takefood-mealType {
@@ -814,4 +824,19 @@
     bottom: 0;
     border-top-left-radius: 8rpx;
     border-top-right-radius: 8rpx;
+}
+
+.flexdisplay {
+    display: flex;
+}
+
+.notice-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.appointment-choice-grow {
+    margin-left: 30rpx;
+    width: 150rpx;
+    flex-grow: 1;
 }

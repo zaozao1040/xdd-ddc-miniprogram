@@ -426,29 +426,34 @@ Page({
 
         }
         for (let i = 0; i < _this.data.selectedFoods.length; i++) {
+
             let tmp_selectedFoods = _this.data.selectedFoods[i]
-            _this.data.mealEnglistLabel.forEach(mealType => {
-                if (tmp_selectedFoods[mealType]) { //选了这个餐时的菜
+            if (tmp_selectedFoods.count > 0) {
 
-                    let order_item = {
-                        mealDate: tmp_selectedFoods.mealDate,
-                        mealType: mealType.toUpperCase(),
-                        foods: [],
-                        integralNumber: tmp_selectedFoods[mealType].useIntegral ? tmp_selectedFoods[mealType].integral * 100 : 0
-                    }
 
-                    tmp_selectedFoods[mealType].selectedFoods.forEach(onefood => {
-                        let foods_item = {
-                            foodCode: onefood.foodCode,
-                            quantity: onefood.foodCount,
+                _this.data.mealEnglistLabel.forEach(mealType => {
+                    if (tmp_selectedFoods[mealType] && tmp_selectedFoods[mealType].selectedFoods.length > 0) { //选了这个餐时的菜
 
+                        let order_item = {
+                            mealDate: tmp_selectedFoods.mealDate,
+                            mealType: mealType.toUpperCase(),
+                            foods: [],
+                            integralNumber: tmp_selectedFoods[mealType].useIntegral ? tmp_selectedFoods[mealType].integral * 100 : 0
                         }
-                        order_item.foods.push(foods_item)
-                    })
 
-                    tmp_param.order.push(order_item)
-                }
-            })
+                        tmp_selectedFoods[mealType].selectedFoods.forEach(onefood => {
+                            let foods_item = {
+                                foodCode: onefood.foodCode,
+                                quantity: onefood.foodCount,
+
+                            }
+                            order_item.foods.push(foods_item)
+                        })
+
+                        tmp_param.order.push(order_item)
+                    }
+                })
+            }
         }
 
         let param = tmp_param

@@ -1,3 +1,19 @@
+ .comment-star {
+     display: flex;
+     justify-content: center;
+     flex-direction: row;
+     margin-bottom: 20rpx;
+ }
+ 
+ .comment-label {
+     display: flex;
+     flex-wrap: wrap;
+ }
+ 
+ .image-list {
+     display: flex;
+ }
+ 
  .foodItem {
      padding: 30rpx 60rpx;
      border-bottom: #F5F5F5 solid 2rpx;

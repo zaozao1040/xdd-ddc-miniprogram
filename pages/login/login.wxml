@@ -24,8 +24,8 @@
     </navigator>
     <!-- 企业选择 -->
     <view wx:if="{{showAddressFlag}}" class="organize-wrapper">
-        <view style="position: relative;display:flex;padding-bottom:2rpx;">
-            <view style='flex-grow:1;'>
+        <view class='organize-select'>
+            <view class='grow'>
                 <input bindinput="searchInput" class="inputSearch" maxlength="11" placeholder="搜索企业名称"></input>
                 <image src="/images/login/search.png" style='width:24rpx;height:24rpx;position: absolute;top:14rpx;left:40rpx;'></image>
             </view>

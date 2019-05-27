@@ -37,6 +37,11 @@
     text-overflow: ellipsis;
 }
 
+.phone-address {
+    display: flex;
+    justify-content: space-between;
+}
+
 
 /* 企业选择 */
 
@@ -94,4 +99,10 @@
     line-height: 96rpx;
     width: 712rpx;
     height: 96rpx;
+}
+
+.address {
+    background: #FFFFFF;
+    height: 100rpx;
+    flex-grow: 1;
 }

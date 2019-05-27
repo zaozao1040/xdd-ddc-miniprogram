@@ -31,8 +31,6 @@
                 <view class="section-3-1">
                     <image src="/images/mine/organize.png" style='width:48rpx;height:48rpx;'></image>
                 </view>
-                <!-- <image wx:if='{{address}}' src="/images/mine/selected.png" style='width:52rpx;height:52rpx;position: absolute;top:24rpx;right:22rpx;'></image>
-                <image wx:else src="/images/mine/xiala.png" style='width:34rpx;height:34rpx;position: absolute;top:24rpx;right:22rpx;'></image> -->
                 <input bindinput="addressInput" value="{{address}}" placeholder="搜索企业名..." data-organizecode="{{organizeCode}}" class="section-3-2" type="string" bindtap="handleSelectAddress"></input>
             </view>
 
@@ -45,7 +43,7 @@
     </view>
     <!-- 默认地址 -->
     <view class="address-wrapper c_buttonPosition_forCalculate_top" bindtap="handleChangeSelectFlag">
-        <view style="flex:1;width:80%;padding-left:30rpx;">
+        <view class="address-wrapper-top">
             <view class="address-line2" wx:if="{{address}}">
                 {{address}}
             </view>
@@ -66,7 +64,7 @@
                 </view>
             </view>
         </view>
-        <view style="flex:0 0 70rpx;margin: auto;text-align: center;">
+        <view class="address-wrapper-bottom">
             <text class='iconfont icon-icon_on_the_right' style="font-size:40rpx;color:#fff;"></text>
         </view>
     </view>
@@ -88,12 +86,12 @@
                                     <view class="cart-menuItem-left">
                                         <image class="cart-menuItem-img" src="{{foodtypeinfoItem.image}}"></image>
                                     </view>
-                                    <view style="flex:1;">
-                                        <view style="display: flex;justify-content: space-between;">
+                                    <view class='flex-1'>
+                                        <view class='cart-menuItem-name'>
                                             <view class="cart-menuItemDes">
                                                 {{foodtypeinfoItem.foodName}}
                                             </view>
-                                            <view style='display:flex;'>
+                                            <view class='flex-a'>
                                                 <view class="cart-menuItem-originmoney" wx:if="{{foodtypeinfoItem.foodTotalOriginalPrice>foodtypeinfoItem.foodTotalPrice}}">¥{{foodtypeinfoItem.foodTotalOriginalPrice}}</view>
                                                 <view class="cart-menuItem-money">¥{{foodtypeinfoItem.foodTotalPrice}}</view>
                                             </view>
@@ -112,12 +110,12 @@
                                     <view class='cart-discount-organize'>积分抵扣</view>
 
                                     <view bindtap='changeUseIntegral' data-index='{{onedayindex}}' data-meal='{{item}}'>
-                                        <view style='display:flex;' wx:if='{{oneday[item].useIntegral}}'>
+                                        <view class='flex-a' wx:if='{{oneday[item].useIntegral}}'>
                                             <view class='pay-integral-describe'>当前{{oneday[item].current}}积分，可抵扣</view>
                                             <view class='pay-balance-money'>-￥{{oneday[item].integral}}</view>
                                             <image src='/images/menu/check.png' style='margin-left:10rpx;width:40rpx;height:40rpx;'></image>
                                         </view>
-                                        <view style='display:flex;' wx:else>
+                                        <view class='flex-a' wx:else>
                                             <view class='pay-integral-describe'>暂不使用积分</view>
                                             <image src='/images/menu/uncheck.png' style='margin-left:10rpx;width:40rpx;height:40rpx;'></image>
                                         </view>
@@ -134,9 +132,9 @@
 
             <view style='margin:0 16rpx;'>
                 <view style='background:#fff;padding:28rpx 30rpx 30rpx;'>
-                    <view style='display:flex;justify-content: space-between;padding-bottom:30rpx; border-bottom: 1rpx solid #F2F2F2;'>
+                    <view class='pay-item'>
                         <view class='pay-title' style='margin-top:2rpx;'>支付方式</view>
-                        <view style='display:flex;'>
+                        <view class='flex-a'>
                             <view style='padding:0 10rpx;'>
                                 <image src="/images/menu/today/order_wechatpay.png" style="width:32rpx;height:32rpx;">
                                 </image>
@@ -146,9 +144,9 @@
                         </view>
 
                     </view>
-                    <view style='display:flex;justify-content: space-between; border-bottom: 1rpx solid #F2F2F2;'>
+                    <view class='pay-item-last'>
                         <view class='pay-title' style='padding:30rpx 0;'>优惠券</view>
-                        <view style="display: flex;">
+                        <view class='flex-a'>
                             <view style='padding:30rpx 0;'>
                                 <view wx:if="{{adviceDiscountObj}}" bindtap="handleChangeSelectDiscountFlag">
                                     <view class='pay-discount-money' wx:if="{{adviceDiscountObj&&adviceDiscountObj.discountPrice!=0}}"> -￥{{discountMoney}}</view>
@@ -168,7 +166,7 @@
 
                     </view>
                     <view>
-                        <view style='display:flex;justify-content: space-between;'>
+                        <view class='pay-item-top'>
                             <view class='pay-title' style="margin-top:30rpx;"> 余额支付(点餐币余额￥{{balance}})</view>
                             <view class='pay-balance-image'>
                                 <image src="/images/menu/today/order_open.png" style="width:86rpx;height:68rpx;" bindtap="handleChangeWalletSelectedFlag" wx:if="{{walletSelectedFlag}}">
@@ -184,8 +182,8 @@
         </view>
     </scroll-view>
 
-    <view class=" c_buttonPosition_forCalculate" style='position:fixed;bottom:0;left:0;right:0;height:100rpx;display:flex;background: #4D4D4D; box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);'>
-        <view style='width:530rpx;display:flex;padding:30rpx 0;'>
+    <view class="pay-bottom-wrapper c_buttonPosition_forCalculate">
+        <view class='pay-bottom-money'>
             <view style='width:158rpx;text-align:center;font-family: PingFang-SC-Medium; font-size: 40rpx; color: #FFFFFF;letter-spacing: 0;border-right:1rpx solid rgba(255,255,255,0.40);line-height:40rpx;'>
                 ￥{{realMoney}}
             </view>

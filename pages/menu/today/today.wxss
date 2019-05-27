@@ -1011,3 +1011,41 @@
 .cart-amount {
     float: right;
 }
+
+.mealtype-list {
+    padding: 30rpx 0 29rpx;
+    display: flex;
+    border-bottom: 1rpx solid #EBEBEB;
+}
+
+.price-num-control {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 40rpx;
+}
+
+.flex-a {
+    display: flex;
+}
+
+.food-label {
+    margin-top: 10rpx;
+    display: flex;
+    overflow: hidden;
+}
+
+.chart-top-2 {
+    display: flex;
+    line-height: 60rpx;
+    background: #FFFFFF;
+    padding: 0 30rpx;
+    justify-content: space-between;
+}
+
+.chart-item {
+    display: flex;
+    background: #FFFFFF;
+    box-shadow: inset 0 0 0 0 #E6E6E6;
+    border-bottom: 2rpx solid #F5F5F5;
+}

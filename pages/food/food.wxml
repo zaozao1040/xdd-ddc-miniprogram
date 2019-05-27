@@ -83,7 +83,7 @@
                                 {{ratingItem.content}}
                             </view>
 
-                            <view wx:if="{{ratingItem.image&&ratingItem.image.length<=3&&ratingItem.image.length>0}}" style="display:flex;margin-bottom:10rpx;">
+                            <view wx:if="{{ratingItem.image&&ratingItem.image.length<=3&&ratingItem.image.length>0}}" class='image-list'>
                                 <view style="width:164rpx;height:164rpx;" wx:for="{{ratingItem.image}}" bindtap='showImage' data-image='{{imageItem}}' wx:for-index="imageIndex" wx:for-item="imageItem" wx:key="imageIndex" style="text-align:left;">
                                     <image style="width:164rpx;height:164rpx;border-radius:8rpx;margin-right:20rpx;" src="{{imageItem}}"></image>
                                 </view>

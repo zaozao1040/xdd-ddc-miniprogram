@@ -7,7 +7,7 @@
          canIUse: wx.canIUse('button.open-type.getUserInfo'),
          userInfo: null,
 
-         labelList: ['换绑手机', '地址管理', '绑定企业', '客户服务'],
+         labelList: ['换绑手机', '地址管理', '绑定企业', '服务电话'],
          imageList: ['me_swap', 'me_address', 'me_enterprise', 'me_service'],
          navigatorUrl: [
              '/pages/mine/phone/phone',
@@ -29,9 +29,19 @@
      },
      //加餐
      gotoAddfood() {
-         wx.navigateTo({
-             url: '/pages/mine/addfood/addfood'
-         })
+         let { userType, orgAdmin } = this.data.userInfo
+         if (userType == 'ORG_ADMIN' || userType == 'ADMIN' && orgAdmin) {
+             wx.showModal({
+                 title: '提示',
+                 content: '企业管理员请走报餐入口',
+                 success() {}
+             })
+         } else {
+             wx.navigateTo({
+                 url: '/pages/mine/addfood/addfood'
+             })
+         }
+
      },
      /* 跳转 */
      handleClickLabel: function(e) {
@@ -81,14 +91,6 @@
       * 生命周期函数--监听页面加载
       */
      onLoad: function() {
-         // 需要从后台再获取一次用户信息吗？
-
-         requestModel.getUserInfo(userInfo => {
-             this.setData({
-                 userInfo: userInfo
-             })
-             console.log('userInfo', userInfo)
-         })
 
      },
      // 我要吐槽
@@ -170,29 +172,15 @@
              url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
          }
          requestModel.request(param, data => {
-                 this.setData({
-                     balance: data.balance,
-                     integral: data.integral,
-                     discount: data.discount
-                 })
-                 wx.hideNavigationBarLoading();
-                 wx.stopPullDownRefresh()
+             this.setData({
+                 balance: data.balance,
+                 integral: data.integral,
+                 discount: data.discount
              })
-             //  wx.login({
-             //      success: function(res) {
-             //          if (res.code) {
+             wx.hideNavigationBarLoading();
+             wx.stopPullDownRefresh()
+         })
 
-         //              requestModel.getUserInfo((userInfo) => {
-         //                  _this.setData({
-         //                      userInfo: userInfo
-         //                  })
-         //              }, true) 
-         //              wx.hideNavigationBarLoading();
-         //              wx.stopPullDownRefresh()
-
-         //          }
-         //      }
-         //  })
      },
 
      /**

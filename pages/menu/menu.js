@@ -653,7 +653,7 @@
          let tmpselectFoodsIndex = this.data.selectedFoodsIndex
          let tmp_allData = this.data.allMenuData
          let mealEnglistLabel = this.data.mealEnglistLabel
-         console.log('timeInfo', this.data.timeInfo)
+         console.log('tmpselectFoodsIndex', tmpselectFoodsIndex)
              // 是1到7吗？
          for (let day = 0; day < 7; day++) {
              if (tmpselectFoodsIndex[day].count > 0) {
@@ -904,16 +904,12 @@
      //验证未达餐标情况
      verifyMealLabel() {
          // 这个selectedFoodsIndex是立即变的吗？是在多加道菜的时候就会变的吗？5/6
+         console.log('this.data.allMenuData', this.data.allMenuData)
          let flag = true
          for (let i = 0; i < this.data.allMenuData.length; i++) {
              let item = this.data.allMenuData[i]
-             if (!flag) {
-                 break
-             }
+
              for (let meal in item) {
-                 if (!flag) {
-                     break
-                 }
                  // 是这么判断的吗？ 5/6
                  //1.餐标可用 2.当天当餐点餐了，用总价判断点餐没是否不妥？3.不能低于餐标 4.抵扣金额小于企业餐标
                  let { mealSet, deductionMoney, totalMoney_meal, mealType } = item[meal]
@@ -929,8 +925,12 @@
                          mealTypeItem: meal
                      })
                      flag = false
+                     break
                  }
 
+             }
+             if (!flag) {
+                 break
              }
 
          }

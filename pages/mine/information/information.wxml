@@ -1,7 +1,7 @@
 <view style='background: #F5F5F5;height:{{windowHeight}}px;' wx:if='{{getalready}}'>
 
     <view style='background:#fff;width:100%;padding-bottom:60rpx;'>
-        <view style='display:flex;padding:0 30rpx;justify-content: space-between;'>
+        <view class='top'>
             <view style='width:160rpx;height:160rpx;'>
                 <image wx:if="{{userInfo.headImage}}" style='width:160rpx;height:160rpx;border-radius: 50%;' src="{{userInfo.headImage}}"></image>
                 <image wx:else style='width:160rpx;height:160rpx;' src="/images/mine/huiyuan.png" alt=""></image>
@@ -15,23 +15,23 @@
     </view>
     <view style='padding:16rpx 19rpx 16rpx 14rpx;'>
         <view style="padding:30rpx 30rpx 40rpx;background:#fff;border-radius: 6rpx;">
-            <view style='display:flex;justify-content: space-between;margin-bottom:40rpx;'>
+            <view class='item'>
                 <view class='title'>身份</view>
                 <view class='info' wx:if="{{userInfo.orgAdmin==true}}">企业管理员</view>
                 <view class='info' wx:else>企业员工</view>
             </view>
-            <view style='display:flex;justify-content: space-between;margin-bottom:40rpx;'>
+            <view class='item'>
                 <view class='title'>公司</view>
                 <text wx:if="{{userInfo.organizeName=='NGO'}}" class='info'>非企业用户</text>
                 <text wx:else class='info'>{{userInfo.organizeName}}</text>
             </view>
-            <view style='display:flex;justify-content: space-between;;'>
+            <view class='item-last' wx:if='{{userInfo.defaultDeliveryAddress}}'>
                 <view class='title'>地址</view>
                 <view class='info'>{{userInfo.defaultDeliveryAddress}}</view>
             </view>
         </view>
     </view>
-    <view style='margin:16rpx;padding:30rpx;background:#fff;border-radius: 6rpx;display: flex;justify-content: space-between;' wx:if='{{(userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN")&&userInfo.orgAdmin==true}}'>
+    <view class='org-admin' wx:if='{{(userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN")&&userInfo.orgAdmin==true}}'>
         <view class='org-addfood' bindtap="gotoAddfood">
             <image src="/images/mine/data_meal.png" class='org-addfood'></image>
         </view>

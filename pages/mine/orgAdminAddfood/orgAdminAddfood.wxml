@@ -15,13 +15,12 @@
                 确定份数</view>
         </view>
         <view style="margin:0 20rpx;background:#fff;border-radius: 8rpx;" wx:if="{{hasdata}}">
-            <view style="line-height:130rpx; padding:0 40rpx;display: flex;justify-content: space-between;">
-
+            <view class='one-line'>
                 <view style='font-size: 36rpx;color: #333333;'>已报数目</view>
                 <view style='font-size: 34rpx; color: rgb(80,185,66);'>{{quantity}}</view>
             </view>
             <block wx:for="{{list}}" wx:key="index">
-                <view style=" padding:0 40rpx;display: flex;justify-content: space-between;border-top:2rpx solid #ccc;">
+                <view class='list-item'>
 
                     <view>
                         <view style="font-size: 30rpx;  color: #333333;padding-top:18rpx;">{{item.name}}</view>

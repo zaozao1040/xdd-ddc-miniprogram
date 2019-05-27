@@ -188,3 +188,24 @@
      font-size: 40rpx;
      color: #666;
  }
+ 
+ .header-desc {
+     display: flex;
+ }
+ 
+ .header-3 {
+     background: rgba(102, 102, 102, 0.1);
+     display: flex;
+     padding: 16rpx 0;
+ }
+ 
+ .header-3-left {
+     flex-grow: 1;
+     text-align: center;
+     border-right: 2rpx solid #fff;
+ }
+ 
+ .header-3-right {
+     flex-grow: 1;
+     text-align: center;
+ }

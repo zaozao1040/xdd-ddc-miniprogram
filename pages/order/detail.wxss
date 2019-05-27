@@ -183,6 +183,17 @@
     line-height: 42rpx;
 }
 
+.food-name {
+    display: flex;
+    justify-content: space-between;
+}
+
+.order-money {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 30rpx;
+}
+
 
 /* 标题 */
 
@@ -241,7 +252,9 @@
     font-weight: 500;
 }
 
-.orderStatus {}
+.flex-1 {
+    flex: 1;
+}
 
 
 /* 餐品相关 */

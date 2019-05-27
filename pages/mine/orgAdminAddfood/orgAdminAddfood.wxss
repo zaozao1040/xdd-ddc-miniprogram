@@ -22,3 +22,17 @@
     display: flex;
     border-radius: 8rpx;
 }
+
+.one-line {
+    line-height: 130rpx;
+    padding: 0 40rpx;
+    display: flex;
+    justify-content: space-between;
+}
+
+.list-item {
+    padding: 0 40rpx;
+    display: flex;
+    justify-content: space-between;
+    border-top: 2rpx solid #ccc;
+}

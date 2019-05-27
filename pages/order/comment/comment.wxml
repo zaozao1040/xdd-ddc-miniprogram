@@ -3,7 +3,7 @@
     <!-- 每个菜品的评价 -->
 
     <view class="foodItem" wx:for="{{orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem" wx:key="foodIndex">
-        <view style="display: flex;">
+        <view class='image-list'>
             <image src="{{foodItem.foodImage}}" style='width:88rpx;height:88rpx;border-radius: 6rpx;'>
             </image>
             <view style="margin-left: 20rpx;">
@@ -20,7 +20,7 @@
             感谢您的订餐,请对本次餐品进行评价!
         </view>
 
-        <view style="display: flex;justify-content: center;flex-direction: row;margin-bottom: 20rpx;">
+        <view class='comment-star'>
             <block wx:for="{{foodItem.star}}" wx:for-index="starIndex" wx:for-item="starItem" wx:key="starIndex">
                 <image src="/images/order/staryes.png" bindtap="handleClickStar" data-foodindex="{{foodIndex}}" data-allstarindex="{{starIndex+1}}" data-starflag="yes" style='width:56rpx;height:56rpx;margin-right: 14rpx;margin-left: 14rpx;'></image>
             </block>
@@ -28,7 +28,7 @@
                 <image src="/images/order/starno.png" bindtap="handleClickStar" data-foodindex="{{foodIndex}}" data-allstarindex="{{starIndex+1}}" data-starflag="no" data-yellowstar="{{foodItem.star}}" style='width:56rpx;height:56rpx;margin-right: 14rpx;margin-left: 14rpx;'></image>
             </block>
         </view>
-        <view style='display:flex;flex-wrap:wrap;'>
+        <view class='comment-label'>
             <view wx:for="{{foodItem.evaluateLabelsActive}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex" bindtap="handleClickLabel" data-tagcode="{{labelItem.tagCode}}" data-foodindex="{{foodIndex}}" data-labelindex="{{labelIndex}}">
                 <view class="{{labelItem.active==true?'labelItem-active':'labelItem'}}" style='margin-right:{{labelIndex%3!=2?30:0}}rpx;'>
                     {{labelItem.name}}
@@ -40,7 +40,7 @@
         </view>
 
         <view class="img-wrapper">
-            <view style='display: flex;'>
+            <view class='image-list'>
                 <view wx:for="{{tempFilePaths[foodIndex]}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex">
                     <view class='image-remove' catchtap='removeOneImage' data-foodindex="{{foodIndex}}" data-index="{{imgIndex}}">x</view>
                     <image class="image" src="{{imgItem}}" catchtap="handlePreviewImage" data-foodindex="{{foodIndex}}" data-index="{{imgIndex}}">

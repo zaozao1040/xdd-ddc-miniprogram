@@ -467,7 +467,7 @@ Page({
         let _this = this
             //就调用接口加载柜子号 
         let param = {
-            url: '/order/orderPickPre?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + ordercode + '&foodCode=' + foodcode + '&again=' + again
+            url: '/order/orderPickPre?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + ordercode + '&foodCode=' + foodcode
         }
         requestModel.request(param, (data) => {
             let tmp_content = ''
@@ -484,34 +484,48 @@ Page({
                     tmp_content = '请确认取餐'
                 }
 
+                let content = data.length > 0 ? '如果柜子' + bindnumber + '中餐品未取出，可点击确定再次取餐' : '如果餐品未取出，可点击确定再次取餐'
 
                 wx.showModal({
                     title: '是否取餐?',
                     content: tmp_content,
                     success(res) {
                         if (res.confirm) {
-
-                            let param = {
-                                url: '/order/orderPick?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + ordercode
-                            }
-                            requestModel.request(param, () => {
-                                wx.showModal({
-                                    title: '是否再次取餐?',
-                                    content: data.length > 0 ? '如果柜子' + bindnumber + '中餐品未取出，可点击确定再次取餐' : '如果餐品未取出，可点击确定再次取餐',
-                                    success(res) {
-                                        _this.takeFoodOrder(ordercode, foodcode, true)
-                                    }
-                                })
-
-                            })
+                            _this.takeFoodOrderAgain(ordercode, foodcode, false, content)
+                        } else if (res.cancel) {
+                            wx.hideToast()
+                            _this.getTakeMealInfo()
                         }
                     }
                 })
             }
         })
     },
+    //取餐private函数
+    takeFoodOrderAgain(ordercode, foodcode, again, content) {
+        let _this = this
+
+        let param = {
+            url: '/order/orderPick?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + ordercode + '&again=' + again
+        }
+        requestModel.request(param, () => {
+            wx.showModal({
+                title: '是否再次取餐?',
+                content: content,
+                success(res) {
+                    if (res.confirm) {
+                        _this.takeFoodOrderAgain(ordercode, foodcode, true, content)
+                    } else if (res.cancel) {
+                        wx.hideToast()
+                        _this.getTakeMealInfo()
+                    }
+                }
+
+            })
+        })
+    },
     /* 取餐 */
-    handleTakeOrder: function(e, again) {
+    handleTakeOrder: function(e) {
 
         let _this = this
         if (!_this.data.canClick) {

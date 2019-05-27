@@ -30,12 +30,13 @@ Page({
     getBindStatus() {
         let _this = this
         requestModel.getUserInfo(userInfo => {
-            console.log('organize-userInfo', userInfo)
-            let { userName, userType, userStatus } = userInfo
+
+            let { userName, userType, userStatus, organizeName } = userInfo
             _this.setData({
                     userName: userName,
                     userType: userType,
-                    userStatus: userStatus
+                    userStatus: userStatus,
+                    organizeName: organizeName
                 })
                 // 企业用户
             if (userType == 'B_USER') {
@@ -254,22 +255,28 @@ Page({
 
             requestModel.request(params, () => {
 
-                requestModel.getUserInfo(() => {}, true)
-                if (_this.data.userType == 'ADMIN') {
+                requestModel.getUserInfo((userInfo) => {
+
+                    if (_this.data.userType == 'ADMIN') {
+                        _this.setData({
+                            bindAlready: true, //已经绑定
+                            bindUncheck: false, //审核未通过
+                            canBinding: false, //可绑定
+                            bindChecking: false //审核中
+                        })
+                    } else {
+                        _this.setData({
+                            bindAlready: false, //已经绑定
+                            bindUncheck: false, //审核未通过
+                            canBinding: false, //可绑定
+                            bindChecking: true //审核中
+                        })
+                    }
                     _this.setData({
-                        bindAlready: true, //已经绑定
-                        bindUncheck: false, //审核未通过
-                        canBinding: false, //可绑定
-                        bindChecking: false //审核中
+                        organizeName: userInfo.organizeName
                     })
-                } else {
-                    _this.setData({
-                        bindAlready: false, //已经绑定
-                        bindUncheck: false, //审核未通过
-                        canBinding: false, //可绑定
-                        bindChecking: true //审核中
-                    })
-                }
+                }, true)
+
 
             })
 

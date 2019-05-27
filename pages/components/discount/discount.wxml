@@ -2,7 +2,7 @@
 
     <view class="discountItem-wrapper" wx:for="{{discountList}}" wx:for-index="discountIndex" wx:for-item="discountItem" wx:key="discountIndex" bindtap="handleClickDiscount" data-usetype="{{useType}}">
         <!-- <view class="type">折扣券</view> -->
-        <view style="display:flex;  ">
+        <view style="display:flex;">
             <view class=" {{useType=='EXPIRED'||useType=='USED'?'rect_expire':'rect'}}">
                 <view class="border" wx:if="{{useType=='EXPIRED' ||useType=='USED' }}">
                     <view class="top"></view>
