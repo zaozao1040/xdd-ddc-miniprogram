@@ -54,8 +54,7 @@ Page({
                 })
             }
         })
-        requestModel.getUserInfo(userInfo => {
-            console.log('userInfo', userInfo)
+        requestModel.getUserInfo(userInfo => { 
             let { userType, orgAdmin } = userInfo
             if (userType == 'ORG_ADMIN' && orgAdmin == true) {
                 _this.setData({
@@ -188,9 +187,7 @@ Page({
                             _this.setData({
                                 cartAnimationBottom: res[0].bottom
                             })
-                        }
-                        console.log('#add-cart', res)
-
+                        }  
                     })
                     _this.calculateHeight()
                 }

@@ -31,7 +31,7 @@
          windowHeight: 0,
          scrollTop: 0,
          //
-         itemStatusActiveFlag: 0, //0：全部订单，1：今日待取，2：待评价
+         itemStatusActiveFlag: 1, //0：全部订单，1：今日待取，2：待评价
          orderList: [],
          orderListNoResult: false,
          mealTypeMap: {
@@ -62,12 +62,23 @@
                  content: content,
                  showCancel: false
              })
-         } else {
-
              this.setData({
                  itemStatusActiveFlag: 0
              })
          }
+
+     },
+
+     /* 手动点击触发下一页 */
+     gotoNextPage: function() {
+         if (this.data.hasMoreDataFlag) {
+             this.getOrderList()
+         }
+     },
+     /**
+      * 生命周期函数--监听页面显示
+      */
+     onShow: function() {
          this.initOrder()
          this.data.page = 1
          this.setData({
@@ -76,25 +87,6 @@
          this.getOrderList()
          wx.showTabBar()
      },
-
-     /* 手动点击触发下一页 */
-     gotoNextPage: function() {
-         if (this.data.hasMoreDataFlag) {
-             this.getOrderList()
-             wx.showLoading({
-                 title: '加载更多数据',
-             })
-         } else {
-             wx.showToast({
-                 image: '/images/msg/warning.png',
-                 title: '没有更多数据'
-             })
-         }
-     },
-     /**
-      * 生命周期函数--监听页面显示
-      */
-     onShow: function() {},
      onHide: function() {},
      //点击这个订单的tab标签，即触发这个钩子
      onTabItemTap(item) {
@@ -201,7 +193,9 @@
      /* 获取订单列表 */
      getOrderList: function() {
          let _this = this
-
+         _this.setData({
+             loadingData: true
+         })
          let page = _this.data.page
          let limit = _this.data.limit
          let param = {
@@ -261,7 +255,8 @@
                  }
              }
              _this.setData({
-                 getOrdersNow: false
+                 getOrdersNow: false,
+                 loadingData: false
              })
          })
      },

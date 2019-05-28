@@ -67,7 +67,7 @@
 
         </view>
     </view>
-    <scroll-view class="order-wrapper c_scrollPosition_forCalculate" scroll-y style="height: {{windowHeight - scrollTop}}px;">
+    <scroll-view class="order-wrapper c_scrollPosition_forCalculate" scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower='gotoNextPage'>
         <view wx:if="{{orderListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
             未查询到充值记录..
         </view>
@@ -165,12 +165,18 @@
                     </view>
                 </view>
             </view>
-            <view class="hasMore-wrapper" wx:if="{{hasMoreDataFlag}}" bindtap="gotoNextPage" style="margin-top:60rpx;font-family: PingFang-SC-Regular; font-size: 26rpx; color: #666666; letter-spacing: 0; text-align: center;">
+            <view wx:if='{{loadingData}}' class="hasMore-wrapper" style="margin-top:60rpx;font-family: PingFang-SC-Regular; font-size: 26rpx; color: #666666; letter-spacing: 0; text-align: center;">
+                正在加载数据...
+            </view>
+            <view wx:elif='{{!hasMoreDataFlag}}' class="hasMore-wrapper" style="margin-top:60rpx;font-family: PingFang-SC-Regular; font-size: 26rpx; color: #666666; letter-spacing: 0; text-align: center;">
+                没有更多了..
+            </view>
+            <!-- <view class="hasMore-wrapper" wx:if="{{hasMoreDataFlag}}" bindtap="gotoNextPage" style="margin-top:60rpx;font-family: PingFang-SC-Regular; font-size: 26rpx; color: #666666; letter-spacing: 0; text-align: center;">
                 点击加载更多
             </view>
             <view wx:else class="hasMore-wrapper" style="margin-top:60rpx;font-family: PingFang-SC-Regular; font-size: 26rpx; color: #666666; letter-spacing: 0; text-align: center;">
                 没有更多了..
-            </view>
+            </view> -->
         </view>
     </scroll-view>
 </view>

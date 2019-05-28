@@ -48,11 +48,9 @@
             <block wx:if='{{foodInfo.detailImage&&foodInfo.detailImage.length>0}}'>
                 <image class="foodImg" src="{{foodInfo.detailImage[0]}}" style="width:100%;" mode="widthFix"></image>
             </block>
-
         </view>
         <!-- 评价列表 -->
         <view wx:else>
-
             <scroll-view class="ratingsDetailList-wrapper" scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower='gotoNextPage'>
                 <view wx:if="{{amount==0}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
                     未查询到评价记录..
@@ -60,7 +58,8 @@
                 <view wx:else>
                     <view class="ratingsItem" wx:for="{{ratingsInfoList}}" wx:for-item="ratingItem" wx:for-index="ratingIndex" wx:key="ratingIndex">
                         <view class="left">
-                            <image class="left-image" src="{{ratingItem.headImage}}"></image>
+                            <image class="left-image" wx:if='{{ratingItem.headImage}}' src="{{ratingItem.headImage}}"></image>
+                            <image class="left-image" wx:else src="/images/mine/huiyuan.png"></image>
                         </view>
                         <view class="right">
                             <view class="line1">

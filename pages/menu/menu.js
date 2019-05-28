@@ -105,9 +105,6 @@
                  timeInfo: data
              })
 
-             console.log('timeInfo', data)
-                 // 默认加载今天的第一个餐标吗？？
-
              for (let i = 0; i < this.data.mealEnglistLabel.length; i++) {
                  //5/15 今天一定有可定的餐时吗？即：该公司预定了这个餐时
                  let meal = this.data.mealEnglistLabel[i]
@@ -115,7 +112,6 @@
                      this.setData({
                          mealTypeItem: meal
                      })
-                     console.log('mealTypeItem', meal)
                      if (!this.data.allMenuData[this.data.activeDayIndex][meal]) { //表示今天第一个餐时可点餐
                          this.getTimeDataByResponse()
                      }
@@ -137,7 +133,6 @@
              }
          })
          requestModel.getUserInfo(userInfo => {
-             console.log('userInfo', userInfo)
              let { userType, orgAdmin } = userInfo
              if (userType == 'ORG_ADMIN' && orgAdmin == true) {
                  _this.setData({
@@ -256,7 +251,6 @@
                  allMenuData: tmp_allData, //保存下所有数据 
                  getdataalready: true
              })
-             console.log('allMenuData', tmp_allData)
              if (resData.mealType.orderStatus && resData.foodList.length !== 0) {
 
                  // 计算购物车的高度
@@ -285,12 +279,9 @@
          query_1.select('.cart_scrollPosition_forCalculate').boundingClientRect()
          query_1.selectViewport().scrollOffset()
          query_1.exec(function(res) {
-             console.log('cart_scrollPosition_forCalculate', res)
              if (res[0] != null) {
                  let cartMaxHeight = _this.data.windowHeight / 2
                  if (res[0].height < cartMaxHeight) {
-                     console.log('res[0].height', res[0].height)
-                     console.log('_this.data.cartMaxHeight', cartMaxHeight)
                      _this.setData({
                          cartHeight: res[0].height
                      })
@@ -369,8 +360,6 @@
 
      },
 
-
-
      handleChangeMenutypeActive: function(e) {
          let _this = this
          _this.setData({
@@ -382,11 +371,10 @@
              clearTimeout(_this.data.timer)
          }
          _this.data.timer = setTimeout(function() {
-                 _this.setData({
-                     scrollLintenFlag: true, //默认不要触发滚动事件
-                 })
-             }, 500)
-             //console.log(this.data.scrollToView)
+             _this.setData({
+                 scrollLintenFlag: true, //默认不要触发滚动事件
+             })
+         }, 500)
      },
 
 
@@ -456,7 +444,6 @@
              let oldDeduction = currnt_menuData.deductionMoney
              currnt_menuData.deductionMoney = parseFloat(new_deduction.toFixed(2))
 
-             console.log('sevenMenuData', this.data.allMenuData)
 
              let tmp_totalMoneyRealDeduction = parseFloat((this.data.totalMoneyRealDeduction - oldDeduction + new_deduction).toFixed(2))
              let tmp_realTotalMoney = (tmptotalMoney - tmp_totalMoneyRealDeduction) > 0 ? tmptotalMoney - tmp_totalMoneyRealDeduction : 0
@@ -472,8 +459,7 @@
 
              // 只有等于0，才从购物车中删除
              if (tmp_oneFood.foodCount == 0) {
-                 console.log('tmp_mealTypeItem', tmp_mealTypeItem)
-                 console.log('selectedFoodsIndex', this.data.selectedFoodsIndex)
+
                  let tempselectFoodsIndex = this.data.selectedFoodsIndex
                  tempselectFoodsIndex[activeDayIndex].count -= 1 //当天的总的个数减1
                  tempselectFoodsIndex[activeDayIndex][tmp_mealTypeItem].foodList[menutypeIndex] = tempselectFoodsIndex[activeDayIndex][tmp_mealTypeItem].foodList[menutypeIndex].filter(item => {
@@ -591,8 +577,8 @@
              _this.setData({
                  selectedFoodsIndex: tmpselectFoodsIndex
              })
-             console.log('selectedFoodsIndex', tmpselectFoodsIndex)
-                 // 计算totalMoney, totalDeduction，totalRealMonty
+
+             // 计算totalMoney, totalDeduction，totalRealMonty
              let tmptotalMoney = _this.data.totalMoney + tmp_oneFood.foodPrice
 
              let currnt_menuData = _this.data.allMenuData[activeDayIndex][tmp_mealTypeItem]
@@ -630,7 +616,6 @@
                  totalMoneyRealDeduction: tmp_totalMoneyRealDeduction
              })
 
-             console.log('menuCountList', _this.data.menuCountList)
          }
      },
      // 点击购物车图标
@@ -653,8 +638,8 @@
          let tmpselectFoodsIndex = this.data.selectedFoodsIndex
          let tmp_allData = this.data.allMenuData
          let mealEnglistLabel = this.data.mealEnglistLabel
-         console.log('tmpselectFoodsIndex', tmpselectFoodsIndex)
-             // 是1到7吗？
+
+         // 是1到7吗？
          for (let day = 0; day < 7; day++) {
              if (tmpselectFoodsIndex[day].count > 0) {
                  for (let i in mealEnglistLabel) { // x 为餐时 
@@ -687,7 +672,6 @@
 
          }
 
-         console.log('selectedFoodsIndex', tmpselectFoodsIndex)
          this.setData({
              selectedFoodsIndex: tmpselectFoodsIndex
          })
@@ -903,8 +887,6 @@
 
      //验证未达餐标情况
      verifyMealLabel() {
-         // 这个selectedFoodsIndex是立即变的吗？是在多加道菜的时候就会变的吗？5/6
-         console.log('this.data.allMenuData', this.data.allMenuData)
          let flag = true
          for (let i = 0; i < this.data.allMenuData.length; i++) {
              let item = this.data.allMenuData[i]
@@ -938,7 +920,6 @@
      },
 
      goToMenuCommit() {
-         console.log('this.data.allMenuData', this.data.allMenuData)
          let flag = this.verifyMealLabel()
 
          if (flag) {
@@ -960,7 +941,6 @@
 
              }
              wx.setStorageSync('sevenSelectedFoods', this.data.selectedFoodsIndex)
-             console.log('sevenSelectedFoods', this.data.selectedFoodsIndex)
              wx.navigateTo({
                  url: '/pages/menu/today/confirm/confirm?totalMoney=' +
                      this.data.totalMoney + '&totalMoneyRealDeduction=' +

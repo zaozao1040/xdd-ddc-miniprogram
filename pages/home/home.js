@@ -127,13 +127,7 @@ Page({
 
     handleGotoLabel: function(e) {
         let _this = this
-        if (!_this.data.canClick) {
-            return
-        }
-        _this.data.canClick = false
-        setTimeout(function() {
-            _this.data.canClick = true
-        }, 2000)
+
         let flag = e.currentTarget.dataset.type
         let url = ''
         if (flag == 'qianbao') {
@@ -172,7 +166,6 @@ Page({
             url: '/home/getHomeImage?userCode=' + wx.getStorageSync('userCode')
         }
         requestModel.request(param, data => {
-            console.log('getHomeImage', data)
             this.setData({
                 imagesList: data
             })
@@ -221,7 +214,6 @@ Page({
                 }
                 data[x].mealTypeOrder = one
             }
-            console.log('twoDaysInfo', data)
             wx.setStorageSync('twoDaysInfo', data)
             _this.setData({
                 twoDaysInfo: data,
@@ -244,17 +236,8 @@ Page({
      */
 
     onLoad: function(options) {
-        //首页很重要，这几个非常稳定几乎不变更数据的接口，放在onload，只有首页取餐放在onShow里面
-        //wx.removeStorageSync('userCode')
         this.initHome()
         this.getNotice()
-
-        // wx.loadFontFace({
-        //     family: 'PingFangSC-Medium',
-        //     source: 'url("https://www.your-server.com/PingFangSC-Medium.ttf")',
-        //     success: function() { console.log('load font success') }
-        // })
-
     },
 
     /**
@@ -297,7 +280,6 @@ Page({
         }
 
         requestModel.request(param, data => {
-            console.log('getNotice', data)
             if (data && data.length > 0) { //后台是在没有公告的时候返回空数组
                 let temp_noticeData = data
 
@@ -341,12 +323,10 @@ Page({
     },
     // 点击轮播公告显示公告详细信息
     handleshowOneNotice(e) {
-        console.log(e.currentTarget.dataset)
         this.setData({
             showedNoticeData: [e.currentTarget.dataset.onenotice],
             showOneNotice: true
         })
-        console.log('showedNoticeData', this.data.showedNoticeData)
     },
     // 轮播所有消息
     handleshowAllNotice() {
@@ -357,7 +337,6 @@ Page({
     },
     // 点击页面除（显示公告外）关闭window公告和详细公告
     closeNotice() {
-        console.log('closeNotice')
         this.setData({
             showWindowNotice: false,
             showOneNotice: false
@@ -453,7 +432,6 @@ Page({
                     }
                 }
             })
-            console.log('tmp_homeOrderList', tmp_homeOrderList)
             _this.setData({
                 homeOrderList: tmp_homeOrderList,
                 gethomeOrderList: true
@@ -562,7 +540,6 @@ Page({
             userCode: wx.getStorageSync('userCode')
         }
         homeModel.getNewUserGift(param, (res) => {
-            console.log('获取新人礼包后台反馈:', res)
             if (res.code === 0) {
                 // 需要修改5/18
                 let tmp_userInfo = wx.getStorageSync('userInfo').userInfo
@@ -619,7 +596,6 @@ Page({
     },
     /*   用户授权弹框-获取微信授权 */
     getWxUserInfo(e) {
-        console.log(e)
         if (e.detail.iv) { //这个字段存在，代表授权成功
             wx.setStorageSync('getWxUserInfo', e.detail.userInfo)
             wx.redirectTo({

@@ -29,18 +29,21 @@
      },
      //加餐
      gotoAddfood() {
-         let { userType, orgAdmin } = this.data.userInfo
-         if (userType == 'ORG_ADMIN' || userType == 'ADMIN' && orgAdmin) {
-             wx.showModal({
-                 title: '提示',
-                 content: '企业管理员请走报餐入口',
-                 success() {}
-             })
-         } else {
-             wx.navigateTo({
-                 url: '/pages/mine/addfood/addfood'
-             })
-         }
+         requestModel.getUserInfo(userInfo => {
+             let { userType, orgAdmin } = userInfo
+             if ((userType == 'ORG_ADMIN' || userType == 'ADMIN') && orgAdmin) {
+                 wx.showModal({
+                     title: '提示',
+                     content: '企业管理员请走报餐入口',
+                     success() {}
+                 })
+             } else {
+                 wx.navigateTo({
+                     url: '/pages/mine/addfood/addfood'
+                 })
+             }
+         }, true)
+
 
      },
      /* 跳转 */
@@ -91,7 +94,12 @@
       * 生命周期函数--监听页面加载
       */
      onLoad: function() {
-
+         let _this = this
+         requestModel.getUserInfo(userInfo => {
+             _this.setData({
+                 userInfo: userInfo
+             })
+         })
      },
      // 我要吐槽
      gotoSaySomething() {
@@ -129,19 +137,12 @@
              url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
          }
          requestModel.request(param, data => {
-                 this.setData({
-                     balance: data.balance,
-                     integral: data.integral,
-                     discount: data.discount
-                 })
-             })
-             // 5/13 要修改
-
-         requestModel.getUserInfo(userInfo => {
              this.setData({
-                 userInfo: userInfo
+                 balance: data.balance,
+                 integral: data.integral,
+                 discount: data.discount
              })
-         })
+         }, true)
 
      },
 
@@ -172,7 +173,7 @@
              url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
          }
          requestModel.request(param, data => {
-             this.setData({
+             _this.setData({
                  balance: data.balance,
                  integral: data.integral,
                  discount: data.discount

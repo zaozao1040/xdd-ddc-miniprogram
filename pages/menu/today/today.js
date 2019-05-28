@@ -52,7 +52,7 @@ Page({
     onLoad: function(options) {
 
         requestModel.getUserInfo(userInfo => {
-            console.log('userInfo', userInfo)
+
             let { userType, orgAdmin } = userInfo
             if (userType == 'ORG_ADMIN' && orgAdmin == true) {
                 this.setData({
@@ -67,11 +67,10 @@ Page({
         }, true)
 
 
-        console.log('options', options)
         let tmp_appointmention = options.appointment //显示是今天还是明天
         let index = tmp_appointmention == 'today' ? 0 : 1
         let tmp_mealtypeinfo = wx.getStorageSync('twoDaysInfo')[index]
-        console.log('tmp_mealtypeinfo', tmp_mealtypeinfo)
+
         let dd = tmp_mealtypeinfo.mealDate.split("-")
         let mealDateShow = dd[1] + "/" + dd[2]
         this.setData({
@@ -207,8 +206,7 @@ Page({
                 tmp_lazyShowImage[tmp_mealTypeItem].push(oneLazyShow)
             })
 
-            console.log('tmp_lazyShowImage', tmp_lazyShowImage)
-                //可以不用setData，因为都是0不需要显示
+            //可以不用setData，因为都是0不需要显示
             _this.data.menuCountList[tmp_mealTypeItem] = tmp_menuCountList
             _this.data.menuCountListCopy[tmp_mealTypeItem] = tmp_menuCountListCopy
 
@@ -247,8 +245,6 @@ Page({
                             cartAnimationBottom: res[0].bottom
                         })
                     }
-                    console.log('#add-cart', res)
-
                 })
                 _this.calculateHeight()
             }
@@ -264,12 +260,9 @@ Page({
         query_1.select('.cart_scrollPosition_forCalculate').boundingClientRect()
         query_1.selectViewport().scrollOffset()
         query_1.exec(function(res) {
-            console.log('cart_scrollPosition_forCalculate', res)
             if (res[0] != null) {
                 let cartMaxHeight = _this.data.windowHeight / 2
                 if (res[0].height < cartMaxHeight) {
-                    console.log('res[0].height', res[0].height)
-                    console.log('_this.data.cartMaxHeight', cartMaxHeight)
                     _this.setData({
                         cartHeight: res[0].height
                     })
@@ -278,9 +271,7 @@ Page({
                         cartHeight: cartMaxHeight
                     })
                 }
-                console.log('cartHeight', _this.data.cartHeight)
             }
-
         })
     },
     // 处理最外层的滚动，使
@@ -349,9 +340,6 @@ Page({
             menuCountList: this.data.menuCountListCopy
         })
 
-        console.log('allMenuDataCopy', this.data.allMenuDataCopy)
-        console.log('menuCountListCopy', this.data.menuCountListCopy)
-        console.log('selectedFoodsIndexCopy', this.data.selectedFoodsIndexCopy)
     },
 
     handleChangeMenutypeActive: function(e) {
@@ -500,22 +488,6 @@ Page({
             // 先menu增1
             _this.data.allMenuData[tmp_mealTypeItem].foodList[menutypeIndex].foodList[foodIndex] = tmp_oneFood
 
-            // 然后动画
-
-            // let _this = this
-            // const query = wx.createSelectorQuery()
-            // query.select('#add' + menutypeIndex + foodIndex).boundingClientRect()
-            // query.selectViewport().scrollOffset()
-            // query.exec(function(res) {
-            //     if (res[0]) {
-            //         let bottom = res[0].bottom
-            //         _this.setData({
-            //             cartAnimationHeight: _this.data.cartAnimationBottom - bottom
-            //         })
-            //     }
-            //     console.log('#add' + menutypeIndex + foodIndex, res)
-
-            // })
 
             _this.setData({
                 shakeshake: true
@@ -621,7 +593,7 @@ Page({
                 this.calculteCartHeight()
             }
         }
-        console.log('selectedFoodsIndex', this.data.selectedFoodsIndex) //zll明天继续 为什么里面有undefined？？？
+
     },
     // 在点击购物车图标查看购物车或者点击去结算时，计算菜单信息
     getSelectedFoods() {
@@ -864,7 +836,7 @@ Page({
     },
     //验证未达餐标情况
     verifyMealLabel() {
-        console.log('this.data.allMenuData', this.data.allMenuData)
+
         let flag = true
         for (let meal in this.data.allMenuData) {
             if (!flag) {
@@ -905,7 +877,7 @@ Page({
                 this.data.selectedFoodsIndex.mealDate = this.data.mealDate
 
                 wx.setStorageSync('todaySelectedFoods', this.data.selectedFoodsIndex)
-                console.log('todaySelectedFoods', this.data.selectedFoodsIndex)
+
                 wx.navigateTo({
                     url: '/pages/menu/today/confirm/confirm?totalMoney=' +
                         this.data.totalMoney + '&totalMoneyRealDeduction=' +
@@ -917,9 +889,7 @@ Page({
 
     },
     onShow: function() {
-        console.log('onShow')
-        console.log(this.data.allMenuData)
-        console.log(this.data.foods)
+
     },
     // 关闭
     handleCloseCart() {

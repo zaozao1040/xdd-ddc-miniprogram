@@ -33,7 +33,6 @@ Page({
     onLoad: function(options) {
         let _this = this
         requestModel.getUserInfo(userInfo => {
-            console.log('organize-userInfo', userInfo)
             _this.setData({
                 userName: userInfo.userName,
                 userType: userInfo.userType,
@@ -102,7 +101,6 @@ Page({
         });
     },
     searchInput: function(e) {
-        console.log('searchInput', e)
         let _this = this
         if (_this.data.userType == 'VISITOR' && e.detail.value.length >= 2) {
             wx.getLocation({
