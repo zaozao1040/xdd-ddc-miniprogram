@@ -31,7 +31,7 @@
          windowHeight: 0,
          scrollTop: 0,
          //
-         itemStatusActiveFlag: 1, //0：全部订单，1：今日待取，2：待评价
+         itemStatusActiveFlag: 0, //0：全部订单，1：今日待取，2：待评价
          orderList: [],
          orderListNoResult: false,
          mealTypeMap: {

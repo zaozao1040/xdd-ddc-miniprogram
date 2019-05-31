@@ -172,12 +172,6 @@
     background: #F7F8F8;
     height: 92rpx;
     width: 160rpx;
-    /* line-height: 92rpx; */
-    /* text-align: center; */
-    /* font-family: PingFang-SC-Regular; */
-    /* font-size: 12px; */
-    /* color: #666666; */
-    /* letter-spacing: 0; */
 }
 
 .left-item-active {
@@ -216,6 +210,12 @@
     font-size: 24rpx;
     color: #666666;
     letter-spacing: 0;
+}
+
+.menu-name-image {
+    display: flex;
+    padding: 0 36rpx;
+    justify-content: space-between;
 }
 
 .food-wrapper {

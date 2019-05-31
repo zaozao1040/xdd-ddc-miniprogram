@@ -23,7 +23,7 @@ Page({
         menutypeActiveFlag: 0, //当前被点击的餐品类别 
         boxActiveFlag: false, //购物车的颜色，false时是灰色，true时有颜色
         totalCount: 0, // 购物车中物品个数
-        totalMoney: 0, //购物车中菜品的总金额
+        totalMoney: 0, //购物车中餐品的总金额
         realTotalMoney: 0, // totalMoney-totalMoneyRealDeduction后得到的钱 
 
         timer: null,
@@ -179,9 +179,9 @@ Page({
             resData.totalMoney = 0 //给每天的每个餐时一个点餐的总的金额
             resData.totalMoney_meal = 0 //可使用餐标的餐的总价格
             resData.deductionMoney = 0
-                // 给每一个菜品添加一个foodCount，用于加号点击时加一减一
-                // 给每一个菜品添加一个foodTotalPrice
-                // 给每一个菜品添加一个foodTotalOriginalPrice
+                // 给每一个餐品添加一个foodCount，用于加号点击时加一减一
+                // 给每一个餐品添加一个foodTotalPrice
+                // 给每一个餐品添加一个foodTotalOriginalPrice
             let tmp_menuCountList = []
             let tmp_menuCountListCopy = []
 
@@ -189,22 +189,77 @@ Page({
             let tmp_lazyShowImage = _this.data.lazyShowImage
             tmp_lazyShowImage[tmp_mealTypeItem] = []
             let tmp_lazyShowImageCount = 0
-            resData.foodList.forEach(item => {
 
-                let oneLazyShow = []
+
+            //5/31开始
+            //先将本餐所有的餐的id和index对应出来
+            // typeId对menuTypeIndex
+            // foodCode对foodIndex
+
+            /* typeIdFoodCode={13:{menuTypeIndex:0, foodCodeIndexs:{code:foodIndex}} }*/
+            let typeIdFoodCode = {}
+            resData.foodList.forEach((item, menuTypeIndex) => {
+                let a = {}
+                a.menuTypeIndex = menuTypeIndex
+                a.foodCodeIndexs = {}
+                item.menuTypeIndex = menuTypeIndex
+                item.foodList.forEach((foodItem, foodIndex) => {
+                    foodItem.menuTypeIndex = menuTypeIndex
+                    foodItem.foodIndex = foodIndex
+                    a.foodCodeIndexs[foodItem.foodCode] = foodIndex
+                })
+                typeIdFoodCode[item.typeId] = a
+            })
+
+            console.log('typeIdFoodCode', typeIdFoodCode)
+            if (resData.foodCustomizeList && resData.foodCustomizeList.length > 0) {
+                resData.foodCustomizeList.forEach((item, index1) => {
+                    item.left = true
+                    item.foodList.forEach((foodItem, index2) => {
+                        //要做俩连动，左侧连动正常了，正常没有连动左侧
+                        foodItem.left = true
+                        foodItem.foodCount = 0
+                        let foodList_menuTypeIndex = typeIdFoodCode[foodItem.typeId].menuTypeIndex
+                        let foodList_foodIndex = typeIdFoodCode[foodItem.typeId].foodCodeIndexs[foodItem.foodCode]
+                        foodItem.menuTypeIndex = foodList_menuTypeIndex
+                        foodItem.foodIndex = foodList_foodIndex
+
+                        //正常连动左侧
+                        resData.foodList[foodList_menuTypeIndex].foodList[foodList_foodIndex].leftMenuTypeIndex = index1
+                        resData.foodList[foodList_menuTypeIndex].foodList[foodList_foodIndex].leftFoodIndex = index2
+                    })
+                    tmp_menuCountList.push(0)
+                    tmp_menuCountListCopy.push(0)
+                })
+            }
+
+            console.log('resData.foodCustomizeList', resData.foodCustomizeList)
+            resData.foodList.forEach(item => {
+                item.left = false
                 item.foodList.forEach(foodItem => {
                     foodItem.foodTotalPrice = 0
                     foodItem.foodTotalOriginalPrice = 0
                     foodItem.foodCount = 0
-                    oneLazyShow.push(false)
-                    tmp_lazyShowImageCount++
                 })
-
                 tmp_menuCountList.push(0)
                 tmp_menuCountListCopy.push(0)
 
-                tmp_lazyShowImage[tmp_mealTypeItem].push(oneLazyShow)
             })
+
+            // 把标签项的餐品也加上5/30
+            // 放在这应该是对的
+            if (resData.foodCustomizeList && resData.foodCustomizeList.length > 0) {
+                resData.foodList = resData.foodCustomizeList.concat(resData.foodList)
+                resData.foodCustomizeListLength = resData.foodCustomizeList.length
+            } else {
+                resData.foodCustomizeListLength = 0
+            }
+
+            console.log('resData', resData)
+                //5/31截止
+
+
+
 
             //可以不用setData，因为都是0不需要显示
             _this.data.menuCountList[tmp_mealTypeItem] = tmp_menuCountList
@@ -386,6 +441,23 @@ Page({
             //  不大于0也不显示减图标啊，所以这里应该可以不用判断。还是判断下吧，因为可能用户会点的很快，这样就减为负数了。
             // 应该是下面所有的操作都是在减1之后
         if (tmp_oneFood.foodCount > 0) {
+
+            //5/31判断是不是左侧标签
+            let { left, leftmenuindex, leftfoodindex } = e.currentTarget.dataset
+
+            if (left) {
+                //表示点击的是左侧标签
+                this.data.allMenuData[tmp_mealTypeItem].foodList[leftmenuindex].foodList[leftfoodindex].foodCount -= 1
+            } else {
+                //表示点击的是正常餐品，要连动修改左侧标签餐品
+                if (tmp_oneFood.leftMenuTypeIndex != undefined) {
+                    //表示正常餐品级联了左侧标签餐品
+                    this.data.allMenuData[tmp_mealTypeItem].foodList[tmp_oneFood.leftMenuTypeIndex].foodList[tmp_oneFood.leftFoodIndex].foodCount -= 1
+                }
+
+            }
+
+
             tmp_oneFood.foodCount -= 1
             this.data.allMenuData[tmp_mealTypeItem].foodList[menutypeIndex].foodList[foodIndex] = tmp_oneFood
                 // 总的数目减1
@@ -483,6 +555,20 @@ Page({
             // 说明可以再点餐
             // 应该是先menu那增1，然后动画过去，然后购物车那里增1
             let tmp_mealTypeItem = _this.data.mealTypeItem
+                //5/31判断是不是左侧标签
+            let { left, leftmenuindex, leftfoodindex } = e.currentTarget.dataset
+            if (left) {
+                //表示点击的是左侧标签
+                _this.data.allMenuData[tmp_mealTypeItem].foodList[leftmenuindex].foodList[leftfoodindex].foodCount += 1
+            } else {
+                //表示点击的是正常餐品，要连动修改左侧标签餐品
+                if (tmp_oneFood.leftMenuTypeIndex != undefined) {
+                    //表示正常餐品级联了左侧标签餐品
+                    _this.data.allMenuData[tmp_mealTypeItem].foodList[tmp_oneFood.leftMenuTypeIndex].foodList[tmp_oneFood.leftFoodIndex].foodCount += 1
+                }
+
+            }
+
             tmp_oneFood.foodCount += 1 // 需不需要判断库存
 
             // 先menu增1
@@ -642,6 +728,15 @@ Page({
             //  不大于0也不显示减图标啊，所以这里应该可以不用判断。还是判断下吧，因为可能用户会点的很快，这样就减为负数了。
             // 应该是下面所有的操作都是在减1之后
         if (tmp_oneFood.foodCount > 0) {
+
+
+            //表示点击的是正常餐品，要连动修改左侧标签餐品
+            if (tmp_oneFood.leftMenuTypeIndex != undefined) {
+                //表示正常餐品级联了左侧标签餐品
+                this.data.allMenuData[tmp_mealTypeItem].foodList[tmp_oneFood.leftMenuTypeIndex].foodList[tmp_oneFood.leftFoodIndex].foodCount -= 1
+            }
+
+
             tmp_oneFood.foodCount -= 1
 
 
@@ -762,6 +857,14 @@ Page({
         }
 
         if (canAddFlag) { // 说明可以再点餐
+
+
+            //表示点击的是正常餐品，要连动修改左侧标签餐品
+            if (tmp_oneFood.leftMenuTypeIndex != undefined) {
+                //表示正常餐品级联了左侧标签餐品
+                this.data.allMenuData[tmp_mealTypeItem].foodList[tmp_oneFood.leftMenuTypeIndex].foodList[tmp_oneFood.leftFoodIndex].foodCount += 1
+            }
+
 
             tmp_oneFood.foodCount += 1 // 需不需要判断库存
 
@@ -901,7 +1004,7 @@ Page({
     preventTouchMove: function() {
 
     },
-    /* 菜品详情 */
+    /* 餐品详情 */
     handleGotoFoodDetail: function(e) {
         wx.navigateTo({
             url: '/pages/food/food?foodCode=' + e.currentTarget.dataset.foodcode + '&mealDate=' + this.data.mealDate + '&mealType=' + this.data.mealTypeItem,

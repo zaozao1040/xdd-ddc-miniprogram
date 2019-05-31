@@ -10,18 +10,26 @@
 
                 </view>
                 <view style="height: {{ windowHeight - 2 }}px; " class="menu-wrapper c_scrollPosition_forCalculate">
-                    <!-- 左边菜品分类 -->
+                    <!-- 左边餐品分类 -->
                     <scroll-view class="menu-left" scroll-y style="height: {{ windowHeight - 2 }}px;">
                         <view class=" {{ menutypeActiveFlag == menutypeIndex ? 'left-item-active' : 'left-item'}}" data-menutypeindex="{{ menutypeIndex }}" bindtap="handleChangeMenutypeActive" wx:for="{{ allMenuData.foodList }}" wx:for-item="menutypeItem" wx:for-index="menutypeIndex"
                             wx:key="menutypeIndex">
                             <view style="height:30rpx;">
                                 <view wx:if="{{ menuCountList[menutypeIndex] > 0 }}" class="menu-count">{{ menuCountList[menutypeIndex] }}</view>
                             </view>
-                            <view class="menu-name">{{ menutypeItem.typeName }}</view>
+                            <view class="menu-name-image" wx:if='{{ menutypeItem.typeName=="特价" }}'>
+                                <image src='/images/menu/order_discount.png' style='width:28rpx;height:28rpx;'></image>
+                                <view class="menu-name"> {{ menutypeItem.typeName }}</view>
+                            </view>
+                            <view class="menu-name-image" wx:elif='{{ menutypeItem.typeName=="新品" }}'>
+                                <image src='/images/menu/order_new.png' style='width:28rpx;height:28rpx;'></image>
+                                <view class="menu-name"> {{ menutypeItem.typeName }}</view>
+                            </view>
+                            <view class="menu-name" wx:else>{{ menutypeItem.typeName }}</view>
                         </view>
                         <view style="height:120rpx;"></view>
                     </scroll-view>
-                    <!-- 右边具体菜品 -->
+                    <!-- 右边具体餐品 -->
                     <view class="menu-right">
 
                         <scroll-view class="menu-right-item-wrapper" scroll-y scroll-with-animation="true" bindscroll="handleScroll" style="height: {{ windowHeight - 2 }}px;" scroll-into-view="{{ scrollToView }}" wx:key='menutypeItem'>

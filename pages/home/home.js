@@ -251,7 +251,7 @@ Page({
             wx.hideTabBar()
         } else { //已登录状态，直接登录
             requestModel.getUserInfo(userInfo => {
-
+               
                 wx.showTabBar()
                 let { userStatus, canTakeDiscount } = userInfo
                 if (userStatus == 'NO_CHECK') { //企业用户的'审核中'状态

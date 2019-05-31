@@ -1,7 +1,6 @@
 import { base } from '../../comm/public/request'
 let requestModel = new base()
 Page({
-
     /**
      * 页面的初始数据
      */
@@ -29,6 +28,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
+
         let { mealDate, mealType, foodCode } = options
         this.setData({
             foodCode: foodCode

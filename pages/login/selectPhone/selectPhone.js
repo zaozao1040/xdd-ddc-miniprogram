@@ -28,9 +28,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-        //已登录状态，则直接弹出模态框去选择是否绑定企业
-        // 5/14 有啥用啊？又不会在已有userCode的时候跳转到selectPhone页面
-        // 5/14 有啥用啊？又不会在已有userCode的时候跳转到selectPhone页面
+        //已登录状态，则直接弹出模态框去选择是否绑定企业 
         if (wx.getStorageSync('userCode')) {
             this.chooseBindOrganize()
         }
@@ -38,7 +36,7 @@ Page({
             success() {
                 console.log('####### session_key 未过期')
                     // session_key 未过期，并且在本生命周期一直有效
-                    wx.login()
+                wx.login()
             },
             fail() {
                 console.log('####### session_key 已经失效')

@@ -143,6 +143,12 @@
     letter-spacing: 0;
 }
 
+.menu-name-image {
+    display: flex;
+    padding: 0 36rpx;
+    justify-content: space-between;
+}
+
 .food-wrapper {
     display: flex;
     margin-bottom: 40rpx;

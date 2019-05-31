@@ -9,7 +9,7 @@
         <view class='header-des'>点餐币余额(个)</view>
         <view class="header-balance">{{balance}}</view>
     </view>
-    <view class="c_scrollPosition_forCalculate" style='padding:30rpx 18rpx 24rpx 20rpx;background:#fff;border-radius:12rpx;' wx:if="{{itemStatusActiveFlag}}">
+    <view style='padding:30rpx 18rpx 24rpx 20rpx;background:#fff;border-radius:12rpx;' wx:if="{{itemStatusActiveFlag}}">
         <view class='content-title'>在线充值</view>
 
         <view class='money-list' wx:for="{{moneyList}}" wx:for-index="moneyIndex_line" wx:for-item="moneyItem_line" wx:key="moneyIndex_line">
@@ -39,7 +39,7 @@
     </view>
 
     <!-- 内容 -->
-    <view class="content" class="c_scrollPosition_forCalculate" wx:else>
+    <view class="content" wx:else>
         <view class="content-header">
             <view class="content-header-left">余额记录 </view>
             <view class="content-header-right">全部 </view>
