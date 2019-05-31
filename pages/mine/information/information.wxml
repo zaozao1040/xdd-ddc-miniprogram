@@ -8,7 +8,8 @@
             </view>
             <view class="org" bindtap="changeRole" wx:if='{{userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN"}}'>
                 <text wx:if="{{userInfo.orgAdmin}}">切换为"企业员工"</text>
-                <text wx:else>切换为"企业管理员"</text>
+                <text wx:elif='{{userInfo.userType=="ORG_ADMIN"}}'>切换为"企业管理员"</text>
+                <text wx:elif='{{userInfo.userType=="ADMIN"}}'>切换为"超级管理员"</text>
             </view>
         </view>
         <view class='name'>{{userInfo.name}}</view>
@@ -17,7 +18,8 @@
         <view style="padding:30rpx 30rpx 40rpx;background:#fff;border-radius: 6rpx;">
             <view class='item'>
                 <view class='title'>身份</view>
-                <view class='info' wx:if="{{userInfo.orgAdmin==true}}">企业管理员</view>
+                <view class='info' wx:if="{{userInfo.orgAdmin==true&&userInfo.userType=='ORG_ADMIN'}}">企业管理员</view>
+                <view class='info' wx:elif="{{userInfo.orgAdmin==true&&userInfo.userType=='ADMIN'}}">超级管理员</view>
                 <view class='info' wx:else>企业员工</view>
             </view>
             <view class='item'>
