@@ -81,7 +81,7 @@ Page({
         let tmp_orderFoodList = _this.data.orderFoodList
         let tmp_activeStatus = tmp_orderFoodList[foodindex].evaluateLabelsActive[labelindex].active
 
-        const maxNumber =3
+        const maxNumber = 3
         let selectedTagNum = tmp_orderFoodList[foodindex].selectedTagNum
             //原来是true的话，正常修改为false
         if (tmp_activeStatus) {

@@ -4,10 +4,6 @@
     width: 60%;
 }
 
-.mini-btn {
-    margin-right: 5px;
-}
-
 .open-sigle-cab {
     display: flex;
     flex-direction: row;
@@ -36,10 +32,6 @@ input {
 
 .weui-btn:first-child {
     margin-top: 0;
-}
-
-.weui-btn-area {
-    margin: 1.17647059em 15px 0.3em;
 }
 
 .weui-input {

@@ -56,7 +56,7 @@
                     未查询到评价记录..
                 </view>
                 <view wx:else>
-                    <view class="ratingsItem" wx:for="{{ratingsInfoList}}" wx:for-item="ratingItem" wx:for-index="ratingIndex" wx:key="ratingIndex">
+                    <view class="ratings-item" wx:for="{{ratingsInfoList}}" wx:for-item="ratingItem" wx:for-index="ratingIndex" wx:key="ratingIndex">
                         <view class="left">
                             <image class="left-image" wx:if='{{ratingItem.headImage}}' src="{{ratingItem.headImage}}"></image>
                             <image class="left-image" wx:else src="/images/mine/huiyuan.png"></image>

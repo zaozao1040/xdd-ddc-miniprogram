@@ -26,12 +26,6 @@
     margin-bottom: 60rpx;
 }
 
-.section-2-1 {
-    display: inline-block;
-    padding: 5rpx 0;
-    font-size: 32rpx;
-}
-
 .section-3 {
     position: relative;
     height: 88rpx;
@@ -43,16 +37,6 @@
     margin: 0 60rpx 20rpx 60rpx;
 }
 
-.section-3-empty {
-    border: 1rpx solid #F56C6C;
-}
-
-.section-3-1 {
-    width: 96rpx;
-    height: 100%;
-    border-right: 1rpx solid #e0e0e0;
-}
-
 .section-3-2 {
     flex: 1;
     font-family: PingFangSC-Regular;
@@ -61,12 +45,6 @@
     letter-spacing: 0;
     text-align: left;
     padding-left: 20rpx;
-}
-
-.section-3-3 {
-    width: 96rpx;
-    height: 100%;
-    border-right: 1rpx solid #bbb;
 }
 
 .section-4 {
@@ -89,34 +67,6 @@
     font-size: 34rpx;
 }
 
-.section-5 {
-    font-size: 18rpx;
-    margin: 13rpx 0;
-    display: flex;
-    margin-top: 20rpx;
-}
-
-.rg-section-v5 {
-    border: 1px solid #bfbfbf;
-    font-size: 22rpx;
-    height: 58rpx;
-    line-height: 58rpx;
-    width: 138rpx;
-    text-align: center;
-    margin-right: 28rpx;
-    border-radius: 10rpx;
-    color: #e79b37;
-}
-
-.section-6 {
-    display: flex;
-    justify-content: flex-end;
-    font-size: 18rpx;
-    color: #e79b37;
-    text-align: right;
-    margin: 13rpx 0;
-}
-
 
 /* 企业选择 */
 
@@ -128,18 +78,6 @@
     bottom: 0;
     left: 0;
     right: 0;
-}
-
-.inputSearch-left-wrapper {
-    text-align: center;
-}
-
-.goback {
-    width: 100rpx;
-    height: 100rpx;
-    line-height: 100rpx;
-    font-size: 60rpx;
-    color: #e79b37;
 }
 
 .inputSearch {

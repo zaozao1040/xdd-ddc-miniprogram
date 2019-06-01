@@ -1,4 +1,3 @@
-<!--pages/order/order.wxml-->
 <view>
     <!-- 去付款弹出的选择支付方式对话框 -->
     <view class="selectPayType-wrapper" wx:if="{{showPayTypeFlag}}">

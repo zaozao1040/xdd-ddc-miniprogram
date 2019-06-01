@@ -1,5 +1,3 @@
-<!--pages/home/home.wxml-->
-
 <view class="home-container" bindtap="closeNotice">
 
     <!-- 轮播图 autoplay="true"3.0-->
@@ -67,20 +65,20 @@
             <view style="margin-left:12rpx;height: 88rpx;width:88rpx;">
                 <image src='/images/home/home_balance.png' style="height: 88rpx;width:88rpx;"></image>
             </view>
-            <view class="labelDes">我的余额</view>
+            <view class="label-des">我的余额</view>
         </view>
         <view style="width:88rpx;text-align: center; " bindtap="handleGotoLabel" data-type="youhuiquan">
             <view style=" height: 88rpx;width:88rpx;">
                 <image src='/images/home/home_coupon.png' style="height: 88rpx;width:88rpx;"></image>
             </view>
 
-            <view class="labelDes">优惠券</view>
+            <view class="label-des">优惠券</view>
         </view>
         <view style="width:112rpx;text-align: center; " bindtap="handleGotoLabel" data-type="jifen">
             <view style="margin-left:12rpx;height: 88rpx;width:88rpx;">
                 <image src='/images/home/home_points.png' style="height: 88rpx;width:88rpx;"></image>
             </view>
-            <view class="labelDes">我的积分</view>
+            <view class="label-des">我的积分</view>
         </view>
     </view>
     <!-- 首页提示取餐3.0-->
@@ -258,7 +256,7 @@
                         <image src='/images/home/filter_{{item}}.png' style="height:120rpx;width:120rpx;"></image>
                         <view class='appointment-choice-grow'>
                             <view class="appointment-choice-foodtype-name"> {{mealTypeMapSmall[item]}}</view>
-                            <view class="appointment-choice-foodtype-deadlilne">
+                            <view class="appointment-choice-foodtype-deadline">
                                 <view>截止时间</view>
                                 <view style="margin-left:10rpx;">{{oneDayInfo[item+"DeadlineDesc"]}}</view>
                             </view>

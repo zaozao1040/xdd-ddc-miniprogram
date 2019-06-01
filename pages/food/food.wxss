@@ -2,8 +2,6 @@
 
 .basic-info {
     background: #fff;
-    /*   border-bottom-left-radius: 50rpx;
-border-bottom-right-radius: 50rpx; */
 }
 
 .header-wrapper {
@@ -113,32 +111,6 @@ border-bottom-right-radius: 50rpx; */
     line-height: 46rpx;
 }
 
-.merchant {
-    display: table;
-    padding: 2rpx 0;
-}
-
-.icon-merchant {
-    display: table-cell;
-    vertical-align: middle;
-    font-size: 35rpx;
-    color: #e79b37;
-    height: 40rpx;
-    line-height: 40rpx;
-}
-
-.merchantName {
-    display: table-cell;
-    vertical-align: middle;
-    font-size: 25rpx;
-    height: 40rpx;
-    line-height: 40rpx;
-    padding: 0 20rpx;
-    color: #111;
-    background: rgb(209, 231, 247);
-    border-radius: 6rpx;
-}
-
 .foodDes {
     font-family: PingFangSC-Regular;
     font-size: 20rpx;
@@ -148,51 +120,9 @@ border-bottom-right-radius: 50rpx; */
 }
 
 
-/* 评价 */
-
-.btn {
-    display: inline-block;
-    margin: 30rpx 30rpx 20rpx 20rpx;
-    height: 40rpx;
-    line-height: 40rpx;
-    font-size: 30rpx;
-    font-weight: 600;
-    color: #fff;
-    background: #e79b37;
-    padding: 5rpx 20rpx;
-    border-radius: 10rpx;
-}
-
-.active {
-    box-shadow: 7px 4px 7px #666;
-    position: relative;
-    top: -3rpx;
-    left: -7rpx;
-    color: #fff200!important;
-}
-
-.tab-wrapper {
-    display: flex;
-}
-
-.tab {
-    flex: 0 0 200rpx;
-    padding: 0 10rpx 20rpx 10rpx;
-    font-size: 30rpx;
-}
-
-.icon-gouxuan {
-    color: #e79b37;
-}
-
-.tab-des {
-    color: #666;
-}
-
-
 /* 每个具体评论 */
 
-.ratingsItem {
+.ratings-item {
     display: flex;
     padding: 22rpx 30rpx 10rpx;
 }
@@ -273,51 +203,8 @@ border-bottom-right-radius: 50rpx; */
     padding-bottom: 20rpx;
 }
 
-.ratings-swiper {
-    margin: 5rpx 20rpx;
-    height: 200rpx;
-}
-
-.img3 {
-    width: 33%;
-}
-
-.swiper-img {
-    width: 100%;
-    height: auto;
-}
-
-
-/* 标题 */
-
-.food-header {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    display: flex;
-    height: 100rpx;
-    line-height: 100rpx;
-    border-bottom: 1rpx solid #bbb;
-    background: #eee;
-}
-
 .food-content {
     width: 100%;
-}
-
-.content-header-item {
-    flex: 1;
-    text-align: center;
-    font-size: 35rpx;
-    font-weight: 600;
-    color: #666;
-    margin: 0 70rpx;
-}
-
-.content-header-item-active {
-    border-bottom: 10rpx solid #e79b37;
-    color: #e79b37;
-    font-size: 40rpx;
 }
 
 .image-list {

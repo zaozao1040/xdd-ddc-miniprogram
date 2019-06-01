@@ -1,8 +1,5 @@
 /* pages/home/home.wxss */
 
-
-/*zll*/
-
 .notice-title {
     font-family: PingFang-SC-Medium;
     font-size: 36rpx;
@@ -34,33 +31,6 @@
     text-align: left;
     line-height: 40rpx;
     height: 40rpx;
-}
-
-
-/* 首页取餐--------qiuning */
-
-.add-wrapper {
-    margin: 0 30rpx;
-    position: relative;
-}
-
-.add-img {
-    width: 100%;
-}
-
-.add-title {
-    width: 140rpx;
-    height: 68rpx;
-    line-height: 68rpx;
-    position: absolute;
-    top: 65rpx;
-    right: 35rpx;
-    background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
-    border-radius: 34rpx;
-    font-family: PingFangSC-Regular;
-    font-size: 26rpx;
-    color: #FFFFFF;
-    text-align: center;
 }
 
 
@@ -228,13 +198,6 @@
     margin-left: 10rpx;
 }
 
-.appointment-choice-left {
-    width: 52rpx;
-    height: 52rpx;
-    border-radius: 50%;
-    border: 1px solid #DDDDDD;
-}
-
 .appointment-choice-foodtype-title {
     font-family: PingFang-SC-Medium;
     font-size: 36rpx;
@@ -262,7 +225,7 @@
     margin-top: 14rpx;
 }
 
-.appointment-choice-foodtype-deadlilne {
+.appointment-choice-foodtype-deadline {
     font-family: PingFang-SC-Regular;
     font-size: 28rpx;
     color: #AAAAAA;
@@ -299,65 +262,11 @@
     padding-top: 20rpx;
 }
 
-.h-v1 {
-    display: flex;
-    flex-direction: row;
-    height: 84rpx;
-    line-height: 84rpx;
-    text-align: right;
-    width: 100%;
-    font-size: 26rpx;
-    align-items: center;
-}
-
-.h-v1 .h-v1-1 {
-    line-height: 84rpx;
-    margin-right: 44rpx;
-    color: #404040;
-    font-size: 26rpx;
-    flex: 1;
-}
-
-.has-login {
-    flex: 1;
-    margin-right: 44rpx;
-    color: #404040;
-}
-
-.logout {
-    color: #F56C6C;
-    margin-left: 50rpx;
-}
-
 .h-v2-swiper-item {
     width: 690rpx;
     height: 230rpx;
     border-radius: 8rpx;
     margin: 0 30rpx 42rpx;
-}
-
-.propaganda-wrapper {
-    display: flex;
-    margin-top: 10rpx;
-}
-
-.propaganda-itemwrapper {
-    font-size: 0;
-    flex: 1;
-    text-align: center;
-}
-
-.icon-propaganda {
-    font-size: 35rpx;
-    font-weight: 300;
-    color: #f2993c;
-    vertical-align: middle;
-}
-
-.propaganda-title {
-    font-size: 25rpx;
-    vertical-align: middle;
-    color: #6b6b6b;
 }
 
 .h-v3 {
@@ -382,7 +291,7 @@
     padding: 0 30rpx;
 }
 
-.promotionItem {
+.promotion-item {
     width: 340rpx;
     height: 200rpx;
 }
@@ -445,14 +354,6 @@
     text-align: right;
 }
 
-.icon-dacha1 {
-    text-align: center;
-    height: 80rpx;
-    line-height: 80rpx;
-    font-size: 80rpx;
-    color: #fff;
-}
-
 .newuser-wrapper-2 {
     margin: 10rpx 30rpx;
     height: 262rpx;
@@ -473,36 +374,12 @@
     justify-content: space-between;
 }
 
-.labelItem {
-    flex: 1;
-    margin: 10rpx auto;
-}
-
-.iconLabel {
-    font-size: 60rpx;
-    color: #f2993c;
-}
-
-.labelDes {
+.label-des {
     font-family: PingFang-SC-Regular;
     font-size: 28rpx;
     color: #555555;
     letter-spacing: 0;
     line-height: 40rpx;
-}
-
-
-/* 提示 */
-
-.reminder-wrapper {
-    position: absolute;
-    height: 500rpx;
-    width: 500rpx;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
 }
 
 
@@ -604,13 +481,6 @@
     z-index: 101;
 }
 
-.modulebox-notice-wrapper {
-    padding: 6rpx 5rpx;
-    box-sizing: border-box;
-    width: 100%;
-    height: 450rpx;
-}
-
 .bind-title {
     font-family: PingFangSC-Regular;
     font-size: 40rpx;
@@ -667,164 +537,7 @@
 }
 
 
-/* 首页提示取餐 */
-
-.homeOrder-wrapper {
-    /*   padding: 10rpx;
-  background: #eee; */
-    border: 1rpx solid #eee;
-    border-radius: 10rpx;
-    box-shadow: 0rpx 5rpx 5px #aaa;
-    margin-bottom: 10rpx;
-}
-
-.homeOrder-item {
-    display: flex;
-    background: #fff;
-    border-bottom: #eee solid 1rpx;
-}
-
-.homeOrder-item:last-child {
-    border-bottom: none;
-}
-
-.homeOrder-left-wrapper {
-    position: relative;
-    width: 100rpx;
-    height: 0;
-    padding-bottom: 100rpx;
-}
-
-.homeOrder-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-top-left-radius: 10rpx;
-    border-bottom-left-radius: 10rpx;
-}
-
-.homeOrder-middle-wrapper {
-    flex: 1;
-}
-
-.homeOrder-middle-line1 {
-    padding: 0 10rpx 0 10rpx;
-    height: 50rpx;
-    line-height: 60rpx;
-    display: flex;
-    justify-content: space-between;
-}
-
-.homeOrder-middle-line1-foodName {
-    font-size: 30rpx;
-    color: #222;
-    font-weight: 500;
-}
-
-.icon-zao {
-    color: #537c00;
-}
-
-.icon-wu1 {
-    color: #805300;
-}
-
-.icon-night {
-    color: #1e90ff;
-}
-
-.icon-shenye {
-    color: #483d8b;
-}
-
-.homeOrder-middle-line1-cabinet {
-    font-size: 30rpx;
-    color: #222;
-    font-weight: 500;
-    color: #43964e;
-}
-
-.homeOrder-middle-line2 {
-    padding: 0 10rpx 0 10rpx;
-    height: 50rpx;
-    line-height: 60rpx;
-    display: flex;
-    justify-content: space-between;
-    font-size: 25rpx;
-    color: #666;
-    font-weight: 0;
-}
-
-.homeOrder-middle-line2-cabinet {
-    height: 60rpx;
-    line-height: 60rpx;
-    font-size: 30rpx;
-    color: #fff;
-}
-
-.homeOrder-middle-line3-cabinet {
-    line-height: 30rpx;
-    font-size: 20rpx;
-    color: #fff;
-    width: 100%;
-    text-align: center;
-}
-
-.homeOrder-middle-line2-des {
-    font-size: 20rpx;
-    color: #43964e;
-    background: #fff;
-    padding: 0 20rpx;
-    border-radius: 20rpx;
-}
-
-.homeOrder-middle-line2-des-nocabinet {
-    margin: 10rpx;
-    width: 80rpx;
-    height: 80rpx;
-    border-radius: 50rpx;
-    background: #43964e;
-    text-align: center;
-    line-height: 80rpx;
-    font-size: 30rpx;
-    color: #fff;
-    font-weight: 500;
-}
-
-.homeOrder-right-wrapper {
-    /* width: 100rpx; */
-    height: 100rpx;
-    background: #43964e;
-    text-align: center;
-    font-size: 30rpx;
-    color: #fff;
-    font-weight: 500;
-    border-radius: 10rpx;
-    padding: 10rpx 10rpx 0;
-}
-
-
 /* 轮播图两种样式 */
-
-.imageBanner_active {
-    width: 100%;
-    height: 100%;
-    border-top-left-radius: 15rpx;
-    border-top-right-radius: 15rpx;
-}
-
-.imageBanner_small {
-    width: 95%;
-    height: 95%;
-    margin-left: 20rpx;
-    margin-right: 20rpx;
-    position: absolute;
-    bottom: 0;
-    border-top-left-radius: 8rpx;
-    border-top-right-radius: 8rpx;
-}
 
 .flexdisplay {
     display: flex;
