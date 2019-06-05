@@ -1025,34 +1025,45 @@
      },
 
      goToMenuCommit() {
-         let flag = this.verifyMealLabel()
-
-         if (flag) {
-             this.getSelectedFoods() //不需要执行多次吧。好像需要的哦。
-
-             //我用的变量是不是过于多了，timeInfo,selectedFoodsIndex是不是可以直接放在allMenuData里？
-             //TODO--5/6
-             for (let i = 0; i < this.data.timeInfo.length; i++) {
-                 this.data.selectedFoodsIndex[i].appointment = this.data.timeInfo[i].label
-                 this.data.selectedFoodsIndex[i].mealDate = this.data.timeInfo[i].mealDate
-                 let onededuction = 0
-                 for (let j = 0; j < this.data.mealEnglistLabel.length; j++) {
-                     // 应该只要有，就会有这天这餐的抵扣了吧--5/6
-                     if (this.data.selectedFoodsIndex[i][this.data.mealEnglistLabel[j]]) {
-                         onededuction += this.data.selectedFoodsIndex[i][this.data.mealEnglistLabel[j]].deductionMoney
-                     }
-                 }
-                 this.data.selectedFoodsIndex[i].deductionMoney = parseFloat(onededuction.toFixed(2))
-
-             }
-             wx.setStorageSync('sevenSelectedFoods', this.data.selectedFoodsIndex)
-             wx.navigateTo({
-                 url: '/pages/menu/today/confirm/confirm?totalMoney=' +
-                     this.data.totalMoney + '&totalMoneyRealDeduction=' +
-                     this.data.totalMoneyRealDeduction + '&realMoney=' + this.data.realTotalMoney + '&orderType=seven'
-             })
+         let _this = this
+             //也弄两秒内不可重复点击
+         if (_this.data.commitNow) {
+             return
          }
+         _this.data.commitNow = true
+         setTimeout(() => {
+             _this.data.commitNow = false
+         }, 2000)
+         console.log('commitNow')
+         if (_this.data.totalCount > 0) {
+             let flag = _this.verifyMealLabel()
 
+             if (flag) {
+                 _this.getSelectedFoods() //不需要执行多次吧。好像需要的哦。
+
+                 //我用的变量是不是过于多了，timeInfo,selectedFoodsIndex是不是可以直接放在allMenuData里？
+                 //TODO--5/6
+                 for (let i = 0; i < _this.data.timeInfo.length; i++) {
+                     _this.data.selectedFoodsIndex[i].appointment = _this.data.timeInfo[i].label
+                     _this.data.selectedFoodsIndex[i].mealDate = _this.data.timeInfo[i].mealDate
+                     let onededuction = 0
+                     for (let j = 0; j < _this.data.mealEnglistLabel.length; j++) {
+                         // 应该只要有，就会有这天这餐的抵扣了吧--5/6
+                         if (_this.data.selectedFoodsIndex[i][_this.data.mealEnglistLabel[j]]) {
+                             onededuction += _this.data.selectedFoodsIndex[i][_this.data.mealEnglistLabel[j]].deductionMoney
+                         }
+                     }
+                     _this.data.selectedFoodsIndex[i].deductionMoney = parseFloat(onededuction.toFixed(2))
+
+                 }
+                 wx.setStorageSync('sevenSelectedFoods', _this.data.selectedFoodsIndex)
+                 wx.navigateTo({
+                     url: '/pages/menu/today/confirm/confirm?totalMoney=' +
+                         _this.data.totalMoney + '&totalMoneyRealDeduction=' +
+                         _this.data.totalMoneyRealDeduction + '&realMoney=' + _this.data.realTotalMoney + '&orderType=seven'
+                 })
+             }
+         }
      },
      onShow: function() {},
      // 关闭

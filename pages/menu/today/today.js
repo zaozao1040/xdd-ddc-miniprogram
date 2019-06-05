@@ -967,24 +967,34 @@ Page({
         return flag
     },
     goToMenuCommit() {
-        if (this.data.totalCount > 0) {
+        let _this = this
+            //也弄两秒内不可重复点击
+        if (_this.data.commitNow) {
+            return
+        }
+        _this.data.commitNow = true
+        setTimeout(() => {
+            _this.data.commitNow = false
+        }, 2000)
+        console.log('commitNow')
+        if (_this.data.totalCount > 0) {
             let flag = true
-            if (!this.data.orgAdmin) {
-                flag = this.verifyMealLabel()
+            if (!_this.data.orgAdmin) {
+                flag = _this.verifyMealLabel()
             }
 
             if (flag) {
-                this.getSelectedFoods() //不需要执行多次吧。好像需要的哦。
+                _this.getSelectedFoods() //不需要执行多次吧。好像需要的哦。
 
-                this.data.selectedFoodsIndex.appointment = this.data.appointment
-                this.data.selectedFoodsIndex.mealDate = this.data.mealDate
+                _this.data.selectedFoodsIndex.appointment = _this.data.appointment
+                _this.data.selectedFoodsIndex.mealDate = _this.data.mealDate
 
-                wx.setStorageSync('todaySelectedFoods', this.data.selectedFoodsIndex)
+                wx.setStorageSync('todaySelectedFoods', _this.data.selectedFoodsIndex)
 
                 wx.navigateTo({
                     url: '/pages/menu/today/confirm/confirm?totalMoney=' +
-                        this.data.totalMoney + '&totalMoneyRealDeduction=' +
-                        this.data.totalMoneyRealDeduction + '&realMoney=' + this.data.realTotalMoney + '&orderType=one'
+                        _this.data.totalMoney + '&totalMoneyRealDeduction=' +
+                        _this.data.totalMoneyRealDeduction + '&realMoney=' + _this.data.realTotalMoney + '&orderType=one'
 
                 })
             }

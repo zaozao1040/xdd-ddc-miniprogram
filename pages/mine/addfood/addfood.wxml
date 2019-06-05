@@ -79,7 +79,7 @@
                                                 <view class="price-real">
                                                     {{ foodItem.foodPrice }}
                                                 </view>
-                                                <view class="price-original" wx:if="{{foodItem.foodPrice <foodItem.foodOriginalPrice }}">
+                                                <view class="price-original" wx:if="{{foodItem.foodPrice <foodItem.foodOriginalPrice &&showOrginalPrice}}">
                                                     ￥{{ foodItem.foodOriginalPrice }}
                                                 </view>
                                             </view>

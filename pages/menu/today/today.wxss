@@ -90,7 +90,18 @@
     color: #666666;
     letter-spacing: 0;
     text-align: left;
-    line-height: 96rpx;
+    line-height: 34rpx;
+}
+
+.right-item-text-desc {
+    font-family: PingFang-SC-Light;
+    font-size: 20rpx;
+    color: #999999;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 28rpx;
+    padding-top: 4rpx;
+    padding-left: 10rpx;
 }
 
 .left-item {

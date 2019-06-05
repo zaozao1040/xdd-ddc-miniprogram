@@ -20,12 +20,8 @@
                             <view wx:if="{{ menuCountList[mealTypeItem][menutypeIndex] > 0 }}" class="menu-count">{{ menuCountList[mealTypeItem][menutypeIndex] }}</view>
                         </view>
                         <!--5/30-->
-                        <view class="menu-name-image" wx:if='{{ menutypeItem.typeName=="特价" }}'>
-                            <image src='/images/menu/order_discount.png' style='width:28rpx;height:28rpx;'></image>
-                            <view class="menu-name"> {{ menutypeItem.typeName }}</view>
-                        </view>
-                        <view class="menu-name-image" wx:elif='{{ menutypeItem.typeName=="新品" }}'>
-                            <image src='/images/menu/order_new.png' style='width:28rpx;height:28rpx;'></image>
+                        <view class="menu-name-image" wx:if='{{ menutypeItem.typePicture}}'>
+                            <image src='{{menutypeItem.typePicture}}' style='width:28rpx;height:28rpx;'></image>
                             <view class="menu-name"> {{ menutypeItem.typeName }}</view>
                         </view>
                         <view class="menu-name" wx:else>{{ menutypeItem.typeName }}</view>
@@ -34,13 +30,17 @@
                 </scroll-view>
                 <!-- 右边具体餐品 -->
                 <view class="menu-right">
-
                     <scroll-view class="menu-right-item-wrapper" scroll-y scroll-with-animation="true" bindscroll="handleScroll" style="height: {{ windowHeight - 2 }}px;" scroll-into-view="{{ scrollToView }}" wx:key='menutypeItem'>
+                        <view style='height:20rpx;'></view>
                         <view class="c_foodPosition_forCalculate right-item" wx:for="{{ allMenuData[mealTypeItem].foodList}}" wx:for-item="menutypeItem" wx:key="index">
                             <!--不能在这判断暂无，因为menuCountList是按顺序的，不是按id的-->
-                            <view id="order{{ index }}" class="right-item-text">
-                                {{menutypeItem.typeName }}
+                            <view class='menu-wrapper' style='padding:10rpx 0 30rpx;'>
+                                <view id="order{{ index }}" class="right-item-text">
+                                    {{menutypeItem.typeName }}
+                                </view>
+                                <view wx:if='{{menutypeItem.typeDesc}}' class='right-item-text-desc'>{{menutypeItem.typeDesc}}</view>
                             </view>
+
 
                             <!-- 单个食物 -->
                             <view class="food-wrapper" wx:for="{{ menutypeItem.foodList }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodItem.dateId">
@@ -84,7 +84,7 @@
                                             <view class="price-real">
                                                 {{ foodItem.foodPrice }}
                                             </view>
-                                            <view class="price-original" wx:if="{{foodItem.foodPrice < foodItem.foodOriginalPrice }}">
+                                            <view class="price-original" wx:if="{{foodItem.foodPrice < foodItem.foodOriginalPrice &&showOrginalPrice}}">
                                                 ￥{{ foodItem.foodOriginalPrice }}
                                             </view>
                                         </view>

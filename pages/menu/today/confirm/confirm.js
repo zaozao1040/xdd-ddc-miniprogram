@@ -198,7 +198,17 @@ Page({
             totalDeduction: options.totalMoneyRealDeduction,
             orderType: options.orderType
         })
+        this.getOrderVerificationString()
 
+    },
+    getOrderVerificationString() {
+        let _this = this
+        let param = {
+            url: '/order/getOrderVerificationString?userCode=' + wx.getStorageSync('userCode')
+        }
+        requestModel.request(param, data => {
+            _this.data.verificationString = data
+        })
     },
     /**
      * 生命周期函数--监听页面显示
@@ -383,11 +393,13 @@ Page({
      * 付款 提交菜单
      */
     handleCommitPay: function() {
-
+        console.log('handleCommitPay')
         let _this = this
         if (_this.data.generateOrderNow) {
             return
         }
+        console.log('handleCommitPay---success')
+
         if (!_this.data.userName) {
             wx.showToast({
                 title: '请填写姓名',
@@ -415,6 +427,7 @@ Page({
             tmp_userDiscountCode = _this.data.adviceDiscountObj.userDiscountCode
         }
         let tmp_param = {
+            verificationString: _this.data.verificationString,
             userCode: wx.getStorageSync('userCode'),
             userName: _this.data.userName,
             addressCode: _this.data.userInfo.deliveryAddressCode,
@@ -471,11 +484,12 @@ Page({
 
             if (!data || param.payType == 'BALANCE_PAY' || param.payType == 'STANDARD_PAY') {
                 wx.reLaunch({
-                    url: '/pages/order/order?content=' + '订单已生成',
-                })
-                _this.setData({
-                    generateOrderNow: false
-                })
+                        url: '/pages/order/order?content=' + '订单已生成',
+                    })
+                    // _this.setData({
+                    //     generateOrderNow: false
+                    // })
+                    // console.log('handleCommitPay--BALANCE_PAY')
             } else if (param.payType == 'WECHAT_PAY' && resdata.needPay) { //微信支付
                 if (data.timeStamp) {
                     wx.requestPayment({
@@ -486,23 +500,26 @@ Page({
                         'paySign': data.paySign,
                         success: function(e) {
                             setTimeout(function() {
-                                wx.reLaunch({
-                                    url: '/pages/order/order?content=' + '订单已生成',
-                                })
-                            }, 200)
-                            _this.setData({
-                                generateOrderNow: false
-                            })
+                                    wx.reLaunch({
+                                        url: '/pages/order/order?content=' + '订单已生成',
+                                    })
+                                }, 200)
+                                // _this.setData({
+                                //     generateOrderNow: false
+                                // })
+                                // console.log('handleCommitPay--WECHAT_PAY--success')
+
                         },
                         fail: function(e) {
                             setTimeout(function() {
-                                wx.reLaunch({
-                                    url: '/pages/order/order?content=' + '订单已生成,请尽快支付',
-                                })
-                            }, 200)
-                            _this.setData({
-                                generateOrderNow: false
-                            })
+                                    wx.reLaunch({
+                                        url: '/pages/order/order?content=' + '订单已生成,请尽快支付',
+                                    })
+                                }, 200)
+                                // _this.setData({
+                                //     generateOrderNow: false
+                                // })
+                                // console.log('handleCommitPay--WECHAT_PAY--fail')
                         }
                     })
                 }

@@ -44,29 +44,31 @@ Page({
 
         mealEnglistLabel: ['breakfast', 'lunch', 'dinner', 'night'],
         mealTypeSmall: { lunch: '午餐', dinner: '晚餐', breakfast: '早餐', night: '夜宵' },
+        orgAdmin: false
     },
     onLoad: function(options) {
         let _this = this
         wx.getSystemInfo({
-            success: function(res) {
-                _this.setData({
-                    windowHeight: res.windowHeight
-                })
-            }
-        })
-        requestModel.getUserInfo(userInfo => {
-            let { userType, orgAdmin } = userInfo
-            if (userType == 'ORG_ADMIN' && orgAdmin == true) {
-                _this.setData({
-                    orgAdmin: true
-                })
-            } else {
-                _this.setData({
-                    orgAdmin: false
-                })
-            }
+                success: function(res) {
+                    _this.setData({
+                        windowHeight: res.windowHeight
+                    })
+                }
+            })
+            //因为管理员不能补餐了，所以把这个注销了
+            // requestModel.getUserInfo(userInfo => { 
+            //     let { userType, orgAdmin } = userInfo
+            //     if (userType == 'ORG_ADMIN' && orgAdmin == true) {
+            //         _this.setData({
+            //             orgAdmin: true
+            //         })
+            //     } else {
+            //         _this.setData({
+            //             orgAdmin: false
+            //         })
+            //     }
 
-        }, true)
+        // }, true)
 
 
         this.getTimeDataByResponse()
