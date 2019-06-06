@@ -1,8 +1,8 @@
 const mtjwxsdk = require('./utils/mtj-wx-sdk.js');
 App({
     globalData: {
-                  //  baseUrl: 'https://wx.api.91dcan.cn', //线上真实数据，发布使用！！！！！！！！！！
-                   baseUrl: 'http://192.168.2.120:9082', //志康
+        baseUrl: 'https://wx.api.91dcan.cn', //线上真实数据，发布使用！！！！！！！！！！
+        //  baseUrl: 'http://192.168.2.120:9082', //志康
         // baseUrl: 'https://wx.api.uat.91dcan.cn', //测试库
 
         userInfo: null,
@@ -21,11 +21,17 @@ App({
         realMoney: 0, //实际价格
         totalCount: 0
     },
+
     /**
      * 当小程序初始化完成时，会触发 onLaunch（全局只触发一次）
      */
     onLaunch: function() {
 
+        wx.loadFontFace({
+            family: 'PingFang-SC-Medium',
+            source: 'url("https://oss.91dcan.cn/miniprogram/fonts/PingFangMedium.ttf")',
+            success: function() { console.log('load font success') }
+        })
         if (wx.canIUse('getUpdateManager')) {
             const updateManager = wx.getUpdateManager()
 

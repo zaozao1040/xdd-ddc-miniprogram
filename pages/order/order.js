@@ -66,7 +66,6 @@
                  itemStatusActiveFlag: 0
              })
          }
-
      },
 
      /* 手动点击触发下一页 */

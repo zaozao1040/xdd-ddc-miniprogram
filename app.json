@@ -13,6 +13,7 @@
         "pages/mine/organize/organize",
         "pages/mine/address/address",
         "pages/mine/wallet/wallet",
+        "pages/mine/complaint/complaint",
         "pages/mine/cab/index",
         "pages/mine/more/more",
         "pages/food/food",

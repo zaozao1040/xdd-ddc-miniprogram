@@ -1,11 +1,47 @@
-<view style='background: #F5F5F5;height:{{windowHeight}}px;padding:60rpx 20rpx;'>
-    <view style="height:380rpx;background:#fff;border-radius:8rpx;">
-        <textarea style="height:320rpx;color:#333;font-size:34rpx;padding:20rpx;box-sizing: border-box; width:100%; " placeholder-style="font-size: 40rpx; color: #CCCCCC; letter-spacing: 0; text-align: left;" bindinput="bindTextAreaInput" placeholder="请尽情吐槽吧"
-            maxlength="300" auto-focus value="{{value}}" />
-        <view style="font-size:32rpx;text-align:right;color:#ccc;padding-right:10rpx;">{{count}}/300</view>
+<form report-submit="true" bindsubmit="buttonClickYes_complaint">
+
+    <!-- 每个餐品的评价 -->
+
+    <view>
+        <view style='margin:30.6rpx 0 50.6rpx;text-align: center;'>
+            <image src='/images/mine/logo.png' style='width:254.4rpx;height:102.8rpx;'></image>
+        </view>
+        <view class="welcome">
+            您的建议是我们前进的动力，请对服务进行吐槽！
+        </view>
+
+        <view class='comment-star'>
+            <view wx:for="{{5}}" wx:key="{{index}}" bindtap="handleClickStar" data-star="{{index+1}}">
+                <image wx:if='{{index<complaint.star}}' src="/images/order/staryes.png" style='width:56rpx;height:56rpx;margin-right: 14rpx;margin-left: 14rpx;'></image>
+                <image wx:else src="/images/order/starno.png" style='width:56rpx;height:56rpx;margin-right: 14rpx;margin-left: 14rpx;'></image>
+
+            </view>
+        </view>
+        <view class='comment-label' wx:if='{{complaint.evaluateLabelsActive}}'>
+            <view wx:for="{{complaint.evaluateLabelsActive}}" wx:for-item="labelItem" wx:key="*this" bindtap="handleClickLabel" data-labelindex="{{index}}">
+                <view class="{{labelItem.active==true?'labelItem-active':'labelItem'}}" style='margin-right:{{index%3!=2?30:0}}rpx;'>
+                    {{labelItem.name}}
+                </view>
+            </view>
+        </view>
+        <view class="content">
+            <textarea style=" height:160rpx;font-family: PingFangSC-Regular;font-size: 30rpx;color: #333;" placeholder="我们希望能倾听您的心声,请留下您宝贵的意见。" maxlength="60" bindinput="contentInput" data-foodindex="{{foodIndex}}"></textarea>
+        </view>
+
+        <view class="img-wrapper">
+            <view class='image-list'>
+                <view wx:for="{{complaint.imagePaths}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex">
+                    <view class='image-remove' catchtap='removeOneImage' data-index="{{imgIndex}}">x</view>
+                    <image class="image" src="{{imgItem}}" catchtap="handlePreviewImage" data-index="{{imgIndex}}">
+                    </image>
+                </view>
+            </view>
+            <image class="image-shangchuan" wx:if="{{complaint.imagePaths.length<3}}" src="/images/order/xiangji.png" bindtap="handleClickAddImg"></image>
+
+        </view>
     </view>
 
-    <view bindtap='makeComplaints' style="margin-left:40rpx;background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);margin-top:62rpx;width:630rpx;font-weight:500;font-size: 36rpx;color: #FFF;letter-spacing: 0; text-align: center;line-height:100rpx;border-radius:50rpx;">
-        我要吐槽</view>
+    <button class="button" formType="submit">确认提交</button>
 
-</view>
+
+</form>

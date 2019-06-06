@@ -58,7 +58,7 @@
 }
 
 .foodName {
-    font-family: PingFangSC-Medium;
+    font-family: PingFang-SC-Medium;
     font-size: 36rpx;
     color: #333333;
     letter-spacing: 0;

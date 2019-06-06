@@ -1,6 +1,6 @@
 .offer-item {
     display: flex;
-    padding: 40rpx 0 60rpx;
+    padding: 40rpx 0 26rpx;
 }
 
 .mine-wrapper {
@@ -12,7 +12,7 @@
 }
 
 .add-food {
-    margin: 300rpx 30rpx 0;
+    margin: 0 30rpx 0;
     width: 690rpx;
     display: flex;
     padding: 28rpx 0;
@@ -46,7 +46,35 @@
     color: #FFFFFF;
     letter-spacing: 0;
     text-align: left;
-    line-height: 120rpx;
+    line-height: 50rpx;
+}
+
+.address {
+    font-family: PingFangSC-Regular;
+    font-size: 22rpx;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 32rpx;
+    width: 266rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.org {
+    margin: 26rpx 30rpx 0 34rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 22rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: center;
+    background: #FFFFFF;
+    box-shadow: 0 4rpx 8rpx 0 rgba(247, 163, 76, 0.45);
+    border-radius: 40rpx;
+    height: 68rpx;
+    width: 260rpx;
+    line-height: 68rpx;
 }
 
 .offerItem-wrapper {
@@ -60,6 +88,15 @@
     color: #FFFFFF;
     letter-spacing: 0;
     line-height: 50rpx;
+}
+
+.offer-num-balance {
+    font-family: PingFangSC-Regular;
+    font-size: 30rpx;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 42rpx;
 }
 
 .offer-title {
@@ -88,4 +125,16 @@
     letter-spacing: 0;
     text-align: left;
     line-height: 40rpx;
+}
+
+.org-admin {
+    padding: 30rpx 46rpx;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+}
+
+.org-addfood {
+    width: 314rpx;
+    height: 160rpx;
 }

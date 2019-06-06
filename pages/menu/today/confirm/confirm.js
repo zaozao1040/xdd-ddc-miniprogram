@@ -200,6 +200,7 @@ Page({
         })
         this.getOrderVerificationString()
 
+
     },
     getOrderVerificationString() {
         let _this = this

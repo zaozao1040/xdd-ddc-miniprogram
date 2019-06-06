@@ -57,7 +57,7 @@
 }
 
 .login-title {
-    font-family: PingFangSC-Medium;
+    font-family: PingFang-SC-Medium;
     font-size: 38rpx;
     color: #333333;
     letter-spacing: 0;
