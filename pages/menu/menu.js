@@ -106,7 +106,7 @@
              this.setData({
                  timeInfo: data
              })
-
+             console.log('七天日期', data)
              for (let i = 0; i < this.data.mealEnglistLabel.length; i++) {
                  //5/15 今天一定有可定的餐时吗？即：该公司预定了这个餐时
                  let meal = this.data.mealEnglistLabel[i]

@@ -29,7 +29,11 @@
      },
      //加餐
      gotoAddfood() {
+         let _this = this
          requestModel.getUserInfo(userInfo => {
+             _this.setData({
+                 userInfo: userInfo
+             })
              let { userType, orgAdmin } = userInfo
              if ((userType == 'ORG_ADMIN' || userType == 'ADMIN') && orgAdmin) {
                  wx.showModal({
@@ -100,7 +104,7 @@
              _this.setData({
                  userInfo: userInfo
              })
-         })
+         }, true)
 
      },
      // 如果是企业用户就切换为管理员，如果是管理员就切换为普通用户
@@ -228,8 +232,16 @@
                  integral: data.integral,
                  discount: data.discount
              })
-             wx.hideNavigationBarLoading();
-             wx.stopPullDownRefresh()
+
+             requestModel.getUserInfo(userInfo => {
+
+                 _this.setData({
+                     userInfo: userInfo
+                 })
+                 wx.hideNavigationBarLoading();
+                 wx.stopPullDownRefresh()
+             }, true)
+
          })
 
      },

@@ -1,7 +1,11 @@
 <view class="mine-wrapper">
     <image src="/images/mine/me_bg.png" style='height:300rpx;width:100%;z-index:-1;position:absolute; '></image>
     <view>
+        <view style=' z-index:100;position:absolute; top:20rpx;left:117rpx;' wx:if='{{userInfo.userType=="ORG_ADMIN" &&userInfo.orgAdmin}}'>
+            <image src="/images/mine/crown.png" style=' height:40rpx;width:48rpx;transform:rotate(45deg);'></image>
+        </view>
         <view class='wrapper-top'>
+
             <view style='margin:0 10rpx 0 30rpx;width:120rpx;height:120rpx;'>
                 <image wx:if="{{userInfo.headImage}}" style='width:120rpx;height:120rpx;border-radius: 50%;' src="{{userInfo.headImage}}"></image>
                 <image wx:else style='width:120rpx;height:120rpx;' src="/images/mine/huiyuan.png" alt=""></image>
@@ -13,12 +17,15 @@
                         <image src="/images/mine/xiangyoubaise.png" style='width:48rpx;height:48rpx;position: absolute;top:0;bottom: 0;margin: auto;'></image>
                     </view>
                 </view>
-                <view class='address' wx:if='{{userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN"}}'>
-                    {{userInfo.deliveryAddress}}
+                <view wx:if='{{userInfo.organizeName}}'>
+                    <view class='address' wx:if='{{userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN"}}'>
+                        {{userInfo.organizeName}}
+                    </view>
+                    <view class='address' style='width:560rpx;' wx:else>
+                        {{userInfo.organizeName}}
+                    </view>
                 </view>
-                <view class='address' style='width:560rpx;' wx:else>
-                    {{userInfo.deliveryAddress}}
-                </view>
+
             </view>
             <view class="org" bindtap="changeRole" wx:if='{{userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN"}}'>
                 <text wx:if="{{userInfo.orgAdmin}}">切换为"企业员工"</text>
@@ -28,7 +35,7 @@
         </view>
         <view wx:if="{{userInfo}}" class='offer-item'>
             <!-- 钱包 优惠券 积分 -->
-            <view class="offerItem-wrapper" bindtap='gotoWallet'>
+            <!-- <view class="offerItem-wrapper" bindtap='gotoWallet'>
                 <view style='display: flex;padding-left:28rpx;'>
                     <view class='offer-title' style='line-height:42rpx;padding-right:10rpx;'> 个人余额 </view>
                     <view class='offer-num-balance'> {{balance}} </view>
@@ -38,6 +45,10 @@
                     <view class='offer-title' style='line-height:42rpx;padding:0 10rpx 0 0;'> 企业余额 </view>
                     <view class='offer-num-balance'> {{balance}} </view>
                 </view>
+            </view> -->
+            <view class="offerItem-wrapper" bindtap='gotoWallet'>
+                <view class='offer-num'> {{balance}} </view>
+                <view class='offer-title'> 余额 </view>
             </view>
             <view style='width:2rpx;height:30rpx;margin-top:26rpx;background: rgba(255,255,255,0.5);'></view>
             <!-- <view style="position: relative;">

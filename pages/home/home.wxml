@@ -19,8 +19,8 @@
         </view>
         <swiper class="notice-detail" circular="true" duration="500" vertical="true" autoplay="true">
             <block wx:for="{{noticeData}}" wx:key="{{index}}">
-                <swiper-item catchtap="handleshowOneNotice" data-onenotice="{{item}}">
-                    {{item.noticeTitle}}
+                <swiper-item catchtap="handleshowOneNotice" data-onenotice="{{item}}" style='margin-left:-10rpx;'>
+                    【点我查看】{{item.noticeTitle}}
                 </swiper-item>
             </block>
         </swiper>
@@ -200,7 +200,7 @@
 
     <view class="mask" wx:if="{{showMenuSelect}}" catchtouchmove="preventTouchMove"></view>
 
-    <view style="position:fixed;bottom:0;width:100%; z-index:1001;background:#fff;" wx:if="{{showMenuSelect}}">
+    <view style="position:fixed;bottom:0;width:100%; z-index:1001;background:#fff;" wx:if="{{showMenuSelect}}" catchtouchmove="preventTouchMove">
         <view class='flexdisplay'>
             <view class="appointment-title">
                 选择预约

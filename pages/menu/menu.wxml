@@ -4,6 +4,7 @@
         <scroll-view scroll-x style="overflow:hidden;white-space:nowrap;" scroll-into-view="{{activeDayId}}">
             <view id="day{{index}}" data-day='{{index}}' data-dayinfo='{{item}}' bindtap='changeActiveDay' wx:for="{{timeInfo}}" wx:key='{{index}}' style='display:inline-block;margin-right:{{index==6?"40rpx":"60rpx"}};padding-left:{{index==0?"40rpx":"0"}}'>
 
+                <view wx:if='{{index!=activeDayIndex}}' class=" inactive-day-date">{{item.mealDateShow}}</view>
                 <view class="{{index==activeDayIndex?'active-day':'inactive-day'}}">{{item.label}}</view>
                 <view class="{{index==activeDayIndex?'active-day-line':''}}"></view>
             </view>
@@ -62,8 +63,8 @@
                                             <view class="food-name">
                                                 {{foodItem.foodName}}
                                             </view>
-                                            <view class="food-label">
-                                                <view class="food-label-item">{{ menutypeItem.typeName }}</view>
+                                            <view class="food-label" wx:if='{{foodItem.foodLabels&&foodItem.foodLabels.length>0}}'>
+                                                <!-- <view class="food-label-item">{{ menutypeItem.typeName }}</view> -->
                                                 <view class="food-label-item" wx:for="{{foodItem.foodLabels}}" wx:key="{{ index }}">{{ item }}</view>
                                             </view>
                                             <view wx:if="{{foodItem.canMeal==false}}" style="font-size:20rpx;line-height: 28rpx;color:#ce8307;margin-top:10rpx;">
@@ -87,7 +88,7 @@
                                                 <view class="price-real">
                                                     {{ foodItem.foodPrice }}
                                                 </view>
-                                                <view class="price-original" wx:if="{{foodItem.foodPrice < foodItem.foodOriginalPrice&&showOrginalPrice }}">
+                                                <view class="price-original" wx:if="{{foodItem.foodPrice < foodItem.foodOriginalPrice&&foodItem.showOrginalPrice }}">
                                                     ￥{{ foodItem.foodOriginalPrice }}
                                                 </view>
                                             </view>

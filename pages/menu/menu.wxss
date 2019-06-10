@@ -85,12 +85,12 @@
  
  .active-day-line {
      background: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
-     height: 10rpx;
+     height: 12rpx;
      border-radius: 5rpx;
      box-shadow: 0rpx 3rpx 10rpx #F7CD4E;
      z-index: 100;
      position: relative;
-     bottom: 25rpx;
+     bottom: 22rpx;
  }
  
  .inactive-day {
@@ -99,8 +99,18 @@
      color: #999999;
      letter-spacing: 0;
      text-align: left;
-     line-height: 80rpx;
-     display: inline-block;
+     line-height: 48rpx;
+     position: relative;
+     z-index: 200;
+ }
+ 
+ .inactive-day-date {
+     font-family: PingFangSC-Regular;
+     font-size: 20rpx;
+     color: #999999;
+     letter-spacing: 0;
+     text-align: center;
+     line-height: 28rpx;
      position: relative;
      z-index: 200;
  }
@@ -116,8 +126,7 @@
  }
  
  .book-title {
-     /* font-family: PingFang-SC-Medium; */
-     font-size: 28px;
+     font-size: 56rpx;
      color: #333333;
      letter-spacing: 0;
      text-align: left;
@@ -128,9 +137,9 @@
  
  .mealtype-inactive {
      background: #F5F5F5;
-     border-radius: 15.5px;
+     border-radius: 31rpx;
      font-family: PingFang-SC-Regular;
-     font-size: 15px;
+     font-size: 30rpx;
      color: #333333;
      letter-spacing: 0;
      text-align: center;
@@ -142,9 +151,9 @@
  
  .mealtype-active {
      background: rgba(247, 156, 76, 0.20);
-     border-radius: 15.5px;
+     border-radius: 31rpx;
      font-family: PingFang-SC-Regular;
-     font-size: 15px;
+     font-size: 30rpx;
      color: #F79C4C;
      letter-spacing: 0;
      text-align: center;
@@ -156,7 +165,7 @@
  
  .right-item-text {
      font-family: PingFang-SC-Medium;
-     font-size: 12px;
+     font-size: 24rpx;
      color: #666666;
      letter-spacing: 0;
      text-align: left;

@@ -47,7 +47,7 @@ Page({
         //关闭底部 
         wx.hideTabBar()
 
-        //获取弹窗的高 
+
         /* 请求星级标签列表 */
         let param = {
             url: '/orderEvaluate/getEvaluateTagList?userCode=' + wx.getStorageSync('userCode')
@@ -243,6 +243,9 @@ Page({
         this.setData({
             orderFoodList: tmp_orderFoodList,
         })
+
+        console.log('handleClickStar--star', star)
+        console.log('handleClickStar--_this.data.evaluateLabels', _this.data.evaluateLabels)
 
     },
 

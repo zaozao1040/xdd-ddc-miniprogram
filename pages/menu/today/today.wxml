@@ -40,8 +40,6 @@
                                 </view>
                                 <view wx:if='{{menutypeItem.typeDesc}}' class='right-item-text-desc'>{{menutypeItem.typeDesc}}</view>
                             </view>
-
-
                             <!-- 单个食物 -->
                             <view class="food-wrapper" wx:for="{{ menutypeItem.foodList }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodItem.dateId">
                                 <view wx:if="{{foodItem.foodQuota &&foodItem.foodQuota.surplusNum==0 }}" class="img-wrapper-stock" bindtap="handleGotoFoodDetail" data-foodcode="{{ foodItem.foodCode }}"></view>
@@ -56,8 +54,8 @@
                                         <view class="food-name">
                                             {{foodItem.foodName}}
                                         </view>
-                                        <view class="food-label">
-                                            <view class="food-label-item">{{ menutypeItem.typeName }}</view>
+                                        <view class="food-label" wx:if="{{foodItem.foodLabels&&foodItem.foodLabels.length>0}}">
+                                            <!-- <view class="food-label-item">{{ menutypeItem.typeName }}</view> -->
                                             <view class="food-label-item" wx:for="{{foodItem.foodLabels}}" wx:key="{{ index }}">{{ item }}</view>
                                         </view>
                                         <view wx:if="{{foodItem.canMeal==false}}" style="font-size:20rpx;line-height: 28rpx;color:#ce8307;margin-top:10rpx;">
@@ -84,7 +82,7 @@
                                             <view class="price-real">
                                                 {{ foodItem.foodPrice }}
                                             </view>
-                                            <view class="price-original" wx:if="{{foodItem.foodPrice < foodItem.foodOriginalPrice &&showOrginalPrice}}">
+                                            <view class="price-original" wx:if="{{foodItem.foodPrice < foodItem.foodOriginalPrice &&foodItem.showOrginalPrice}}">
                                                 ￥{{ foodItem.foodOriginalPrice }}
                                             </view>
                                         </view>

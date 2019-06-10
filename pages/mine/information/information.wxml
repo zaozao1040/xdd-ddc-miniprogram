@@ -29,7 +29,7 @@
                 <text wx:else class='info'>{{userInfo.organizeName}}</text>
             </view>
             <view class='item-last' wx:if='{{userInfo.defaultDeliveryAddress}}'>
-                <view class='title'>地址</view>
+                <view class='title'>配送地址</view>
                 <view class='info'>{{userInfo.defaultDeliveryAddress}}</view>
             </view>
         </view>

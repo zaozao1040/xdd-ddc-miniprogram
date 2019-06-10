@@ -14,7 +14,7 @@ Page({
         organizeCode: '',
         search: '',
         organizeListNoResult: false,
-        organizeSelected: false
+        organizeSelected: false,
     },
 
     /**
@@ -167,16 +167,21 @@ Page({
     searchInput: function(e) {
 
         let _this = this
-
+        _this.handleSearchOrganizes(e.detail.value)
+    },
+    handleSearchOrganizes(organizeName) {
+        let _this = this
         if (_this.data.userType == 'ADMIN') {
             let param = {
-                    url: '/organize/getOrganizeList?userCode=' + wx.getStorageSync('userCode') + '&organizeName=' + e.detail.value
+                    url: '/organize/getOrganizeList?userCode=' + wx.getStorageSync('userCode') + '&organizeName=' + organizeName
                 }
                 //请求企业列表
             requestModel.request(param, (data) => {
                 _this.setData({
-                    organizeList: data,
                     employeeNumber: false,
+                    organizeList: data,
+                    organizeSelected: false,
+                    organizeCode: ''
                 })
                 if (data.length == 0) {
                     _this.setData({
@@ -188,11 +193,11 @@ Page({
                     })
                 }
             })
-        } else if (e.detail.value.length >= 2) {
+        } else if (organizeName.length >= 2) {
             wx.getLocation({
                 type: 'gcj02',
                 success: function(res) {
-                    let urlP = encodeURI('userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude + '&organizeName=' + e.detail.value)
+                    let urlP = encodeURI('userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude + '&organizeName=' + organizeName)
                     let param = {
                         url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
                     }
@@ -217,7 +222,7 @@ Page({
                     })
                 },
                 fail: function() {
-                    let urlP = encodeURI('userCode=' + wx.getStorageSync('userCode') + '&longitude=1&latitude=1&organizeName=' + e.detail.value)
+                    let urlP = encodeURI('userCode=' + wx.getStorageSync('userCode') + '&longitude=1&latitude=1&organizeName=' + organizeName)
                     let param = {
                         url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
                     }
@@ -244,7 +249,6 @@ Page({
             })
         }
     },
-
     /* button的绑定企业 */
     changeOrganize: function() {
         let _this = this
@@ -297,6 +301,7 @@ Page({
                             canBinding: false, //可绑定
                             bindChecking: true //审核中
                         })
+                        wx.reLaunch({ url: '/pages/home/home' })
                     }
                     _this.setData({
                         organizeName: userInfo.organizeName
