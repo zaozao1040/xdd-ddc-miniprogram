@@ -146,22 +146,6 @@
      letter-spacing: 0;
  }
  
- .content-header-item {
-     flex: 1;
-     text-align: center;
-     font-size: 35rpx;
-     font-weight: 600;
-     color: #666;
-     margin: 0 80rpx;
- }
- 
- .content-header-item-active {
-     padding: 0 10rpx;
-     border-bottom: 10rpx solid #e79b37;
-     color: #e79b37;
-     font-size: 40rpx;
- }
- 
  .content-time {
      background: #FFFFFF;
      display: flex;

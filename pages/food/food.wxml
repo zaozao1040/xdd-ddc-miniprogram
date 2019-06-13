@@ -3,7 +3,7 @@
     <!-- 标题 -->
     <view class="header-wrapper  c_scrollPosition_forCalculate">
         <view catchtap="changeItemStatusActiveFlag" data-flag="detail">
-            <view class=" {{itemStatusActiveFlag==true?'header-item-active':'header-item'}}">菜品详情</view>
+            <view class=" {{itemStatusActiveFlag==true?'header-item-active':'header-item'}}">餐品详情</view>
             <view class="{{itemStatusActiveFlag==true?'header-item-border-active':'header-item-border'}}"></view>
         </view>
         <view catchtap="changeItemStatusActiveFlag" data-flag="ratings">
@@ -14,7 +14,7 @@
     </view>
 
     <view class="food-content">
-        <!-- 菜品详情 -->
+        <!-- 餐品详情 -->
         <view wx:if="{{itemStatusActiveFlag==true}}" class="img-wrapper">
             <!-- 基本信息 -->
             <view class="basic-info">
@@ -56,7 +56,7 @@
                     未查询到评价记录..
                 </view>
                 <view wx:else>
-                    <view class="ratingsItem" wx:for="{{ratingsInfoList}}" wx:for-item="ratingItem" wx:for-index="ratingIndex" wx:key="ratingIndex">
+                    <view class="ratings-item" wx:for="{{ratingsInfoList}}" wx:for-item="ratingItem" wx:for-index="ratingIndex" wx:key="ratingIndex">
                         <view class="left">
                             <image class="left-image" wx:if='{{ratingItem.headImage}}' src="{{ratingItem.headImage}}"></image>
                             <image class="left-image" wx:else src="/images/mine/huiyuan.png"></image>

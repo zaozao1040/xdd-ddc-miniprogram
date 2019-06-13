@@ -1,8 +1,6 @@
-/* pages/mine/mine.wxss */
-
 .offer-item {
     display: flex;
-    padding: 40rpx 0 60rpx;
+    padding: 40rpx 0 26rpx;
 }
 
 .mine-wrapper {
@@ -14,7 +12,7 @@
 }
 
 .add-food {
-    margin: 300rpx 30rpx 0;
+    margin: 0 30rpx 0;
     width: 690rpx;
     display: flex;
     padding: 28rpx 0;
@@ -31,19 +29,6 @@
     justify-content: space-between;
 }
 
-.header-wrapper {
-    padding: 0 30rpx;
-    background: linear-gradient(#e79b37, #eee);
-}
-
-.header {
-    display: flex;
-    background: #fff;
-    padding: 30rpx 40rpx;
-    border-top-left-radius: 20rpx;
-    border-top-right-radius: 20rpx;
-}
-
 .mine-service {
     font-family: PingFang-SC-Medium;
     font-size: 34rpx;
@@ -54,29 +39,6 @@
     line-height: 48rpx;
 }
 
-.left {
-    margin: auto 30rpx;
-    width: 120rpx;
-    height: 120rpx;
-}
-
-.left-image {
-    width: 100%;
-    height: 100%;
-    border-radius: 60rpx;
-}
-
-.middle {
-    flex: 1;
-    padding-left: 30rpx;
-    margin: auto;
-}
-
-.middle-line1 {
-    display: flex;
-    justify-content: space-between;
-}
-
 .name {
     position: relative;
     font-family: PingFang-SC-Medium;
@@ -84,68 +46,35 @@
     color: #FFFFFF;
     letter-spacing: 0;
     text-align: left;
-    line-height: 120rpx;
+    line-height: 50rpx;
 }
 
-.userName {
-    font-size: 40rpx;
-    color: #222;
-    font-weight: 500;
+.address {
+    font-family: PingFangSC-Regular;
+    font-size: 22rpx;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 32rpx;
+    width: 266rpx;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
-.userPhone {
-    font-size: 30rpx;
-    color: #666;
-    padding-top: 10rpx;
-}
-
-.userDes {
-    font-size: 30rpx;
-    color: #666;
-}
-
-.right {
-    margin: auto;
-}
-
-.iconfont-title {
-    font-size: 50rpx;
-    color: #fff;
-}
-
-
-/* 订单的几种状态 ---暂且不要*/
-
-
-/* .order-wrapper{
-  display: flex;
-  background: #fff; 
-}
-.order-itemwrapper{
-  flex: 1;
-  text-align: center;
-  margin-top: 20rpx ;
-}
-.icon-order{
-  font-size: 50rpx;
-  color:#666;
-  font-weight: 0;
-}
-.order-title{
-  margin: 10rpx auto;
-  font-size: 30rpx;
-  color:#222;
-  font-weight: 400;
-} */
-
-
-/* 钱包 优惠券 积分 */
-
-.offer-wrapper {
-    display: flex;
-    background: #fff;
-    border-bottom-left-radius: 20rpx;
-    border-bottom-right-radius: 20rpx;
+.org {
+    margin: 26rpx 30rpx 0 34rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 22rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: center;
+    background: #FFFFFF;
+    box-shadow: 0 4rpx 8rpx 0 rgba(247, 163, 76, 0.45);
+    border-radius: 40rpx;
+    height: 68rpx;
+    width: 260rpx;
+    line-height: 68rpx;
 }
 
 .offerItem-wrapper {
@@ -161,34 +90,13 @@
     line-height: 50rpx;
 }
 
-.money-1 {
-    font-size: 60rpx;
-    color: #e79b37;
-}
-
-.money-2 {
-    font-size: 20rpx;
-    color: #e79b37;
-}
-
-.youhui-1 {
-    font-size: 60rpx;
-    color: #e79b37;
-}
-
-.youhui-2 {
-    font-size: 20rpx;
-    color: #e79b37;
-}
-
-.point-1 {
-    font-size: 60rpx;
-    color: #e79b37;
-}
-
-.point-2 {
-    font-size: 20rpx;
-    color: #e79b37;
+.offer-num-balance {
+    font-family: PingFangSC-Regular;
+    font-size: 30rpx;
+    color: #FFFFFF;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 42rpx;
 }
 
 .offer-title {
@@ -197,31 +105,6 @@
     color: #FFFFFF;
     letter-spacing: 0;
     line-height: 34rpx;
-}
-
-.iconfont-offertitle {
-    font-size: 30rpx;
-    color: #e79b37;
-    font-weight: 400;
-}
-
-
-/* 地址 浏览记录 下单闹钟 客服等 */
-
-.label-wrapper {
-    background: #fff;
-    overflow: hidden;
-}
-
-.label-itemwrapper {
-    margin-left: 40rpx;
-    margin-right: 40rpx;
-    height: 100rpx;
-    line-height: 100rpx;
-}
-
-.label-itemwrapper-borderbottom {
-    border-bottom: 1rpx solid #eee;
 }
 
 .add-title {
@@ -235,57 +118,6 @@
     flex-grow: 1;
 }
 
-
-/* .label-itemwrapper:last-child{
-  border-bottom: none;
-}
- */
-
-.icon-shouji1 {
-    font-size: 40rpx;
-    color: rgb(66, 76, 83);
-}
-
-.icon-qiye1 {
-    font-size: 40rpx;
-    color: rgb(51, 133, 189);
-}
-
-.icon-dizhi {
-    font-size: 40rpx;
-    color: rgb(46, 138, 17);
-}
-
-.icon-zuji {
-    font-size: 40rpx;
-    color: rgb(71, 85, 47);
-}
-
-.icon-naozhong {
-    font-size: 40rpx;
-    color: rgb(202, 124, 52);
-}
-
-.icon-canting {
-    font-size: 40rpx;
-    color: rgb(136, 160, 28);
-}
-
-.icon-kefu {
-    font-size: 40rpx;
-    color: rgb(128, 95, 218);
-}
-
-.icon-bajiefuli {
-    font-size: 40rpx;
-    color: rgb(226, 26, 209);
-}
-
-.icon-gengduo {
-    font-size: 40rpx;
-    color: rgb(70, 167, 167);
-}
-
 .label-title {
     font-family: PingFang-SC-Regular;
     font-size: 28rpx;
@@ -295,8 +127,14 @@
     line-height: 40rpx;
 }
 
-.iconfont-label-right {
-    float: right;
-    color: #e79b37;
-    font-weight: 400;
+.org-admin {
+    padding: 30rpx 46rpx;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+}
+
+.org-addfood {
+    width: 314rpx;
+    height: 160rpx;
 }

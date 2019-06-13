@@ -4,7 +4,6 @@
      bottom: 0;
      left: 0;
      right: 0;
-     /*   padding: 20rpx; */
      background: #eee;
  }
  /* 弹出层 选择优惠券 */
@@ -73,17 +72,6 @@
      border-radius: 10rpx;
  }
  
- .modulebox-img-wrapper {
-     padding: 60rpx 50rpx;
-     box-sizing: border-box;
-     width: 100%;
-     height: 200rpx;
- }
- 
- .modulebox-img {
-     width: 100%;
- }
- 
  .selectPayType_button {
      border: 2rpx solid #CCCCCC;
      border-radius: 50rpx;
@@ -110,14 +98,6 @@
      text-align: center;
  }
  
- .modulebox-des {
-     text-align: center;
-     color: #666;
-     font-weight: 500;
-     font-size: 30rpx;
-     margin-top: 40rpx;
- }
- 
  .modulebox-button-wrapper {
      position: absolute;
      bottom: 20rpx;
@@ -134,31 +114,11 @@
      justify-content: space-around;
  }
  
- .modulebox-button-quxiao {
-     flex: 1;
-     margin: 0 30rpx;
- }
- 
- .modulebox-button-queding {
-     flex: 1;
-     margin: 0 30rpx;
-     background: #e79b37;
-     color: #FFF;
- }
- 
  .section-3 {
      display: flex;
      border-radius: 6rpx;
      height: 100rpx;
      position: relative;
- }
- 
- .section-3-cannotChange {
-     background: #eee;
- }
- 
- .section-3-empty {
-     border: 1rpx solid #F56C6C;
  }
  
  .section-3-1 {
@@ -210,12 +170,6 @@
      line-height: 56rpx;
      margin-bottom: 10rpx;
  }
- /* 拷贝自购物车，所以都是cart的开头*/
- 
- .cart-content {
-     /*   padding:0 10rpx; */
-     box-sizing: border-box;
- }
  
  .cart-day-wrapper {
      background: #fff;
@@ -242,13 +196,6 @@
      border-bottom: 1rpx solid #F2F2F2;
  }
  
- .cart-day-content {
-     display: flex;
-     margin: 10rpx 10rpx 0 20rpx;
-     border-bottom: #dddddd 1rpx solid;
-     line-height: 50rpx;
- }
- 
  .cart-organize-deduction {
      display: flex;
      justify-content: space-between;
@@ -256,72 +203,10 @@
      border-bottom: 1rpx solid #F2F2F2;
  }
  
- .cart-day-content:last-child {
-     border-bottom: none;
- }
- 
- .cart-menutype {
-     flex: 0 0 60rpx;
-     text-align: left;
-     font-size: 25rpx;
- }
- 
- .iconfont-title-zaocan1 {
-     color: rgb(83, 124, 0);
- }
- 
- .iconfont-zaocan1 {
-     font-size: 50rpx;
-     font-weight: 100;
-     height: 40rpx;
-     line-height: 40rpx;
-     color: rgb(83, 124, 0);
- }
- 
- .iconfont-title-wucan {
-     color: rgb(128, 83, 0);
- }
- 
- .iconfont-wucan {
-     font-size: 50rpx;
-     font-weight: 100;
-     height: 40rpx;
-     line-height: 40rpx;
-     color: rgb(128, 83, 0);
- }
- 
- .iconfont-title-canting {
-     color: dodgerblue;
- }
- 
- .iconfont-canting {
-     font-size: 50rpx;
-     font-weight: 100;
-     height: 40rpx;
-     line-height: 40rpx;
-     color: dodgerblue;
- }
- 
- .iconfont-title-xiaoye- {
-     color: darkslateblue;
- }
- 
- .iconfont-xiaoye- {
-     font-size: 50rpx;
-     font-weight: 100;
-     height: 40rpx;
-     line-height: 40rpx;
-     color: darkslateblue;
- }
- 
  .cart-menuItem {
      display: flex;
      padding: 20rpx 0;
      border-bottom: 1rpx solid #F2F2F2;
- }
- 
- .cart-amount {
-     float: right;
  }
  
  .cart-menuItem-left {
@@ -391,22 +276,6 @@
      color: #FF5035;
      letter-spacing: 0;
      line-height: 42rpx;
- }
- 
- .cart-menuItemTotalmoney {
-     float: left;
-     height: 60rpx;
-     line-height: 60rpx;
-     padding-left: 20rpx;
-     text-align: center;
- }
- 
- .cart-menuItemCount {
-     float: right;
-     height: 60rpx;
-     line-height: 60rpx;
-     padding-right: 20rpx;
-     text-align: center;
  }
  /*支付*/
  
@@ -482,112 +351,6 @@
      width: 220rpx;
      height: 100rpx;
      line-height: 100rpx;
- }
- /* 合计 */
- 
- .total-wrapper {
-     position: sticky;
-     bottom: 0;
-     background: #fff;
- }
- /* 优惠券 */
- 
- .discount-wrapper {
-     display: flex;
-     justify-content: space-between;
-     padding: 10rpx 30rpx
- }
- 
- .discount-left {
-     display: flex;
-     font-size: 30rpx;
-     color: #666;
-     font-weight: 500;
- }
- 
- .discount-des {
-     padding-left: 40rpx;
-     color: #222;
- }
- 
- .discount-tuijian {
-     color: #F56C6C;
-     border: 1rpx solid #F56C6C;
-     border-radius: 40rpx;
-     font-size: 25rpx;
-     height: 40rpx;
-     line-height: 40rpx;
-     padding: 0 10rpx;
-     margin-left: 10rpx;
- }
- 
- .discount-right {
-     font-size: 40rpx;
-     color: #e79b37;
- }
- 
- .total-wrapper-top {
-     display: table;
-     width: 100%;
-     /*   height:80px; */
-     background: #e79b37;
- }
- 
- .total-left {
-     text-align: center;
-     vertical-align: middle;
-     display: table-cell;
-     font-size: 40rpx;
-     font-weight: 500;
-     color: black;
-     padding: 0 30rpx;
- }
- 
- .total-right {}
- 
- .total-right-line {
-     display: flex;
-     justify-content: space-between;
-     height: 40rpx;
-     line-height: 40rpx;
-     margin: 10rpx 30rpx;
-     font-size: 30rpx;
-     font-weight: 500;
-     color: black;
- }
- 
- .total-wrapper-bottom {
-     display: flex;
-     justify-content: space-between;
-     padding: 10rpx 30rpx;
- }
- 
- .bottom-des {
-     font-size: 30rpx;
-     font-weight: 500;
-     color: #666;
- }
- /* button按钮 */
- 
- .button-wrapper {
-     box-sizing: border-box;
-     padding: 25rpx 20rpx 10rpx 20rpx;
-     width: 100%;
-     position: fixed;
-     bottom: 0;
-     left: 0;
- }
- 
- .button {
-     width: 100%;
-     height: 100rpx;
-     text-align: center;
-     background-color: #e79b37;
-     border-radius: 15rpx;
-     line-height: 100rpx;
-     color: #FFF;
-     font-weight: bold;
-     font-size: 36rpx;
  }
  
  .address-wrapper-top {

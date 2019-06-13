@@ -19,7 +19,7 @@ Page({
         menutypeActiveFlag: 0, //当前被点击的餐品类别 
         boxActiveFlag: false, //购物车的颜色，false时是灰色，true时有颜色
         totalCount: 0, // 购物车中物品个数
-        totalMoney: 0, //购物车中菜品的总金额
+        totalMoney: 0, //购物车中餐品的总金额
         realTotalMoney: 0, // totalMoney-totalMoneyRealDeduction后得到的钱 
 
         timer: null,
@@ -44,29 +44,31 @@ Page({
 
         mealEnglistLabel: ['breakfast', 'lunch', 'dinner', 'night'],
         mealTypeSmall: { lunch: '午餐', dinner: '晚餐', breakfast: '早餐', night: '夜宵' },
+        orgAdmin: false
     },
     onLoad: function(options) {
         let _this = this
         wx.getSystemInfo({
-            success: function(res) {
-                _this.setData({
-                    windowHeight: res.windowHeight
-                })
-            }
-        })
-        requestModel.getUserInfo(userInfo => { 
-            let { userType, orgAdmin } = userInfo
-            if (userType == 'ORG_ADMIN' && orgAdmin == true) {
-                _this.setData({
-                    orgAdmin: true
-                })
-            } else {
-                _this.setData({
-                    orgAdmin: false
-                })
-            }
+                success: function(res) {
+                    _this.setData({
+                        windowHeight: res.windowHeight
+                    })
+                }
+            })
+            //因为管理员不能补餐了，所以把这个注销了
+            // requestModel.getUserInfo(userInfo => { 
+            //     let { userType, orgAdmin } = userInfo
+            //     if (userType == 'ORG_ADMIN' && orgAdmin == true) {
+            //         _this.setData({
+            //             orgAdmin: true
+            //         })
+            //     } else {
+            //         _this.setData({
+            //             orgAdmin: false
+            //         })
+            //     }
 
-        }, true)
+        // }, true)
 
 
         this.getTimeDataByResponse()
@@ -125,15 +127,18 @@ Page({
                 resData.totalMoney = 0 //给每天的每个餐时一个点餐的总的金额
                 resData.totalMoney_meal = 0 //可使用餐标的餐的总价格
                 resData.deductionMoney = 0
-                    // 给每一个菜品添加一个foodCount，用于加号点击时加一减一
-                    // 给每一个菜品添加一个foodTotalPrice
-                    // 给每一个菜品添加一个foodTotalOriginalPrice
+                    // 给每一个餐品添加一个foodCount，用于加号点击时加一减一
+                    // 给每一个餐品添加一个foodTotalPrice
+                    // 给每一个餐品添加一个foodTotalOriginalPrice
                 let tmp_menuCountList = []
                 let tmp_menuCountListCopy = []
 
                 // 带lazy的都用于懒加载
                 let tmp_lazyShowImage = _this.data.lazyShowImage
-
+                    // 把标签项的餐品也加上5/30
+                if (resData.foodCustomizeList && resData.foodCustomizeList.length > 0) {
+                    resData.foodList = resData.foodCustomizeList.concat(resData.foodList)
+                }
 
                 resData.foodList.forEach(item => {
 
@@ -187,7 +192,7 @@ Page({
                             _this.setData({
                                 cartAnimationBottom: res[0].bottom
                             })
-                        }  
+                        }
                     })
                     _this.calculateHeight()
                 }
@@ -865,10 +870,10 @@ Page({
     preventTouchMove: function() {
 
     },
-    /* 菜品详情 */
+    /* 餐品详情 */
     handleGotoFoodDetail: function(e) {
         wx.navigateTo({
-            url: '/pages/food/food?foodCode=' + e.currentTarget.dataset.foodcode + '&mealDate=' + this.data.mealDate,
+            url: '/pages/food/food?foodCode=' + e.currentTarget.dataset.foodcode + '&mealDate=' + this.data.mealDate + '&mealType=' + this.data.mealTypeItem,
         })
     },
 })

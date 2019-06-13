@@ -23,7 +23,7 @@
          menutypeActiveFlag: 0, //当前被点击的餐品类别 
          boxActiveFlag: false, //购物车的颜色，false时是灰色，true时有颜色
          totalCount: 0, // 购物车中物品个数
-         totalMoney: 0, //购物车中菜品的总金额
+         totalMoney: 0, //购物车中餐品的总金额
          realTotalMoney: 0, // totalMoney-totalMoneyRealDeduction后得到的钱 
 
          timer: null,
@@ -51,7 +51,9 @@
 
          mealEnglistLabel: ['breakfast', 'lunch', 'dinner', 'night'],
          mealTypeSmall: { lunch: '午餐', dinner: '晚餐', breakfast: '早餐', night: '夜宵' },
-         getTimeDataByResponseNow: false //是否可点击日期和餐时
+         getTimeDataByResponseNow: false, //是否可点击日期和餐时 
+
+
      },
      //处理七天日期
      handleSevenDays() {
@@ -104,7 +106,7 @@
              this.setData({
                  timeInfo: data
              })
-
+             console.log('七天日期', data)
              for (let i = 0; i < this.data.mealEnglistLabel.length; i++) {
                  //5/15 今天一定有可定的餐时吗？即：该公司预定了这个餐时
                  let meal = this.data.mealEnglistLabel[i]
@@ -218,25 +220,79 @@
              resData.totalMoney = 0 //给每天的每个餐时一个点餐的总的金额
              resData.totalMoney_meal = 0 //每天的餐时可使用餐标的总金额
              resData.deductionMoney = 0 //每天的餐时抵扣的金额
-                 // 给每一个菜品添加一个foodCount，用于加号点击时加一减一
-                 // 给每一个菜品添加一个foodTotalPrice
-                 // 给每一个菜品添加一个foodTotalOriginalPrice
+                 // 给每一个餐品添加一个foodCount，用于加号点击时加一减一
+                 // 给每一个餐品添加一个foodTotalPrice
+                 // 给每一个餐品添加一个foodTotalOriginalPrice
              let tmp_menuCountList = []
              let tmp_menuCountListCopy = []
 
+             //5/31开始
+             //先将本餐所有的餐的id和index对应出来
+             // typeId对menuTypeIndex
+             // foodCode对foodIndex
+
+             /* typeIdFoodCode={13:{menuTypeIndex:0, foodCodeIndex:{code:foodIndex}} }*/
+             let typeIdFoodCode = {}
+             resData.foodList.forEach((item, menuTypeIndex) => {
+                 let a = {}
+                 a.menuTypeIndex = menuTypeIndex
+                 a.foodCodeIndexs = {}
+                 item.menuTypeIndex = menuTypeIndex
+                 item.foodList.forEach((foodItem, foodIndex) => {
+                     foodItem.menuTypeIndex = menuTypeIndex
+                     foodItem.foodIndex = foodIndex
+                     a.foodCodeIndexs[foodItem.foodCode] = foodIndex
+                 })
+                 typeIdFoodCode[item.typeId] = a
+
+             })
+
+             console.log('typeIdFoodCode', typeIdFoodCode)
+             if (resData.foodCustomizeList && resData.foodCustomizeList.length > 0) {
+                 resData.foodCustomizeList.forEach((item, index1) => {
+                     item.left = true
+                     item.foodList.forEach((foodItem, index2) => {
+                         //要做俩连动，左侧连动正常了，正常没有连动左侧
+                         foodItem.left = true
+                         foodItem.foodCount = 0
+                         let foodList_menuTypeIndex = typeIdFoodCode[foodItem.typeId].menuTypeIndex
+                         let foodList_foodIndex = typeIdFoodCode[foodItem.typeId].foodCodeIndexs[foodItem.foodCode]
+                         foodItem.menuTypeIndex = foodList_menuTypeIndex
+                         foodItem.foodIndex = foodList_foodIndex
+
+                         //正常连动左侧
+                         resData.foodList[foodList_menuTypeIndex].foodList[foodList_foodIndex].leftMenuTypeIndex = index1
+                         resData.foodList[foodList_menuTypeIndex].foodList[foodList_foodIndex].leftFoodIndex = index2
+                     })
+                     tmp_menuCountList.push(0)
+                     tmp_menuCountListCopy.push(0)
+                 })
+             }
+
+             console.log('resData.foodCustomizeList', resData.foodCustomizeList)
              resData.foodList.forEach(item => {
+                 item.left = false
                  item.foodList.forEach(foodItem => {
                      foodItem.foodTotalPrice = 0
                      foodItem.foodTotalOriginalPrice = 0
                      foodItem.foodCount = 0
-
                  })
-
                  tmp_menuCountList.push(0)
                  tmp_menuCountListCopy.push(0)
 
              })
 
+             // 把标签项的餐品也加上5/30
+             // 放在这应该是对的
+             if (resData.foodCustomizeList && resData.foodCustomizeList.length > 0) {
+                 resData.foodList = resData.foodCustomizeList.concat(resData.foodList)
+                 resData.foodCustomizeListLength = resData.foodCustomizeList.length
+             } else {
+                 resData.foodCustomizeListLength = 0
+             }
+
+             console.log('resData', resData)
+                 //5/31截止
 
              //可以不用setData，因为都是0不需要显示
              _this.data.menuCountList[activeDayIndex][tmp_mealTypeItem] = tmp_menuCountList
@@ -249,7 +305,7 @@
 
              _this.setData({
                  allMenuData: tmp_allData, //保存下所有数据 
-                 getdataalready: true
+                 getdataalready: true,
              })
              if (resData.mealType.orderStatus && resData.foodList.length !== 0) {
 
@@ -406,6 +462,23 @@
              // 应该是下面所有的操作都是在减1之后
          if (tmp_oneFood.foodCount > 0) {
 
+             //5/31判断是不是左侧标签
+             let left = e.currentTarget.dataset.left
+             let leftmenuindex = e.currentTarget.dataset.leftmenuindex
+             let leftfoodindex = e.currentTarget.dataset.leftfoodindex
+             if (left) {
+                 //表示点击的是左侧标签
+                 this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[leftmenuindex].foodList[leftfoodindex].foodCount -= 1
+             } else {
+                 //表示点击的是正常餐品，要连动修改左侧标签餐品
+                 if (tmp_oneFood.leftMenuTypeIndex != undefined) {
+                     //表示正常餐品级联了左侧标签餐品
+                     this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[tmp_oneFood.leftMenuTypeIndex].foodList[tmp_oneFood.leftFoodIndex].foodCount -= 1
+                 }
+
+             }
+
+
              tmp_oneFood.foodCount -= 1
              this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[menutypeIndex].foodList[foodIndex] = tmp_oneFood
                  // 总的数目减1
@@ -481,6 +554,7 @@
      // 点击加号，将餐品加一
      handleAddfood(e) {
          let _this = this
+         console.log('handleAddfood', e.currentTarget.dataset)
          let menutypeIndex = e.currentTarget.dataset.menutypeindex // 餐品类别的index
          let foodIndex = e.currentTarget.dataset.foodindex // 在menutypeIndex的foods的index 
          let activeDayIndex = _this.data.activeDayIndex
@@ -513,10 +587,27 @@
          }
 
          if (canAddFlag) {
+             let tmp_mealTypeItem = _this.data.mealTypeItem
+                 //5/31判断是不是左侧标签
+             let { left, leftfoodindex, leftmenuindex } = e.currentTarget.dataset
+             console.log('tmp_oneFood', tmp_oneFood)
+             if (left) {
+                 //表示点击的是左侧标签
+                 _this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[leftmenuindex].foodList[leftfoodindex].foodCount += 1
+             } else {
+                 //表示点击的是正常餐品，要连动修改左侧标签餐品
+                 if (tmp_oneFood.leftMenuTypeIndex != undefined) {
+                     //表示正常餐品级联了左侧标签餐品
+                     _this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[tmp_oneFood.leftMenuTypeIndex].foodList[tmp_oneFood.leftFoodIndex].foodCount += 1
+                 }
+
+             }
+
+
 
              // 说明可以再点餐
              // 应该是先menu那增1，然后动画过去，然后购物车那里增1
-             let tmp_mealTypeItem = _this.data.mealTypeItem
+
              tmp_oneFood.foodCount += 1 // 需不需要判断库存
 
              // 先menu增1
@@ -546,7 +637,7 @@
              _this.setData({
                  menuCountList: tmp_menuCountList
              })
-
+             console.log('tmp_menuCountList', tmp_menuCountList)
 
              // 是不是应该把所有的setData合并啊，这样一次一次调用是不是更花时间
              // 只有等于1，才添加到购物车
@@ -688,6 +779,14 @@
              //  不大于0也不显示减图标啊，所以这里应该可以不用判断。还是判断下吧，因为可能用户会点的很快，这样就减为负数了。
              // 应该是下面所有的操作都是在减1之后
          if (tmp_oneFood.foodCount > 0) {
+
+             //5/31表示点击的是正常餐品，要连动修改左侧标签餐品
+             if (tmp_oneFood.leftMenuTypeIndex != undefined) {
+                 //表示正常餐品级联了左侧标签餐品
+                 this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[tmp_oneFood.leftMenuTypeIndex].foodList[tmp_oneFood.leftFoodIndex].foodCount -= 1
+             }
+
+
              tmp_oneFood.foodCount -= 1
 
 
@@ -813,6 +912,12 @@
          }
 
          if (canAddFlag) { // 说明可以再点餐
+             //5/31级联操作标签 
+             //表示点击的是正常餐品，要连动修改左侧标签餐品
+             if (tmp_oneFood.leftMenuTypeIndex != undefined) {
+                 //表示正常餐品级联了左侧标签餐品
+                 this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[tmp_oneFood.leftMenuTypeIndex].foodList[tmp_oneFood.leftFoodIndex].foodCount += 1
+             }
 
              tmp_oneFood.foodCount += 1 // 需不需要判断库存
 
@@ -920,34 +1025,45 @@
      },
 
      goToMenuCommit() {
-         let flag = this.verifyMealLabel()
-
-         if (flag) {
-             this.getSelectedFoods() //不需要执行多次吧。好像需要的哦。
-
-             //我用的变量是不是过于多了，timeInfo,selectedFoodsIndex是不是可以直接放在allMenuData里？
-             //TODO--5/6
-             for (let i = 0; i < this.data.timeInfo.length; i++) {
-                 this.data.selectedFoodsIndex[i].appointment = this.data.timeInfo[i].label
-                 this.data.selectedFoodsIndex[i].mealDate = this.data.timeInfo[i].mealDate
-                 let onededuction = 0
-                 for (let j = 0; j < this.data.mealEnglistLabel.length; j++) {
-                     // 应该只要有，就会有这天这餐的抵扣了吧--5/6
-                     if (this.data.selectedFoodsIndex[i][this.data.mealEnglistLabel[j]]) {
-                         onededuction += this.data.selectedFoodsIndex[i][this.data.mealEnglistLabel[j]].deductionMoney
-                     }
-                 }
-                 this.data.selectedFoodsIndex[i].deductionMoney = parseFloat(onededuction.toFixed(2))
-
-             }
-             wx.setStorageSync('sevenSelectedFoods', this.data.selectedFoodsIndex)
-             wx.navigateTo({
-                 url: '/pages/menu/today/confirm/confirm?totalMoney=' +
-                     this.data.totalMoney + '&totalMoneyRealDeduction=' +
-                     this.data.totalMoneyRealDeduction + '&realMoney=' + this.data.realTotalMoney + '&orderType=seven'
-             })
+         let _this = this
+             //也弄两秒内不可重复点击
+         if (_this.data.commitNow) {
+             return
          }
+         _this.data.commitNow = true
+         setTimeout(() => {
+             _this.data.commitNow = false
+         }, 2000)
+         console.log('commitNow')
+         if (_this.data.totalCount > 0) {
+             let flag = _this.verifyMealLabel()
 
+             if (flag) {
+                 _this.getSelectedFoods() //不需要执行多次吧。好像需要的哦。
+
+                 //我用的变量是不是过于多了，timeInfo,selectedFoodsIndex是不是可以直接放在allMenuData里？
+                 //TODO--5/6
+                 for (let i = 0; i < _this.data.timeInfo.length; i++) {
+                     _this.data.selectedFoodsIndex[i].appointment = _this.data.timeInfo[i].label
+                     _this.data.selectedFoodsIndex[i].mealDate = _this.data.timeInfo[i].mealDate
+                     let onededuction = 0
+                     for (let j = 0; j < _this.data.mealEnglistLabel.length; j++) {
+                         // 应该只要有，就会有这天这餐的抵扣了吧--5/6
+                         if (_this.data.selectedFoodsIndex[i][_this.data.mealEnglistLabel[j]]) {
+                             onededuction += _this.data.selectedFoodsIndex[i][_this.data.mealEnglistLabel[j]].deductionMoney
+                         }
+                     }
+                     _this.data.selectedFoodsIndex[i].deductionMoney = parseFloat(onededuction.toFixed(2))
+
+                 }
+                 wx.setStorageSync('sevenSelectedFoods', _this.data.selectedFoodsIndex)
+                 wx.navigateTo({
+                     url: '/pages/menu/today/confirm/confirm?totalMoney=' +
+                         _this.data.totalMoney + '&totalMoneyRealDeduction=' +
+                         _this.data.totalMoneyRealDeduction + '&realMoney=' + _this.data.realTotalMoney + '&orderType=seven'
+                 })
+             }
+         }
      },
      onShow: function() {},
      // 关闭
@@ -960,8 +1076,9 @@
      preventTouchMove: function() {
 
      },
-     /* 菜品详情 */
+     /* 餐品详情 */
      handleGotoFoodDetail: function(e) {
+         console.log('mealType=', this.data.mealTypeItem)
          wx.navigateTo({
              url: '/pages/food/food?foodCode=' + e.currentTarget.dataset.foodcode + '&mealDate=' + this.data.timeInfo[this.data.activeDayIndex].mealDate + '&mealType=' + this.data.mealTypeItem,
          })

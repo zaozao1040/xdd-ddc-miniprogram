@@ -40,7 +40,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 24,
+			"current": 25,
 			"list": [
 				{
 					"id": -1,
@@ -197,6 +197,13 @@
 					"id": -1,
 					"name": "selectPhone",
 					"pathName": "pages/login/selectPhone/selectPhone",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "我要吐槽",
+					"pathName": "pages/mine/complaint/complaint",
 					"scene": null
 				}
 			]

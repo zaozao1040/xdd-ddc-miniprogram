@@ -4,8 +4,8 @@
     color: #333333;
     letter-spacing: 0;
     text-align: left;
-    margin-left: 30rpx;
-    line-height: 56rpx;
+    line-height: 160rpx;
+    margin-left: 20rpx;
 }
 
 .title {
@@ -81,6 +81,5 @@
 
 .top {
     display: flex;
-    padding: 0 30rpx;
-    justify-content: space-between;
+    padding: 30rpx 0 46rpx 30rpx;
 }

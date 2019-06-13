@@ -24,29 +24,7 @@ Page({
 
     },
 
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function() {
-        //已登录状态，则直接弹出模态框去选择是否绑定企业
-        // 5/14 有啥用啊？又不会在已有userCode的时候跳转到selectPhone页面
-        // 5/14 有啥用啊？又不会在已有userCode的时候跳转到selectPhone页面
-        if (wx.getStorageSync('userCode')) {
-            this.chooseBindOrganize()
-        }
-        wx.checkSession({
-            success() {
-                console.log('####### session_key 未过期')
-                    // session_key 未过期，并且在本生命周期一直有效
-                    wx.login()
-            },
-            fail() {
-                console.log('####### session_key 已经失效')
-                    // session_key 已经失效，需要重新执行登录流程
-                wx.login()
-            }
-        })
-    },
+
     /* 弹出模态框去选择是否绑定企业 */
     chooseBindOrganize: function() {
         wx.showModal({
@@ -66,10 +44,32 @@ Page({
             }
         })
     },
+    /**
+     * 生命周期函数--监听页面显示
+     */
+    onShow: function() {
+        let _this = this
+            //已登录状态，则直接弹出模态框去选择是否绑定企业 
+        if (wx.getStorageSync('userCode')) {
+            this.chooseBindOrganize()
+        }
+
+        wx.checkSession({
+            success() {
+                wx.login()
+            },
+            fail() {
+                console.log('####### session_key 已经失效')
+                wx.login()
+            }
+        })
+
+    },
     getPhoneNumber(e) {
 
         var _this = this
         if (e.detail.iv) { //这个字段存在 代表用户选择了“授权”
+
             wx.login({ //调用微信login接口，获取code，然后根据code获取是否是新用户
                 success: function(res) {
                     if (res.code) {

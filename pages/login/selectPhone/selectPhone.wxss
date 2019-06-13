@@ -56,27 +56,8 @@
     color: #999999;
 }
 
-.button-space {
-    margin: 20rpx;
-    height: 100rpx;
-    text-align: center;
-    background-color: #fff;
-    border-radius: 15rpx;
-    line-height: 100rpx;
-    color: #222;
-    font-weight: bold;
-    font-size: 36rpx;
-}
-
-.des {
-    text-align: center;
-    color: #666;
-    font-size: 30rpx;
-    margin-top: 50rpx;
-}
-
 .login-title {
-    font-family: PingFangSC-Medium;
+    font-family: PingFang-SC-Medium;
     font-size: 38rpx;
     color: #333333;
     letter-spacing: 0;

@@ -24,7 +24,7 @@
  }
  
  .foodName {
-     font-family: PingFangSC-Medium;
+     font-family: PingFang-SC-Medium;
      font-size: 30rpx;
      color: #333333;
      height: 42rpx;
@@ -100,7 +100,6 @@
  
  .img-wrapper {
      display: flex;
-     /* margin-top: 20rpx; */
      width: 100%;
  }
  
@@ -110,7 +109,6 @@
      width: 160rpx;
      color: #999;
      background: #F9F9F9;
-     /* border: 1px solid #CCCCCC; */
      border-radius: 3px;
      margin-top: 20rpx;
  }
@@ -136,25 +134,6 @@
      height: 160rpx;
      width: 160rpx;
      margin-top: 20rpx;
- }
- 
- .foodList-wrapper {
-     padding: 10rpx;
- }
- 
- .fooditem-wrapper {
-     margin: 10rpx;
- }
- 
- .foodname {
-     text-align: center;
- }
- 
- .foodstar {
-     text-align: center;
-     margin-top: 40rpx;
-     margin-bottom: 40rpx;
-     color: #999;
  }
  
  .button {

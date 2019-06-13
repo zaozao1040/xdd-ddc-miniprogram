@@ -29,7 +29,11 @@
      },
      //加餐
      gotoAddfood() {
+         let _this = this
          requestModel.getUserInfo(userInfo => {
+             _this.setData({
+                 userInfo: userInfo
+             })
              let { userType, orgAdmin } = userInfo
              if ((userType == 'ORG_ADMIN' || userType == 'ADMIN') && orgAdmin) {
                  wx.showModal({
@@ -96,9 +100,59 @@
      onLoad: function() {
          let _this = this
          requestModel.getUserInfo(userInfo => {
+             console.log('userInfo', userInfo)
              _this.setData({
                  userInfo: userInfo
              })
+         }, true)
+
+     },
+     // 如果是企业用户就切换为管理员，如果是管理员就切换为普通用户
+     changeRole() {
+         let _this = this
+         let ct = ''
+         if (_this.data.userInfo.userType == 'ORG_ADMIN') {
+             ct = '企业管理员'
+         } else if (_this.data.userInfo.userType == 'ADMIN') {
+             ct = '超级管理员'
+         }
+         wx.showModal({
+             title: '提示',
+             content: _this.data.userInfo.orgAdmin ? '您确定要从' + ct + '切换为普通用户吗?' : '您确定要从普通用户切换为' + ct + '吗?',
+             success(res) {
+                 if (res.confirm) {
+                     let param = {
+                         url: '/user/orgAdminChange',
+                         method: 'post',
+                         data: {
+                             userCode: wx.getStorageSync('userCode')
+                         }
+                     }
+
+                     requestModel.request(param, () => {
+                         _this.data.userInfo.orgAdmin = !_this.data.userInfo.orgAdmin
+                         _this.setData({
+                             userInfo: _this.data.userInfo
+                         })
+                         wx.showToast({
+                             title: '切换成功',
+                             icon: 'none',
+                             duration: 2000
+                         })
+                     })
+                 }
+             }
+         })
+     },
+     // 柜子页面
+     gotoCabinetminiProgram() {
+         wx.navigateTo({
+             url: '/pages/mine/cab/index'
+         })
+     },
+     gotoAddfoodAdmin() {
+         wx.navigateTo({
+             url: '/pages/mine/orgAdminAddfood/orgAdminAddfood'
          })
      },
      // 我要吐槽
@@ -178,8 +232,16 @@
                  integral: data.integral,
                  discount: data.discount
              })
-             wx.hideNavigationBarLoading();
-             wx.stopPullDownRefresh()
+
+             requestModel.getUserInfo(userInfo => {
+
+                 _this.setData({
+                     userInfo: userInfo
+                 })
+                 wx.hideNavigationBarLoading();
+                 wx.stopPullDownRefresh()
+             }, true)
+
          })
 
      },

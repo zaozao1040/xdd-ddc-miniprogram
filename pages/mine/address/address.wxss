@@ -5,24 +5,6 @@
     background: #FFFFFF;
 }
 
-.section-3-empty {
-    border: 1rpx solid #F56C6C;
-}
-
-.section-3-1 {
-    width: 96rpx;
-    height: 100%;
-    border-right: 1rpx solid #e0e0e0;
-}
-
-.section-3-2 {
-    flex: 1;
-    align-items: center;
-    padding: 0 10rpx;
-    font-size: 30rpx;
-    font-family: "微软雅黑", "华文细黑", Arial, Helvetica, sans-serif;
-}
-
 .phone-number {
     height: 100rpx;
     line-height: 100rpx;
@@ -65,19 +47,6 @@
 .addressList-wrapper {
     background: #FFF;
     margin: 5rpx 16rpx 0 16rpx;
-}
-
-.contactName {
-    font-size: 30rpx;
-    color: #666;
-    font-weight: 400;
-}
-
-.contactPhone {
-    float: right;
-    font-size: 30rpx;
-    color: #666;
-    font-weight: 400;
 }
 
 .noResult {

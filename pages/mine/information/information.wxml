@@ -1,23 +1,26 @@
 <view style='background: #F5F5F5;height:{{windowHeight}}px;' wx:if='{{getalready}}'>
 
-    <view style='background:#fff;width:100%;padding-bottom:60rpx;'>
+    <view style='background:#fff;width:100%;'>
         <view class='top'>
             <view style='width:160rpx;height:160rpx;'>
                 <image wx:if="{{userInfo.headImage}}" style='width:160rpx;height:160rpx;border-radius: 50%;' src="{{userInfo.headImage}}"></image>
                 <image wx:else style='width:160rpx;height:160rpx;' src="/images/mine/huiyuan.png" alt=""></image>
             </view>
-            <view class="org" bindtap="changeRole" wx:if='{{userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN"}}'>
+            <!-- <view class="org" bindtap="changeRole" wx:if='{{userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN"}}'>
                 <text wx:if="{{userInfo.orgAdmin}}">切换为"企业员工"</text>
-                <text wx:else>切换为"企业管理员"</text>
-            </view>
+                <text wx:elif='{{userInfo.userType=="ORG_ADMIN"}}'>切换为"企业管理员"</text>
+                <text wx:elif='{{userInfo.userType=="ADMIN"}}'>切换为"超级管理员"</text>
+            </view> -->
+            <view class='name'>{{userInfo.userName}}</view>
         </view>
-        <view class='name'>{{userInfo.name}}</view>
+
     </view>
     <view style='padding:16rpx 19rpx 16rpx 14rpx;'>
         <view style="padding:30rpx 30rpx 40rpx;background:#fff;border-radius: 6rpx;">
             <view class='item'>
                 <view class='title'>身份</view>
-                <view class='info' wx:if="{{userInfo.orgAdmin==true}}">企业管理员</view>
+                <view class='info' wx:if="{{userInfo.orgAdmin==true&&userInfo.userType=='ORG_ADMIN'}}">企业管理员</view>
+                <view class='info' wx:elif="{{userInfo.orgAdmin==true&&userInfo.userType=='ADMIN'}}">超级管理员</view>
                 <view class='info' wx:else>企业员工</view>
             </view>
             <view class='item'>
@@ -26,19 +29,19 @@
                 <text wx:else class='info'>{{userInfo.organizeName}}</text>
             </view>
             <view class='item-last' wx:if='{{userInfo.defaultDeliveryAddress}}'>
-                <view class='title'>地址</view>
+                <view class='title'>配送地址</view>
                 <view class='info'>{{userInfo.defaultDeliveryAddress}}</view>
             </view>
         </view>
     </view>
-    <view class='org-admin' wx:if='{{(userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN")&&userInfo.orgAdmin==true}}'>
+    <!-- <view class='org-admin' wx:if='{{(userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN")&&userInfo.orgAdmin==true}}'>
         <view class='org-addfood' bindtap="gotoAddfood">
             <image src="/images/mine/data_meal.png" class='org-addfood'></image>
         </view>
         <view class='org-addfood' bindtap="gotoCabinetminiProgram">
             <image src="/images/mine/data_cabinet.png" class='org-addfood'></image>
         </view>
-    </view>
+    </view> -->
     <view class='logout' bindtap='logout'>
         注销账户
     </view>

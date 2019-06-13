@@ -7,8 +7,15 @@ Page({
      * 页面的初始数据
      */
     data: {
-        activeIndex: 3,
+        activeIndex: 5,
+        complaint: {
+            star: 5, //星级
+            content: '', //内容
+            imagePaths: [], //用于显示的本机图片
+            images: [], //用于传给后台的图片路径
 
+        }, //评价的内容
+        orderCode: 'DDC585051040215203840'
     },
 
     /**
@@ -19,35 +26,13 @@ Page({
     },
     /* 去评价 */
     handleEvaluateOrder: function() {
-        let options = wx.getStorageSync('commentOrder')
-        console.log('commentOrder', options)
+
         let _this = this
-        let orderCode = options.orderCode
-        let list = options.orderFoodList
-        let orderFoodList = []
-
-        for (let i = 0; i < list.length; i++) {
-            let a = {}
-            a.foodName = list[i].foodName
-            a.foodImage = list[i].foodImage
-            a.foodQuantity = list[i].foodQuantity
-            a.foodPrice = list[i].foodPrice
-            a.foodCode = list[i].foodCode
-            a.content = ''
-            a.imagePaths = []
-            a.images = []
-            orderFoodList.push(a)
-
-        }
-        _this.setData({
-            orderCode: orderCode,
-            orderFoodList: orderFoodList
-        })
 
         //关闭底部 
         wx.hideTabBar()
 
-
+        //获取弹窗的高 
         /* 请求星级标签列表 */
         let param = {
             url: '/orderEvaluate/getEvaluateTagList?userCode=' + wx.getStorageSync('userCode')
@@ -59,17 +44,17 @@ Page({
                 evaluateLabels[item.star] = item.tagList
             })
 
-            for (let i = 0; i < orderFoodList.length; i++) {
-                //当前默认五星,以及五星对应的标签
-                // 默认五星好评
-                orderFoodList[i].star = 5
-                if (evaluateLabels[5] && evaluateLabels[5].length > 0) {
-                    orderFoodList[i].evaluateLabelsActive = evaluateLabels[5]
-                    orderFoodList[i].selectedTagNum = 0
-                }
+
+            //当前默认五星,以及五星对应的标签
+            // 默认五星好评
+
+            if (evaluateLabels[5] && evaluateLabels[5].length > 0) {
+                _this.data.complaint.evaluateLabelsActive = evaluateLabels[5]
+                _this.data.complaint.selectedTagNum = 0
             }
+
             _this.setData({
-                orderFoodList: orderFoodList,
+                complaint: _this.data.complaint,
                 evaluateLabels: evaluateLabels
             })
         })
@@ -77,18 +62,18 @@ Page({
     /* 点击标签 */
     handleClickLabel: function(e) {
         let _this = this
-        let { foodindex, labelindex } = e.currentTarget.dataset
-        let tmp_orderFoodList = _this.data.orderFoodList
-        let tmp_activeStatus = tmp_orderFoodList[foodindex].evaluateLabelsActive[labelindex].active
+        let labelindex = e.currentTarget.dataset.labelindex
+        let tmp_complaint = _this.data.complaint
+        let tmp_activeStatus = tmp_complaint.evaluateLabelsActive[labelindex].active
 
         const maxNumber = 3
-        let selectedTagNum = tmp_orderFoodList[foodindex].selectedTagNum
+        let selectedTagNum = tmp_complaint.selectedTagNum
             //原来是true的话，正常修改为false
         if (tmp_activeStatus) {
-            tmp_orderFoodList[foodindex].evaluateLabelsActive[labelindex].active = false
-            tmp_orderFoodList[foodindex].selectedTagNum -= 1
+            tmp_complaint.evaluateLabelsActive[labelindex].active = false
+            tmp_complaint.selectedTagNum -= 1
             _this.setData({
-                orderFoodList: tmp_orderFoodList
+                complaint: tmp_complaint
             })
         } else {
             if (selectedTagNum >= maxNumber) {
@@ -98,19 +83,19 @@ Page({
                     duration: 1000
                 })
             } else {
-                tmp_orderFoodList[foodindex].evaluateLabelsActive[labelindex].active = true
-                tmp_orderFoodList[foodindex].selectedTagNum += 1
+                tmp_complaint.evaluateLabelsActive[labelindex].active = true
+                tmp_complaint.selectedTagNum += 1
                 _this.setData({
-                    orderFoodList: tmp_orderFoodList
+                    complaint: tmp_complaint
                 })
             }
         }
     },
     /* 点击预览图片 */
     handlePreviewImage: function(e) {
-        let foodIndex = e.currentTarget.dataset.foodindex;
+
         let index = e.currentTarget.dataset.index; //预览图片的编号
-        let imagePaths = this.data.orderFoodList[foodIndex].imagePaths
+        let imagePaths = this.data.complaint.imagePaths
         wx.previewImage({
             current: imagePaths[index], //预览图片链接
             urls: imagePaths, //图片预览list列表
@@ -124,45 +109,44 @@ Page({
     },
     //删除图片
     removeOneImage(e) {
-        let foodIndex = e.currentTarget.dataset.foodindex;
+
         let index = e.currentTarget.dataset.index; //预览图片的编号
-        this.data.orderFoodList[foodIndex].imagePaths.splice(index, 1)
-        this.data.orderFoodList[foodIndex].images.splice(index, 1)
+        this.data.complaint.imagePaths.splice(index, 1)
+        this.data.complaint.images.splice(index, 1)
         this.setData({
-            orderFoodList: this.data.orderFoodList,
+            complaint: this.data.complaint,
 
         })
     },
     /* 点击上传图片 */
     handleClickAddImg: function(e) {
         let _this = this
-        let foodIndex = e.currentTarget.dataset.foodindex
         wx.chooseImage({
             count: 1, //最多可以选择的图片数，默认为9
-            sizeType: ['orignal', 'compressed'], //original 原图，compressed 压缩图，默认二者都有
-            sourceType: ['album', 'camera'], //album 从相册选图，camera 使用相机，默认二者都有
+            sizeType: ['orignal', 'compressed'],
+            sourceType: ['album', 'camera'],
             success: function(res_0) {
-
+                console.log(res_0)
                 wx.uploadFile({
-                    url: baseUrl + '/file/uploadFile', //开发者服务器 url
-                    filePath: res_0.tempFilePaths[0], //要上传文件资源的路径
-                    name: 'file', //文件对应的 key , 开发者在服务器端通过这个 key 可以获取到文件二进制内容
+                    url: baseUrl + '/file/uploadFile',
+                    filePath: res_0.tempFilePaths[0],
+                    name: 'file',
                     formData: { //HTTP 请求中其他额外的 form data
                         orderCode: _this.data.orderCode,
                         userCode: wx.getStorageSync('userCode'),
                         type: 'EVALUATE'
                     },
                     success: function(res) {
+                        console.log('uploadFile', res)
                         let tmp_data = JSON.parse(res.data)
                         if (tmp_data.code == 200) {
-                            let tmp_orderFoodList = _this.data.orderFoodList
-                            tmp_orderFoodList[foodIndex].imagePaths.push(res_0.tempFilePaths[0])
-                            tmp_orderFoodList[foodIndex].images.push(tmp_data.data)
+                            let tmp_complaint = _this.data.complaint
+                            tmp_complaint.imagePaths.push(res_0.tempFilePaths[0])
+                            tmp_complaint.images.push(tmp_data.data)
                             _this.setData({
-                                orderFoodList: tmp_orderFoodList //预览图片响应式
+                                complaint: tmp_complaint //预览图片响应式
                             })
-                            console.log('res_0.tempFilePaths[0]', res_0.tempFilePaths[0])
-                            console.log('tmp_data.data', tmp_data.data)
+
                         } else {
                             wx.showToast({
                                 title: tmp_data.msg,
@@ -177,7 +161,7 @@ Page({
         })
     },
     /* 去评价的对话框的确定 */
-    buttonClickYes_ratings: function(e) {
+    buttonClickYes_complaint: function(e) {
         if (this.data.operatingNow) {
             return
         }
@@ -187,26 +171,23 @@ Page({
         })
         let tmpData = {
             userCode: wx.getStorageSync('userCode'),
-            orderCode: _this.data.orderCode,
             wechatFormId: e.detail.formId,
             foodEvaluateList: []
         }
+        let tmp_complaint = _this.data.complaint
 
-        _this.data.orderFoodList.forEach(food => {
-            let a = {}
-            a.foodCode = food.foodCode
-            a.star = food.star
-            a.content = food.content
-            a.images = food.images
-            a.tagCodeList = []
-            food.evaluateLabelsActive.forEach(element => {
-                if (element.active) {
-                    a.tagCodeList.push(element.tagCode)
-                }
-            })
-            tmpData.foodEvaluateList.push(a)
+        let a = {}
+        a.foodCode = tmp_complaint.foodCode
+        a.star = tmp_complaint.star
+        a.content = tmp_complaint.content
+        a.images = tmp_complaint.images
+        a.tagCodeList = []
+        tmp_complaint.evaluateLabelsActive.forEach(element => {
+            if (element.active) {
+                a.tagCodeList.push(element.tagCode)
+            }
         })
-
+        tmpData.foodEvaluateList.push(a)
 
         let param = {
             url: '/orderEvaluate/orderEvaluate',
@@ -232,20 +213,17 @@ Page({
     handleClickStar: function(e) {
         console.log('handleClickStar', e)
         let _this = this
-        let { star, foodindex } = e.currentTarget.dataset
+        let star = e.currentTarget.dataset.star
 
         /* 同时更新orderFoodList的star和orderFoodList属性 */
-        let tmp_orderFoodList = _this.data.orderFoodList
-        tmp_orderFoodList[foodindex].star = star
-        tmp_orderFoodList[foodindex].evaluateLabelsActive = _this.data.evaluateLabels[star]
-        tmp_orderFoodList[foodindex].selectedTagNum = 0
+        let tmp_complaint = _this.data.complaint
+        tmp_complaint.star = star
+        tmp_complaint.evaluateLabelsActive = _this.data.evaluateLabels[star]
+        tmp_complaint.selectedTagNum = 0
 
         this.setData({
-            orderFoodList: tmp_orderFoodList,
+            complaint: tmp_complaint
         })
-
-        console.log('handleClickStar--star', star)
-        console.log('handleClickStar--_this.data.evaluateLabels', _this.data.evaluateLabels)
 
     },
 

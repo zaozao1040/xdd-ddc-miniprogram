@@ -14,7 +14,7 @@ Page({
         //
         windowHeight: 0,
         scrollTop: 0,
-        buttonTop: 0,
+
         itemStatusActiveFlag: true,
 
         moneyList: [],
@@ -32,13 +32,7 @@ Page({
     },
     initWallet: function() {
         let _this = this
-        wx.getSystemInfo({
-            success: function(res) {
-                _this.setData({
-                    windowHeight: res.windowHeight
-                })
-            }
-        })
+
         const query = wx.createSelectorQuery()
         query.select('.c_scrollPosition_forCalculate').boundingClientRect()
         query.selectViewport().scrollOffset()
@@ -47,20 +41,20 @@ Page({
                 scrollTop: res[0].top // #the-id节点的上边界坐标
             })
         })
-        const query_1 = wx.createSelectorQuery()
-        query_1.select('.c_buttonPosition_forCalculate').boundingClientRect()
-        query_1.selectViewport().scrollOffset()
-        query_1.exec(function(res) {
-            _this.setData({
-                buttonTop: res[0].top // #the-id节点的上边界坐标
-            })
-        })
+
     },
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-
+        let _this = this
+        wx.getSystemInfo({
+            success: function(res) {
+                _this.setData({
+                    windowHeight: res.windowHeight
+                })
+            }
+        })
         if (options.balance) {
             this.setData({
                 balance: options.balance
@@ -81,7 +75,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-        this.initWallet()
+
         this.getGiftList()
     },
 
@@ -141,6 +135,7 @@ Page({
                 rechargeList: [],
                 hasMoreDataFlag: true,
             })
+            this.initWallet()
             this.getRechargeList()
         }
     },

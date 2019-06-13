@@ -238,6 +238,7 @@ Page({
     onLoad: function(options) {
         this.initHome()
         this.getNotice()
+
     },
 
     /**
@@ -265,8 +266,12 @@ Page({
                         showDaliFlag: true
                     })
                 }
+                console.log('onShow', userInfo)
+                if (userStatus == 'NORMAL') {
+                    this.getTakeMealInfo()
+                }
                 /* 获取首页取餐信息 */
-                this.getTakeMealInfo()
+
             })
         }
     },
@@ -585,10 +590,20 @@ Page({
                     duration: 2000
                 })
                 wx.showTabBar()
-            } else {
+                _this.initHome()
+            } else if (userInfo.userStatus == 'NO_CHECK') {
                 wx.showToast({
                     title: '企业审核中',
                     image: '/images/msg/warning.png',
+                    duration: 3000
+                })
+            } else {
+                _this.setData({
+                    showCheckFlag: false
+                })
+                wx.showToast({
+                    title: '审核未通过',
+                    image: '/images/msg/error.png',
                     duration: 3000
                 })
             }

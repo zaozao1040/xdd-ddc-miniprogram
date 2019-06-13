@@ -93,7 +93,7 @@
 }
 
 .selectPayType_line1 {
-    font-family: PingFangSC-Medium;
+    font-family: PingFang-SC-Medium;
     font-size: 36rpx;
     color: #333333;
     text-align: center;
@@ -154,7 +154,7 @@
     border-top: 1rpx solid #F5F5F5;
     line-height: 100rpx;
     text-align: left;
-    font-family: PingFangSC-Medium;
+    font-family: PingFang-SC-Medium;
     font-size: 36rpx;
     color: #333333;
     padding-left: 60rpx;
@@ -170,7 +170,7 @@
 }
 
 .foodName {
-    font-family: PingFangSC-Medium;
+    font-family: PingFang-SC-Medium;
     font-size: 30rpx;
     color: #333333;
     height: 42rpx;

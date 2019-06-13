@@ -129,6 +129,31 @@ Page({
                             })
                         }
                     })
+                },
+                fail: function() {
+                    let urlP = encodeURI('userCode=' + wx.getStorageSync('userCode') + '&longitude=1&latitude=1&organizeName=' + e.detail.value)
+                    let param = {
+                        url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
+                    }
+
+                    //请求企业列表
+                    requestModel.request(param, (data) => {
+                        _this.setData({
+                            employeeNumber: false,
+                            organizeList: data,
+                            organizeSelected: false,
+                            organizeCode: ''
+                        })
+                        if (data.length == 0) {
+                            _this.setData({
+                                organizeListNoResult: true //查到企业列表无结果，则相应视图
+                            })
+                        } else {
+                            _this.setData({
+                                organizeListNoResult: false
+                            })
+                        }
+                    })
                 }
             })
         } else if (_this.data.userType == 'ADMIN') {

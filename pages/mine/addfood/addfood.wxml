@@ -10,18 +10,26 @@
 
                 </view>
                 <view style="height: {{ windowHeight - 2 }}px; " class="menu-wrapper c_scrollPosition_forCalculate">
-                    <!-- 左边菜品分类 -->
+                    <!-- 左边餐品分类 -->
                     <scroll-view class="menu-left" scroll-y style="height: {{ windowHeight - 2 }}px;">
                         <view class=" {{ menutypeActiveFlag == menutypeIndex ? 'left-item-active' : 'left-item'}}" data-menutypeindex="{{ menutypeIndex }}" bindtap="handleChangeMenutypeActive" wx:for="{{ allMenuData.foodList }}" wx:for-item="menutypeItem" wx:for-index="menutypeIndex"
                             wx:key="menutypeIndex">
                             <view style="height:30rpx;">
                                 <view wx:if="{{ menuCountList[menutypeIndex] > 0 }}" class="menu-count">{{ menuCountList[menutypeIndex] }}</view>
                             </view>
-                            <view class="menu-name">{{ menutypeItem.typeName }}</view>
+                            <view class="menu-name-image" wx:if='{{ menutypeItem.typeName=="特价" }}'>
+                                <image src='/images/menu/order_discount.png' style='width:28rpx;height:28rpx;'></image>
+                                <view class="menu-name"> {{ menutypeItem.typeName }}</view>
+                            </view>
+                            <view class="menu-name-image" wx:elif='{{ menutypeItem.typeName=="新品" }}'>
+                                <image src='/images/menu/order_new.png' style='width:28rpx;height:28rpx;'></image>
+                                <view class="menu-name"> {{ menutypeItem.typeName }}</view>
+                            </view>
+                            <view class="menu-name" wx:else>{{ menutypeItem.typeName }}</view>
                         </view>
                         <view style="height:120rpx;"></view>
                     </scroll-view>
-                    <!-- 右边具体菜品 -->
+                    <!-- 右边具体餐品 -->
                     <view class="menu-right">
 
                         <scroll-view class="menu-right-item-wrapper" scroll-y scroll-with-animation="true" bindscroll="handleScroll" style="height: {{ windowHeight - 2 }}px;" scroll-into-view="{{ scrollToView }}" wx:key='menutypeItem'>
@@ -43,8 +51,8 @@
                                             <view class="food-name">
                                                 {{foodItem.foodName}}
                                             </view>
-                                            <view class="food-label">
-                                                <view class="food-label-item">{{ menutypeItem.typeName }}</view>
+                                            <view class="food-label" wx:if="{{foodItem.foodLabels &&foodItem.foodLabels.length>0}}">
+                                                <!-- <view class="food-label-item">{{ menutypeItem.typeName }}</view> -->
                                                 <view class="food-label-item" wx:for="{{foodItem.foodLabels}}" wx:key="{{ index }}">{{ item }}</view>
                                             </view>
                                             <view wx:if="{{foodItem.canMeal==false}}" style="font-size:20rpx;line-height: 28rpx;color:#ce8307;margin-top:10rpx;">
@@ -71,7 +79,7 @@
                                                 <view class="price-real">
                                                     {{ foodItem.foodPrice }}
                                                 </view>
-                                                <view class="price-original" wx:if="{{foodItem.foodPrice <foodItem.foodOriginalPrice }}">
+                                                <view class="price-original" wx:if="{{foodItem.foodPrice <foodItem.foodOriginalPrice &&foodItem.showOrginalPrice}}">
                                                     ￥{{ foodItem.foodOriginalPrice }}
                                                 </view>
                                             </view>
@@ -165,7 +173,7 @@
                         您当前是管理员
                     </view>
                     <view wx:else style="position:relative; top:16rpx;  left:284rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
-                        当前额度已被使用
+                        当前额度已被使用2
                     </view>
                 </view>
                 <view wx:if="{{shakeshake}}" style='height:{{2*cartAnimationHeight-90}}rpx;width:540rpx;z-index:1000;position:fixed; left:100rpx;bottom:120rpx;'>
@@ -199,8 +207,8 @@
                             <block wx:if="{{orgAdmin}}">
                                 您当前是管理员
                             </block>
-                            <block wx:elif="{{ allMenuData[activeDayIndex][mealTypeItem].mealSet.userCanStandardPrice }}">
-                                企业单餐抵扣：￥{{allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice}}
+                            <block wx:elif="{{ allMenuData.mealSet.userCanStandardPrice }}">
+                                企业单餐抵扣：￥{{allMenuData.mealType.standardPrice}}
                             </block>
                             <block wx:else>
                                 当前额度已被使用
