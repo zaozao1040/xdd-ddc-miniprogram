@@ -380,6 +380,7 @@ Page({
                             a.foodQuantity = onefood.foodQuantity
                             a.orderCode = item.orderCode
                             a.foodCode = onefood.foodCode
+                            a.prompt = onefood.prompt
 
                             if (onefood.takeMealStartTime && onefood.takeMealEndTime) {
 
@@ -446,7 +447,8 @@ Page({
         }, true)
     },
     //取餐private函数
-    takeFoodOrder(ordercode, foodcode, again) {
+    takeFoodOrder(ordercode, foodcode, again,foodindex) {
+
         let _this = this
             //就调用接口加载柜子号 
         let param = {
@@ -456,15 +458,16 @@ Page({
             let tmp_content = ''
             if (data) {
                 let bindnumber = ''
+
                 if (data.length > 0) {
                     for (let i = 0; i < data.length - 1; i++) {
                         bindnumber += data[i].cabinetNumber + '-' + data[i].cellNumber + ', '
                     }
                     bindnumber += data[data.length - 1].cabinetNumber + '-' + data[data.length - 1].cellNumber
 
-                    tmp_content = '当前柜子为：' + bindnumber + ',请确认本人在柜子旁边'
+                    tmp_content = '当前柜子为：' + bindnumber + ',请确认本人在柜子旁边' + '\r\n' + this.data.homeOrderList[foodindex].prompt
                 } else {
-                    tmp_content = '请确认取餐'
+                    tmp_content = this.data.homeOrderList[foodindex].prompt
                 }
 
                 let content = data.length > 0 ? '如果柜子' + bindnumber + '中餐品未取出，可点击确定再次取餐' : '如果餐品未取出，可点击确定再次取餐'
@@ -516,7 +519,7 @@ Page({
         }
         _this.data.canClick = false
 
-        _this.takeFoodOrder(e.currentTarget.dataset.ordercode, e.currentTarget.dataset.foodcode, false)
+        _this.takeFoodOrder(e.currentTarget.dataset.ordercode, e.currentTarget.dataset.foodcode, false,e.currentTarget.dataset.foodindex)
 
 
         if (_this.data.timer) {

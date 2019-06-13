@@ -152,6 +152,21 @@
     line-height: 34rpx;
 }
 
+.prompt{
+    font-family: PingFangSC-Regular;
+    font-size: 26rpx;
+    padding:10rpx 0;
+    line-height: 36rpx;
+}
+.prompt-title{
+    color: #666666;
+}
+.prompt-des{
+
+    color: #999999;
+}
+
+
 .appointment-remind {
     font-family: PingFangSC-Regular;
     font-size: 28rpx;
