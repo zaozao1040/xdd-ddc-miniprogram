@@ -87,11 +87,18 @@
         <view class='add-title'>我要补餐</view>
         <image src="/images/mine/xiangyou.png" style='width:34rpx;height:34rpx;'></image>
     </view>
-    <view class='add-food' bindtap="gotoSaySomething">
+    <view class='add-food' bindtap="gotoSaySomething" style='border-bottom:2rpx solid #F5F5F5;'>
         <view style='width:44rpx;height:44rpx;'>
             <image src="/images/mine/me_complaint.png" style='width:44rpx;height:44rpx;'></image>
         </view>
         <view class='add-title'>我要吐槽</view>
+        <image src="/images/mine/xiangyou.png" style='width:34rpx;height:34rpx;'></image>
+    </view>
+    <view class='add-food' bindtap="gotoEvaluateService" wx:if='{{(userInfo.orgAdmin==true)&&(userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN")}}'>
+        <view style='width:44rpx;height:44rpx;'>
+            <image src="/images/mine/service.png" style='width:44rpx;height:44rpx;'></image>
+        </view>
+        <view class='add-title'>我要对服务评分</view>
         <image src="/images/mine/xiangyou.png" style='width:34rpx;height:34rpx;'></image>
     </view>
     <view style='background: #F5F5F5;width:100%;height:20rpx;'></view>
