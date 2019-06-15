@@ -27,7 +27,7 @@
 .button {
     background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
     border-radius: 50rpx;
-    margin: 0rpx 62rpx 40rpx 62rpx;
+    margin: 0rpx 62rpx 20rpx 62rpx;
     height: 96rpx;
     text-align: center;
     line-height: 96rpx;
