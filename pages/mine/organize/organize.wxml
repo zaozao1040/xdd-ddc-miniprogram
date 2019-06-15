@@ -51,8 +51,8 @@
         <image src="/images/mine/checkOk.jpg" style='width:216rpx;height:216rpx;'></image>
     </view>
     <view class='bind-title'>绑定成功</view>
-    <view class='bind-des'>管理员已审核通过您绑定的企业：</view>
-    <view class='bind-des'>苏州星点点科技有限公司</view>
+    <view class='bind-des' style="margin-bottom:0;">管理员已审核通过您绑定的企业：</view>
+    <view class='bind-des'>{{organizeName}}</view>
     <view class='bind-back' bindtap='goback'>完成</view>
 </view>
 <view class="organize-wrapper" wx:if='{{bindUncheck}}'>
