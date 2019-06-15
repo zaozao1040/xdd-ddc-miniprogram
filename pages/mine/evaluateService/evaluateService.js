@@ -9,7 +9,7 @@ Page({
    */
   data: {
     serviceInfo: [],
-    content:'',
+    content: '',
     serviceImgInfo: {
       imagePaths: [],
       images: []
@@ -28,7 +28,7 @@ Page({
     requestModel.request(param, (data) => {
       let tmp_data = []
       tmp_data.push({
-        title: '投送服务',
+        title: '配送服务',
         detail: data.deliveryServiceTagList
       }, {
           title: '引导服务',
@@ -59,28 +59,14 @@ Page({
   handleClickStar: function (e) {
     console.log('handleClickStar', e)
     let _this = this
-    let { selectedstar, serviceindex, detailindex } = e.currentTarget.dataset
-    console.log('selectedstar', selectedstar)
-
+    let { selectedstar, serviceindex, detailindex, selectedtagcode } = e.currentTarget.dataset
     let tmp_serviceInfo = _this.data.serviceInfo
     tmp_serviceInfo[serviceindex].detail[detailindex].selectedStar = selectedstar
+    tmp_serviceInfo[serviceindex].detail[detailindex].selectedtagcode = selectedtagcode
     this.setData({
       serviceInfo: tmp_serviceInfo,
     })
     console.log(tmp_serviceInfo)
-    /* 同时更新orderFoodList的star和orderFoodList属性 */
-    /*         let tmp_orderFoodList = _this.data.orderFoodList
-            tmp_orderFoodList[foodindex].star = star
-            tmp_orderFoodList[foodindex].evaluateLabelsActive = _this.data.evaluateLabels[star]
-            tmp_orderFoodList[foodindex].selectedTagNum = 0
-    
-            this.setData({
-                orderFoodList: tmp_orderFoodList,
-            })
-    
-            console.log('handleClickStar--star', star)
-            console.log('handleClickStar--_this.data.evaluateLabels', _this.data.evaluateLabels) */
-
   },
   /* 点击预览图片 */
   handlePreviewImage: function (e) {
@@ -91,10 +77,8 @@ Page({
       current: imagePaths[index], //预览图片链接
       urls: imagePaths, //图片预览list列表
       success: function (res) {
-
       },
       fail: function () {
-
       }
     })
   },
@@ -148,6 +132,50 @@ Page({
     })
   },
 
+  /* 评价 */
+  buttonClickYes_ratings: function (e) {
+    let _this = this
+    if (this.data.operatingNow) {
+      return
+    }
+    _this.setData({
+      operatingNow: true
+    }) 
+    let tmpData = {
+      userCode: wx.getStorageSync('userCode'),
+      content: _this.data.content,
+      images: _this.data.serviceImgInfo.images,
+      tagCodeList: [],
+      wechatFormId: e.detail.formId
+    }
+    //拼接tagCodeList
+    let tmp_serviceInfo = _this.data.serviceInfo
+    tmp_serviceInfo.forEach(element_1 => {
+      element_1.detail.forEach(element_2 => {
+        if (element_2.selectedtagcode) {
+          tmpData.tagCodeList.push(element_2.selectedtagcode)
+        }
+      })
+    })
+    let param = {
+      url: '/evaluate/serviceEvaluate',
+      method: 'post',
+      data: tmpData
+    }
+    console.log('param', param)
+    requestModel.request(param, () => {
+      wx.showToast({
+        title: '成功评价',
+        image: '/images/msg/success.png',
+        duration: 1000
+      })
+      setTimeout(() => {
+        wx.reLaunch({
+          url: '/pages/mine/mine'
+        })
+      }, 1000)
+    })
+  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成

@@ -253,6 +253,8 @@ Page({
                     _this.setData({
                         organizeName: userInfo.organizeName
                     })
+                    //更新缓存的userInfo
+                    wx.setStorageSync('userInfo', userInfo)
                 }, true)
 
 
@@ -262,6 +264,8 @@ Page({
     },
 
     goback() {
+        console.log('goback')
+        wx.setStorageSync('refreshUserInfoFlag', true)
         wx.switchTab({
             url: '/pages/mine/mine',
         })

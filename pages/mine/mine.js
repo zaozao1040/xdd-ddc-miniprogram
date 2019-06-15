@@ -203,7 +203,17 @@ Page({
                 discount: data.discount
             })
         }, true)
-
+        //如果需要刷新userInfo缓存，则刷新
+        if(wx.getStorageSync('refreshUserInfoFlag')){
+            console.log('yes')
+            requestModel.getUserInfo(userInfo => {
+                console.log('userInfo', userInfo)
+                this.setData({
+                    userInfo: userInfo
+                })
+            }, true)
+            wx.setStorageSync('refreshUserInfoFlag', false)
+        }
     },
 
     /**
