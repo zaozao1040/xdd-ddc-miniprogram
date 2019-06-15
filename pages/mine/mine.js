@@ -3,6 +3,8 @@ let requestModel = new base()
 
 Page({
     data: {
+        //
+        windowHeight: 0,
         //用户信息
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         userInfo: null,
@@ -99,6 +101,13 @@ Page({
      */
     onLoad: function () {
         let _this = this
+        wx.getSystemInfo({
+            success: function(res) {
+                _this.setData({
+                    windowHeight: res.windowHeight
+                })
+            }
+        })
         requestModel.getUserInfo(userInfo => {
             console.log('userInfo', userInfo)
             _this.setData({
