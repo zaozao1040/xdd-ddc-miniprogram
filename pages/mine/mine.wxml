@@ -64,7 +64,7 @@
             </view> -->
             <view class="offerItem-wrapper" bindtap='gotoIntegral'>
                 <view class='offer-num'> {{integral}} </view>
-                <view class='offer-title'> 积分{{windowHeight}}- {{scrollTop}} </view>
+                <view class='offer-title'> 积分 </view>
             </view>
         </view>
     </view>
