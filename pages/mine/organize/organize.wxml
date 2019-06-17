@@ -46,7 +46,7 @@
         <button loading="{{loading}}" class="button" catchtap="changeOrganize">绑定企业</button>
     </view>
 </view>
-<view class="organize-wrapper-s" wx:if='{{bindAlready }}'>
+<view class="organize-wrapper" wx:if='{{bindAlready }}'>
     <view style='margin:132rpx 0 20rpx;text-align: center;'>
         <image src="/images/mine/checkOk.jpg" style='width:216rpx;height:216rpx;'></image>
     </view>
@@ -55,7 +55,7 @@
     <view class='bind-des'>{{organizeName}}</view>
     <view class='bind-back' bindtap='goback'>完成</view>
 </view>
-<view class="organize-wrapper-s" wx:if='{{bindUncheck}}'>
+<view class="organize-wrapper" wx:if='{{bindUncheck}}'>
     <view style='margin:132rpx 0 20rpx;text-align: center;'>
         <image src="/images/mine/checkNo.jpg" style='width:216rpx;height:216rpx;'></image>
     </view>
@@ -64,7 +64,7 @@
     <view class='bind-back' bindtap='goBindAgain'>重新绑定</view>
 </view>
 
-<view class="organize-wrapper-s" wx:if='{{bindChecking}}'>
+<view class="organize-wrapper" wx:if='{{bindChecking}}'>
     <view style='margin:132rpx 0 20rpx;text-align: center;'>
         <image src="/images/mine/checking.jpg" style='width:216rpx;height:216rpx;'></image>
     </view>

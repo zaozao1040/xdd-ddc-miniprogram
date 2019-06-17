@@ -172,7 +172,28 @@ Page({
             success() {}
         })
         let _this = this
-        let urlP = encodeURI('userCode=' + wx.getStorageSync('userCode') + '&longitude=1&latitude=2'  + '&organizeName=' + e.detail.value)
+        if (_this.data.userType == 'ADMIN') {
+            let param = {
+                    url: '/organize/getOrganizeList?userCode=' + wx.getStorageSync('userCode') + '&organizeName=' + e.detail.value
+                }
+                //请求企业列表
+            requestModel.request(param, (data) => {
+                _this.setData({
+                    organizeList: data,
+                    employeeNumber: false,
+                })
+                if (data.length == 0) {
+                    _this.setData({
+                        organizeListNoResult: true //查到企业列表无结果，则相应视图
+                    })
+                } else {
+                    _this.setData({
+                        organizeListNoResult: false
+                    })
+                }
+            })
+        } else if (e.detail.value.length >= 2) {
+            let urlP = encodeURI('userCode=' + wx.getStorageSync('userCode') + '&longitude=1&latitude=2'  + '&organizeName=' + e.detail.value)
             let param = {
                 url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
             }
@@ -195,6 +216,7 @@ Page({
                     })
                 }
             })
+        }
     },
 
     /* button的绑定企业 */
@@ -253,8 +275,6 @@ Page({
                     _this.setData({
                         organizeName: userInfo.organizeName
                     })
-                    //更新缓存的userInfo
-                    wx.setStorageSync('userInfo', userInfo)
                 }, true)
 
 
@@ -264,8 +284,6 @@ Page({
     },
 
     goback() {
-        console.log('goback')
-        wx.setStorageSync('refreshUserInfoFlag', true)
         wx.switchTab({
             url: '/pages/mine/mine',
         })

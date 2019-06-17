@@ -1,10 +1,13 @@
 <view class="home-container" bindtap="closeNotice">
 
     <!-- 轮播图 autoplay="true"3.0-->
-    <swiper autoplay class="h-v2-swiper-item" circular="true" duration="300" indicatorActiveColor="#fff" indicatorColor="rgba(255,255,255,0.50)" indicatorDots interval="5000" bindchange="onSwiperChange">
-        <block wx:for="{{imagesList.bannerImage}}" wx:for-index="swiperListIndex" wx:for-item="swiperListItem" wx:key="swiperListIndex">
+    <swiper autoplay class="h-v2-swiper-item" circular="true" duration="300" indicatorActiveColor="#fff"
+        indicatorColor="rgba(255,255,255,0.50)" indicatorDots interval="5000" bindchange="onSwiperChange">
+        <block wx:for="{{imagesList.bannerImage}}" wx:for-index="swiperListIndex" wx:for-item="swiperListItem"
+            wx:key="swiperListIndex">
             <swiper-item bindtap="navigateTo">
-                <navigator url="/pages/home/link?extendUrl={{swiperListItem.url}}" style="width: 100%;height: 100%;border-radius: 8rpx;">
+                <navigator url="/pages/home/link?extendUrl={{swiperListItem.url}}"
+                    style="width: 100%;height: 100%;border-radius: 8rpx;">
                     <image src="{{swiperListItem.image}}" style="width: 100%;height: 100%;border-radius: 8rpx;"></image>
                 </navigator>
             </swiper-item>
@@ -31,7 +34,8 @@
         <view>
             <image src='/images/home/announcement_pic.png' class='modulebox-image'></image>
         </view>
-        <swiper class="modulebox-wrapper-notice" circular="true" duration="500" autoplay="true" indicator-dots indicator-color='rgba(247,156,76,0.30)' indicator-active-color='#F79C4C'>
+        <swiper class="modulebox-wrapper-notice" circular="true" duration="500" autoplay="true" indicator-dots
+            indicator-color='rgba(247,156,76,0.30)' indicator-active-color='#F79C4C'>
             <block wx:for="{{showedNoticeData}}" wx:key="{{index}}">
                 <swiper-item>
 
@@ -55,7 +59,8 @@
         <view class="h-v3-1" catchtap="handleGotoMenu">
             <text class='iconfont icon-canting'></text> 开始点餐
         </view>
-        <view style="position:absolute;top:{{hasNotice?460:328}}rpx;height:100rpx;width:600rpx;margin-left:46rpx;z-index:-1;">
+        <view
+            style="position:absolute;top:{{hasNotice?460:328}}rpx;height:100rpx;width:600rpx;margin-left:46rpx;z-index:-1;">
             <image src="/images/home/home_projection.png" style="height:100rpx;width:600rpx;"></image>
         </view>
     </view>
@@ -86,8 +91,9 @@
         <view style="margin:0 0 60rpx 30rpx;" wx:if="{{homeOrderList.length>0}}">
             <view class='takefood-title'>今日餐品</view>
             <view>
-                <swiper next-margin='24rpx' style='width: 100%; height: 172rpx;'>
-                    <block wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem" wx:key="homeOrderIndex">
+                <swiper next-margin='24rpx' style='width: 100%; height: 220rpx;'>
+                    <block wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem"
+                        wx:key="homeOrderIndex">
                         <swiper-item>
                             <view class="takefood-food">
                                 <view class='takefood-img-wrapper'>
@@ -96,7 +102,8 @@
                                 <view>
                                     <view class='flexdisplay'>
                                         <view class='takefood-cabinet'>
-                                            <view class='flexdisplay' style="line-height:50rpx;padding-left:10rpx;" wx:if='{{homeOrderItem.isBinding}}'>
+                                            <view class='flexdisplay' style="line-height:50rpx;padding-left:10rpx;"
+                                                wx:if='{{homeOrderItem.isBinding}}'>
                                                 <view class="takefood-cabinet-title">{{homeOrderItem.bindDes}}</view>
                                                 <view class="takefood-cabinet-number">
                                                     {{homeOrderItem.bindNumber}}
@@ -109,7 +116,8 @@
                                                 <view class="takefood-mealType">
                                                     {{homeOrderItem.mealTypeShow}}</view>
                                                 <view class='flexdisplay' wx:if='{{homeOrderItem.foodName.length<9}}'>
-                                                    <view class="takefood-foodname" wx:if='{{homeOrderItem.foodQuantity>1}}'>
+                                                    <view class="takefood-foodname"
+                                                        wx:if='{{homeOrderItem.foodQuantity>1}}'>
                                                         {{homeOrderItem.foodName}}x{{homeOrderItem.foodQuantity}}
                                                     </view>
                                                     <view class="takefood-foodname" wx:else>
@@ -119,30 +127,43 @@
                                                 <view class='flexdisplay' wx:else>
                                                     <view class="takefood-foodname"> {{homeOrderItem.foodName}}
                                                     </view>
-                                                    <view wx:if="{{homeOrderItem.foodQuantity>1}}" class='takefood-foodcount'>
+                                                    <view wx:if="{{homeOrderItem.foodQuantity>1}}"
+                                                        class='takefood-foodcount'>
                                                         x{{homeOrderItem.foodQuantity}}</view>
                                                 </view>
                                             </view>
                                         </view>
-                                        <view class="takefood-button" bindtap="handleTakeOrder" data-foodcode="{{homeOrderItem.foodCode}}" data-ordercode="{{homeOrderItem.orderCode}}" data-isbinding="{{homeOrderItem.isBinding}}" data- hascabinet="{{homeOrderItem.hasCabinet}}" data-binddes="{{homeOrderItem.bindDes}}"
-                                            data-bindnumber="{{homeOrderItem.bindNumber}}">取餐</view>
+                                        <view class="takefood-button" bindtap="handleTakeOrder"
+                                            data-foodcode="{{homeOrderItem.foodCode}}"
+                                            data-ordercode="{{homeOrderItem.orderCode}}"
+                                            data-isbinding="{{homeOrderItem.isBinding}}" 
+                                            data-hascabinet="{{homeOrderItem.hasCabinet}}"
+                                            data-binddes="{{homeOrderItem.bindDes}}"
+                                            data-bindnumber="{{homeOrderItem.bindNumber}}"
+                                            data-foodindex="{{homeOrderIndex}}">取餐</view>
                                     </view>
                                     <view class='takefood-time' style='padding-left:5rpx;'>
                                         取餐时间: {{homeOrderItem.takeMealTimeDes}}
                                     </view>
                                 </view>
                             </view>
+                            <view class="prompt">
+                                    <text class="prompt-title"> 餐品用餐提示: </text>
+                                    <text class="prompt-des"> {{homeOrderItem.prompt}} </text>
+                                </view>
                         </swiper-item>
                     </block>
                 </swiper>
             </view>
+
         </view>
 
 
     </view>
     <!-- 活动3.0 -->
     <view class="promotion-wrapper">
-        <view class="promotionItem" wx:for="{{imagesList.centerImage}}" wx:for-index="promotionListIndex" wx:for-item="promotionListItem" wx:key="promotionListIndex">
+        <view class="promotionItem" wx:for="{{imagesList.centerImage}}" wx:for-index="promotionListIndex"
+            wx:for-item="promotionListItem" wx:key="promotionListIndex">
             <navigator url="/pages/home/link?extendUrl={{promotionListItem.url}}">
                 <image class="promotion-img" src="{{promotionListItem.image}}" />
             </navigator>
@@ -200,7 +221,8 @@
 
     <view class="mask" wx:if="{{showMenuSelect}}" catchtouchmove="preventTouchMove"></view>
 
-    <view style="position:fixed;bottom:0;width:100%; z-index:1001;background:#fff;" wx:if="{{showMenuSelect}}" catchtouchmove="preventTouchMove">
+    <view style="position:fixed;bottom:0;width:100%; z-index:1001;background:#fff;" wx:if="{{showMenuSelect}}"
+        catchtouchmove="preventTouchMove">
         <view class='flexdisplay'>
             <view class="appointment-title">
                 选择预约
@@ -218,7 +240,8 @@
                     <view class="appointment-choice-right-checked">预约今天 今天元气满满哦</view>
                 </block>
                 <block wx:else>
-                    <image src='/images/home/filter_unchecked.png' style="height:88rpx;width:88rpx;" catchtap='handleSelectToday'></image>
+                    <image src='/images/home/filter_unchecked.png' style="height:88rpx;width:88rpx;"
+                        catchtap='handleSelectToday'></image>
                     <view class="appointment-choice-right" catchtap='handleSelectToday'>预约今天 今天元气满满哦</view>
                 </block>
             </view>
@@ -228,7 +251,8 @@
                     <view class="appointment-choice-right-checked">预约明天 明天也要吃好呀</view>
                 </block>
                 <block wx:else>
-                    <image src='/images/home/filter_unchecked.png' style="height:88rpx;width:88rpx;" catchtap='handleSelectTomorrow'></image>
+                    <image src='/images/home/filter_unchecked.png' style="height:88rpx;width:88rpx;"
+                        catchtap='handleSelectTomorrow'></image>
                     <view class="appointment-choice-right" catchtap='handleSelectTomorrow'>预约明天 明天也要吃好呀</view>
                 </block>
             </view>
@@ -246,11 +270,15 @@
         <view class='appointment-choice-foodtype-title' wx:if="{{appointmention!='week'}}">
             选择时餐
         </view>
-        <view class="appointment-choice-foodtype-list" style="margin-bottom:30rpx;border-bottom: 1rpx solid #EBEBEB;" wx:if="{{appointmention!='week'}}">
+        <view class="appointment-choice-foodtype-list" style="margin-bottom:30rpx;border-bottom: 1rpx solid #EBEBEB;"
+            wx:if="{{appointmention!='week'}}">
             <block wx:for="{{twoDaysMealName}}" wx:key="{{index}}">
                 <block wx:if='{{oneDayInfo[item+"Status"]==true}}'>
-                    <view style="position:absolute;width:750rpx;height:142rpx;background:rgba(255,255,255,0.8);z-index:1001;" wx:if='{{!oneDayInfo[item+"OrderStatus"]}}'>
-                        <image src='/images/home/filter_end.png ' style="position:absolute; right:110rpx;  top:12rpx;width:120rpx;height:115rpx;"></image>
+                    <view
+                        style="position:absolute;width:750rpx;height:142rpx;background:rgba(255,255,255,0.8);z-index:1001;"
+                        wx:if='{{!oneDayInfo[item+"OrderStatus"]}}'>
+                        <image src='/images/home/filter_end.png '
+                            style="position:absolute; right:110rpx;  top:12rpx;width:120rpx;height:115rpx;"></image>
                     </view>
                     <view class='appointment-choice-foodtype' data-mealtype='{{item}}' catchtap="startOrderMenu">
                         <image src='/images/home/filter_{{item}}.png' style="height:120rpx;width:120rpx;"></image>
@@ -261,7 +289,8 @@
                                 <view style="margin-left:10rpx;">{{oneDayInfo[item+"DeadlineDesc"]}}</view>
                             </view>
                         </view>
-                        <image src='/images/home/filter_more.png' style="height:88rpx;width:88rpx; margin-top: 16rpx;"></image>
+                        <image src='/images/home/filter_more.png' style="height:88rpx;width:88rpx; margin-top: 16rpx;">
+                        </image>
                     </view>
 
                 </block>

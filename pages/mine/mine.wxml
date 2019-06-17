@@ -54,7 +54,7 @@
             <!-- <view style="position: relative;">
                 <image src="/images/mine/fengexian.png" style='width:1rpx;height:30rpx;position: absolute;top:0;bottom: 0;margin: auto;'></image>
             </view> -->
-            <view class="offerItem-wrapper" bindtap='gotoDiscount'>
+            <view class="offerItem-wrapper" bindtap='gotoDiscount' >
                 <view class='offer-num'> {{discount}} </view>
                 <view class='offer-title'> 优惠券 </view>
             </view>
@@ -68,49 +68,59 @@
             </view>
         </view>
     </view>
-    <view wx:if='{{(userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN")&&userInfo.orgAdmin==true}}'>
-        <view class='org-admin'>
-            <view class='org-addfood' bindtap="gotoAddfoodAdmin">
-                <image src="/images/mine/data_meal.png" class='org-addfood'></image>
+    <view class="c_scrollPosition_forCalculate">
+        <scroll-view scroll-y style="height: {{windowHeight - 150}}px;">
+            <view wx:if='{{(userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN")&&userInfo.orgAdmin==true}}'>
+                <view class='org-admin'>
+                    <view class='org-addfood' bindtap="gotoAddfoodAdmin">
+                        <image src="/images/mine/data_meal.png" class='org-addfood'></image>
+                    </view>
+                    <view class='org-addfood' bindtap="gotoCabinetminiProgram">
+                        <image src="/images/mine/data_cabinet.png" class='org-addfood'></image>
+                    </view>
+                </view>
+                <view style='width:100%;height:20rpx;background: #F5F5F5;'></view>
             </view>
-            <view class='org-addfood' bindtap="gotoCabinetminiProgram">
-                <image src="/images/mine/data_cabinet.png" class='org-addfood'></image>
-            </view>
-        </view>
-        <view style='width:100%;height:20rpx;background: #F5F5F5;'></view>
-    </view>
 
-    <view class='add-food' bindtap="gotoAddfood" style='border-bottom:2rpx solid #F5F5F5;'>
-        <view style='width:44rpx;height:44rpx;'>
-            <image src="/images/mine/me_pic.png" style='width:44rpx;height:44rpx;'></image>
-        </view>
-        <view class='add-title'>我要补餐</view>
-        <image src="/images/mine/xiangyou.png" style='width:34rpx;height:34rpx;'></image>
-    </view>
-    <view class='add-food' bindtap="gotoSaySomething">
-        <view style='width:44rpx;height:44rpx;'>
-            <image src="/images/mine/me_complaint.png" style='width:44rpx;height:44rpx;'></image>
-        </view>
-        <view class='add-title'>我要吐槽</view>
-        <image src="/images/mine/xiangyou.png" style='width:34rpx;height:34rpx;'></image>
-    </view>
-    <view style='background: #F5F5F5;width:100%;height:20rpx;'></view>
-    <view class='mine-service'>我的服务</view>
-    <view class='service-list'>
-        <view wx:for="{{labelList}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex" bindtap="handleClickLabel" data-labelindex="{{labelIndex}}" data-labelitem="{{labelItem}}">
-            <view style="margin-left:12rpx;width:88rpx;height:88rpx;margin-bottom:10rpx;">
-                <image src="/images/mine/{{imageList[labelIndex]}}.png" style='width:88rpx;height:88rpx;'></image>
+            <view class='add-food' bindtap="gotoAddfood" style='border-bottom:2rpx solid #F5F5F5;'>
+                <view style='width:44rpx;height:44rpx;'>
+                    <image src="/images/mine/me_pic.png" style='width:44rpx;height:44rpx;'></image>
+                </view>
+                <view class='add-title'>我要补餐</view>
+                <image src="/images/mine/xiangyou.png" style='width:34rpx;height:34rpx;'></image>
             </view>
-            <view class='label-title'>{{labelItem}}</view>
-        </view>
-    </view>
-    <!-- <view class='service-list'>
-        <view bindtap="gotoSaySomething">
-            <view style="margin-left:12rpx;width:88rpx;height:88rpx;margin-bottom:10rpx;">
-                <image src="/images/mine/me_complaint.png" style='width:88rpx;height:88rpx;'></image>
+            <view class='add-food' bindtap="gotoSaySomething" style='border-bottom:2rpx solid #F5F5F5;'>
+                <view style='width:44rpx;height:44rpx;'>
+                    <image src="/images/mine/me_complaint.png" style='width:44rpx;height:44rpx;'></image>
+                </view>
+                <view class='add-title'>我要吐槽</view>
+                <image src="/images/mine/xiangyou.png" style='width:34rpx;height:34rpx;'></image>
             </view>
-            <view class='label-title'>我要吐槽</view>
-        </view>
-    </view> -->
-
+            <view class='add-food' bindtap="gotoEvaluateService" wx:if='{{(userInfo.orgAdmin==true)&&(userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN")}}'>
+                <view style='width:44rpx;height:44rpx;'>
+                    <image src="/images/mine/service.png" style='width:44rpx;height:44rpx;'></image>
+                </view>
+                <view class='add-title'>我要对服务评分</view>
+                <image src="/images/mine/xiangyou.png" style='width:34rpx;height:34rpx;'></image>
+            </view>
+            <view style='background: #F5F5F5;width:100%;height:20rpx;'></view>
+            <view class='mine-service'>我的服务</view>
+            <view class='service-list'>
+                <view wx:for="{{labelList}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex" bindtap="handleClickLabel" data-labelindex="{{labelIndex}}" data-labelitem="{{labelItem}}">
+                    <view style="margin-left:12rpx;width:88rpx;height:88rpx;margin-bottom:10rpx;">
+                        <image src="/images/mine/{{imageList[labelIndex]}}.png" style='width:88rpx;height:88rpx;'></image>
+                    </view>
+                    <view class='label-title'>{{labelItem}}</view>
+                </view>
+            </view>
+            <!-- <view class='service-list'>
+                <view bindtap="gotoSaySomething">
+                    <view style="margin-left:12rpx;width:88rpx;height:88rpx;margin-bottom:10rpx;">
+                        <image src="/images/mine/me_complaint.png" style='width:88rpx;height:88rpx;'></image>
+                    </view>
+                    <view class='label-title'>我要吐槽</view>
+                </view>
+            </view> -->
+        </scroll-view>
+    </view>
 </view>

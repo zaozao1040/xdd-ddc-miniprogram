@@ -2,7 +2,8 @@
 
     <!-- 每个餐品的评价 -->
 
-    <view class="foodItem" wx:for="{{orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem" wx:key="foodIndex">
+    <view class="foodItem" wx:for="{{orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem"
+        wx:key="foodIndex">
         <view class='image-list'>
             <image src="{{foodItem.foodImage}}" style='width:88rpx;height:88rpx;border-radius: 6rpx;'>
             </image>
@@ -19,39 +20,93 @@
         <view class="welcome">
             感谢您的订餐,请对本次餐品进行评价!
         </view>
-
         <view class='comment-star'>
-            <view wx:for="{{5}}" wx:key="{{index}}" bindtap="handleClickStar" data-foodindex="{{foodIndex}}" data-star="{{index+1}}">
-                <image wx:if='{{index<foodItem.star}}' src="/images/order/staryes.png" style='width:56rpx;height:56rpx;margin-right: 14rpx;margin-left: 14rpx;'></image>
-                <image wx:else src="/images/order/starno.png" style='width:56rpx;height:56rpx;margin-right: 14rpx;margin-left: 14rpx;'></image>
-
+            <view wx:for="{{5}}" wx:key="{{index}}" bindtap="handleClickFoodStar" data-foodindex="{{foodIndex}}"
+                data-star="{{index+1}}">
+                <image wx:if='{{index<foodItem.star}}' src="/images/order/staryes.png"
+                    style='width:56rpx;height:56rpx;margin-right: 14rpx;margin-left: 14rpx;'></image>
+                <image wx:else src="/images/order/starno.png"
+                    style='width:56rpx;height:56rpx;margin-right: 14rpx;margin-left: 14rpx;'></image>
             </view>
         </view>
+        <!-- 评价标签 -->
         <view class='comment-label' wx:if='{{foodItem.evaluateLabelsActive}}'>
-            <view wx:for="{{foodItem.evaluateLabelsActive}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="*this" bindtap="handleClickLabel" data-foodindex="{{foodIndex}}" data-labelindex="{{labelIndex}}">
-                <view class="{{labelItem.active==true?'labelItem-active':'labelItem'}}" style='margin-right:{{labelIndex%3!=2?30:0}}rpx;'>
+            <view wx:for="{{foodItem.evaluateLabelsActive}}" wx:for-index="labelIndex" wx:for-item="labelItem"
+                wx:key="*this" bindtap="handleClickLabel" data-foodindex="{{foodIndex}}"
+                data-labelindex="{{labelIndex}}">
+                <view class="{{labelItem.active==true?'labelItem-active':'labelItem'}}"
+                    style='margin-right:{{labelIndex%3!=2?30:0}}rpx;'>
                     {{labelItem.name}}
                 </view>
             </view>
         </view>
         <view class="content">
-            <textarea style=" height:160rpx;font-family: PingFangSC-Regular;font-size: 30rpx;color: #333;" placeholder="我们希望能倾听您的心声,请留下您宝贵的意见。" maxlength="60" bindinput="contentInput" data-foodindex="{{foodIndex}}"></textarea>
+            <textarea style=" height:160rpx;font-family: PingFangSC-Regular;font-size: 30rpx;color: #333;"
+                placeholder="我们希望能倾听您的心声,请留下您宝贵的意见。" maxlength="60" bindinput="contentInput"
+                data-foodindex="{{foodIndex}}"></textarea>
         </view>
 
         <view class="img-wrapper">
             <view class='image-list'>
                 <view wx:for="{{foodItem.imagePaths}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex">
-                    <view class='image-remove' catchtap='removeOneImage' data-foodindex="{{foodIndex}}" data-index="{{imgIndex}}">x</view>
-                    <image class="image" src="{{imgItem}}" catchtap="handlePreviewImage" data-foodindex="{{foodIndex}}" data-index="{{imgIndex}}">
+                    <view class='image-remove' catchtap='removeOneImage' data-foodindex="{{foodIndex}}"
+                        data-index="{{imgIndex}}">x</view>
+                    <image class="image" src="{{imgItem}}" catchtap="handlePreviewImage" data-foodindex="{{foodIndex}}"
+                        data-index="{{imgIndex}}">
                     </image>
                 </view>
             </view>
-            <image class="image-shangchuan" wx:if="{{foodItem.imagePaths.length<3}}" src="/images/order/xiangji.png" bindtap="handleClickAddImg" data-foodindex="{{foodIndex}}"></image>
+            <image class="image-shangchuan" wx:if="{{foodItem.imagePaths.length<3}}" src="/images/order/xiangji.png"
+                bindtap="handleClickAddImg" data-foodindex="{{foodIndex}}"></image>
             <view class="yingjifen">赢15积分</view>
         </view>
     </view>
+    <view style='height:20rpx;background: #F5F5F5;'></view>
+    <!-- 底部的服务评价 -->
+    <view class="welcome" style="">
+        请您对本次现场就餐服务进行评价！
+    </view>
+    <view class='comment-star'>
+        <view wx:for="{{5}}" wx:key="{{index}}" bindtap="handleClickServiceStar" data-foodindex="{{foodIndex}}"
+            data-star="{{index+1}}">
+            <image wx:if='{{index<serviceInfo.star}}' src="/images/order/staryes.png"
+                style='width:56rpx;height:56rpx;margin-right: 14rpx;margin-left: 14rpx;'></image>
+            <image wx:else src="/images/order/starno.png"
+                style='width:56rpx;height:56rpx;margin-right: 14rpx;margin-left: 14rpx;'></image>
+        </view>
+    </view>
+    <!-- 评价标签 -->
+    <view style="padding:0 60rpx;">
+        <view class='comment-label' wx:if='{{serviceInfo.serviceEvaluateLabelsActive}}'>
+            <view wx:for="{{serviceInfo.serviceEvaluateLabelsActive}}" wx:for-index="labelIndex" wx:for-item="labelItem"
+                wx:key="*this" bindtap="handleClickLabelService" data-labelindex="{{labelIndex}}">
+                <view class="{{labelItem.active==true?'labelItem-active':'labelItem'}}"
+                    style='margin-right:{{labelIndex%3!=2?30:0}}rpx;'>
+                    {{labelItem.name}}
+                </view>
+            </view>
+        </view>
+        <view class="content">
+            <textarea style=" height:160rpx;font-family: PingFangSC-Regular;font-size: 30rpx;color: #333;"
+                placeholder="我们希望能倾听您的心声,请留下您宝贵的意见。" maxlength="60" bindinput="contentInputService"></textarea>
+        </view>
+
+        <view class="img-wrapper">
+            <view class='image-list'>
+                <view wx:for="{{serviceInfo.imagePaths}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex">
+                    <view class='image-remove' catchtap='removeOneImage' data-flag="SERVICE"
+                        data-index="{{imgIndex}}">x</view>
+                    <image class="image" src="{{imgItem}}" catchtap="handlePreviewImage" data-flag="SERVICE"
+                        data-index="{{imgIndex}}">
+                    </image>
+                </view>
+            </view>
+            <image class="image-shangchuan" wx:if="{{serviceInfo.imagePaths.length<3}}" src="/images/order/xiangji.png"
+                bindtap="handleClickAddImg" data-flag="SERVICE"></image>
+            <view class="yingjifen">赢15积分</view>
+        </view>
+    </view>
+
     <view wx:if='{{orderFoodList.length>0}}' style='height:200rpx;width:100rpx;'></view>
     <button class="button" formType="submit" data-ordercode="{{orderItem.orderCode}}">评价</button>
-
-
 </form>
