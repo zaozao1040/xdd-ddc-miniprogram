@@ -173,6 +173,23 @@ Page({
     },
     handleGotoMenu: function() {
         let _this = this
+        //判断是否为企业管理员，如果是的话，先提示是否点餐
+        if((wx.getStorageSync('userInfo').userInfo.userType==='ORG_ADMIN')&&(wx.getStorageSync('userInfo').userInfo.orgAdmin===true)){ //企业管理员类型，且以企业管理员身份登录
+            wx.showModal({
+                title: '当前是管理员身份,是否点餐?',
+                content: "您可在'我的'页面切换为普通用户",
+                showCancel:false,
+                success(res) { 
+                   _this.openSelectMealTime()  
+                }
+            })            
+        } else{
+          _this.openSelectMealTime()  
+        }
+        
+    },
+    openSelectMealTime:function(){
+        let _this = this
         let param = {
             url: '/meal/getPreMealDateAndType?userCode=' + wx.getStorageSync('userCode')
         }
@@ -515,6 +532,9 @@ Page({
 
         let _this = this
         if (!_this.data.canClick) {
+            _this.data.timer = setTimeout(function() {
+                _this.data.canClick = true
+            }, 2000)
             return
         }
         _this.data.canClick = false

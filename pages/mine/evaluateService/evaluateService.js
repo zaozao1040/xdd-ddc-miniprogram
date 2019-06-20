@@ -135,12 +135,6 @@ Page({
   /* 评价 */
   buttonClickYes_ratings: function (e) {
     let _this = this
-    if (this.data.operatingNow) {
-      return
-    }
-    _this.setData({
-      operatingNow: true
-    }) 
     let tmpData = {
       userCode: wx.getStorageSync('userCode'),
       content: _this.data.content,

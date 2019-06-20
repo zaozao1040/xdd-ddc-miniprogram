@@ -59,7 +59,7 @@
                             餐品用餐提示:
                         </text>
                         <text class="prompt-des">
-                            {{foodInfo.prompt}}xxxxxxxx
+                            {{foodInfo.prompt}}
                         </text>
                     </view>
                     <view wx:if="{{foodInfo.description}}" class="foodDes">

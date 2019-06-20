@@ -143,6 +143,9 @@ Page({
                         _this.setData({
                             userInfo: _this.data.userInfo
                         })
+                        var tmp_userInfo = wx.getStorageSync('userInfo')
+                        tmp_userInfo.userInfo.orgAdmin = _this.data.userInfo.orgAdmin
+                        wx.setStorageSync('userInfo', tmp_userInfo) 
                         wx.showToast({
                             title: '切换成功',
                             icon: 'none',
