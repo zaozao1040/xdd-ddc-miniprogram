@@ -76,7 +76,8 @@ Page({
                 //餐品 默认五星好评
                 orderFoodList[i].star = 5
                 if (evaluateLabels[5] && evaluateLabels[5].length > 0) {
-                    orderFoodList[i].evaluateLabelsActive = evaluateLabels[5]
+                    //orderFoodList[i].evaluateLabelsActive = evaluateLabels[5] //必须用下面的深拷贝，否则每个i的数据都指向同一段内存，互相污染
+                    orderFoodList[i].evaluateLabelsActive = JSON.parse(JSON.stringify(evaluateLabels[5])) 
                     orderFoodList[i].selectedTagNum = 0
                 }
             }
@@ -92,7 +93,9 @@ Page({
                 evaluateLabels: evaluateLabels,
                 serviceEvaluateLabels: serviceEvaluateLabels
             })
+            console.log('6666',_this.data.orderFoodList)
         })
+        
     },
     /* 点击标签--餐品标签 */
     handleClickLabel: function (e) {

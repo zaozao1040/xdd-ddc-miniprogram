@@ -48,7 +48,7 @@
     </view>
     <image class="image-shangchuan" wx:if="{{serviceImgInfo.imagePaths.length<3}}" src="/images/order/xiangji.png"
       bindtap="handleClickAddImg"></image>
-    <view class="yingjifen">赢15积分</view>
+    <!-- <view class="yingjifen">赢15积分</view> -->
   </view>
   <button class="button" formType="submit" data-ordercode="{{orderItem.orderCode}}">评价</button>
 </form>
