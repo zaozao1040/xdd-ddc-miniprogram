@@ -26,7 +26,7 @@
                         </view>
                         <view class="menu-name" wx:else>{{ menutypeItem.typeName }}</view>
                     </view>
-                    <view style="height:120rpx;"></view>
+                    <view style="height:340rpx;"></view>
                 </scroll-view>
                 <!-- 右边具体餐品 -->
                 <view class="menu-right">
@@ -103,7 +103,7 @@
                                 </view>
                             </view>
                         </view>
-                        <view style="height:240rpx;"></view>
+                        <view style="height:340rpx;"></view>
                     </scroll-view>
                 </view>
             </view>
