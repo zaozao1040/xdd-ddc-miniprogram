@@ -54,7 +54,7 @@
             <!-- <view style="position: relative;">
                 <image src="/images/mine/fengexian.png" style='width:1rpx;height:30rpx;position: absolute;top:0;bottom: 0;margin: auto;'></image>
             </view> -->
-            <view class="offerItem-wrapper" bindtap='gotoDiscount' >
+            <view class="offerItem-wrapper" bindtap='gotoDiscount'>
                 <view class='offer-num'> {{discount}} </view>
                 <view class='offer-title'> 优惠券 </view>
             </view>
@@ -96,7 +96,7 @@
                 <view class='add-title'>我要吐槽</view>
                 <image src="/images/mine/xiangyou.png" style='width:34rpx;height:34rpx;'></image>
             </view>
-            <view class='add-food' bindtap="gotoEvaluateService" wx:if='{{(userInfo.orgAdmin==true)&&(userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN")}}'>
+            <view class='add-food' bindtap="gotoEvaluateService" wx:if='{{(userInfo.orgAdmin==true)&&(userInfo.userType=="ORG_ADMIN")}}'>
                 <view style='width:44rpx;height:44rpx;'>
                     <image src="/images/mine/service.png" style='width:44rpx;height:44rpx;'></image>
                 </view>
