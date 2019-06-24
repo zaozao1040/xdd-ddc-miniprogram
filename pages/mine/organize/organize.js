@@ -14,7 +14,7 @@ Page({
         organizeCode: '',
         search: '',
         organizeListNoResult: false,
-        organizeSelected: false,
+        organizeSelected: false
     },
 
     /**
@@ -63,13 +63,17 @@ Page({
                     })
                 }
                 //超级管理员
+
             } else if (userType == 'ADMIN') {
+
                 _this.setData({
                     bindAlready: false, //已经绑定
                     bindUncheck: false, //审核未通过
                     canBinding: true, //可绑定
                     bindChecking: false //审核中
                 })
+                console.log('bindChecking', _this.data.bindChecking)
+                console.log('canBinding', _this.data.canBinding)
                 let param = {
                         url: '/organize/getOrganizeList?userCode=' + wx.getStorageSync('userCode')
                     }
@@ -80,6 +84,7 @@ Page({
                     })
 
                 })
+
                 _this.initAddress()
             } else if (userType == 'VISITOR') {
                 _this.setData({
@@ -111,6 +116,7 @@ Page({
         this.initAddress()
     },
     onShow: function() {
+
         this.getBindStatus()
     },
     /* 页面隐藏后回收定时器指针 */
@@ -133,6 +139,8 @@ Page({
                 buttonTop: res[0].top // #the-id节点的上边界坐标
             })
         })
+        console.log('bindChecking', _this.data.bindChecking)
+        console.log('canBinding', _this.data.canBinding)
     },
     selectOrganize: function(e) {
         this.setData({
@@ -165,12 +173,13 @@ Page({
         });
     },
     searchInput: function(e) {
-
         let _this = this
         _this.handleSearchOrganizes(e.detail.value)
     },
     handleSearchOrganizes(organizeName) {
+
         let _this = this
+
         if (_this.data.userType == 'ADMIN') {
             let param = {
                     url: '/organize/getOrganizeList?userCode=' + wx.getStorageSync('userCode') + '&organizeName=' + organizeName
@@ -194,6 +203,7 @@ Page({
                 }
             })
         } else if (organizeName.length >= 2) {
+
             wx.getLocation({
                 type: 'gcj02',
                 success: function(res) {

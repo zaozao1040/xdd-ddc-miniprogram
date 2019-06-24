@@ -83,7 +83,7 @@
 
 .foodLimitNum {
     margin-top: 10rpx;
-    margin-bottom:5rpx;
+    margin-bottom: 5rpx;
     display: flex;
     line-height: 28rxp;
 }
@@ -105,20 +105,21 @@
 .price {
     display: flex;
     margin-bottom: 18rpx;
-    border-bottom:1rpx solid #F5F5F5;
+    border-bottom: 1rpx solid #F5F5F5;
 }
 
-.prompt{
+.prompt {
     font-family: PingFangSC-Regular;
     font-size: 26rpx;
-
     line-height: 36rpx;
+    margin-bottom: 10rpx;
 }
-.prompt-title{
+
+.prompt-title {
     color: #333333;
 }
-.prompt-des{
 
+.prompt-des {
     color: #666666;
 }
 

@@ -96,7 +96,7 @@
                 <view class='add-title'>我要吐槽</view>
                 <image src="/images/mine/xiangyou.png" style='width:34rpx;height:34rpx;'></image>
             </view>
-            <view class='add-food' bindtap="gotoEvaluateService" wx:if='{{(userInfo.orgAdmin==true)&&(userInfo.userType=="ORG_ADMIN")}}'>
+            <view class='add-food' bindtap="gotoEvaluateService" wx:if='{{(userInfo.orgAdmin==true)&&(userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN")}}'>
                 <view style='width:44rpx;height:44rpx;'>
                     <image src="/images/mine/service.png" style='width:44rpx;height:44rpx;'></image>
                 </view>
@@ -113,14 +113,7 @@
                     <view class='label-title'>{{labelItem}}</view>
                 </view>
             </view>
-            <!-- <view class='service-list'>
-                <view bindtap="gotoSaySomething">
-                    <view style="margin-left:12rpx;width:88rpx;height:88rpx;margin-bottom:10rpx;">
-                        <image src="/images/mine/me_complaint.png" style='width:88rpx;height:88rpx;'></image>
-                    </view>
-                    <view class='label-title'>我要吐槽</view>
-                </view>
-            </view> -->
+            <view style='height:20rpx;'></view>
         </scroll-view>
     </view>
 </view>

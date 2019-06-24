@@ -3,13 +3,14 @@
     padding: 40rpx 0 26rpx;
 }
 
-.mine-wrapper {
+
+/* .mine-wrapper {
     position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-}
+} */
 
 .add-food {
     margin: 0 30rpx 0;

@@ -372,6 +372,7 @@
  .cart-menuItem-name {
      display: flex;
      justify-content: space-between;
+     margin-bottom: 12rpx;
  }
  
  .flex-a {

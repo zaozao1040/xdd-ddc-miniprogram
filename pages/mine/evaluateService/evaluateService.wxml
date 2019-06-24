@@ -1,54 +1,44 @@
 <form report-submit="true" bindsubmit="buttonClickYes_ratings">
-  <view class="title">
-    <view>
-      为了更好提升现场服务，
-    </view>
-    <view>
-      请您对以下评分项目进行打分评价！
-    </view>
-  </view>
-  <view class="itemWrapper" wx:for="{{serviceInfo}}" wx:for-index="serviceIndex" wx:for-item="serviceItem"
-    wx:key="serviceIndex">
-    <view class="itemTitle">
-      {{serviceItem.title}}
-    </view>
-    <view class="itemContent">
-      <view class="itemContentLine" wx:for="{{serviceItem.detail}}" wx:for-index="detailIndex" wx:for-item="detailItem"
-        wx:key="detailIndex">
-        <view class="lineLeft">
-          {{detailItem.tagName}}
+    <view class="title">
+        <view>
+            为了更好提升现场服务，
         </view>
-        <view class="lineRight">
-          <view wx:for="{{detailItem.tagList}}" wx:key="{{tagIndex}}" wx:for-index="tagIndex" wx:for-item="tagItem"
-            bindtap="handleClickStar" data-serviceindex="{{serviceIndex}}" data-detailindex="{{detailIndex}}"
-            data-selectedstar="{{tagIndex+1}}" data-selectedtagcode="{{tagItem.tagCode}}">
-            <image wx:if='{{tagIndex<detailItem.selectedStar}}' src="/images/order/staryes.png"
-              style='width:56rpx;height:56rpx;margin-right: 14rpx;margin-left: 14rpx;'></image>
-            <image wx:else src="/images/order/starno.png"
-              style='width:56rpx;height:56rpx;margin-right: 14rpx;margin-left: 14rpx;'></image>
-          </view>
-          <view class="lineRightDes">
-            {{tagDes[detailItem.selectedStar]}}
-          </view>
+        <view>
+            请您对以下评分项目进行打分评价！
         </view>
-      </view>
     </view>
-  </view>
-  <view class="content">
-    <textarea style=" height:160rpx;font-family: PingFangSC-Regular;font-size: 30rpx;color: #333;"
-      placeholder="我们希望能倾听您的心声,请留下您宝贵的意见。" maxlength="60" bindinput="contentInputService"></textarea>
-  </view>
-  <view class="img-wrapper">
-    <view class='image-list'>
-      <view wx:for="{{serviceImgInfo.imagePaths}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex">
-        <view class='image-remove' catchtap='removeOneImage' data-index="{{imgIndex}}">x</view>
-        <image class="image" src="{{imgItem}}" catchtap="handlePreviewImage" data-index="{{imgIndex}}">
-        </image>
-      </view>
+    <view class="itemWrapper">
+
+
+        <view style='padding-bottom:20rpx;' wx:for="{{serviceInfo}}" wx:for-index="serviceIndex" wx:for-item="serviceItem" wx:key="serviceIndex">
+            <view class="itemTitle">{{serviceItem.title}}</view>
+            <view>
+                <view class="itemContentLine" wx:for="{{serviceItem.detail}}" wx:for-index="detailIndex" wx:for-item="detailItem" wx:key="detailIndex">
+                    <view class="lineLeft">{{detailItem.tagName}}</view>
+                    <view class="lineRight">
+                        <view wx:for="{{detailItem.tagList}}" wx:key="{{tagIndex}}" wx:for-index="tagIndex" wx:for-item="tagItem" bindtap="handleClickStar" data-serviceindex="{{serviceIndex}}" data-detailindex="{{detailIndex}}" data-selectedstar="{{tagIndex+1}}" data-selectedtagcode="{{tagItem.tagCode}}">
+                            <image wx:if='{{tagIndex<detailItem.selectedStar}}' src="/images/order/staryes.png" style='width:56rpx;height:56rpx;margin-right: 28rpx; '></image>
+                            <image wx:else src="/images/order/starno.png" style='width:56rpx;height:56rpx;margin-right: 28rpx;'></image>
+                        </view>
+                        <view class="lineRightDes">{{tagDes[detailItem.selectedStar]}}</view>
+                    </view>
+                </view>
+            </view>
+        </view>
     </view>
-    <image class="image-shangchuan" wx:if="{{serviceImgInfo.imagePaths.length<3}}" src="/images/order/xiangji.png"
-      bindtap="handleClickAddImg"></image>
-    <!-- <view class="yingjifen">赢15积分</view> -->
-  </view>
-  <button class="button" formType="submit" data-ordercode="{{orderItem.orderCode}}">评价</button>
+    <view class="content">
+        <textarea style=" height:160rpx;font-family: PingFangSC-Regular;font-size: 30rpx;color: #333;" placeholder="我们希望能倾听您的心声,请留下您宝贵的意见。" maxlength="60" bindinput="contentInputService"></textarea>
+    </view>
+    <view class="img-wrapper">
+        <view class='image-list'>
+            <view wx:for="{{serviceImgInfo.imagePaths}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex">
+                <view class='image-remove' catchtap='removeOneImage' data-index="{{imgIndex}}">x</view>
+                <image class="image" src="{{imgItem}}" catchtap="handlePreviewImage" data-index="{{imgIndex}}">
+                </image>
+            </view>
+        </view>
+        <image class="image-shangchuan" wx:if="{{serviceImgInfo.imagePaths.length<3}}" src="/images/order/xiangji.png" bindtap="handleClickAddImg"></image>
+        <!-- <view class="yingjifen">赢15积分</view> -->
+    </view>
+    <button class="button" formType="submit" data-ordercode="{{orderItem.orderCode}}">评价</button>
 </form>

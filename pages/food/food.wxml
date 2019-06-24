@@ -26,19 +26,16 @@
                         {{foodInfo.foodName}}
                     </view>
                     <view class="tag-wrapper">
-                        <view class="tag-item" wx:if="{{foodInfo.foodLabels}}" wx:for="{{foodInfo.foodLabels}}"
-                            wx:for-item="labelItem" wx:key="{{index}}">
+                        <view class="tag-item" wx:if="{{foodInfo.foodLabels}}" wx:for="{{foodInfo.foodLabels}}" wx:for-item="labelItem" wx:key="{{index}}">
                             {{labelItem}}
                         </view>
                     </view>
 
                     <view class="foodLimitNum" wx:if="{{foodInfo.foodQuota}}">
-                        <view class="food-stock"
-                            wx:if="{{foodInfo.foodQuota.surplusNum||foodInfo.foodQuota.surplusNum==0 }}">
+                        <view class="food-stock" wx:if="{{foodInfo.foodQuota.surplusNum||foodInfo.foodQuota.surplusNum==0 }}">
                             库存:{{foodInfo.foodQuota.surplusNum }}
                         </view>
-                        <view class="food-stock"
-                            wx:if="{{ foodInfo.foodQuota.quotaNum ||foodInfo.foodQuota.quotaNum==0}}">
+                        <view class="food-stock" wx:if="{{ foodInfo.foodQuota.quotaNum ||foodInfo.foodQuota.quotaNum==0}}">
                             限购:{{foodInfo.foodQuota.quotaNum }}
                         </view>
                         <view class="food-stock" wx:if="{{ foodInfo.goodRate}}">
@@ -55,12 +52,8 @@
                         </view>
                     </view>
                     <view class="prompt">
-                        <text class="prompt-title">
-                            餐品用餐提示:
-                        </text>
-                        <text class="prompt-des">
-                            {{foodInfo.prompt}}
-                        </text>
+                        <text class="prompt-title">餐品用餐提示:</text>
+                        <text class="prompt-des"> {{foodInfo.prompt}}</text>
                     </view>
                     <view wx:if="{{foodInfo.description}}" class="foodDes">
                         {{foodInfo.description}}
@@ -73,15 +66,12 @@
         </view>
         <!-- 评价列表 -->
         <view wx:else>
-            <scroll-view class="ratingsDetailList-wrapper" scroll-y style="height: {{windowHeight - scrollTop}}px;"
-                bindscrolltolower='gotoNextPage'>
-                <view wx:if="{{amount==0}}" class="noResult"
-                    style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+            <scroll-view class="ratingsDetailList-wrapper" scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower='gotoNextPage'>
+                <view wx:if="{{amount==0}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
                     未查询到评价记录..
                 </view>
                 <view wx:else>
-                    <view class="ratings-item" wx:for="{{ratingsInfoList}}" wx:for-item="ratingItem"
-                        wx:for-index="ratingIndex" wx:key="ratingIndex">
+                    <view class="ratings-item" wx:for="{{ratingsInfoList}}" wx:for-item="ratingItem" wx:for-index="ratingIndex" wx:key="ratingIndex">
                         <view class="left">
                             <image class="left-image" wx:if='{{ratingItem.headImage}}' src="{{ratingItem.headImage}}">
                             </image>
@@ -89,44 +79,29 @@
                         </view>
                         <view class="right">
                             <view class="line1">
-                                <view class="user">
-                                    {{ratingItem.userName}}
-                                </view>
-                                <view class="time">
-                                    {{ratingItem.evaluateTime}}
-                                </view>
+                                <view class="user">{{ratingItem.userName}}</view>
+                                <view class="time">{{ratingItem.evaluateTime}}</view>
                             </view>
                             <view class="line2">
                                 <block wx:for="{{ratingItem.star}}" wx:key="index">
-                                    <image src='/images/menu/star_c.png'
-                                        style='width:32rpx;height:32rpx;margin-right:6rpx;'></image>
+                                    <image src='/images/menu/star_c.png' style='width:32rpx;height:32rpx;margin-right:6rpx;'></image>
                                 </block>
                                 <block wx:for="{{5-ratingItem.star}}" wx:key="index">
-                                    <image src='/images/menu/star_u.png'
-                                        style='width:32rpx;height:32rpx;margin-right:6rpx;'></image>
+                                    <image src='/images/menu/star_u.png' style='width:32rpx;height:32rpx;margin-right:6rpx;'></image>
                                 </block>
                             </view>
-                            <view class="line3" wx:if="{{ratingItem.content}}">
-                                {{ratingItem.content}}
-                            </view>
+                            <view class="line3" wx:if="{{ratingItem.content}}">{{ratingItem.content}}</view>
 
-                            <view wx:if="{{ratingItem.image&&ratingItem.image.length<=3&&ratingItem.image.length>0}}"
-                                class='image-list'>
-                                <view style="width:164rpx;height:164rpx;" wx:for="{{ratingItem.image}}"
-                                    bindtap='showImage' data-image='{{imageItem}}' wx:for-index="imageIndex"
-                                    wx:for-item="imageItem" wx:key="imageIndex" style="text-align:left;">
-                                    <image style="width:164rpx;height:164rpx;border-radius:8rpx;margin-right:20rpx;"
-                                        src="{{imageItem}}"></image>
+                            <view wx:if="{{ratingItem.image&&ratingItem.image.length<=3&&ratingItem.image.length>0}}" class='image-list'>
+                                <view style="width:164rpx;height:164rpx;" wx:for="{{ratingItem.image}}" bindtap='showImage' data-image='{{imageItem}}' wx:for-index="imageIndex" wx:for-item="imageItem" wx:key="imageIndex" style="text-align:left;">
+                                    <image style="width:164rpx;height:164rpx;border-radius:8rpx;margin-right:20rpx;" src="{{imageItem}}"></image>
                                 </view>
                             </view>
-                            <view class="line-reply" wx:if="{{ratingItem.replyContent}}">
-                                回复:{{ratingItem.replyContent}}
-                            </view>
+                            <view class="line-reply" wx:if="{{ratingItem.replyContent}}">回复:{{ratingItem.replyContent}}</view>
                         </view>
                     </view>
 
-                    <view wx:if="{{loadingData}}"
-                        style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+                    <view wx:if="{{loadingData}}" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
                         正在加载数据...
                     </view>
 
@@ -138,8 +113,7 @@
         <view class="mask" catchtap="handleCloseImage" wx:if="{{enLargeImageShow}}" catchtouchmove="preventTouchMove ">
         </view>
         <view wx:if='{{enLargeImageShow}}' catchtap="handleCloseImage">
-            <image src='{{enLargeImage}}'
-                style='z-index:1000;position:fixed;margin:auto;left:0;right:0; bottom:3%;width:100%;height:80%;'>
+            <image src='{{enLargeImage}}' style='z-index:1000;position:fixed;margin:auto;left:0;right:0; bottom:3%;width:100%;height:80%;'>
             </image>
         </view>
     </view>

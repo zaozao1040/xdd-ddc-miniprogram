@@ -85,7 +85,6 @@
     text-align: left;
     line-height: 42rpx;
     position: relative;
-    left: -12rpx;
 }
 
 .cart-menuItem-money {
@@ -186,6 +185,7 @@
 .food-name {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 12rpx;
 }
 
 .order-money {
