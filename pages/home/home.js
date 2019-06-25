@@ -173,22 +173,22 @@ Page({
     },
     handleGotoMenu: function() {
         let _this = this
-        //判断是否为企业管理员，如果是的话，先提示是否点餐
-        if((wx.getStorageSync('userInfo').userInfo.userType==='ORG_ADMIN')&&(wx.getStorageSync('userInfo').userInfo.orgAdmin===true)){ //企业管理员类型，且以企业管理员身份登录
+            //判断是否为企业管理员，如果是的话，先提示是否点餐
+        if ((wx.getStorageSync('userInfo').userInfo.userType === 'ORG_ADMIN') && (wx.getStorageSync('userInfo').userInfo.orgAdmin === true)) { //企业管理员类型，且以企业管理员身份登录
             wx.showModal({
                 title: '当前是管理员身份,是否点餐?',
                 content: "您可在'我的'页面切换为普通用户",
-                showCancel:false,
-                success(res) { 
-                   _this.openSelectMealTime()  
+                showCancel: false,
+                success(res) {
+                    _this.openSelectMealTime()
                 }
-            })            
-        } else{
-          _this.openSelectMealTime()  
+            })
+        } else {
+            _this.openSelectMealTime()
         }
-        
+
     },
-    openSelectMealTime:function(){
+    openSelectMealTime: function() {
         let _this = this
         let param = {
             url: '/meal/getPreMealDateAndType?userCode=' + wx.getStorageSync('userCode')
@@ -253,9 +253,9 @@ Page({
      */
 
     onLoad: function(options) {
+
         this.initHome()
         this.getNotice()
-
     },
 
     /**
@@ -289,7 +289,7 @@ Page({
                 }
                 /* 获取首页取餐信息 */
 
-            })
+            }, true)
         }
     },
 
@@ -464,7 +464,7 @@ Page({
         }, true)
     },
     //取餐private函数
-    takeFoodOrder(ordercode, foodcode, again,foodindex) {
+    takeFoodOrder(ordercode, foodcode, again, foodindex) {
 
         let _this = this
             //就调用接口加载柜子号 
@@ -539,7 +539,7 @@ Page({
         }
         _this.data.canClick = false
 
-        _this.takeFoodOrder(e.currentTarget.dataset.ordercode, e.currentTarget.dataset.foodcode, false,e.currentTarget.dataset.foodindex)
+        _this.takeFoodOrder(e.currentTarget.dataset.ordercode, e.currentTarget.dataset.foodcode, false, e.currentTarget.dataset.foodindex)
 
 
         if (_this.data.timer) {

@@ -414,8 +414,8 @@
  
  .food-stock {
      font-family: PingFang-SC-Regular;
-     font-size: 20rpx;
-     color: #999;
+     font-size: 22rpx;
+     color: #666;
      letter-spacing: 0;
      text-align: left;
      padding-right: 10rpx;

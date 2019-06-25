@@ -70,7 +70,7 @@
                                             <view wx:if="{{foodItem.canMeal==false}}" style="font-size:20rpx;line-height: 28rpx;color:#ce8307;margin-top:10rpx;">
                                                 不可使用餐标
                                             </view>
-                                            <view class="foodLimitNum" wx:if="{{foodItem.foodQuota}}">
+                                            <view class="foodLimitNum" wx:if="{{foodItem.foodQuota||foodItem.goodRate}}">
                                                 <view class="food-stock" wx:if="{{foodItem.foodQuota.surplusNum||foodItem.foodQuota.surplusNum==0 }}">
                                                     库存:{{foodItem.foodQuota.surplusNum }}
                                                 </view>
