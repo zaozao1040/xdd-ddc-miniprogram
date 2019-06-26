@@ -1,0 +1,55 @@
+.noResult {
+    color: #666;
+    text-align: center;
+    font-size: 30rpx;
+    color: #666666;
+    letter-spacing: 0;
+    padding-top: 400rpx;
+}
+
+.integral-item {
+    border-top: 2rpx solid #F0F0F0;
+    padding: 0 30rpx;
+    display: flex;
+    justify-content: space-between;
+}
+
+.integral-time {
+    font-family: PingFangSC;
+    font-size: 20rpx;
+    color: #999999;
+    letter-spacing: 0;
+    text-align: left;
+    line-height: 28rpx;
+    padding-bottom: 26rpx;
+}
+
+.integral-type {
+    font-family: PingFangSC;
+    font-size: 28rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: left;
+    padding-top: 26rpx;
+    line-height: 40rpx;
+}
+
+.Integral-value-add {
+    font-family: PingFangSC;
+    font-size: 30rpx;
+    color: #F79C4C;
+    letter-spacing: 0;
+    text-align: right;
+    padding-top: 40rpx;
+    line-height: 42rpx;
+}
+
+.Integral-value-minus {
+    font-family: PingFangSC;
+    font-size: 30rpx;
+    color: #333333;
+    letter-spacing: 0;
+    text-align: right;
+    padding-top: 40rpx;
+    line-height: 42rpx;
+}

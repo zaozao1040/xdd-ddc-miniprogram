@@ -181,8 +181,9 @@ Page({
         let _this = this
 
         if (_this.data.userType == 'ADMIN') {
+          let urlp = encodeURI('userCode=' + wx.getStorageSync('userCode') + '&organizeName=' + organizeName)
             let param = {
-                    url: '/organize/getOrganizeList?userCode=' + wx.getStorageSync('userCode') + '&organizeName=' + organizeName
+                    url: '/organize/getOrganizeList?'+urlp
                 }
                 //请求企业列表
             requestModel.request(param, (data) => {

@@ -1,4 +1,4 @@
-<view class="mine-wrapper">
+<view class="mine-wrapper" wx:if='{{userInfoReady&&financeReady}}'>
     <image src="/images/mine/me_bg.png" style='height:300rpx;width:100%;z-index:-1;position:absolute; '></image>
     <view>
         <view style=' z-index:100;position:absolute; top:20rpx;left:117rpx;' wx:if='{{userInfo.userType=="ORG_ADMIN" &&userInfo.orgAdmin}}'>
@@ -34,34 +34,19 @@
             </view>
         </view>
         <view wx:if="{{userInfo}}" class='offer-item'>
-            <!-- 钱包 优惠券 积分 -->
-            <!-- <view class="offerItem-wrapper" bindtap='gotoWallet'>
-                <view style='display: flex;padding-left:28rpx;'>
-                    <view class='offer-title' style='line-height:42rpx;padding-right:10rpx;'> 个人余额 </view>
-                    <view class='offer-num-balance'> {{balance}} </view>
 
-                </view>
-                <view style='display: flex;padding-left:28rpx;'>
-                    <view class='offer-title' style='line-height:42rpx;padding:0 10rpx 0 0;'> 企业余额 </view>
-                    <view class='offer-num-balance'> {{balance}} </view>
-                </view>
-            </view> -->
             <view class="offerItem-wrapper" bindtap='gotoWallet'>
-                <view class='offer-num'> {{balance}} </view>
+                <view class='offer-num'> {{allBalance}} </view>
                 <view class='offer-title'> 余额 </view>
             </view>
             <view style='width:2rpx;height:30rpx;margin-top:26rpx;background: rgba(255,255,255,0.5);'></view>
-            <!-- <view style="position: relative;">
-                <image src="/images/mine/fengexian.png" style='width:1rpx;height:30rpx;position: absolute;top:0;bottom: 0;margin: auto;'></image>
-            </view> -->
+
             <view class="offerItem-wrapper" bindtap='gotoDiscount'>
                 <view class='offer-num'> {{discount}} </view>
                 <view class='offer-title'> 优惠券 </view>
             </view>
             <view style='width:2rpx;height:30rpx;margin-top:26rpx;background: rgba(255,255,255,0.5);'></view>
-            <!-- <view style="position: relative;">
-                <image src="/images/mine/fengexian.png" style='width:1rpx;height:30rpx;position: absolute;top:0;bottom: 0;margin: auto;'></image>
-            </view> -->
+
             <view class="offerItem-wrapper" bindtap='gotoIntegral'>
                 <view class='offer-num'> {{integral}} </view>
                 <view class='offer-title'> 积分 </view>

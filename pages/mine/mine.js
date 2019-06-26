@@ -22,6 +22,7 @@ Page({
         cc: 1,
         cabNumList: [], //柜子列表，如果柜子列表为空，就不显示‘打开柜子页面’
 
+
     },
     //跳转到详细资料页面
     gotoDetailInfo() {
@@ -41,7 +42,7 @@ Page({
                 wx.showModal({
                     title: '提示',
                     content: '企业管理员请走报餐入口',
-                    success() { }
+                    success() {}
                 })
             } else {
                 wx.navigateTo({
@@ -53,7 +54,7 @@ Page({
 
     },
     /* 跳转 */
-    handleClickLabel: function (e) {
+    handleClickLabel: function(e) {
 
         let clickIndex = e.currentTarget.dataset.labelindex
         let _this = this
@@ -99,7 +100,7 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function () {
+    onLoad: function() {
         let _this = this
         wx.getSystemInfo({
             success: function(res) {
@@ -111,7 +112,8 @@ Page({
         requestModel.getUserInfo(userInfo => {
             console.log('userInfo', userInfo)
             _this.setData({
-                userInfo: userInfo
+                userInfo: userInfo,
+                userInfoReady: true
             })
         }, true)
 
@@ -145,7 +147,7 @@ Page({
                         })
                         var tmp_userInfo = wx.getStorageSync('userInfo')
                         tmp_userInfo.userInfo.orgAdmin = _this.data.userInfo.orgAdmin
-                        wx.setStorageSync('userInfo', tmp_userInfo) 
+                        wx.setStorageSync('userInfo', tmp_userInfo)
                         wx.showToast({
                             title: '切换成功',
                             icon: 'none',
@@ -182,7 +184,7 @@ Page({
     //跳转到余额
     gotoWallet() {
         wx.navigateTo({
-            url: '/pages/mine/wallet/wallet?balance=' + this.data.balance
+            url: '/pages/mine/wallet/wallet?allBalance=' + this.data.allBalance
         })
     },
     gotoDiscount() {
@@ -198,25 +200,26 @@ Page({
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function () { },
+    onReady: function() {},
 
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function () {
+    onShow: function() {
         //
         let param = {
             url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
         }
         requestModel.request(param, data => {
-            this.setData({
-                balance: data.balance,
-                integral: data.integral,
-                discount: data.discount
-            })
-        }, true)
-        //如果需要刷新userInfo缓存，则刷新
-        if(wx.getStorageSync('refreshUserInfoFlag')){
+                this.setData({
+                    allBalance: data.allBalance,
+                    integral: data.integral,
+                    discount: data.discount,
+                    financeReady: true
+                })
+            }, true)
+            //如果需要刷新userInfo缓存，则刷新
+        if (wx.getStorageSync('refreshUserInfoFlag')) {
             console.log('yes')
             requestModel.getUserInfo(userInfo => {
                 console.log('userInfo', userInfo)
@@ -231,23 +234,23 @@ Page({
     /**
      * 生命周期函数--监听页面隐藏
      */
-    onHide: function () {
+    onHide: function() {
 
     },
 
     /**
      * 生命周期函数--监听页面卸载
      */
-    onUnload: function () {
+    onUnload: function() {
 
     },
 
     /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
-    onPullDownRefresh: function () {
+    onPullDownRefresh: function() {
         let _this = this
-        //初始化，获取一些必要参数，如高度
+            //初始化，获取一些必要参数，如高度
 
         wx.showNavigationBarLoading();
         //刷新积分、余额、优惠券
@@ -256,7 +259,7 @@ Page({
         }
         requestModel.request(param, data => {
             _this.setData({
-                balance: data.balance,
+                allBalance: data.allBalance,
                 integral: data.integral,
                 discount: data.discount
             })
@@ -277,14 +280,14 @@ Page({
     /**
      * 页面上拉触底事件的处理函数
      */
-    onReachBottom: function () {
+    onReachBottom: function() {
 
     },
 
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage: function () {
+    onShareAppMessage: function() {
 
     }
 })
