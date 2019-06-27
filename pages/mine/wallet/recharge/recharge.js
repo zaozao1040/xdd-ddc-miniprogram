@@ -11,7 +11,7 @@
          activeFlag1: undefined,
          activeFlag2: undefined,
          selectedMoney: 0,
-
+         presentAmount: ''
      },
      /**
       * 生命周期函数--监听页面加载
@@ -89,7 +89,8 @@
              activeFlag2: e.currentTarget.dataset.activeflag2
          })
          this.setData({
-             selectedMoney: e.currentTarget.dataset.selectedmoney
+             selectedMoney: e.currentTarget.dataset.selectedmoney,
+             presentAmount: e.currentTarget.dataset.presentamount
          })
      },
      /* 立即充值 */

@@ -26,8 +26,8 @@
             </view>
         </view>
     </view>
-    <view class="content">
-        <textarea style=" height:160rpx;font-family: PingFangSC-Regular;font-size: 30rpx;color: #333;" placeholder="我们希望能倾听您的心声,请留下您宝贵的意见。" maxlength="60" bindinput="contentInputService"></textarea>
+    <view class="content" style='z-index:200;'>
+        <textarea style=" height:160rpx;font-family: PingFangSC-Regular;font-size: 30rpx;color: #333;z-index:200;" placeholder="我们希望能倾听您的心声,请留下您宝贵的意见。" maxlength="60" bindinput="contentInputService"></textarea>
     </view>
     <view class="img-wrapper">
         <view class='image-list'>

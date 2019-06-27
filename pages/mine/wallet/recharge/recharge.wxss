@@ -95,6 +95,14 @@
  
  .recharge-way {
      display: flex;
-     padding-bottom: 30rpx;
-     border-bottom: 1rpx solid #EBEBEB;
+     padding-bottom: 12rpx;
+ }
+ 
+ .recharge-des {
+     font-family: PingFangSC-Regular;
+     font-size: 24rpx;
+     color: #F79C4C;
+     letter-spacing: 0;
+     text-align: left;
+     padding-bottom: 20rpx;
  }

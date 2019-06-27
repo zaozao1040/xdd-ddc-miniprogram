@@ -1,24 +1,25 @@
 <view style='background: #F5F5F5;height:{{windowHeight}}px;padding:20rpx;'>
     <view style='padding:30rpx 18rpx 24rpx 20rpx;background:#fff;border-radius:12rpx;'>
-        <view class='content-title'>在线充值</view>
+        <view class='content-title'>个人充值币在线充值</view>
 
         <view class='money-list' wx:for="{{moneyList}}" wx:for-index="moneyIndex_line" wx:for-item="moneyItem_line" wx:key="moneyIndex_line">
             <view wx:for="{{moneyItem_line}}" wx:for-index="moneyIndex" wx:for-item="moneyItem" wx:key="moneyIndex" class="{{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex?'chongzhi-item-active':'chongzhi-item'}}" catchtap="changeMoneyActiveFlag" data-activeflag1="{{moneyIndex_line}}"
-                data-activeflag2="{{moneyIndex}}" data-selectedmoney="{{moneyItem.rechargeAmount}}">
+                data-activeflag2="{{moneyIndex}}" data-selectedmoney="{{moneyItem.rechargeAmount}}" data-presentamount="{{moneyItem.presentAmount}}">
                 <view class='item-icon'>
                     <view style="color:{{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex?'#fff':'#333'}}">{{moneyItem.rechargeAmount}}币</view>
                 </view>
                 <view class='item-money' style="color:{{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex?'#fff':'#999'}}">￥{{moneyItem.rechargeAmount}}</view>
             </view>
         </view>
+        <view wx:if='{{presentAmount}}' class='recharge-des'>充值说明：充值满{{selectedMoney}}可送{{presentAmount}}赠币</view>
         <view class='recharge-title'>充值方式</view>
         <view class='recharge-way'>
             <image src='/images/mine/weixin.png' style='height:54rpx;width:60rpx;'></image>
             <view class='wechat'>微信支付</view>
             <image src='/images/mine/selected.png' style='height:52rpx;width:52rpx;'></image>
         </view>
-        <view class='description'>充值说明：个人充值币由点点餐平台开发使用，充值币仅能用于购买本平台运营的餐品，用于余额支付，不能兑换现金，不能进行转账交易，不支持退款、提现和转赠他人，不支持跨平台使用。
-        </view>
+        <!-- <view class='description'>充值说明：个人充值币由点点餐平台开发使用，充值币仅能用于购买本平台运营的餐品，用于余额支付，不能兑换现金，不能进行转账交易，不支持退款、提现和转赠他人，不支持跨平台使用。
+        </view> -->
         <view class="c_buttonPosition_forCalculate">
             <view catchtap="handleRecharge" loading="{{loading}}" class="button">立即充值</view>
         </view>

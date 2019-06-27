@@ -123,4 +123,6 @@
     width: 688rpx;
     margin: auto;
     position: fixed;
+    z-index: 1001;
+    opacity: 1;
 }

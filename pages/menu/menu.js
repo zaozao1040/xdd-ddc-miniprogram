@@ -106,7 +106,6 @@
              this.setData({
                  timeInfo: data
              })
-             console.log('七天日期', data)
              for (let i = 0; i < this.data.mealEnglistLabel.length; i++) {
                  //5/15 今天一定有可定的餐时吗？即：该公司预定了这个餐时
                  let meal = this.data.mealEnglistLabel[i]
@@ -247,7 +246,6 @@
 
              })
 
-             console.log('typeIdFoodCode', typeIdFoodCode)
              if (resData.foodCustomizeList && resData.foodCustomizeList.length > 0) {
                  resData.foodCustomizeList.forEach((item, index1) => {
                      item.left = true
@@ -269,7 +267,7 @@
                  })
              }
 
-             console.log('resData.foodCustomizeList', resData.foodCustomizeList)
+
              resData.foodList.forEach(item => {
                  item.left = false
                  item.foodList.forEach(foodItem => {
@@ -291,8 +289,7 @@
                  resData.foodCustomizeListLength = 0
              }
 
-             console.log('resData', resData)
-                 //5/31截止
+             //5/31截止
 
              //可以不用setData，因为都是0不需要显示
              _this.data.menuCountList[activeDayIndex][tmp_mealTypeItem] = tmp_menuCountList
@@ -554,7 +551,7 @@
      // 点击加号，将餐品加一
      handleAddfood(e) {
          let _this = this
-         console.log('handleAddfood', e.currentTarget.dataset)
+
          let menutypeIndex = e.currentTarget.dataset.menutypeindex // 餐品类别的index
          let foodIndex = e.currentTarget.dataset.foodindex // 在menutypeIndex的foods的index 
          let activeDayIndex = _this.data.activeDayIndex
@@ -590,7 +587,7 @@
              let tmp_mealTypeItem = _this.data.mealTypeItem
                  //5/31判断是不是左侧标签
              let { left, leftfoodindex, leftmenuindex } = e.currentTarget.dataset
-             console.log('tmp_oneFood', tmp_oneFood)
+
              if (left) {
                  //表示点击的是左侧标签
                  _this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[leftmenuindex].foodList[leftfoodindex].foodCount += 1
@@ -637,7 +634,7 @@
              _this.setData({
                  menuCountList: tmp_menuCountList
              })
-             console.log('tmp_menuCountList', tmp_menuCountList)
+
 
              // 是不是应该把所有的setData合并啊，这样一次一次调用是不是更花时间
              // 只有等于1，才添加到购物车
@@ -1034,7 +1031,7 @@
          setTimeout(() => {
              _this.data.commitNow = false
          }, 2000)
-         console.log('commitNow')
+
          if (_this.data.totalCount > 0) {
              let flag = _this.verifyMealLabel()
 
@@ -1078,7 +1075,7 @@
      },
      /* 餐品详情 */
      handleGotoFoodDetail: function(e) {
-         console.log('mealType=', this.data.mealTypeItem)
+
          wx.navigateTo({
              url: '/pages/food/food?foodCode=' + e.currentTarget.dataset.foodcode + '&mealDate=' + this.data.timeInfo[this.data.activeDayIndex].mealDate + '&mealType=' + this.data.mealTypeItem,
          })

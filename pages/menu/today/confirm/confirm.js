@@ -46,7 +46,7 @@ Page({
         mapMenutype: ['早餐', '午餐', '晚餐', '夜宵'],
         mapMenutypeIconName: ['zaocan1', 'wucan', 'canting', 'xiaoye-'],
 
-        balance: 0,
+        allBalance: 0,
         walletSelectedFlag: true, //勾选是否使用余额  默认勾选    true开启    false关闭
         finalMoney: 0,
 
@@ -238,9 +238,9 @@ Page({
         requestModel.request(param, data => {
             _this.setData({
                 integral: data.integral,
-                balance: data.balance,
+                allBalance: data.allBalance,
             })
-            if (data.balance < this.data.realMoney) { //余额小于实际付款，则改为微信付款
+            if (data.allBalance < this.data.realMoney) { //余额小于实际付款，则改为微信付款
                 _this.setData({
                     walletSelectedFlag: false,
                     payType: 'WECHAT_PAY'
@@ -525,6 +525,10 @@ Page({
                     })
                 }
             }
+        }, false, () => {
+            _this.setData({
+                generateOrderNow: false
+            })
         })
 
     },
@@ -544,7 +548,7 @@ Page({
                 payType: 'WECHAT_PAY'
             })
         } else { //如果原来是关闭余额支付，则首先判断余额是否充足
-            if (_this.data.balance < _this.data.realMoney) { //如果用户余额少于用户需要支付的价格，不允许用余额,也就是禁止打开switch
+            if (_this.data.allBalance < _this.data.realMoney) { //如果用户余额少于用户需要支付的价格，不允许用余额,也就是禁止打开switch
                 wx.showToast({
                     title: '余额不足,请充值',
                     image: '/images/msg/error.png',

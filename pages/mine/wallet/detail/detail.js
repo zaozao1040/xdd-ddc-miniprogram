@@ -58,7 +58,7 @@ Page({
 
         if (type == 'gift') {
             wx.setNavigationBarTitle({
-                    title: '赠送明细'
+                    title: '赠币明细'
                 })
                 //赠送记录
             _this.setData({
@@ -67,7 +67,7 @@ Page({
             })
         } else if (type == 'organize') {
             wx.setNavigationBarTitle({
-                    title: '企业充值明细'
+                    title: '企业充值币明细'
                 })
                 //企业充值记录
             _this.setData({
@@ -76,7 +76,7 @@ Page({
             })
         } else {
             wx.setNavigationBarTitle({
-                    title: '个人充值明细'
+                    title: '个人充值币明细'
                 })
                 //个人充值记录
             _this.setData({

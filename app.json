@@ -29,9 +29,10 @@
     "pages/mine/orgAdminAddfood/orgAdminAddfood",
     "pages/mine/integral/regular",
     "pages/order/comment/comment",
-    "pages/mine/evaluateService/evaluateService", 
+    "pages/mine/evaluateService/evaluateService",
     "pages/mine/wallet/detail/detail",
-    "pages/mine/wallet/recharge/recharge"
+    "pages/mine/wallet/recharge/recharge",
+    "pages/mine/wallet/regular/regular"
   ],
   "permission": {
     "scope.userLocation": {

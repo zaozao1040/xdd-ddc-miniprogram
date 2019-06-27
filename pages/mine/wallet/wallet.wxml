@@ -1,6 +1,9 @@
-<view style='height:{{windowHeight}}px; ' wx:if='{{organizeBalanceFlag}}'>
+<view style='height:{{windowHeight}}px; '>
 
     <view class="header-wrapper">
+        <navigator url="./regular/regular">
+            <view class='description'>?</view>
+        </navigator>
         <view style='height:40rpx;width:100%;'>
             <image src='/images/mine/diancanbi.png' style='height:40rpx;width:40rpx;'></image>
         </view>
@@ -9,26 +12,23 @@
         <view wx:if='{{open}}'>
             <view class='balance-type-wrapper'>
                 <view class='type-top'>
-                    <view class='type-top-left'>点餐币 {{totalBalance}}</view>
+                    <view class='type-top-left'>充值币 {{totalBalance}}</view>
                     <view class='type-top-medium'> </view>
                     <view class='type-top-left'>赠币 {{totalPresentBalance}}</view>
                 </view>
+                <view class='triangle'></view>
                 <view class='type-detail'>
                     <view class='detail-one'>
-                        <view class='displayflex'>
-                            <view class='detail-des'>个人点餐币</view>
-                            <view class='detail-money'>{{balance}}</view>
-                        </view>
-                        <view class='displayflex' style='margin-top:20rpx;'>
-                            <view class='detail-des'>企业点餐币 </view>
-                            <view class='detail-money'>{{organizeBalance}}</view>
-                        </view>
+                        <view class='detail-money'>{{balance}}</view>
+                        <view class='detail-des'>个人充值币</view>
+
                     </view>
-                    <view class='detail-one'>
-                        <view class='displayflex' style='padding-left:12rpx;'>
-                            <view class='detail-des'>点餐赠币</view>
-                            <view class='detail-money'>{{presentBalance}}</view>
-                        </view>
+                    <view class='detail-one' wx:if='{{organizeBalanceFlag}}'>
+                        <view class='detail-money'>{{organizeBalance}}</view>
+                        <view class='detail-des'>企业充值币 </view>
+                    </view>
+                    <view class='detail-one' wx:else>
+
                     </view>
                 </view>
             </view>
@@ -40,7 +40,7 @@
         <view wx:else>
             <view class='close-wrapper'>
                 <view class='type-top'>
-                    <view class='type-top-left'>点餐币 {{totalBalance}}</view>
+                    <view class='type-top-left'>充值币 {{totalBalance}}</view>
                     <view class='type-top-medium'> </view>
                     <view class='type-top-left'>赠币 {{totalPresentBalance}}</view>
                 </view>
@@ -53,16 +53,16 @@
 
     </view>
 
-    <view class='button' bindtap='gotoRecharge'>
-        个人点餐
+    <view class='button' bindtap='gotoRecharge' wx:if='{{canRechargeFlag}}'>
+        个人充值
     </view>
     <view style='border-top:20rpx solid #f5f5f5;padding:0 30rpx;'>
         <view class='list-item' bindtap='gotoDetail' data-type='personal'>
-            <view class='list-left'>个人点餐明细</view>
+            <view class='list-left'>个人充值币明细</view>
             <image src='/images/mine/xiangyou.png' style='margin-top:6rpx;width:34rpx;height:34rpx;'></image>
         </view>
-        <view class='list-item' bindtap='gotoDetail' data-type='organize'>
-            <view class='list-left'>企业点餐明细</view>
+        <view class='list-item' bindtap='gotoDetail' data-type='organize' wx:if='{{organizeBalanceFlag}}'>
+            <view class='list-left'>企业充值币明细</view>
             <image src='/images/mine/xiangyou.png' style='margin-top:6rpx;width:34rpx;height:34rpx;'></image>
         </view>
         <view class='list-item' bindtap='gotoDetail' data-type='gift'>
@@ -71,84 +71,4 @@
         </view>
     </view>
 
-</view>
-
-<view style='background: #F5F5F5;height:{{windowHeight}}px;padding:20rpx;' wx:else>
-
-    <view class="header-wrapper-2">
-        <view wx:if="{{canRechargeFlag}}">
-            <view class='selection' wx:if='{{itemStatusActiveFlag}}' catchtap="changeItemStatusActiveFlag" data-flag="jiaoyi">明细</view>
-            <view class='selection' wx:else catchtap="changeItemStatusActiveFlag" data-flag="chongzhi">充值</view>
-        </view>
-        <image src='/images/mine/diancanbi.png' style='height:40rpx;width:40rpx;'></image>
-        <view class='header-des-2'>点餐币余额(个)</view>
-        <view class="header-balance-2">{{balance}}</view>
-    </view>
-    <view style='padding:30rpx 18rpx 24rpx 20rpx;background:#fff;border-radius:12rpx;' wx:if="{{itemStatusActiveFlag}}">
-        <view class='content-title'>在线充值</view>
-
-        <view class='money-list' wx:for="{{moneyList}}" wx:for-index="moneyIndex_line" wx:for-item="moneyItem_line" wx:key="moneyIndex_line">
-            <view wx:for="{{moneyItem_line}}" wx:for-index="moneyIndex" wx:for-item="moneyItem" wx:key="moneyIndex" class="{{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex?'chongzhi-item-active':'chongzhi-item'}}" catchtap="changeMoneyActiveFlag" data-activeflag1="{{moneyIndex_line}}"
-                data-activeflag2="{{moneyIndex}}" data-selectedmoney="{{moneyItem.rechargeAmount}}">
-                <view class='item-icon'>
-                    <view>
-                        <image wx:if='{{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex}}' src='/images/mine/diancanbi_c.png' style='height:32rpx;width:32rpx;margin-right:6rpx;margin-top:1rpx;'></image>
-                        <image wx:else src='/images/mine/diancanbi_u.png' style='height:32rpx;width:32rpx;margin-right:6rpx;margin-top:1rpx;'></image>
-                        <text style="color:{{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex?'#fff':'#333'}}">{{moneyItem.rechargeAmount}}</text>
-                    </view>
-                </view>
-                <view class='item-money' style="color:{{activeFlag1==moneyIndex_line&&activeFlag2==moneyIndex?'#fff':'#999'}}">￥{{moneyItem.rechargeAmount}}</view>
-            </view>
-        </view>
-        <view class='recharge-title'>充值方式</view>
-        <view class='recharge-way'>
-            <image src='/images/mine/weixin.png' style='height:54rpx;width:60rpx;'></image>
-            <view class='wechat'>微信支付</view>
-            <image src='/images/mine/selected.png' style='height:52rpx;width:52rpx;'></image>
-        </view>
-        <view class='description'>充值说明：点餐币由点点餐平台开发使用，点餐币仅能用于购买本平台运营的餐品，用于余额支付，不能兑换现金，不能进行转账交易，不支持退款、提现和转赠他人，不支持跨平台使用。
-        </view>
-        <view class="c_buttonPosition_forCalculate" wx:if="{{itemStatusActiveFlag}}">
-            <view catchtap="handleRecharge" loading="{{loading}}" class="button-2">立即充值</view>
-        </view>
-    </view>
-
-    <!-- 内容 -->
-    <view class="content" wx:else>
-        <view class="content-header">
-            <view class="content-header-left">余额记录 </view>
-            <view class="content-header-right">全部 </view>
-        </view>
-        <view class="content-time">
-            <view class="content-time-left"> </view>
-            <view class="content-time-right">我的余额：<text style='color: #F79C4C;'>{{balance}}</text> </view>
-        </view>
-        <view class="c_scrollPosition_forCalculate">
-            <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower='gotoNextPage'>
-                <view wx:if="{{rechargeListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
-                    未查询到交易记录..
-                </view>
-                <view wx:else>
-                    <view class="integral-item" style='background:{{integralIndex%2==0?"#FBFBFB":"#fff"}}' wx:for="{{rechargeList}}" wx:for-index="integralIndex" wx:for-item="rechargeItem" wx:key="integralIndex">
-                        <view>
-                            <view class="integral-type">
-                                {{rechargeItem.recordTypeDes}}
-                            </view>
-                            <view class="integral-time">
-                                {{rechargeItem.operateTimeDes}}
-                            </view>
-                        </view>
-                        <view class="{{rechargeItem.balance>0?'Integral-value-add':'Integral-value-minus'}}">
-                            {{rechargeItem.balance}}
-                        </view>
-
-                    </view>
-                    <view wx:if="{{loadingData}}" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
-                        正在加载数据...
-                    </view>
-                </view>
-            </scroll-view>
-
-        </view>
-    </view>
 </view>

@@ -116,7 +116,7 @@ class base {
         }
         //hasToast表示sCallback回调函数中有没有wx.showToast
         //有的话，就在回调函数中执行wx.hideLoading,有的话hasToast=true
-    request(params, sCallback, flag) {
+    request(params, sCallback, flag, eCallback) {
             if (!flag) {
                 wx.showLoading({
                     title: '正在加载'
@@ -179,6 +179,8 @@ class base {
                                 duration: 2000
                             })
                         }
+                        //失败的回调
+                        eCallback && eCallback();
                     }
 
                 },
