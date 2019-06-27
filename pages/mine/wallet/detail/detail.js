@@ -32,7 +32,8 @@ Page({
             CANCEL_ORDER: '取消订单返还',
             PRESENT: '赠送',
             ACTIVITY_PRESENT: '活动赠送',
-            RECHARGE_PRESENT: '充值赠送'
+            RECHARGE_PRESENT: '充值赠送',
+            INTEGRAL_RECHARGE: '积分兑换'
         },
         personalUrl: 'user/getUserBalanceRecord',
         organizeUrl: 'user/getUserOrganizeBalanceRecord',

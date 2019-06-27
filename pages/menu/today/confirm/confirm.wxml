@@ -108,7 +108,7 @@
                                     <view class='cart-discount-organize'>企业抵扣</view>
                                     <view class='cart-discount-organize-money'>-￥{{oneday[item].deductionMoney}}</view>
                                 </view>
-                                <view class='cart-organize-deduction'>
+                                <!-- <view class='cart-organize-deduction'>
                                     <view class='cart-discount-organize'>
                                         <view style="display:inline-block;"> 积分抵扣 </view>
                                         <navigator url="/pages/mine/integral/regular" style="display:inline-block;">
@@ -126,7 +126,7 @@
                                             <image src='/images/menu/uncheck.png' style='margin-left:10rpx;width:40rpx;height:40rpx;'></image>
                                         </view>
                                     </view>
-                                </view>
+                                </view> -->
                             </view>
                         </view>
                     </view>

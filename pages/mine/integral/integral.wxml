@@ -9,25 +9,37 @@
                 </navigator>
 
             </view>
-            <view class="header-item">
-                {{integral}}
+            <view class="header-item">{{integral}}</view>
+            <view class='header-desc'>
+                <view class='leftleft'>
+                    <view class='leftleft-title'>累计兑换赠币</view>
+                    <view class='leftleft-num'>{{exchangeTotalIntegral}}</view>
+                </view>
+                <view class='middlemiddle'></view>
+                <view class='leftleft'>
+                    <view class='leftleft-title'>本周兑换赠币</view>
+                    <view class='leftleft-num'>{{exchangeWeekIntegral}}</view>
+                </view>
             </view>
+
+            <view class='header-button' bindtap='handleExchange'>兑换赠币</view>
         </view>
         <view class='header-3'>
             <view class='header-3-left'>
                 <view class='header-bottom-top'>送积分</view>
                 <view class='header-bottom-bottom'>消费、评价可得</view>
             </view>
-            <view class='header-3-right'>
-                <view class='header-bottom-top '>积分当钱花</view>
-                <view class='header-bottom-bottom '>100积分抵扣1元</view>
+            <view class='header-3-middle'></view>
+            <view class='header-3-left'>
+                <view class='header-bottom-top '>积分兑赠币</view>
+                <view class='header-bottom-bottom '>100积分兑1赠币，每周限兑3赠币</view>
             </view>
         </view>
     </view>
     <!-- 内容 -->
     <view class="content">
         <view class="content-header">
-            <view class="content-header-left">积分记录 </view>
+            <view class="content-header-left">积分明细</view>
             <view class="content-header-right">全部 </view>
         </view>
         <view class="content-time">
@@ -59,6 +71,40 @@
                     </view>
                 </view>
             </scroll-view>
+
+        </view>
+    </view>
+
+    <!--弹框-->
+    <view class='dialog-warpper' wx:if='{{operateResult==1}}'>
+        <view class='dialog'>
+
+            <view class='dialog-title'>对不起，您无法兑换</view>
+            <view class='dialog-des'>每周限兑3赠币，您已经超出限兑额度</view>
+            <view class='dialog-button' bindtap='closeDialog'>知道了</view>
+
+        </view>
+    </view>
+    <!--弹框-->
+    <view class='dialog-warpper' wx:if='{{operateResult==2}}'>
+        <view class='dialog'>
+
+            <view class='dialog-title'>对不起，您的积分不足</view>
+            <view class='dialog-des'>满100积分兑1赠币</view>
+            <view class='dialog-button' bindtap='closeDialog'>知道了</view>
+
+        </view>
+    </view>
+    <!--弹框-->
+    <view class='dialog-warpper' wx:if='{{operateResult==3}}'>
+        <view class='dialog' style='height:330rpx;'>
+            <view class='dialog-title' style='padding-top:30rpx;'>可用{{integral}}积分</view>
+            <view class='dialog-title' style='padding-top:0;'>可兑换赠币：<text style='color: #F79C4C;'>{{exchangeIntegral}}</text></view>
+            <view class='dialog-des' style='margin:20rpx 0 30rpx;'>满100积分兑1赠币，每周限兑3赠币</view>
+            <view class='dialog-button-group'>
+                <view class='dialog-button-cancel' bindtap='closeDialog'>取消</view>
+                <view class='dialog-button-confirm' bindtap='handleUserIntegralExchange'>确定兑换</view>
+            </view>
 
         </view>
     </view>

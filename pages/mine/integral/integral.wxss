@@ -3,11 +3,11 @@
  .header-title-left {
      font-family: PingFangSC;
      font-size: 24rpx;
-     color: #FFFFFF;
+     color: #333;
      letter-spacing: 0;
      text-align: left;
      line-height: 34rpx;
-     padding: 0 10rpx 0 318rpx;
+     padding: 0 4rpx 0 298rpx;
  }
  
  .header-title-right {
@@ -16,7 +16,7 @@
      color: #FFFFFF;
      letter-spacing: 0;
      text-align: center;
-     background: rgba(190, 102, 25, 0.30);
+     background: #DDDDDD;
      border-radius: 12rpx;
      width: 24rpx;
      height: 24rpx;
@@ -42,16 +42,20 @@
  
  .header-wrapper {
      background: linear-gradient(270deg, #F79C4C 0%, #F7BE4C 99%);
+     padding-top: 20rpx;
  }
  
  .header {
-     padding: 50rpx 0;
+     padding: 30rpx 0 26rpx;
+     background: #FFFFFF;
+     border-radius: 12rpx;
+     margin: 0 30rpx 20rpx;
  }
  
  .header-item {
      font-family: DINAlternate-Bold;
      font-size: 50rpx;
-     color: #FFFFFF;
+     color: #333;
      letter-spacing: 0;
      text-align: center;
      line-height: 58rpx;
@@ -173,10 +177,142 @@
  .header-3-left {
      flex-grow: 1;
      text-align: center;
-     border-right: 2rpx solid #fff;
+     width: 360rpx;
  }
  
- .header-3-right {
+ .header-3-middle {
+     width: 2rpx;
+     background: rgba(255, 255, 255, 0.30);
+     margin-top: 4rpx;
+     height: 60rpx;
+ }
+ 
+ .leftleft {
      flex-grow: 1;
+     text-align: center;
+     width: 340rpx;
+     margin: 20rpx 0;
+ }
+ 
+ .leftleft-title {
+     font-family: Helvetica;
+     font-size: 24rpx;
+     color: #999999;
+     letter-spacing: 0;
+     text-align: center;
+     line-height: 34rpx;
+ }
+ 
+ .leftleft-num {
+     font-family: DINAlternate-Bold;
+     font-size: 36rpx;
+     color: #333333;
+     letter-spacing: 0;
+     text-align: center;
+     line-height: 42rpx;
+ }
+ 
+ .middlemiddle {
+     margin-top: 30rpx;
+     background: #DDDDDD;
+     width: 2rpx;
+     height: 56rpx;
+ }
+ 
+ .header-button {
+     background-image: linear-gradient(270deg, #F79C4C 0%, #F7BE4C 99%);
+     border-radius: 34rpx;
+     width: 240rpx;
+     height: 68rpx;
+     line-height: 68rpx;
+     text-align: center;
+     font-family: Helvetica;
+     font-size: 30rpx;
+     color: #FFFFFF;
+     letter-spacing: 0;
+     margin: 0 auto;
+ }
+ 
+ .dialog-title {
+     font-family: PingFangSC-Regular;
+     font-size: 30rpx;
+     color: #000000;
+     text-align: center;
+     padding-top: 63rpx;
+     line-height: 50rpx;
+ }
+ 
+ .dialog-des {
+     font-family: PingFangSC-Regular;
+     font-size: 30rpx;
+     color: #999999;
+     text-align: center;
+     margin: 19rpx 0 54rpx;
+ }
+ 
+ .dialog-button {
+     font-family: PingFang-SC-Medium;
+     font-size: 36rpx;
+     color: #576B95;
+     text-align: center;
+     padding-top: 25rpx;
+     border-top: 1rpx solid #E5E5E5;
+ }
+ 
+ .dialog-warpper {
+     position: fixed;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     top: 0;
+     z-index: 99;
+     margin: auto;
+     background: rgba(0, 0, 0, 0.40);
+ }
+ 
+ .dialog {
+     z-index: 100;
+     position: fixed;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     top: 0;
+     width: 560rpx;
+     height: 329rpx;
+     margin: auto;
+     background: #fff;
+     text-align: center;
+     border-radius: 8rpx;
+ }
+ 
+ .dialog-button-group {
+     margin: 0 30rpx;
+     display: flex;
+     justify-content: space-between;
+ }
+ 
+ .dialog-button-cancel {
+     border: 2rpx solid #CCCCCC;
+     border-radius: 50rpx;
+     height: 76rpx;
+     width: 236rpx;
+     text-align: center;
+     line-height: 76rpx;
+     font-family: PingFangSC-Regular;
+     font-size: 30rpx;
+     color: #333333;
+     letter-spacing: 0;
+ }
+ 
+ .dialog-button-confirm {
+     background: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
+     border-radius: 50rpx;
+     width: 240rpx;
+     height: 80rpx;
+     line-height: 80rpx;
+     font-family: PingFangSC-Regular;
+     font-size: 30rpx;
+     color: #FFFFFF;
+     letter-spacing: 0;
      text-align: center;
  }

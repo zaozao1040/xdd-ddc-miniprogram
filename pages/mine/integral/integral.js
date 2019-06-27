@@ -19,6 +19,7 @@ Page({
         },
         integralList: [],
         integralListNoResult: false,
+        operateResult: ''
     },
 
     initIntegral: function() {
@@ -45,20 +46,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        if (options.integral) {
-            this.setData({
-                integral: options.integral
-            })
-        } else {
-            let param = {
-                url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
-            }
-            requestModel.request(param, data => {
-                this.setData({
-                    integral: data.integral
-                })
-            })
-        }
+
 
     },
 
@@ -66,16 +54,32 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-        let _this = this
-        _this.initIntegral()
-        _this.data.page = 1
-        _this.data.limit = 20
+        this.initIntegral()
+        this.getUserIntegral()
+        this.data.page = 1
+        this.data.limit = 20
         this.setData({
             integralList: [] //列表必须清空，否则分页会无限叠加
         })
         this.getIntegralList()
+
     },
 
+    //获取用户当前积分
+    getUserIntegral() {
+        let _this = this
+        let param = {
+            url: '/user/userIntegral?userCode=' + wx.getStorageSync('userCode')
+        }
+        requestModel.request(param, data => {
+            _this.setData({
+                integral: data.integral,
+                canExchange: data.canExchange,
+                exchangeTotalIntegral: data.exchangeTotalIntegral,
+                exchangeWeekIntegral: data.exchangeWeekIntegral
+            })
+        })
+    },
     /* 页面隐藏后回收定时器指针 */
     onHide: function() {},
 
@@ -141,7 +145,47 @@ Page({
         })
     },
 
-
+    handleExchange() {
+        if (this.data.integral < 100) {
+            this.setData({
+                operateResult: 2, //积分不足
+            })
+        } else if (this.data.exchangeWeekIntegral >= 3) {
+            this.setData({
+                operateResult: 1, //本周兑换次数超过3次
+            })
+        } else {
+            this.setData({
+                operateResult: 3, //可兑换
+                exchangeIntegral: parseInt(3 - this.data.exchangeWeekIntegral)
+            })
+        }
+    },
+    closeDialog() {
+        this.setData({
+            operateResult: ''
+        })
+    },
+    handleUserIntegralExchange() {
+        let _this = this
+        let data = {
+            userCode: wx.getStorageSync('userCode'),
+            exchangeIntegral: parseInt(_this.data.exchangeIntegral * 100)
+        }
+        let param = {
+            url: '/user/userIntegralExchange',
+            data,
+            method: 'post'
+        }
+        requestModel.request(param, (data) => {
+            //关闭弹框
+            _this.setData({
+                    operateResult: ''
+                })
+                //刷新
+            _this.getUserIntegral()
+        })
+    },
     /**
      * 生命周期函数--监听页面卸载
      */

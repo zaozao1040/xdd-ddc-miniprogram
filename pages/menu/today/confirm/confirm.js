@@ -246,7 +246,7 @@ Page({
                     payType: 'WECHAT_PAY'
                 })
             }
-            _this.calculateIntegral()
+
         })
 
         //从后端获取优惠券信息
@@ -452,7 +452,7 @@ Page({
                             mealDate: tmp_selectedFoods.mealDate,
                             mealType: mealType.toUpperCase(),
                             foods: [],
-                            integralNumber: tmp_selectedFoods[mealType].useIntegral ? tmp_selectedFoods[mealType].integral * 100 : 0
+                            integralNumber: 0
                         }
 
                         tmp_selectedFoods[mealType].selectedFoods.forEach(onefood => {
@@ -529,6 +529,7 @@ Page({
             _this.setData({
                 generateOrderNow: false
             })
+            _this.getOrderVerificationString()
         })
 
     },

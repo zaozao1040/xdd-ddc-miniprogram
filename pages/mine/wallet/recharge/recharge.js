@@ -11,7 +11,8 @@
          activeFlag1: undefined,
          activeFlag2: undefined,
          selectedMoney: 0,
-         presentAmount: ''
+         presentAmount: '',
+
      },
      /**
       * 生命周期函数--监听页面加载
@@ -25,20 +26,6 @@
                  })
              }
          })
-         if (options.balance) {
-             this.setData({
-                 balance: options.balance
-             })
-         } else {
-             let param = {
-                 url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
-             }
-             requestModel.request(param, data => {
-                 this.setData({
-                     balance: data.balance
-                 })
-             })
-         }
      },
 
      /**
@@ -74,7 +61,16 @@
                  tmp_moneyList.push(tmp_1)
                  tmp_moneyList.push(tmp_2)
                  _this.setData({
-                     moneyList: tmp_moneyList
+                         moneyList: tmp_moneyList
+                     })
+                     //默认选择第一个
+                 this.setData({
+                     activeFlag1: 0,
+
+                     activeFlag2: 0,
+
+                     selectedMoney: list[0].rechargeAmount,
+                     presentAmount: list[0].presentAmount
                  })
              }
          })
@@ -82,15 +78,12 @@
 
      /* click更改选中的金额 */
      changeMoneyActiveFlag: function(e) {
+         let { activeflag1, activeflag2, selectedmoney, presentamount } = e.currentTarget.dataset
          this.setData({
-             activeFlag1: e.currentTarget.dataset.activeflag1
-         })
-         this.setData({
-             activeFlag2: e.currentTarget.dataset.activeflag2
-         })
-         this.setData({
-             selectedMoney: e.currentTarget.dataset.selectedmoney,
-             presentAmount: e.currentTarget.dataset.presentamount
+             activeFlag1: activeflag1,
+             activeFlag2: activeflag2,
+             selectedMoney: selectedmoney,
+             presentAmount: presentamount
          })
      },
      /* 立即充值 */
