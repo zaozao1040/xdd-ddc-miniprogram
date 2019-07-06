@@ -32,7 +32,8 @@
     "pages/mine/evaluateService/evaluateService",
     "pages/mine/wallet/detail/detail",
     "pages/mine/wallet/recharge/recharge",
-    "pages/mine/wallet/regular/regular"
+    "pages/mine/wallet/regular/regular",
+    "pages/menu/remark/remark"
   ],
   "permission": {
     "scope.userLocation": {

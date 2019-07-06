@@ -86,7 +86,7 @@
     </view>
     <!-- 已选菜单 -->
     <scroll-view scroll-y style="height:{{buttonTop-addressBottom}}px;">
-        <view style="background: #F5F5F5; ">
+        <view style="background: #F5F5F5;">
 
             <view class="cart-day-wrapper">
                 <view wx:for="{{selectedFoods}}" wx:for-item='oneday' wx:for-index='onedayindex' wx:key='{{onedayindex}}'>
@@ -178,6 +178,18 @@
                         </view>
                         <view class='pay-balance-describe'>可全额支付，默认打开开关，优先使用余额</view>
                     </view>
+
+                </view>
+            </view>
+            <view style='margin:16rpx 16rpx 0;' wx:if='{{orgAdmin}}'>
+
+                <view class='remark-manage'>
+                    <view class='pay-title' style='padding:30rpx 0;'>订单备注</view>
+                    <view class='flex-a' bindtap='gotoRemark'>
+                        <view class='pay-no-discount' style='padding:30rpx 0;'>去备注</view>
+                        <image src='/images/menu/right.png' style="height:22rpx;width:12rpx; margin:42rpx 0 0 20rpx;"></image>
+                    </view>
+
                 </view>
             </view>
         </view>

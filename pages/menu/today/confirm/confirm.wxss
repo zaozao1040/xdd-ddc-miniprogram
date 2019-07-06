@@ -489,3 +489,10 @@
      padding: 0 30rpx 60rpx;
      justify-content: space-between;
  }
+ 
+ .remark-manage {
+     padding: 0 30rpx;
+     display: flex;
+     justify-content: space-between;
+     background: #fff;
+ }

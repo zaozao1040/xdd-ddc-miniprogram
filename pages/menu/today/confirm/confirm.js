@@ -125,7 +125,8 @@ Page({
             }
         }
 
-        console.log('todaySelectedFoods', selectedFoods)
+        console.log('sevenSelectedFoods', selectedFoods)
+        wx.setStorageSync('sevenSelectedFoods', selectedFoods)
         this.setData({
             selectedFoods: selectedFoods,
             totalMoney: options.totalMoney,
@@ -157,6 +158,16 @@ Page({
     onShow: function() {
         let _this = this
         requestModel.getUserInfo(userInfo => {
+            let { userType, orgAdmin } = userInfo
+            if (userType == 'ORG_ADMIN' && orgAdmin == true) {
+                _this.setData({
+                    orgAdmin: true
+                })
+            } else {
+                _this.setData({
+                    orgAdmin: false
+                })
+            }
             _this.setData({
                 address: userInfo.deliveryAddress,
                 userName: userInfo.userName,
@@ -191,7 +202,6 @@ Page({
                         payType: 'WECHAT_PAY'
                     })
                 }
-
             })
         })
 
@@ -247,12 +257,7 @@ Page({
         })
         console.log(this.data.realMoney)
     },
-
-
-
     nameInput: function(e) {
-
-
         this.setData({
             userName: e.detail.value
         })
@@ -488,5 +493,7 @@ Page({
             }
         }
     },
-
+    gotoRemark() {
+        wx.navigateTo({ url: '/pages/menu/remark/remark' })
+    }
 })
