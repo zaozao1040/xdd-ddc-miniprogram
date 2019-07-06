@@ -27,11 +27,13 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function() {
-        this.setData({
-            userCode: wx.getStorageSync('userCode')
+        let _this = this
+        requestModel.getUserCode(userCode => {
+            _this.setData({
+                userCode: userCode
+            })
+            _this.getAddfoodData()
         })
-
-        this.getAddfoodData()
     },
     getAddfoodData() {
 

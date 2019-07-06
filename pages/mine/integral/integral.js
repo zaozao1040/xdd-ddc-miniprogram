@@ -54,6 +54,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
+
         this.initIntegral()
         this.getUserIntegral()
         this.data.page = 1
@@ -68,17 +69,20 @@ Page({
     //获取用户当前积分
     getUserIntegral() {
         let _this = this
-        let param = {
-            url: '/user/userIntegral?userCode=' + wx.getStorageSync('userCode')
-        }
-        requestModel.request(param, data => {
-            _this.setData({
-                integral: data.integral,
-                canExchange: data.canExchange,
-                exchangeTotalIntegral: data.exchangeTotalIntegral,
-                exchangeWeekIntegral: data.exchangeWeekIntegral
+        requestModel.getUserCode(userCode => {
+            let param = {
+                url: '/user/userIntegral?userCode=' + userCode
+            }
+            requestModel.request(param, data => {
+                _this.setData({
+                    integral: data.integral,
+                    canExchange: data.canExchange,
+                    exchangeTotalIntegral: data.exchangeTotalIntegral,
+                    exchangeWeekIntegral: data.exchangeWeekIntegral
+                })
             })
         })
+
     },
     /* 页面隐藏后回收定时器指针 */
     onHide: function() {},
@@ -98,50 +102,53 @@ Page({
         let _this = this
         let page = _this.data.page
         let limit = _this.data.limit
-        let param = {
-            url: '/user/getUserIntegralRecord?userCode=' + wx.getStorageSync('userCode') + '&page=' + page + '&limit=' + limit
-        }
+        requestModel.getUserCode(userCode => {
 
-        requestModel.request(param, data => {
 
-            let typeMap = {
-                ORDER: '下单送积分',
-                CONSUMPTION: '消费',
-                CANCEL_ORDER: '取消订单返还积分',
-                EVALUATE: '评价送积分'
+            let param = {
+                url: '/user/getUserIntegralRecord?userCode=' + userCode + '&page=' + page + '&limit=' + limit
             }
-            let tmp_integralList = data.list
-            tmp_integralList.forEach(element => {
 
-                element.integral = (element.difference > 0 ? '+' : '') + element.difference
+            requestModel.request(param, data => {
 
-                element.recordTypeDes = typeMap[element.recordType]
-                element.operateTimeDes = element.operateTime
+                let typeMap = {
+                    ORDER: '下单送积分',
+                    CONSUMPTION: '消费',
+                    CANCEL_ORDER: '取消订单返还积分',
+                    EVALUATE: '评价送积分'
+                }
+                let tmp_integralList = data.list
+                tmp_integralList.forEach(element => {
+
+                    element.integral = (element.difference > 0 ? '+' : '') + element.difference
+
+                    element.recordTypeDes = typeMap[element.recordType]
+                    element.operateTimeDes = element.operateTime
+                })
+                if (page == 1) {
+                    _this.setData({
+                        integralList: tmp_integralList,
+                        loadingData: false
+                    })
+                } else {
+                    _this.setData({
+                        integralList: _this.data.integralList.concat(tmp_integralList),
+                        loadingData: false
+                    })
+                }
+                //下面开始分页  
+                if (page * limit >= data.amount) { //说明已经请求完了 
+
+                    _this.setData({
+                        hasMoreDataFlag: false
+                    })
+                } else {
+                    _this.setData({
+                        hasMoreDataFlag: true
+                    })
+                    _this.data.page = page + 1
+                }
             })
-            if (page == 1) {
-                _this.setData({
-                    integralList: tmp_integralList,
-                    loadingData: false
-                })
-            } else {
-                _this.setData({
-                    integralList: _this.data.integralList.concat(tmp_integralList),
-                    loadingData: false
-                })
-            }
-            //下面开始分页  
-            if (page * limit >= data.amount) { //说明已经请求完了 
-
-                _this.setData({
-                    hasMoreDataFlag: false
-                })
-            } else {
-                _this.setData({
-                    hasMoreDataFlag: true
-                })
-                _this.data.page = page + 1
-            }
-
         })
     },
 
@@ -168,23 +175,26 @@ Page({
     },
     handleUserIntegralExchange() {
         let _this = this
-        let data = {
-            userCode: wx.getStorageSync('userCode'),
-            exchangeIntegral: parseInt(_this.data.exchangeIntegral * 100)
-        }
-        let param = {
-            url: '/user/userIntegralExchange',
-            data,
-            method: 'post'
-        }
-        requestModel.request(param, (data) => {
-            //关闭弹框
-            _this.setData({
-                    operateResult: ''
-                })
-                //刷新
-            _this.getUserIntegral()
+        requestModel.getUserCode(userCode => {
+            let data = {
+                userCode: userCode,
+                exchangeIntegral: parseInt(_this.data.exchangeIntegral * 100)
+            }
+            let param = {
+                url: '/user/userIntegralExchange',
+                data,
+                method: 'post'
+            }
+            requestModel.request(param, (data) => {
+                //关闭弹框
+                _this.setData({
+                        operateResult: ''
+                    })
+                    //刷新
+                _this.getUserIntegral()
+            })
         })
+
     },
     /**
      * 生命周期函数--监听页面卸载

@@ -50,9 +50,9 @@ Page({
     onShow: function() {
         let _this = this
             //已登录状态，则直接弹出模态框去选择是否绑定企业 
-        if (wx.getStorageSync('userCode')) {
+        if (wx.getStorageSync('userCode'))
             this.chooseBindOrganize()
-        }
+
 
         wx.checkSession({
             success() {

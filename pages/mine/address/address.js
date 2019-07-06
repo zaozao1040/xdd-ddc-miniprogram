@@ -39,26 +39,30 @@ Page({
     onShow: function() {
         let _this = this
             //请求地址列表，以便选择后提交
-        let param = {
-            url: '/organize/getOrganizeDeliveryAddress?userCode=' + wx.getStorageSync('userCode'),
-        }
-
-        requestModel.request(param, data => {
-
-            _this.setData({
-                addressList: data
-            })
-
-            if (data.length == 0) {
-                _this.setData({
-                    addressListNoResult: true //查到企业列表无结果，则相应视图
-                })
-            } else {
-                _this.setData({
-                    addressListNoResult: false
-                })
+        requestModel.getUserCode(userCode => {
+            _this.data.userCode = userCode
+            let param = {
+                url: '/organize/getOrganizeDeliveryAddress?userCode=' + userCode,
             }
+
+            requestModel.request(param, data => {
+
+                _this.setData({
+                    addressList: data
+                })
+
+                if (data.length == 0) {
+                    _this.setData({
+                        addressListNoResult: true //查到企业列表无结果，则相应视图
+                    })
+                } else {
+                    _this.setData({
+                        addressListNoResult: false
+                    })
+                }
+            })
         })
+
     },
     /* 页面隐藏后回收定时器指针 */
     onHide: function() {},
@@ -80,7 +84,7 @@ Page({
         } else {
 
             let param = {
-                userCode: wx.getStorageSync('userCode'),
+                userCode: _this.data.userCode,
                 deliveryAddressCode: _this.data.addressCode
             }
 

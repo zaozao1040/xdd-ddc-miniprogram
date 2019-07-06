@@ -78,13 +78,18 @@
       * 生命周期函数--监听页面显示
       */
      onShow: function() {
-         this.initOrder()
-         this.data.page = 1
-         this.setData({
-             orderList: [] //列表必须清空，否则分页会无限叠加
+         let _this = this
+         requestModel.getUserCode(userCode => {
+             _this.data.userCode = userCode
+             _this.initOrder()
+             _this.data.page = 1
+             _this.setData({
+                 orderList: [] //列表必须清空，否则分页会无限叠加
+             })
+             _this.getOrderList()
+             wx.showTabBar()
          })
-         this.getOrderList()
-         wx.showTabBar()
+
      },
      onHide: function() {},
      //点击这个订单的tab标签，即触发这个钩子
@@ -198,7 +203,7 @@
          let page = _this.data.page
          let limit = _this.data.limit
          let param = {
-             url: '/order/getOrderList?userCode=' + wx.getStorageSync('userCode') + '&page=' + page + '&limit=' + limit + '&type=' + _this.data.itemStatusActiveFlag
+             url: '/order/getOrderList?userCode=' + _this.data.userCode + '&page=' + page + '&limit=' + limit + '&type=' + _this.data.itemStatusActiveFlag
          }
          requestModel.request(param, (res) => {
              let tmp_orderList = res.list
@@ -281,7 +286,7 @@
              })
              let _this = this
              let param = {
-                 userCode: wx.getStorageSync('userCode'),
+                 userCode: _this.data.userCode,
                  orderCode: _this.data.cancelOrderCode
              }
              let params = {
@@ -343,7 +348,7 @@
          let orderCode = e.currentTarget.dataset.ordercode
              // 判断余额够不够
          let param = {
-             url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
+             url: '/user/getUserFinance?userCode=' + _this.data.userCode
          }
          requestModel.request(param, data => {
 
@@ -372,7 +377,7 @@
 
 
          let param = {
-             userCode: wx.getStorageSync('userCode'),
+             userCode: _this.data.userCode,
              orderCode: _this.data.payOrderCode,
              payType: 'WECHAT_PAY'
          }
@@ -440,7 +445,7 @@
          }, 2000)
 
          let param = {
-             userCode: wx.getStorageSync('userCode'),
+             userCode: _this.data.userCode,
              orderCode: _this.data.payOrderCode,
              payType: 'BALANCE_PAY'
          }
@@ -475,7 +480,7 @@
          let _this = this
              //就调用接口加载柜子号 
          let param = {
-             url: '/order/orderPickPre?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + ordercode
+             url: '/order/orderPickPre?userCode=' + _this.data.userCode + '&orderCode=' + ordercode
          }
          requestModel.request(param, (data) => {
              let tmp_content = ''
@@ -515,7 +520,7 @@
          let _this = this
 
          let param = {
-             url: '/order/orderPick?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + ordercode + '&again=' + again
+             url: '/order/orderPick?userCode=' + _this.data.userCode + '&orderCode=' + ordercode + '&again=' + again
          }
          requestModel.request(param, () => {
              wx.showModal({
@@ -546,36 +551,7 @@
              return
          }
          _this.data.canClick = false
-             //  let tmp_content = '请确定在柜子前'
 
-         //  wx.showModal({
-         //      title: '是否取餐?',
-         //      content: tmp_content,
-         //      success(res) {
-         //          if (res.confirm) {
-
-         //              let param = {
-         //                  url: '/order/orderPick?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + e.currentTarget.dataset.ordercode
-         //              }
-         //              requestModel.request(param, () => {
-
-         //                  wx.showToast({
-         //                      title: '成功取餐',
-         //                      image: '/images/msg/success.png',
-         //                      duration: 1000
-         //                  })
-         //                  setTimeout(() => {
-         //                      //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
-         //                      _this.setData({
-         //                          page: 1,
-         //                          orderList: []
-         //                      })
-         //                      _this.getOrderList()
-         //                  }, 1000)
-         //              })
-         //          }
-         //      }
-         //  })
          _this.takeFoodOrder(e.currentTarget.dataset.ordercode)
          if (_this.data.timer) {
              clearTimeout(_this.data.timer)

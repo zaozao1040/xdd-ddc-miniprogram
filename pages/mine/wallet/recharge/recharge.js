@@ -32,15 +32,19 @@
       * 生命周期函数--监听页面显示
       */
      onShow: function() {
+         let _this = this
+         requestModel.getUserCode(userCode => {
+             _this.data.userCode = userCode
+             _this.getGiftList()
+         })
 
-         this.getGiftList()
      },
 
      /* 获取充多少送多少的list */
      getGiftList: function() {
          let _this = this
          let param = {
-                 url: '/organize/getOrganizeRechargeActivity?userCode=' + wx.getStorageSync('userCode')
+                 url: '/organize/getOrganizeRechargeActivity?userCode=' + _this.data.userCode
              }
              //请求充值返送列表
          requestModel.request(param, (data) => {
@@ -89,7 +93,6 @@
      /* 立即充值 */
      handleRecharge: function() {
          let _this = this
-         console.log(this.data.selectedMoney)
          if (_this.data.selectedMoney == 0) {
              wx.showToast({
                  title: "请选择充值金额",
@@ -99,7 +102,7 @@
          } else {
 
              let param = {
-                 userCode: wx.getStorageSync('userCode'),
+                 userCode: _this.data.userCode,
                  rechargeAmount: _this.data.selectedMoney
              }
              let params = {
@@ -121,7 +124,7 @@
                              success: function(e) {
                                  //刷新余额
                                  let param = {
-                                     url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
+                                     url: '/user/getUserFinance?userCode=' + _this.data.userCode
                                  }
                                  requestModel.request(param, data => {
                                      _this.setData({

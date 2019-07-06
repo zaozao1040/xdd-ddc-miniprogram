@@ -47,8 +47,9 @@ Page({
             return
         }
         _this.data.canClick = false
+
         let param = {
-            userCode: wx.getStorageSync('userCode'),
+            userCode: wx.getStorageSync('userInfo'),
             discountcode: e.currentTarget.dataset.discountcode
         }
         wx.showLoading({

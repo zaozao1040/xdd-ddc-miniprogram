@@ -79,23 +79,25 @@ Page({
                 wx.login({
                     success: function(res) {
                         if (res.code) {
-                            let param = {
-                                userCode: wx.getStorageSync('userCode'),
-                                smsCode: _this.data.code, //短信验证码
-                                phoneNumber: _this.data.phone
-                            }
-                            let params = {
-                                data: param,
-                                url: '/user/changeUserPhoneNumber',
-                                method: 'post'
-                            }
+                            requestModel.getUserCode(userCode => {
+                                let param = {
+                                    userCode: userCode,
+                                    smsCode: _this.data.code, //短信验证码
+                                    phoneNumber: _this.data.phone
+                                }
+                                let params = {
+                                    data: param,
+                                    url: '/user/changeUserPhoneNumber',
+                                    method: 'post'
+                                }
 
-                            requestModel.request(params, () => {
-                                _this.setData({
-                                        bindShow: true
-                                    })
-                                    // 刷新userInfo
-                                requestModel.getUserInfo(() => {}, true)
+                                requestModel.request(params, () => {
+                                    _this.setData({
+                                            bindShow: true
+                                        })
+                                        // 刷新userInfo
+                                    requestModel.getUserInfo(() => {}, true)
+                                })
                             })
                         }
                     }

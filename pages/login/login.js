@@ -106,76 +106,85 @@ Page({
             wx.getLocation({
                 type: 'gcj02',
                 success: function(res) {
-                    let urlP = encodeURI('userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude + '&organizeName=' + e.detail.value)
-                    let param = {
-                        url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
-                    }
-
-                    //请求企业列表
-                    requestModel.request(param, (data) => {
-                        _this.setData({
-                            employeeNumber: false,
-                            organizeList: data,
-                            organizeSelected: false,
-                            organizeCode: ''
-                        })
-                        if (data.length == 0) {
-                            _this.setData({
-                                organizeListNoResult: true //查到企业列表无结果，则相应视图
-                            })
-                        } else {
-                            _this.setData({
-                                organizeListNoResult: false
-                            })
+                    requestModel.getUserCode(userCode => {
+                        let urlP = encodeURI('userCode=' + userCode + '&longitude=' + res.longitude + '&latitude=' + res.latitude + '&organizeName=' + e.detail.value)
+                        let param = {
+                            url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
                         }
+
+                        //请求企业列表
+                        requestModel.request(param, (data) => {
+                            _this.setData({
+                                employeeNumber: false,
+                                organizeList: data,
+                                organizeSelected: false,
+                                organizeCode: ''
+                            })
+                            if (data.length == 0) {
+                                _this.setData({
+                                    organizeListNoResult: true //查到企业列表无结果，则相应视图
+                                })
+                            } else {
+                                _this.setData({
+                                    organizeListNoResult: false
+                                })
+                            }
+                        })
                     })
+
                 },
                 fail: function() {
-                    let urlP = encodeURI('userCode=' + wx.getStorageSync('userCode') + '&longitude=1&latitude=1&organizeName=' + e.detail.value)
-                    let param = {
-                        url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
-                    }
-
-                    //请求企业列表
-                    requestModel.request(param, (data) => {
-                        _this.setData({
-                            employeeNumber: false,
-                            organizeList: data,
-                            organizeSelected: false,
-                            organizeCode: ''
-                        })
-                        if (data.length == 0) {
-                            _this.setData({
-                                organizeListNoResult: true //查到企业列表无结果，则相应视图
-                            })
-                        } else {
-                            _this.setData({
-                                organizeListNoResult: false
-                            })
+                    requestModel.getUserCode(userCode => {
+                        let urlP = encodeURI('userCode=' + userCode + '&longitude=1&latitude=1&organizeName=' + e.detail.value)
+                        let param = {
+                            url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
                         }
+
+                        //请求企业列表
+                        requestModel.request(param, (data) => {
+                            _this.setData({
+                                employeeNumber: false,
+                                organizeList: data,
+                                organizeSelected: false,
+                                organizeCode: ''
+                            })
+                            if (data.length == 0) {
+                                _this.setData({
+                                    organizeListNoResult: true //查到企业列表无结果，则相应视图
+                                })
+                            } else {
+                                _this.setData({
+                                    organizeListNoResult: false
+                                })
+                            }
+                        })
                     })
+
                 }
             })
         } else if (_this.data.userType == 'ADMIN') {
-            let param = {
-                    url: '/organize/getOrganizeList?userCode=' + wx.getStorageSync('userCode') + '&organizeName=' + e.detail.value
-                }
-                //请求企业列表
-            requestModel.request(param, (data) => {
-                _this.setData({
-                    organizeList: data,
-                    employeeNumber: false,
+            requestModel.getUserCode(userCode => {
+                let param = {
+                        url: '/organize/getOrganizeList?userCode=' + userCode + '&organizeName=' + e.detail.value
+                    }
+                    //请求企业列表
+                requestModel.request(param, (data) => {
+                    _this.setData({
+                        organizeList: data,
+                        employeeNumber: false,
+                    })
+                    if (data.length == 0) {
+                        _this.setData({
+                            organizeListNoResult: true //查到企业列表无结果，则相应视图
+                        })
+                    } else {
+                        _this.setData({
+                            organizeListNoResult: false
+                        })
+                    }
                 })
-                if (data.length == 0) {
-                    _this.setData({
-                        organizeListNoResult: true //查到企业列表无结果，则相应视图
-                    })
-                } else {
-                    _this.setData({
-                        organizeListNoResult: false
-                    })
-                }
             })
+
 
 
         }
@@ -204,31 +213,34 @@ Page({
                 duration: 2000
             })
         } else {
-            let param = {
-                userCode: wx.getStorageSync('userCode'),
-                userName: _this.data.userName,
-                organizeCode: _this.data.organizeCode,
-                userOrganizeCode: _this.data.employeeNumber ? _this.data.usernumber : null
-            }
-            let params = {
-                data: param,
-                url: '/user/bindOrganize',
-                method: 'post'
-            }
+            requestModel.getUserCode(userCode => {
+                let param = {
+                    userCode: userCode,
+                    userName: _this.data.userName,
+                    organizeCode: _this.data.organizeCode,
+                    userOrganizeCode: _this.data.employeeNumber ? _this.data.usernumber : null
+                }
+                let params = {
+                    data: param,
+                    url: '/user/bindOrganize',
+                    method: 'post'
+                }
 
-            requestModel.request(params, () => {
+                requestModel.request(params, () => {
 
-                requestModel.getUserInfo(() => {}, true)
-                wx.reLaunch({ //销毁所有页面后跳转到首页，销毁页面是为了防止个人用户登录后再次换绑企业可以点击订单导航，而导航栏应该隐藏才对
-                    url: '/pages/home/home',
-                })
+                    requestModel.getUserInfo(() => {}, true)
+                    wx.reLaunch({ //销毁所有页面后跳转到首页，销毁页面是为了防止个人用户登录后再次换绑企业可以点击订单导航，而导航栏应该隐藏才对
+                        url: '/pages/home/home',
+                    })
 
-                wx.showToast({
-                    title: '登录成功',
-                    image: '/images/msg/success.png',
-                    duration: 2000
+                    wx.showToast({
+                        title: '登录成功',
+                        image: '/images/msg/success.png',
+                        duration: 2000
+                    })
                 })
             })
+
         }
     },
 

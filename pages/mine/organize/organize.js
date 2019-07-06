@@ -75,7 +75,7 @@ Page({
                 console.log('bindChecking', _this.data.bindChecking)
                 console.log('canBinding', _this.data.canBinding)
                 let param = {
-                        url: '/organize/getOrganizeList?userCode=' + wx.getStorageSync('userCode')
+                        url: '/organize/getOrganizeList?userCode=' + _this.data.userCode
                     }
                     //请求企业列表
                 requestModel.request(param, (data) => {
@@ -116,8 +116,14 @@ Page({
         this.initAddress()
     },
     onShow: function() {
+        let _this = this
+        requestModel.getUserCode(userCode => {
+            _this.getBindStatus()
+            _this.setData({
+                userCode: userCode
+            })
+        })
 
-        this.getBindStatus()
     },
     /* 页面隐藏后回收定时器指针 */
     onHide: function() {},
@@ -181,9 +187,9 @@ Page({
         let _this = this
 
         if (_this.data.userType == 'ADMIN') {
-          let urlp = encodeURI('userCode=' + wx.getStorageSync('userCode') + '&organizeName=' + organizeName)
+            let urlp = encodeURI('userCode=' + _this.data.userCode + '&organizeName=' + organizeName)
             let param = {
-                    url: '/organize/getOrganizeList?'+urlp
+                    url: '/organize/getOrganizeList?' + urlp
                 }
                 //请求企业列表
             requestModel.request(param, (data) => {
@@ -208,7 +214,7 @@ Page({
             wx.getLocation({
                 type: 'gcj02',
                 success: function(res) {
-                    let urlP = encodeURI('userCode=' + wx.getStorageSync('userCode') + '&longitude=' + res.longitude + '&latitude=' + res.latitude + '&organizeName=' + organizeName)
+                    let urlP = encodeURI('userCode=' + _this.data.userCode + '&longitude=' + res.longitude + '&latitude=' + res.latitude + '&organizeName=' + organizeName)
                     let param = {
                         url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
                     }
@@ -233,7 +239,7 @@ Page({
                     })
                 },
                 fail: function() {
-                    let urlP = encodeURI('userCode=' + wx.getStorageSync('userCode') + '&longitude=1&latitude=1&organizeName=' + organizeName)
+                    let urlP = encodeURI('userCode=' + _this.data.userCode + '&longitude=1&latitude=1&organizeName=' + organizeName)
                     let param = {
                         url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
                     }
@@ -283,7 +289,7 @@ Page({
             })
         } else {
             let param = {
-                userCode: wx.getStorageSync('userCode'),
+                userCode: _this.data.userCode,
                 userName: _this.data.userName,
                 organizeCode: _this.data.organizeCode,
                 userOrganizeCode: _this.data.employeeNumber ? _this.data.usernumber : null

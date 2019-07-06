@@ -57,69 +57,74 @@
      },
      //处理七天日期
      handleSevenDays() {
-         let url = '/meal/getMealDateAndType?userCode=' + wx.getStorageSync('userCode')
-         let param = {
-             url
-         }
-         requestModel.request(param, data => {
 
-             // 直接根据序号做判断吗？
-             data.forEach((item, index) => {
+         requestModel.getUserCode(userCode => {
 
-                 let dd = item.mealDate.split("-")
-                 if (dd.length == 3) {
-                     item.mealDateShow = dd[1] + '/' + dd[2]
-                 }
-                 if (index == 0) {
-                     item.label = '今天'
-                 } else if (index == 1) {
-                     item.label = '明天'
-                 } else {
-                     // 周一到周天
-                     let day = (new Date(item.mealDate)).getDay()
-                     switch (day) {
-                         case 0:
-                             item.label = '星期天'
-                             break;
-                         case 1:
-                             item.label = '星期一'
-                             break;
-                         case 2:
-                             item.label = '星期二'
-                             break;
-                         case 3:
-                             item.label = '星期三'
-                             break;
-                         case 4:
-                             item.label = '星期四'
-                             break;
-                         case 5:
-                             item.label = '星期五'
-                             break;
-                         case 6:
-                             item.label = '星期六'
-                             break;
-                     }
-                 }
-             })
-
-             this.setData({
-                 timeInfo: data
-             })
-             for (let i = 0; i < this.data.mealEnglistLabel.length; i++) {
-                 //5/15 今天一定有可定的餐时吗？即：该公司预定了这个餐时
-                 let meal = this.data.mealEnglistLabel[i]
-                 if (data[this.data.activeDayIndex].mealTypeOrder[meal + 'Status']) {
-                     this.setData({
-                         mealTypeItem: meal
-                     })
-                     if (!this.data.allMenuData[this.data.activeDayIndex][meal]) { //表示今天第一个餐时可点餐
-                         this.getTimeDataByResponse()
-                     }
-                     break
-
-                 }
+             let url = '/meal/getMealDateAndType?userCode=' + userCode
+             let param = {
+                 url
              }
+             requestModel.request(param, data => {
+
+                 // 直接根据序号做判断吗？
+                 data.forEach((item, index) => {
+
+                     let dd = item.mealDate.split("-")
+                     if (dd.length == 3) {
+                         item.mealDateShow = dd[1] + '/' + dd[2]
+                     }
+                     if (index == 0) {
+                         item.label = '今天'
+                     } else if (index == 1) {
+                         item.label = '明天'
+                     } else {
+                         // 周一到周天
+                         let day = (new Date(item.mealDate)).getDay()
+                         switch (day) {
+                             case 0:
+                                 item.label = '星期天'
+                                 break;
+                             case 1:
+                                 item.label = '星期一'
+                                 break;
+                             case 2:
+                                 item.label = '星期二'
+                                 break;
+                             case 3:
+                                 item.label = '星期三'
+                                 break;
+                             case 4:
+                                 item.label = '星期四'
+                                 break;
+                             case 5:
+                                 item.label = '星期五'
+                                 break;
+                             case 6:
+                                 item.label = '星期六'
+                                 break;
+                         }
+                     }
+                 })
+
+                 this.setData({
+                     timeInfo: data
+                 })
+                 for (let i = 0; i < this.data.mealEnglistLabel.length; i++) {
+                     //5/15 今天一定有可定的餐时吗？即：该公司预定了这个餐时
+                     let meal = this.data.mealEnglistLabel[i]
+                     if (data[this.data.activeDayIndex].mealTypeOrder[meal + 'Status']) {
+                         this.setData({
+                             mealTypeItem: meal
+                         })
+                         if (!this.data.allMenuData[this.data.activeDayIndex][meal]) { //表示今天第一个餐时可点餐
+
+                             this.getTimeDataByResponse()
+                         }
+                         break
+
+                     }
+                 }
+             })
          })
      },
      onLoad: function() {
@@ -209,119 +214,124 @@
          })
          let tmp_mealTypeItem = this.data.mealTypeItem
          let activeDayIndex = this.data.activeDayIndex
-         let param = {
-             url: '/food/getFoodDateList?userCode=' + wx.getStorageSync('userCode') + '&mealDate=' + this.data.timeInfo[activeDayIndex].mealDate + '&mealType=' + tmp_mealTypeItem.toUpperCase()
-
-         }
          let _this = this
-         requestModel.request(param, resData => { //获取加餐所有信息
+         requestModel.getUserCode(userCode => {
 
-             resData.totalMoney = 0 //给每天的每个餐时一个点餐的总的金额
-             resData.totalMoney_meal = 0 //每天的餐时可使用餐标的总金额
-             resData.deductionMoney = 0 //每天的餐时抵扣的金额
-                 // 给每一个餐品添加一个foodCount，用于加号点击时加一减一
-                 // 给每一个餐品添加一个foodTotalPrice
-                 // 给每一个餐品添加一个foodTotalOriginalPrice
-             let tmp_menuCountList = []
-             let tmp_menuCountListCopy = []
 
-             //5/31开始
-             //先将本餐所有的餐的id和index对应出来
-             // typeId对menuTypeIndex
-             // foodCode对foodIndex
+             let param = {
+                 url: '/food/getFoodDateList?userCode=' + userCode + '&mealDate=' + this.data.timeInfo[activeDayIndex].mealDate + '&mealType=' + tmp_mealTypeItem.toUpperCase()
 
-             /* typeIdFoodCode={13:{menuTypeIndex:0, foodCodeIndex:{code:foodIndex}} }*/
-             let typeIdFoodCode = {}
-             resData.foodList.forEach((item, menuTypeIndex) => {
-                 let a = {}
-                 a.menuTypeIndex = menuTypeIndex
-                 a.foodCodeIndexs = {}
-                 item.menuTypeIndex = menuTypeIndex
-                 item.foodList.forEach((foodItem, foodIndex) => {
-                     foodItem.menuTypeIndex = menuTypeIndex
-                     foodItem.foodIndex = foodIndex
-                     a.foodCodeIndexs[foodItem.foodCode] = foodIndex
+             }
+
+             requestModel.request(param, resData => { //获取加餐所有信息
+
+                 resData.totalMoney = 0 //给每天的每个餐时一个点餐的总的金额
+                 resData.totalMoney_meal = 0 //每天的餐时可使用餐标的总金额
+                 resData.deductionMoney = 0 //每天的餐时抵扣的金额
+                     // 给每一个餐品添加一个foodCount，用于加号点击时加一减一
+                     // 给每一个餐品添加一个foodTotalPrice
+                     // 给每一个餐品添加一个foodTotalOriginalPrice
+                 let tmp_menuCountList = []
+                 let tmp_menuCountListCopy = []
+
+                 //5/31开始
+                 //先将本餐所有的餐的id和index对应出来
+                 // typeId对menuTypeIndex
+                 // foodCode对foodIndex
+
+                 /* typeIdFoodCode={13:{menuTypeIndex:0, foodCodeIndex:{code:foodIndex}} }*/
+                 let typeIdFoodCode = {}
+                 resData.foodList.forEach((item, menuTypeIndex) => {
+                     let a = {}
+                     a.menuTypeIndex = menuTypeIndex
+                     a.foodCodeIndexs = {}
+                     item.menuTypeIndex = menuTypeIndex
+                     item.foodList.forEach((foodItem, foodIndex) => {
+                         foodItem.menuTypeIndex = menuTypeIndex
+                         foodItem.foodIndex = foodIndex
+                         a.foodCodeIndexs[foodItem.foodCode] = foodIndex
+                     })
+                     typeIdFoodCode[item.typeId] = a
+
                  })
-                 typeIdFoodCode[item.typeId] = a
 
-             })
+                 if (resData.foodCustomizeList && resData.foodCustomizeList.length > 0) {
+                     resData.foodCustomizeList.forEach((item, index1) => {
+                         item.left = true
+                         item.foodList.forEach((foodItem, index2) => {
+                             //要做俩连动，左侧连动正常了，正常没有连动左侧
+                             foodItem.left = true
+                             foodItem.foodCount = 0
+                             let foodList_menuTypeIndex = typeIdFoodCode[foodItem.typeId].menuTypeIndex
+                             let foodList_foodIndex = typeIdFoodCode[foodItem.typeId].foodCodeIndexs[foodItem.foodCode]
+                             foodItem.menuTypeIndex = foodList_menuTypeIndex
+                             foodItem.foodIndex = foodList_foodIndex
 
-             if (resData.foodCustomizeList && resData.foodCustomizeList.length > 0) {
-                 resData.foodCustomizeList.forEach((item, index1) => {
-                     item.left = true
-                     item.foodList.forEach((foodItem, index2) => {
-                         //要做俩连动，左侧连动正常了，正常没有连动左侧
-                         foodItem.left = true
+                             //正常连动左侧
+                             resData.foodList[foodList_menuTypeIndex].foodList[foodList_foodIndex].leftMenuTypeIndex = index1
+                             resData.foodList[foodList_menuTypeIndex].foodList[foodList_foodIndex].leftFoodIndex = index2
+                         })
+                         tmp_menuCountList.push(0)
+                         tmp_menuCountListCopy.push(0)
+                     })
+                 }
+
+
+                 resData.foodList.forEach(item => {
+                     item.left = false
+                     item.foodList.forEach(foodItem => {
+                         foodItem.foodTotalPrice = 0
+                         foodItem.foodTotalOriginalPrice = 0
                          foodItem.foodCount = 0
-                         let foodList_menuTypeIndex = typeIdFoodCode[foodItem.typeId].menuTypeIndex
-                         let foodList_foodIndex = typeIdFoodCode[foodItem.typeId].foodCodeIndexs[foodItem.foodCode]
-                         foodItem.menuTypeIndex = foodList_menuTypeIndex
-                         foodItem.foodIndex = foodList_foodIndex
-
-                         //正常连动左侧
-                         resData.foodList[foodList_menuTypeIndex].foodList[foodList_foodIndex].leftMenuTypeIndex = index1
-                         resData.foodList[foodList_menuTypeIndex].foodList[foodList_foodIndex].leftFoodIndex = index2
                      })
                      tmp_menuCountList.push(0)
                      tmp_menuCountListCopy.push(0)
-                 })
-             }
-
-
-             resData.foodList.forEach(item => {
-                 item.left = false
-                 item.foodList.forEach(foodItem => {
-                     foodItem.foodTotalPrice = 0
-                     foodItem.foodTotalOriginalPrice = 0
-                     foodItem.foodCount = 0
-                 })
-                 tmp_menuCountList.push(0)
-                 tmp_menuCountListCopy.push(0)
-
-             })
-
-             // 把标签项的餐品也加上5/30
-             // 放在这应该是对的
-             if (resData.foodCustomizeList && resData.foodCustomizeList.length > 0) {
-                 resData.foodList = resData.foodCustomizeList.concat(resData.foodList)
-                 resData.foodCustomizeListLength = resData.foodCustomizeList.length
-             } else {
-                 resData.foodCustomizeListLength = 0
-             }
-
-             //5/31截止
-
-             //可以不用setData，因为都是0不需要显示
-             _this.data.menuCountList[activeDayIndex][tmp_mealTypeItem] = tmp_menuCountList
-             _this.data.menuCountListCopy[activeDayIndex][tmp_mealTypeItem] = tmp_menuCountListCopy
-
-             // 下面的复制会不会在allMenuData修改resData时，allMenuDataCopy也一起改变？
-             let tmp_allData = _this.data.allMenuData
-             tmp_allData[activeDayIndex][tmp_mealTypeItem] = resData
-             _this.data.allMenuDataCopy[activeDayIndex][tmp_mealTypeItem] = JSON.parse(JSON.stringify(resData))
-
-             _this.setData({
-                 allMenuData: tmp_allData, //保存下所有数据 
-                 getdataalready: true,
-             })
-             if (resData.mealType.orderStatus && resData.foodList.length !== 0) {
-
-                 // 计算购物车的高度
-                 const query2 = wx.createSelectorQuery()
-                 query2.select('#cartCount').boundingClientRect()
-                 query2.selectViewport().scrollOffset()
-                 query2.exec(function(res) {
-                     if (res[0]) {
-                         _this.setData({
-                             cartAnimationBottom: res[0].bottom
-                         })
-                     }
 
                  })
-                 _this.calculateHeight()
-             }
-             _this.setData({
-                 getTimeDataByResponseNow: false
+
+                 // 把标签项的餐品也加上5/30
+                 // 放在这应该是对的
+                 if (resData.foodCustomizeList && resData.foodCustomizeList.length > 0) {
+                     resData.foodList = resData.foodCustomizeList.concat(resData.foodList)
+                     resData.foodCustomizeListLength = resData.foodCustomizeList.length
+                 } else {
+                     resData.foodCustomizeListLength = 0
+                 }
+
+                 //5/31截止
+
+                 //可以不用setData，因为都是0不需要显示
+                 _this.data.menuCountList[activeDayIndex][tmp_mealTypeItem] = tmp_menuCountList
+                 _this.data.menuCountListCopy[activeDayIndex][tmp_mealTypeItem] = tmp_menuCountListCopy
+
+                 // 下面的复制会不会在allMenuData修改resData时，allMenuDataCopy也一起改变？
+                 let tmp_allData = _this.data.allMenuData
+                 tmp_allData[activeDayIndex][tmp_mealTypeItem] = resData
+                 _this.data.allMenuDataCopy[activeDayIndex][tmp_mealTypeItem] = JSON.parse(JSON.stringify(resData))
+
+                 _this.setData({
+                     allMenuData: tmp_allData, //保存下所有数据 
+                     getdataalready: true,
+                 })
+                 if (resData.mealType.orderStatus && resData.foodList.length !== 0) {
+
+                     // 计算购物车的高度
+                     const query2 = wx.createSelectorQuery()
+                     query2.select('#cartCount').boundingClientRect()
+                     query2.selectViewport().scrollOffset()
+                     query2.exec(function(res) {
+                         if (res[0]) {
+                             _this.setData({
+                                 cartAnimationBottom: res[0].bottom
+                             })
+                         }
+
+                     })
+                     _this.calculateHeight()
+                 }
+                 _this.setData({
+                     getTimeDataByResponseNow: false
+                 })
              })
          })
      },

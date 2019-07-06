@@ -113,92 +113,92 @@ Page({
     getTimeDataByResponse: function() {
 
         let _this = this
+        requestModel.getUserCode(userCode => {
+            let param = {
+                url: '/food/getFoodDateSupplementList?userCode=' + userCode
 
-        let param = {
-            url: '/food/getFoodDateSupplementList?userCode=' + wx.getStorageSync('userCode')
-                // url: '/food/getFoodDateList?userCode=USER546379217957421056&mealDate=2019-05-20&mealType=LUNCH'
-
-        }
-        requestModel.request(param, resData => { //获取加餐所有信息
-            if (resData.mealType.orderStatus) {
-
-
-                //这是浅拷贝吧，不是深拷贝吧，所以这样和直接使用res的差别是什么？？
-                resData.totalMoney = 0 //给每天的每个餐时一个点餐的总的金额
-                resData.totalMoney_meal = 0 //可使用餐标的餐的总价格
-                resData.deductionMoney = 0
-                    // 给每一个餐品添加一个foodCount，用于加号点击时加一减一
-                    // 给每一个餐品添加一个foodTotalPrice
-                    // 给每一个餐品添加一个foodTotalOriginalPrice
-                let tmp_menuCountList = []
-                let tmp_menuCountListCopy = []
-
-                // 带lazy的都用于懒加载
-                let tmp_lazyShowImage = _this.data.lazyShowImage
-                    // 把标签项的餐品也加上5/30
-                if (resData.foodCustomizeList && resData.foodCustomizeList.length > 0) {
-                    resData.foodList = resData.foodCustomizeList.concat(resData.foodList)
-                }
-
-                resData.foodList.forEach(item => {
-
-                    let oneLazyShow = []
-                    item.foodList.forEach(foodItem => {
-                        foodItem.foodTotalPrice = 0
-                        foodItem.foodTotalOriginalPrice = 0
-                        foodItem.foodCount = 0
-                        oneLazyShow.push(false)
-
-                    })
-
-                    tmp_menuCountList.push(0)
-                    tmp_menuCountListCopy.push(0)
-
-                    tmp_lazyShowImage.push(oneLazyShow)
-                })
-
-
-                //可以不用setData，因为都是0不需要显示
-                _this.data.menuCountList = tmp_menuCountList
-                _this.data.menuCountListCopy = tmp_menuCountListCopy
-
-                let tmp_selectedFoodsIndex = {}
-                tmp_selectedFoodsIndex.foodList = []
-                tmp_selectedFoodsIndex.selectedFoods = []
-                _this.data.selectedFoodsIndex = tmp_selectedFoodsIndex
-                _this.data.selectedFoodsIndexCopy = tmp_selectedFoodsIndex
-
-
-                _this.setData({
-                    allMenuData: resData, //保存下所有数据
-                    allMenuDataCopy: resData, //保存下所有数据
-
-                    lazyShowImage: tmp_lazyShowImage,
-                    mealTypeItem: resData.mealType.mealType,
-                    mealDate: resData.mealType.mealDate,
-                    mealTypeItemShow: _this.data.mealTypeSmall[resData.mealType.mealType.toLowerCase()]
-                })
-
-
-
-                if (resData.mealType.orderStatus && resData.foodList.length !== 0) {
-
-                    // 计算购物车的高度
-                    const query2 = wx.createSelectorQuery()
-                    query2.select('#cartCount').boundingClientRect()
-                    query2.selectViewport().scrollOffset()
-                    query2.exec(function(res) {
-                        if (res[0]) {
-                            _this.setData({
-                                cartAnimationBottom: res[0].bottom
-                            })
-                        }
-                    })
-                    _this.calculateHeight()
-                }
             }
-            _this.setData({
-                getdataalready: true
+            requestModel.request(param, resData => { //获取加餐所有信息
+                if (resData.mealType.orderStatus) {
+
+
+                    //这是浅拷贝吧，不是深拷贝吧，所以这样和直接使用res的差别是什么？？
+                    resData.totalMoney = 0 //给每天的每个餐时一个点餐的总的金额
+                    resData.totalMoney_meal = 0 //可使用餐标的餐的总价格
+                    resData.deductionMoney = 0
+                        // 给每一个餐品添加一个foodCount，用于加号点击时加一减一
+                        // 给每一个餐品添加一个foodTotalPrice
+                        // 给每一个餐品添加一个foodTotalOriginalPrice
+                    let tmp_menuCountList = []
+                    let tmp_menuCountListCopy = []
+
+                    // 带lazy的都用于懒加载
+                    let tmp_lazyShowImage = _this.data.lazyShowImage
+                        // 把标签项的餐品也加上5/30
+                    if (resData.foodCustomizeList && resData.foodCustomizeList.length > 0) {
+                        resData.foodList = resData.foodCustomizeList.concat(resData.foodList)
+                    }
+
+                    resData.foodList.forEach(item => {
+
+                        let oneLazyShow = []
+                        item.foodList.forEach(foodItem => {
+                            foodItem.foodTotalPrice = 0
+                            foodItem.foodTotalOriginalPrice = 0
+                            foodItem.foodCount = 0
+                            oneLazyShow.push(false)
+
+                        })
+
+                        tmp_menuCountList.push(0)
+                        tmp_menuCountListCopy.push(0)
+
+                        tmp_lazyShowImage.push(oneLazyShow)
+                    })
+
+
+                    //可以不用setData，因为都是0不需要显示
+                    _this.data.menuCountList = tmp_menuCountList
+                    _this.data.menuCountListCopy = tmp_menuCountListCopy
+
+                    let tmp_selectedFoodsIndex = {}
+                    tmp_selectedFoodsIndex.foodList = []
+                    tmp_selectedFoodsIndex.selectedFoods = []
+                    _this.data.selectedFoodsIndex = tmp_selectedFoodsIndex
+                    _this.data.selectedFoodsIndexCopy = tmp_selectedFoodsIndex
+
+
+                    _this.setData({
+                        allMenuData: resData, //保存下所有数据
+                        allMenuDataCopy: resData, //保存下所有数据
+
+                        lazyShowImage: tmp_lazyShowImage,
+                        mealTypeItem: resData.mealType.mealType,
+                        mealDate: resData.mealType.mealDate,
+                        mealTypeItemShow: _this.data.mealTypeSmall[resData.mealType.mealType.toLowerCase()]
+                    })
+
+
+
+                    if (resData.mealType.orderStatus && resData.foodList.length !== 0) {
+
+                        // 计算购物车的高度
+                        const query2 = wx.createSelectorQuery()
+                        query2.select('#cartCount').boundingClientRect()
+                        query2.selectViewport().scrollOffset()
+                        query2.exec(function(res) {
+                            if (res[0]) {
+                                _this.setData({
+                                    cartAnimationBottom: res[0].bottom
+                                })
+                            }
+                        })
+                        _this.calculateHeight()
+                    }
+                }
+                _this.setData({
+                    getdataalready: true
+                })
             })
         })
     },

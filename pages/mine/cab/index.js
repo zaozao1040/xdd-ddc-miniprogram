@@ -627,7 +627,6 @@ Page({
 
         let params = {
             userCode: wx.getStorageSync('userCode')
-                //userCode: 'USER532153350460801101'
         };
         cabModel.getDeviceNumByUserCode(params, (res) => {
             if (res.status == 'success') {

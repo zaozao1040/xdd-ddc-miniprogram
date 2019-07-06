@@ -283,7 +283,7 @@ Page({
                         showDaliFlag: true
                     })
                 }
-                console.log('onShow', userInfo)
+
                 if (userStatus == 'NORMAL') {
                     this.getTakeMealInfo()
                 }

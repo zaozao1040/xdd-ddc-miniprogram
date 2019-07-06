@@ -19,29 +19,30 @@
                  })
              }
          })
+         requestModel.getUserCode(userCode => {
+             let param = {
+                 url: '/user/getUserFinance?userCode=' + userCode
+             }
+             requestModel.request(param, data => {
+                 this.setData({
+                     balance: data.balance, //个人充值币
+                     organizeBalance: data.organizeBalance, //企业充值币
+                     presentBalance: data.presentBalance, //赠币
+                     allBalance: data.allBalance, //所有币
+                     totalBalance: data.totalBalance, //充值币
+                     totalPresentBalance: data.totalPresentBalance, //赠币的和
 
-         let param = {
-             url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
-         }
-         requestModel.request(param, data => {
-             this.setData({
-                 balance: data.balance, //个人充值币
-                 organizeBalance: data.organizeBalance, //企业充值币
-                 presentBalance: data.presentBalance, //赠币
-                 allBalance: data.allBalance, //所有币
-                 totalBalance: data.totalBalance, //充值币
-                 totalPresentBalance: data.totalPresentBalance, //赠币的和
-
+                 })
              })
+             this.getOrganizeSet(userCode)
          })
-         this.getOrganizeSet()
      },
      //获取企业设置
-     getOrganizeSet() {
+     getOrganizeSet(userCode) {
          let _this = this
          requestModel.getUserInfo(userInfo => {
              let param = {
-                 url: '/organize/getOrganizeSet?userCode=' + wx.getStorageSync('userCode') + '&organizeCode=' + userInfo.organizeCode
+                 url: '/organize/getOrganizeSet?userCode=' + userCode + '&organizeCode=' + userInfo.organizeCode
              }
              requestModel.request(param, data => {
                  _this.setData({

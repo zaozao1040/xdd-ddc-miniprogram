@@ -168,144 +168,146 @@ Page({
             getTimeDataByResponseNow: true
         })
         let tmp_mealTypeItem = _this.data.mealTypeItem
+        requestModel.getUserCode(userCode => {
+            let param = {
+                url: '/food/getFoodDateList?userCode=' + userCode + '&mealDate=' + _this.data.mealDate + '&mealType=' + tmp_mealTypeItem.toUpperCase()
 
-        let param = {
-            url: '/food/getFoodDateList?userCode=' + wx.getStorageSync('userCode') + '&mealDate=' + _this.data.mealDate + '&mealType=' + tmp_mealTypeItem.toUpperCase()
+            }
+            requestModel.request(param, resData => { //获取加餐所有信息
 
-        }
-        requestModel.request(param, resData => { //获取加餐所有信息
+                //这是浅拷贝吧，不是深拷贝吧，所以这样和直接使用res的差别是什么？？
+                resData.totalMoney = 0 //给每天的每个餐时一个点餐的总的金额
+                resData.totalMoney_meal = 0 //可使用餐标的餐的总价格
+                resData.deductionMoney = 0
+                    // 给每一个餐品添加一个foodCount，用于加号点击时加一减一
+                    // 给每一个餐品添加一个foodTotalPrice
+                    // 给每一个餐品添加一个foodTotalOriginalPrice
+                let tmp_menuCountList = []
+                let tmp_menuCountListCopy = []
 
-            //这是浅拷贝吧，不是深拷贝吧，所以这样和直接使用res的差别是什么？？
-            resData.totalMoney = 0 //给每天的每个餐时一个点餐的总的金额
-            resData.totalMoney_meal = 0 //可使用餐标的餐的总价格
-            resData.deductionMoney = 0
-                // 给每一个餐品添加一个foodCount，用于加号点击时加一减一
-                // 给每一个餐品添加一个foodTotalPrice
-                // 给每一个餐品添加一个foodTotalOriginalPrice
-            let tmp_menuCountList = []
-            let tmp_menuCountListCopy = []
-
-            // 带lazy的都用于懒加载
-            let tmp_lazyShowImage = _this.data.lazyShowImage
-            tmp_lazyShowImage[tmp_mealTypeItem] = []
-            let tmp_lazyShowImageCount = 0
+                // 带lazy的都用于懒加载
+                let tmp_lazyShowImage = _this.data.lazyShowImage
+                tmp_lazyShowImage[tmp_mealTypeItem] = []
+                let tmp_lazyShowImageCount = 0
 
 
-            //5/31开始
-            //先将本餐所有的餐的id和index对应出来
-            // typeId对menuTypeIndex
-            // foodCode对foodIndex
+                //5/31开始
+                //先将本餐所有的餐的id和index对应出来
+                // typeId对menuTypeIndex
+                // foodCode对foodIndex
 
-            /* typeIdFoodCode={13:{menuTypeIndex:0, foodCodeIndexs:{code:foodIndex}} }*/
-            let typeIdFoodCode = {}
-            resData.foodList.forEach((item, menuTypeIndex) => {
-                let a = {}
-                a.menuTypeIndex = menuTypeIndex
-                a.foodCodeIndexs = {}
-                item.menuTypeIndex = menuTypeIndex
-                item.foodList.forEach((foodItem, foodIndex) => {
-                    foodItem.menuTypeIndex = menuTypeIndex
-                    foodItem.foodIndex = foodIndex
-                    a.foodCodeIndexs[foodItem.foodCode] = foodIndex
+                /* typeIdFoodCode={13:{menuTypeIndex:0, foodCodeIndexs:{code:foodIndex}} }*/
+                let typeIdFoodCode = {}
+                resData.foodList.forEach((item, menuTypeIndex) => {
+                    let a = {}
+                    a.menuTypeIndex = menuTypeIndex
+                    a.foodCodeIndexs = {}
+                    item.menuTypeIndex = menuTypeIndex
+                    item.foodList.forEach((foodItem, foodIndex) => {
+                        foodItem.menuTypeIndex = menuTypeIndex
+                        foodItem.foodIndex = foodIndex
+                        a.foodCodeIndexs[foodItem.foodCode] = foodIndex
+                    })
+                    typeIdFoodCode[item.typeId] = a
                 })
-                typeIdFoodCode[item.typeId] = a
-            })
 
-            console.log('typeIdFoodCode', typeIdFoodCode)
-            if (resData.foodCustomizeList && resData.foodCustomizeList.length > 0) {
-                resData.foodCustomizeList.forEach((item, index1) => {
-                    item.left = true
-                    item.foodList.forEach((foodItem, index2) => {
-                        //要做俩连动，左侧连动正常了，正常没有连动左侧
-                        foodItem.left = true
+                console.log('typeIdFoodCode', typeIdFoodCode)
+                if (resData.foodCustomizeList && resData.foodCustomizeList.length > 0) {
+                    resData.foodCustomizeList.forEach((item, index1) => {
+                        item.left = true
+                        item.foodList.forEach((foodItem, index2) => {
+                            //要做俩连动，左侧连动正常了，正常没有连动左侧
+                            foodItem.left = true
+                            foodItem.foodCount = 0
+                            let foodList_menuTypeIndex = typeIdFoodCode[foodItem.typeId].menuTypeIndex
+                            let foodList_foodIndex = typeIdFoodCode[foodItem.typeId].foodCodeIndexs[foodItem.foodCode]
+                            foodItem.menuTypeIndex = foodList_menuTypeIndex
+                            foodItem.foodIndex = foodList_foodIndex
+
+                            //正常连动左侧
+                            resData.foodList[foodList_menuTypeIndex].foodList[foodList_foodIndex].leftMenuTypeIndex = index1
+                            resData.foodList[foodList_menuTypeIndex].foodList[foodList_foodIndex].leftFoodIndex = index2
+                        })
+                        tmp_menuCountList.push(0)
+                        tmp_menuCountListCopy.push(0)
+                    })
+                }
+
+                console.log('resData.foodCustomizeList', resData.foodCustomizeList)
+                resData.foodList.forEach(item => {
+                    item.left = false
+                    item.foodList.forEach(foodItem => {
+                        foodItem.foodTotalPrice = 0
+                        foodItem.foodTotalOriginalPrice = 0
                         foodItem.foodCount = 0
-                        let foodList_menuTypeIndex = typeIdFoodCode[foodItem.typeId].menuTypeIndex
-                        let foodList_foodIndex = typeIdFoodCode[foodItem.typeId].foodCodeIndexs[foodItem.foodCode]
-                        foodItem.menuTypeIndex = foodList_menuTypeIndex
-                        foodItem.foodIndex = foodList_foodIndex
-
-                        //正常连动左侧
-                        resData.foodList[foodList_menuTypeIndex].foodList[foodList_foodIndex].leftMenuTypeIndex = index1
-                        resData.foodList[foodList_menuTypeIndex].foodList[foodList_foodIndex].leftFoodIndex = index2
                     })
                     tmp_menuCountList.push(0)
                     tmp_menuCountListCopy.push(0)
-                })
-            }
 
-            console.log('resData.foodCustomizeList', resData.foodCustomizeList)
-            resData.foodList.forEach(item => {
-                item.left = false
-                item.foodList.forEach(foodItem => {
-                    foodItem.foodTotalPrice = 0
-                    foodItem.foodTotalOriginalPrice = 0
-                    foodItem.foodCount = 0
                 })
-                tmp_menuCountList.push(0)
-                tmp_menuCountListCopy.push(0)
 
+                // 把标签项的餐品也加上5/30
+                // 放在这应该是对的
+                if (resData.foodCustomizeList && resData.foodCustomizeList.length > 0) {
+                    resData.foodList = resData.foodCustomizeList.concat(resData.foodList)
+                    resData.foodCustomizeListLength = resData.foodCustomizeList.length
+                } else {
+                    resData.foodCustomizeListLength = 0
+                }
+
+                console.log('resData', resData)
+                    //5/31截止
+
+
+
+
+                //可以不用setData，因为都是0不需要显示
+                _this.data.menuCountList[tmp_mealTypeItem] = tmp_menuCountList
+                _this.data.menuCountListCopy[tmp_mealTypeItem] = tmp_menuCountListCopy
+
+                let tmp_allData = _this.data.allMenuData
+                tmp_allData[tmp_mealTypeItem] = resData
+                _this.setData({
+                    allMenuData: tmp_allData, //保存下所有数据
+                    allMenuDataCopy: tmp_allData, //保存下所有数据
+                    getdataalready: true,
+                    lazyShowImage: tmp_lazyShowImage,
+                    lazyShowImageCount: tmp_lazyShowImageCount
+                })
+
+
+                // 在没有得到数据就使用时，是有错误的，所以在得到数据后使用
+                // 2019/04/20 后面会检查这部分，顺便学习相关知识
+                // 这样就计算多遍了啊
+                if (_this.data.windowHeight == 0) {
+                    wx.getSystemInfo({
+                        success: function(res) {
+                            _this.setData({
+                                windowHeight: res.windowHeight
+                            })
+                        }
+                    })
+                }
+                if (resData.mealType.orderStatus && resData.foodList.length !== 0) {
+
+                    // 计算购物车的高度
+                    const query2 = wx.createSelectorQuery()
+                    query2.select('#cartCount').boundingClientRect()
+                    query2.selectViewport().scrollOffset()
+                    query2.exec(function(res) {
+                        if (res[0]) {
+                            _this.setData({
+                                cartAnimationBottom: res[0].bottom
+                            })
+                        }
+                    })
+                    _this.calculateHeight()
+                }
+                _this.setData({
+                    getTimeDataByResponseNow: false
+                })
             })
 
-            // 把标签项的餐品也加上5/30
-            // 放在这应该是对的
-            if (resData.foodCustomizeList && resData.foodCustomizeList.length > 0) {
-                resData.foodList = resData.foodCustomizeList.concat(resData.foodList)
-                resData.foodCustomizeListLength = resData.foodCustomizeList.length
-            } else {
-                resData.foodCustomizeListLength = 0
-            }
-
-            console.log('resData', resData)
-                //5/31截止
-
-
-
-
-            //可以不用setData，因为都是0不需要显示
-            _this.data.menuCountList[tmp_mealTypeItem] = tmp_menuCountList
-            _this.data.menuCountListCopy[tmp_mealTypeItem] = tmp_menuCountListCopy
-
-            let tmp_allData = _this.data.allMenuData
-            tmp_allData[tmp_mealTypeItem] = resData
-            _this.setData({
-                allMenuData: tmp_allData, //保存下所有数据
-                allMenuDataCopy: tmp_allData, //保存下所有数据
-                getdataalready: true,
-                lazyShowImage: tmp_lazyShowImage,
-                lazyShowImageCount: tmp_lazyShowImageCount
-            })
-
-
-            // 在没有得到数据就使用时，是有错误的，所以在得到数据后使用
-            // 2019/04/20 后面会检查这部分，顺便学习相关知识
-            // 这样就计算多遍了啊
-            if (_this.data.windowHeight == 0) {
-                wx.getSystemInfo({
-                    success: function(res) {
-                        _this.setData({
-                            windowHeight: res.windowHeight
-                        })
-                    }
-                })
-            }
-            if (resData.mealType.orderStatus && resData.foodList.length !== 0) {
-
-                // 计算购物车的高度
-                const query2 = wx.createSelectorQuery()
-                query2.select('#cartCount').boundingClientRect()
-                query2.selectViewport().scrollOffset()
-                query2.exec(function(res) {
-                    if (res[0]) {
-                        _this.setData({
-                            cartAnimationBottom: res[0].bottom
-                        })
-                    }
-                })
-                _this.calculateHeight()
-            }
-            _this.setData({
-                getTimeDataByResponseNow: false
-            })
         })
     },
     // 计算购物车高度，大于最大高度就滚动

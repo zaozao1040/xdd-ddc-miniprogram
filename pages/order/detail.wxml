@@ -25,12 +25,10 @@
             <view class='cart-discount-organize'>企业抵扣</view>
             <view class='cart-discount-organize-money'>-￥{{detailInfo.standardPrice}}</view>
         </view>
-        <view class='cart-organize-deduction'>
-            <view class='cart-discount-organize'>积分抵扣</view>
-
-            <view class='cart-discount-organize-money'>-￥{{detailInfo.integralPrice}}</view>
-
-        </view>
+        <!-- <view class='cart-organize-deduction'>
+            <view class='cart-discount-organize'>积分抵扣</view> 
+            <view class='cart-discount-organize-money'>-￥{{detailInfo.integralPrice}}</view> 
+        </view> -->
         <view class='cart-organize-deduction'>
             <view class='cart-discount-organize'>优惠券</view>
 

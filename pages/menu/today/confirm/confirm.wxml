@@ -31,13 +31,29 @@
                 <view class="section-3-1">
                     <image src="/images/mine/organize.png" style='width:48rpx;height:48rpx;'></image>
                 </view>
-                <input bindinput="addressInput" value="{{address}}" placeholder="搜索企业名..." data-organizecode="{{organizeCode}}" class="section-3-2" type="string" bindtap="handleSelectAddress"></input>
+                <input bindinput="addressInput" value="{{address}}" placeholder="搜索企业简称，列如：星点点" data-organizecode="{{organizeCode}}" class="section-3-2" type="string" bindtap="handleSelectAddress"></input>
             </view>
 
 
             <view class="modulebox-button-wrapper">
                 <view class="selectPayType_button" bindtap="handleChangeSelectFlag">取消</view>
                 <view class="selectPayType_button_check" bindtap="handleCheckParams">确定</view>
+            </view>
+        </view>
+    </view>
+    <!-- 弹出层 填写余额支付提示 -->
+    <view class="modulebox-background-wrapper" wx:if="{{balanceConfirmFlag}}">
+        <view class="balance-r-wrapper">
+
+            <view class='balance-r-t'>
+                <text class='balance-r-1'>使用余额支付</text>
+                <text class='balance-r-2'>￥</text>
+                <text class='balance-r-3'>{{realMoney}}</text>
+            </view>
+
+            <view class="balance-r_button-wrapper">
+                <view class="balance-r_button" bindtap="closeBalanceConfirmFlag">取消</view>
+                <view class="balance-r_button_check" bindtap="handleCommitPay">确定</view>
             </view>
         </view>
     </view>
@@ -108,25 +124,6 @@
                                     <view class='cart-discount-organize'>企业抵扣</view>
                                     <view class='cart-discount-organize-money'>-￥{{oneday[item].deductionMoney}}</view>
                                 </view>
-                                <!-- <view class='cart-organize-deduction'>
-                                    <view class='cart-discount-organize'>
-                                        <view style="display:inline-block;"> 积分抵扣 </view>
-                                        <navigator url="/pages/mine/integral/regular" style="display:inline-block;">
-                                            <image src='/images/menu/jifenshuoming.png' style='margin-left:10rpx;width:28rpx;height:28rpx;'></image>
-                                        </navigator>
-                                    </view>
-                                    <view bindtap='changeUseIntegral' data-index='{{onedayindex}}' data-meal='{{item}}'>
-                                        <view class='flex-a' wx:if='{{oneday[item].useIntegral}}'>
-                                            <view class='pay-integral-describe'>当前{{oneday[item].current}}积分，可抵扣</view>
-                                            <view class='pay-balance-money'>-￥{{oneday[item].integral}}</view>
-                                            <image src='/images/menu/check.png' style='margin-left:10rpx;width:40rpx;height:40rpx;'></image>
-                                        </view>
-                                        <view class='flex-a' wx:else>
-                                            <view class='pay-integral-describe'>暂不使用积分</view>
-                                            <image src='/images/menu/uncheck.png' style='margin-left:10rpx;width:40rpx;height:40rpx;'></image>
-                                        </view>
-                                    </view>
-                                </view> -->
                             </view>
                         </view>
                     </view>
@@ -195,6 +192,6 @@
                 已优惠￥{{totalDeduction}}
             </view>
         </view>
-        <view class='pay-button' bindtap="handleCommitPay">确认支付</view>
+        <view class='pay-button' bindtap="handleCommitPayCheck">确认支付</view>
     </view>
 </view>

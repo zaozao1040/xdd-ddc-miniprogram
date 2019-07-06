@@ -33,15 +33,18 @@ Page({
         this.setData({
             foodCode: foodCode
         })
-        let url = '/food/getFoodDetail?userCode=' + wx.getStorageSync('userCode') + '&mealDate=' + mealDate + '&mealType=' + mealType.toUpperCase() + '&foodCode=' + foodCode
-        let param = {
-            url
-        }
-        requestModel.request(param, data => {
-            this.setData({
-                foodInfo: data
+        requestModel.getUserCode(userCode => {
+            let url = '/food/getFoodDetail?userCode=' + userCode + '&mealDate=' + mealDate + '&mealType=' + mealType.toUpperCase() + '&foodCode=' + foodCode
+            let param = {
+                url
+            }
+            requestModel.request(param, data => {
+                this.setData({
+                    foodInfo: data
+                })
             })
         })
+
 
         this.initRatings()
     },
@@ -101,38 +104,38 @@ Page({
         let page = _this.data.page
         let limit = _this.data.limit
 
-        let url = '/food/getFoodEvaluate?userCode=' + wx.getStorageSync('userCode') + '&foodCode=' + _this.data.foodCode + '&page=' + page + '&limit=' + limit
+        requestModel.getUserCode(userCode => {
+            let url = '/food/getFoodEvaluate?userCode=' + userCode + '&foodCode=' + _this.data.foodCode + '&page=' + page + '&limit=' + limit
 
-        let param = { url }
-        requestModel.request(param, (data) => {
+            let param = { url }
+            requestModel.request(param, (data) => {
 
-            let { list, amount } = data
-            if (page == 1) {
-                _this.setData({
-                    ratingsInfoList: list, //concat是拆开数组参数，一个元素一个元素地加进去
-                    loadingData: false,
-                    amount: amount
-                })
-            } else {
-                _this.setData({
-                    ratingsInfoList: _this.data.ratingsInfoList.concat(list), //concat是拆开数组参数，一个元素一个元素地加进去
-                    loadingData: false,
-                    amount: amount
-                })
-            }
-            // 大于amount，说明已经加载完了
-            if (page * limit >= amount) {
-                _this.setData({
-                    hasMoreDataFlag: false
-                })
-            } else {
-                _this.setData({
-                    hasMoreDataFlag: true,
-                    page: page + 1
-                })
-            }
-
-
+                let { list, amount } = data
+                if (page == 1) {
+                    _this.setData({
+                        ratingsInfoList: list, //concat是拆开数组参数，一个元素一个元素地加进去
+                        loadingData: false,
+                        amount: amount
+                    })
+                } else {
+                    _this.setData({
+                        ratingsInfoList: _this.data.ratingsInfoList.concat(list), //concat是拆开数组参数，一个元素一个元素地加进去
+                        loadingData: false,
+                        amount: amount
+                    })
+                }
+                // 大于amount，说明已经加载完了
+                if (page * limit >= amount) {
+                    _this.setData({
+                        hasMoreDataFlag: false
+                    })
+                } else {
+                    _this.setData({
+                        hasMoreDataFlag: true,
+                        page: page + 1
+                    })
+                }
+            })
         })
     },
 

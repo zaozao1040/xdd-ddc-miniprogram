@@ -34,28 +34,32 @@ Page({
 
         //获取弹窗的高 
         /* 请求星级标签列表 */
-        let param = {
-            url: '/orderEvaluate/getEvaluateTagList?userCode=' + wx.getStorageSync('userCode')
-        }
-        requestModel.request(param, (data) => {
-            //处理标签
-            let evaluateLabels = {}
-            data.forEach(item => {
-                evaluateLabels[item.star] = item.tagList
-            })
+        requestModel.getUserCode(userCode => {
 
-
-            //当前默认五星,以及五星对应的标签
-            // 默认五星好评
-
-            if (evaluateLabels[5] && evaluateLabels[5].length > 0) {
-                _this.data.complaint.evaluateLabelsActive = evaluateLabels[5]
-                _this.data.complaint.selectedTagNum = 0
+            let param = {
+                url: '/orderEvaluate/getEvaluateTagList?userCode=' + userCode
             }
+            requestModel.request(param, (data) => {
+                //处理标签
+                let evaluateLabels = {}
+                data.forEach(item => {
+                    evaluateLabels[item.star] = item.tagList
+                })
 
-            _this.setData({
-                complaint: _this.data.complaint,
-                evaluateLabels: evaluateLabels
+
+                //当前默认五星,以及五星对应的标签
+                // 默认五星好评
+
+                if (evaluateLabels[5] && evaluateLabels[5].length > 0) {
+                    _this.data.complaint.evaluateLabelsActive = evaluateLabels[5]
+                    _this.data.complaint.selectedTagNum = 0
+                }
+
+                _this.setData({
+                    complaint: _this.data.complaint,
+                    evaluateLabels: evaluateLabels,
+                    userCode: userCode
+                })
             })
         })
     },
@@ -133,7 +137,7 @@ Page({
                     name: 'file',
                     formData: { //HTTP 请求中其他额外的 form data
                         orderCode: _this.data.orderCode,
-                        userCode: wx.getStorageSync('userCode'),
+                        userCode: _this.data.userCode,
                         type: 'EVALUATE'
                     },
                     success: function(res) {
@@ -170,7 +174,7 @@ Page({
             operatingNow: true
         })
         let tmpData = {
-            userCode: wx.getStorageSync('userCode'),
+            userCode: _this.data.userCode,
             wechatFormId: e.detail.formId,
             foodEvaluateList: []
         }

@@ -4,7 +4,7 @@ class base {
     a = {
             500: '网路故障',
             1001: "微信信息错误，请重新授权登录",
-            1002: "微信信息CODE，请重新授权登录",
+            1002: "微信信息错误，请重新授权登录",
             1003: "微信用户信息获取失败",
             1004: "微信用户手机信息获取失败",
             1005: "微信登录失败",
@@ -23,17 +23,17 @@ class base {
             1103: "网络请求错误",
             2001: "微信openid为空",
             2002: "手机号码为空",
-            2003: "用户编号为空",
+            2003: "用户不存在",
             2004: "用户不存在",
             2005: "当前用户不可用",
-            2006: "组织编号为空",
+            2006: "组织不存在",
             2007: "用户已绑定当前企业",
             2008: "企业不可用",
             2009: "企业设置错误",
-            2010: "用户员工工号为空",
-            2011: "用户姓名为空",
-            2012: "用户姓名长度超出限制，限制10字符",
-            2013: "用户绑定企业失败",
+            2010: "员工工号为空",
+            2011: "姓名为空",
+            2012: "姓名长度超出限制，限制10字符",
+            2013: "绑定企业失败",
             2014: "用户存在于黑名单",
             2015: "获取用户信息失败",
             2016: "获取用户详情信息失败",
@@ -43,29 +43,29 @@ class base {
             2020: "修改手机号码失败",
             2021: "手机验证码无效",
             2022: "用户信息不完整，手机号码缺失",
-            2023: "收货地址编号为空",
+            2023: "收货地址不存在",
             2024: "收货地址不可用",
-            2025: "用户设置默认收货地址失败",
-            2026: "用户已绑定企业，不可再次绑定",
-            2027: "用户非游客用户",
-            2028: "用户非管理员用户",
+            2025: "设置默认收货地址失败",
+            2026: "已绑定企业，不可再次绑定",
+            2027: "非游客用户",
+            2028: "非管理员用户",
             2101: "企业不支持充值",
             2102: "充值金额错误",
-            2103: "用户充值失败",
-            3001: "组织编号为空",
+            2103: "充值失败",
+            3001: "组织不存在",
             3002: "组织不存在",
             3003: "组织不可用",
             3004: "企业设置错误",
-            3005: "配送地址编号为空",
-            3006: "企业未开通该餐时",
+            3005: "配送地址不存在",
+            3006: "企业未开通该餐别",
             3007: "企业名称过短",
             3008: "企业名称过长",
             3009: "配送地址不可用",
-            3010: "企业当前餐时不可点餐，请联系管理员",
-            3011: "未获取到用户餐时设置",
+            3010: "企业当前餐别不可点餐",
+            3011: "未获取到用户餐别设置",
             4019: "报餐餐品数量不可重复为0",
             4020: "报餐日期错误",
-            4021: "当前时餐不可报餐",
+            4021: "当前餐别不可报餐",
             4022: "报餐数量错误",
             4023: "当前已有报餐，只允许修改",
             4024: "未查询到已有报餐记录",
@@ -73,7 +73,7 @@ class base {
             4026: "报餐日期错误",
             4027: "报餐餐别错误",
             4028: "报餐失败",
-            4029: "餐时不可点",
+            4029: "餐别不可点",
             4030: "订单付款价格错误",
             4031: "订单餐品不存在",
             4032: "订单餐品超出库存量",
@@ -81,12 +81,12 @@ class base {
             4034: "订单积分抵扣只允许是100的整数倍",
             4035: "订单积分抵扣金额高于所需支付金额",
             4036: "企业管理员不允许补餐",
-            4037: "用户积分不足",
-            4038: "用户余额不足",
+            4037: "积分不足",
+            4038: "余额不足",
             4039: "订单生成交易失败",
             4040: "订单生成失败",
             4041: "订单余额支付失败",
-            4042: "订单编号为空",
+            4042: "订单不存在",
             4043: "订单不存在",
             4044: "订单已确认，不可取消",
             4045: "订单取消失败",
@@ -99,15 +99,15 @@ class base {
             4103: "订单不可评价",
             4104: "订单评价失败",
             5001: "就餐日期为空",
-            5002: "餐时错误",
-            5003: "餐品编号为空",
+            5002: "餐别错误",
+            5003: "餐品不存在",
             6001: "文件错误",
             6002: "文件过大",
             6003: "文件上传失败",
             7001: "当前用户不可进行服务评价",
             7002: "当前用户非管理员状态，不可进行服务评价",
             7003: "当前用户已超出评价次数限制（5次）",
-            7004: "当前当天未用餐，不可服务评价",
+            7004: "当前当天未用餐，不可评价服务",
             7005: "服务标签选择不可为空",
             7006: "服务评价失败",
             9001: "建议内容不可为空",
@@ -194,33 +194,50 @@ class base {
         }
         // 获取用户信息
     getUserInfo(sCallback, pullDown) {
-        let { userInfo, time } = wx.getStorageSync('userInfo')
-        let duration = undefined
+            let { userInfo, time } = wx.getStorageSync('userInfo')
+            let duration = undefined
 
-        if (time) {
-            // 如果上次获取时间超过30分钟，就再次拉取
-            duration = ((new Date()).getTime() - (new Date(time)).getTime()) / 60000 > 30
-        }
-
-
-        if (!time || duration || pullDown) {
-            let param = {
-                url: '/user/getUserInfo?userCode=' + wx.getStorageSync('userCode')
+            if (time) {
+                // 如果上次获取时间超过30分钟，就再次拉取
+                duration = ((new Date()).getTime() - (new Date(time)).getTime()) / 60000 > 30
             }
 
-            this.request(param, data => {
-                let userInfo = {}
-                userInfo.userInfo = data
-                userInfo.time = new Date()
-                wx.setStorageSync('userInfo', userInfo)
-                sCallback && sCallback(data);
+            this.getUserCode(() => {
+                if (!time || duration || pullDown) {
 
+                    let param = {
+                        url: '/user/getUserInfo?userCode=' + wx.getStorageSync('userCode')
+                    }
+
+                    this.request(param, data => {
+                        let userInfo = {}
+                        userInfo.userInfo = data
+                        userInfo.time = new Date()
+                        wx.setStorageSync('userInfo', userInfo)
+                        sCallback && sCallback(data);
+
+                    })
+
+
+                } else {
+                    sCallback && sCallback(userInfo);
+                }
+            })
+
+        }
+        //在每个onShow里写就可以了
+    getUserCode(sCallback) {
+        //只要这个userCode为空，就跳转到首页 
+        let userCode = wx.getStorageSync('userCode')
+        console.log('getUserCode(sCallback)---', userCode)
+        if (!userCode) {
+            wx.switchTab({
+                url: '/pages/home/home',
             })
         } else {
-            sCallback && sCallback(userInfo);
+            sCallback && sCallback(userCode)
         }
     }
-
     requestWithCatch(params, cacheTime) {
         var that = this
         var url = params.url;

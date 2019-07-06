@@ -21,15 +21,18 @@ Page({
         _this.getUserDetailInfo()
     },
     getUserDetailInfo() {
-        let param = {
-            url: '/user/getUserDetailInfo?userCode=' + wx.getStorageSync('userCode')
-        }
-        requestModel.request(param, data => {
-            this.setData({
-                userInfo: data,
-                getalready: true
+        requestModel.getUserCode(userCode => {
+            let param = {
+                url: '/user/getUserDetailInfo?userCode=' + userCode
+            }
+            requestModel.request(param, data => {
+                this.setData({
+                    userInfo: data,
+                    getalready: true
+                })
             })
         })
+
     },
     // 注销账户 
     logout: function() {
@@ -60,25 +63,28 @@ Page({
             content: _this.data.userInfo.orgAdmin ? '您确定要从' + ct + '切换为普通用户吗?' : '您确定要从普通用户切换为' + ct + '吗?',
             success(res) {
                 if (res.confirm) {
-                    let param = {
-                        url: '/user/orgAdminChange',
-                        method: 'post',
-                        data: {
-                            userCode: wx.getStorageSync('userCode')
+                    requestModel.getUserCode(userCode => {
+                        let param = {
+                            url: '/user/orgAdminChange',
+                            method: 'post',
+                            data: {
+                                userCode: userCode
+                            }
                         }
-                    }
 
-                    requestModel.request(param, () => {
-                        _this.data.userInfo.orgAdmin = !_this.data.userInfo.orgAdmin
-                        _this.setData({
-                            userInfo: _this.data.userInfo
-                        })
-                        wx.showToast({
-                            title: '切换成功',
-                            icon: 'none',
-                            duration: 2000
+                        requestModel.request(param, () => {
+                            _this.data.userInfo.orgAdmin = !_this.data.userInfo.orgAdmin
+                            _this.setData({
+                                userInfo: _this.data.userInfo
+                            })
+                            wx.showToast({
+                                title: '切换成功',
+                                icon: 'none',
+                                duration: 2000
+                            })
                         })
                     })
+
                 }
             }
         })

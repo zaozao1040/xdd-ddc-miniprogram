@@ -101,6 +101,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function() {
+
         let _this = this
         wx.getSystemInfo({
             success: function(res) {
@@ -110,7 +111,7 @@ Page({
             }
         })
         requestModel.getUserInfo(userInfo => {
-            console.log('userInfo', userInfo)
+
             _this.setData({
                 userInfo: userInfo,
                 userInfoReady: true
@@ -136,7 +137,7 @@ Page({
                         url: '/user/orgAdminChange',
                         method: 'post',
                         data: {
-                            userCode: wx.getStorageSync('userCode')
+                            userCode: _this.data.userCode
                         }
                     }
 
@@ -206,29 +207,32 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-        //
-        let param = {
-            url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
-        }
-        requestModel.request(param, data => {
-                this.setData({
+
+        let _this = this
+        requestModel.getUserCode(userCode => {
+            let param = {
+                url: '/user/getUserFinance?userCode=' + userCode
+            }
+            requestModel.request(param, data => {
+                _this.setData({
                     allBalance: data.allBalance,
                     integral: data.integral,
                     discount: data.discount,
-                    financeReady: true
+                    financeReady: true,
+                    userCode: userCode
                 })
             }, true)
-            //如果需要刷新userInfo缓存，则刷新
-        if (wx.getStorageSync('refreshUserInfoFlag')) {
-            console.log('yes')
+
+
             requestModel.getUserInfo(userInfo => {
                 console.log('userInfo', userInfo)
-                this.setData({
+                _this.setData({
                     userInfo: userInfo
                 })
-            }, true)
-            wx.setStorageSync('refreshUserInfoFlag', false)
-        }
+            })
+
+
+        })
     },
 
     /**
@@ -255,7 +259,7 @@ Page({
         wx.showNavigationBarLoading();
         //刷新积分、余额、优惠券
         let param = {
-            url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
+            url: '/user/getUserFinance?userCode=' + _this.data.userCode
         }
         requestModel.request(param, data => {
             _this.setData({

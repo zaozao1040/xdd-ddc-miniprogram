@@ -25,26 +25,28 @@ Page({
     makeComplaints() {
         let _this = this
         if (_this.data.value) {
-            let param = {}
-            param.userCode = wx.getStorageSync('userCode')
-            param.content = _this.data.value
+            requestModel.getUserCode(userCode => {
+                let param = {}
+                param.userCode = userCode
+                param.content = _this.data.value
 
-            let url = '/help/suggestion'
-            let params = {
-                data: param,
-                url,
-                method: 'post'
-            }
+                let url = '/help/suggestion'
+                let params = {
+                    data: param,
+                    url,
+                    method: 'post'
+                }
 
-            requestModel.request(params, () => {
-                wx.showToast({
-                    title: '吐槽完成',
-                    icon: 'success',
-                    duration: 2000
-                })
-                _this.setData({
-                    value: '',
-                    count: 0
+                requestModel.request(params, () => {
+                    wx.showToast({
+                        title: '吐槽完成',
+                        icon: 'success',
+                        duration: 2000
+                    })
+                    _this.setData({
+                        value: '',
+                        count: 0
+                    })
                 })
             })
         }

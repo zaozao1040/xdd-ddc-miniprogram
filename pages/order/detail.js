@@ -1,4 +1,5 @@
 import { base } from '../../comm/public/request'
+
 let requestModel = new base()
 
 Page({
@@ -34,114 +35,118 @@ Page({
      */
     onLoad: function(options) {
         let _this = this
-
-        let param = {
-            url: '/order/getOrderDetail?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + options.orderCode
-        }
-        requestModel.request(param, data => {
-            data.mealTypeDes = _this.data.mealTypeMap[data.mealType] //日期
-            data.orderStatusDes = _this.getOrderStatus(data) //状态
-            data.deduction = parseFloat((parseFloat(data.totalPrice) - parseFloat(data.payPrice)).toFixed(2))
-
-            if (data.pickStatus == 1) { //待取餐
-                //取餐时间
-                if (data.orderFoodList[0].takeMealStartTime && data.orderFoodList[0].takeMealEndTime) {
+        requestModel.getUserCode(userCode => {
 
 
-                    let starts = data.orderFoodList[0].takeMealStartTime.split(' ')
-                    let sd = starts[0].split('-')
-                    let st = starts[1].split(':')
-                    let ends = data.orderFoodList[0].takeMealEndTime.split(' ')
-                    let ed = ends[0].split('-')
-                    let et = ends[1].split(':')
-                    data.pickTimeDes = sd[1] + '-' + sd[2] + ' ' + st[0] + ':' + st[1] + '至' + ed[1] + '-' + ed[2] + ' ' + et[0] + ':' + et[1]
-                } else {
-                    data.pickTimeDes = data.mealDate
-                }
+            let param = {
+                url: '/order/getOrderDetail?userCode=' + userCode + '&orderCode=' + options.orderCode
             }
+            requestModel.request(param, data => {
+                data.mealTypeDes = _this.data.mealTypeMap[data.mealType] //日期
+                data.orderStatusDes = _this.getOrderStatus(data) //状态
+                data.deduction = parseFloat((parseFloat(data.totalPrice) - parseFloat(data.payPrice)).toFixed(2))
 
-            //绑箱绑柜信息
-            let boxes = []
-            let cabinets = []
-            data.orderFoodList.forEach(item => {
-                if (item.boxNumber && item.boxNumber.length > 0) {
-                    item.boxNumber.forEach(bb => {
-                        if (!boxes.includes(bb)) {
-                            boxes.push(bb)
-                        }
-                    })
-                }
-                if (item.cabinet && item.cabinet.length > 0) {
-                    item.cabinet.forEach(cc => {
-                        let a = cc.cabinetNumber + '-' + cc.cellNumber
-                        if (!cabinets.includes(a)) {
-                            cabinets.push(a)
-                        }
-                    })
-                }
-            })
+                if (data.pickStatus == 1) { //待取餐
+                    //取餐时间
+                    if (data.orderFoodList[0].takeMealStartTime && data.orderFoodList[0].takeMealEndTime) {
 
-            if (boxes.length > 0) {
-                data.boxes = boxes
-            } else {
-                data.boxes = '未查询到绑箱信息'
-            }
-            if (cabinets.length > 0) {
 
-                data.cabinets = cabinets
-            } else {
-                data.cabinets = '未查询到绑柜信息'
-            }
-
-            if (data.isPay) { //已支付，判断支付方式
-                if (data.payMethod == 2 || data.payMethod == 3) {
-                    if (data.defrayType == 1) {
-                        data.payTypeDes = '余额支付'
-                    } else if (data.defrayType == 2) {
-                        data.payTypeDes = '微信支付'
-                    } else if (data.defrayType == 4) {
-                        data.payTypeDes = '积分支付'
+                        let starts = data.orderFoodList[0].takeMealStartTime.split(' ')
+                        let sd = starts[0].split('-')
+                        let st = starts[1].split(':')
+                        let ends = data.orderFoodList[0].takeMealEndTime.split(' ')
+                        let ed = ends[0].split('-')
+                        let et = ends[1].split(':')
+                        data.pickTimeDes = sd[1] + '-' + sd[2] + ' ' + st[0] + ':' + st[1] + '至' + ed[1] + '-' + ed[2] + ' ' + et[0] + ':' + et[1]
                     } else {
-                        data.payTypeDes = '标准支付'
+                        data.pickTimeDes = data.mealDate
                     }
-                } else if (data.payMethod == 1) {
-                    data.payTypeDes = '标准支付'
                 }
-            } else {
-                data.payTypeDes = '未支付'
-            }
 
-
-            _this.setData({
-                detailInfo: data,
-                getdataalready: true
-            })
-
-            console.log('detailInfo', data)
-
-            //获取windowHeight
-            wx.getSystemInfo({
-                    success: function(res) {
-                        _this.setData({
-                            windowHeight: res.windowHeight,
-                            wrapperHeight: res.windowHeight
+                //绑箱绑柜信息
+                let boxes = []
+                let cabinets = []
+                data.orderFoodList.forEach(item => {
+                    if (item.boxNumber && item.boxNumber.length > 0) {
+                        item.boxNumber.forEach(bb => {
+                            if (!boxes.includes(bb)) {
+                                boxes.push(bb)
+                            }
+                        })
+                    }
+                    if (item.cabinet && item.cabinet.length > 0) {
+                        item.cabinet.forEach(cc => {
+                            let a = cc.cabinetNumber + '-' + cc.cellNumber
+                            if (!cabinets.includes(a)) {
+                                cabinets.push(a)
+                            }
                         })
                     }
                 })
-                //计算最外层view的bottom
-            const query = wx.createSelectorQuery()
-            query.select('.wrapper').boundingClientRect()
-            query.selectViewport().scrollOffset()
-            query.exec(function(res) {
-                if (res[0]) {
-                    _this.setData({
-                        wrapperHeight: res[0].bottom
-                    })
+
+                if (boxes.length > 0) {
+                    data.boxes = boxes
+                } else {
+                    data.boxes = '未查询到绑箱信息'
+                }
+                if (cabinets.length > 0) {
+
+                    data.cabinets = cabinets
+                } else {
+                    data.cabinets = '未查询到绑柜信息'
                 }
 
+                if (data.isPay) { //已支付，判断支付方式
+                    if (data.payMethod == 2 || data.payMethod == 3) {
+                        if (data.defrayType == 1) {
+                            data.payTypeDes = '余额支付'
+                        } else if (data.defrayType == 2) {
+                            data.payTypeDes = '微信支付'
+                        }
+                        // else if (data.defrayType == 4) {
+                        //     data.payTypeDes = '积分支付'
+                        // } 
+                        else {
+                            data.payTypeDes = '标准支付'
+                        }
+                    } else if (data.payMethod == 1) {
+                        data.payTypeDes = '标准支付'
+                    }
+                } else {
+                    data.payTypeDes = '未支付'
+                }
+
+
+                _this.setData({
+                    detailInfo: data,
+                    getdataalready: true
+                })
+
+                console.log('detailInfo', data)
+
+                //获取windowHeight
+                wx.getSystemInfo({
+                        success: function(res) {
+                            _this.setData({
+                                windowHeight: res.windowHeight,
+                                wrapperHeight: res.windowHeight
+                            })
+                        }
+                    })
+                    //计算最外层view的bottom
+                const query = wx.createSelectorQuery()
+                query.select('.wrapper').boundingClientRect()
+                query.selectViewport().scrollOffset()
+                query.exec(function(res) {
+                    if (res[0]) {
+                        _this.setData({
+                            wrapperHeight: res[0].bottom
+                        })
+                    }
+
+                })
             })
         })
-
     },
 
     //获取订单状态

@@ -98,46 +98,48 @@ Page({
 
         let page = _this.data.page
         let limit = _this.data.limit
-        let param = {
-            url: '/' + url + '?userCode=' + wx.getStorageSync('userCode') + '&page=' + page + '&limit=' + limit
-        }
-        requestModel.request(param, data => {
-            if (data.amount == 0) {
-                _this.setData({
-                    rechargeListNoResult: true
-                })
-            } else {
-
-
-                let tmp_rechargeList = data.list
-                tmp_rechargeList.forEach(element => {
-                    element.balance = (element.difference > 0 ? '+' : '') + (element.difference).toFixed(2)
-                    element.recordTypeDes = typeMap[element.recordType]
-                    element.operateTimeDes = element.operateTime
-                })
-                if (page == 1) {
-                    _this.setData({
-                        rechargeList: tmp_rechargeList,
-                        loadingData: false
-                    })
-                } else {
-                    _this.setData({
-                        rechargeList: _this.data.rechargeList.concat(tmp_rechargeList),
-                        loadingData: false
-                    })
-                }
-                //下面开始分页 
-                if (page * limit >= data.amount) { //说明已经请求完了 
-                    _this.setData({
-                        hasMoreDataFlag: false
-                    })
-                } else {
-                    _this.setData({
-                        hasMoreDataFlag: true
-                    })
-                    _this.data.page = page + 1
-                }
+        requestModel.getUserCode(userCode => {
+            let param = {
+                url: '/' + url + '?userCode=' + userCode + '&page=' + page + '&limit=' + limit
             }
+            requestModel.request(param, data => {
+                if (data.amount == 0) {
+                    _this.setData({
+                        rechargeListNoResult: true
+                    })
+                } else {
+
+
+                    let tmp_rechargeList = data.list
+                    tmp_rechargeList.forEach(element => {
+                        element.balance = (element.difference > 0 ? '+' : '') + (element.difference).toFixed(2)
+                        element.recordTypeDes = typeMap[element.recordType]
+                        element.operateTimeDes = element.operateTime
+                    })
+                    if (page == 1) {
+                        _this.setData({
+                            rechargeList: tmp_rechargeList,
+                            loadingData: false
+                        })
+                    } else {
+                        _this.setData({
+                            rechargeList: _this.data.rechargeList.concat(tmp_rechargeList),
+                            loadingData: false
+                        })
+                    }
+                    //下面开始分页 
+                    if (page * limit >= data.amount) { //说明已经请求完了 
+                        _this.setData({
+                            hasMoreDataFlag: false
+                        })
+                    } else {
+                        _this.setData({
+                            hasMoreDataFlag: true
+                        })
+                        _this.data.page = page + 1
+                    }
+                }
+            })
         })
     },
     /* 手动点击触发下一页 */
@@ -162,61 +164,6 @@ Page({
     onShow: function() {
 
     },
-    /* 获取交易记录列表 */
-    getpersonalRechargeList: function() {
-        this.setData({
-            loadingData: true
-        })
-        let _this = this
-
-        let page = _this.data.page
-        let limit = _this.data.limit
-        let param = {
-            url: '/user/getUserBalanceRecord?userCode=' + wx.getStorageSync('userCode') + '&page=' + page + '&limit=' + limit
-        }
-        requestModel.request(param, data => {
-            let typeMap = {
-                RECHARGE: '充值',
-                CONSUMPTION: '消费',
-                CANCEL_ORDER: '取消订单返还',
-                PRESENT: '赠送',
-                PRE_RECHARGE: '预充',
-                ACTIVITY_PRESENT: '活动赠送',
-                RECHARGE_PRESENT: '充值赠送',
-                INTEGRAL_RECHARGE: '积分兑换'
-            }
-            let tmp_rechargeList = data.list
-            tmp_rechargeList.forEach(element => {
-                element.balance = (element.difference > 0 ? '+' : '') + (element.difference).toFixed(2)
-                element.recordTypeDes = typeMap[element.recordType]
-                element.operateTimeDes = element.operateTime
-            })
-            if (page == 1) {
-                _this.setData({
-                    rechargeList: tmp_rechargeList,
-                    loadingData: false
-                })
-            } else {
-                _this.setData({
-                    rechargeList: _this.data.rechargeList.concat(tmp_rechargeList),
-                    loadingData: false
-                })
-            }
-            //下面开始分页 
-            if (page * limit >= data.amount) { //说明已经请求完了 
-                _this.setData({
-                    hasMoreDataFlag: false
-                })
-            } else {
-                _this.setData({
-                    hasMoreDataFlag: true
-                })
-                _this.data.page = page + 1
-            }
-        })
-    },
-
-
     /**
      * 生命周期函数--监听页面隐藏
      */
