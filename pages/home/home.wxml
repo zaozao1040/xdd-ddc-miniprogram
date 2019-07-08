@@ -27,7 +27,7 @@
     </view>
 
     <!--弹出公告-->
-    <view class="modulebox-background-wrapper-notice" wx:if="{{showOneNotice&&!showUserAuthFlag&&!showCheckFlag}}">
+    <view class="modulebox-background-wrapper" wx:if="{{showOneNotice&&!showUserAuthFlag&&!showCheckFlag}}">
         <view>
             <image src='/images/home/announcement_pic.png' class='modulebox-image'></image>
         </view>
@@ -65,7 +65,7 @@
             <view style="margin-left:12rpx;height: 88rpx;width:88rpx;">
                 <image src='/images/home/home_balance.png' style="height: 88rpx;width:88rpx;"></image>
             </view>
-            <view class="label-des">我的余额</view>
+            <view class="label-des">我的钱包</view>
         </view>
         <view style="width:88rpx;text-align: center; " bindtap="handleGotoLabel" data-type="youhuiquan">
             <view style=" height: 88rpx;width:88rpx;">
@@ -190,6 +190,17 @@
             </view>
             <image class="image-dali" src="/images/home/new_user.png"></image>
             <view class='button-dali' catchtap="getNewUserGift">立即领取</view>
+        </view>
+    </view>
+    <!--弹出去绑定企业-->
+    <view class="modulebox-background-wrapper" wx:if='{{!showCheckFlag&&showBindOrganizeFlag}}'>
+        <view class='bind-organize-warpper'>
+            <view class='title'>尚未绑定企业</view>
+            <view class='content'>请前去绑定您所在的企业</view>
+            <view class='flexdisplay'>
+                <view class='left' bindtap='closeBindOrganize'>暂不绑定</view>
+                <view class='right' bindtap='gotoBindOrganize'>去绑定</view>
+            </view>
         </view>
     </view>
     <!-- layer弹出层 （优惠券活动 弹出） 2.6.1 -->

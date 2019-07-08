@@ -1,9 +1,63 @@
-<view style='padding-left:30rpx;border-top:2rpx solid #ebebeb;'>
-    <view class='title'>积分赠送说明：</view>
-    <view class='content'>1.订单中的自费金额赠送积分，满1元消费赠送1积分；</view>
-    <view class='content'>2.订单评价赠送积分，星级赠送1积分，文字评价赠送5积分，上传图片赠送15积分。
+<view style='padding:0 20rpx 40rpx 30rpx;border-top:2rpx solid #ebebeb;'>
+    <view class='title'>积分有什么用处？</view>
+    <view class='content'>1、积分可以在积分页面进行兑换，每满100积分兑换1赠 送点餐币，每周限兑换3赠送点餐币。 </view>
+    <view class='content'>
+        2、点点餐不定期会进行其他积分活动，请留意活动信息。
     </view>
-    <view class='title'>积分兑换说明：</view>
-    <view class='content'>1.每满100积分兑换1赠币，每周限兑换3赠币；</view>
-    <view class='content'>2.积分暂不支持跨平台使用，暂不支持转赠他人。</view>
+    <view class='content'>
+        注：原有“100积分抵扣1元”活动已取消。</view>
+
+    <view class='title'>如何获得积分？</view>
+    <view class='content'> 您可以通过下单、餐品评价获取积分：
+    </view>
+    <view class='content'>
+        1、下单：在及时取餐的情况下，每个普通订单实际消费 1元将获得1积分。 </view>
+    <view class='content'>
+        2、餐品评价：餐品评价赠送积分，提交星级评价可获得 1积分，文字评价可获得5积分，图文评价可获得15积分。
+    </view>
+
+
+    <view class='title'>为什么下单后没有获得积分？</view>
+    <view class='content'> 订单积分奖励与您取餐及时性有关。
+    </view>
+    <view class='content'>
+        如您于下单选择的用餐时间与餐别的规定时间之内取餐， 将获得相应的订单积分；如您取餐时间超出规定时间， 将不能获得积分。 </view>
+    <view class='content'>
+        早餐取餐时间为用餐日期下的4点至10点；
+    </view>
+    <view class='content'>
+        午餐取餐时间为用餐日期下的10点至16点；
+    </view>
+    <view class='content'>
+        晚餐取餐时间为用餐日期下的16点至22点；
+    </view>
+    <view class='content'>
+        夜宵取餐时间为用餐日期下的22点至23点50分。
+    </view>
+    <view class='title'>为什么无法评价？</view>
+    <view class='content'> 餐品评价与您的取餐及时性有关，您只可在取餐之后才可 评价。 </view>
+    <view class='content'>
+        如您在规定时间内取餐，并且在规定的评价时间内评价， 将获得相应的评价积分；如您未在取餐时间内取餐，将不 可评价；如您在规定时间内取餐，但未在规定的评价时间 内评价，将不可评价。 </view>
+    <view class='content'>
+        早餐评价时间为用餐日期下的4点至10点； </view>
+    <view class='content'>
+        午餐评价时间为用餐日期下的10点至16点； </view>
+    <view class='content'>
+        晚餐评价时间为用餐日期下的16点至22点； </view>
+    <view class='content'>
+        夜宵评价时间为用餐日期下的22点至23点50分。</view>
+
+    <view class='title'>评价餐品后多久能获得积分？</view>
+    <view class='content'> 星级评论、文字评论与图文评论赠送的积分将即时到账。</view>
+    <view class='title'>积分兑换的比例是多少？</view>
+    <view class='content'>积分与赠送点餐币兑换的比例为100:1，每周最多兑换30 0积分。 </view>
+    <view class='title'>积分有效期是多久？</view>
+    <view class='content'> 积分暂无有效期，长期有效（后期可能根据积分到账日 期有有效期限制）。
+    </view>
+    <view class='title'>积分减少，是哪些原因？</view>
+    <view class='content'> 积分减少原因有取消订单后扣减和积分兑换，积分收支 明细可在“积分明细”查看。
+    </view>
+    <view class='title'>积分是否可以转让或提现？</view>
+    <view class='content'> 积分不可提现也不可转出至其他账户。</view>
+
 </view>

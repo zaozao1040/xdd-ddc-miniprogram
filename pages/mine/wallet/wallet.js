@@ -5,7 +5,7 @@
          canRechargeFlag: true, //充值通道开启状态，默认开启
          //
          windowHeight: 0,
-         open: false,
+         open: true,
      },
      /**
       * 生命周期函数--监听页面加载
@@ -62,7 +62,8 @@
          })
      },
      gotoRecharge() {
-         wx.navigateTo({ url: '/pages/mine/wallet/recharge/recharge' })
+         let _this = this
+         wx.navigateTo({ url: '/pages/mine/wallet/recharge/recharge?allBalance=' + _this.data.allBalance })
      },
      gotoDetail(e) {
          let type = e.currentTarget.dataset.type

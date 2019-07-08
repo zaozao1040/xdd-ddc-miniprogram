@@ -1,15 +1,19 @@
 <view style='border-top:2rpx solid #EBEBEB;padding:38rpx 40rpx 0 30rpx;'>
-    <view class='title'>关于点餐币：</view>
-    <view class='content'>1. 点餐币是苏州星点点信息科技有限公司旗下点点餐平台上一种支付时使用的虚拟货币。</view>
-    <view class='content'>2. 用户可以使用点餐币购买平台上所有指定餐品，由于国家监管政策，平台上的虚拟币不支持提现。</view>
-    <view class='title' style='margin-top:40rpx;'>点餐币说明：</view>
-    <view class='content'>1. 平台上的点餐币分充值币和赠币（其中充值币又分个人充值币和企业充值币）。 </view>
+    <view class='title'>关于钱包：</view>
+    <view class='content'>1. 钱包是苏州星点点信息科技有限公司为旗下点点餐平台用户开立的支付账户。点餐币是苏州星点点信息科技有限公司旗下点点餐平台支付时使用的虚拟货币，包含于钱包中。
+    </view>
+    <view class='content'>2. 用户可以使用点餐币购买平台上所指定餐品，由于国家监管政策，平台上的虚拟币不支持提现。</view>
+    <view class='title' style='margin-top:40rpx;'>钱包说明：</view>
+    <view class='content'>1. 钱包分为个人钱包和企业钱包（其中个人钱包包含个 人点餐币和赠送点餐币，企业钱包包含企业点餐币）。
+
+    </view>
     <view class='content'>
-        2. 个人充值币可通过个人充值获得，企业充值币由企业为员工充值到企业充值币账户。 </view>
+        2. 个人钱包：个人点餐币来源包括个人充值或订单微信 支付取消退还；赠送点餐币来源包括平台赠送、活动赠 送、充值赠送和积分兑换。
+    </view>
     <view class='content'>
-        3. 赠币来源包括平台赠送、活动赠送、充值赠送和积分兑换获得。
+        3. 企业钱包：企业点餐币来源包括企业管理员为其所在 企业员工充值。
     </view>
     <view class='title' style='margin-top:40rpx;'>点餐币使用须知：</view>
-    <view class='content'>点餐币支付使用次序为：企业充值币、赠币、个人充值币。 其中个人微信支付取消情况下返还的金额会被视为个人充值币。
+    <view class='content'>钱包支付使用顺序依次为：企业钱包、个人钱包。企业 钱包部分的支付使用顺序依次为：企业点餐币。个人钱 包部分的支付使用顺序依次为：个人点餐币、赠送点餐 币。其中个人微信支付取消情况下订单支付金额会返还 至个人钱包中的个人点餐币。
     </view>
 </view>
