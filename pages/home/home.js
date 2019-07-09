@@ -287,7 +287,7 @@ Page({
                 if (userStatus == 'NORMAL') {
                     this.getTakeMealInfo()
                 }
-                if (userInfo.userType=='VISITOR') {
+                if (userInfo.userType == 'VISITOR') {
                     this.setData({
                         showBindOrganizeFlag: true
                     })
@@ -300,8 +300,8 @@ Page({
     },
     //没绑定企业的用户弹出去绑定弹窗
     gotoBindOrganize() {
-        wx.redirectTo({
-            url: '/pages/login/login',
+        wx.navigateTo({
+            url: '/pages/login/login?fromfrom=home',
         })
     },
     //关闭弹窗

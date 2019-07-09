@@ -354,9 +354,9 @@
 
              _this.setData({
                  showPayTypeFlag: true,
-                 balanceEnough: data.balance < payPrice ? false : true,
+                 balanceEnough: data.allBalance < payPrice ? false : true,
                  payOrderCode: orderCode,
-                 payType: data.balance < payPrice ? "WECHAT_PAY" : 'BALANCE_PAY'
+                 payType: data.allBalance < payPrice ? "WECHAT_PAY" : 'BALANCE_PAY'
 
              })
          })

@@ -569,11 +569,13 @@
     margin: auto;
     height: 328rpx;
     width: 520rpx;
+    padding-bottom: 0;
     background: #fff;
     border-radius: 8rpx;
+    z-index: 1001;
 }
 
-.bind-organize-warpper .title {
+.bind-organize-title {
     font-size: 34rpx;
     font-family: PingFangSC-Medium;
     font-weight: 500;
@@ -583,19 +585,27 @@
     text-align: center;
 }
 
-.bind-organize-warpper .content {
+.bind-organize-content {
     font-size: 30rpx;
     font-family: PingFangSC-Regular;
     font-weight: 400;
     color: rgba(133, 133, 133, 1);
     line-height: 42rpx;
-    padding-bottom: 76rpx;
-    border-bottom: 2rpx solid #E5E5E5;
+    /* padding-bottom: 76rpx; */
     text-align: center;
 }
 
-.bind-organize-warpper .left {
-    width: 260rpx;
+.bind-display {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    height: 100rpx;
+    border-top: 2rpx solid #E5E5E5;
+}
+
+.bind-organize-left {
+    width: 50%;
     font-size: 32rpx;
     font-family: PingFangSC-Regular;
     font-weight: 400;
@@ -603,16 +613,19 @@
     line-height: 100rpx;
     height: 100rpx;
     text-align: center;
+    background: #fff;
+    border-bottom-left-radius: 8rpx;
 }
 
-.bind-organize-warpper .right {
+.bind-organize-right {
     background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
-    width: 260rpx;
+    width: 50%;
     font-size: 32rpx;
     font-family: PingFangSC-Regular;
     font-weight: 400;
     color: #FFFFFF;
     line-height: 100rpx;
     height: 100rpx;
+    border-bottom-right-radius: 8rpx;
     text-align: center;
 }

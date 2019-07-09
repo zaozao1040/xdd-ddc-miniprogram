@@ -2,10 +2,10 @@
  let requestModel = new base()
  Page({
      data: {
-         canRechargeFlag: true, //充值通道开启状态，默认开启
+         canRechargeFlag: true, //点餐通道开启状态，默认开启
          //
          windowHeight: 0,
-         open: true,
+         open: false,
      },
      /**
       * 生命周期函数--监听页面加载
@@ -25,11 +25,11 @@
              }
              requestModel.request(param, data => {
                  this.setData({
-                     balance: data.balance, //个人充值币
-                     organizeBalance: data.organizeBalance, //企业充值币
+                     balance: data.balance, //个人点餐币
+                     organizeBalance: data.organizeBalance, //企业点餐币
                      presentBalance: data.presentBalance, //赠币
                      allBalance: data.allBalance, //所有币
-                     totalBalance: data.totalBalance, //充值币
+                     totalBalance: data.totalBalance, //点餐币
                      totalPresentBalance: data.totalPresentBalance, //赠币的和
 
                  })

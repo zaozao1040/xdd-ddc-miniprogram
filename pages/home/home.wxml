@@ -195,11 +195,12 @@
     <!--弹出去绑定企业-->
     <view class="modulebox-background-wrapper" wx:if='{{!showCheckFlag&&showBindOrganizeFlag}}'>
         <view class='bind-organize-warpper'>
-            <view class='title'>尚未绑定企业</view>
-            <view class='content'>请前去绑定您所在的企业</view>
-            <view class='flexdisplay'>
-                <view class='left' bindtap='closeBindOrganize'>暂不绑定</view>
-                <view class='right' bindtap='gotoBindOrganize'>去绑定</view>
+            <view class='bind-organize-title'>尚未绑定企业</view>
+            <view class='bind-organize-content'>请前去绑定您所在的企业</view>
+
+            <view class='bind-display'>
+                <view class='bind-organize-left' bindtap='closeBindOrganize'>暂不绑定</view>
+                <view class='bind-organize-right' bindtap='gotoBindOrganize'>去绑定</view>
             </view>
         </view>
     </view>

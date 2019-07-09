@@ -18,7 +18,7 @@ Page({
         payTypeMap: {
             ALI_PAY: '支付宝支付',
             WECHAT_PAY: '微信支付',
-            BALANCE_PAY: '余额支付',
+            BALANCE_PAY: '钱包支付',
             STANDARD_PAY: '标准支付'
         },
         mealTypeMap: {
@@ -99,7 +99,7 @@ Page({
                 if (data.isPay) { //已支付，判断支付方式
                     if (data.payMethod == 2 || data.payMethod == 3) {
                         if (data.defrayType == 1) {
-                            data.payTypeDes = '余额支付'
+                            data.payTypeDes = '钱包支付'
                         } else if (data.defrayType == 2) {
                             data.payTypeDes = '微信支付'
                         }

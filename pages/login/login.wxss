@@ -89,13 +89,14 @@
     font-family: PingFangSC-Regular;
     font-size: 28rpx;
     color: #333;
+    height: 60rpx;
 }
 
 .inputSearch-back {
     margin: 0 20rpx 20rpx 20rpx;
     background: #F6F6F6;
     border-radius: 6rpx;
-    line-height: 50rpx;
+    line-height: 60rpx;
     font-family: PingFangSC-Regular;
     font-size: 28rpx;
     padding: 0 20rpx;
@@ -130,8 +131,9 @@
 }
 
 .noResult {
+    text-align: center;
     padding: 10rpx 20rpx;
-    font-size: 40rpx;
+    font-size: 30rpx;
     color: #666;
 }
 

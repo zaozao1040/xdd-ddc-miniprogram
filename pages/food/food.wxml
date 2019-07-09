@@ -51,10 +51,7 @@
                             ￥{{foodInfo.foodOriginalPrice}}
                         </view>
                     </view>
-                    <view class="prompt">
-                        <text class="prompt-title">餐品用餐提示:</text>
-                        <text class="prompt-des"> {{foodInfo.prompt}}</text>
-                    </view>
+                    <view class="prompt"> 餐品用餐提示：{{foodInfo.prompt}}</view>
                     <view wx:if="{{foodInfo.description}}" class="foodDes">
                         {{foodInfo.description}}
                     </view>
