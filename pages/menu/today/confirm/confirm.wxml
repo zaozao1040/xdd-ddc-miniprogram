@@ -47,7 +47,7 @@
 
             <view class='balance-r-t'>
                 <text class='balance-r-1'>使用钱包支付</text>
-                <!-- <text class='balance-r-2'>￥</text> -->
+                <text class='balance-r-2'>￥</text>
                 <text class='balance-r-3'>{{realMoney}}</text>
             </view>
 
@@ -168,7 +168,12 @@
                     </view>
                     <view>
                         <view class='pay-item-top'>
-                            <view class='pay-title' style="margin-top:30rpx;"> 钱包支付(钱包余额{{allBalance}})</view>
+                            <view class='pay-title flex-a' style="margin-top:30rpx;">
+                                <view>钱包支付(钱包余额</view>
+                                <image src='/images/menu/diancanbi.png' style='width:28rpx;height:28rpx;padding:6rpx 5rpx 0;'></image>
+                                <view>{{allBalance}})</view>
+
+                            </view>
                             <view class='pay-balance-image'>
                                 <image src="/images/menu/today/order_open.png" style="width:86rpx;height:68rpx;" bindtap="handleChangeWalletSelectedFlag" wx:if="{{walletSelectedFlag}}">
                                 </image>

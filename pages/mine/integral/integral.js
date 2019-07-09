@@ -162,9 +162,12 @@ Page({
                 operateResult: 1, //本周兑换次数超过3次
             })
         } else {
+            let a = parseInt(3 - this.data.exchangeWeekIntegral)
+            let b = parseInt(this.data.integral / 100)
+            console.log('b', b)
             this.setData({
                 operateResult: 3, //可兑换
-                exchangeIntegral: parseInt(3 - this.data.exchangeWeekIntegral)
+                exchangeIntegral: a < b ? a : b
             })
         }
     },

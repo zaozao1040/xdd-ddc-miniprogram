@@ -1,6 +1,6 @@
 import { discount } from './discount-model.js'
 let discountModel = new discount()
-import moment from "../../../comm/script/moment"
+
 
 Page({
 
@@ -158,8 +158,8 @@ Page({
                 if (tmp_discountList.length > 0) {
                     tmp_discountList.forEach(element => {
                             element.discountTypeDes = _this.data.discountTypeMap[element.discountType]
-                            element.endTimeDes = element.endTime ? moment(element.endTime).format('YYYY/MM/DD HH:mm') : element.endTime
-                            element.startTimeDes = element.startTime ? moment(element.startTime).format('YYYY/MM/DD HH:mm') : element.startTime
+                            element.endTimeDes = element.endTime
+                            element.startTimeDes = element.startTime
                         })
                         //下面开始分页
                     if (tmp_discountList.length < _this.data.limit) {

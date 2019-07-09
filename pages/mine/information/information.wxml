@@ -28,6 +28,10 @@
                 <text wx:if="{{userInfo.organizeName=='NGO'}}" class='info'>非企业用户</text>
                 <text wx:else class='info'>{{userInfo.organizeName}}</text>
             </view>
+            <view class='item' wx:if='{{userInfo.phoneNumber}}'>
+                <view class='title'>绑定手机</view>
+                <view class='info'>{{userInfo.phoneNumber}}</view>
+            </view>
             <view class='item-last' wx:if='{{userInfo.defaultDeliveryAddress}}'>
                 <view class='title'>配送地址</view>
                 <view class='info'>{{userInfo.defaultDeliveryAddress}}</view>
@@ -43,6 +47,6 @@
         </view>
     </view> -->
     <view class='logout' bindtap='logout'>
-        注销账户
+        退出
     </view>
 </view>

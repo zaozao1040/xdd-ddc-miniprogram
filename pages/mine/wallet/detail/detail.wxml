@@ -7,8 +7,11 @@
     <view wx:elif='{{type=="gift"}}'>
         <view class="integral-item" style='background:{{integralIndex%2==1?"#FBFBFB":"#fff"}}' wx:for="{{rechargeList}}" wx:for-index="integralIndex" wx:for-item="rechargeItem" wx:key="integralIndex">
             <view>
-                <view class="integral-type">
+                <view class="integral-type" wx:if='{{rechargeItem.recordType=="RECHARGE_PRESENT"}}'>
                     {{rechargeItem.recordTypeDes}}(充{{rechargeItem.rechargeAmount}})
+                </view>
+                <view class="integral-type" wx:else>
+                    {{rechargeItem.recordTypeDes}}
                 </view>
                 <view class="integral-time">
                     {{rechargeItem.operateTimeDes}}

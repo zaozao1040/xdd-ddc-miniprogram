@@ -235,7 +235,7 @@
  
  .dialog-title {
      font-family: PingFangSC-Regular;
-     font-size: 30rpx;
+     font-size: 36rpx;
      color: #000000;
      text-align: center;
      padding-top: 63rpx;

@@ -10,7 +10,7 @@ Page({
         rechargeListNoResult: false,
         rechargeList: [],
         page: 1,
-        limit: 10,
+        limit: 20,
         organizeMap: {
             RECHARGE: '充值',
             CONSUMPTION: '消费',
