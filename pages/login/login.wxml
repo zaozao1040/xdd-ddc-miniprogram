@@ -19,7 +19,7 @@
     </view>
 
     <button loading="{{loading}}" class="section-4" open-type="getUserInfo" bindgetuserinfo="bindOrganize">绑定并登录</button>
-    <navigator url="/pages/login/selectPhone/selectPhone">
+    <navigator url="/pages/login/selectPhone/selectPhone" wx:if='{{showBackFlag}}'>
         <view class="button-fanhui" open-type="getUserInfo" bindgetuserinfo="bindOrganize">返回登录</view>
     </navigator>
     <!-- 企业选择 -->
@@ -27,7 +27,7 @@
         <view class='organize-select'>
             <view class='grow'>
                 <input bindinput="searchInput" class="inputSearch" maxlength="11" placeholder="搜索企业名称"></input>
-                <image src="/images/login/search.png" style='width:24rpx;height:24rpx;position: absolute;top:14rpx;left:40rpx;'></image>
+                <image src="/images/login/search.png" style='width:24rpx;height:24rpx;position: absolute;top:18rpx;left:40rpx;'></image>
             </view>
             <view class="inputSearch-back" bindtap='closeAddress'>返回</view>
         </view>

@@ -113,7 +113,7 @@ Page({
 
                 let typeMap = {
                     ORDER: '下单送积分',
-                    CONSUMPTION: '消费',
+                    CONSUMPTION: '兑换',
                     CANCEL_ORDER: '取消订单返还积分',
                     EVALUATE: '评价送积分'
                 }
@@ -162,9 +162,12 @@ Page({
                 operateResult: 1, //本周兑换次数超过3次
             })
         } else {
+            let a = parseInt(3 - this.data.exchangeWeekIntegral)
+            let b = parseInt(this.data.integral / 100)
+            console.log('b', b)
             this.setData({
                 operateResult: 3, //可兑换
-                exchangeIntegral: parseInt(3 - this.data.exchangeWeekIntegral)
+                exchangeIntegral: a < b ? a : b
             })
         }
     },
@@ -186,12 +189,17 @@ Page({
                 method: 'post'
             }
             requestModel.request(param, (data) => {
-                //关闭弹框
-                _this.setData({
-                        operateResult: ''
-                    })
-                    //刷新
+
+                //刷新
                 _this.getUserIntegral()
+                _this.data.page = 1
+                _this.data.limit = 20
+                _this.setData({
+                    operateResult: '',
+                    integralList: [] //列表必须清空，否则分页会无限叠加
+                })
+                _this.getIntegralList()
+
             })
         })
 

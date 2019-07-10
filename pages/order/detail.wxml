@@ -46,17 +46,18 @@
     <view class="order-info-wrapper">
         <view class='order-info-title'>付款信息</view>
         <view class="order-info-one">
-            <view class="left-label">企业点餐币</view>
-            <view class="right-content">￥{{detailInfo.organizePayPrice}}</view>
-        </view>
-        <view class="order-info-one">
-            <view class="left-label">赠币</view>
-            <view class="right-content">￥{{detailInfo.presentPayPrice}}</view>
-        </view>
-        <view class="order-info-one">
             <view class="left-label">个人点餐币</view>
-            <view class="right-content">￥{{detailInfo.userPayPrice}}</view>
+            <view class="right-content">{{detailInfo.userPayPrice}}</view>
         </view>
+        <view class="order-info-one">
+            <view class="left-label">企业点餐币</view>
+            <view class="right-content">{{detailInfo.organizePayPrice}}</view>
+        </view>
+        <view class="order-info-one">
+            <view class="left-label">赠送点餐币</view>
+            <view class="right-content">{{detailInfo.presentPayPrice}}</view>
+        </view>
+
     </view>
     <!--取餐信息-->
     <view class="order-info-wrapper" wx:if='{{detailInfo.pickStatus==1}}'>

@@ -24,7 +24,8 @@ Page({
         waitTime: -1,
         action: "",
         userInfo: {},
-        organizeListNoResult: false
+        organizeListNoResult: false,
+        showBackFlag: true
     },
 
     /**
@@ -39,6 +40,11 @@ Page({
 
             })
         })
+        if (options.fromfrom == 'home') {
+            _this.setData({
+                showBackFlag: false
+            })
+        }
     },
     /* 页面隐藏后回收定时器指针 */
     onHide: function() {},

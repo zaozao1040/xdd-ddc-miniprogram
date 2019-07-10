@@ -269,7 +269,7 @@ Page({
             wx.hideTabBar()
         } else { //已登录状态，直接登录
             requestModel.getUserInfo(userInfo => {
-
+                console.log('userInfo', userInfo)
                 wx.showTabBar()
                 let { userStatus, canTakeDiscount } = userInfo
                 if (userStatus == 'NO_CHECK') { //企业用户的'审核中'状态
@@ -287,12 +287,29 @@ Page({
                 if (userStatus == 'NORMAL') {
                     this.getTakeMealInfo()
                 }
+                if (userInfo.userType == 'VISITOR') {
+                    this.setData({
+                        showBindOrganizeFlag: true
+                    })
+
+                }
                 /* 获取首页取餐信息 */
 
             }, true)
         }
     },
-
+    //没绑定企业的用户弹出去绑定弹窗
+    gotoBindOrganize() {
+        wx.navigateTo({
+            url: '/pages/login/login?fromfrom=home',
+        })
+    },
+    //关闭弹窗
+    closeBindOrganize() {
+        this.setData({
+            showBindOrganizeFlag: false
+        })
+    },
     /* 获取公告信息 */
     getNotice() {
         let _this = this

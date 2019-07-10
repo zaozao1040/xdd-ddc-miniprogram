@@ -1,6 +1,5 @@
 import { discount } from '../../../mine/discount/discount-model.js'
-let discountModel = new discount()
-import moment from "../../../../comm/script/moment"
+
 
 import { base } from '../../../../comm/public/request'
 let requestModel = new base()

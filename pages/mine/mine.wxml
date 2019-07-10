@@ -37,7 +37,7 @@
 
             <view class="offerItem-wrapper" bindtap='gotoWallet'>
                 <view class='offer-num'> {{allBalance}} </view>
-                <view class='offer-title'> 余额 </view>
+                <view class='offer-title'>钱包</view>
             </view>
             <view style='width:2rpx;height:30rpx;margin-top:26rpx;background: rgba(255,255,255,0.5);'></view>
 

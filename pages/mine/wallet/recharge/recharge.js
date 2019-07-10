@@ -3,7 +3,6 @@
  Page({
      data: {
 
-         //
          canRechargeFlag: true, //充值通道开启状态，默认开启
          //
          windowHeight: 0,
@@ -25,6 +24,9 @@
                      windowHeight: res.windowHeight
                  })
              }
+         })
+         _this.setData({
+             allBalance: options.allBalance
          })
      },
 
@@ -128,7 +130,7 @@
                                  }
                                  requestModel.request(param, data => {
                                      _this.setData({
-                                         balance: data.balance
+                                         allBalance: data.allBalance
                                      })
                                  })
                                  wx.showToast({

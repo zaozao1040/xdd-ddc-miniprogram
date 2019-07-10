@@ -14,20 +14,23 @@
                 <image wx:else src='/images/order/uncheck.png' style='width:44rpx;height:44rpx;' catchtap="radioChange">
                 </image>
             </view>
-            <view wx:if='{{showPayTypeFlag}}' class='pay-balance'>
+            <view wx:if='{{balanceEnough}}' class='pay-balance'>
                 <view class='selectPayType_Des'>
-                    余额支付
+                    钱包支付
                 </view>
                 <image wx:if='{{payType=="BALANCE_PAY"}}' src='/images/order/check.png' style='width:44rpx;height:44rpx;'></image>
                 <image wx:else src='/images/order/uncheck.png' style='width:44rpx;height:44rpx;' catchtap="radioChange">
                 </image>
             </view>
             <view wx:else class='pay-balance'>
-                <view class='selectPayType_Des' style='color:#999;'>
-                    余额支付(
-                    <image src='/images/mine/diancanbi_u.png' style='width:34rpx;height:34rpx;padding:0 5rpx;'></image>
-                    点餐币不足)
+                <view class='order-cabinet-num-group'>
+                    <view class='selectPayType_Des' style='color:#999;'>钱包支付(</view>
+
+                    <image src='/images/mine/diancanbi_u.png' style='width:34rpx;height:34rpx;padding:6rpx 5rpx 0;'></image>
+                    <view class='selectPayType_Des' style='color:#999;'>点餐币不足)</view>
                 </view>
+
+
                 <image src='/images/order/uncheck.png' style='width:44rpx;height:44rpx;'></image>
             </view>
 

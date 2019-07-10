@@ -12,7 +12,7 @@
     <view class="addressList-wrapper">
         <view wx:for="{{addressList}}" wx:for-index="addressIndex" wx:for-item="addressItem" wx:key="addressIndex" catchtap="selectDefaultAddress" data-addressdes="{{addressItem.address}}" data-addresscode="{{addressItem.deliveryAddressCode}}" data-useraddaddress="{{addressItem.userAddAddress}}">
             <view style="padding: 30rpx;">
-                <view style="padding-bottom: 10rpx; height: 42rpx;font-family: PingFangSC-Regular; font-size: 30rpx; color: #333333; line-height: 42rpx">
+                <view style="padding-bottom: 10rpx; line-height: 42rpx;font-family: PingFangSC-Regular; font-size: 30rpx; color: #333333; line-height: 42rpx">
                     {{addressItem.address}}
                 </view>
                 <view class='phone-address'>

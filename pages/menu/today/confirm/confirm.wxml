@@ -31,7 +31,7 @@
                 <view class="section-3-1">
                     <image src="/images/mine/organize.png" style='width:48rpx;height:48rpx;'></image>
                 </view>
-                <input bindinput="addressInput" value="{{address}}" placeholder="搜索企业简称，列如：星点点" data-organizecode="{{organizeCode}}" class="section-3-2" type="string" bindtap="handleSelectAddress"></input>
+                <input bindinput="addressInput" value="{{address}}" placeholder="搜索企业简称，例如：星点点" data-organizecode="{{organizeCode}}" class="section-3-2" type="string" bindtap="handleSelectAddress"></input>
             </view>
 
 
@@ -41,12 +41,12 @@
             </view>
         </view>
     </view>
-    <!-- 弹出层 填写余额支付提示 -->
+    <!-- 弹出层 填写钱包支付提示 -->
     <view class="modulebox-background-wrapper" wx:if="{{balanceConfirmFlag}}">
         <view class="balance-r-wrapper">
 
             <view class='balance-r-t'>
-                <text class='balance-r-1'>使用余额支付</text>
+                <text class='balance-r-1'>使用钱包支付</text>
                 <text class='balance-r-2'>￥</text>
                 <text class='balance-r-3'>{{realMoney}}</text>
             </view>
@@ -168,7 +168,12 @@
                     </view>
                     <view>
                         <view class='pay-item-top'>
-                            <view class='pay-title' style="margin-top:30rpx;"> 余额支付(点餐币余额￥{{allBalance}})</view>
+                            <view class='pay-title flex-a' style="margin-top:30rpx;">
+                                <view>钱包支付(钱包余额</view>
+                                <image src='/images/menu/diancanbi.png' style='width:28rpx;height:28rpx;padding:6rpx 5rpx 0;'></image>
+                                <view>{{allBalance}})</view>
+
+                            </view>
                             <view class='pay-balance-image'>
                                 <image src="/images/menu/today/order_open.png" style="width:86rpx;height:68rpx;" bindtap="handleChangeWalletSelectedFlag" wx:if="{{walletSelectedFlag}}">
                                 </image>
@@ -176,7 +181,7 @@
                                 </image>
                             </view>
                         </view>
-                        <view class='pay-balance-describe'>可全额支付，默认打开开关，优先使用余额</view>
+                        <view class='pay-balance-describe'>可全额支付，默认打开开关，优先使用钱包支付</view>
                     </view>
 
                 </view>

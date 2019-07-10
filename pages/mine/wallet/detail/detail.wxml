@@ -4,6 +4,28 @@
         <view class="noResult" wx:if='{{type=="personal"}}'>查询不到您的充值记录，请尽快<text style='color:#F79C4C;' bindtap='gotoCharge'>充值</text></view>
         <view class="noResult" wx:if='{{type=="organize"}}'>查询不到您的企业充值记录</view>
     </view>
+    <view wx:elif='{{type=="gift"}}'>
+        <view class="integral-item" style='background:{{integralIndex%2==1?"#FBFBFB":"#fff"}}' wx:for="{{rechargeList}}" wx:for-index="integralIndex" wx:for-item="rechargeItem" wx:key="integralIndex">
+            <view>
+                <view class="integral-type" wx:if='{{rechargeItem.recordType=="RECHARGE_PRESENT"}}'>
+                    {{rechargeItem.recordTypeDes}}(充{{rechargeItem.rechargeAmount}})
+                </view>
+                <view class="integral-type" wx:else>
+                    {{rechargeItem.recordTypeDes}}
+                </view>
+                <view class="integral-time">
+                    {{rechargeItem.operateTimeDes}}
+                </view>
+            </view>
+            <view class="{{rechargeItem.difference>0?'Integral-value-add':'Integral-value-minus'}}">
+                {{rechargeItem.difference}}
+            </view>
+
+        </view>
+        <view wx:if="{{loadingData}}" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+            正在加载数据...
+        </view>
+    </view>
     <view wx:else>
         <view class="integral-item" style='background:{{integralIndex%2==1?"#FBFBFB":"#fff"}}' wx:for="{{rechargeList}}" wx:for-index="integralIndex" wx:for-item="rechargeItem" wx:key="integralIndex">
             <view>
@@ -14,8 +36,8 @@
                     {{rechargeItem.operateTimeDes}}
                 </view>
             </view>
-            <view class="{{rechargeItem.balance>0?'Integral-value-add':'Integral-value-minus'}}">
-                {{rechargeItem.balance}}
+            <view class="{{rechargeItem.difference>0?'Integral-value-add':'Integral-value-minus'}}">
+                {{rechargeItem.difference}}
             </view>
 
         </view>

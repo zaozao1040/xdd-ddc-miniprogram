@@ -2,7 +2,7 @@
  let requestModel = new base()
  Page({
      data: {
-         canRechargeFlag: true, //充值通道开启状态，默认开启
+         canRechargeFlag: true, //点餐通道开启状态，默认开启
          //
          windowHeight: 0,
          open: false,
@@ -25,11 +25,11 @@
              }
              requestModel.request(param, data => {
                  this.setData({
-                     balance: data.balance, //个人充值币
-                     organizeBalance: data.organizeBalance, //企业充值币
+                     balance: data.balance, //个人点餐币
+                     organizeBalance: data.organizeBalance, //企业点餐币
                      presentBalance: data.presentBalance, //赠币
                      allBalance: data.allBalance, //所有币
-                     totalBalance: data.totalBalance, //充值币
+                     totalBalance: data.totalBalance, //点餐币
                      totalPresentBalance: data.totalPresentBalance, //赠币的和
 
                  })
@@ -62,7 +62,8 @@
          })
      },
      gotoRecharge() {
-         wx.navigateTo({ url: '/pages/mine/wallet/recharge/recharge' })
+         let _this = this
+         wx.navigateTo({ url: '/pages/mine/wallet/recharge/recharge?allBalance=' + _this.data.allBalance })
      },
      gotoDetail(e) {
          let type = e.currentTarget.dataset.type

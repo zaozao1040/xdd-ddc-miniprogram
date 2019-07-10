@@ -10,7 +10,7 @@ Page({
         rechargeListNoResult: false,
         rechargeList: [],
         page: 1,
-        limit: 10,
+        limit: 20,
         organizeMap: {
             RECHARGE: '充值',
             CONSUMPTION: '消费',
@@ -112,7 +112,7 @@ Page({
 
                     let tmp_rechargeList = data.list
                     tmp_rechargeList.forEach(element => {
-                        element.balance = (element.difference > 0 ? '+' : '') + (element.difference).toFixed(2)
+                        element.difference = (element.difference > 0 ? '+' : '') + (element.difference).toFixed(2)
                         element.recordTypeDes = typeMap[element.recordType]
                         element.operateTimeDes = element.operateTime
                     })

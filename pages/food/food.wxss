@@ -113,6 +113,7 @@
     font-size: 26rpx;
     line-height: 36rpx;
     margin-bottom: 10rpx;
+    color: #F79C4C;
 }
 
 .prompt-title {
