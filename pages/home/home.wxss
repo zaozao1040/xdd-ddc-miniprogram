@@ -629,3 +629,40 @@
     border-bottom-right-radius: 8rpx;
     text-align: center;
 }
+
+.order-remark {
+    font-size: 28rpx;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: rgba(247, 156, 76, 1);
+    line-height: 40rpx;
+    margin-bottom: 20rpx;
+}
+
+.order-remark-title {
+    font-size: 28rpx;
+    font-family: PingFang-SC-Medium;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 1);
+    line-height: 40rpx;
+    margin-top: 20rpx;
+}
+
+.order-remark-img {
+    width: 64rpx;
+    height: 52rpx;
+    position: absolute;
+    z-index: 100;
+}
+
+.order-remark-img-title {
+    position: absolute;
+    z-index: 101;
+    font-size: 22rpx;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 1);
+    line-height: 38rpx;
+    width: 64rpx;
+    text-align: center;
+}

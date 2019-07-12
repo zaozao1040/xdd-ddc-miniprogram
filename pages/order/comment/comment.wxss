@@ -152,3 +152,29 @@
      margin: auto;
      position: fixed;
  }
+ 
+ .success-1 {
+     margin-top: 40rpx;
+     font-size: 40rpx;
+     font-family: Helvetica;
+     color: rgba(51, 51, 51, 1);
+     line-height: 48rpx;
+ }
+ 
+ .success-2 {
+     margin-top: 6rpx;
+     font-size: 28rpx;
+     font-family: PingFang-SC-Medium;
+     font-weight: 500;
+     color: rgba(247, 156, 76, 1);
+     line-height: 40rpx;
+ }
+ 
+ .success-3 {
+     margin-top: 18rpx;
+     font-size: 30rpx;
+     font-family: PingFang-SC-Regular;
+     font-weight: 400;
+     color: rgba(102, 102, 102, 1);
+     line-height: 42rpx;
+ }

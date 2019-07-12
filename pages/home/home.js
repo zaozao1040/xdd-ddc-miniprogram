@@ -286,6 +286,8 @@ Page({
 
                 if (userStatus == 'NORMAL') {
                     this.getTakeMealInfo()
+                        //获取待评价的订单信息
+                    this.getOrderList()
                 }
                 if (userInfo.userType == 'VISITOR') {
                     this.setData({
@@ -393,7 +395,30 @@ Page({
             clearTimeout(this.data.timer)
         }
     },
+    /* 获取订单列表 */
+    getOrderList: function() {
+        let _this = this
 
+        let param = {
+            url: '/order/getOrderList?userCode=' + wx.getStorageSync('userCode') + '&page=1&limit=10&type=0'
+        }
+        requestModel.request(param, (res) => {
+
+            _this.setData({
+                orderList: res.list
+            })
+        }, true)
+    },
+    /* 去评价 */
+    handleEvaluateOrder: function(e) {
+        let a = {}
+        a.orderCode = e.currentTarget.dataset.ordercode
+        a.orderFoodList = e.currentTarget.dataset.orderfoodlist
+        wx.setStorageSync('commentOrder', a)
+        wx.navigateTo({
+            url: '/pages/order/comment/comment'
+        })
+    },
     /* 获取首页取餐信息 */
     getTakeMealInfo: function() {
         let _this = this
@@ -480,6 +505,7 @@ Page({
 
         }, true)
     },
+
     //取餐private函数
     takeFoodOrder(ordercode, foodcode, again, foodindex) {
 

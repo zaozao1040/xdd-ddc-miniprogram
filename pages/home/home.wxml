@@ -86,7 +86,7 @@
         <view style="margin:0 0 60rpx 30rpx;" wx:if="{{homeOrderList.length>0}}">
             <view class='takefood-title'>今日餐品</view>
             <view>
-                <swiper next-margin='24rpx' style='width: 100%; height: 220rpx;'>
+                <swiper next-margin='24rpx' style='width: 100%; height: 208rpx;'>
                     <block wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem" wx:key="homeOrderIndex">
                         <swiper-item>
                             <view class="takefood-food">
@@ -136,11 +136,44 @@
                     </block>
                 </swiper>
             </view>
-
         </view>
-
-
     </view>
+
+    <!-- 首页提示评价3.1-->
+    <view wx:if='{{orderList&&orderList.length>0}}'>
+        <view style="margin:0 0 30rpx 30rpx;">
+            <view class='takefood-title'>订单评价</view>
+            <view>
+                <swiper style='width: 100%; height: 172rpx;'>
+                    <block wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderItem.orderCode">
+                        <swiper-item>
+                            <view class="order-remark-img">
+                                <image class="order-remark-img" src="/images/home/present.png"></image>
+                            </view>
+                            <view class="order-remark-img-title">有礼</view>
+                            <view class="takefood-food" style='width:690rpx;'>
+                                <view class='takefood-img-wrapper'>
+                                    <image class="takefood-img" src="{{orderItem.orderFoodList[0].foodImage}}"></image>
+                                </view>
+                                <view class='takefood-cabinet' style='margin-top:34rpx;'>
+                                    <view class='order-remark'>您有15积分待领取</view>
+                                    <view class='order-remark-title' wx:if='{{orderItem.foodQuantity>1&&orderItem.orderFoodList[0].foodName.length>9}}'>
+                                        <view class="takefood-foodname">{{orderItem.orderFoodList[0].foodName}}</view>
+                                        <view class="order-remark-title"> 等{{orderItem.foodQuantity}}件</view>
+                                    </view>
+                                    <view wx:elif='{{orderItem.foodQuantity>1}}' class="order-remark-title">{{orderItem.orderFoodList[0].foodName}} 等{{orderItem.foodQuantity}}件</view>
+                                    <view wx:else class="takefood-foodname" style='width: 300rpx;'>{{orderItem.orderFoodList[0].foodName}}</view>
+                                </view>
+                                <view class="takefood-button" style='width:140rpx;' catchtap="handleEvaluateOrder" data-ordercode="{{orderItem.orderCode}}" data-orderfoodlist="{{orderItem.orderFoodList}}" data-foods="{{orderItem.orderFoodList}}">点击领取</view>
+                            </view>
+                        </swiper-item>
+                    </block>
+                </swiper>
+            </view>
+        </view>
+    </view>
+
+
     <!-- 活动3.0 -->
     <view class="promotion-wrapper">
         <view class="promotionItem" wx:for="{{imagesList.centerImage}}" wx:for-index="promotionListIndex" wx:for-item="promotionListItem" wx:key="promotionListIndex">

@@ -17,7 +17,8 @@ Page({
             content: '',
             imagePaths: [],
             images: []
-        }
+        },
+        remrkSucceed: false
     },
 
     /**
@@ -325,10 +326,13 @@ Page({
         }
         console.log('param', param)
         requestModel.request(param, () => {
-            wx.showToast({
-                title: '成功评价',
-                image: '/images/msg/success.png',
-                duration: 1000
+            // wx.showToast({
+            //     title: '成功评价',
+            //     image: '/images/msg/success.png',
+            //     duration: 1000
+            // })
+            _this.setData({
+                remrkSucceed: true
             })
             setTimeout(() => {
                 wx.reLaunch({
