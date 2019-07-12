@@ -183,7 +183,6 @@
                         </view>
                         <view class='pay-balance-describe'>可全额支付，默认打开开关，优先使用钱包支付</view>
                     </view>
-
                 </view>
             </view>
             <view style='margin:16rpx 16rpx 0;' wx:if='{{orgAdmin}}'>

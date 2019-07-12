@@ -52,6 +52,31 @@ Page({
                 })
             }, true)
         })
+
+        _this.getHeightInfo()
+    },
+    //或得高度
+    getHeightInfo() {
+        let _this = this
+        wx.getSystemInfo({
+            success(res) {
+                _this.setData({
+                    windowHeight: res.windowHeight
+                })
+            }
+        })
+
+        const query = wx.createSelectorQuery()
+        query.select('#button').boundingClientRect()
+        query.selectViewport().scrollOffset()
+        query.exec(function(res) {
+            console.log('button', res)
+            if (res[0]) {
+                _this.setData({
+                    scrollHeight: res[0].top
+                })
+            }
+        })
     },
     contentInputService: function(e) {
         this.data.content = e.detail.value

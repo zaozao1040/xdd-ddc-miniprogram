@@ -45,7 +45,7 @@ Page({
         let { dayindex, menuitem, foodindex } = e.currentTarget.dataset
         let onefood = this.data.selectedFoods[dayindex][menuitem].selectedFoods[foodindex]
         if (!onefood.remarkList || onefood.remarkList.length == 0) {
-            onefood.remarkList = [{ name: '', count: onefood.foodCount }]
+            onefood.remarkList = [{ mark: '', quantity: onefood.foodCount }]
             onefood.remarkCountTotal = onefood.foodCount
             this.setData({
                 selectedFoods: this.data.selectedFoods
@@ -53,8 +53,8 @@ Page({
             this.getScrollHeight()
         } else if (onefood.remarkCountTotal < onefood.foodCount) {
             let lastRemark = onefood.remarkList[onefood.remarkList.length - 1]
-            if (lastRemark.name.trim() && lastRemark.count) {
-                onefood.remarkList.push({ name: '', count: onefood.foodCount - onefood.remarkCountTotal })
+            if (lastRemark.mark.trim() && lastRemark.quantity) {
+                onefood.remarkList.push({ mark: '', quantity: onefood.foodCount - onefood.remarkCountTotal })
                 onefood.remarkCountTotal = onefood.foodCount
                 this.setData({
                     selectedFoods: this.data.selectedFoods
@@ -79,7 +79,7 @@ Page({
         //添加备注name 
         let value = e.detail.value
         let { dayindex, menuitem, foodindex, remarkindex } = e.currentTarget.dataset
-        this.data.selectedFoods[dayindex][menuitem].selectedFoods[foodindex].remarkList[remarkindex].name = value
+        this.data.selectedFoods[dayindex][menuitem].selectedFoods[foodindex].remarkList[remarkindex].mark = value
         this.setData({
             selectedFoods: this.data.selectedFoods
         })
@@ -87,22 +87,45 @@ Page({
     inputRemarkCount(e) {
         //添加备注count 
         let value = e.detail.value
+        if (value != '') {
+            value = parseInt(value)
+        }
         let { dayindex, menuitem, foodindex, remarkindex } = e.currentTarget.dataset
         let onefood = this.data.selectedFoods[dayindex][menuitem].selectedFoods[foodindex]
-        let oldcount = onefood.remarkList[remarkindex].count
+        let oldcount = onefood.remarkList[remarkindex].quantity
             //如果之前的餐品的数量不为空，那么计算现在的和是不是超过个餐品的数目
 
-        if (!oldcount && (onefood.remarkCountTotal - oldcount + value > onefood.foodCount)) {
-            onefood.remarkList[remarkindex].count = oldcount
-            wx.showModal({
-                title: '提示',
-                content: '备注餐品的总数量不能超过点的餐品的数量'
-            })
+        if (value == '') {
+            onefood.remarkList[remarkindex].quantity = value
+            if (oldcount) {
+                onefood.remarkCountTotal = onefood.remarkCountTotal - oldcount
+            }
         } else {
-            onefood.remarkList[remarkindex].count = value
-            onefood.remarkCountTotal = onefood.remarkCountTotal - oldcount + value
-        }
+            if (oldcount) {
+                if (onefood.remarkCountTotal - oldcount + value > onefood.foodCount) {
+                    onefood.remarkList[remarkindex].quantity = oldcount
+                    wx.showModal({
+                        title: '提示',
+                        content: '备注餐品的总数量不能超过点的餐品的数量'
+                    })
+                } else {
+                    onefood.remarkList[remarkindex].quantity = value
+                    onefood.remarkCountTotal = onefood.remarkCountTotal - oldcount + value
+                }
 
+            } else {
+                if (onefood.remarkCountTotal + value > onefood.foodCount) {
+                    onefood.remarkList[remarkindex].quantity = ''
+                    wx.showModal({
+                        title: '提示',
+                        content: '备注餐品的总数量不能超过点的餐品的数量'
+                    })
+                } else {
+                    onefood.remarkList[remarkindex].quantity = value
+                    onefood.remarkCountTotal = onefood.remarkCountTotal + value
+                }
+            }
+        }
         this.setData({
             selectedFoods: this.data.selectedFoods
         })
@@ -112,8 +135,8 @@ Page({
         let { dayindex, menuitem, foodindex, remarkindex } = e.currentTarget.dataset
         let onefood = this.data.selectedFoods[dayindex][menuitem].selectedFoods[foodindex]
 
-        if (onefood.remarkList[remarkindex].count > 1) {
-            onefood.remarkList[remarkindex].count--
+        if (onefood.remarkList[remarkindex].quantity > 1) {
+            onefood.remarkList[remarkindex].quantity--
                 onefood.remarkCountTotal--
         } else {
             let _this = this
@@ -143,7 +166,7 @@ Page({
                 content: '备注餐品的总数量已经等于点的餐品的数量！'
             })
         } else {
-            onefood.remarkList[remarkindex].count++
+            onefood.remarkList[remarkindex].quantity++
                 onefood.remarkCountTotal++
         }
 
@@ -158,7 +181,7 @@ Page({
         //删除一条备注 
         let { dayindex, menuitem, foodindex, remarkindex } = e.currentTarget.dataset
         let onefood = this.data.selectedFoods[dayindex][menuitem].selectedFoods[foodindex]
-        let oldcount = onefood.remarkList[remarkindex].count
+        let oldcount = onefood.remarkList[remarkindex].quantity
         onefood.remarkList.splice(remarkindex, 1)
         onefood.remarkCountTotal -= oldcount
 
@@ -217,7 +240,8 @@ Page({
                             if (onefood.remarkList && onefood.remarkList.length > 0) {
                                 //判断最后一个备注是否完整
                                 let lastRemark = onefood.remarkList[onefood.remarkList.length - 1]
-                                if (!lastRemark.name || !lastRemark.count) {
+                                if (!lastRemark.mark || !lastRemark.quantity) {
+                                    console.log('lastRemark--quantity', lastRemark.quantity)
                                     complete = false
                                 }
                             }
@@ -262,11 +286,10 @@ Page({
 
                         tmp_selectedFoods[mealType].selectedFoods.forEach(onefood => {
 
-
                             if (onefood.remarkList && onefood.remarkList.length > 0) {
                                 //判断最后一个备注是否完整
                                 let lastRemark = onefood.remarkList[onefood.remarkList.length - 1]
-                                if (!lastRemark.name || !lastRemark.count) {
+                                if (!lastRemark.mark || !lastRemark.quantity) {
                                     onefood.remarkList.splice(onefood.remarkList.length - 1, 1)
 
                                 }

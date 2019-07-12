@@ -20,7 +20,9 @@ Page({
         quantity: 0,
         canadd: true,
         hasdata: false,
-        hasalready: false
+        hasalready: false,
+        remarkCount: 0,
+        markDetail: []
     },
 
     /**
@@ -34,6 +36,14 @@ Page({
             })
             _this.getAddfoodData()
         })
+    },
+    bindRemakInput(e) {
+
+        this.setData({
+            remarkValue: e.detail.value,
+            remarkCount: e.detail.cursor
+        })
+
     },
     getAddfoodData() {
 
@@ -55,10 +65,19 @@ Page({
                 list: data.orderSupplementaryRecord,
                 quantity: data.quantity,
                 value: data.quantity ? data.quantity : 0,
-                supplementCode: data.supplementCode
+                supplementCode: data.supplementCode,
+                remarkValue: data.mark,
+                remarkCount: data.mark ? data.mark.length : 0,
+                markDetail: data.markDetail
             })
-
+            let a = 0
+            if (data.markDetail && data.markDetail.length > 0) {
+                data.markDetail.forEach(item => {
+                    a += item.quantity
+                })
+            }
             _this.setData({
+                remarkCountTotal: a,
                 hasalready: true
             })
 
@@ -76,43 +95,80 @@ Page({
                 image: '/images/msg/error.png',
                 duration: 2000
             })
-        } else if (this.data.quantity == this.data.value) {
-            wx.showToast({
-                title: '报餐数目相同',
-                image: '/images/msg/error.png',
-                duration: 2000
-            })
         } else {
-            let param = {
-                userCode: this.data.userCode,
-                mealDate: this.data.date,
-                mealType: this.data.mealType,
-                foodQuantity: this.data.value,
-                supplementCode: this.data.supplementCode
-            }
-            let params = {
-                data: param,
-                url: '/admin/updateOrderSupplement',
-                method: 'post'
-            }
-            let _this = this
-            requestModel.request(params, () => {
-                _this.getAddfoodData()
-                wx.showToast({
-                    title: '报餐成功',
-                    icon: 'success',
-                    duration: 2000
-                })
+            let flag = true
 
-            })
+            if (this.data.markDetail.length > 0) {
+                let last = this.data.markDetail[this.data.markDetail.length - 1]
+                if (!last.mark.trim() || !last.quantity) {
+                    flag = false
+                    let _this = this
+                    wx.showModal({
+                        title: '提示',
+                        content: '有未完成的备注，是否删除未完成的备注？',
+                        confirmText: '确定删除',
+                        cancelText: '一会再弄',
+                        success(res) {
+                            if (res.confirm) {
+                                _this.data.markDetail.pop()
+                                _this.setData({
+                                    markDetail: _this.data.markDetail
+                                })
+                            } else if (res.cancel) {
+
+                            }
+                        }
+                    })
+                }
+            }
+            if (flag) {
+                let param = {
+                    userCode: this.data.userCode,
+                    mealDate: this.data.date,
+                    mealType: this.data.mealType,
+                    foodQuantity: this.data.value,
+                    supplementCode: this.data.supplementCode,
+                    mark: this.data.remarkValue,
+                    markDetail: this.data.markDetail
+                }
+                let params = {
+                    data: param,
+                    url: '/admin/updateOrderSupplement',
+                    method: 'post'
+                }
+                let _this = this
+                requestModel.request(params, () => {
+                    _this.getAddfoodData()
+                    wx.showToast({
+                        title: '报餐成功',
+                        icon: 'success',
+                        duration: 2000
+                    })
+
+                })
+            }
         }
     },
     inputAddfoodNumber(event) {
         console.log(event.detail)
 
         let tmp_value = event.detail.value
-        if (tmp_value == '') {
 
+        let remarkCountTotal = this.data.remarkCountTotal
+        if (remarkCountTotal > 0) {
+            //备注不等于空的时候的操作
+            if (tmp_value == '' || tmp_value < remarkCountTotal) {
+                wx.showModal({
+                    title: '提示',
+                    content: '报餐的餐品的数量不能小于备注餐品的总数量'
+                })
+                this.setData({
+                    value: this.data.value
+                })
+                return
+            }
+        }
+        if (tmp_value == '') {
             tmp_value = 0
         }
         tmp_value = parseInt(tmp_value)
@@ -128,7 +184,8 @@ Page({
         })
     },
     minus() {
-        if (this.data.value > 0) {
+
+        if (this.data.value > 0 && this.data.value > this.data.remarkCountTotal) {
             this.setData({
                 value: this.data.value - 1
             })
@@ -145,6 +202,144 @@ Page({
                 icon: 'none'
             })
         }
+    },
+    addRemark(e) {
+
+        //添加备注  
+        if (this.data.markDetail.length == 0 && this.data.value > 0) {
+            this.data.markDetail = [{ mark: '', quantity: this.data.value }]
+            this.data.remarkCountTotal = this.data.value
+            this.setData({
+                markDetail: this.data.markDetail
+            })
+        } else if (this.data.remarkCountTotal < this.data.value) {
+            let lastRemark = this.data.markDetail[this.data.markDetail.length - 1]
+            if (lastRemark.mark.trim() && lastRemark.quantity) {
+                this.data.markDetail.push({ mark: '', quantity: this.data.value - this.data.remarkCountTotal })
+                this.data.remarkCountTotal = this.data.value
+                this.setData({
+                    markDetail: this.data.markDetail
+                })
+            } else {
+                wx.showToast({
+                    title: '补全备注再添加',
+                    image: '/images/msg/error.png',
+                    duration: 2000
+                })
+            }
+        } else {
+            wx.showModal({
+                title: '提示',
+                content: '备注餐品的总数量已经等于点的餐品的数量，不可再添加备注'
+            })
+        }
+
+    },
+    inputRemarkName(e) {
+        //添加备注name 
+        let value = e.detail.value
+        let { remarkindex } = e.currentTarget.dataset
+        console.log('value', value)
+        value = value.replace(/\s/i, "");
+        console.log('value', value)
+        this.data.markDetail[remarkindex].mark = value
+        this.setData({
+            markDetail: this.data.markDetail
+        })
+    },
+    inputRemarkCount(e) {
+        //添加备注count 
+        let value = e.detail.value
+        let { remarkindex } = e.currentTarget.dataset
+        let _this = this
+        if (value == 0) {
+            wx.showModal({
+                title: '提示',
+                content: '您确定删除这条备注吗？',
+                success(res) {
+                    if (res.confirm) {
+                        _this.deleteOneRemark(e)
+                    } else if (res.cancel) {
+                        console.log('markDetail', _this.data.markDetail)
+                    }
+                }
+            })
+        } else {
+            let oldcount = this.data.markDetail[remarkindex].quantity
+                //如果之前的餐品的数量不为空，那么计算现在的和是不是超过个餐品的数目
+            console.log('oldcount', oldcount)
+            console.log('newcount', value)
+            console.log('this.data.remarkCountTotal', this.data.remarkCountTotal)
+            if (oldcount && (this.data.remarkCountTotal - oldcount + value > this.data.value)) {
+                this.data.markDetail[remarkindex].quantity = oldcount
+                wx.showModal({
+                    title: '提示',
+                    content: '备注餐品的总数量不能超过报餐的餐品的数量'
+                })
+            } else {
+                this.data.markDetail[remarkindex].quantity = value
+                this.data.remarkCountTotal = this.data.remarkCountTotal - oldcount + value
+            }
+
+            this.setData({
+                markDetail: this.data.markDetail
+            })
+        }
+    },
+    handleRemarkMinus(e) {
+        //添加备注 
+        let { remarkindex } = e.currentTarget.dataset
+        if (this.data.markDetail[remarkindex].quantity > 1) {
+            this.data.markDetail[remarkindex].quantity--
+                this.data.remarkCountTotal--
+        } else {
+            let _this = this
+            wx.showModal({
+                title: '提示',
+                content: '您确定删除这条备注吗？',
+                success(res) {
+                    if (res.confirm) {
+                        _this.deleteOneRemark(e)
+                    } else if (res.cancel) {
+
+                    }
+                }
+            })
+        }
+        this.setData({
+            markDetail: this.data.markDetail
+        })
+    },
+    handleRemarkAdd(e) {
+        //添加备注 
+        let { remarkindex } = e.currentTarget.dataset
+        if (this.data.remarkCountTotal == this.data.value) {
+            wx.showModal({
+                title: '提示',
+                content: '备注餐品的总数量已经等于点的餐品的数量！'
+            })
+        } else {
+            this.data.markDetail[remarkindex].quantity++
+                this.data.remarkCountTotal++
+                this.setData({
+                    markDetail: this.data.markDetail
+                })
+        }
+
+    },
+    deleteOneRemark(e) {
+
+        //删除一条备注 
+        let { remarkindex } = e.currentTarget.dataset
+
+        let oldcount = this.data.markDetail[remarkindex].quantity
+        this.data.markDetail.splice(remarkindex, 1)
+        this.data.remarkCountTotal -= oldcount
+
+        this.setData({
+            markDetail: this.data.markDetail
+        })
+
     },
     /**
      * 生命周期函数--监听页面初次渲染完成

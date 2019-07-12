@@ -63,7 +63,7 @@
 .img-wrapper {
     display: flex;
     padding: 0 30rpx;
-    margin-bottom: 200rpx;
+    padding-bottom: 10rpx;
 }
 
 .image-list {
@@ -121,7 +121,7 @@
     left: 0;
     right: 0;
     width: 688rpx;
-    margin: auto;
+    margin: 10rpx auto 0;
     position: fixed;
     z-index: 1001;
     opacity: 1;
