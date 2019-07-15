@@ -408,7 +408,7 @@ Page({
         let _this = this
 
         let param = {
-            url: '/order/getOrderList?userCode=' + wx.getStorageSync('userCode') + '&page=1&limit=10&type=0'
+            url: '/order/getOrderList?userCode=' + wx.getStorageSync('userCode') + '&page=1&limit=10&type=2'
         }
         requestModel.request(param, (res) => {
 
@@ -505,6 +505,7 @@ Page({
                     }
                 }
             })
+            console.log('homeOrderList', tmp_homeOrderList)
             _this.setData({
                 homeOrderList: tmp_homeOrderList,
                 gethomeOrderList: true
@@ -522,7 +523,7 @@ Page({
         let param = {
             url: '/order/orderPickPre?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + ordercode + '&foodCode=' + foodcode
         }
-        requestModel.request(param, (data) => {
+        requestModel.requestForTake(param, (data) => {
             let tmp_content = ''
             if (data) {
                 let bindnumber = ''

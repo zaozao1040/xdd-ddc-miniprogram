@@ -86,7 +86,7 @@
         <view style="margin:0 0 60rpx 30rpx;" wx:if="{{homeOrderList.length>0}}">
             <view class='takefood-title'>今日餐品</view>
             <view>
-                <swiper next-margin='24rpx' style='width: 100%; height: 208rpx;'>
+                <swiper next-margin='24rpx' style='width: 100%; height: 212rpx;'>
                     <block wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem" wx:key="homeOrderIndex">
                         <swiper-item>
                             <view class="takefood-food">
