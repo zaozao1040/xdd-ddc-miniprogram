@@ -202,13 +202,11 @@ class base {
     }
 
     requestForTake(params, sCallback, flag, eCallback) {
-
             if (!flag) {
                 wx.showLoading({
                     title: '正在加载'
                 })
             }
-
             wx.request({
                 url: baseUrl + params.url,
                 data: params.data || {}, //这个是不是可以传null或者undefined？
@@ -256,13 +254,7 @@ class base {
                             wx.showModal({
                                 title: '提示',
                                 content: content,
-                                success(res) {
-                                    if (res.confirm) {
-                                        console.log('用户点击确定')
-                                    } else if (res.cancel) {
-                                        console.log('用户点击取消')
-                                    }
-                                }
+                                showCancel: false,
                             })
                         } else {
                             wx.showToast({
@@ -284,13 +276,7 @@ class base {
                     wx.showModal({
                         title: '提示',
                         content: '请联系点餐小程序开发人员',
-                        success(res) {
-                            if (res.confirm) {
-                                console.log('用户点击确定')
-                            } else if (res.cancel) {
-                                console.log('用户点击取消')
-                            }
-                        }
+                        showCancel: false,
                     })
                 }
             });
