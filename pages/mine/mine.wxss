@@ -139,3 +139,16 @@
     width: 314rpx;
     height: 160rpx;
 }
+
+.org-addfood-none {
+    width: 314rpx;
+    height: 160rpx;
+    background: rgba(255, 255, 255, 0.50);
+    border-radius: 6rpx;
+    z-index: 480;
+    position: absolute;
+    color: #333;
+    font-size: 36rpx;
+    padding: 94rpx 0 0 30rpx;
+    box-sizing: border-box;
+}

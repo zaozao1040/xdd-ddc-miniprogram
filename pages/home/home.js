@@ -173,15 +173,23 @@ Page({
     },
     handleGotoMenu: function() {
         let _this = this
-            //判断是否为企业管理员，如果是的话，先提示是否点餐
-        if ((wx.getStorageSync('userInfo').userInfo.userType === 'ORG_ADMIN') && (wx.getStorageSync('userInfo').userInfo.orgAdmin === true)) { //企业管理员类型，且以企业管理员身份登录
+            //判断是否为企业管理员，是否有点餐权限
+        let a = _this.data.userInfo.userType === 'ORG_ADMIN' && _this.data.userInfo.orgAdmin === true
+
+        if (a && _this.data.userInfo.userPermission && _this.data.userInfo.userPermission.adminMeal == true) { //企业管理员类型，且以企业管理员身份登录
             wx.showModal({
                 title: '当前是管理员身份,是否点餐?',
-                content: "您可在'我的'页面切换为普通用户",
+                content: "您可在'我的'页面切换为企业用户",
                 showCancel: false,
-                success(res) {
+                success() {
                     _this.openSelectMealTime()
                 }
+            })
+        } else if (a && _this.data.userInfo.userPermission && _this.data.userInfo.userPermission.adminMeal == false) { //企业管理员类型，且以企业管理员身份登录
+            wx.showModal({
+                title: '当前是管理员身份，无点餐权限',
+                content: "您无点餐权限，请开通点餐权限或者在‘我的’页面切换为企业用户进行点餐",
+                showCancel: false,
             })
         } else {
             _this.openSelectMealTime()
@@ -269,7 +277,7 @@ Page({
             wx.hideTabBar()
         } else { //已登录状态，直接登录
             requestModel.getUserInfo(userInfo => {
-                console.log('userInfo', userInfo)
+                this.data.userInfo = userInfo
                 wx.showTabBar()
                 let { userStatus, canTakeDiscount } = userInfo
                 if (userStatus == 'NO_CHECK') { //企业用户的'审核中'状态
@@ -507,7 +515,7 @@ Page({
     },
 
     //取餐private函数
-    takeFoodOrder(ordercode, foodcode, again, foodindex) {
+    takeFoodOrder(ordercode, foodcode, foodindex, prompt) {
 
         let _this = this
             //就调用接口加载柜子号 
@@ -525,9 +533,9 @@ Page({
                     }
                     bindnumber += data[data.length - 1].cabinetNumber + '-' + data[data.length - 1].cellNumber
 
-                    tmp_content = '当前柜子为：' + bindnumber + ',请确认本人在柜子旁边' + '\r\n' + this.data.homeOrderList[foodindex].prompt
+                    tmp_content = '当前柜子为：' + bindnumber + ',请确认本人在柜子旁边' + '\r\n' + prompt
                 } else {
-                    tmp_content = this.data.homeOrderList[foodindex].prompt
+                    tmp_content = prompt
                 }
 
                 let content = data.length > 0 ? '如果柜子' + bindnumber + '中餐品未取出，可点击确定再次取餐' : '如果餐品未取出，可点击确定再次取餐'
@@ -582,7 +590,8 @@ Page({
         }
         _this.data.canClick = false
 
-        _this.takeFoodOrder(e.currentTarget.dataset.ordercode, e.currentTarget.dataset.foodcode, false, e.currentTarget.dataset.foodindex)
+        let { ordercode, foodcode, foodindex, prompt } = e.currentTarget.dataset
+        _this.takeFoodOrder(ordercode, foodcode, foodindex, prompt)
 
 
         if (_this.data.timer) {
@@ -613,7 +622,7 @@ Page({
         homeModel.getNewUserGift(param, (res) => {
             if (res.code === 0) {
                 // 需要修改5/18
-                let tmp_userInfo = wx.getStorageSync('userInfo').userInfo
+                let tmp_userInfo = userInfo
                 tmp_userInfo.newUser = false
                 tmp_userInfo.canTakeDiscount = false
                 wx.setStorageSync('userInfo', tmp_userInfo)
