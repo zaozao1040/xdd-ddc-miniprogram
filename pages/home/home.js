@@ -510,8 +510,6 @@ Page({
                 homeOrderList: tmp_homeOrderList,
                 gethomeOrderList: true
             })
-
-
         }, true)
     },
 
