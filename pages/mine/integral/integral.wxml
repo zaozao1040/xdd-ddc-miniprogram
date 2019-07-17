@@ -76,34 +76,24 @@
     </view>
 
     <!--弹框-->
-    <view class='dialog-warpper' wx:if='{{operateResult==1}}'>
-        <view class='dialog'>
+    <c-pop content='每周限兑3点餐币，您已超出限兑额度' title='对不起，您无法兑换' wx:if='{{operateResult==1}}' bind:closemodal='closeDialog'></c-pop>
+    <c-pop content='满100积分兑1点餐币' title='对不起，您的积分不足' wx:if='{{operateResult==2}}' bind:closemodal='closeDialog'></c-pop>
 
-            <view class='dialog-title'>对不起，您无法兑换</view>
-            <view class='dialog-des'>每周限兑3点餐币，您已超出限兑额度</view>
-            <view class='dialog-button' bindtap='closeDialog'>知道了</view>
-
-        </view>
-    </view>
     <!--弹框-->
-    <view class='dialog-warpper' wx:if='{{operateResult==2}}'>
-        <view class='dialog'>
+    <!-- <c-custom-modal title='可用{{integral}}积分' content='满100积分兑1点餐币，每周限兑3币' wx:if='{{true||operateResult==3}}' confirm='确定兑换' bind:closemodal='closeDialog' bind:handleconfirm='handleUserIntegralExchange'>
+        <view class='dialog-title' style='padding-top:0;'>可兑换点餐币：<text style='color: #F79C4C;'>{{exchangeIntegral}}</text></view>
+    </c-custom-modal> -->
+    <!--清空所有备注-->
 
-            <view class='dialog-title'>对不起，您的积分不足</view>
-            <view class='dialog-des'>满100积分兑1点餐币</view>
-            <view class='dialog-button' bindtap='closeDialog'>知道了</view>
 
-        </view>
-    </view>
-    <!--弹框-->
     <view class='dialog-warpper' wx:if='{{operateResult==3}}'>
         <view class='dialog' style='height:330rpx;'>
             <view class='dialog-title' style='padding-top:30rpx;'>可用{{integral}}积分</view>
             <view class='dialog-title' style='padding-top:0;'>可兑换点餐币：<text style='color: #F79C4C;'>{{exchangeIntegral}}</text></view>
             <view class='dialog-des' style='margin:20rpx 0 30rpx;'>满100积分兑1点餐币，每周限兑3币</view>
-            <view class='dialog-button-group'>
-                <view class='dialog-button-cancel' bindtap='closeDialog'>取消</view>
-                <view class='dialog-button-confirm' bindtap='handleUserIntegralExchange'>确定兑换</view>
+            <view class='button-display'>
+                <view class='button-left' bindtap='closeDialog'>取消</view>
+                <view class='button-right' bindtap='handleUserIntegralExchange'>确定兑换</view>
             </view>
 
         </view>

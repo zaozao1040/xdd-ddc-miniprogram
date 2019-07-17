@@ -57,17 +57,19 @@
      onLoad: function(options) {
          if (options.content) {
              let content = options.content
-             wx.showModal({
-                 title: '提示',
-                 content: content,
-                 showCancel: false
-             })
+
              this.setData({
-                 itemStatusActiveFlag: 0
+                 itemStatusActiveFlag: 0,
+                 orderSuccessFlag: true,
+                 orderSuccessContent: content
              })
          }
      },
-
+     closePop() {
+         this.setData({
+             orderSuccessFlag: false
+         })
+     },
      /* 手动点击触发下一页 */
      gotoNextPage: function() {
          if (this.data.hasMoreDataFlag) {
@@ -499,21 +501,48 @@
 
                  let content = data.length > 0 ? '如果柜子' + bindnumber + '中餐品未取出，可点击确定再次取餐' : '如果餐品未取出，可点击确定再次取餐'
 
-                 wx.showModal({
-                     title: '是否取餐?',
-                     content: tmp_content,
-                     success(res) {
-                         if (res.confirm) {
-                             _this.takeFoodOrderAgain(ordercode, false, content)
-                         } else if (res.cancel) {
-                             wx.hideToast()
-                                 //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
 
-                         }
-                     }
+                 let tmp_takeorderModal = {}
+                 tmp_takeorderModal.content = tmp_content
+                 tmp_takeorderModal.orderCode = ordercode
+                 tmp_takeorderModal.nextContent = content
+
+                 _this.setData({
+                     takeorderModal: tmp_takeorderModal,
+                     takeorderModalShow: true
                  })
              }
          })
+     },
+     closeModal() {
+
+         this.setData({
+             takeorderModalShow: false
+         })
+     },
+     takeFoodOrderForModal() {
+         let tmp_takeorderModal = this.data.takeorderModal
+         let ordercode = tmp_takeorderModal.orderCode
+         let content = tmp_takeorderModal.nextContent
+         this.takeFoodOrderAgain(ordercode, false, content)
+     },
+     takeFoodOrderAgainForModal() {
+         let tmp_takeorderModal = this.data.takeorderModal
+         let ordercode = tmp_takeorderModal.orderCode
+         let content = tmp_takeorderModal.nextContent
+         this.takeFoodOrderAgain(ordercode, true, content)
+     },
+     closeModalAgain() {
+         _this.setData({
+                 takeorderModalShow: false,
+                 takeorderAgainShow: false
+             })
+             //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
+         _this.setData({
+             page: 1,
+             orderList: []
+         })
+         _this.getOrderList()
      },
      //取餐private函数
      takeFoodOrderAgain(ordercode, again, content) {
@@ -523,23 +552,10 @@
              url: '/order/orderPick?userCode=' + _this.data.userCode + '&orderCode=' + ordercode + '&again=' + again
          }
          requestModel.request(param, () => {
-             wx.showModal({
-                 title: '是否再次取餐?',
-                 content: content,
-                 success(res) {
-                     if (res.confirm) {
-                         _this.takeFoodOrderAgain(ordercode, true, content)
-                     } else if (res.cancel) {
-                         wx.hideToast()
-                             //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
-                         _this.setData({
-                             page: 1,
-                             orderList: []
-                         })
-                         _this.getOrderList()
-                     }
-                 }
 
+             _this.setData({
+                 takeorderModalShow: false,
+                 takeorderAgainShow: true
              })
          })
      },

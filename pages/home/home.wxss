@@ -591,7 +591,7 @@
     font-weight: 400;
     color: rgba(133, 133, 133, 1);
     line-height: 42rpx;
-    /* padding-bottom: 76rpx; */
+    padding: 0 40rpx;
     text-align: center;
 }
 
@@ -665,4 +665,16 @@
     line-height: 38rpx;
     width: 64rpx;
     text-align: center;
+}
+
+.dialog-button {
+    position: absolute;
+    bottom: 24rpx;
+    text-align: center;
+    width: 100%;
+    font-family: PingFang-SC-Medium;
+    font-size: 36rpx;
+    color: #F79C4C;
+    padding-top: 24rpx;
+    border-top: 2rpx solid #E5E5E5;
 }

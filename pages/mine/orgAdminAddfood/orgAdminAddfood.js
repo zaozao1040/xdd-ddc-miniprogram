@@ -103,21 +103,13 @@ Page({
                 if (!last.mark.trim() || !last.quantity) {
                     flag = false
                     let _this = this
-                    wx.showModal({
-                        title: '提示',
-                        content: '有未完成的备注，是否删除未完成的备注？',
-                        confirmText: '确定删除',
-                        cancelText: '一会再弄',
-                        success(res) {
-                            if (res.confirm) {
-                                _this.data.markDetail.pop()
-                                _this.setData({
-                                    markDetail: _this.data.markDetail
-                                })
-                            } else if (res.cancel) {
-
-                            }
-                        }
+                    let a = {}
+                    a.content = '有未完成的备注，是否删除未完成的备注？'
+                    a.confirm = '确定删除'
+                    a.cancel = '一会再弄'
+                    _this.setData({
+                        modalContent: a,
+                        modalIndex: 3
                     })
                 }
             }
@@ -149,6 +141,13 @@ Page({
             }
         }
     },
+    deleteUncompleteRemark() {
+        let _this = this
+        _this.data.markDetail.pop()
+        _this.setData({
+            markDetail: _this.data.markDetail
+        })
+    },
     inputAddfoodNumber(event) {
         console.log(event.detail)
 
@@ -158,11 +157,12 @@ Page({
         if (remarkCountTotal > 0) {
             //备注不等于空的时候的操作
             if (tmp_value == '' || tmp_value < remarkCountTotal) {
-                wx.showModal({
-                    title: '提示',
-                    content: '报餐的餐品的数量不能小于备注餐品的总数量'
-                })
+
+                this.data.popContent.show = true
+                this.data.popContent.content = '报餐的餐品的数量不能小于备注餐品的总数量'
                 this.setData({
+                    popContent: this.data.popContent,
+
                     value: this.data.value
                 })
                 return
@@ -228,12 +228,20 @@ Page({
                 })
             }
         } else {
-            wx.showModal({
-                title: '提示',
-                content: '备注餐品的总数量已经等于点的餐品的数量，不可再添加备注'
+            let _this = this
+            _this.data.popContent.show = true
+            _this.data.popContent.content = '备注餐品的总数量已经等于点的餐品的数量，不可再添加备注'
+            _this.setData({
+                popContent: _this.data.popContent
             })
         }
-
+    },
+    closeModal() {
+        let _this = this
+        _this.data.popContent.show = false
+        _this.setData({
+            popContent: _this.data.popContent
+        })
     },
     inputRemarkName(e) {
         //添加备注name 
@@ -253,28 +261,26 @@ Page({
         let { remarkindex } = e.currentTarget.dataset
         let _this = this
         if (value == 0) {
-            wx.showModal({
-                title: '提示',
-                content: '您确定删除这条备注吗？',
-                success(res) {
-                    if (res.confirm) {
-                        _this.deleteOneRemark(e)
-                    } else if (res.cancel) {
-                        console.log('markDetail', _this.data.markDetail)
-                    }
-                }
+
+            let a = {}
+            a.content = '您确定删除这条备注吗？'
+            a.eventParam = e.currentTarget.dataset
+            _this.setData({
+                modalContent: a,
+                modalIndex: 1
             })
         } else {
             let oldcount = this.data.markDetail[remarkindex].quantity
                 //如果之前的餐品的数量不为空，那么计算现在的和是不是超过个餐品的数目
-            console.log('oldcount', oldcount)
-            console.log('newcount', value)
-            console.log('this.data.remarkCountTotal', this.data.remarkCountTotal)
+
             if (oldcount && (this.data.remarkCountTotal - oldcount + value > this.data.value)) {
                 this.data.markDetail[remarkindex].quantity = oldcount
-                wx.showModal({
-                    title: '提示',
-                    content: '备注餐品的总数量不能超过报餐的餐品的数量'
+
+                let _this = this
+                _this.data.popContent.show = true
+                _this.data.popContent.content = '备注餐品的总数量不能超过报餐的餐品的数量'
+                _this.setData({
+                    popContent: _this.data.popContent
                 })
             } else {
                 this.data.markDetail[remarkindex].quantity = value
@@ -286,6 +292,11 @@ Page({
             })
         }
     },
+    closeModalModal() {
+        this.setData({
+            modalIndex: 0
+        })
+    },
     handleRemarkMinus(e) {
         //添加备注 
         let { remarkindex } = e.currentTarget.dataset
@@ -294,16 +305,14 @@ Page({
                 this.data.remarkCountTotal--
         } else {
             let _this = this
-            wx.showModal({
-                title: '提示',
-                content: '您确定删除这条备注吗？',
-                success(res) {
-                    if (res.confirm) {
-                        _this.deleteOneRemark(e)
-                    } else if (res.cancel) {
 
-                    }
-                }
+
+            let a = {}
+            a.content = '您确定删除这条备注吗？'
+            a.eventParam = e.currentTarget.dataset
+            _this.setData({
+                modalContent: a,
+                modalIndex: 1
             })
         }
         this.setData({
@@ -314,9 +323,11 @@ Page({
         //添加备注 
         let { remarkindex } = e.currentTarget.dataset
         if (this.data.remarkCountTotal == this.data.value) {
-            wx.showModal({
-                title: '提示',
-                content: '备注餐品的总数量已经等于点的餐品的数量！'
+
+            this.data.popContent.show = true
+            this.data.popContent.content = '备注餐品的总数量已经等于点的餐品的数量！'
+            this.setData({
+                popContent: this.data.popContent
             })
         } else {
             this.data.markDetail[remarkindex].quantity++
@@ -325,6 +336,20 @@ Page({
                     markDetail: this.data.markDetail
                 })
         }
+
+    },
+    deleteOneRemarkForModal(e) {
+
+        //删除一条备注 
+        let { remarkindex } = e.detail
+
+        let oldcount = this.data.markDetail[remarkindex].quantity
+        this.data.markDetail.splice(remarkindex, 1)
+        this.data.remarkCountTotal -= oldcount
+
+        this.setData({
+            markDetail: this.data.markDetail
+        })
 
     },
     deleteOneRemark(e) {

@@ -1,28 +1,43 @@
-<view class="bg-wrapper" wx:if="{{loginType=='wxAuthorization'}}">
-    <view class="img-wrapper">
-        <image src="/images/login/logo.png" mode="widthFix" style="width:100%;width:254.4rpx;height: 102.8rpx;"></image>
-    </view>
-    <view class="title">
-        欢迎来到点点餐
-    </view>
-    <button class="button" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">微信手机号快捷登录</button>
-    <view style='text-align:right;color:#aaa;font-size:30rpx;padding-right:20rpx;margin:0 62rpx;' bindtap='changeValidateType'>用户名密码登录</view>
-    <!-- <button class="button-phone">手机号验证码登录</button> -->
-</view>
-<view class="bg-wrapper" wx:else>
-    <view class='login-title'>用户名登录</view>
-    <view class='login-title-line'></view>
-    <view style='padding:72rpx 62rpx; '>
-        <view style="border-bottom:1rpx solid  #EBEBEB;padding:10rpx 0 10rpx 40rpx;">
-
-            <input class='input-class' type='text' bindinput="bindNameInput" placeholder="请输入用户名" value="{{name}}" />
+<view>
+    <view class="bg-wrapper" wx:if="{{loginType=='wxAuthorization'}}">
+        <view class="img-wrapper">
+            <image src="/images/login/logo.png" mode="widthFix" style="width:100%;width:254.4rpx;height: 102.8rpx;"></image>
         </view>
-        <view style="border-bottom:1rpx solid  #EBEBEB;padding:60rpx 0 10rpx 40rpx;margin-bottom:40rpx;">
-
-            <input class='input-class' type='text' password bindinput="bindPwdInput" placeholder="请输入密码" value="{{password}}" />
+        <view class="title">
+            欢迎来到点点餐
         </view>
+        <button class="button" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">微信手机号快捷登录</button>
+        <view style='text-align:right;color:#aaa;font-size:30rpx;padding-right:20rpx;margin:0 62rpx;' bindtap='changeValidateType'>用户名密码登录</view>
+        <!-- <button class="button-phone">手机号验证码登录</button> -->
+    </view>
+    <view class="bg-wrapper" wx:else>
+        <view class='login-title'>用户名登录</view>
+        <view class='login-title-line'></view>
+        <view style='padding:72rpx 62rpx; '>
+            <view style="border-bottom:1rpx solid  #EBEBEB;padding:10rpx 0 10rpx 40rpx;">
 
-        <view class='button-2' bindtap='loginWithNamePwd'>登录</view>
-        <view style='text-align:right;color:#aaa;font-size:30rpx;' bindtap='changeValidateType'>微信手机号快捷登录</view>
+                <input class='input-class' type='text' bindinput="bindNameInput" placeholder="请输入用户名" value="{{name}}" />
+            </view>
+            <view style="border-bottom:1rpx solid  #EBEBEB;padding:60rpx 0 10rpx 40rpx;margin-bottom:40rpx;">
+
+                <input class='input-class' type='text' password bindinput="bindPwdInput" placeholder="请输入密码" value="{{password}}" />
+            </view>
+
+            <view class='button-2' bindtap='loginWithNamePwd'>登录</view>
+            <view style='text-align:right;color:#aaa;font-size:30rpx;' bindtap='changeValidateType'>微信手机号快捷登录</view>
+        </view>
+    </view>
+
+    <!--弹框-->
+    <view class="modulebox-background-wrapper" wx:if='{{bindOrganizeFlag}}'>
+        <view class='bind-organize-warpper'>
+            <view class='bind-organize-title'>提示</view>
+            <view class='bind-organize-content'>是否绑定企业?</view>
+
+            <view class='bind-display'>
+                <view class='bind-organize-left' bindtap='cancelBind'>直接登录</view>
+                <view class='bind-organize-right' bindtap='gotoBind'>去绑定</view>
+            </view>
+        </view>
     </view>
 </view>

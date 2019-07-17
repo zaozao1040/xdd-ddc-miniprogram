@@ -42,21 +42,8 @@
         </view>
     </view>
     <!-- 弹出层 填写钱包支付提示 -->
-    <view class="modulebox-background-wrapper" wx:if="{{balanceConfirmFlag}}">
-        <view class="balance-r-wrapper">
+    <c-custom-modal content='使用钱包支付' title='支付提示' money='￥{{realMoney}}' wx:if='{{balanceConfirmFlag}}' bind:closemodal='closeBalanceConfirmFlag' bind:handleconfirm='handleCommitPay'></c-custom-modal>
 
-            <view class='balance-r-t'>
-                <text class='balance-r-1'>使用钱包支付</text>
-                <text class='balance-r-2'>￥</text>
-                <text class='balance-r-3'>{{realMoney}}</text>
-            </view>
-
-            <view class="balance-r_button-wrapper">
-                <view class="balance-r_button" bindtap="closeBalanceConfirmFlag">取消</view>
-                <view class="balance-r_button_check" bindtap="handleCommitPay">确定</view>
-            </view>
-        </view>
-    </view>
     <!-- 默认地址 -->
     <view class="address-wrapper c_buttonPosition_forCalculate_top" bindtap="handleChangeSelectFlag">
         <view class="address-wrapper-top">

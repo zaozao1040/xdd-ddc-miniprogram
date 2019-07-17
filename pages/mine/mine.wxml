@@ -109,4 +109,9 @@
             <view style='height:20rpx;'></view>
         </scroll-view>
     </view>
+
+    <!--切换弹窗-->
+    <c-custom-modal content='{{modalContent.content}}' wx:if='{{modalContent.show}}' bind:closemodal='closeModal' bind:handleconfirm='changeRoleModal'></c-custom-modal>
+    <c-custom-modal title='是否拨打客户电话?' content='{{servicePhone}}' wx:if='{{showPhoneModal}}' bind:closemodal='closePhoneModal' bind:handleconfirm='handleContact'></c-custom-modal>
+    <c-pop content='企业管理员请走报餐入口' wx:if='{{showPop}}' bind:closemodal='closePop'></c-pop>
 </view>

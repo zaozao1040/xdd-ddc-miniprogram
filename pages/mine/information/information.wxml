@@ -6,11 +6,7 @@
                 <image wx:if="{{userInfo.headImage}}" style='width:160rpx;height:160rpx;border-radius: 50%;' src="{{userInfo.headImage}}"></image>
                 <image wx:else style='width:160rpx;height:160rpx;' src="/images/mine/huiyuan.png" alt=""></image>
             </view>
-            <!-- <view class="org" bindtap="changeRole" wx:if='{{userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN"}}'>
-                <text wx:if="{{userInfo.orgAdmin}}">切换为"企业员工"</text>
-                <text wx:elif='{{userInfo.userType=="ORG_ADMIN"}}'>切换为"企业管理员"</text>
-                <text wx:elif='{{userInfo.userType=="ADMIN"}}'>切换为"超级管理员"</text>
-            </view> -->
+
             <view class='name'>{{userInfo.userName}}</view>
         </view>
 
@@ -38,14 +34,7 @@
             </view>
         </view>
     </view>
-    <!-- <view class='org-admin' wx:if='{{(userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN")&&userInfo.orgAdmin==true}}'>
-        <view class='org-addfood' bindtap="gotoAddfood">
-            <image src="/images/mine/data_meal.png" class='org-addfood'></image>
-        </view>
-        <view class='org-addfood' bindtap="gotoCabinetminiProgram">
-            <image src="/images/mine/data_cabinet.png" class='org-addfood'></image>
-        </view>
-    </view> -->
+
     <view class='logout' bindtap='logout'>
         退出
     </view>

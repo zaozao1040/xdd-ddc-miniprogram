@@ -1,0 +1,7 @@
+<view class="modulebox-background-wrapper">
+    <view class='warpper'>
+        <view class='title'>{{title}}</view>
+        <view class='content'>{{content}}</view>
+        <view class='dialog-button' bindtap='closeModal'>{{text}}</view>
+    </view>
+</view>

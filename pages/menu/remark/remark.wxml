@@ -57,4 +57,11 @@
     </view>
     <view class='circle' bindtap='clearAllRemark'>清空</view>
     <view class='button' bindtap='saveAllRemark'>保存</view>
+    <c-pop content='{{popContent.content}}' wx:if='{{popContent.show}}' bind:closemodal='closeModal'></c-pop>
+    <!--删除一条备注-->
+    <c-custom-modal content='{{modalContent.content}}' wx:if='{{modalIndex==1}}' params='{{modalContent.eventParam}}' bind:closemodal='closeModalModal' bind:handleconfirm='deleteOneRemarkForModal'></c-custom-modal>
+    <!--清空所有备注-->
+    <c-custom-modal content='{{modalContent.content}}' wx:if='{{modalIndex==2}}' bind:closemodal='closeModalModal' bind:handleconfirm='clearAllRemarkForModal'></c-custom-modal>
+    <!--删除未完成备注-->
+    <c-custom-modal content='{{modalContent.content}}' cancel='{{modalContent.cancel}}' confirm='{{modalContent.confirm}}' wx:if='{{modalIndex==3}}' bind:closemodal='closeModalModal' bind:handleconfirm='deleteUncompleteRemark'></c-custom-modal>
 </scroll-view>

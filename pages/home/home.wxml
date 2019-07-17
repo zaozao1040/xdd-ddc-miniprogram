@@ -83,7 +83,7 @@
     </view>
     <!-- 首页提示取餐3.0-->
     <view wx:if='{{gethomeOrderList}}'>
-        <view style="margin:0 0 60rpx 30rpx;" wx:if="{{homeOrderList.length>0}}">
+        <view style="margin:0 0 30rpx 30rpx;" wx:if="{{homeOrderList.length>0}}">
             <view class='takefood-title'>今日餐品</view>
             <view>
                 <swiper next-margin='24rpx' style='width: 100%; height: 212rpx;'>
@@ -96,7 +96,7 @@
                                 <view>
                                     <view class='flexdisplay'>
                                         <view class='takefood-cabinet'>
-                                            <view class='flexdisplay' style="line-height:50rpx;padding-left:10rpx;" wx:if='{{homeOrderItem.isBinding}}'>
+                                            <view class='flexdisplay' style="line-height:50rpx;" wx:if='{{homeOrderItem.isBinding}}'>
                                                 <view class="takefood-cabinet-title">{{homeOrderItem.bindDes}}</view>
                                                 <view class="takefood-cabinet-number">
                                                     {{homeOrderItem.bindNumber}}
@@ -173,7 +173,50 @@
         </view>
     </view>
 
+    <!--取餐弹框1-->
+    <view class="modulebox-background-wrapper" wx:if='{{takeFood.show}}'>
+        <view class='bind-organize-warpper' style='width:580rpx;height:340rpx;'>
+            <view class='bind-organize-title'>是否取餐？</view>
+            <view class='bind-organize-content' wx:if='{{takeFood.currentContent}}'>{{takeFood.currentContent}}</view>
+            <view class='bind-organize-content'>{{takeFood.prompt}}</view>
 
+            <view class='bind-display'>
+                <view class='bind-organize-left' bindtap='getTakeMealInfo'>取消</view>
+                <view class='bind-organize-right' bindtap='takeFoodOrderAgain' data-again='{{false}}' data-ordercode='{{takeFood.orderCode}}'>确认取餐</view>
+            </view>
+        </view>
+    </view>
+    <!--取餐弹框2-->
+    <view class="modulebox-background-wrapper" wx:if='{{takeFood.again}}'>
+        <view class='bind-organize-warpper' style='width:580rpx;height:340rpx;'>
+            <view class='bind-organize-title'>是否再次取餐？</view>
+            <view class='bind-organize-content'>{{takeFood.nextContent}}</view>
+
+            <view class='bind-display'>
+                <view class='bind-organize-left' bindtap='getTakeMealInfo'>已经取出</view>
+                <view class='bind-organize-right' bindtap='takeFoodOrderAgain' data-again='{{true}}' data-ordercode='{{takeFood.orderCode}}'>确认取餐</view>
+            </view>
+        </view>
+    </view>
+    <!--企业管理员无报餐权限弹框-->
+    <view class='modulebox-background-wrapper' wx:if='{{orgAdminNoMealFlag}}'>
+        <view class='bind-organize-warpper' style='width:580rpx;height:340rpx;'>
+            <view class='bind-organize-title'>当前是管理员身份，无点餐权限</view>
+            <view class='bind-organize-content'>您无点餐权限，请开通点餐权限或者在‘我的’页面切换为企业用户进行点餐</view>
+            <view class='dialog-button' bindtap='closeDialog'>知道了</view>
+        </view>
+    </view>
+    <!--企业管理员点餐提示弹框-->
+    <view class='modulebox-background-wrapper' wx:if='{{orgAdminMealFlag}}'>
+        <view class='bind-organize-warpper'>
+            <view class='bind-organize-title'>当前是管理员身份,是否点餐?</view>
+            <view class='bind-organize-content'>您可在'我的'页面切换为企业用户</view>
+            <view class='bind-display'>
+                <view class='bind-organize-left' bindtap='closeDialog'>暂不</view>
+                <view class='bind-organize-right' bindtap='openSelectMealTime'>点餐</view>
+            </view>
+        </view>
+    </view>
     <!-- 活动3.0 -->
     <view class="promotion-wrapper">
         <view class="promotionItem" wx:for="{{imagesList.centerImage}}" wx:for-index="promotionListIndex" wx:for-item="promotionListItem" wx:key="promotionListIndex">

@@ -1,0 +1,11 @@
+<view class="modulebox-background-wrapper">
+    <view class='warpper'>
+        <view class='title'>{{title}}</view>
+        <slot></slot>
+        <view class='content'>{{content}}<text style='color:#F79C4C;'>{{money}}</text></view>
+        <view class='button-display'>
+            <view class='button-left' bindtap='closeModal'>{{cancel}}</view>
+            <view class='button-right' bindtap='handleConfirm' data-modalparam='{{params}}'>{{confirm}}</view>
+        </view>
+    </view>
+</view>

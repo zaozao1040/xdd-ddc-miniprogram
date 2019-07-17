@@ -1,5 +1,9 @@
 {
     "navigationBarTitleText": "我的积分",
     "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "black",
+    "usingComponents": {
+        "c-pop": "../../components/popUp/popUp",
+        "c-custom-modal": "../../components/customModal/customModal"
+    }
 }

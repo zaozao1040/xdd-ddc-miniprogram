@@ -21,7 +21,7 @@ Page({
 
         cc: 1,
         cabNumList: [], //柜子列表，如果柜子列表为空，就不显示‘打开柜子页面’
-
+        modalContent: {}
 
     },
     //跳转到详细资料页面
@@ -39,19 +39,21 @@ Page({
             })
             let { userType, orgAdmin } = userInfo
             if ((userType == 'ORG_ADMIN' || userType == 'ADMIN') && orgAdmin) {
-                wx.showModal({
-                    title: '提示',
-                    content: '企业管理员请走报餐入口',
-                    success() {}
+                _this.setData({
+                    showPop: true
                 })
+
             } else {
                 wx.navigateTo({
                     url: '/pages/mine/addfood/addfood'
                 })
             }
         }, true)
-
-
+    },
+    closePop() {
+        this.setData({
+            showPop: false
+        })
     },
     /* 跳转 */
     handleClickLabel: function(e) {
@@ -77,25 +79,29 @@ Page({
 
                 _this.data.servicePhone = data.contactPhone
 
-                wx.showModal({
-                    title: '是否拨打客户电话?',
-                    content: data.contactPhone,
-                    confirmText: '拨打',
-                    cancelText: '返回',
-                    success(res) {
-                        if (res.confirm) {
-                            wx.makePhoneCall({
-                                phoneNumber: data.contactPhone
-                            })
-                        }
-                    }
+                _this.setData({
+                    showPhoneModal: true,
+                    servicePhone: data.contactPhone
                 })
+
+
             })
         } else {
             wx.navigateTo({
                 url: _this.data.navigatorUrl[clickIndex]
             })
         }
+    },
+    closePhoneModal() {
+        this.setData({
+            showPhoneModal: false
+        })
+    },
+
+    handleContact() {
+        wx.makePhoneCall({
+            phoneNumber: data.contactPhone
+        })
     },
     /**
      * 生命周期函数--监听页面加载
@@ -128,35 +134,49 @@ Page({
         } else if (_this.data.userInfo.userType == 'ADMIN') {
             ct = '超级管理员'
         }
-        wx.showModal({
-            title: '提示',
-            content: _this.data.userInfo.orgAdmin ? '您确定要从' + ct + '切换为普通用户吗?' : '您确定要从普通用户切换为' + ct + '吗?',
-            success(res) {
-                if (res.confirm) {
-                    let param = {
-                        url: '/user/orgAdminChange',
-                        method: 'post',
-                        data: {
-                            userCode: _this.data.userCode
-                        }
-                    }
 
-                    requestModel.request(param, () => {
-                        _this.data.userInfo.orgAdmin = !_this.data.userInfo.orgAdmin
-                        _this.setData({
-                            userInfo: _this.data.userInfo
-                        })
-                        var tmp_userInfo = wx.getStorageSync('userInfo')
-                        tmp_userInfo.userInfo.orgAdmin = _this.data.userInfo.orgAdmin
-                        wx.setStorageSync('userInfo', tmp_userInfo)
-                        wx.showToast({
-                            title: '切换成功',
-                            icon: 'none',
-                            duration: 2000
-                        })
-                    })
-                }
+        let tmp_modalContent = {}
+        tmp_modalContent.content = _this.data.userInfo.orgAdmin ? '您确定要从' + ct + '切换为普通用户吗?' : '您确定要从普通用户切换为' + ct + '吗?'
+        tmp_modalContent.show = true
+
+        _this.setData({
+            modalContent: tmp_modalContent
+        })
+    },
+    changeRoleModal() {
+        let _this = this
+        let param = {
+            url: '/user/orgAdminChange',
+            method: 'post',
+            data: {
+                userCode: _this.data.userCode
             }
+        }
+
+        requestModel.request(param, () => {
+            _this.data.userInfo.orgAdmin = !_this.data.userInfo.orgAdmin
+            _this.setData({
+                userInfo: _this.data.userInfo
+            })
+            var tmp_userInfo = wx.getStorageSync('userInfo')
+            tmp_userInfo.userInfo.orgAdmin = _this.data.userInfo.orgAdmin
+            wx.setStorageSync('userInfo', tmp_userInfo)
+            wx.showToast({
+                title: '切换成功',
+                icon: 'none',
+                duration: 2000
+            })
+            _this.data.modalContent.show = false
+            _this.setData({
+                modalContent: _this.data.modalContent
+            })
+        })
+    },
+    closeModal() {
+        let _this = this
+        _this.data.modalContent.show = false
+        _this.setData({
+            modalContent: _this.data.modalContent
         })
     },
     // 柜子页面

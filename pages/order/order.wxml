@@ -44,15 +44,9 @@
 
     <view class="mask" wx:if="{{cancelFlag||showRatingsFlag}}" catchtouchmove="preventTouchMove"></view>
     <!--取消订单弹出框-->
-    <view style='border-radius: 16rpx;position:fixed;width:560rpx;height:310rpx;bottom:0;top:0;left:0;right:0;margin:auto;background:#fff;z-index:10002;' wx:if='{{cancelFlag}}'>
-        <view style='font-family: PingFang-SC-Medium;font-size: 18px;color: #000000;text-align: center;margin:60rpx 0;text-align: center;'>
-            确定要取消订单吗？
-        </view>
-        <view class='cancel-button'>
-            <view class='cancel-wait' catchtap='handleCancelOrderWait'>再等等</view>
-            <view class='cancel-confirm' catchtap='handleCancelOrderConfirm'>确定取消</view>
-        </view>
-    </view>
+    <c-custom-modal content='确定要取消订单？' cancel='再等等' confirm='确定取消' wx:if='{{cancelFlag}}' bind:closemodal='handleCancelOrderWait' bind:handleconfirm='handleCancelOrderConfirm'></c-custom-modal>
+
+
     <!-- 标题 -->
     <view class="header-wrapper">
         <view catchtap="changeItemStatusActiveFlag" data-flag="jinridaiqu">
@@ -173,12 +167,11 @@
             <view wx:elif='{{!hasMoreDataFlag}}' class="hasMore-wrapper" style="margin-top:60rpx;font-family: PingFang-SC-Regular; font-size: 26rpx; color: #666666; letter-spacing: 0; text-align: center;">
                 没有更多了..
             </view>
-            <!-- <view class="hasMore-wrapper" wx:if="{{hasMoreDataFlag}}" bindtap="gotoNextPage" style="margin-top:60rpx;font-family: PingFang-SC-Regular; font-size: 26rpx; color: #666666; letter-spacing: 0; text-align: center;">
-                点击加载更多
-            </view>
-            <view wx:else class="hasMore-wrapper" style="margin-top:60rpx;font-family: PingFang-SC-Regular; font-size: 26rpx; color: #666666; letter-spacing: 0; text-align: center;">
-                没有更多了..
-            </view> -->
         </view>
     </scroll-view>
+
+    <!--是否取餐-->
+    <c-custom-modal title='是否取餐?' content='{{takeorderModal.content}}' wx:if='{{takeorderModalShow}}' bind:closemodal='closeModal' bind:handleconfirm='takeFoodOrderForModal'></c-custom-modal>
+    <c-custom-modal title='是否再次取餐?' content='{{takeorderModal.nextContent}}' wx:if='{{takeorderAgainShow}}' bind:closemodal='closeModalAgain' bind:handleconfirm='takeFoodOrderAgainForModal'></c-custom-modal>
+    <c-pop content='{{orderSuccessContent}}' wx:if='{{orderSuccessFlag}}' bind:closemodal='closePop'></c-pop>
 </view>

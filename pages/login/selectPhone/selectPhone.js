@@ -7,7 +7,8 @@ Page({
      */
     data: {
         showChooseOrganizeFlag: false, //显示开关
-        loginType: 'wxAuthorization'
+        loginType: 'wxAuthorization',
+        bindOrganizeFlag: false, //绑定企业弹框
     },
 
     /**
@@ -23,25 +24,23 @@ Page({
     onReady: function() {
 
     },
+    //新用户 - 选择绑定（代表是企业用户），赋值缓存后跳转到登录页面
+    gotoBind() {
+        this.setData({
+            bindOrganizeFlag: false
+        })
 
-
-    /* 弹出模态框去选择是否绑定企业 */
-    chooseBindOrganize: function() {
-        wx.showModal({
-            title: '是否绑定企业?',
-            confirmText: '去绑定',
-            cancelText: '直接登录',
-            success(res_1) {
-                if (res_1.confirm) { //新用户 - 选择绑定（代表是企业用户），赋值缓存后跳转到登录页面
-                    wx.redirectTo({
-                        url: '/pages/login/login',
-                    })
-                } else if (res_1.cancel) { //新用户 - 选择不绑定（代表是普通用户），赋值缓存后直接跳转到home页
-                    wx.switchTab({
-                        url: '/pages/home/home',
-                    })
-                }
-            }
+        wx.redirectTo({
+            url: '/pages/login/login',
+        })
+    },
+    //新用户 - 选择不绑定（代表是普通用户），赋值缓存后直接跳转到home页
+    cancelBind() {
+        this.setData({
+            bindOrganizeFlag: false
+        })
+        wx.switchTab({
+            url: '/pages/home/home',
         })
     },
     /**
@@ -50,9 +49,12 @@ Page({
     onShow: function() {
         let _this = this
             //已登录状态，则直接弹出模态框去选择是否绑定企业 
-        if (wx.getStorageSync('userCode'))
-            this.chooseBindOrganize()
+        if (wx.getStorageSync('userCode')) {
 
+            _this.setData({
+                bindOrganizeFlag: true
+            })
+        }
 
         wx.checkSession({
             success() {
@@ -96,7 +98,9 @@ Page({
                         requestModel.request(params, (data) => {
                             wx.setStorageSync('userCode', data.userCode)
                             if (data.newUser == true) { //新用户 弹出是否绑定企业的模态框 TODO 5/14
-                                _this.chooseBindOrganize()
+                                _this.setData({
+                                    bindOrganizeFlag: true
+                                })
                             } else { //老用户 直接进入home页面
                                 wx.switchTab({
                                     url: '/pages/home/home',

@@ -72,7 +72,9 @@ Page({
         },
 
         twoDaysInfo: [],
-        oneDayInfo: {}
+        oneDayInfo: {},
+        orgAdminNoMealFlag: false, //企业管理员，无点餐权限弹窗
+        orgAdminMealFlag: false, //企业管理员，点餐提示弹窗
 
     },
     // 选择今天
@@ -177,24 +179,25 @@ Page({
         let a = _this.data.userInfo.userType === 'ORG_ADMIN' && _this.data.userInfo.orgAdmin === true
 
         if (a && _this.data.userInfo.userPermission && _this.data.userInfo.userPermission.adminMeal == true) { //企业管理员类型，且以企业管理员身份登录
-            wx.showModal({
-                title: '当前是管理员身份,是否点餐?',
-                content: "您可在'我的'页面切换为企业用户",
-                showCancel: false,
-                success() {
-                    _this.openSelectMealTime()
-                }
+
+            _this.setData({
+                orgAdminMealFlag: true
             })
         } else if (a && _this.data.userInfo.userPermission && _this.data.userInfo.userPermission.adminMeal == false) { //企业管理员类型，且以企业管理员身份登录
-            wx.showModal({
-                title: '当前是管理员身份，无点餐权限',
-                content: "您无点餐权限，请开通点餐权限或者在‘我的’页面切换为企业用户进行点餐",
-                showCancel: false,
+            _this.setData({
+                orgAdminNoMealFlag: true
             })
         } else {
             _this.openSelectMealTime()
         }
 
+    },
+
+    closeDialog() {
+        this.setData({
+            orgAdminNoMealFlag: false,
+            orgAdminMealFlag: false
+        })
     },
     openSelectMealTime: function() {
         let _this = this
@@ -430,6 +433,10 @@ Page({
     /* 获取首页取餐信息 */
     getTakeMealInfo: function() {
         let _this = this
+        _this.data.takeFood = {}
+        _this.setData({
+            takeFood: _this.data.takeFood
+        })
         let param = {
             url: '/home/getHomeOrderPick?userCode=' + wx.getStorageSync('userCode')
         }
@@ -462,16 +469,6 @@ Page({
                                 let endHours = end[0] == '00' ? 24 : end[0]
                                 let e = endHours < start[0] ? ('明天' + endHours + '点') : (endHours + '点') + (end[1] != '00' ? (end[1] + '分') : '')
                                 a.takeMealTimeDes = s + '到' + e
-
-                                // // 取餐时间
-                                // let start = new Date(onefood.takeMealStartTime)
-                                // let end = new Date(onefood.takeMealEndTime)
-
-                                // //取餐时间顶多是到明天吗？不管了，就是明天
-                                // let s = '今天' + start.getHours() + '点' + (start.getMinutes() > 0 ? (start.getMinutes() + '分') : '')
-                                // let endHours = end.getHours() == 0 ? 24 : end.getHours()
-                                // let e = endHours < start.getHours() ? ('明天' + endHours + '点') : (endHours + '点') + (end.getMinutes() > 0 ? (end.getMinutes() + '分') : '')
-                                // a.takeMealTimeDes = s + '到' + e
                             } else {
                                 let b = item.mealDate.split('-')
 
@@ -514,66 +511,62 @@ Page({
     },
 
     //取餐private函数
-    takeFoodOrder(ordercode, foodcode, foodindex, prompt) {
+    takeFoodOrder(ordercode, foodcode, prompt) {
 
         let _this = this
             //就调用接口加载柜子号 
         let param = {
-            url: '/order/orderPickPre?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + ordercode + '&foodCode=' + foodcode
+            url: '/order/orderPickPre?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' +
+                ordercode + '&foodCode=' + foodcode
         }
-        requestModel.requestForTake(param, (data) => {
+        requestModel.request(param, (data) => {
             let tmp_content = ''
             if (data) {
                 let bindnumber = ''
-
                 if (data.length > 0) {
                     for (let i = 0; i < data.length - 1; i++) {
                         bindnumber += data[i].cabinetNumber + '-' + data[i].cellNumber + ', '
                     }
                     bindnumber += data[data.length - 1].cabinetNumber + '-' + data[data.length - 1].cellNumber
 
-                    tmp_content = '当前柜子为：' + bindnumber + ',请确认本人在柜子旁边' + '\r\n' + prompt
-                } else {
-                    tmp_content = prompt
+                    tmp_content = '当前柜子为：' + bindnumber + ',请确认本人在柜子旁边'
                 }
 
-                let content = data.length > 0 ? '如果柜子' + bindnumber + '中餐品未取出，可点击确定再次取餐' : '如果餐品未取出，可点击确定再次取餐'
+                let content = data.length > 0 ? '如果柜子' + bindnumber + '中餐品未取出，可点击确定再次取餐' :
+                    '如果餐品未取出，可点击确定再次取餐'
+                let tmp_takeFood = _this.data.takeFood
+                tmp_takeFood.orderCode = ordercode
+                tmp_takeFood.foodCode = foodcode
 
-                wx.showModal({
-                    title: '是否取餐?',
-                    content: tmp_content,
-                    success(res) {
-                        if (res.confirm) {
-                            _this.takeFoodOrderAgain(ordercode, foodcode, false, content)
-                        } else if (res.cancel) {
-                            wx.hideToast()
-                            _this.getTakeMealInfo()
-                        }
-                    }
+
+                tmp_takeFood.show = true
+                tmp_takeFood.prompt = prompt
+                tmp_takeFood.nextContent = content
+                tmp_takeFood.currentContent = tmp_content
+                _this.setData({
+                    takeFood: tmp_takeFood
                 })
+
             }
         })
     },
     //取餐private函数
-    takeFoodOrderAgain(ordercode, foodcode, again, content) {
+    takeFoodOrderAgain(e) {
+        let {
+            ordercode,
+            again
+        } = e.currentTarget.dataset
         let _this = this
 
         let param = {
-            url: '/order/orderPick?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + ordercode + '&again=' + again
+            url: '/order/orderPick?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + ordercode +
+                '&again=' + again
         }
         requestModel.request(param, () => {
-            wx.showModal({
-                title: '是否再次取餐?',
-                content: content,
-                success(res) {
-                    if (res.confirm) {
-                        _this.takeFoodOrderAgain(ordercode, foodcode, true, content)
-                    } else if (res.cancel) {
-                        wx.hideToast()
-                        _this.getTakeMealInfo()
-                    }
-                }
-
+            _this.data.takeFood.again = true
+            _this.data.takeFood.show = false
+            _this.setData({
+                takeFood: _this.data.takeFood
             })
         })
     },
@@ -589,8 +582,14 @@ Page({
         }
         _this.data.canClick = false
 
-        let { ordercode, foodcode, foodindex, prompt } = e.currentTarget.dataset
-        _this.takeFoodOrder(ordercode, foodcode, foodindex, prompt)
+        let {
+            ordercode,
+            foodcode,
+            prompt
+        } = e.currentTarget.dataset
+
+
+        _this.takeFoodOrder(ordercode, foodcode, prompt)
 
 
         if (_this.data.timer) {

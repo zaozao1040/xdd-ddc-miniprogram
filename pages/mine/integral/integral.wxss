@@ -235,11 +235,11 @@
  
  .dialog-title {
      font-family: PingFangSC-Regular;
-     font-size: 36rpx;
+     font-size: 34rpx;
      color: #000000;
      text-align: center;
-     padding-top: 63rpx;
-     line-height: 50rpx;
+     padding-top: 40rpx;
+     line-height: 48rpx;
  }
  
  .dialog-des {
@@ -253,7 +253,7 @@
  .dialog-button {
      font-family: PingFang-SC-Medium;
      font-size: 36rpx;
-     color: #576B95;
+     color: #F79C4C;
      text-align: center;
      padding-top: 25rpx;
      border-top: 1rpx solid #E5E5E5;
@@ -285,34 +285,37 @@
      border-radius: 8rpx;
  }
  
- .dialog-button-group {
-     margin: 0 30rpx;
+ .button-display {
      display: flex;
-     justify-content: space-between;
+     position: absolute;
+     width: 100%;
+     bottom: 0;
+     height: 100rpx;
+     border-top: 2rpx solid #E5E5E5;
  }
  
- .dialog-button-cancel {
-     border: 2rpx solid #CCCCCC;
-     border-radius: 50rpx;
-     height: 76rpx;
-     width: 236rpx;
+ .button-left {
+     width: 50%;
+     font-size: 32rpx;
+     font-family: PingFangSC-Regular;
+     font-weight: 400;
+     color: rgba(153, 153, 153, 1);
+     line-height: 100rpx;
+     height: 100rpx;
      text-align: center;
-     line-height: 76rpx;
-     font-family: PingFangSC-Regular;
-     font-size: 30rpx;
-     color: #333333;
-     letter-spacing: 0;
+     background: #fff;
+     border-bottom-left-radius: 8rpx;
  }
  
- .dialog-button-confirm {
-     background: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
-     border-radius: 50rpx;
-     width: 240rpx;
-     height: 80rpx;
-     line-height: 80rpx;
+ .button-right {
+     background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
+     width: 50%;
+     font-size: 32rpx;
      font-family: PingFangSC-Regular;
-     font-size: 30rpx;
+     font-weight: 400;
      color: #FFFFFF;
-     letter-spacing: 0;
+     line-height: 100rpx;
+     height: 100rpx;
+     border-bottom-right-radius: 8rpx;
      text-align: center;
  }
