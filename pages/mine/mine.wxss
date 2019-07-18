@@ -141,13 +141,9 @@
 }
 
 .org-addfood-none {
+    position: absolute;
     width: 314rpx;
     height: 160rpx;
-    background: rgba(255, 255, 255, 0.50);
-    border-radius: 6rpx;
-    position: absolute;
-    color: #333;
-    font-size: 36rpx;
-    padding: 94rpx 0 0 30rpx;
     box-sizing: border-box;
+    padding: 40rpx 30rpx 0;
 }

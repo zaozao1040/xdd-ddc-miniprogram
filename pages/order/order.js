@@ -357,7 +357,9 @@
              _this.setData({
                  showPayTypeFlag: true,
                  balanceEnough: data.allBalance < payPrice ? false : true,
+                 payPrice: payPrice,
                  payOrderCode: orderCode,
+                 allBalance: data.allBalance,
                  payType: data.allBalance < payPrice ? "WECHAT_PAY" : 'BALANCE_PAY'
 
              })
@@ -488,13 +490,14 @@
              let tmp_content = ''
              if (data) {
                  let bindnumber = ''
+
                  if (data.length > 0) {
                      for (let i = 0; i < data.length - 1; i++) {
                          bindnumber += data[i].cabinetNumber + '-' + data[i].cellNumber + ', '
                      }
                      bindnumber += data[data.length - 1].cabinetNumber + '-' + data[data.length - 1].cellNumber
 
-                     tmp_content = '当前柜子为：' + bindnumber + ',请确认本人在柜子旁边'
+                     tmp_content = '当前柜子为：' + bindnumber + ',请确认本人在柜子旁  ' + "请在两小时内用餐"
                  } else {
                      tmp_content = '请确认取餐'
                  }
@@ -533,6 +536,7 @@
          this.takeFoodOrderAgain(ordercode, true, content)
      },
      closeModalAgain() {
+         let _this = this
          _this.setData({
                  takeorderModalShow: false,
                  takeorderAgainShow: false

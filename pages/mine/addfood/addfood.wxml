@@ -232,4 +232,5 @@
             预约时间已截止，下次记得提前预约哦
         </view>
     </view>
+    <c-pop content='{{notUpToStandardPriceContent}}' wx:if='{{notUpToStandardPrice}}' bind:closemodal='closeModal'></c-pop>
 </view>

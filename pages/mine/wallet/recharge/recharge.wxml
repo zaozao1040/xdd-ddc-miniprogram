@@ -24,7 +24,8 @@
 
         <view class='recharge-title'>充值方式</view>
         <view class='recharge-way'>
-            <image src='/images/mine/weixin.png' style='height:54rpx;width:60rpx;'></image>
+            <image src="/images/menu/today/order_wechatpay.png" style="padding-top:6rpx;height:40rpx;width:40rpx;">
+            </image>
             <view class='wechat'>微信支付</view>
             <image src='/images/mine/selected.png' style='height:52rpx;width:52rpx;'></image>
         </view>

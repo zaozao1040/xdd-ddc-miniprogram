@@ -22,7 +22,9 @@ Page({
         hasdata: false,
         hasalready: false,
         remarkCount: 0,
-        markDetail: []
+        markDetail: [],
+        popContent: {},
+        modalContent: {}
     },
 
     /**
@@ -68,7 +70,7 @@ Page({
                 supplementCode: data.supplementCode,
                 remarkValue: data.mark,
                 remarkCount: data.mark ? data.mark.length : 0,
-                markDetail: data.markDetail
+                markDetail: data.markDetail ? data.markDetail : []
             })
             let a = 0
             if (data.markDetail && data.markDetail.length > 0) {
@@ -145,7 +147,8 @@ Page({
         let _this = this
         _this.data.markDetail.pop()
         _this.setData({
-            markDetail: _this.data.markDetail
+            markDetail: _this.data.markDetail,
+            modalIndex: 0
         })
     },
     inputAddfoodNumber(event) {
@@ -348,7 +351,8 @@ Page({
         this.data.remarkCountTotal -= oldcount
 
         this.setData({
-            markDetail: this.data.markDetail
+            markDetail: this.data.markDetail,
+            modalIndex: 0
         })
 
     },

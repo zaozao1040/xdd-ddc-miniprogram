@@ -1,27 +1,18 @@
 /*去付款的弹窗*/
 
-.pay-wechat {
+.pay-way {
     display: flex;
     justify-content: space-between;
-    padding: 0 40rpx;
+    padding: 0 30rpx;
+    margin-top: 30rpx;
 }
 
-.pay-balance {
-    display: flex;
-    justify-content: space-between;
-    padding: 32rpx 40rpx 56rpx;
-}
-
-.pay-button {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 36rpx;
-}
-
-.cancel-button {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 30rpx;
+.pay-way-des {
+    font-size: 30rpx;
+    font-family: PingFang-SC-Regular;
+    font-weight: 400;
+    color: rgba(51, 51, 51, 1);
+    line-height: 40rpx;
 }
 
 .one-order {
@@ -81,23 +72,24 @@
 
 .selectPayType {
     position: absolute;
-    height: 440rpx;
-    width: 560rpx;
+    height: 428rpx;
+    width: 600rpx;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     margin: auto;
     background: #fff;
-    border-radius: 16rpx;
+    border-radius: 8rpx;
 }
 
 .selectPayType_line1 {
-    font-family: PingFang-SC-Medium;
-    font-size: 36rpx;
-    color: #333333;
+    font-size: 34rpx;
+    font-family: PingFangSC-Medium;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 1);
+    line-height: 48rpx;
     text-align: center;
-    padding: 50rpx 0 44rpx;
 }
 
 .selectPayType_Des {
@@ -508,4 +500,43 @@
     color: #F79C4C;
     letter-spacing: 0;
     text-align: left;
+}
+
+.button-display {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    height: 100rpx;
+    border-top: 2rpx solid #E5E5E5;
+}
+
+.button-left {
+    width: 50%;
+    font-size: 32rpx;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(153, 153, 153, 1);
+    line-height: 100rpx;
+    height: 100rpx;
+    text-align: center;
+    background: #fff;
+    border-bottom-left-radius: 8rpx;
+}
+
+.button-right {
+    background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
+    width: 50%;
+    font-size: 32rpx;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: #FFFFFF;
+    line-height: 100rpx;
+    height: 100rpx;
+    border-bottom-right-radius: 8rpx;
+    text-align: center;
+}
+
+.flex-a {
+    display: flex;
 }

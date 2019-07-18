@@ -248,6 +248,7 @@ Page({
                 showMenuSelect: true,
                 appointmention: 'today',
                 oneDayInfo: data[0].mealTypeOrder,
+                orgAdminMealFlag: false
             })
             wx.hideTabBar()
         })
@@ -529,7 +530,7 @@ Page({
                     }
                     bindnumber += data[data.length - 1].cabinetNumber + '-' + data[data.length - 1].cellNumber
 
-                    tmp_content = '当前柜子为：' + bindnumber + ',请确认本人在柜子旁边'
+                    tmp_content = '当前柜子为：' + bindnumber + ',请确认本人在柜子旁'
                 }
 
                 let content = data.length > 0 ? '如果柜子' + bindnumber + '中餐品未取出，可点击确定再次取餐' :

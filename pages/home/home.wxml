@@ -129,7 +129,7 @@
                                 </view>
                             </view>
                             <view class="prompt">
-                                <text class="prompt-title"> 餐品用餐提示: </text>
+                                <text class="prompt-title"> 用餐提示: </text>
                                 <text class="prompt-des"> {{homeOrderItem.prompt}} </text>
                             </view>
                         </swiper-item>
@@ -338,7 +338,7 @@
         <view class="appointment-choice-foodtype-list" style="margin-bottom:30rpx;border-bottom: 1rpx solid #EBEBEB;" wx:if="{{appointmention!='week'}}">
             <block wx:for="{{twoDaysMealName}}" wx:key="{{index}}">
                 <block wx:if='{{oneDayInfo[item+"Status"]==true}}'>
-                    <view style="position:absolute;width:750rpx;height:142rpx;background:rgba(255,255,255,0.8);z-index:1001;" wx:if='{{!oneDayInfo[item+"OrderStatus"]}}'>
+                    <view style="position:absolute;width:750rpx;height:142rpx;background:rgba(255,255,255,0.6);z-index:1001;" wx:if='{{!oneDayInfo[item+"OrderStatus"]}}'>
                         <image src='/images/home/filter_end.png ' style="position:absolute; right:110rpx;  top:12rpx;width:120rpx;height:115rpx;"></image>
                     </view>
                     <view class='appointment-choice-foodtype' data-mealtype='{{item}}' catchtap="startOrderMenu">

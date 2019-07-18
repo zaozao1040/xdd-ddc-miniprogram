@@ -76,9 +76,6 @@ Page({
                 url: '/help/getHelp'
             }
             requestModel.request(param, data => {
-
-                _this.data.servicePhone = data.contactPhone
-
                 _this.setData({
                     showPhoneModal: true,
                     servicePhone: data.contactPhone
@@ -99,8 +96,13 @@ Page({
     },
 
     handleContact() {
+        let _this = this
         wx.makePhoneCall({
-            phoneNumber: data.contactPhone
+            phoneNumber: _this.data.servicePhone
+        })
+
+        _this.setData({
+            showPhoneModal: false
         })
     },
     /**
@@ -154,13 +156,12 @@ Page({
         }
 
         requestModel.request(param, () => {
-            _this.data.userInfo.orgAdmin = !_this.data.userInfo.orgAdmin
-            _this.setData({
-                userInfo: _this.data.userInfo
-            })
-            var tmp_userInfo = wx.getStorageSync('userInfo')
-            tmp_userInfo.userInfo.orgAdmin = _this.data.userInfo.orgAdmin
-            wx.setStorageSync('userInfo', tmp_userInfo)
+            requestModel.getUserInfo(userInfo => {
+
+                _this.setData({
+                    userInfo: userInfo
+                })
+            }, true)
             wx.showToast({
                 title: '切换成功',
                 icon: 'none',
@@ -244,12 +245,12 @@ Page({
             }, true)
 
 
-            requestModel.getUserInfo(userInfo => {
-                console.log('userInfo', userInfo)
-                _this.setData({
-                    userInfo: userInfo
-                })
-            })
+            // requestModel.getUserInfo(userInfo => {
+            //     console.log('userInfo', userInfo)
+            //     _this.setData({
+            //         userInfo: userInfo
+            //     })
+            // })
 
 
         })

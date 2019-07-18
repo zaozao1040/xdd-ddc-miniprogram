@@ -2,41 +2,67 @@
     <!-- 去付款弹出的选择支付方式对话框 -->
     <view class="selectPayType-wrapper" wx:if="{{showPayTypeFlag}}">
         <view class="selectPayType">
-            <view class="selectPayType_line1">
-                请选择支付方式
-            </view>
+            <view class="selectPayType_line1" style='margin-top:30rpx;'>支付金额</view>
+            <view class="selectPayType_line1">￥{{payPrice}}</view>
 
-            <view class='pay-wechat'>
-                <view class='selectPayType_Des'>
-                    微信支付
+            <view wx:if='{{balanceEnough}}'>
+                <view class='pay-way'>
+                    <view class='flex-a'>
+                        <image src="/images/menu/wallet.png" style="width:40rpx;height:40rpx;margin-right:10rpx;">
+                        </image>
+                        <view class='flex-a'>
+                            <view class='pay-way-des'>钱包支付 (钱包余额</view>
+                            <image src='/images/mine/diancanbi_u.png' style='height:28rpx;width:28rpx;padding:6rpx;'></image>
+                            <view class='pay-way-des'>{{allBalance}})</view>
+                        </view>
+                    </view>
+                    <view wx:if='{{balanceEnough}}' style='width:44rpx;height:44rpx;'>
+                        <image wx:if='{{payType=="BALANCE_PAY"}}' src='/images/order/check.png' style='width:44rpx;height:44rpx;'></image>
+                        <image wx:else src='/images/order/uncheck.png' style='width:44rpx;height:44rpx;' catchtap="radioChange"></image>
+                    </view>
+                    <view wx:else style='width:44rpx;height:44rpx;'>
+                        <image src='/images/order/uncheck.png' style='width:44rpx;height:44rpx;'></image>
+                    </view>
                 </view>
-                <image wx:if='{{payType=="WECHAT_PAY"}}' src='/images/order/check.png' style='width:44rpx;height:44rpx;'></image>
-                <image wx:else src='/images/order/uncheck.png' style='width:44rpx;height:44rpx;' catchtap="radioChange">
-                </image>
-            </view>
-            <view wx:if='{{balanceEnough}}' class='pay-balance'>
-                <view class='selectPayType_Des'>
-                    钱包支付
+                <view class='pay-way' style='margin-top:24rpx;'>
+                    <view class='flex-a'>
+                        <image src="/images/menu/today/order_wechatpay.png" style="width:40rpx;height:40rpx;margin-right:10rpx;">
+                        </image>
+                        <view class='pay-way-des'>微信支付</view>
+                    </view>
+                    <image wx:if='{{payType=="WECHAT_PAY"}}' src='/images/order/check.png' style='width:44rpx;height:44rpx;'></image>
+                    <image wx:else src='/images/order/uncheck.png' style='width:44rpx;height:44rpx;' catchtap="radioChange">
+                    </image>
                 </view>
-                <image wx:if='{{payType=="BALANCE_PAY"}}' src='/images/order/check.png' style='width:44rpx;height:44rpx;'></image>
-                <image wx:else src='/images/order/uncheck.png' style='width:44rpx;height:44rpx;' catchtap="radioChange">
-                </image>
             </view>
-            <view wx:else class='pay-balance'>
-                <view class='order-cabinet-num-group'>
-                    <view class='selectPayType_Des' style='color:#999;'>钱包支付(</view>
-
-                    <image src='/images/mine/diancanbi_u.png' style='width:34rpx;height:34rpx;padding:6rpx 5rpx 0;'></image>
-                    <view class='selectPayType_Des' style='color:#999;'>点餐币不足)</view>
+            <view wx:else>
+                <view class='pay-way'>
+                    <view class='flex-a'>
+                        <image src="/images/menu/today/order_wechatpay.png" style="width:40rpx;height:40rpx;margin-right:10rpx;">
+                        </image>
+                        <view class='pay-way-des'>微信支付</view>
+                    </view>
+                    <image wx:if='{{payType=="WECHAT_PAY"}}' src='/images/order/check.png' style='width:44rpx;height:44rpx;'></image>
+                    <image wx:else src='/images/order/uncheck.png' style='width:44rpx;height:44rpx;' catchtap="radioChange">
+                    </image>
+                </view>
+                <view style='margin-top:24rpx;'>
+                    <view style='background:rgba(255,255,255,0.6);position:absolute;width:600rpx;height:44rpx;z-index:10002;'></view>
+                    <view class='flex-a' style='padding-left:30rpx;'>
+                        <image src="/images/menu/wallet.png" style="width:40rpx;height:40rpx;margin-right:10rpx;">
+                        </image>
+                        <view class='flex-a'>
+                            <view class='pay-way-des'>钱包支付 (钱包余额</view>
+                            <image src='/images/mine/diancanbi_u.png' style='height:28rpx;width:28rpx;padding:6rpx;'></image>
+                            <view class='pay-way-des'>{{allBalance}})</view>
+                        </view>
+                    </view>
                 </view>
 
-
-                <image src='/images/order/uncheck.png' style='width:44rpx;height:44rpx;'></image>
             </view>
-
-            <view class='pay-button'>
-                <view class='selectPayType_button' catchtap="buttonClickNo">取消</view>
-                <view class='selectPayType_button_check' catchtap="buttonClickYes"> 确定</view>
+            <view class='button-display'>
+                <view class='button-left' bindtap='buttonClickNo'>取消</view>
+                <view class='button-right' bindtap='buttonClickYes'>确定</view>
             </view>
         </view>
     </view>

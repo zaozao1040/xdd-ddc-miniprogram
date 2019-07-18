@@ -259,4 +259,11 @@
             </block>
         </block>
     </view>
+    <view class="modulebox-background-wrapper" wx:if='{{notUpToStandardPrice}}'>
+        <view class='warpper'>
+            <view class='title'>{{notUpToStandardPriceTitle}}</view>
+            <view class='content'>{{notUpToStandardPriceContent}}</view>
+            <view class='dialog-button' bindtap='closeModal'>知道了</view>
+        </view>
+    </view>
 </scroll-view>

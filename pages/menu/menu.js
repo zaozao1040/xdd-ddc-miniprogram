@@ -1008,15 +1008,15 @@
                  //1.餐标可用 2.当天当餐点餐了，用总价判断点餐没是否不妥？3.不能低于餐标 4.抵扣金额小于企业餐标
                  let { mealSet, deductionMoney, totalMoney_meal, mealType } = item[meal]
                  if (mealSet.userCanStandardPrice && totalMoney_meal > 0 && !mealSet.underStandardPrice && deductionMoney < mealType.standardPrice) {
-                     wx.showModal({
-                         title: this.data.timeInfo[i].label + ' ' + this.data.mealTypeSmall[meal],
-                         content: '未达餐标金额(¥' + mealType.standardPrice + ')' + ',请继续选餐',
-                         showCancel: false,
-                         confirmText: '返回'
-                     })
+
+                     let t_title = this.data.timeInfo[i].label + ' ' + this.data.mealTypeSmall[meal]
+                     let t_content = '未达餐标金额(¥' + mealType.standardPrice + ')' + ',请继续选餐'
                      this.setData({
                          activeDayIndex: i,
-                         mealTypeItem: meal
+                         mealTypeItem: meal,
+                         notUpToStandardPrice: true,
+                         notUpToStandardPriceTitle: t_title,
+                         notUpToStandardPriceContent: t_content
                      })
                      flag = false
                      break
@@ -1030,7 +1030,11 @@
          }
          return flag
      },
-
+     closeModal() {
+         this.setData({
+             notUpToStandardPrice: false
+         })
+     },
      goToMenuCommit() {
          let _this = this
              //也弄两秒内不可重复点击

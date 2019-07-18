@@ -20,24 +20,23 @@
     <!-- 弹出层 填写取餐人 送餐地址 -->
     <view class="modulebox-background-wrapper" wx:if="{{showSelectFlag}}">
         <view class="modulebox-wrapper">
-            <view class="section-3" style='margin-top:40rpx;'>
+            <view class="section-3" style='margin-top:40rpx;padding:0 20rpx;'>
                 <view class="section-3-1 ">
                     <image src="/images/mine/organize_name.png" style='width:48rpx;height:48rpx;'></image>
                 </view>
 
                 <input bindinput="nameInput" value="{{userName}}" class="section-3-2" placeholder="请输入真实姓名" type="string"></input>
             </view>
-            <view class="section-3" style="margin-top: 20rpx;" catchtap="showAddress">
+            <view class="section-3" style="margin-top: 20rpx;padding:0 20rpx;" catchtap="showAddress">
                 <view class="section-3-1">
                     <image src="/images/mine/organize.png" style='width:48rpx;height:48rpx;'></image>
                 </view>
                 <input bindinput="addressInput" value="{{address}}" placeholder="搜索企业简称，例如：星点点" data-organizecode="{{organizeCode}}" class="section-3-2" type="string" bindtap="handleSelectAddress"></input>
             </view>
 
-
-            <view class="modulebox-button-wrapper">
-                <view class="selectPayType_button" bindtap="handleChangeSelectFlag">取消</view>
-                <view class="selectPayType_button_check" bindtap="handleCheckParams">确定</view>
+            <view class='button-display'>
+                <view class='button-left' bindtap='handleChangeSelectFlag'>取消</view>
+                <view class='button-right' bindtap='handleCheckParams'>确定</view>
             </view>
         </view>
     </view>

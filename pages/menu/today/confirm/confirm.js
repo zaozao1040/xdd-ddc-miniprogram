@@ -420,6 +420,7 @@
                          // })
                          // console.log('handleCommitPay--BALANCE_PAY')
                  } else if (param.payType == 'WECHAT_PAY' && resdata.needPay) { //微信支付
+                     wx.showLoading()
                      if (data.timeStamp) {
                          wx.requestPayment({
                              'timeStamp': data.timeStamp.toString(),
@@ -429,10 +430,11 @@
                              'paySign': data.paySign,
                              success: function(e) {
                                  setTimeout(function() {
-                                         wx.reLaunch({
-                                             url: '/pages/order/order?content=' + '订单已生成',
-                                         })
-                                     }, 200)
+                                     wx.reLaunch({
+                                         url: '/pages/order/order?content=' + '订单已生成',
+                                     })
+                                 }, 200)
+                                 wx.hideLoading()
                                      // _this.setData({
                                      //     generateOrderNow: false
                                      // })
@@ -441,10 +443,11 @@
                              },
                              fail: function(e) {
                                  setTimeout(function() {
-                                         wx.reLaunch({
-                                             url: '/pages/order/order?content=' + '订单已生成,请尽快支付',
-                                         })
-                                     }, 200)
+                                     wx.reLaunch({
+                                         url: '/pages/order/order?content=' + '订单已生成,请尽快支付',
+                                     })
+                                 }, 200)
+                                 wx.hideLoading()
                                      // _this.setData({
                                      //     generateOrderNow: false
                                      // })

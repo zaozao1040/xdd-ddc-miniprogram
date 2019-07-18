@@ -798,24 +798,27 @@ Page({
     },
     //验证未达餐标情况
     verifyMealLabel() {
-        console.log('this.data.allMenuData', this.data.allMenuData)
         let flag = true
 
         // 是这么判断的吗？ 5/6
         //1.餐标可用 2.当天当餐点餐了，用总价判断点餐没是否不妥？3.不能低于餐标 4.抵扣金额小于企业餐标
         let { mealSet, deductionMoney, totalMoney_meal, mealType } = this.data.allMenuData
         if (mealSet.userCanStandardPrice && totalMoney_meal > 0 && !mealSet.underStandardPrice && deductionMoney < mealType.standardPrice) {
-            wx.showModal({
-                title: '',
-                content: '未达餐标金额(¥' + mealType.standardPrice + ')' + ',请继续选餐',
-                showCancel: false,
-                confirmText: '返回'
-            })
 
+            let t_content = '未达餐标金额(¥' + mealType.standardPrice + ')' + ',请继续选餐'
+            this.setData({
+                notUpToStandardPrice: true,
+                notUpToStandardPriceContent: t_content
+            })
             flag = false
         }
 
         return flag
+    },
+    closeModal() {
+        this.setData({
+            notUpToStandardPrice: false
+        })
     },
     goToMenuCommit() {
         if (this.data.totalCount > 0) {

@@ -96,7 +96,7 @@
      color: #333333;
      letter-spacing: 0;
      text-align: left;
-     margin-left: 20rpx;
+     margin-left: 10rpx;
      flex-grow: 1;
      line-height: 54rpx;
  }
