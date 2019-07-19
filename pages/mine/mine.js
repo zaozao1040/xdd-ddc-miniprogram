@@ -244,13 +244,13 @@ Page({
                 })
             }, true)
 
-
-            // requestModel.getUserInfo(userInfo => {
-            //     console.log('userInfo', userInfo)
-            //     _this.setData({
-            //         userInfo: userInfo
-            //     })
-            // })
+            //重新加载内容信息
+            requestModel.getUserInfo(userInfo => {
+                console.log('userInfo', userInfo)
+                _this.setData({
+                    userInfo: userInfo
+                })
+            }, true)
 
 
         })

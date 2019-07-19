@@ -3,7 +3,7 @@
         <image src='/images/menu/menudate_preload.png' style='width:100%;height:{{windowHeight}}px;'></image>
     </view>
     <view wx:else>
-        <scroll-view class="wrapper" scroll-y style="height:{{ windowHeight }}px" bindscroll="handleMostOuterScroll" scroll-into-view='{{outerScrollIntoView}}'>
+        <scroll-view class="wrapper" scroll-y style="height:{{ windowHeight }}px" bindscroll="handleMostOuterScroll">
             <view>
                 <view class="mask" catchtap="handleCloseCart" wx:if="{{boxActiveFlag}}" catchtouchmove="preventTouchMove"></view>
                 <scroll-view scroll-x style="overflow:hidden;white-space:nowrap;" scroll-into-view="{{activeDayId}}" id='scrollscroll'>

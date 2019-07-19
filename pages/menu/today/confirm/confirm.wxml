@@ -80,9 +80,7 @@
                     <view wx:if="{{oneday.count>0}}">
                         <view wx:for="{{mealEnglistLabel}}" wx:key="{{index}}">
                             <view wx:if='{{oneday[item]&&oneday[item].selectedFoods.length>0}}'>
-                                <view class="cart-day-title">
-                                    {{oneday.appointment}}({{oneday.mealDateShow}}) {{oneday[item].name}}
-                                </view>
+                                <view class="cart-day-title">{{oneday.appointment}}({{oneday.mealDateShow}}) {{oneday[item].name}}</view>
 
                                 <view class="cart-menuItem" wx:for="{{oneday[item].selectedFoods}}" wx:for-item="foodtypeinfoItem" wx:for-index="foodtypeinfoIndex" wx:key="{{foodtypeinfoIndex}}">
                                     <view class="cart-menuItem-left">
@@ -90,9 +88,7 @@
                                     </view>
                                     <view class='flex-1'>
                                         <view class='cart-menuItem-name'>
-                                            <view class="cart-menuItemDes">
-                                                {{foodtypeinfoItem.foodName}}
-                                            </view>
+                                            <view class="cart-menuItemDes">{{foodtypeinfoItem.foodName}}</view>
                                             <view class='flex-a'>
                                                 <view class="cart-menuItem-originmoney" wx:if="{{foodtypeinfoItem.foodTotalOriginalPrice>foodtypeinfoItem.foodTotalPrice}}">
                                                     ¥{{foodtypeinfoItem.foodTotalOriginalPrice}}</view>
