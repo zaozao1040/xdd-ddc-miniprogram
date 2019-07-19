@@ -423,6 +423,10 @@
                      _this.setData({
                          outerScrollIntoView: 'menumenu'
                      })
+                 } else {
+                     _this.setData({
+                         outerScrollIntoView: 'scrollscroll'
+                     })
                  }
              }
          }
