@@ -50,9 +50,11 @@ Page({
     },
     //放大图片
     showImage(e) {
-        this.setData({
-            enLargeImageShow: true,
-            enLargeImage: e.currentTarget.dataset.image
+
+        let { image, imagelist } = e.currentTarget.dataset
+        wx.previewImage({
+            current: image, //预览图片链接
+            urls: imagelist //图片预览list列表 
         })
     },
     handleCloseImage() {

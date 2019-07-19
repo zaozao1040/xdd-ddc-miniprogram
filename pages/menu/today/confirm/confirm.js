@@ -6,7 +6,7 @@
       * 页面的初始数据
       */
      data: {
-         payType: 'BALANCE_PAY', //'WECHAT_PAY' 支付方式,余额大于付款额则默认余额支付   小于的话则默认微信支付
+         payType: '', //'WECHAT_PAY' 支付方式,余额大于付款额则默认余额支付   小于的话则默认微信支付
 
          //
          windowHeight: 0,
@@ -43,7 +43,6 @@
          mapMenutypeIconName: ['zaocan1', 'wucan', 'canting', 'xiaoye-'],
 
          allBalance: 0,
-         walletSelectedFlag: true, //勾选是否使用余额  默认勾选    true开启    false关闭
          finalMoney: 0,
 
          showSelectFlag: false, //展示填写姓名和配送地址的弹出框，默认不展示
@@ -144,7 +143,7 @@
              }
              requestModel.request(param, data => {
                  _this.data.verificationString = data
-             })
+             }, true)
          })
 
      },
@@ -187,15 +186,17 @@
                      allBalance: data.allBalance,
                  })
                  if (!_this.data.realMoney) { //等于0则是标准支付
-                     console.log('余额为0')
+
                      _this.setData({
-                         walletSelectedFlag: false,
                          payType: 'STANDARD_PAY'
                      })
                  } else if (data.allBalance < this.data.realMoney) { //余额小于实际付款，则改为微信付款
                      _this.setData({
-                         walletSelectedFlag: false,
                          payType: 'WECHAT_PAY'
+                     })
+                 } else {
+                     _this.setData({
+                         payType: 'BALANCE_PAY'
                      })
                  }
              })
@@ -413,12 +414,8 @@
 
                  if (!data || param.payType == 'BALANCE_PAY' || param.payType == 'STANDARD_PAY') {
                      wx.reLaunch({
-                             url: '/pages/order/order?content=' + '订单已生成',
-                         })
-                         // _this.setData({
-                         //     generateOrderNow: false
-                         // })
-                         // console.log('handleCommitPay--BALANCE_PAY')
+                         url: '/pages/order/order?content=' + '订单已生成',
+                     })
                  } else if (param.payType == 'WECHAT_PAY' && resdata.needPay) { //微信支付
                      wx.showLoading()
                      if (data.timeStamp) {
@@ -474,9 +471,8 @@
      /* 勾选余额付款的按钮 */
      handleChangeWalletSelectedFlag: function() {
          let _this = this
-         if (_this.data.walletSelectedFlag) { //如果原来是开启余额支付，则本次点击会切换成关闭，同时切换成微信支付
+         if (_this.data.payType == 'BALANCE_PAY') { //如果原来是开启余额支付，则本次点击会切换成关闭，同时切换成微信支付
              _this.setData({
-                 walletSelectedFlag: !_this.data.walletSelectedFlag,
                  payType: 'WECHAT_PAY'
              })
          } else { //如果原来是关闭余额支付，则首先判断余额是否充足
@@ -489,7 +485,6 @@
                  return
              } else { //使用余额支付方式
                  _this.setData({
-                     walletSelectedFlag: !_this.data.walletSelectedFlag,
                      payType: 'BALANCE_PAY'
                  })
              }

@@ -6,9 +6,8 @@
         <view class="title">
             欢迎来到点点餐
         </view>
-        <button class="button" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">微信手机号快捷登录</button>
+        <button class="button" open-type="getPhoneNumber" bindgetphonenumber="handleGetPhoneNumber">微信手机号快捷登录</button>
         <view style='text-align:right;color:#aaa;font-size:30rpx;padding-right:20rpx;margin:0 62rpx;' bindtap='changeValidateType'>用户名密码登录</view>
-        <!-- <button class="button-phone">手机号验证码登录</button> -->
     </view>
     <view class="bg-wrapper" wx:else>
         <view class='login-title'>用户名登录</view>

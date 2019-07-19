@@ -27,7 +27,8 @@ Page({
         realTotalMoney: 0, // totalMoney-totalMoneyRealDeduction后得到的钱 
 
         timer: null,
-        windowHeight: 0,
+        windowHeight: 500,
+        mealtyleListBottom: 100,
         scrollLintenFlag: true, //默认允许触发滚动事件 
         scrollToView: 'id_0',
 
@@ -47,19 +48,20 @@ Page({
         intersectionObserverList: [],
         mealEnglistLabel: ['breakfast', 'lunch', 'dinner', 'night'],
         mealTypeSmall: { lunch: '午餐', dinner: '晚餐', breakfast: '早餐', night: '夜宵' },
-        getTimeDataByResponseNow: false //是否可点击日期和餐时
+        getTimeDataByResponseNow: false, //是否可点击日期和餐时
+
     },
     onLoad: function(options) {
-
+        let _this = this
         requestModel.getUserInfo(userInfo => {
 
             let { userType, orgAdmin } = userInfo
             if (userType == 'ORG_ADMIN' && orgAdmin == true) {
-                this.setData({
+                _this.setData({
                     orgAdmin: true
                 })
             } else {
-                this.setData({
+                _this.setData({
                     orgAdmin: false
                 })
             }
@@ -73,7 +75,7 @@ Page({
 
         let dd = tmp_mealtypeinfo.mealDate.split("-")
         let mealDateShow = dd[1] + "/" + dd[2]
-        this.setData({
+        _this.setData({
             mealTypeInfo: tmp_mealtypeinfo,
             mealDate: tmp_mealtypeinfo.mealDate,
             mealDateShow: mealDateShow,
@@ -81,19 +83,37 @@ Page({
             appointment: tmp_appointmention == 'today' ? '今天' : '明天'
         })
 
-        if (!this.data.allMenuData[this.data.mealTypeItem]) {
-            this.getTimeDataByResponse()
+        if (!_this.data.allMenuData[_this.data.mealTypeItem]) {
+            _this.getTimeDataByResponse()
 
-            // this.data.lazyTimer = setInterval(() => {
-            //     if (this.data.allMenuData[this.data.mealTypeItem]) {
+            // _this.data.lazyTimer = setInterval(() => {
+            //     if (_this.data.allMenuData[_this.data.mealTypeItem]) {
             //         // 懒加载 
-            //         this.lazyImg(this, this.data.lazyShowImage, 'lazyShowImage', this.data.mealTypeItem)
+            //         _this.lazyImg(_this, _this.data.lazyShowImage, 'lazyShowImage', _this.data.mealTypeItem)
 
-            //         clearInterval(this.data.lazyTimer)
+            //         clearInterval(_this.data.lazyTimer)
             //     }
             // }, 1000)
         }
 
+        wx.getSystemInfo({
+            success: function(res) {
+                _this.setData({
+                    windowHeight: res.windowHeight
+                })
+            }
+        })
+
+        const query2 = wx.createSelectorQuery()
+        query2.select('#mealtyleList').boundingClientRect()
+        query2.selectViewport().scrollOffset()
+        query2.exec(function(res) {
+            if (res[0]) {
+                _this.setData({
+                    mealtyleListBottom: res[0].bottom
+                })
+            }
+        })
     },
     //懒加载
     // lazyImg(_that, data, lazy_name, mealTypeItem) { 
@@ -255,10 +275,8 @@ Page({
                     resData.foodCustomizeListLength = 0
                 }
 
-                console.log('resData', resData)
-                    //5/31截止
 
-
+                //5/31截止
 
 
                 //可以不用setData，因为都是0不需要显示
@@ -276,18 +294,6 @@ Page({
                 })
 
 
-                // 在没有得到数据就使用时，是有错误的，所以在得到数据后使用
-                // 2019/04/20 后面会检查这部分，顺便学习相关知识
-                // 这样就计算多遍了啊
-                if (_this.data.windowHeight == 0) {
-                    wx.getSystemInfo({
-                        success: function(res) {
-                            _this.setData({
-                                windowHeight: res.windowHeight
-                            })
-                        }
-                    })
-                }
                 if (resData.mealType.orderStatus && resData.foodList.length !== 0) {
 
                     // 计算购物车的高度
@@ -380,6 +386,12 @@ Page({
                             menutypeActiveFlag: i
                         })
                     }
+                }
+
+                if (scrollY > 500) {
+                    _this.setData({
+                        outerScrollIntoView: 'menumenu'
+                    })
                 }
             }
         }

@@ -67,11 +67,12 @@ Page({
         })
 
     },
-    getPhoneNumber(e) {
+    handleGetPhoneNumber(e) {
+        console.log('选择了微信手机号授权')
 
         var _this = this
         if (e.detail.iv) { //这个字段存在 代表用户选择了“授权”
-
+            wx.showLoading()
             wx.login({ //调用微信login接口，获取code，然后根据code获取是否是新用户
                 success: function(res) {
                     if (res.code) {
@@ -113,6 +114,16 @@ Page({
                             }
                         })
                     }
+                    console.log('选择了微信手机号授权----a')
+                    wx.hideLoading()
+                },
+                fail: function() {
+                    wx.hideLoading()
+                        // wx.showToast({
+                        //     title: '手机号失败了',
+                        //     image: ' /images/msg/success.png',
+                        //     duration: 2000
+                        // })
                 }
             })
         }

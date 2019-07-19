@@ -100,6 +100,7 @@ Page({
                     if (data.payMethod == 2 || data.payMethod == 3) {
                         if (data.defrayType == 1) {
                             data.payTypeDes = '钱包支付'
+                            data.showPayWay = true
                         } else if (data.defrayType == 2) {
                             data.payTypeDes = '微信支付'
                         }
@@ -185,7 +186,20 @@ Page({
         }
         return a
     },
-
+    //复制订单编号
+    handleCopy() {
+        let orderCode = this.data.detailInfo.orderCode
+        wx.setClipboardData({
+            data: orderCode,
+            success(res) {
+                wx.getClipboardData({
+                    success(res) {
+                        console.log(res.data) // data
+                    }
+                })
+            }
+        })
+    },
 
     /**
      * 生命周期函数--监听页面初次渲染完成

@@ -197,7 +197,7 @@
     </scroll-view>
 
     <!--是否取餐-->
-    <c-custom-modal title='是否取餐?' content='{{takeorderModal.content}}' wx:if='{{takeorderModalShow}}' bind:closemodal='closeModal' bind:handleconfirm='takeFoodOrderForModal'></c-custom-modal>
+    <c-custom-modal title='是否取餐?' content='{{takeorderModal.content}}' cancel='暂不取餐' confirm='取餐' wx:if='{{takeorderModalShow}}' bind:closemodal='closeModal' bind:handleconfirm='takeFoodOrderForModal'></c-custom-modal>
     <c-custom-modal title='是否再次取餐?' content='{{takeorderModal.nextContent}}' wx:if='{{takeorderAgainShow}}' bind:closemodal='closeModalAgain' bind:handleconfirm='takeFoodOrderAgainForModal'></c-custom-modal>
     <c-pop content='{{orderSuccessContent}}' wx:if='{{orderSuccessFlag}}' bind:closemodal='closePop'></c-pop>
 </view>

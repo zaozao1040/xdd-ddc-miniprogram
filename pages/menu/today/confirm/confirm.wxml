@@ -144,7 +144,7 @@
                         <view class='pay-title' style='line-height:98rpx;'>支付方式</view>
                     </view>
                     <view class='pay-item-last' style='padding-bottom:26rpx;border-bottom: 2rpx solid #F2F2F2;'>
-
+                        <view wx:if='{{allBalance<realMoney}}' style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:10002;'></view>
                         <view class='flex-a' style="margin-top:32rpx;">
                             <view style='padding-top:2rpx;margin-right:10rpx;width:40rpx;height:40rpx;'>
                                 <image src="/images/menu/wallet.png" style="width:40rpx;height:40rpx;">
@@ -157,7 +157,7 @@
                         </view>
 
                         <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
-                            <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;" wx:if="{{walletSelectedFlag}}">
+                            <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;" wx:if="{{payType=='BALANCE_PAY'}}">
                             </image>
                             <image src="/images/menu/uncheck.png" style="width:44rpx;height:44rpx;" bindtap="handleChangeWalletSelectedFlag" wx:else>
                             </image>
@@ -170,9 +170,10 @@
                             <view class='pay-wechat'>微信支付</view>
                         </view>
                         <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
-                            <image src="/images/menu/uncheck.png" bindtap="handleChangeWalletSelectedFlag" style="width:44rpx;height:44rpx;" wx:if="{{walletSelectedFlag}}"></image>
-                            <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;" wx:else>
+                            <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;" wx:if="{{payType=='WECHAT_PAY'}}">
                             </image>
+                            <image src="/images/menu/uncheck.png" bindtap="handleChangeWalletSelectedFlag" style="width:44rpx;height:44rpx;" wx:else></image>
+
                         </view>
 
 

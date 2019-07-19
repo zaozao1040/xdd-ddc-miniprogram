@@ -107,6 +107,7 @@ class base {
             4056: "下单失败，当前用户信息错误，请退出后重试",
             4057: "下单失败，当前用户与下单用户不一致，请退出后重试",
             4058: '备注错误',
+            4059: '您当前无权限以企业管理员身份下单',
             4101: "订单评价内容为空",
             4102: "您无法查看该订单",
             4103: "订单不可评价",
@@ -201,87 +202,7 @@ class base {
         });
     }
 
-    requestForTake(params, sCallback, flag, eCallback) {
-            if (!flag) {
-                wx.showLoading({
-                    title: '正在加载'
-                })
-            }
-            wx.request({
-                url: baseUrl + params.url,
-                data: params.data || {}, //这个是不是可以传null或者undefined？
-                method: params.method || 'GET',
-                header: {
-                    'content-type': 'application/json'
-                },
-                success: result => {
-                    console.log('resultresult', result)
-                    let { data, code } = result.data
-                    if (!data) {
-                        wx.showModal({
-                            title: '提示',
-                            content: '请重试或者联系点餐小程序开发人员',
-                            showCancel: false,
-                        })
-                    }
-                    // 成功
-                    if (code == 200) {
-                        if (!flag) {
-                            wx.hideLoading()
-                        }
-                        sCallback && sCallback(data);
-
-                    } else {
-                        if (!flag) {
-                            wx.hideLoading()
-                        }
-                        if (code == 2004) {
-                            //清除所有缓存，并跳到首页。
-                            //清除所有缓存咋写的2019-05-19
-
-                            wx.removeStorageSync('userCode')
-                            wx.removeStorageSync('userInfo')
-                            wx.reLaunch({
-                                url: '/pages/home/home',
-                            })
-                        }
-                        let content = this.a[code]
-                        if (!content) {
-                            content = '请求失败'
-                        }
-
-                        if (content.length > 6) {
-                            wx.showModal({
-                                title: '提示',
-                                content: content,
-                                showCancel: false,
-                            })
-                        } else {
-                            wx.showToast({
-                                title: content,
-                                image: '/images/msg/error.png',
-                                duration: 2000
-                            })
-                        }
-                        //失败的回调
-                        eCallback && eCallback();
-                    }
-
-                },
-                fail: error => {
-                    console.log(error)
-                    if (!flag) {
-                        wx.hideLoading()
-                    }
-                    wx.showModal({
-                        title: '提示',
-                        content: '请联系点餐小程序开发人员',
-                        showCancel: false,
-                    })
-                }
-            });
-        }
-        // 获取用户信息
+    // 获取用户信息
     getUserInfo(sCallback, pullDown) {
             let { userInfo, time } = wx.getStorageSync('userInfo')
             let duration = undefined
@@ -318,7 +239,6 @@ class base {
     getUserCode(sCallback) {
         //只要这个userCode为空，就跳转到首页 
         let userCode = wx.getStorageSync('userCode')
-        console.log('getUserCode(sCallback)---', userCode)
         if (!userCode) {
             wx.switchTab({
                 url: '/pages/home/home',

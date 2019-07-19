@@ -173,6 +173,10 @@
     line-height: 42rpx;
 }
 
+.flex-a {
+    display: flex;
+}
+
 .right-content {
     font-family: PingFang-SC-Regular;
     font-size: 30rpx;

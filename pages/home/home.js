@@ -75,7 +75,7 @@ Page({
         oneDayInfo: {},
         orgAdminNoMealFlag: false, //企业管理员，无点餐权限弹窗
         orgAdminMealFlag: false, //企业管理员，点餐提示弹窗
-
+        windowHeight: 500
     },
     // 选择今天
     handleSelectToday() {
@@ -169,7 +169,8 @@ Page({
         }
         requestModel.request(param, data => {
             this.setData({
-                imagesList: data
+                imagesList: data,
+                preLoad1: true
             })
         })
     },
@@ -265,9 +266,22 @@ Page({
      */
 
     onLoad: function(options) {
+        let _this = this
+        wx.getSystemInfo({
+            success: function(res) {
+                _this.setData({
+                    windowHeight: res.windowHeight
+                })
+            }
+        })
+        _this.initHome()
+        _this.getNotice()
 
-        this.initHome()
-        this.getNotice()
+        setTimeout(function() {
+            _this.setData({
+                showHomePage: true
+            })
+        }, 2000)
     },
 
     /**
@@ -352,7 +366,6 @@ Page({
                     _this.setData({
                             showedNoticeData: window_noticeData,
                             showOneNotice: true,
-
                         })
                         // let windowNoticeStorage = wx.getStorageSync("windowNoticeCodeList")
 

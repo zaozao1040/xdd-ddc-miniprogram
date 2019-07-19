@@ -27,7 +27,8 @@
          realTotalMoney: 0, // totalMoney-totalMoneyRealDeduction后得到的钱 
 
          timer: null,
-         windowHeight: 0,
+         windowHeight: 500,
+         mealtyleListBottom: 100,
          scrollLintenFlag: true, //默认允许触发滚动事件
 
          scrollToView: 'id_0',
@@ -82,32 +83,33 @@
                          let day = (new Date(item.mealDate)).getDay()
                          switch (day) {
                              case 0:
-                                 item.label = '星期天'
+                                 item.label = '周日'
                                  break;
                              case 1:
-                                 item.label = '星期一'
+                                 item.label = '周一'
                                  break;
                              case 2:
-                                 item.label = '星期二'
+                                 item.label = '周二'
                                  break;
                              case 3:
-                                 item.label = '星期三'
+                                 item.label = '周三'
                                  break;
                              case 4:
-                                 item.label = '星期四'
+                                 item.label = '周四'
                                  break;
                              case 5:
-                                 item.label = '星期五'
+                                 item.label = '周五'
                                  break;
                              case 6:
-                                 item.label = '星期六'
+                                 item.label = '周六'
                                  break;
                          }
                      }
                  })
 
                  this.setData({
-                     timeInfo: data
+                     timeInfo: data,
+                     getSevenDaysInfoAlready: true
                  })
                  for (let i = 0; i < this.data.mealEnglistLabel.length; i++) {
                      //5/15 今天一定有可定的餐时吗？即：该公司预定了这个餐时
@@ -135,6 +137,17 @@
              success: function(res) {
                  _this.setData({
                      windowHeight: res.windowHeight
+                 })
+             }
+         })
+
+         const query2 = wx.createSelectorQuery()
+         query2.select('#mealtyleList').boundingClientRect()
+         query2.selectViewport().scrollOffset()
+         query2.exec(function(res) {
+             if (res[0]) {
+                 _this.setData({
+                     mealtyleListBottom: res[0].bottom
                  })
              }
          })
@@ -404,6 +417,12 @@
                              menutypeActiveFlag: i
                          })
                      }
+                 }
+
+                 if (scrollY > 500) {
+                     _this.setData({
+                         outerScrollIntoView: 'menumenu'
+                     })
                  }
              }
          }

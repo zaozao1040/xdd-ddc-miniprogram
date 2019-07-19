@@ -1,16 +1,24 @@
-<scroll-view class="wrapper" scroll-y style="height:{{ windowHeight }}px" bindscroll="handleMostOuterScroll">
+<scroll-view class="wrapper" scroll-y style="height:{{ windowHeight }}px" bindscroll="handleMostOuterScroll" scroll-into-view='{{outerScrollIntoView}}'>
     <view>
         <view class="mask" catchtap="handleCloseCart" wx:if="{{boxActiveFlag}}" catchtouchmove="preventTouchMove"></view>
         <view class="book-title">预约{{appointment}}</view>
-        <view class='mealtype-list'>
+        <view class='mealtype-list' id='mealtyleList'>
             <block wx:for="{{ mealEnglistLabel }}" wx:key="{{ index }}">
                 <view wx:if='{{mealTypeInfo.mealTypeOrder[item+"Status"]}}' class="{{ item == mealTypeItem ? 'mealtype-active' : 'mealtype-inactive' }}" bindtap="handleChangeMealtypeActive" data-mealtypeitem="{{ item }}">
                     {{ mealTypeSmall[item]}}</view>
-
             </block>
         </view>
+        <view style='width:100%;height:{{windowHeight-mealtyleListBottom}}px' wx:if='{{getTimeDataByResponseNow}}'>
+            <image src='/images/menu/menu_preload.png' style='width:100%;height:{{windowHeight-mealtyleListBottom}}px;'></image>
+            <view class="footer-wrapper" style="z-index:1200;">
+                <view class="box-wrapper">
+                    <image src="/images/menu/today/order_closeshop.png" style="height:126rpx;width:126rpx;"></image>
+                </view>
+                <view class="footer-right" style="background: #9d9d9d;">去结算 </view>
+            </view>
+        </view>
 
-        <block wx:if="{{allMenuData[mealTypeItem].mealType.orderStatus  && allMenuData[mealTypeItem].foodList.length!= 0}}">
+        <view id='menumenu' wx:elif="{{allMenuData[mealTypeItem].mealType.orderStatus  && allMenuData[mealTypeItem].foodList.length!= 0}}">
             <view style="height: {{ windowHeight - 2 }}px; " class="menu-wrapper c_scrollPosition_forCalculate">
                 <!-- 左边餐品分类 -->
                 <scroll-view class="menu-left" scroll-y style="height: {{ windowHeight - 2 }}px;">
@@ -223,7 +231,7 @@
                     去结算
                 </view>
             </view>
-        </block>
+        </view>
         <!-- 不可订餐情况下展示一张大图 -->
         <block wx:elif='{{allMenuData[mealTypeItem].mealType.orderStatus &&allMenuData[mealTypeItem].foodList.length== 0}}'>
             <view style='margin:216rpx auto 0;width:200rpx;height:200rpx;'>
