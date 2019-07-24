@@ -859,9 +859,13 @@ Page({
 
     },
     onShow: function() {
-        console.log('onShow')
-        console.log(this.data.allMenuData)
-        console.log(this.data.foods)
+        let _this = this
+        requestModel.getUserInfo(userInfo => {
+            _this.setData({
+                organizeTrial: userInfo.organizeTrial
+            })
+        }, true)
+
     },
     // 关闭
     handleCloseCart() {

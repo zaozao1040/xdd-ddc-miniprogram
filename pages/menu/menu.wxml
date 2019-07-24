@@ -8,7 +8,10 @@
                 <view class="mask" catchtap="handleCloseCart" wx:if="{{boxActiveFlag}}" catchtouchmove="preventTouchMove"></view>
                 <scroll-view scroll-x style="overflow:hidden;white-space:nowrap;" scroll-into-view="{{activeDayId}}" id='scrollscroll'>
                     <view id="day{{index}}" data-day='{{index}}' data-dayinfo='{{item}}' bindtap='changeActiveDay' wx:for="{{timeInfo}}" wx:key='{{index}}' style='display:inline-block;margin-right:{{index==6?"40rpx":"60rpx"}};padding-left:{{index==0?"40rpx":"0"}}'>
-
+                        <view style='width:48rpx;height:24rpx;position:absolute;padding-left:90rpx;top:0;' wx:if='{{organizeTrial&&index==activeDayIndex}}'>
+                            <image src='/images/msg/trial.png' style='width:48rpx;height:24rpx;position:absolute;'></image>
+                            <view style='width:48rpx;line-height:24rpx;position:absolute;color:#fff;font-size:18rpx;text-align:center;'>试用</view>
+                        </view>
                         <view wx:if='{{index!=activeDayIndex}}' class=" inactive-day-date">{{item.mealDateShow}}</view>
                         <view class="{{index==activeDayIndex?'active-day':'inactive-day'}}">{{item.label}}</view>
                         <view class="{{index==activeDayIndex?'active-day-line':''}}"></view>
@@ -199,8 +202,9 @@
                             <view wx:if="{{orgAdmin}}" style="position:relative; top:16rpx;  left:284rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
                                 您当前是管理员
                             </view>
-                            <view wx:else style="position:relative; top:16rpx;  left:284rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
-                                企业单餐抵扣：￥{{allMenuData[activeDayIndex][mealTypeItem].deductionMoney}}
+                            <view wx:else class='back-back'>
+                                <view> 企业单餐抵扣：￥{{allMenuData[activeDayIndex][mealTypeItem].deductionMoney}}</view>
+                                <view wx:if='{{totalMoney_back}}'>{{totalMoney_back}}</view>
                             </view>
                         </view>
                         <view class="footer-wrapper-top" wx:elif="{{ !allMenuData[mealTypeItem].mealSet.userCanStandardPrice && totalCount > 0 }}">
@@ -241,9 +245,10 @@
                                     <block wx:if="{{orgAdmin}}">
                                         您当前是管理员
                                     </block>
-                                    <block wx:elif="{{ allMenuData[activeDayIndex][mealTypeItem].mealSet.userCanStandardPrice }}">
-                                        企业单餐抵扣：￥{{allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice}}
-                                    </block>
+                                    <view wx:elif="{{ allMenuData[activeDayIndex][mealTypeItem].mealSet.userCanStandardPrice }}" class='flex-a'>
+                                        <view> 企业单餐抵扣：￥{{allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice}}</view>
+                                        <view wx:if="{{ !allMenuData[activeDayIndex][mealTypeItem].mealType.followOrganize }}">（自定义餐标）</view>
+                                    </view>
                                     <block wx:else>
                                         当前额度已被使用
                                     </block>

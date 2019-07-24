@@ -12,9 +12,15 @@
             </view>
             <view style='margin-top:20rpx;' catchtap='gotoDetailInfo'>
                 <view class='name'>
-                    <view style="display:inline-block;">{{userInfo.userName}}</view>
-                    <view style="display:inline-block;">
-                        <image src="/images/mine/xiangyoubaise.png" style='width:48rpx;height:48rpx;position: absolute;top:0;bottom: 0;margin: auto;'></image>
+
+                    <view>{{userInfo.userName}}</view>
+                    <view>
+                        <view style='width:72rpx;height:36rpx;position:absolute;top:-30rpx; ' wx:if='{{userInfo.organizeTrial}}'>
+                            <image src='/images/msg/trial.png' style='width:72rpx;height:36rpx;position:absolute;'></image>
+                            <view style='width:72rpx;line-height:36rpx;position:absolute;color:#fff;font-size:24rpx;text-align:center;'>试用</view>
+                        </view>
+                        <image src="/images/mine/xiangyoubaise.png" style='padding-left:10rpx;width:48rpx;height:48rpx;position: absolute;top:0;bottom: 0;margin: auto;'></image>
+
                     </view>
                 </view>
                 <view wx:if='{{userInfo.organizeName}}'>

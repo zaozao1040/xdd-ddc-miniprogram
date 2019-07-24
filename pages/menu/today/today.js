@@ -49,7 +49,7 @@ Page({
         mealEnglistLabel: ['breakfast', 'lunch', 'dinner', 'night'],
         mealTypeSmall: { lunch: '午餐', dinner: '晚餐', breakfast: '早餐', night: '夜宵' },
         getTimeDataByResponseNow: false, //是否可点击日期和餐时
-
+        totalMoney_back: 0, //返回的总金额
     },
     onLoad: function(options) {
         let _this = this
@@ -65,7 +65,9 @@ Page({
                     orgAdmin: false
                 })
             }
-
+            _this.setData({
+                organizeTrial: userInfo.organizeTrial
+            })
         }, true)
 
 
@@ -73,6 +75,7 @@ Page({
         let index = tmp_appointmention == 'today' ? 0 : 1
         let tmp_mealtypeinfo = wx.getStorageSync('twoDaysInfo')[index]
 
+        console.log('tmp_mealtypeinfo', tmp_mealtypeinfo)
         let dd = tmp_mealtypeinfo.mealDate.split("-")
         let mealDateShow = dd[1] + "/" + dd[2]
         _this.setData({
@@ -197,6 +200,7 @@ Page({
 
                 //这是浅拷贝吧，不是深拷贝吧，所以这样和直接使用res的差别是什么？？
                 resData.totalMoney = 0 //给每天的每个餐时一个点餐的总的金额
+                resData.totalMoney_back = 0 //给每天的每个餐时一个总的返的
                 resData.totalMoney_meal = 0 //可使用餐标的餐的总价格
                 resData.deductionMoney = 0
                     // 给每一个餐品添加一个foodCount，用于加号点击时加一减一
@@ -506,6 +510,20 @@ Page({
                     } else {
                         new_deduction = currnt_menuData.mealType.standardPrice
                     }
+
+                    //如果可以返回金额
+                    if (currnt_menuData.mealType.returnStandard) {
+                        //大于最低金额并且小于餐标
+                        if (currnt_menuData.totalMoney > currnt_menuData.mealType.lowestStandard && currnt_menuData.totalMoney < currnt_menuData.mealType.standardPrice) {
+                            // 退回的金额
+                            let oldTotalMoney_back = currnt_menuData.totalMoney_back
+                            currnt_menuData.totalMoney_back = parseFloat(currnt_menuData.mealType.standardPrice - currnt_menuData.totalMoney)
+                            let totalMoney_back = this.data.totalMoney_back - oldTotalMoney_back + currnt_menuData.totalMoney_back
+                            this.setData({
+                                totalMoney_back: totalMoney_back
+                            })
+                        }
+                    }
                 }
             }
             let oldDeduction = currnt_menuData.deductionMoney
@@ -667,6 +685,34 @@ Page({
                     } else {
                         new_deduction = currnt_menuData.mealType.standardPrice
                     }
+
+                    //如果可以返回金额
+                    if (currnt_menuData.mealType.returnStandard) {
+                        //大于最低金额并且小于餐标
+                        if (currnt_menuData.totalMoney > currnt_menuData.mealType.lowestStandard && currnt_menuData.totalMoney < currnt_menuData.mealType.standardPrice) {
+                            // 退回的金额
+                            let oldTotalMoney_back = currnt_menuData.totalMoney_back
+                            currnt_menuData.totalMoney_back = parseFloat(currnt_menuData.mealType.standardPrice - currnt_menuData.totalMoney)
+                            let totalMoney_back = this.data.totalMoney_back - oldTotalMoney_back + currnt_menuData.totalMoney_back
+                            this.setData({
+                                totalMoney_back: totalMoney_back
+                            })
+                        }
+                    }
+                }
+
+                //如果可以返回金额
+                if (currnt_menuData.mealType.returnStandard) {
+                    //大于最低金额并且小于餐标
+                    if (currnt_menuData.totalMoney > currnt_menuData.mealType.lowestStandard && currnt_menuData.totalMoney < currnt_menuData.mealType.standardPrice) {
+                        // 退回的金额
+                        let oldTotalMoney_back = currnt_menuData.totalMoney_back
+                        currnt_menuData.totalMoney_back = parseFloat(currnt_menuData.mealType.standardPrice - currnt_menuData.totalMoney)
+                        let totalMoney_back = this.data.totalMoney_back - oldTotalMoney_back + currnt_menuData.totalMoney_back
+                        this.setData({
+                            totalMoney_back: totalMoney_back
+                        })
+                    }
                 }
             }
 
@@ -682,6 +728,9 @@ Page({
                 realTotalMoney: parseFloat(tmp_realTotalMoney.toFixed(2)),
                 totalMoneyRealDeduction: tmp_totalMoneyRealDeduction
             })
+
+
+            console.log('allMenuData', _this.data.allMenuData)
         }
     },
     // 点击购物车图标
@@ -784,6 +833,19 @@ Page({
                         new_deduction = currnt_menuData.totalMoney_meal
                     } else {
                         new_deduction = currnt_menuData.mealType.standardPrice
+                    }
+                    //如果可以返回金额
+                    if (currnt_menuData.mealType.returnStandard) {
+                        //大于最低金额并且小于餐标
+                        if (currnt_menuData.totalMoney > currnt_menuData.mealType.lowestStandard && currnt_menuData.totalMoney < currnt_menuData.mealType.standardPrice) {
+                            // 退回的金额
+                            let oldTotalMoney_back = currnt_menuData.totalMoney_back
+                            currnt_menuData.totalMoney_back = parseFloat(currnt_menuData.mealType.standardPrice - currnt_menuData.totalMoney)
+                            let totalMoney_back = this.data.totalMoney_back - oldTotalMoney_back + currnt_menuData.totalMoney_back
+                            this.setData({
+                                totalMoney_back: totalMoney_back
+                            })
+                        }
                     }
                 }
             }
@@ -929,6 +991,20 @@ Page({
                         new_deduction = currnt_menuData.totalMoney_meal
                     } else {
                         new_deduction = currnt_menuData.mealType.standardPrice
+                    }
+
+                    //如果可以返回金额
+                    if (currnt_menuData.mealType.returnStandard) {
+                        //大于最低金额并且小于餐标
+                        if (currnt_menuData.totalMoney > currnt_menuData.mealType.lowestStandard && currnt_menuData.totalMoney < currnt_menuData.mealType.standardPrice) {
+                            // 退回的金额
+                            let oldTotalMoney_back = currnt_menuData.totalMoney_back
+                            currnt_menuData.totalMoney_back = parseFloat(currnt_menuData.mealType.standardPrice - currnt_menuData.totalMoney)
+                            let totalMoney_back = this.data.totalMoney_back - oldTotalMoney_back + currnt_menuData.totalMoney_back
+                            this.setData({
+                                totalMoney_back: totalMoney_back
+                            })
+                        }
                     }
                 }
             }

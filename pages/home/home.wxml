@@ -292,6 +292,10 @@
 
         <view style="position:fixed;bottom:0;width:100%; z-index:1001;background:#fff;" wx:if="{{showMenuSelect}}" catchtouchmove="preventTouchMove">
             <view class='flexdisplay'>
+                <view style='width:72rpx;height:36rpx;position:absolute;left:204rpx;top:20rpx;' wx:if="{{userInfo.organizeTrial}}">
+                    <image src='/images/msg/trial.png' style='width:72rpx;height:36rpx;position:absolute;'></image>
+                    <view style='width:72rpx;line-height:36rpx;position:absolute;color:#fff;font-size:24rpx;text-align:center;'>试用</view>
+                </view>
                 <view class="appointment-title">
                     选择预约
                 </view>

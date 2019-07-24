@@ -619,3 +619,25 @@
      line-height: 100rpx;
      border-top: 2rpx solid #E5E5E5;
  }
+ 
+ .try-on {
+     font-family: PingFang-SC-Regular;
+     font-size: 15px;
+     color: #f00;
+     letter-spacing: 0;
+     position: absolute;
+     right: 30rpx;
+     line-height: 62rpx;
+ }
+ 
+ .back-back {
+     position: relative;
+     top: 16rpx;
+     left: 284rpx;
+     font-family: PingFang-SC-Regular;
+     font-size: 22rpx;
+     color: #333333;
+     letter-spacing: 0;
+     text-align: left;
+     display: flex;
+ }

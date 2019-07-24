@@ -53,7 +53,7 @@
          mealEnglistLabel: ['breakfast', 'lunch', 'dinner', 'night'],
          mealTypeSmall: { lunch: '午餐', dinner: '晚餐', breakfast: '早餐', night: '夜宵' },
          getTimeDataByResponseNow: false, //是否可点击日期和餐时 
-
+         totalMoney_back: 0,
 
      },
      //处理七天日期
@@ -162,7 +162,9 @@
                      orgAdmin: false
                  })
              }
-
+             _this.setData({
+                 organizeTrial: userInfo.organizeTrial
+             })
          }, true)
      },
      // 点击日期(e)
@@ -239,6 +241,7 @@
              requestModel.request(param, resData => { //获取加餐所有信息
 
                  resData.totalMoney = 0 //给每天的每个餐时一个点餐的总的金额
+                 resData.totalMoney_back = 0 //给每天的每个餐时一个总的返的
                  resData.totalMoney_meal = 0 //每天的餐时可使用餐标的总金额
                  resData.deductionMoney = 0 //每天的餐时抵扣的金额
                      // 给每一个餐品添加一个foodCount，用于加号点击时加一减一
@@ -540,6 +543,8 @@
                      } else {
                          new_deduction = currnt_menuData.mealType.standardPrice
                      }
+
+                     this.handleCalculateMoney_back(currnt_menuData)
                  }
              }
 
@@ -577,6 +582,22 @@
                  tempselectFoodsIndex[activeDayIndex].count -= 1 //当天的总的个数减1 
                  this.setData({
                      selectedFoodsIndex: tempselectFoodsIndex
+                 })
+             }
+         }
+     },
+
+     handleCalculateMoney_back(currnt_menuData) {
+         //如果可以返回金额
+         if (currnt_menuData.mealType.returnStandard) {
+             //大于最低金额并且小于餐标
+             if (currnt_menuData.totalMoney > currnt_menuData.mealType.lowestStandard && currnt_menuData.totalMoney < currnt_menuData.mealType.standardPrice) {
+                 // 退回的金额
+                 let oldTotalMoney_back = currnt_menuData.totalMoney_back
+                 currnt_menuData.totalMoney_back = parseFloat(currnt_menuData.mealType.standardPrice - currnt_menuData.totalMoney)
+                 let totalMoney_back = this.data.totalMoney_back - oldTotalMoney_back + currnt_menuData.totalMoney_back
+                 this.setData({
+                     totalMoney_back: totalMoney_back
                  })
              }
          }
@@ -720,6 +741,8 @@
                      } else {
                          new_deduction = currnt_menuData.mealType.standardPrice
                      }
+
+                     this.handleCalculateMoney_back(currnt_menuData)
                  }
              }
 
@@ -849,6 +872,8 @@
                      } else {
                          new_deduction = currnt_menuData.mealType.standardPrice
                      }
+
+                     this.handleCalculateMoney_back(currnt_menuData)
                  }
              }
              let oldDeduction = currnt_menuData.deductionMoney
@@ -993,6 +1018,7 @@
                      } else {
                          new_deduction = currnt_menuData.mealType.standardPrice
                      }
+                     this.handleCalculateMoney_back(currnt_menuData)
                  }
              }
              let oldDeduction = currnt_menuData.deductionMoney

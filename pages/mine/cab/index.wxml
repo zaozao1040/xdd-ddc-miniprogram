@@ -47,7 +47,8 @@
                             <view class="page__bd column-box">
                                 <view class="row">
                                     <block wx:for="{{pageone_one}}" wx:key="index">
-                                        <view class="column {{item.style}}" data-cabinet-num="{{item.cabinetNum}}" data-id="{{item.id}}" data-cab-num="{{item.cabinetNumStatus}}" bindtap="openCab">
+                                        <view style='background:{{item.cabinetNumStatus ==2?"#007500":"#fff"}};color:{{item.cabinetNumStatus ==2?"#fff":"#000"}};' class="column {{item.style}}" data-cabinet-num="{{item.cabinetNum}}" data-id="{{item.id}}" data-cab-num="{{item.cabinetNumStatus}}"
+                                            bindtap="openCab">
                                             <view>{{item.cabinetOrder}}-{{item.serialNum}}</view>
                                             <!-- <view>{{item.cabinetNumStatusName}}</view> -->
                                             <view wx:if="{{item.cabinetNumStatus ==2}}">{{item.userName}}</view>
@@ -57,7 +58,8 @@
                                 </view>
                                 <view class="row">
                                     <block wx:for="{{pageone_two}}" wx:key="index">
-                                        <view class="column {{item.style}}" data-id="{{item.id}}" data-cabinet-num="{{item.cabinetNum}}" data-cab-num="{{item.cabinetNumStatus}}" bindtap="openCab">
+                                        <view style='background:{{item.cabinetNumStatus ==2?"#007500":"#fff"}};color:{{item.cabinetNumStatus ==2?"#fff":"#000"}};' class="column {{item.style}}" data-id="{{item.id}}" data-cabinet-num="{{item.cabinetNum}}" data-cab-num="{{item.cabinetNumStatus}}"
+                                            bindtap="openCab">
                                             <view>{{item.cabinetOrder}}-{{item.serialNum}}</view>
                                             <view wx:if="{{item.cabinetNumStatus ==2}}">{{item.userName}}</view>
                                             <view wx:else>{{item.cabinetNumStatusName}}</view>
@@ -66,7 +68,8 @@
                                 </view>
                                 <view class="row">
                                     <block wx:for="{{pageone_three}}" wx:key="index">
-                                        <view class="column {{item.style}}" data-id="{{item.id}}" data-cabinet-num="{{item.cabinetNum}}" data-cab-num="{{item.cabinetNumStatus}}" bindtap="openCab">
+                                        <view style='background:{{item.cabinetNumStatus ==2?"#007500":"#fff"}};color:{{item.cabinetNumStatus ==2?"#fff":"#000"}};' class="column {{item.style}}" data-id="{{item.id}}" data-cabinet-num="{{item.cabinetNum}}" data-cab-num="{{item.cabinetNumStatus}}"
+                                            bindtap="openCab">
                                             <view>{{item.cabinetOrder}}-{{item.serialNum}}</view>
                                             <view wx:if="{{item.cabinetNumStatus ==2}}">{{item.userName}}</view>
                                             <view wx:else>{{item.cabinetNumStatusName}}</view>
@@ -75,7 +78,8 @@
                                 </view>
                                 <view class="row">
                                     <block wx:for="{{pageone_four}}" wx:key="index">
-                                        <view class="column {{item.style}}" data-id="{{item.id}}" data-cabinet-num="{{item.cabinetNum}}" data-cab-num="{{item.cabinetNumStatus}}" bindtap="openCab">
+                                        <view style='background:{{item.cabinetNumStatus ==2?"#007500":"#fff"}};color:{{item.cabinetNumStatus ==2?"#fff":"#000"}};' class="column {{item.style}}" data-id="{{item.id}}" data-cabinet-num="{{item.cabinetNum}}" data-cab-num="{{item.cabinetNumStatus}}"
+                                            bindtap="openCab">
                                             <view>{{item.cabinetOrder}}-{{item.serialNum}}</view>
                                             <view wx:if="{{item.cabinetNumStatus ==2}}">{{item.userName}}</view>
                                             <view wx:else>{{item.cabinetNumStatusName}}</view>

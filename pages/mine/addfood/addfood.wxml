@@ -3,6 +3,10 @@
         <scroll-view class="wrapper" scroll-y style="height:{{ windowHeight }}px" bindscroll="handleMostOuterScroll">
             <view>
                 <view class="mask" catchtap="handleCloseCart" wx:if="{{boxActiveFlag}}" catchtouchmove="preventTouchMove"></view>
+                <view style='width:72rpx;height:36rpx;position:absolute;left:270rpx;' wx:if='{{organizeTrial}}'>
+                    <image src='/images/msg/trial.png' style='width:72rpx;height:36rpx;position:absolute;'></image>
+                    <view style='width:72rpx;line-height:36rpx;position:absolute;color:#fff;font-size:24rpx;text-align:center;'>试用</view>
+                </view>
                 <view class="book-title">预约补餐</view>
                 <view class='mealtype-list'>
 
@@ -207,9 +211,10 @@
                             <block wx:if="{{orgAdmin}}">
                                 您当前是管理员
                             </block>
-                            <block wx:elif="{{ allMenuData.mealSet.userCanStandardPrice }}">
-                                企业单餐抵扣：￥{{allMenuData.mealType.standardPrice}}
-                            </block>
+                            <view wx:elif="{{ allMenuData.mealSet.userCanStandardPrice }}" class='flex-a'>
+                                <view>企业单餐抵扣：￥{{allMenuData.mealType.standardPrice}}</view>
+                                <view wx:if="{{ !allMenuData.mealType.followOrganize }}">（自定义餐标）</view>
+                            </view>
                             <block wx:else>
                                 当前额度已被使用
                             </block>
