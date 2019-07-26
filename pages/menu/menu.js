@@ -220,7 +220,6 @@
          }
 
      },
-
      /* 获取餐品menu信息 */
      getTimeDataByResponse: function() {
          //正在后台请求菜单
@@ -324,6 +323,8 @@
                  let tmp_allData = _this.data.allMenuData
                  tmp_allData[activeDayIndex][tmp_mealTypeItem] = resData
                  _this.data.allMenuDataCopy[activeDayIndex][tmp_mealTypeItem] = JSON.parse(JSON.stringify(resData))
+
+
 
                  _this.setData({
                      allMenuData: tmp_allData, //保存下所有数据 
@@ -588,16 +589,27 @@
      },
 
      handleCalculateMoney_back(currnt_menuData) {
-         //如果可以返回金额
-         if (currnt_menuData.mealType.returnStandard) {
+         //可低于餐标，并且可以返回金额
+         if (currnt_menuData.mealSet.underStandardPrice && currnt_menuData.mealType.returnStandard) {
              //大于最低金额并且小于餐标
              if (currnt_menuData.totalMoney > currnt_menuData.mealType.lowestStandard && currnt_menuData.totalMoney < currnt_menuData.mealType.standardPrice) {
                  // 退回的金额
                  let oldTotalMoney_back = currnt_menuData.totalMoney_back
-                 currnt_menuData.totalMoney_back = parseFloat(currnt_menuData.mealType.standardPrice - currnt_menuData.totalMoney)
+
+                 currnt_menuData.totalMoney_back = currnt_menuData.mealType.standardPrice - currnt_menuData.totalMoney
                  let totalMoney_back = this.data.totalMoney_back - oldTotalMoney_back + currnt_menuData.totalMoney_back
                  this.setData({
-                     totalMoney_back: totalMoney_back
+                     totalMoney_back: parseFloat(totalMoney_back.toFixed(2))
+                 })
+             } else {
+                 // 退回的金额
+                 let oldTotalMoney_back = currnt_menuData.totalMoney_back
+
+                 currnt_menuData.totalMoney_back = 0
+                 let totalMoney_back = this.data.totalMoney_back - oldTotalMoney_back
+
+                 this.setData({
+                     totalMoney_back: parseFloat(totalMoney_back.toFixed(2))
                  })
              }
          }
@@ -1046,7 +1058,7 @@
          }
      },
 
-     //验证未达餐标情况
+     //点的餐不可低于最低下单金额
      verifyMealLabel() {
          let flag = true
          for (let i = 0; i < this.data.allMenuData.length; i++) {
@@ -1054,12 +1066,14 @@
 
              for (let meal in item) {
                  // 是这么判断的吗？ 5/6
-                 //1.餐标可用 2.当天当餐点餐了，用总价判断点餐没是否不妥？3.不能低于餐标 4.抵扣金额小于企业餐标
-                 let { mealSet, deductionMoney, totalMoney_meal, mealType } = item[meal]
-                 if (mealSet.userCanStandardPrice && totalMoney_meal > 0 && !mealSet.underStandardPrice && deductionMoney < mealType.standardPrice) {
+                 //1.餐标可用 2.当天当餐点餐了，用总价判断点餐没是否不妥？3.不能低于餐标 4.抵扣金额小于企业餐标 5/6
+                 //都改为不可低于最低下单金额了 7/25
+                 let { totalMoney, mealType } = item[meal]
+                     //
+                 if (totalMoney > 0 && totalMoney < mealType.lowestStandard) {
 
                      let t_title = this.data.timeInfo[i].label + ' ' + this.data.mealTypeSmall[meal]
-                     let t_content = '未达餐标金额(¥' + mealType.standardPrice + ')' + ',请继续选餐'
+                     let t_content = '未达最低下单金额(¥' + mealType.lowestStandard + ')' + ',请继续选餐'
                      this.setData({
                          activeDayIndex: i,
                          mealTypeItem: meal,

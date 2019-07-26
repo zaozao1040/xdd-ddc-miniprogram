@@ -15,7 +15,9 @@ Page({
             RECHARGE: '充值',
             CONSUMPTION: '消费',
             CANCEL_ORDER: '取消订单返还',
-            DEDUCTION: '企业扣减'
+            DEDUCTION: '企业扣减',
+            STANDARD_RETURN: "餐标返还",
+            CANCEL_STANDARD_RETURN: "取消订单餐标返还"
         },
         personalMap: {
             RECHARGE: '充值',

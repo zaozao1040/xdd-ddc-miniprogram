@@ -176,22 +176,26 @@ Page({
     },
     handleGotoMenu: function() {
         let _this = this
-            //判断是否为企业管理员，是否有点餐权限
-        let a = _this.data.userInfo.userType === 'ORG_ADMIN' && _this.data.userInfo.orgAdmin === true
-
-        if (a && _this.data.userInfo.userPermission && _this.data.userInfo.userPermission.adminMeal == true) { //企业管理员类型，且以企业管理员身份登录
-
+        requestModel.getUserInfo(userInfo => {
             _this.setData({
-                orgAdminMealFlag: true
-            })
-        } else if (a && _this.data.userInfo.userPermission && _this.data.userInfo.userPermission.adminMeal == false) { //企业管理员类型，且以企业管理员身份登录
-            _this.setData({
-                orgAdminNoMealFlag: true
-            })
-        } else {
-            _this.openSelectMealTime()
-        }
+                    userInfo: userInfo
+                })
+                //判断是否为企业管理员，是否有点餐权限
+            let a = userInfo.userType === 'ORG_ADMIN' && userInfo.orgAdmin === true
 
+            if (a && userInfo.userPermission && userInfo.userPermission.adminMeal == true) { //企业管理员类型，且以企业管理员身份登录
+
+                _this.setData({
+                    orgAdminMealFlag: true
+                })
+            } else if (a && userInfo.userPermission && userInfo.userPermission.adminMeal == false) { //企业管理员类型，且以企业管理员身份登录
+                _this.setData({
+                    orgAdminNoMealFlag: true
+                })
+            } else {
+                _this.openSelectMealTime()
+            }
+        }, true)
     },
 
     closeDialog() {

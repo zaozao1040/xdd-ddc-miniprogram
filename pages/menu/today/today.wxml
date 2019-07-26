@@ -186,7 +186,7 @@
                 </view>
                 <view wx:else class='back-back'>
                     <view>企业单餐抵扣：￥{{allMenuData[mealTypeItem].deductionMoney}}</view>
-                    <view wx:if='{{totalMoney_back}}'>{{totalMoney_back}}</view>
+                    <view wx:if='{{totalMoney_back}}'> (返回企业餐标{{totalMoney_back}})</view>
                 </view>
             </view>
             <view class="footer-wrapper-top" wx:elif="{{ !allMenuData[mealTypeItem].mealSet.userCanStandardPrice && totalCount > 0 }}">
@@ -214,23 +214,24 @@
                         ￥{{ totalMoney }}
                     </view>
                 </view>
-                <view wx:else style="position:absolute; left:160rpx; ">
-                    <view style="position:relative; top:18rpx;line-height:34rpx;font-family: PingFang-SC-Regular; font-size: 24rpx; color: rgba(255,255,255,0.40); letter-spacing: 0; text-align: left;">
-                        未选购餐品</view>
+                <view wx:else style="position:absolute; left:160rpx;top:4rpx; ">
+                    <view class='no-shop'>未选购餐品</view>
                     <block wx:if="{{  allMenuData[mealTypeItem].mealType.standardPrice == 0 || allMenuData[mealTypeItem].mealType.standardPrice == null}}"></block>
                     <!--这个是咋判断的，需要问后台没有餐标的时候到底返回啥值-->
 
                     <view wx:else class='bottom-type'>
-                        <block wx:if="{{orgAdmin}}">
-                            您当前是管理员
-                        </block>
-                        <view wx:elif="{{ allMenuData[mealTypeItem].mealSet.userCanStandardPrice }}" class='flex-a'>
-                            <view>企业单餐抵扣：￥{{allMenuData[mealTypeItem].mealType.standardPrice}}</view>
-                            <view wx:if="{{ !allMenuData[mealTypeItem].mealType.followOrganize }}">（自定义餐标）</view>
+                        <block wx:if="{{orgAdmin}}">您当前是管理员</block>
+                        <view wx:elif="{{ allMenuData[mealTypeItem].mealSet.userCanStandardPrice }}">
+                            <view class='flex-a'>
+                                <view>企业单餐抵扣：￥{{allMenuData[mealTypeItem].mealType.standardPrice}}</view>
+                                <view wx:if="{{ !allMenuData[mealTypeItem].mealType.followOrganize }}">（自定义餐标）</view>
+                            </view>
+                            <view>最低消费：￥{{allMenuData[mealTypeItem].mealType.lowestStandard}}</view>
                         </view>
-                        <block wx:else>
-                            当前额度已被使用
-                        </block>
+                        <view wx:else>
+                            <view>当前额度已被使用</view>
+                            <view>最低消费：￥{{allMenuData[mealTypeItem].mealType.lowestStandard}}</view>
+                        </view>
                     </view>
                 </view>
                 <view class="footer-right" bindtap="goToMenuCommit" style="background:{{ totalCount == 0 ? '#9d9d9d' : '' }}">

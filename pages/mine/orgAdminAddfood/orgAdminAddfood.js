@@ -87,6 +87,12 @@ Page({
                 wx.stopPullDownRefresh()
                 _this.data.pull = false
             }
+        }, false, () => {
+            //不可报餐的回调
+            _this.setData({
+                hasalready: true,
+                notAllowed: true //不可报餐
+            })
         })
     },
     increaseFood() {

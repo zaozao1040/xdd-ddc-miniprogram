@@ -199,19 +199,19 @@
                         <!-- 【第六排】底部状态栏 -->
                         <block wx:if="{{ !allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice   }}"></block>
                         <view class="footer-wrapper-top" wx:elif="{{ allMenuData[activeDayIndex][mealTypeItem].mealSet.userCanStandardPrice && totalCount > 0  }}">
-                            <view wx:if="{{orgAdmin}}" style="position:relative; top:16rpx;  left:284rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
+                            <view wx:if="{{orgAdmin}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
                                 您当前是管理员
                             </view>
                             <view wx:else class='back-back'>
                                 <view> 企业单餐抵扣：￥{{allMenuData[activeDayIndex][mealTypeItem].deductionMoney}}</view>
-                                <view wx:if='{{totalMoney_back}}'>{{totalMoney_back}}</view>
+                                <view wx:if='{{totalMoney_back}}'> (返回企业餐标{{totalMoney_back}})</view>
                             </view>
                         </view>
                         <view class="footer-wrapper-top" wx:elif="{{ !allMenuData[mealTypeItem].mealSet.userCanStandardPrice && totalCount > 0 }}">
-                            <view wx:if="{{orgAdmin}}" style="position:relative; top:16rpx;  left:284rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
+                            <view wx:if="{{orgAdmin}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
                                 您当前是管理员
                             </view>
-                            <view wx:else style="position:relative; top:16rpx;  left:284rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
+                            <view wx:else style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
                                 当前额度已被使用
                             </view>
 
@@ -235,23 +235,24 @@
                                     ￥{{ totalMoney }}
                                 </view>
                             </view>
-                            <view wx:else style="position:absolute; left:160rpx; ">
-                                <view style="position:relative; top:18rpx;line-height:34rpx;font-family: PingFang-SC-Regular; font-size: 24rpx; color: rgba(255,255,255,0.40); letter-spacing: 0; text-align: left;">
-                                    未选购餐品</view>
+                            <view wx:else style="position:absolute; left:160rpx;top:4rpx; ">
+                                <view class='no-shop'>未选购餐品</view>
                                 <block wx:if="{{  !allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice}}"></block>
                                 <!--这个是咋判断的，需要问后台没有餐标的时候到底返回啥值-->
 
-                                <view wx:else style="top:18rpx;position:relative; line-height:28rpx;font-family: PingFang-SC-Regular; font-size: 10px; color: rgba(255,255,255,0.40); letter-spacing: 0; text-align: left;">
-                                    <block wx:if="{{orgAdmin}}">
-                                        您当前是管理员
-                                    </block>
-                                    <view wx:elif="{{ allMenuData[activeDayIndex][mealTypeItem].mealSet.userCanStandardPrice }}" class='flex-a'>
-                                        <view> 企业单餐抵扣：￥{{allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice}}</view>
-                                        <view wx:if="{{ !allMenuData[activeDayIndex][mealTypeItem].mealType.followOrganize }}">（自定义餐标）</view>
+                                <view wx:else style="position:relative; line-height:28rpx;font-family: PingFang-SC-Regular; font-size: 10px; color: rgba(255,255,255,0.40); letter-spacing: 0; text-align: left;">
+                                    <view wx:if="{{orgAdmin}}">您当前是管理员</view>
+                                    <view wx:elif="{{ allMenuData[activeDayIndex][mealTypeItem].mealSet.userCanStandardPrice }}">
+                                        <view class='flex-a'>
+                                            <view> 企业单餐抵扣：￥{{allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice}}</view>
+                                            <view wx:if="{{ !allMenuData[activeDayIndex][mealTypeItem].mealType.followOrganize }}">（自定义餐标）</view>
+                                        </view>
+                                        <view>最低消费：￥{{allMenuData[activeDayIndex][mealTypeItem].mealType.lowestStandard}}</view>
                                     </view>
-                                    <block wx:else>
-                                        当前额度已被使用
-                                    </block>
+                                    <view wx:else>
+                                        <view>当前额度已被使用</view>
+                                        <view>最低消费：￥{{allMenuData[activeDayIndex][mealTypeItem].mealType.lowestStandard}}</view>
+                                    </view>
                                 </view>
                             </view>
                             <view class="footer-right" bindtap="goToMenuCommit" style="background:{{ totalCount == 0 ? '#9d9d9d' : '' }}">
