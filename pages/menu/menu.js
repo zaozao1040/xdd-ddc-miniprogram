@@ -526,7 +526,7 @@
 
              let currnt_menuData = this.data.allMenuData[activeDayIndex][tmp_mealTypeItem]
              currnt_menuData.totalMoney -= tmp_oneFood.foodPrice
-
+             currnt_menuData.totalMoney = parseFloat(currnt_menuData.totalMoney.toFixed(2))
              if (tmp_oneFood.canMeal) { //可使用餐标
                  currnt_menuData.totalMoney_meal -= tmp_oneFood.foodPrice
              }
@@ -592,7 +592,7 @@
          //可低于餐标，并且可以返回金额
          if (currnt_menuData.mealSet.underStandardPrice && currnt_menuData.mealType.returnStandard) {
              //大于最低金额并且小于餐标
-             if (currnt_menuData.totalMoney > currnt_menuData.mealType.lowestStandard && currnt_menuData.totalMoney < currnt_menuData.mealType.standardPrice) {
+             if (currnt_menuData.totalMoney >= currnt_menuData.mealType.lowestStandard && currnt_menuData.totalMoney < currnt_menuData.mealType.standardPrice) {
                  // 退回的金额
                  let oldTotalMoney_back = currnt_menuData.totalMoney_back
 
@@ -737,7 +737,7 @@
 
              let currnt_menuData = _this.data.allMenuData[activeDayIndex][tmp_mealTypeItem]
              currnt_menuData.totalMoney += tmp_oneFood.foodPrice
-
+             currnt_menuData.totalMoney = parseFloat(currnt_menuData.totalMoney.toFixed(2))
              if (tmp_oneFood.canMeal) { //可使用餐标
                  currnt_menuData.totalMoney_meal += tmp_oneFood.foodPrice
              }
@@ -867,7 +867,7 @@
 
              let currnt_menuData = this.data.allMenuData[activeDayIndex][tmp_mealTypeItem]
              currnt_menuData.totalMoney -= tmp_oneFood.foodPrice
-
+             currnt_menuData.totalMoney = parseFloat(currnt_menuData.totalMoney.toFixed(2))
              if (tmp_oneFood.canMeal) { //可使用餐标
                  currnt_menuData.totalMoney_meal -= tmp_oneFood.foodPrice
              }
@@ -1015,6 +1015,7 @@
 
              let currnt_menuData = this.data.allMenuData[activeDayIndex][tmp_mealTypeItem]
              currnt_menuData.totalMoney += tmp_oneFood.foodPrice
+             currnt_menuData.totalMoney = parseFloat(currnt_menuData.totalMoney.toFixed(2))
              if (tmp_oneFood.canMeal) { //可使用餐标
                  currnt_menuData.totalMoney_meal += tmp_oneFood.foodPrice
              }
@@ -1070,6 +1071,8 @@
                  //都改为不可低于最低下单金额了 7/25
                  let { totalMoney, mealType } = item[meal]
                      //
+                 console.log('totalMoney', totalMoney)
+                 console.log('mealType.lowestStandard', mealType.lowestStandard)
                  if (totalMoney > 0 && totalMoney < mealType.lowestStandard) {
 
                      let t_title = this.data.timeInfo[i].label + ' ' + this.data.mealTypeSmall[meal]
@@ -1099,6 +1102,7 @@
          })
      },
      goToMenuCommit() {
+
          let _this = this
              //也弄两秒内不可重复点击
          if (_this.data.commitNow) {
@@ -1110,6 +1114,7 @@
          }, 2000)
 
          if (_this.data.totalCount > 0) {
+
              let flag = _this.verifyMealLabel()
 
              if (flag) {

@@ -338,7 +338,7 @@ Page({
                 wx.reLaunch({
                     url: '/pages/order/order'
                 })
-            }, 1000)
+            }, 2000)
         })
     },
 

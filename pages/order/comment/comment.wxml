@@ -4,7 +4,7 @@
             <image src='/images/order/remarksuccess.png' style='height:216rpx;width:252rpx;'></image>
         </view>
         <view class='success-1'>评价成功</view>
-        <view class='success-2'>+15积分</view>
+        <!-- <view class='success-2'>+15积分</view> -->
         <view class='success-3'>感谢您的评价，祝您每天开心 </view>
     </view>
 </view>
