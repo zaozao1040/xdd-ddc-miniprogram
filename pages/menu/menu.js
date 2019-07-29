@@ -130,6 +130,7 @@
          })
      },
      onLoad: function() {
+
          this.handleSevenDays()
              // 首先处理七天日期
          let _this = this

@@ -136,78 +136,73 @@ class base {
         //hasToast表示sCallback回调函数中有没有wx.showToast
         //有的话，就在回调函数中执行wx.hideLoading,有的话hasToast=true
     request(params, sCallback, flag, eCallback) {
-        if (!flag) {
-            wx.showLoading({
-                title: '正在加载'
-            })
-        }
-
-        wx.request({
-            url: baseUrl + params.url,
-            data: params.data || {}, //这个是不是可以传null或者undefined？
-            method: params.method || 'GET',
-            header: {
-                'content-type': 'application/json'
-            },
-            success: result => {
-
-                let { data, code } = result.data
-                    // 成功
-                if (code == 200) {
-                    if (!flag) {
-                        wx.hideLoading()
-                    }
-
-
-                    sCallback && sCallback(data);
-
-                } else {
-                    if (!flag) {
-                        wx.hideLoading()
-                    }
-                    if (code == 2004) {
-                        //清除所有缓存，并跳到首页。
-                        //清除所有缓存咋写的2019-05-19
-
-                        wx.removeStorageSync('userCode')
-                        wx.removeStorageSync('userInfo')
-                        wx.reLaunch({
-                            url: '/pages/home/home',
-                        })
-                    }
-                    let content = this.a[code]
-                    if (!content) {
-                        content = '请求失败'
-                    }
-
-                    if (content.length > 6) {
-                        wx.showModal({
-                            title: '提示',
-                            content: content,
-                            showCancel: false,
-                        })
-                    } else {
-                        wx.showToast({
-                            title: content,
-                            image: '/images/msg/error.png',
-                            duration: 2000
-                        })
-                    }
-                    //失败的回调
-                    eCallback && eCallback();
-                }
-
-            },
-            fail: error => {
-                console.log(error)
-                if (!flag) {
-                    wx.hideLoading()
-                }
+            if (!flag) {
+                wx.showLoading({
+                    title: '正在加载'
+                })
             }
-        });
-    }
 
-    // 获取用户信息
+            wx.request({
+                url: baseUrl + params.url,
+                data: params.data || {}, //这个是不是可以传null或者undefined？
+                method: params.method || 'GET',
+                header: {
+                    'content-type': 'application/json'
+                },
+                success: result => {
+
+                    let { data, code } = result.data
+                        // 成功
+                    if (code == 200) {
+                        if (!flag) {
+                            wx.hideLoading()
+                        }
+                        sCallback && sCallback(data);
+                    } else {
+                        if (!flag) {
+                            wx.hideLoading()
+                        }
+                        if (code == 2004) {
+                            //清除所有缓存，并跳到首页。
+                            //清除所有缓存咋写的2019-05-19
+
+                            wx.removeStorageSync('userCode')
+                            wx.removeStorageSync('userInfo')
+                            wx.reLaunch({
+                                url: '/pages/home/home',
+                            })
+                        }
+                        let content = this.a[code]
+                        if (!content) {
+                            content = '请求失败'
+                        }
+                        if (content.length > 6) {
+                            wx.showModal({
+                                title: '提示',
+                                content: content,
+                                showCancel: false,
+                            })
+                        } else {
+                            wx.showToast({
+                                title: content,
+                                image: '/images/msg/error.png',
+                                duration: 2000
+                            })
+                        }
+                        //失败的回调
+                        eCallback && eCallback();
+                    }
+
+                },
+                fail: error => {
+                    console.log(error)
+                    if (!flag) {
+                        wx.hideLoading()
+                    }
+                }
+            });
+        }
+        // 获取用户信息
     getUserInfo(sCallback, pullDown) {
             let { userInfo, time } = wx.getStorageSync('userInfo')
             let duration = undefined
@@ -230,15 +225,13 @@ class base {
                         userInfo.time = new Date()
                         wx.setStorageSync('userInfo', userInfo)
                         sCallback && sCallback(data);
-
-                    })
+                    }, true)
 
 
                 } else {
                     sCallback && sCallback(userInfo);
                 }
             })
-
         }
         //在每个onShow里写就可以了
     getUserCode(sCallback) {

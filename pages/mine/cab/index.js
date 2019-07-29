@@ -68,47 +68,13 @@ Page({
             pageone_four: [],
         });
         this.getGrid(this.data.cabNum);
+
     },
     pageNum: function() {
         let activeIndex = this.data.activeIndex;
-        let letter = '';
-        switch (activeIndex) {
-            case 0:
-            case "0":
-                letter = "A";
-                break;
-            case 1:
-            case "1":
-                letter = "B";
-                break;
-            case 2:
-            case "2":
-                letter = "C";
-                break;
-            case 3:
-            case "3":
-                letter = "D";
-                break;
-            case 4:
-            case "4":
-                letter = "E";
-                break;
-            case 5:
-            case "5":
-                letter = "F";
-                break;
-            case 6:
-            case "6":
-                letter = "G";
-                break;
-            case 7:
-            case "7":
-                letter = "H";
-                break;
-            default:
-                "A"
-        }
-        return letter;
+        console.log("activeIndex", this.data.tabs);
+        console.log(this.data.tabs[0]);
+        return this.data.tabs[Number(activeIndex)];
     },
 
     goMore: function() {
@@ -521,12 +487,7 @@ Page({
                 }
                 pageone_four.push(cabinetLists[i]);
             }
-            let tmp_cascadeNum = res.cascadeNum
-            let tmp_tabs = []
-            while (tmp_cascadeNum > 0) {
-                tmp_tabs.unshift(tmp_cascadeNum--)
-            }
-            console.log('tabs=', tmp_tabs)
+
             this.setData({
                 cabinetList: cabinetList,
                 pageone_one: pageone_one,
@@ -535,7 +496,6 @@ Page({
                 pageone_four: pageone_four,
                 deviceNum: dev,
                 loadingHidden: true,
-                tabs: tmp_tabs
             })
         })
     },
@@ -642,13 +602,18 @@ Page({
                             cabNumListHeight: res.data.length * '80rpx'
                         })
                     }
-                    _this.getGrid(_this.data.cabNum);
-                } else {
-
-                    wx.showToast({
-                        title: '贵公司没有安装柜子！',
-                        icon: 'none'
+                    cabModel.getTabs({ "deviceNum": this.data.cabNum }, (res) => {
+                        _this.setData({
+                            tabs: res.data,
+                        })
+                        _this.getGrid(_this.data.cabNum);
                     })
+
+                } else {
+                    _this.setData({
+                        noCabinetShow: true
+                    })
+
                 }
             }
         });
@@ -665,7 +630,12 @@ Page({
             selectDeviceNum: true,
             activeIndex: 0
         })
-        this.getGrid(this.data.cabNum);
+        cabModel.getTabs({ "deviceNum": this.data.cabNum }, (res) => {
+            this.setData({
+                tabs: res.data,
+            })
+            this.getGrid(this.data.cabNum);
+        })
     },
     onShowNew: function() {
         this.getGrid(this.data.cabNum);

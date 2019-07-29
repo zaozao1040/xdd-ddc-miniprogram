@@ -47,7 +47,7 @@
             <view class="content-time-right">我的积分：<text style='color: #F79C4C; '>{{integral}}</text> </view>
         </view>
         <view class="c_scrollPosition_forCalculate">
-            <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower='gotoNextPage '>
+            <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower='gotoNextPage'>
                 <view wx:if="{{integralListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
                     未查询到积分记录..
                 </view>

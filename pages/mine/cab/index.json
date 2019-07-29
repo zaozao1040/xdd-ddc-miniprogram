@@ -1,3 +1,4 @@
 {
-    "navigationBarTitleText": "柜子"
+    "navigationBarTitleText": "柜子",
+    "enablePullDownRefresh": true
 }

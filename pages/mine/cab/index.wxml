@@ -21,7 +21,7 @@
                         <view class="phone_personal" bindtap="clickDevice">{{deviceIndex+1}}</view>
                         <view class="person_box">
                             <scroll-view class="phone_select" hidden="{{selectDeviceNum}}" height="{{cabNumListHeight}}">
-                                <block wx:for="{{cabNumList}}">
+                                <block wx:for="{{cabNumList}}" wx:key='*this'>
                                     <view class="select_one" catchtap="handleSelectNewDeviceNum" data-devicenum="{{item}}" data-deviceindex="{{index}}">{{index+1}}</view>
                                 </block>
                             </scroll-view>
@@ -113,11 +113,16 @@
         </view>
     </view>
 
-
-
-
     <loading hidden="{{loadingHidden}}">
         绑定中...
     </loading>
 
+</view>
+<view wx:if='{{noCabinetShow}}'>
+    <view style='margin:216rpx auto 0;width:200rpx;height:200rpx;'>
+        <image class="" src="/images/menu/order_shop.png" style="width:200rpx;height:200rpx;"></image>
+    </view>
+    <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
+        贵公司没有安装柜子
+    </view>
 </view>
