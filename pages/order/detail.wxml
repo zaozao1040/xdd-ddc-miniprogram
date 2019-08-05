@@ -20,8 +20,11 @@
                 </view>
             </view>
         </view>
-
         <view class='cart-organize-deduction'>
+            <view class='cart-discount-organize'>共计</view>
+            <view class='cart-discount-organize-money'>￥{{detailInfo.totalPrice}}</view>
+        </view>
+        <view class='cart-organize-deduction' wx:if='{{detailInfo.standardPrice}}'>
             <view class='cart-discount-organize'>企业抵扣</view>
             <view class='cart-discount-organize-money'>-￥{{detailInfo.standardPrice}}</view>
         </view>
@@ -29,7 +32,7 @@
             <view class='cart-discount-organize'>积分抵扣</view> 
             <view class='cart-discount-organize-money'>-￥{{detailInfo.integralPrice}}</view> 
         </view> -->
-        <view class='cart-organize-deduction'>
+        <view class='cart-organize-deduction' wx:if='{{detailInfo.discountPrice}}'>
             <view class='cart-discount-organize'>优惠券</view>
 
             <view class='cart-discount-organize-money'>-￥{{detailInfo.discountPrice}}</view>
@@ -44,15 +47,15 @@
     </view>
     <view class="order-info-wrapper" wx:if='{{detailInfo.showPayWay}}'>
         <view class='order-info-title'>付款信息</view>
-        <view class="order-info-one">
+        <view class="order-info-one" wx:if='{{detailInfo.userPayPrice}}'>
             <view class="left-label">个人点餐币</view>
             <view class="right-content">{{detailInfo.userPayPrice}}</view>
         </view>
-        <view class="order-info-one">
+        <view class="order-info-one" wx:if='{{detailInfo.organizePayPrice}}'>
             <view class="left-label">企业点餐币</view>
             <view class="right-content">{{detailInfo.organizePayPrice}}</view>
         </view>
-        <view class="order-info-one">
+        <view class="order-info-one" wx:if='{{detailInfo.presentPayPrice}}'>
             <view class="left-label">赠送点餐币</view>
             <view class="right-content">{{detailInfo.presentPayPrice}}</view>
         </view>

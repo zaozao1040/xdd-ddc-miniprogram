@@ -549,11 +549,11 @@ Page({
         //可低于餐标，并且可以返回金额
         if (currnt_menuData.mealSet.underStandardPrice && currnt_menuData.mealType.returnStandard) {
             //大于最低金额并且小于餐标
-            if (currnt_menuData.totalMoney >= currnt_menuData.mealType.lowestStandard && currnt_menuData.totalMoney < currnt_menuData.mealType.standardPrice) {
+            if (currnt_menuData.totalMoney_meal > 0 && currnt_menuData.totalMoney_meal >= currnt_menuData.mealType.lowestStandard && currnt_menuData.totalMoney_meal < currnt_menuData.mealType.standardPrice) {
                 // 退回的金额
                 let oldTotalMoney_back = currnt_menuData.totalMoney_back
 
-                currnt_menuData.totalMoney_back = parseFloat(currnt_menuData.mealType.standardPrice - currnt_menuData.totalMoney)
+                currnt_menuData.totalMoney_back = parseFloat(currnt_menuData.mealType.standardPrice - currnt_menuData.totalMoney_meal)
                 let totalMoney_back = this.data.totalMoney_back - oldTotalMoney_back + currnt_menuData.totalMoney_back
 
                 this.setData({
