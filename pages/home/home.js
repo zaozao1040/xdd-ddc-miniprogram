@@ -704,6 +704,7 @@ Page({
     },
     /*   用户授权弹框-获取微信授权 */
     getWxUserInfo(e) {
+        console.log('openid', e)
         if (e.detail.iv) { //这个字段存在，代表授权成功
             wx.setStorageSync('getWxUserInfo', e.detail.userInfo)
             wx.redirectTo({

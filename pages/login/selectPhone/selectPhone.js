@@ -130,16 +130,18 @@ Page({
     },
     // 修改验证方式
     changeValidateType() {
-        let tmp_type = this.data.loginType
-        if (tmp_type === 'wxAuthorization') {
-            this.setData({
-                loginType: 'namePwd'
-            })
-        } else {
-            this.setData({
-                loginType: 'wxAuthorization'
-            })
-        }
+        // let tmp_type = this.data.loginType
+        // if (tmp_type === 'wxAuthorization') {
+        //     this.setData({
+        //         loginType: 'namePwd'
+        //     })
+        // } else {
+        //     this.setData({
+        //         loginType: 'wxAuthorization'
+        //     })
+        // }
+
+        wx.navigateTo({ url: '../phone/phone' })
     },
     // 用户名
     bindNameInput(e) {

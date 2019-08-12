@@ -35,7 +35,8 @@
     "pages/mine/wallet/regular/regular",
     "pages/menu/remark/remark",
     "pages/components/popUp/popUp",
-    "pages/components/customModal/customModal"
+    "pages/components/customModal/customModal",
+    "pages/login/phone/phone"
   ],
   "permission": {
     "scope.userLocation": {
