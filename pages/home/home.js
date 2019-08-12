@@ -175,27 +175,43 @@ Page({
         })
     },
     handleGotoMenu: function() {
-        let _this = this
-        requestModel.getUserInfo(userInfo => {
-            _this.setData({
-                    userInfo: userInfo
-                })
-                //判断是否为企业管理员，是否有点餐权限
-            let a = userInfo.userType === 'ORG_ADMIN' && userInfo.orgAdmin === true
+        //前端没有getWxUserInfo信息，则弹出用户授权
+        let { avatarUrl, nickName, gender } = wx.getStorageSync('getWxUserInfo')
 
-            if (a && userInfo.userPermission && userInfo.userPermission.adminMeal == true) { //企业管理员类型，且以企业管理员身份登录
+        if (!(avatarUrl && nickName && gender)) {
+            this.setData({
+                showUserAuthFlag: true
+            })
+            wx.hideTabBar()
+                //无 userCode，则到登录页面
+        } else if (!wx.getStorageSync('userCode')) {
+            wx.navigateTo({
+                url: '/pages/login/selectPhone/selectPhone',
+            })
+        } else {
 
+            let _this = this
+            requestModel.getUserInfo(userInfo => {
                 _this.setData({
-                    orgAdminMealFlag: true
-                })
-            } else if (a && userInfo.userPermission && userInfo.userPermission.adminMeal == false) { //企业管理员类型，且以企业管理员身份登录
-                _this.setData({
-                    orgAdminNoMealFlag: true
-                })
-            } else {
-                _this.openSelectMealTime()
-            }
-        }, true)
+                        userInfo: userInfo
+                    })
+                    //判断是否为企业管理员，是否有点餐权限
+                let a = userInfo.userType === 'ORG_ADMIN' && userInfo.orgAdmin === true
+
+                if (a && userInfo.userPermission && userInfo.userPermission.adminMeal == true) { //企业管理员类型，且以企业管理员身份登录
+
+                    _this.setData({
+                        orgAdminMealFlag: true
+                    })
+                } else if (a && userInfo.userPermission && userInfo.userPermission.adminMeal == false) { //企业管理员类型，且以企业管理员身份登录
+                    _this.setData({
+                        orgAdminNoMealFlag: true
+                    })
+                } else {
+                    _this.openSelectMealTime()
+                }
+            }, true)
+        }
     },
 
     closeDialog() {
@@ -292,45 +308,40 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-        if (!wx.getStorageSync('userCode')) { //未登录状态，弹出授权框，隐藏底部状态栏
+        //已登录状态，直接登录
+        requestModel.getUserInfo(userInfo => {
             this.setData({
-                showUserAuthFlag: true
+                userInfo: userInfo
             })
-            wx.hideTabBar()
-        } else { //已登录状态，直接登录
-            requestModel.getUserInfo(userInfo => {
+            wx.showTabBar()
+            let { userStatus, canTakeDiscount } = userInfo
+            if (userStatus == 'NO_CHECK') { //企业用户的'审核中'状态
                 this.setData({
-                    userInfo: userInfo
+                    showCheckFlag: true
                 })
-                wx.showTabBar()
-                let { userStatus, canTakeDiscount } = userInfo
-                if (userStatus == 'NO_CHECK') { //企业用户的'审核中'状态
-                    this.setData({
-                        showCheckFlag: true
-                    })
-                    wx.hideTabBar()
-                }
-                if (canTakeDiscount == true) { //在登录状态下判断用户类型，企业用户的normal状态显示新人大礼，一般用户的登录状态显示新人大礼
-                    this.setData({
-                        showDaliFlag: true
-                    })
-                }
+                wx.hideTabBar()
+            }
+            if (canTakeDiscount == true) { //在登录状态下判断用户类型，企业用户的normal状态显示新人大礼，一般用户的登录状态显示新人大礼
+                this.setData({
+                    showDaliFlag: true
+                })
+            }
 
-                if (userStatus == 'NORMAL') {
-                    this.getTakeMealInfo()
-                        //获取待评价的订单信息
-                    this.getOrderList()
-                }
-                if (userInfo.userType == 'VISITOR') {
-                    this.setData({
-                        showBindOrganizeFlag: true
-                    })
+            if (userStatus == 'NORMAL') {
+                this.getTakeMealInfo()
+                    //获取待评价的订单信息
+                this.getOrderList()
+            }
+            if (userInfo.userType == 'VISITOR') {
+                this.setData({
+                    showBindOrganizeFlag: true
+                })
 
-                }
-                /* 获取首页取餐信息 */
+            }
+            /* 获取首页取餐信息 */
 
-            }, true)
-        }
+        }, true)
+
     },
     //没绑定企业的用户弹出去绑定弹窗
     gotoBindOrganize() {
@@ -704,11 +715,15 @@ Page({
     },
     /*   用户授权弹框-获取微信授权 */
     getWxUserInfo(e) {
+        let _this = this
         console.log('openid', e)
         if (e.detail.iv) { //这个字段存在，代表授权成功
             wx.setStorageSync('getWxUserInfo', e.detail.userInfo)
-            wx.redirectTo({
+            wx.navigateTo({
                 url: '/pages/login/selectPhone/selectPhone',
+            })
+            _this.setData({
+                showUserAuthFlag: false
             })
         }
     },

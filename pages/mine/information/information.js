@@ -38,7 +38,7 @@ Page({
     logout: function() {
         wx.removeStorageSync('userCode')
         wx.removeStorageSync('userInfo')
-        wx.removeStorageSync('getWxUserInfo')
+            // wx.removeStorageSync('getWxUserInfo')
 
         wx.reLaunch({
             url: '/pages/home/home',

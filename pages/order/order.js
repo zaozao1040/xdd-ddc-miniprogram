@@ -50,7 +50,12 @@
          })
 
      },
-
+     //跳转到登录页面
+     gotoLogin() {
+         wx.navigateTo({
+             url: '/pages/login/selectPhone/selectPhone',
+         })
+     },
      /**
       * 生命周期函数--监听页面加载
       */
@@ -81,7 +86,8 @@
       */
      onShow: function() {
          let _this = this
-         requestModel.getUserCode(userCode => {
+         let userCode = wx.getStorageSync('userCode')
+         if (userCode) {
              _this.data.userCode = userCode
              _this.initOrder()
              _this.data.page = 1
@@ -90,7 +96,8 @@
              })
              _this.getOrderList()
              wx.showTabBar()
-         })
+         }
+
 
      },
      onHide: function() {},

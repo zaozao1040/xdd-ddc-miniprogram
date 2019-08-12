@@ -540,3 +540,28 @@
 .flex-a {
     display: flex;
 }
+
+.no-login-des {
+    font-size: 30rpx;
+    font-family: PingFang-SC-Regular;
+    font-weight: 400;
+    color: rgba(153, 153, 153, 1);
+    line-height: 42rpx;
+    text-align: center;
+    margin-bottom: 50rpx;
+}
+
+.button-login {
+    margin: 0 auto;
+    position: relative;
+    width: 336rpx;
+    height: 88rpx;
+    background: linear-gradient(270deg, rgba(247, 156, 76, 1) 0%, rgba(247, 205, 78, 1) 100%);
+    border-radius: 50rpx;
+    font-size: 34rpx;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: #fff;
+    line-height: 88rpx;
+    text-align: center;
+}

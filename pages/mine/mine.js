@@ -5,11 +5,13 @@ Page({
     data: {
         //
         windowHeight: 0,
+        infoTop: 0,
         //用户信息
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         userInfo: null,
 
         labelList: ['换绑手机', '地址管理', '绑定企业', '服务电话'],
+        labelList_no: ['换绑手机', '地址管理', '绑定企业'],
         imageList: ['me_swap', 'me_address', 'me_enterprise', 'me_service'],
         navigatorUrl: [
             '/pages/mine/phone/phone',
@@ -23,6 +25,12 @@ Page({
         cabNumList: [], //柜子列表，如果柜子列表为空，就不显示‘打开柜子页面’
         modalContent: {}
 
+    },
+    //跳转到登录页面
+    gotoLogin() {
+        wx.navigateTo({
+            url: '/pages/login/selectPhone/selectPhone',
+        })
     },
     //跳转到详细资料页面
     gotoDetailInfo() {
@@ -81,7 +89,7 @@ Page({
                     servicePhone: data.contactPhone
                 })
 
-
+                console.log('showPhoneModal', _this.data.showPhoneModal)
             })
         } else {
             wx.navigateTo({
@@ -113,18 +121,45 @@ Page({
         let _this = this
         wx.getSystemInfo({
             success: function(res) {
+                console.log('windowHeight', res.windowHeight)
                 _this.setData({
                     windowHeight: res.windowHeight
                 })
             }
         })
-        requestModel.getUserInfo(userInfo => {
+        let userCode = wx.getStorageSync('userCode')
+        _this.setData({
+            userCode: userCode
+        })
+        if (userCode) {
+            requestModel.getUserInfo(userInfo => {
+                _this.setData({
+                    userInfo: userInfo,
+                    userInfoReady: true
+                })
 
-            _this.setData({
-                userInfo: userInfo,
-                userInfoReady: true
+                const query = wx.createSelectorQuery()
+                query.select('.info-wrapper').boundingClientRect()
+                query.selectViewport().scrollOffset()
+                query.exec(function(res) {
+
+                    _this.setData({
+                        infoTop: res[0].top
+                    })
+                })
+            }, true)
+        } else {
+            const query = wx.createSelectorQuery()
+            query.select('.info-wrapper').boundingClientRect()
+            query.selectViewport().scrollOffset()
+            query.exec(function(res) {
+
+                _this.setData({
+                    infoTop: res[0].top
+                })
             })
-        }, true)
+        }
+
 
     },
     // 如果是企业用户就切换为管理员，如果是管理员就切换为普通用户
@@ -230,9 +265,10 @@ Page({
     onShow: function() {
 
         let _this = this
-        requestModel.getUserCode(userCode => {
+
+        if (_this.data.userCode) {
             let param = {
-                url: '/user/getUserFinance?userCode=' + userCode
+                url: '/user/getUserFinance?userCode=' + _this.data.userCode
             }
             requestModel.request(param, data => {
                 _this.setData({
@@ -240,7 +276,7 @@ Page({
                     integral: data.integral,
                     discount: data.discount,
                     financeReady: true,
-                    userCode: userCode
+
                 })
             }, true)
 
@@ -251,9 +287,8 @@ Page({
                     userInfo: userInfo
                 })
             }, true)
+        }
 
-
-        })
     },
 
     /**
@@ -276,7 +311,11 @@ Page({
     onPullDownRefresh: function() {
         let _this = this
             //初始化，获取一些必要参数，如高度
-
+        if (!_this.data.userCode) {
+            wx.hideNavigationBarLoading();
+            wx.stopPullDownRefresh()
+            return
+        }
         wx.showNavigationBarLoading();
         //刷新积分、余额、优惠券
         let param = {

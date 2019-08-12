@@ -7,7 +7,7 @@ Page({
      */
     data: {
         showChooseOrganizeFlag: false, //显示开关
-        loginType: 'wxAuthorization',
+
         bindOrganizeFlag: false, //绑定企业弹框
     },
 
@@ -68,7 +68,6 @@ Page({
 
     },
     handleGetPhoneNumber(e) {
-        console.log('选择了微信手机号授权')
 
         var _this = this
         if (e.detail.iv) { //这个字段存在 代表用户选择了“授权”
@@ -107,14 +106,14 @@ Page({
                                     url: '/pages/home/home',
                                 })
                                 wx.showToast({
-                                    title: '登录成功',
-                                    image: ' /images/msg/success.png',
+                                    title: '登录成功33',
+                                    image: '/images/msg/success.png',
                                     duration: 2000
                                 })
                             }
                         })
                     }
-                    console.log('选择了微信手机号授权----a')
+
                     wx.hideLoading()
                 },
                 fail: function() {
@@ -130,16 +129,6 @@ Page({
     },
     // 修改验证方式
     changeValidateType() {
-        // let tmp_type = this.data.loginType
-        // if (tmp_type === 'wxAuthorization') {
-        //     this.setData({
-        //         loginType: 'namePwd'
-        //     })
-        // } else {
-        //     this.setData({
-        //         loginType: 'wxAuthorization'
-        //     })
-        // }
 
         wx.navigateTo({ url: '../phone/phone' })
     },
@@ -174,7 +163,7 @@ Page({
                 url: '/pages/home/home',
             })
             wx.showToast({
-                title: '登录成功',
+                title: '登录成功44',
                 image: '/images/msg/success.png',
                 duration: 2000
             })

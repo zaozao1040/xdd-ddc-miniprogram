@@ -528,6 +528,22 @@
 
 .modulebox-button {
     position: absolute;
+    bottom: 130rpx;
+    left: 40rpx;
+    right: 40rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    text-align: center;
+    background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
+    border-radius: 50rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 34rpx;
+    color: #FFFFFF;
+    letter-spacing: 0;
+}
+
+.modulebox-button-no {
+    position: absolute;
     bottom: 40rpx;
     left: 40rpx;
     right: 40rpx;

@@ -1,4 +1,4 @@
-<view>
+<view wx:if='{{userCode}}'>
     <!-- 去付款弹出的选择支付方式对话框 -->
     <view class="selectPayType-wrapper" wx:if="{{showPayTypeFlag}}">
         <view class="selectPayType">
@@ -200,4 +200,13 @@
     <c-custom-modal title='是否取餐?' content='{{takeorderModal.content}}' cancel='暂不取餐' confirm='取餐' wx:if='{{takeorderModalShow}}' bind:closemodal='closeModal' bind:handleconfirm='takeFoodOrderForModal'></c-custom-modal>
     <c-custom-modal title='是否再次取餐?' content='{{takeorderModal.nextContent}}' wx:if='{{takeorderAgainShow}}' bind:closemodal='closeModalAgain' bind:handleconfirm='takeFoodOrderAgainForModal'></c-custom-modal>
     <c-pop content='{{orderSuccessContent}}' wx:if='{{orderSuccessFlag}}' bind:closemodal='closePop'></c-pop>
+</view>
+<view wx:else>
+    <view style='width:360rpx;height:360rpx;margin:186rpx 0 0 196rpx; '>
+        <image src='/images/order/nologin.png' style='width:360rpx;height:360rpx;'></image>
+    </view>
+    <view class='no-login-des'>您还没有登录，请登录后查看订单</view>
+    <view class="button-login" bindtap='gotoLogin'> 登录</view>
+
+
 </view>

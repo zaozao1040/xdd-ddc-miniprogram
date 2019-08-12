@@ -1,5 +1,5 @@
 <view>
-    <view class="bg-wrapper" wx:if="{{loginType=='wxAuthorization'}}">
+    <view class="bg-wrapper">
         <view class="img-wrapper">
             <image src="/images/login/logo.png" mode="widthFix" style="width:100%;width:254rpx;height: 102rpx;"></image>
         </view>
@@ -8,7 +8,7 @@
 
         <view class='button-a' bindtap='changeValidateType'>手机号登录/注册</view>
     </view>
-    <view class="bg-wrapper" wx:else>
+    <!-- <view class="bg-wrapper" wx:else>
         <view class='login-title'>用户名登录</view>
         <view class='login-title-line'></view>
         <view style='padding:72rpx 62rpx; '>
@@ -24,7 +24,7 @@
             <view class='button-2' bindtap='loginWithNamePwd'>登录</view>
             <view style='text-align:right;color:#aaa;font-size:30rpx;' bindtap='changeValidateType'>微信手机号快捷登录</view>
         </view>
-    </view>
+    </view> -->
     <view class='agree-des'>登录代表您已同意<text style='color:#F79C4C;'>点点餐用户协议、隐私政策</text></view>
     <!--弹框-->
     <view class="modulebox-background-wrapper" wx:if='{{bindOrganizeFlag}}'>

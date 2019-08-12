@@ -1,6 +1,8 @@
 .offer-item {
     display: flex;
-    padding: 40rpx 0 26rpx;
+    background: #fff;
+    padding: 32rpx 0;
+    border-radius: 6rpx;
 }
 
 
@@ -21,30 +23,30 @@
 
 .wrapper-top {
     display: flex;
-    padding-top: 30rpx;
+    padding: 20rpx 0 40rpx;
+    background: linear-gradient(350deg, rgba(247, 156, 76, 1) 0%, rgba(247, 190, 76, 1) 100%);
 }
 
 .service-list {
     display: flex;
-    margin: 40rpx;
+    margin-top: 20rpx;
     justify-content: space-between;
 }
 
 .mine-service {
     font-family: PingFang-SC-Medium;
-    font-size: 34rpx;
+    font-size: 32rpx;
     color: #333333;
     letter-spacing: 0;
     text-align: left;
-    margin: 30rpx 0 60rpx 30rpx;
-    line-height: 48rpx;
+    line-height: 44rpx;
 }
 
 .name {
     position: relative;
     font-family: PingFang-SC-Medium;
     font-size: 36rpx;
-    color: #FFFFFF;
+    color: #333;
     letter-spacing: 0;
     text-align: left;
     line-height: 50rpx;
@@ -54,7 +56,7 @@
 .address {
     font-family: PingFangSC-Regular;
     font-size: 22rpx;
-    color: #FFFFFF;
+    color: #333;
     letter-spacing: 0;
     text-align: left;
     line-height: 32rpx;
@@ -86,25 +88,16 @@
 
 .offer-num {
     font-family: PingFang-SC-Regular;
-    font-size: 36rpx;
-    color: #FFFFFF;
+    font-size: 32rpx;
+    color: #333333;
     letter-spacing: 0;
-    line-height: 50rpx;
-}
-
-.offer-num-balance {
-    font-family: PingFangSC-Regular;
-    font-size: 30rpx;
-    color: #FFFFFF;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 42rpx;
+    line-height: 44rpx;
 }
 
 .offer-title {
     font-family: PingFang-SC-Regular;
     font-size: 24rpx;
-    color: #FFFFFF;
+    color: #333333;
     letter-spacing: 0;
     line-height: 34rpx;
 }
@@ -122,15 +115,16 @@
 
 .label-title {
     font-family: PingFang-SC-Regular;
-    font-size: 28rpx;
-    color: #666666;
+    font-size: 26rpx;
+    color: #333;
     letter-spacing: 0;
     text-align: left;
-    line-height: 40rpx;
+    line-height: 36rpx;
 }
 
 .org-admin {
-    padding: 30rpx 46rpx;
+    margin-top: 20rpx;
+    padding: 20rpx 30rpx;
     background: #fff;
     display: flex;
     justify-content: space-between;
@@ -146,5 +140,35 @@
     width: 314rpx;
     height: 160rpx;
     box-sizing: border-box;
-    padding: 40rpx 30rpx 0;
+    padding: 38rpx 30rpx 0;
+}
+
+.info-wrapper {
+    background: rgba(245, 245, 245, 1);
+    padding: 20rpx 22rpx 0;
+    box-sizing: border-box;
+}
+
+.function-wrapper {
+    background: rgba(255, 255, 255, 1);
+    border-radius: 6rpx;
+    padding: 30rpx;
+    margin-top: 20rpx;
+}
+
+.login {
+    height: 120rpx;
+    font-size: 36rpx;
+    font-family: PingFang-SC-Medium;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 1);
+    line-height: 120rpx;
+}
+
+.no-wrapper {
+    background: rgba(255, 255, 255, 0.6);
+    position: absolute;
+    z-index: 200;
+    width: 105rpx;
+    height: 116rpx;
 }

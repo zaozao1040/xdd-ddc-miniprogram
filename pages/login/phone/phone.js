@@ -110,26 +110,27 @@ Page({
                 wx.login({
                     success: function(res) {
                         if (res.code) {
-                            requestModel.getUserCode(userCode => {
-                                let param = {
-                                    userCode: userCode,
-                                    smsCode: _this.data.code, //短信验证码
-                                    phoneNumber: _this.data.phone
+                            let param = {
+                                smsCode: _this.data.code, //短信验证码
+                                phoneNumber: _this.data.phone,
+                                encryptedData: {
+                                    code: res.code
                                 }
-                                let params = {
-                                    data: param,
-                                    url: '/user/changeUserPhoneNumber',
-                                    method: 'post'
-                                }
+                            }
+                            let params = {
+                                data: param,
+                                url: '/user/phoneCodeLogin',
+                                method: 'post'
+                            }
 
-                                requestModel.request(params, () => {
-                                    _this.setData({
-                                            bindShow: true
-                                        })
-                                        // 刷新userInfo
-                                    requestModel.getUserInfo(() => {}, true)
-                                })
+                            requestModel.request(params, () => {
+                                _this.setData({
+                                        bindShow: true
+                                    })
+                                    // 刷新userInfo
+                                requestModel.getUserInfo(() => {}, true)
                             })
+
                         }
                     }
                 })

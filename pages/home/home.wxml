@@ -235,7 +235,7 @@
 
         <!-- 用户授权框 弹出 2.6.1-->
         <view class="modulebox-background-wrapper" wx:if="{{showUserAuthFlag}}">
-            <view class="modulebox-wrapper">
+            <view class="modulebox-wrapper" style='height:490rpx;'>
                 <view class="modulebox-img-wrapper">
                     <image class="modulebox-img" src="/images/login/logo.png" mode="widthFix" style="width:100%;"></image>
                 </view>
@@ -243,6 +243,7 @@
                     欢迎来到点点餐订餐小程序
                 </view>
                 <button class="modulebox-button" open-type="getUserInfo" bindgetuserinfo="getWxUserInfo">微信授权</button>
+                <view class="modulebox-button-no">不授权</view>
             </view>
         </view>
         <!-- 审核状态框 弹出2.6.1 -->
@@ -254,7 +255,7 @@
                 <view class='bind-title'>正在审核</view>
                 <view class='bind-des'>企业审核会尽快完成，请耐心等待</view>
 
-                <view class="modulebox-button" catchtap="handleRefreshUser">点击刷新</view>
+                <view class="modulebox-button-no" catchtap="handleRefreshUser">点击刷新</view>
             </view>
         </view>
 
