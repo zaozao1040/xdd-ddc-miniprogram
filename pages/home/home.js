@@ -302,6 +302,10 @@ Page({
                 showHomePage: true
             })
         }, 2000)
+
+        if (options.fromorder) {
+            _this.handleGotoMenu()
+        }
     },
 
     /**
@@ -726,6 +730,11 @@ Page({
                 showUserAuthFlag: false
             })
         }
+    },
+    handleCloseUserAuthFlag() {
+        this.setData({
+            showUserAuthFlag: false
+        })
     },
     //用于解决小程序的遮罩层滚动穿透
     preventTouchMove: function() {

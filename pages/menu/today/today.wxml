@@ -22,7 +22,7 @@
             </view>
         </view>
 
-        <view id='menumenu' wx:elif="{{allMenuData[mealTypeItem].mealType.orderStatus  && allMenuData[mealTypeItem].foodList.length!= 0}}">
+        <view id='menumenu' style='border-top:2rpx solid #EBEBEB;' wx:elif="{{allMenuData[mealTypeItem].mealType.orderStatus  && allMenuData[mealTypeItem].foodList.length!= 0}}">
             <view style="height: {{ windowHeight - 2 }}px; " class="menu-wrapper c_scrollPosition_forCalculate">
                 <!-- 左边餐品分类 -->
                 <scroll-view class="menu-left" scroll-y style="height: {{ windowHeight - 2 }}px;">
@@ -241,16 +241,16 @@
         </view>
         <!-- 不可订餐情况下展示一张大图 -->
         <block wx:elif='{{allMenuData[mealTypeItem].mealType.orderStatus &&allMenuData[mealTypeItem].foodList.length== 0}}'>
-            <view style='margin:216rpx auto 0;width:200rpx;height:200rpx;'>
-                <image class="" src="/images/home/filter_{{mealTypeItem}}.png" style="width:200rpx;height:200rpx;"></image>
+            <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
+                <image src="/images/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
             </view>
             <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
-                菜单正在准备中，请稍后点餐哦
+                让您久等了，我们正努力排餐中，稍后再来哦～
             </view>
         </block>
         <block wx:else>
-            <view style='margin:216rpx auto 0;width:200rpx;height:200rpx;'>
-                <image class="" src="/images/home/filter_{{mealTypeItem}}.png" style="width:200rpx;height:200rpx;"></image>
+            <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
+                <image src="/images/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
             </view>
             <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
                 预约时间已截止，下次记得提前预约哦

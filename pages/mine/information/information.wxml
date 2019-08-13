@@ -7,12 +7,13 @@
                 <image wx:else style='width:160rpx;height:160rpx;' src="/images/mine/huiyuan.png" alt=""></image>
             </view>
 
-            <view class='name'>{{userInfo.userName}}</view>
+            <view class='name' wx:if='{{userInfo.userName}}'>{{userInfo.userName}}</view>
+            <view class='name' wx:else>{{userInfo.nickName}}</view>
         </view>
 
     </view>
     <view style='padding:16rpx 19rpx 16rpx 14rpx;'>
-        <view style="padding:30rpx 30rpx 40rpx;background:#fff;border-radius: 6rpx;">
+        <view style="padding:30rpx 30rpx 0;background:#fff;border-radius: 6rpx;">
             <view class='item'>
                 <view class='title'>身份</view>
                 <view class='info' wx:if="{{userInfo.orgAdmin==true&&userInfo.userType=='ORG_ADMIN'}}">企业管理员</view>
@@ -28,7 +29,7 @@
                 <view class='title'>绑定手机</view>
                 <view class='info'>{{userInfo.phoneNumber}}</view>
             </view>
-            <view class='item-last' wx:if='{{userInfo.defaultDeliveryAddress}}'>
+            <view class='item' wx:if='{{userInfo.defaultDeliveryAddress}}'>
                 <view class='title'>配送地址</view>
                 <view class='info'>{{userInfo.defaultDeliveryAddress}}</view>
             </view>

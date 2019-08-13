@@ -127,38 +127,7 @@ Page({
                 })
             }
         })
-        let userCode = wx.getStorageSync('userCode')
-        _this.setData({
-            userCode: userCode
-        })
-        if (userCode) {
-            requestModel.getUserInfo(userInfo => {
-                _this.setData({
-                    userInfo: userInfo,
-                    userInfoReady: true
-                })
 
-                const query = wx.createSelectorQuery()
-                query.select('.info-wrapper').boundingClientRect()
-                query.selectViewport().scrollOffset()
-                query.exec(function(res) {
-
-                    _this.setData({
-                        infoTop: res[0].top
-                    })
-                })
-            }, true)
-        } else {
-            const query = wx.createSelectorQuery()
-            query.select('.info-wrapper').boundingClientRect()
-            query.selectViewport().scrollOffset()
-            query.exec(function(res) {
-
-                _this.setData({
-                    infoTop: res[0].top
-                })
-            })
-        }
 
 
     },
@@ -265,10 +234,42 @@ Page({
     onShow: function() {
 
         let _this = this
+        let userCode = wx.getStorageSync('userCode')
+        _this.setData({
+            userCode: userCode
+        })
+        if (userCode) {
+            requestModel.getUserInfo(userInfo => {
+                _this.setData({
+                    userInfo: userInfo,
+                    userInfoReady: true
+                })
+                const query = wx.createSelectorQuery()
+                query.select('.info-wrapper').boundingClientRect()
+                query.selectViewport().scrollOffset()
+                query.exec(function(res) {
 
-        if (_this.data.userCode) {
+                    _this.setData({
+                        infoTop: res[0].top
+                    })
+                })
+            }, true)
+        } else {
+            const query = wx.createSelectorQuery()
+            query.select('.info-wrapper').boundingClientRect()
+            query.selectViewport().scrollOffset()
+            query.exec(function(res) {
+
+                _this.setData({
+                    infoTop: res[0].top
+                })
+            })
+        }
+
+
+        if (userCode) {
             let param = {
-                url: '/user/getUserFinance?userCode=' + _this.data.userCode
+                url: '/user/getUserFinance?userCode=' + userCode
             }
             requestModel.request(param, data => {
                 _this.setData({

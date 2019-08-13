@@ -62,12 +62,7 @@
 .item {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 40rpx;
-}
-
-.item-last {
-    display: flex;
-    justify-content: space-between;
+    padding-bottom: 40rpx;
 }
 
 .org-admin {

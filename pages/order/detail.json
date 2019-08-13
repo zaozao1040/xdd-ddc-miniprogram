@@ -1,5 +1,8 @@
 {
     "navigationBarBackgroundColor": "#F5F5F5",
-    "navigationBarTitleText": "订单详情",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "",
+    "usingComponents": {
+        "c-custom-modal": "../components/customModal/customModal"
+    }
 }

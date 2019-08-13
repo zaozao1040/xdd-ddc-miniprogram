@@ -106,9 +106,9 @@ Page({
                                     url: '/pages/home/home',
                                 })
                                 wx.showToast({
-                                    title: '登录成功33',
+                                    title: '登录成功',
                                     image: '/images/msg/success.png',
-                                    duration: 2000
+                                    duration: 1000
                                 })
                             }
                         })
@@ -163,7 +163,7 @@ Page({
                 url: '/pages/home/home',
             })
             wx.showToast({
-                title: '登录成功44',
+                title: '登录成功',
                 image: '/images/msg/success.png',
                 duration: 2000
             })

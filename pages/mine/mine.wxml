@@ -69,7 +69,8 @@
                 </view>
                 <view style='margin-top:20rpx;' catchtap='gotoDetailInfo'>
                     <view class='name'>
-                        <view>{{userInfo.userName}}</view>
+                        <view wx:if='{{userInfo.userName}}'>{{userInfo.userName}}</view>
+                        <view wx:else>{{userInfo.nickName}}</view>
                         <view>
                             <view style='width:72rpx;height:36rpx;position:absolute;top:-30rpx; ' wx:if='{{userInfo.organizeTrial}}'>
                                 <image src='/images/msg/trial.png' style='width:72rpx;height:36rpx;position:absolute;'></image>

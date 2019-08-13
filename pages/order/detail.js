@@ -29,7 +29,35 @@ Page({
         },
         getdataalready: false
     },
+    //获取服务电话
+    getPhoneNumber() {
+        let _this = this
+        let param = {
+            url: '/help/getHelp'
+        }
+        requestModel.request(param, data => {
+            _this.setData({
+                showPhoneModal: true,
+                servicePhone: data.contactPhone
+            })
+        })
+    },
+    closePhoneModal() {
+        this.setData({
+            showPhoneModal: false
+        })
+    },
 
+    handleContact() {
+        let _this = this
+        wx.makePhoneCall({
+            phoneNumber: _this.data.servicePhone
+        })
+
+        _this.setData({
+            showPhoneModal: false
+        })
+    },
     /**
      * 生命周期函数--监听页面加载
      */
@@ -155,10 +183,10 @@ Page({
         let a = ''
         if (element.status == 1) {
             if (element.isPay == 0) {
-                a = '未支付'
+                a = '订单未支付'
 
             } else {
-                a = '已支付'
+                a = '订单已支付'
             }
         } else if (element.status == 2) {
             if (element.confirmStatus == 2) {
@@ -176,13 +204,13 @@ Page({
                     a = '制作中'
                 }
             } else {
-                a = '已支付'
+                a = '订单已支付'
             }
 
         } else if (element.status == 3) {
-            a = '已完成'
+            a = '订单已完成'
         } else {
-            a = '已取消'
+            a = '订单已取消'
         }
         return a
     },
@@ -200,7 +228,20 @@ Page({
             }
         })
     },
-
+    // 处理最外层的滚动，使
+    handleMostOuterScroll(e) {
+        let _this = this
+        console.log('e.detail.scrollTop', e.detail.scrollTop)
+        if (e.detail.scrollTop >= 28) { //大于等于40就显示
+            wx.setNavigationBarTitle({
+                title: _this.data.detailInfo.orderStatusDes
+            })
+        } else {
+            wx.setNavigationBarTitle({
+                title: ''
+            })
+        }
+    },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

@@ -31,9 +31,8 @@
          windowHeight: 0,
          scrollTop: 0,
          //
-         itemStatusActiveFlag: 1, //0：全部订单，1：今日待取，2：待评价
+         itemStatusActiveFlag: 2, //0：全部订单，1：今日待取，2：待评价
          orderList: [],
-         orderListNoResult: false,
          mealTypeMap: {
              BREAKFAST: '早餐',
              LUNCH: '午餐',
@@ -54,6 +53,12 @@
      gotoLogin() {
          wx.navigateTo({
              url: '/pages/login/selectPhone/selectPhone',
+         })
+     },
+     //跳转到点餐页面
+     handleGotoMenu() {
+         wx.reLaunch({
+             url: '/pages/home/home?fromorder=true',
          })
      },
      /**
@@ -87,8 +92,10 @@
      onShow: function() {
          let _this = this
          let userCode = wx.getStorageSync('userCode')
+         _this.setData({
+             userCode: userCode
+         })
          if (userCode) {
-             _this.data.userCode = userCode
              _this.initOrder()
              _this.data.page = 1
              _this.setData({

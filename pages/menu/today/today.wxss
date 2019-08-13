@@ -557,7 +557,7 @@
 .mealtype-list {
     padding: 30rpx 0 29rpx;
     display: flex;
-    border-bottom: 1rpx solid #EBEBEB;
+    /* border-bottom: 1rpx solid #EBEBEB; */
 }
 
 .price-num-control {

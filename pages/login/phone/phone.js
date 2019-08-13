@@ -10,9 +10,29 @@ Page({
         bindShow: false,
         loginType: 'phone',
         name: '',
-        password: ''
-    },
+        password: '',
+        bindOrganizeFlag: false, //绑定企业弹框
 
+    },
+    //新用户 - 选择绑定（代表是企业用户），赋值缓存后跳转到登录页面
+    gotoBind() {
+        this.setData({
+            bindOrganizeFlag: false
+        })
+
+        wx.redirectTo({
+            url: '/pages/login/login',
+        })
+    },
+    //新用户 - 选择不绑定（代表是普通用户），赋值缓存后直接跳转到home页
+    cancelBind() {
+        this.setData({
+            bindOrganizeFlag: false
+        })
+        wx.switchTab({
+            url: '/pages/home/home',
+        })
+    },
     /**
      * 生命周期函数--监听页面加载
      */
@@ -94,8 +114,31 @@ Page({
             })
         }
     },
-    loginByNamePwd() {
+    // 用户名密码登录
+    loginWithNamePwd() {
+        let param = {}
+        param.account = this.data.name
+        param.password = this.data.password
+        let params = {
+            url: '/login/accountLogin',
+            method: 'post',
+            data: param
+        }
+        requestModel.request(params, (data) => {
 
+            //刷新userInfo 
+            wx.setStorageSync('userCode', data.userCode)
+
+            wx.switchTab({
+                url: '/pages/home/home',
+            })
+            wx.showToast({
+                title: '登录成功',
+                image: '/images/msg/success.png',
+                duration: 2000
+            })
+
+        })
     },
     loginByPhone: function() {
         let _this = this
@@ -110,25 +153,41 @@ Page({
                 wx.login({
                     success: function(res) {
                         if (res.code) {
+                            let { avatarUrl, nickName, gender } = wx.getStorageSync('getWxUserInfo')
                             let param = {
                                 smsCode: _this.data.code, //短信验证码
                                 phoneNumber: _this.data.phone,
                                 encryptedData: {
                                     code: res.code
+                                },
+                                userInfo: {
+                                    headImage: avatarUrl,
+                                    nickName: nickName,
+                                    sex: gender
                                 }
                             }
                             let params = {
                                 data: param,
-                                url: '/user/phoneCodeLogin',
+                                url: '/login/phoneCodeLogin',
                                 method: 'post'
                             }
 
-                            requestModel.request(params, () => {
-                                _this.setData({
-                                        bindShow: true
+                            requestModel.request(params, (data) => {
+                                wx.setStorageSync('userCode', data.userCode)
+                                if (data.newUser == true) { //新用户 弹出是否绑定企业的模态框 TODO 5/14
+                                    _this.setData({
+                                        bindOrganizeFlag: true
                                     })
-                                    // 刷新userInfo
-                                requestModel.getUserInfo(() => {}, true)
+                                } else { //老用户 直接进入home页面
+                                    wx.switchTab({
+                                        url: '/pages/home/home',
+                                    })
+                                    wx.showToast({
+                                        title: '登录成功',
+                                        image: '/images/msg/success.png',
+                                        duration: 1000
+                                    })
+                                }
                             })
 
                         }

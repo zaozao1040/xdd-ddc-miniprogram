@@ -240,7 +240,7 @@ Page({
                     })
 
                     wx.showToast({
-                        title: '登录成功22',
+                        title: '登录成功',
                         image: '/images/msg/success.png',
                         duration: 2000
                     })

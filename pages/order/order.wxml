@@ -89,33 +89,42 @@
 
         </view>
     </view>
-    <scroll-view class="order-wrapper c_scrollPosition_forCalculate" scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower='gotoNextPage'>
-        <view wx:if="{{orderListNoResult}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
-            未查询到充值记录..
+    <view wx:if="{{orderList.length==0}}" class='c_scrollPosition_forCalculate' style="font-size:30rpx;background:#F5F5F5;height:{{windowHeight-scrollTop}}px;">
+        <view style='padding:200rpx 0  0 256rpx;width:240rpx;height:240rpx;'>
+            <image src="/images/order/noorder.png" style="width:240rpx;height:240rpx;"></image>
         </view>
-        <view wx:else>
+        <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
+            <view wx:if='{{itemStatusActiveFlag==1}}'>没有待取餐的订单哦～</view>
+            <view wx:if='{{itemStatusActiveFlag==2}}'>没有待评价的订单哦～</view>
+            <view wx:if='{{itemStatusActiveFlag==3}}'>暂时还没有订单，快去点餐吧～</view>
+            <view wx:if='{{itemStatusActiveFlag==3}}' style='margin-top:60rpx;' class='button-login' bindtap='handleGotoMenu'>去点餐</view>
+        </view>
+    </view>
+    <scroll-view wx:else class="order-wrapper c_scrollPosition_forCalculate" scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower='gotoNextPage '>
+
+        <view>
             <view wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
-                <view class='one-order'>
-                    <view class='order-image' wx:if='{{orderItem.status== 2 &&orderItem.pickStatus==1}}'>
+                <view class='one-order '>
+                    <view class='order-image ' wx:if='{{orderItem.status==2 &&orderItem.pickStatus==1}} '>
                         <!--待取餐-->
-                        <block wx:for='{{orderItem.orderFoodList}}' wx:for-item='imageItem' wx:for-index='imageIndex' wx:key='{{imageIndex}}'>
-                            <image src='{{imageItem.foodImage}}' style='height:88rpx;width:88rpx;margin-top:30rpx;margin-bottom:10rpx;border-radius:8rpx;'>
+                        <block wx:for='{{orderItem.orderFoodList}} ' wx:for-item='imageItem ' wx:for-index='imageIndex ' wx:key='{{imageIndex}} '>
+                            <image src='{{imageItem.foodImage}} ' style='height:88rpx;width:88rpx;margin-top:30rpx;margin-bottom:10rpx;border-radius:8rpx; '>
                             </image>
                         </block>
                     </view>
-                    <view class='order-image' wx:else>
-                        <image src='{{orderItem.orderFoodList[0].foodImage}}' style='margin-top:30rpx;height:88rpx;width:88rpx;border-radius:8rpx;'></image>
+                    <view class='order-image ' wx:else>
+                        <image src='{{orderItem.orderFoodList[0].foodImage}} ' style='margin-top:30rpx;height:88rpx;width:88rpx;border-radius:8rpx; '></image>
                     </view>
-                    <view class='order-right'>
-                        <view wx:if='{{orderItem.status== 2 &&orderItem.pickStatus==1}}'>
-                            <block wx:for='{{orderItem.orderFoodList}}' wx:for-item='imageItem' wx:for-index='imageIndex' wx:key='{{imageIndex}}'>
-                                <view class='order-right-top' style="margin-top:{{imageIndex!=0?20:0}}rpx;">
-                                    <view style='margin-top:30rpx;'>
-                                        <view class='food-name'>
+                    <view class='order-right '>
+                        <view wx:if='{{orderItem.status==2 &&orderItem.pickStatus==1}} '>
+                            <block wx:for='{{orderItem.orderFoodList}} ' wx:for-item='imageItem ' wx:for-index='imageIndex ' wx:key='{{imageIndex}} '>
+                                <view class='order-right-top ' style="margin-top:{{imageIndex!=0?20:0}}rpx;">
+                                    <view style='margin-top:30rpx; '>
+                                        <view class='food-name '>
                                             <!--名称可能会溢出，需要指定最长的width-->
                                             <view>{{imageItem.foodName}}</view>
-                                            <view style="margin-left:14rpx;" wx:if='{{orderItem.orderFoodList.length>1}}'>
-                                                x{{imageItem.foodQuantity}}</view>
+                                            <view style="margin-left:14rpx;" wx:if='{{orderItem.orderFoodList.length>1}}'> x{{imageItem.foodQuantity}}
+                                            </view>
                                         </view>
                                         <view class='food-mealtype'>{{orderItem.mealTypeDes}}</view>
                                     </view>

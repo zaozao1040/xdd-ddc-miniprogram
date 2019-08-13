@@ -35,4 +35,16 @@
         <view class='another' bindtap='changeValidateType'>手机号登录</view>
     </view>
     <view class='agree-des'>登录代表您已同意<text style='color:#F79C4C;'>点点餐用户协议、隐私政策</text></view>
+    <!--弹框-->
+    <view class="modulebox-background-wrapper" wx:if='{{bindOrganizeFlag}}'>
+        <view class='bind-organize-warpper'>
+            <view class='bind-organize-title'>提示</view>
+            <view class='bind-organize-content'>是否绑定企业?</view>
+
+            <view class='bind-display'>
+                <view class='bind-organize-left' bindtap='cancelBind'>直接登录</view>
+                <view class='bind-organize-right' bindtap='gotoBind'>去绑定</view>
+            </view>
+        </view>
+    </view>
 </view>

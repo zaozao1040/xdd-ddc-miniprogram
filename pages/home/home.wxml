@@ -243,7 +243,7 @@
                     欢迎来到点点餐订餐小程序
                 </view>
                 <button class="modulebox-button" open-type="getUserInfo" bindgetuserinfo="getWxUserInfo">微信授权</button>
-                <view class="modulebox-button-no">不授权</view>
+                <view class="modulebox-button-no" catchtap='handleCloseUserAuthFlag'>不授权</view>
             </view>
         </view>
         <!-- 审核状态框 弹出2.6.1 -->

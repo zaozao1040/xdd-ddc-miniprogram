@@ -19,13 +19,14 @@
             <!-- 基本信息 -->
             <view class="basic-info">
                 <view class="img-wrapper" wx:if='{{foodInfo.bannerImage&&foodInfo.bannerImage.length>0}}'>
-                    <image class="foodImg" src="{{foodInfo.bannerImage[0]}}" style="width:100%;"></image>
+                    <image src="{{foodInfo.bannerImage[0]}}" style="width:100%;height:400rpx;"></image>
                 </view>
                 <view class="food-info-wrapper">
                     <view class="foodName">
                         {{foodInfo.foodName}}
                     </view>
                     <view class="tag-wrapper">
+                        <view class="tag-item">水煮类</view>
                         <view class="tag-item" wx:if="{{foodInfo.foodLabels}}" wx:for="{{foodInfo.foodLabels}}" wx:for-item="labelItem" wx:key="{{index}}">
                             {{labelItem}}
                         </view>
@@ -33,33 +34,44 @@
 
                     <view class="foodLimitNum" wx:if="{{foodInfo.foodQuota||foodInfo.goodRate}}">
                         <view class="food-stock" wx:if="{{foodInfo.foodQuota.surplusNum||foodInfo.foodQuota.surplusNum==0 }}">
-                            库存:{{foodInfo.foodQuota.surplusNum }}
+                            库存: {{foodInfo.foodQuota.surplusNum }}
                         </view>
                         <view class="food-stock" wx:if="{{ foodInfo.foodQuota.quotaNum ||foodInfo.foodQuota.quotaNum==0}}">
-                            限购:{{foodInfo.foodQuota.quotaNum }}
+                            限购: {{foodInfo.foodQuota.quotaNum }}
                         </view>
                         <view class="food-stock" wx:if="{{ foodInfo.goodRate}}">
-                            好评率:{{ foodInfo.goodRate }}%
+                            好评率: {{ foodInfo.goodRate }}%
                         </view>
                     </view>
 
                     <view class="price">
                         <view class="price-real">
-                            <text style="font-size: 20rpx;margin-top:20rpx;">￥</text>{{foodInfo.foodPrice}}
+                            <text style="font-size: 20rpx;margin-top:20rpx;line-height:24rpx;">￥</text>{{foodInfo.foodPrice}}
                         </view>
-                        <view wx:if="{{foodInfo.foodOriginalPrice>foodInfo.foodPrice}}" class="price-original">
-                            ￥{{foodInfo.foodOriginalPrice}}
-                        </view>
+                        <view wx:if="{{foodInfo.foodOriginalPrice>foodInfo.foodPrice}}" class="price-original">￥{{foodInfo.foodOriginalPrice}}</view>
                     </view>
-                    <view class="prompt"> 用餐提示：{{foodInfo.prompt}}</view>
-                    <view wx:if="{{foodInfo.description}}" class="foodDes">
+                    <view class="prompt-wrapper">
+                        <view style='width:38rpx;height:42rpx;margin:18rpx 10rpx 0 20rpx;'>
+                            <image src='/images/menu/lamp.png' style='width:38rpx;height:42rpx;'></image>
+                        </view>
+                        <view class='prompt'><text style='color:#333;'>提示</text>：{{foodInfo.prompt}}</view>
+                    </view>
+
+                </view>
+
+                <view class="food-info-wrapper" wx:if="{{foodInfo.description}}">
+                    <view class='foodDes-title'>原料</view>
+                    <view class="foodDes">
                         {{foodInfo.description}}
                     </view>
                 </view>
+
             </view>
-            <block wx:if='{{foodInfo.detailImage&&foodInfo.detailImage.length>0}}'>
+            <view wx:if='{{foodInfo.detailImage&&foodInfo.detailImage.length>0}}' class="food-info-wrapper" style='padding-top:20rpx;'>
+                <view class='foodDes-title' style='font-size:32rpx;line-height:44rpx;margin-bottom:20rpx;'>详情</view>
                 <image class="foodImg" src="{{foodInfo.detailImage[0]}}" style="width:100%;" mode="widthFix"></image>
-            </block>
+            </view>
+
         </view>
         <!-- 评价列表 -->
         <view wx:else>

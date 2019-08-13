@@ -177,6 +177,11 @@
     display: flex;
 }
 
+.flex-b {
+    display: flex;
+    justify-content: center;
+}
+
 .right-content {
     font-family: PingFang-SC-Regular;
     font-size: 30rpx;

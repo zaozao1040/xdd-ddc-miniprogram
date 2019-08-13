@@ -528,7 +528,7 @@
  .mealtype-list {
      padding: 20rpx 0 29rpx;
      display: flex;
-     border-bottom: 1rpx solid #EBEBEB;
+     /* border-bottom: 1rpx solid #EBEBEB; */
  }
  
  .food-label {
