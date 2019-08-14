@@ -31,7 +31,7 @@
          windowHeight: 0,
          scrollTop: 0,
          //
-         itemStatusActiveFlag: 2, //0：全部订单，1：今日待取，2：待评价
+         itemStatusActiveFlag: 0, //0：全部订单，1：今日待取，2：待评价
          orderList: [],
          mealTypeMap: {
              BREAKFAST: '早餐',
@@ -39,7 +39,21 @@
              DINNER: '晚餐',
              NIGHT: '夜宵'
          },
-         getOrdersNow: false
+         getOrdersNow: false,
+         checkOrderDate: '', //今日待取的日期
+         checkOrderDateDes: '',
+         selectedDate: null, //全部订单的日期
+         selectedDateFlag: false,
+     },
+     bindDateChange(e) {
+         if (e.detail && e.detail.value)
+
+             this.setData({
+             selectedDate: e.detail.value,
+             selectedDateFlag: true
+         })
+         this.getOrderList(true)
+         console.log('bindDateChange', e)
      },
      /* 跳转订单详情 */
      handleGotoOrderDetail: function(e) {
@@ -83,7 +97,7 @@
      /* 手动点击触发下一页 */
      gotoNextPage: function() {
          if (this.data.hasMoreDataFlag) {
-             this.getOrderList()
+             this.getOrderList(false)
          }
      },
      /**
@@ -91,20 +105,33 @@
       */
      onShow: function() {
          let _this = this
+             //这写在onShow里可以吗？？
+
+         let now = new Date()
+         let end = new Date(now.getTime() + 7 * 24 * 3600 * 1000)
+         let month = end.getMonth() + 1
+         let day = end.getDate()
+         end = end.getFullYear() + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day)
+         _this.setData({
+             checkOrderDate: new Date(),
+             endDatePicker: end,
+         })
+
+         console.log('endDatePicker', _this.data.endDatePicker)
+         if (_this.data.itemStatusActiveFlag == 1) {
+             this.setData({
+                 todayInit: true
+             })
+         }
          let userCode = wx.getStorageSync('userCode')
          _this.setData({
              userCode: userCode
          })
          if (userCode) {
              _this.initOrder()
-             _this.data.page = 1
-             _this.setData({
-                 orderList: [] //列表必须清空，否则分页会无限叠加
-             })
-             _this.getOrderList()
+             _this.getOrderList(true)
              wx.showTabBar()
          }
-
 
      },
      onHide: function() {},
@@ -124,11 +151,15 @@
 
          if (e.currentTarget.dataset.flag == 'jinridaiqu') {
              this.setData({
-                 itemStatusActiveFlag: 1
+                 itemStatusActiveFlag: 1,
+                 todayInit: true,
+                 checkOrderDate: new Date()
              })
          } else if (e.currentTarget.dataset.flag == 'quanbudingdan') {
              this.setData({
-                 itemStatusActiveFlag: 0
+                 itemStatusActiveFlag: 0,
+                 selectedDateFlag: false,
+                 selectedDate: false
              })
          } else if (e.currentTarget.dataset.flag == 'pingjia') {
              this.setData({
@@ -136,12 +167,7 @@
              })
          }
 
-         this.setData({
-             orderList: [], // 这四个要重置，为了交易记录的分页，因为交易记录:'在线重置俩页面是通过点击按钮切换的
-             page: 1,
-             hasMoreDataFlag: true
-         })
-         this.getOrderList()
+         this.getOrderList(true)
      },
      initOrder: function() {
          let _this = this
@@ -169,86 +195,186 @@
              if (element.isPay == 0) {
                  a.label = '未支付'
                  a.has = false
-
+                 a.differentColor = true
              } else {
                  a.label = '已支付'
-                 a.image = 'yizhifu'
+                 a.differentColor = true
              }
          } else if (element.status == 2) {
              if (element.confirmStatus == 2) {
                  if (element.evaluateStatus == 1) {
                      a.label = '待评价'
-                     a.image = 'daipingjia'
+                     a.differentColor = true
                  } else if (element.pickStatus == 1) {
                      a.label = '待取餐'
-                     a.image = 'daiqucan'
+                     a.differentColor = true
 
                  } else if (element.deliveryStatus == 1) {
                      a.label = '待配送'
-                     a.image = 'daipeisong'
+                     a.differentColor = true
                  } else if (element.deliveryStatus == 2) {
                      a.label = '配送中'
-                     a.image = 'peisongzhong'
+                     a.differentColor = true
 
                  } else {
                      a.label = '制作中'
-                     a.image = 'zhizuozhong'
+                     a.differentColor = true
                  }
              } else {
                  a.label = '已支付'
-                 a.image = 'yizhifu'
+                 a.differentColor = true
              }
 
          } else if (element.status == 3) {
              a.label = '已完成'
-             a.image = 'yiwancheng'
+
          } else {
              a.label = '已取消'
-             a.image = 'yiquxiao'
+
          }
          return a
      },
 
+     handleFromDay() {
+         let time = new Date(this.data.checkOrderDate).getTime()
+         let now = new Date(time - 24 * 2600 * 1000)
 
+         let current = new Date()
+         if ((now.getFullYear() == current.getFullYear()) && (now.getMonth() == current.getMonth()) && (now.getDate() == current.getDate())) {
+             this.setData({
+                 checkOrderDate: now,
+                 todayInitBack: true,
+                 todayInit: false
+             })
+         } else {
+             this.setData({
+                 checkOrderDate: now,
+                 todayInitBack: false,
+                 todayInit: false
+             })
+         }
+         this.getOrderList(true)
+     },
+     handleNextDay() {
+         let time = new Date(this.data.checkOrderDate).getTime()
+         let now = new Date(time + 24 * 2600 * 1000)
+
+         let current = new Date()
+         if ((now.getFullYear() == current.getFullYear()) && (now.getMonth() == current.getMonth()) && (now.getDate() == current.getDate())) {
+             this.setData({
+                 checkOrderDate: now,
+                 todayInitBack: true,
+                 todayInit: false
+             })
+         } else {
+             this.setData({
+                 checkOrderDate: now,
+                 todayInitBack: false,
+                 todayInit: false
+             })
+         }
+         this.getOrderList(true)
+     },
+     backToday() {
+         let time = new Date()
+         this.setData({
+             checkOrderDate: time,
+             todayInitBack: true,
+             todayInit: false,
+         })
+
+         this.getOrderList(true)
+     },
+     //选择筛选日期
+     bindChangeDate: function(e) {
+         const val = e.detail.value
+         this.setData({
+             year: this.data.years[val[0]],
+             month: this.data.months[val[1]],
+             day: this.data.days[val[2]]
+         })
+     },
      /* 获取订单列表 */
-     getOrderList: function() {
+     getOrderList: function(fromBegin) {
          let _this = this
+
+         if (fromBegin) {
+             _this.data.page = 1
+         }
+
+         let mealDate = ''
+         if (_this.data.itemStatusActiveFlag == 1) {
+             //今日订单
+             let a = new Date(_this.data.checkOrderDate)
+             let month = a.getMonth() + 1
+             let day = a.getDate()
+             let year = a.getFullYear()
+
+             let weekday = new Array(7);
+             weekday[0] = "周日";
+             weekday[1] = "周一";
+             weekday[2] = "周二";
+             weekday[3] = "周三";
+             weekday[4] = "周四";
+             weekday[5] = "周五";
+             weekday[6] = "周六";
+             let b = (month < 10 ? '0' + month : month) + '月' + (day < 10 ? '0' + day : day) + '日' + ' ( ' + weekday[a.getDay()] + ' )'
+             _this.setData({
+                 checkOrderDateDes: b
+             })
+             mealDate = year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day)
+         } else if (_this.data.itemStatusActiveFlag == 0) {
+             //全部订单
+             if (_this.data.selectedDateFlag) {
+                 mealDate = _this.data.selectedDate
+             }
+         }
          _this.setData({
              loadingData: true
          })
          let page = _this.data.page
          let limit = _this.data.limit
          let param = {
-             url: '/order/getOrderList?userCode=' + _this.data.userCode + '&page=' + page + '&limit=' + limit + '&type=' + _this.data.itemStatusActiveFlag
+             url: '/order/getOrderList?userCode=' + _this.data.userCode + '&page=' + page + '&limit=' + limit + '&type=' + _this.data.itemStatusActiveFlag +
+                 (mealDate ? '&mealDate=' + mealDate : '')
          }
          requestModel.request(param, (res) => {
              let tmp_orderList = res.list
              if (tmp_orderList) {
+
                  tmp_orderList.forEach(element => {
                      element.mealTypeDes = _this.data.mealTypeMap[element.mealType] //类型
                      element.orderStatusDes = _this.getOrderStatus(element) //订单状态  
 
-                     //取餐时间
-                     if (element.pickStatus == 1 && element.status == 2 && element.orderFoodList && element.orderFoodList[0].takeMealStartTime) { //待取餐
+                     //  //取餐时间
+                     //  if (element.pickStatus == 1 && element.status == 2 && element.orderFoodList && element.orderFoodList[0].takeMealStartTime) { //待取餐
 
-                         // 取餐时间
-                         let start = (element.orderFoodList[0].takeMealStartTime.split(' '))[1].split(':') //时 分 秒
+                     //      // 取餐时间
+                     //      let start = (element.orderFoodList[0].takeMealStartTime.split(' '))[1].split(':') //时 分 秒
 
-                         let end = (element.orderFoodList[0].takeMealEndTime.split(' '))[1].split(':')
+                     //      let end = (element.orderFoodList[0].takeMealEndTime.split(' '))[1].split(':')
 
-                         //取餐时间顶多是到明天吗？不管了，就是明天
-                         let s = '今天' + start[0] + '点' + (start[1] != '00' ? (start[1] + '分') : '')
-                         let endHours = end[0] == '00' ? 24 : end[0]
-                         let e = endHours < start[0] ? ('明天' + endHours + '点') : (endHours + '点') + (end[1] != '00' ? (end[1] + '分') : '')
-                         element.takeMealTimeDes = s + '到' + e
+                     //      //取餐时间顶多是到明天吗？不管了，就是明天
+                     //      let s = '今天' + start[0] + '点' + (start[1] != '00' ? (start[1] + '分') : '')
+                     //      let endHours = end[0] == '00' ? 24 : end[0]
+                     //      let e = endHours < start[0] ? ('明天' + endHours + '点') : (endHours + '点') + (end[1] != '00' ? (end[1] + '分') : '')
+                     //      element.takeMealTimeDes = s + '到' + e
 
-                     } else {
-                         let a = element.mealDate.split('-')
+                     //  } else {
+                     let a = element.mealDate.split('-')
 
-                         element.takeMealTimeDes = a[1] + '月' + a[2] + '日'
-                     }
+                     element.takeMealTimeDes = a[1] + '月' + a[2] + '日'
 
-
+                     var d = new Date(element.mealDate);
+                     var weekday = new Array(7);
+                     weekday[0] = "周日";
+                     weekday[1] = "周一";
+                     weekday[2] = "周二";
+                     weekday[3] = "周三";
+                     weekday[4] = "周四";
+                     weekday[5] = "周五";
+                     weekday[6] = "周六";
+                     element.takeMealTimeDes = element.takeMealTimeDes + ' (' + weekday[d.getDay()] + ') '
                  })
                  if (page == 1) {
                      _this.setData({
@@ -278,6 +404,8 @@
                  getOrdersNow: false,
                  loadingData: false
              })
+
+             console.log('orderList', _this.data.orderList)
          })
      },
      /* 取消订单 */
@@ -318,11 +446,8 @@
                  })
                  setTimeout(() => {
                      //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
-                     _this.setData({
-                         page: 1,
-                         orderList: []
-                     })
-                     _this.getOrderList()
+
+                     _this.getOrderList(true)
                  }, 1000)
 
              })
@@ -424,12 +549,7 @@
                                  duration: 1000
                              })
                              setTimeout(() => {
-                                 //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
-                                 _this.setData({
-                                     page: 1,
-                                     orderList: []
-                                 })
-                                 _this.getOrderList()
+                                 _this.getOrderList(true)
                              }, 1000)
 
                          },
@@ -482,12 +602,7 @@
              })
 
              setTimeout(() => {
-                 //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
-                 _this.setData({
-                     page: 1,
-                     orderList: []
-                 })
-                 _this.getOrderList()
+                 _this.getOrderList(true)
              }, 1000)
          })
 
@@ -555,12 +670,8 @@
                  takeorderModalShow: false,
                  takeorderAgainShow: false
              })
-             //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
-         _this.setData({
-             page: 1,
-             orderList: []
-         })
-         _this.getOrderList()
+             //取餐后为啥要只刷第一页的啊
+         _this.getOrderList(true)
      },
      //取餐private函数
      takeFoodOrderAgain(ordercode, again, content) {

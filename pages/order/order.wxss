@@ -16,12 +16,11 @@
 }
 
 .one-order {
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.08);
-    border-radius: 6px;
+    box-shadow: 0 0 20rpx 0 rgba(0, 0, 0, 0.08);
+    border-radius: 12rpx;
     background: #FFFFFF;
-    margin: 24rpx 20rpx 0;
-    padding: 0 30rpx 40rpx 30rpx;
-    display: flex;
+    margin-bottom: 20rpx;
+    padding: 0 30rpx 30rpx;
 }
 
 .order-image {
@@ -30,16 +29,10 @@
     flex-shrink: 0;
 }
 
-.order-right {
-    margin-left: 20rpx;
-    flex-grow: 1;
-}
-
-.order-right-top {
+.one-order-top {
     display: flex;
     justify-content: space-between;
     border-bottom: 1rpx solid #eee;
-    height: 138rpx;
 }
 
 .order-cabinet-num-group {
@@ -85,7 +78,7 @@
 
 .selectPayType_line1 {
     font-size: 34rpx;
-    font-family: PingFangSC-Medium;
+    font-family: PingFang-SC-Medium;
     font-weight: 500;
     color: rgba(0, 0, 0, 1);
     line-height: 48rpx;
@@ -241,7 +234,7 @@
 .header-wrapper {
     display: flex;
     justify-content: space-between;
-    padding: 12rpx 80rpx 20rpx;
+    padding: 12rpx 40rpx 20rpx 80rpx;
     border-bottom: 1rpx solid #eee;
 }
 
@@ -275,12 +268,6 @@
 
 
 /********** 内容 **********/
-
-.order-wrapper {
-    box-sizing: border-box;
-    padding: 20rpx;
-    overflow: hidden;
-}
 
 .order-item {
     margin-bottom: 25rpx;
@@ -400,14 +387,11 @@
 }
 
 .food-name {
-    font-family: PingFang-SC-Medium;
     font-size: 30rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
+    font-family: PingFang-SC-Medium;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 1);
     line-height: 42rpx;
-    margin-bottom: 12rpx;
-    display: flex;
 }
 
 .food-mealtype {
@@ -420,10 +404,12 @@
 }
 
 .food-count {
-    margin: auto 50rpx;
-    font-size: 35rpx;
-    font-weight: 500;
-    color: #222;
+    font-size: 26rpx;
+    font-family: PingFang-SC-Regular;
+    font-weight: 400;
+    color: rgba(102, 102, 102, 1);
+    line-height: 42rpx;
+    margin-left: 10rpx;
 }
 
 .food-item-count {
@@ -434,12 +420,11 @@
 }
 
 .food-money {
-    font-family: HelveticaNeue-Medium;
-    font-size: 32rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 40rpx;
+    font-size: 28rpx;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(51, 51, 51, 1);
+    line-height: 60rpx;
 }
 
 .food-takeorder {
@@ -541,6 +526,11 @@
     display: flex;
 }
 
+.flex-b {
+    display: flex;
+    justify-content: space-between;
+}
+
 .no-login-des {
     font-size: 30rpx;
     font-family: PingFang-SC-Regular;
@@ -563,5 +553,69 @@
     font-weight: 400;
     color: #fff;
     line-height: 88rpx;
+    text-align: center;
+}
+
+.top-date {
+    font-size: 26rpx;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(102, 102, 102, 1);
+    line-height: 78rpx;
+}
+
+.pick-date {
+    background: #fff;
+    box-shadow: 0px 0px 20rpx 0px rgba(0, 0, 0, 0.08);
+    border-radius: 12rpx;
+    margin-bottom: 20rpx;
+    display: flex;
+    padding: 20rpx 0;
+}
+
+.back-today {
+    width: 194rpx;
+    text-align: center;
+    height: 36rpx;
+    font-size: 26rpx;
+    font-family: PingFang-SC-Regular;
+    font-weight: 400;
+    color: rgba(153, 153, 153, 1);
+    line-height: 36rpx;
+    margin: 4rpx 0;
+}
+
+.back-up {
+    height: 36rpx;
+    font-size: 26rpx;
+    font-family: PingFang-SC-Regular;
+    font-weight: 400;
+    color: rgba(153, 153, 153, 1);
+    line-height: 44rpx;
+}
+
+.date-date {
+    width: 184rpx;
+    height: 36rpx;
+    font-size: 26rpx;
+    font-family: PingFang-SC-Regular;
+    font-weight: 400;
+    color: rgba(247, 156, 76, 1);
+    line-height: 44rpx;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.on-today {
+    width: 134rpx;
+    height: 44rpx;
+    background: rgba(247, 156, 76, 0.2);
+    border-radius: 24rpx;
+    font-size: 26rpx;
+    font-family: PingFang-SC-Regular;
+    font-weight: 400;
+    color: rgba(247, 156, 76, 1);
+    line-height: 44rpx;
+    margin: 0 30rpx;
     text-align: center;
 }

@@ -12,7 +12,7 @@
 }
 
 .itemTitle {
-    font-family: PingFangSC-Medium;
+    font-family: PingFang-SC-Medium;
     font-size: 30rpx;
     color: #333333;
     padding: 30rpx 0 22rpx;

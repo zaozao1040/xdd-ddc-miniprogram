@@ -113,7 +113,7 @@
 
 .bind-organize-title {
     font-size: 34rpx;
-    font-family: PingFangSC-Medium;
+    font-family: PingFang-SC-Medium;
     font-weight: 500;
     color: rgba(0, 0, 0, 1);
     line-height: 48rpx;

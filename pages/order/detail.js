@@ -231,7 +231,6 @@ Page({
     // 处理最外层的滚动，使
     handleMostOuterScroll(e) {
         let _this = this
-        console.log('e.detail.scrollTop', e.detail.scrollTop)
         if (e.detail.scrollTop >= 28) { //大于等于40就显示
             wx.setNavigationBarTitle({
                 title: _this.data.detailInfo.orderStatusDes
