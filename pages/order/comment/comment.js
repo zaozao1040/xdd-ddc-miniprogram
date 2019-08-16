@@ -89,7 +89,7 @@ Page({
             }
             //服务 默认五星好评
             let tmp_serviceInfo = _this.data.serviceInfo
-            tmp_serviceInfo.star = 5
+            tmp_serviceInfo.star = 0
             tmp_serviceInfo.selectedTagNum = 0
             tmp_serviceInfo.serviceEvaluateLabelsActive = serviceEvaluateLabels[5]
             console.log('xasdfa', tmp_serviceInfo)
@@ -279,6 +279,14 @@ Page({
     },
     /* 去评价的对话框的确定 */
     buttonClickYes_ratings: function(e) {
+        if (this.data.serviceInfo.star < 1) {
+            wx.showToast({
+                title: '请给服务评分！',
+                image: '/images/msg/warning.png',
+                duration: 1000
+            })
+            return
+        }
         if (this.data.operatingNow) {
             return
         }
@@ -404,7 +412,23 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function() {
-
+        let _this = this
+        wx.getSystemInfo({
+            success: function(res) {
+                _this.setData({
+                    windowHeight: res.windowHeight
+                })
+            }
+        })
+        const query = wx.createSelectorQuery()
+        query.select('.c_scrollPosition_forCalculate').boundingClientRect()
+        query.selectViewport().scrollOffset()
+        query.exec(function(res) {
+            console.log(res[0].top)
+            _this.setData({
+                scrollTop: res[0].top // #the-id节点的上边界坐标
+            })
+        })
     },
 
     /**

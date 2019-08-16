@@ -44,6 +44,7 @@
          checkOrderDateDes: '',
          selectedDate: null, //全部订单的日期
          selectedDateFlag: false,
+         showShapeFlag: false
      },
      bindDateChange(e) {
          if (e.detail && e.detail.value)
@@ -53,11 +54,28 @@
              selectedDateFlag: true
          })
          this.getOrderList(true)
-         console.log('bindDateChange', e)
+     },
+     showShape() {
+         let _this = this
+         _this.setData({
+             showShapeFlag: !_this.data.showShapeFlag
+         })
+     },
+     showDatePicker() {
+         this.setData({
+             showShapeFlag: false
+         })
+     },
+     closeDateFilter() {
+         this.setData({
+             showShapeFlag: false
+         })
      },
      /* 跳转订单详情 */
      handleGotoOrderDetail: function(e) {
-
+         this.setData({
+             showShapeFlag: false
+         })
          wx.navigateTo({
              url: '/pages/order/detail?orderCode=' + e.currentTarget.dataset.ordercode,
          })
@@ -142,6 +160,9 @@
          })
      },
      changeItemStatusActiveFlag: function(e) {
+         this.setData({
+             showShapeFlag: false
+         })
          if (this.data.getOrdersNow) {
              return
          }
@@ -405,14 +426,15 @@
                  loadingData: false
              })
 
-             console.log('orderList', _this.data.orderList)
          })
      },
      /* 取消订单 */
      handleCancelOrder(e) {
          this.setData({
              cancelOrderCode: e.currentTarget.dataset.ordercode,
-             cancelFlag: true
+             cancelFlag: true,
+             showShapeFlag: false
+
          })
      },
      /* 取消取消订单 */
@@ -483,6 +505,9 @@
      },
      /* 去付款 */
      handleSecondpayOrder: function(e) {
+         this.setData({
+             showShapeFlag: false
+         })
          let _this = this;
 
          let payPrice = e.currentTarget.dataset.payprice
@@ -690,7 +715,10 @@
      },
      /* 去取餐 */
      handleTakeOrder: function(e) {
-         //console.log(e)
+         this.setData({
+             showShapeFlag: false
+         })
+
          let _this = this
          if (!_this.data.canClick) {
              return
@@ -708,6 +736,9 @@
 
      /* 去评价 */
      handleEvaluateOrder: function(e) {
+         this.setData({
+             showShapeFlag: false
+         })
          let a = {}
          a.orderCode = e.currentTarget.dataset.ordercode
          a.orderFoodList = e.currentTarget.dataset.orderfoodlist

@@ -913,7 +913,7 @@ Page({
     /* 餐品详情 */
     handleGotoFoodDetail: function(e) {
         wx.navigateTo({
-            url: '/pages/food/food?foodCode=' + e.currentTarget.dataset.foodcode + '&mealDate=' + this.data.mealDate + '&mealType=' + this.data.mealTypeItem,
+            url: '/pages/food/food?foodCode=' + e.currentTarget.dataset.foodcode + '&mealDate=' + this.data.mealDate + '&mealType=' + this.data.mealTypeItem + '&typeName=' + e.currentTarget.dataset.typename
         })
     },
 })

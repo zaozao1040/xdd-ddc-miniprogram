@@ -26,7 +26,7 @@
                         {{foodInfo.foodName}}
                     </view>
                     <view class="tag-wrapper">
-                        <view class="tag-item">水煮类</view>
+                        <view class="tag-item">{{typeName}}</view>
                         <view class="tag-item" wx:if="{{foodInfo.foodLabels}}" wx:for="{{foodInfo.foodLabels}}" wx:for-item="labelItem" wx:key="{{index}}">
                             {{labelItem}}
                         </view>

@@ -543,6 +543,8 @@ Page({
                 gethomeOrderList: true
             })
         }, true)
+
+        _this.getOrderList()
     },
 
     //取餐private函数

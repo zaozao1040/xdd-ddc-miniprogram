@@ -40,7 +40,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 4,
+			"current": 5,
 			"list": [
 				{
 					"id": -1,
@@ -74,6 +74,14 @@
 					"id": -1,
 					"name": "menu",
 					"pathName": "pages/menu/menu",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "comment",
+					"pathName": "pages/order/comment/comment",
+					"query": "userCode=USER532153350464995387&orderCode=DDC611247543854039040",
 					"scene": null
 				}
 			]

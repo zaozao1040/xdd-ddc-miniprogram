@@ -29,7 +29,7 @@ Page({
      */
     onLoad: function(options) {
 
-        let { mealDate, mealType, foodCode } = options
+        let { mealDate, mealType, foodCode, typeName } = options
         this.setData({
             foodCode: foodCode
         })
@@ -40,7 +40,8 @@ Page({
             }
             requestModel.request(param, data => {
                 this.setData({
-                    foodInfo: data
+                    foodInfo: data,
+                    typeName: typeName
                 })
             })
         })

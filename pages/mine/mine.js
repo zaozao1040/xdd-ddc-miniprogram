@@ -113,6 +113,10 @@ Page({
             showPhoneModal: false
         })
     },
+    handleContact(e) {
+        console.log(e.path)
+        console.log(e.query)
+    },
     /**
      * 生命周期函数--监听页面加载
      */

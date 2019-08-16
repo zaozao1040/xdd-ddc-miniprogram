@@ -168,7 +168,7 @@
                         </view>
                         <view class='label-title'>服务评分</view>
                     </view>
-                    <view style='width:104rpx;height:100rpx;' wx:else> </view>
+                    <view style='width:104rpx;height:100rpx;' wx:else></view>
                 </view>
             </view>
             <view class='function-wrapper'>

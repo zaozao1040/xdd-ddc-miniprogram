@@ -1,4 +1,4 @@
-<view>
+<view bindtap='closeDateFilter'>
     <view wx:if='{{userCode}}'>
         <!-- 去付款弹出的选择支付方式对话框 -->
         <view class="selectPayType-wrapper" wx:if="{{showPayTypeFlag}}">
@@ -62,8 +62,8 @@
 
                 </view>
                 <view class='button-display'>
-                    <view class='button-left' bindtap='buttonClickNo'>取消</view>
-                    <view class='button-right' bindtap='buttonClickYes'>确定</view>
+                    <view class='button-left' catchtap='buttonClickNo'>取消</view>
+                    <view class='button-right' catchtap='buttonClickYes'>确定</view>
                 </view>
             </view>
         </view>
@@ -77,7 +77,7 @@
         <!-- 标题 -->
         <view class="header-wrapper">
             <view catchtap="changeItemStatusActiveFlag" data-flag="jinridaiqu">
-                <view class=" {{itemStatusActiveFlag==1?'header-item-active':'header-item'}}">今日待取</view>
+                <view class=" {{itemStatusActiveFlag==1?'header-item-active':'header-item'}}">今日订单</view>
                 <view class="{{itemStatusActiveFlag==1?'header-item-border-active':'header-item-border'}}"></view>
             </view>
             <view catchtap="changeItemStatusActiveFlag" data-flag="pingjia">
@@ -89,14 +89,20 @@
                     <view>全部订单</view>
                     <view class="{{itemStatusActiveFlag==0?'header-item-border-active':'header-item-border'}}"></view>
                 </view>
-                <view wx:if='{{itemStatusActiveFlag==0}}'>
+                <image wx:if='{{itemStatusActiveFlag==0}}' src='/images/order/filter.png' style='margin-top:2rpx;width:40rpx;height:40rpx;' catchtap='showShape'></image>
+                <image wx:else src='/images/order/filterno.png' style='margin-top:2rpx;width:40rpx;height:40rpx;'></image>
+
+                <view wx:if='{{itemStatusActiveFlag==0&&showShapeFlag}}'>
                     <picker mode="date" value="{{selectedDate}}" start="2018-09-01" end="{{endDatePicker}}" bindchange="bindDateChange">
                         <view class="picker">
-                            <image src='/images/order/filter.png' style='margin-top:2rpx;width:40rpx;height:40rpx;' bindtap='showDatePicker'></image>
+                            <view style='position:fixed;top:54rpx;right:40rpx;width:120rpx;height:60rpx;z-index:200;' catchtap='showDatePicker'>
+                                <view class='date-shape'>日期筛选</view>
+                                <image src='/images/order/shape.png' style=' width:120rpx;height:60rpx;z-index:200;'></image>
+                            </view>
                         </view>
                     </picker>
                 </view>
-                <image wx:else src='/images/order/filterno.png' style='margin-top:2rpx;width:40rpx;height:40rpx;'></image>
+
             </view>
         </view>
         <view wx:if="{{itemStatusActiveFlag!=1&&orderList.length==0}}" class='c_scrollPosition_forCalculate' style="font-size:30rpx;background:#F5F5F5;height:{{windowHeight-scrollTop}}px;">
@@ -107,21 +113,21 @@
                 <!-- <view wx:if='{{itemStatusActiveFlag==1}}'>没有待取餐的订单哦～</view> -->
                 <view wx:if='{{itemStatusActiveFlag==2}}'>没有待评价的订单哦～</view>
                 <view wx:if='{{itemStatusActiveFlag==0}}'>暂时还没有订单，快去点餐吧～</view>
-                <view wx:if='{{itemStatusActiveFlag==0}}' style='margin-top:60rpx;' class='button-login' bindtap='handleGotoMenu'>去点餐</view>
+                <view wx:if='{{itemStatusActiveFlag==0}}' style='margin-top:60rpx;' class='button-login' catchtap='handleGotoMenu'>去点餐</view>
             </view>
         </view>
-        <scroll-view wx:else class="c_scrollPosition_forCalculate" scroll-y style="height: {{windowHeight - scrollTop}}px;background:#F5F5F5;" bindscrolltolower='gotoNextPage'>
+        <scroll-view wx:else class="c_scrollPosition_forCalculate" scroll-y bindscroll='closeDateFilter' style="height: {{windowHeight - scrollTop}}px;background:#F5F5F5;" bindscrolltolower='gotoNextPage'>
             <view style='height:{{windowHeight - scrollTop}}px; padding:20rpx;'>
                 <view class='pick-date' wx:if='{{itemStatusActiveFlag==1}}'>
                     <view class='on-today' style='flex-shrink: 0;' wx:if='{{todayInit||todayInitBack}}'>今日订单</view>
-                    <view class='back-today' style='flex-shrink: 0;' bindtap='backToday' wx:else>回到今日</view>
+                    <view class='back-today' style='flex-shrink: 0;' catchtap='backToday' wx:else>回到今日</view>
                     <view style='height:24rpx;width:2rpx;background:#DDD;margin-top:10rpx;'></view>
-                    <view class='flex-a back-up' style='flex-shrink: 0;' bindtap='handleFromDay'>
+                    <view class='flex-a back-up' style='flex-shrink: 0;' catchtap='handleFromDay'>
                         <image style='width:24rpx;height:24rpx;margin:10rpx 0 0 30rpx;' src='/images/order/left.png'></image>
                         <view>上一天</view>
                     </view>
                     <view class='date-date' style='color:{{todayInit?"#333":"#F79C4C"}}'>{{checkOrderDateDes}}</view>
-                    <view class='flex-a back-up' style='flex-shrink: 0;' bindtap='handleNextDay'>
+                    <view class='flex-a back-up' style='flex-shrink: 0;' catchtap='handleNextDay'>
                         <view>下一天</view>
                         <image style='width:24rpx;height:24rpx;margin:10rpx 30rpx 0 0;' src='/images/order/right.png'></image>
                     </view>
@@ -136,7 +142,7 @@
                 </view>
                 <view wx:else>
                     <view wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
-                        <view class='one-order' bindtap="handleGotoOrderDetail" data-ordercode="{{orderItem.orderCode}}">
+                        <view class='one-order' catchtap="handleGotoOrderDetail" data-ordercode="{{orderItem.orderCode}}">
                             <view class='one-order-top'>
                                 <view class='top-date'>{{orderItem.takeMealTimeDes}}{{orderItem.mealTypeDes}}</view>
                                 <view class='flex-a'>
@@ -197,6 +203,6 @@
             <image src='/images/order/nologin.png' style='width:360rpx;height:360rpx;'></image>
         </view>
         <view class='no-login-des'>您还没有登录，请登录后查看订单</view>
-        <view class="button-login" bindtap='gotoLogin'> 登录</view>
+        <view class="button-login" catchtap='gotoLogin'> 登录</view>
     </view>
 </view>

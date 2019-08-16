@@ -69,7 +69,7 @@
 .org {
     margin: 26rpx 30rpx 0 34rpx;
     font-family: PingFangSC-Regular;
-    font-size: 22rpx;
+    font-size: 24rpx;
     color: #333333;
     letter-spacing: 0;
     text-align: center;
