@@ -1,15 +1,31 @@
 <view>
     <view class='wrapper'>
-        <input bindinput="nameInput" value="{{name}}" class="input" placeholder="# 输入创建话题（12个字以内）" type="string"></input>
-        <view class='button'>创建</view>
+        <input bindinput="bindInput" value="{{value}}" class="input" placeholder="# 输入创建话题（12个字以内）" type="string"></input>
+        <view class='button' wx:if='{{value}}'>创建</view>
+        <view class='button' wx:else style='background:#ddd;color:#fff;'>创建</view>
     </view>
     <view class='word-list'>
         <view class='left-list'>
-            <view class='left-item-active'></view>
-            <view class='left-item'></view>
-            <view class='left-item'></view>
-            <view class='left-item'></view>
+            <view class='left-item-active'>我的 </view>
+            <view class='left-item'>推荐 </view>
+            <view class='left-item'>推荐 </view>
+            <view class='left-item'>推荐 </view>
+
         </view>
-        <view class='right-list'></view>
+        <view class='right-list'>
+            <view class='right-title'>我创建的 </view>
+            <view class='right-item'>
+                <view class='sym'>#</view>
+                <view class='content'>菜品丰富</view>
+            </view>
+            <view class='right-item'>
+                <view class='sym'>#</view>
+                <view class='content'>菜品丰富</view>
+            </view>
+            <view class='right-item'>
+                <view class='sym'>#</view>
+                <view class='content'>菜品丰富</view>
+            </view>
+        </view>
     </view>
 </view>
