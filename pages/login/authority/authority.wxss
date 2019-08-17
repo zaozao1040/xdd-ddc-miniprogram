@@ -1,0 +1,41 @@
+.image-wrapper {
+    width: 254rpx;
+    height: 102rpx;
+    margin: 110rpx auto 0;
+    position: relative;
+}
+
+.title {
+    font-size: 34rpx;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(26, 26, 26, 1);
+    margin: 22rpx 0 84rpx;
+    text-align: center;
+}
+
+.des {
+    font-size: 30rpx;
+    font-family: PingFang-SC-Regular;
+    font-weight: 400;
+    color: #333333;
+    line-height: 42rpx;
+    text-align: center;
+    margin-bottom: 20rpx;
+}
+
+.button {
+    width: 630rpx;
+    height: 96rrpx;
+    line-height: 96rrpx;
+    text-align: center;
+    background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
+    border-radius: 50rpx;
+    font-family: PingFangSC-Regular;
+    font-size: 34rpx;
+    color: #FFFFFF;
+}
+
+.button::after {
+    border: none;
+}

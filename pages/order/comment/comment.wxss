@@ -54,7 +54,7 @@
      font-size: 24rpx;
      color: #999999;
      text-align: center;
-     border: 2rpx solid #EBEBEB;
+     border: 1rpx solid #EBEBEB;
      margin-top: 20rpx;
  }
  
@@ -132,6 +132,10 @@
      width: 630rpx;
      margin: auto;
      position: fixed;
+ }
+ 
+ .button::after {
+     border: none;
  }
  
  .success-1 {

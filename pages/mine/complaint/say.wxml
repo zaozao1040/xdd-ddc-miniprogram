@@ -1,0 +1,19 @@
+<view style='background: #F5F5F5;height:{{windowHeight}}px;padding: 20rpx;'>
+    <view class='wrapper'>
+        <view class='title'># 添加话题</view>
+        <view class='word_list'>
+            <view class='item-active'># 菜品丰富</view>
+            <view class='item'># 食材新鲜</view>
+            <view class='item'># 好吃不油腻</view>
+            <view class='item'># 食材很新鲜</view>
+            <view class='item'># 食材新鲜</view>
+            <view class='item' bindtap='gotoAddWords'><text style='color:#F7A14C;'>+</text>更多</view>
+        </view>
+    </view>
+    <view style="height:300rpx;background:#fff;border-radius:8rpx;">
+        <textarea class='textarea' placeholder-class='textarea' bindinput="bindTextAreaInput" placeholder="有什么想说的，和我们说说吧～" maxlength="300" auto-focus value="{{value}}" />
+        <!-- <view style="font-size:32rpx;text-align:right;color:#ccc;padding-right:10rpx;">{{count}}/300</view> -->
+    </view>
+
+    <view bindtap='makeComplaints' class='button'> 发布</view>
+</view>

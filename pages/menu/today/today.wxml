@@ -22,7 +22,7 @@
             </view>
         </view>
 
-        <view id='menumenu' style='border-top:2rpx solid #EBEBEB;' wx:elif="{{allMenuData[mealTypeItem].mealType.orderStatus  && allMenuData[mealTypeItem].foodList.length!= 0}}">
+        <view id='menumenu' style='border-top:1rpx solid #EBEBEB;' wx:elif="{{allMenuData[mealTypeItem].mealType.orderStatus  && allMenuData[mealTypeItem].foodList.length!= 0}}">
             <view style="height: {{ windowHeight - 2 }}px; " class="menu-wrapper c_scrollPosition_forCalculate">
                 <!-- 左边餐品分类 -->
                 <scroll-view class="menu-left" scroll-y style="height: {{ windowHeight - 2 }}px;">
@@ -122,62 +122,6 @@
                     </scroll-view>
                 </view>
             </view>
-
-            <!-- 【【另一个页面】】 购物车 -->
-            <!--  弹出 购物车 -->
-            <view class="{{ boxActiveFlag ? 'in' : 'out' }}" style="position: fixed; bottom: 0; left: 0; right: 0;z-index:1001;" catchtouchmove="preventTouchMove">
-                <view class="chart-top">企业总抵扣：￥{{totalMoneyRealDeduction}}</view>
-                <view class="chart-top-2">
-                    <view style="font-family: PingFang-SC-Regular; font-size: 11px; color: #999999; letter-spacing: 0; text-align: left;">
-                        已选餐品
-                    </view>
-                    <view bindtap="handleClearFoods" style="font-family: PingFang-SC-Regular; font-size: 11px; color: #666666; letter-spacing: 0; text-align: left;">
-                        <text class="iconfont icon-trash_fill"></text> 清空
-                    </view>
-                </view>
-
-                <scroll-view scroll-y style="height: {{ cartHeight }}px;">
-                    <view class="cart_scrollPosition_forCalculate">
-                        <view class="chart-date">{{appointment}}({{mealDateShow}})</view>
-                        <view wx:for="{{ mealEnglistLabel }}" wx:key="{{ index }}">
-                            <view wx:for="{{ selectedFoodsIndex[item].selectedFoods }}" wx:for-item="onefood" wx:for-index="selectedFoodIndex" wx:key="selectedFoodIndex">
-                                <view class='chart-item' wx:if="{{onefood.foodCount>0}}">
-                                    <!--午餐-->
-                                    <view class="chart-mealtype">{{ selectedFoodsIndex[item].name }}
-                                    </view>
-
-                                    <view class="chart-food-name-price">
-                                        <!--菜名-->
-                                        <view style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                            {{ onefood.foodName }}</view>
-                                        <!--价格-->
-                                        <view><text style="position:relative;left:6rpx;">￥</text>{{ onefood.foodTotalPrice }}
-                                        </view>
-                                    </view>
-
-                                    <!--原价-->
-                                    <view class="chart-food-originalprice" wx:if="{{ onefood.foodTotalPrice <onefood.foodTotalOriginalPrice}}">￥<text style="position:relative;right:6rpx;">{{onefood.foodTotalOriginalPrice}}</text></view>
-                                    <view class="chart-food-originalprice" wx:else> </view>
-
-                                    <!-- ***************  + - 添加、减掉餐品的小控件(购物车中) *************** -->
-                                    <view class="chart-num-control">
-                                        <image src="/images/menu/today/order_less.png" style="width:40rpx;height:40rpx;" wx:if="{{ onefood.foodCount > 0 }}" data-selectedfoodindex="{{selectedFoodIndex}}" data-mealtypeitem="{{item}}" data-menutypeindex="{{ onefood.menuItemIndex }}" data-foodindex="{{ onefood.foodIndex }}"
-                                            catchtap="handleCartMinusfood">
-                                        </image>
-                                        <view wx:if="{{ onefood.foodCount > 0 }}" class="chart-num">
-                                            {{ onefood.foodCount}}
-                                        </view>
-                                        <image src="/images/menu/today/order_add.png" style="width:40rpx;height:40rpx;" data-selectedfoodindex="{{selectedFoodIndex}}" data-menutypeindex="{{ onefood.menuItemIndex }}" data-mealtypeitem="{{item}}" data-foodindex="{{ onefood.foodIndex }}" catchtap="handleCartAddfood">
-                                        </image>
-                                    </view>
-                                </view>
-                            </view>
-                        </view>
-                        <view style="height:340rpx;background:#FFFFFF;"></view>
-                    </view>
-                </scroll-view>
-            </view>
-
             <!-- 【第六排】底部状态栏 -->
             <block wx:if="{{ allMenuData[mealTypeItem].mealType.standardPrice == 0 || allMenuData[mealTypeItem].mealType.standardPrice == null }}"></block>
             <view class="footer-wrapper-top" wx:elif="{{ allMenuData[mealTypeItem].mealSet.userCanStandardPrice && totalCount > 0  }}">
@@ -256,6 +200,61 @@
                 预约时间已截止，下次记得提前预约哦
             </view>
         </block>
+    </view>
+
+    <!-- 【【另一个页面】】 购物车 -->
+    <!--  弹出 购物车 -->
+    <view class="{{ boxActiveFlag ? 'in' : 'out' }}" style="position: fixed; bottom: 0; left: 0; right: 0;z-index:1001;" catchtouchmove="preventTouchMove">
+        <view class="chart-top">企业总抵扣：￥{{totalMoneyRealDeduction}}</view>
+        <view class="chart-top-2">
+            <view style="font-family: PingFang-SC-Regular; font-size: 11px; color: #999999; letter-spacing: 0; text-align: left;">
+                已选餐品
+            </view>
+            <view bindtap="handleClearFoods" style="font-family: PingFang-SC-Regular; font-size: 11px; color: #666666; letter-spacing: 0; text-align: left;">
+                <text class="iconfont icon-trash_fill"></text> 清空
+            </view>
+        </view>
+
+        <scroll-view scroll-y style="height: {{ cartHeight }}px;">
+            <view class="cart_scrollPosition_forCalculate">
+                <view class="chart-date">{{appointment}}({{mealDateShow}})</view>
+                <view wx:for="{{ mealEnglistLabel }}" wx:key="{{ index }}">
+                    <view wx:for="{{ selectedFoodsIndex[item].selectedFoods }}" wx:for-item="onefood" wx:for-index="selectedFoodIndex" wx:key="selectedFoodIndex">
+                        <view class='chart-item' wx:if="{{onefood.foodCount>0}}">
+                            <!--午餐-->
+                            <view class="chart-mealtype">{{ selectedFoodsIndex[item].name }}
+                            </view>
+
+                            <view class="chart-food-name-price">
+                                <!--菜名-->
+                                <view style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                    {{ onefood.foodName }}</view>
+                                <!--价格-->
+                                <view><text style="position:relative;left:6rpx;">￥</text>{{ onefood.foodTotalPrice }}
+                                </view>
+                            </view>
+
+                            <!--原价-->
+                            <view class="chart-food-originalprice" wx:if="{{ onefood.foodTotalPrice <onefood.foodTotalOriginalPrice}}">￥<text style="position:relative;right:6rpx;">{{onefood.foodTotalOriginalPrice}}</text></view>
+                            <view class="chart-food-originalprice" wx:else> </view>
+
+                            <!-- ***************  + - 添加、减掉餐品的小控件(购物车中) *************** -->
+                            <view class="chart-num-control">
+                                <image src="/images/menu/today/order_less.png" style="width:40rpx;height:40rpx;" wx:if="{{ onefood.foodCount > 0 }}" data-selectedfoodindex="{{selectedFoodIndex}}" data-mealtypeitem="{{item}}" data-menutypeindex="{{ onefood.menuItemIndex }}" data-foodindex="{{ onefood.foodIndex }}"
+                                    catchtap="handleCartMinusfood">
+                                </image>
+                                <view wx:if="{{ onefood.foodCount > 0 }}" class="chart-num">
+                                    {{ onefood.foodCount}}
+                                </view>
+                                <image src="/images/menu/today/order_add.png" style="width:40rpx;height:40rpx;" data-selectedfoodindex="{{selectedFoodIndex}}" data-menutypeindex="{{ onefood.menuItemIndex }}" data-mealtypeitem="{{item}}" data-foodindex="{{ onefood.foodIndex }}" catchtap="handleCartAddfood">
+                                </image>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view style="height:340rpx;background:#FFFFFF;"></view>
+            </view>
+        </scroll-view>
     </view>
     <view class="modulebox-background-wrapper" wx:if='{{notUpToStandardPrice}}'>
         <view class='warpper'>

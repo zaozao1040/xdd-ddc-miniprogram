@@ -36,7 +36,10 @@
     "pages/menu/remark/remark",
     "pages/components/popUp/popUp",
     "pages/components/customModal/customModal",
-    "pages/login/phone/phone"
+    "pages/login/phone/phone",
+    "pages/login/authority/authority",
+    "pages/mine/complaint/say",
+    "pages/mine/complaint/words/words"
   ],
   "permission": {
     "scope.userLocation": {

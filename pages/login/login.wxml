@@ -18,9 +18,9 @@
         <input bindinput="usernumberInput" value="{{usernumber}}" class="section-3-2" placeholder="请输入企业工号" type="string"></input>
     </view>
 
-    <button loading="{{loading}}" class="section-4" open-type="getUserInfo" bindgetuserinfo="bindOrganize">绑定并登录</button>
+    <button loading="{{loading}}" class="section-4" bindtap="bindOrganize">绑定并登录</button>
     <navigator url="/pages/login/selectPhone/selectPhone" wx:if='{{showBackFlag}}'>
-        <view class="button-fanhui" open-type="getUserInfo" bindgetuserinfo="bindOrganize">返回登录</view>
+        <view class="button-fanhui">返回登录</view>
     </navigator>
     <!-- 企业选择 -->
     <view wx:if="{{showAddressFlag}}" class="organize-wrapper">

@@ -8,7 +8,7 @@
 
 .itemWrapper {
     margin: 32rpx 60rpx 0 30rpx;
-    border-bottom: 2rpx solid #f5f5f5;
+    border-bottom: 1rpx solid #f5f5f5;
 }
 
 .itemTitle {
@@ -16,7 +16,7 @@
     font-size: 30rpx;
     color: #333333;
     padding: 30rpx 0 22rpx;
-    border-top: 2rpx solid #f5f5f5;
+    border-top: 1rpx solid #f5f5f5;
 }
 
 .itemContentLine {
@@ -50,7 +50,7 @@
     margin: 40rpx 60rpx 20rpx 30rpx;
     padding: 22rpx;
     height: 140rpx;
-    border: 2rpx solid #F5F5F5;
+    border: 1rpx solid #F5F5F5;
     border-radius: 6rpx;
     font-family: PingFangSC-Regular;
     font-size: 30rpx;
@@ -125,4 +125,8 @@
     position: fixed;
     z-index: 1001;
     opacity: 1;
+}
+
+.button::after {
+    border: none;
 }

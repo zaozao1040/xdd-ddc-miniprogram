@@ -4,7 +4,7 @@
      letter-spacing: 0;
      text-align: center;
      height: 80rpx;
-     border: 2rpx solid #EBEBEB;
+     border: 1rpx solid #EBEBEB;
      display: flex;
      border-radius: 2rpx;
  }
@@ -20,7 +20,7 @@
      padding: 0 40rpx;
      display: flex;
      justify-content: space-between;
-     border-top: 2rpx solid #ccc;
+     border-top: 1rpx solid #ccc;
  }
  
  .value-number-wrapper {
@@ -85,7 +85,7 @@
      color: rgba(51, 51, 51, 1);
      line-height: 76rpx;
      padding-left: 30rpx;
-     border: 2rpx solid #EBEBEB;
+     border: 1rpx solid #EBEBEB;
  }
  
  .remark-name-default {
@@ -96,7 +96,7 @@
      width: 290rpx;
      height: 80rpx;
      box-sizing: border-box;
-     border: 2rpx solid #EBEBEB;
+     border: 1rpx solid #EBEBEB;
      border-left: none;
      display: flex;
      justify-content: space-between;

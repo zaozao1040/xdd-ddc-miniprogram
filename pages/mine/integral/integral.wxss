@@ -112,7 +112,7 @@
  /* 积分记录的内容区域 */
  
  .integral-item {
-     border-top: 2rpx solid #F0F0F0;
+     border-top: 1rpx solid #F0F0F0;
      padding: 0 30rpx;
      display: flex;
      justify-content: space-between;
@@ -291,7 +291,7 @@
      width: 100%;
      bottom: 0;
      height: 100rpx;
-     border-top: 2rpx solid #E5E5E5;
+     border-top: 1rpx solid #E5E5E5;
  }
  
  .button-left {

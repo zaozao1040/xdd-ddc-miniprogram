@@ -1,0 +1,15 @@
+<view>
+    <view class='wrapper'>
+        <input bindinput="nameInput" value="{{name}}" class="input" placeholder="# 输入创建话题（12个字以内）" type="string"></input>
+        <view class='button'>创建</view>
+    </view>
+    <view class='word-list'>
+        <view class='left-list'>
+            <view class='left-item-active'></view>
+            <view class='left-item'></view>
+            <view class='left-item'></view>
+            <view class='left-item'></view>
+        </view>
+        <view class='right-list'></view>
+    </view>
+</view>

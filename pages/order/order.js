@@ -1,6 +1,7 @@
  const baseUrl = getApp().globalData.baseUrl
 
  import { base } from '../../comm/public/request'
+ import { order } from './order-model';
  let requestModel = new base()
 
  Page({
@@ -44,7 +45,9 @@
          checkOrderDateDes: '',
          selectedDate: null, //全部订单的日期
          selectedDateFlag: false,
-         showShapeFlag: false
+         showShapeFlag: false,
+         getalready: false,
+         takeorderModalShowInit: true, //避免弹框在刚进入页面就弹出
      },
      bindDateChange(e) {
          if (e.detail && e.detail.value)
@@ -83,9 +86,18 @@
      },
      //跳转到登录页面
      gotoLogin() {
-         wx.navigateTo({
-             url: '/pages/login/selectPhone/selectPhone',
-         })
+         let { avatarUrl, nickName, gender } = wx.getStorageSync('getWxUserInfo')
+
+         if (!(avatarUrl && nickName && gender)) {
+             wx.navigateTo({
+                     url: '/pages/login/authority/authority',
+                 })
+                 //无 userCode，则到登录页面
+         } else {
+             wx.navigateTo({
+                 url: '/pages/login/selectPhone/selectPhone',
+             })
+         }
      },
      //跳转到点餐页面
      handleGotoMenu() {
@@ -149,6 +161,10 @@
              _this.initOrder()
              _this.getOrderList(true)
              wx.showTabBar()
+         } else {
+             _this.setData({
+                 getalready: true
+             })
          }
 
      },
@@ -318,7 +334,9 @@
      /* 获取订单列表 */
      getOrderList: function(fromBegin) {
          let _this = this
-
+         _this.setData({
+             getalready: false
+         })
          if (fromBegin) {
              _this.data.page = 1
          }
@@ -405,9 +423,9 @@
                  } else {
                      _this.setData({
                          orderList: _this.data.orderList.concat(tmp_orderList)
-
                      })
                  }
+
                  //下面开始分页
                  if (page * limit >= res.amount) {
                      _this.setData({
@@ -423,7 +441,8 @@
              }
              _this.setData({
                  getOrdersNow: false,
-                 loadingData: false
+                 loadingData: false,
+                 getalready: true
              })
 
          })
@@ -641,47 +660,42 @@
              url: '/order/orderPickPre?userCode=' + _this.data.userCode + '&orderCode=' + ordercode
          }
          requestModel.request(param, (data) => {
-             let tmp_content = ''
+
              if (data) {
-                 let bindnumber = ''
-
-                 if (data.length > 0) {
-                     for (let i = 0; i < data.length - 1; i++) {
-                         bindnumber += data[i].cabinetNumber + '-' + data[i].cellNumber + ', '
-                     }
-                     bindnumber += data[data.length - 1].cabinetNumber + '-' + data[data.length - 1].cellNumber
-
-                     tmp_content = '当前柜子为：' + bindnumber + ',请确认本人在柜子旁  ' + "请在两小时内用餐"
-                 } else {
-                     tmp_content = '请确认取餐'
-                 }
-
-                 let content = data.length > 0 ? '如果柜子' + bindnumber + '中餐品未取出，可点击确定再次取餐' : '如果餐品未取出，可点击确定再次取餐'
-
-
-                 let tmp_takeorderModal = {}
-                 tmp_takeorderModal.content = tmp_content
-                 tmp_takeorderModal.orderCode = ordercode
-                 tmp_takeorderModal.nextContent = content
-
                  _this.setData({
-                     takeorderModal: tmp_takeorderModal,
-                     takeorderModalShow: true
+                     takeorderData: data,
+                     takeorderModalShow: true,
+                     takeorderModalShowInit: false,
+                     takeOrderCode: ordercode
                  })
+
+                 wx.hideTabBar()
              }
          })
      },
      closeModal() {
+         let _this = this
+         if (_this.data.takeorderModalShow) {
+             _this.setData({
+                 takeorderModalShow: false
+             })
+         }
 
-         this.setData({
-             takeorderModalShow: false
-         })
+         if (_this.data.takeorderModalShow) {
+
+             _this.setData({
+                     takeorderModalShow: false,
+                     takeorderAgainShow: false
+                 })
+                 //取餐后为啥要只刷第一页的啊
+             _this.getOrderList(true)
+         }
+         wx.showTabBar()
+
      },
      takeFoodOrderForModal() {
-         let tmp_takeorderModal = this.data.takeorderModal
-         let ordercode = tmp_takeorderModal.orderCode
-         let content = tmp_takeorderModal.nextContent
-         this.takeFoodOrderAgain(ordercode, false, content)
+         let ordercode = this.data.takeOrderCode
+         this.takeFoodOrderAgain(ordercode, false)
      },
      takeFoodOrderAgainForModal() {
          let tmp_takeorderModal = this.data.takeorderModal
@@ -689,17 +703,17 @@
          let content = tmp_takeorderModal.nextContent
          this.takeFoodOrderAgain(ordercode, true, content)
      },
-     closeModalAgain() {
-         let _this = this
-         _this.setData({
-                 takeorderModalShow: false,
-                 takeorderAgainShow: false
-             })
-             //取餐后为啥要只刷第一页的啊
-         _this.getOrderList(true)
-     },
+     //  closeModalAgain() {
+     //      let _this = this
+     //      _this.setData({
+     //              takeorderModalShow: false,
+     //              takeorderAgainShow: false
+     //          })
+     //          //取餐后为啥要只刷第一页的啊
+     //      _this.getOrderList(true)
+     //  },
      //取餐private函数
-     takeFoodOrderAgain(ordercode, again, content) {
+     takeFoodOrderAgain(ordercode, again) {
          let _this = this
 
          let param = {

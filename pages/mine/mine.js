@@ -28,9 +28,18 @@ Page({
     },
     //跳转到登录页面
     gotoLogin() {
-        wx.navigateTo({
-            url: '/pages/login/selectPhone/selectPhone',
-        })
+        let { avatarUrl, nickName, gender } = wx.getStorageSync('getWxUserInfo')
+
+        if (!(avatarUrl && nickName && gender)) {
+            wx.navigateTo({
+                    url: '/pages/login/authority/authority',
+                })
+                //无 userCode，则到登录页面
+        } else {
+            wx.navigateTo({
+                url: '/pages/login/selectPhone/selectPhone',
+            })
+        }
     },
     //跳转到详细资料页面
     gotoDetailInfo() {

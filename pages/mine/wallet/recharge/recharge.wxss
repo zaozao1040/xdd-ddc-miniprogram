@@ -5,7 +5,7 @@
      letter-spacing: 0;
      text-align: left;
      padding-bottom: 20rpx;
-     border-bottom: 2rpx solid #ebebeb;
+     border-bottom: 1rpx solid #ebebeb;
      margin-bottom: 30rpx;
  }
  
@@ -131,7 +131,7 @@
  .recharge-way {
      display: flex;
      padding-bottom: 40rpx;
-     border-bottom: 2rpx solid #EBEBEB;
+     border-bottom: 1rpx solid #EBEBEB;
  }
  
  .recharge-des {

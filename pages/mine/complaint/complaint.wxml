@@ -1,11 +1,28 @@
-<view style='background: #F5F5F5;height:{{windowHeight}}px;padding:60rpx 20rpx;'>
-    <view style="height:380rpx;background:#fff;border-radius:8rpx;">
+<view style='background: #F5F5F5;height:{{windowHeight}}px;padding: 20rpx;'>
+    <!-- <view style="height:380rpx;background:#fff;border-radius:8rpx;">
         <textarea style="height:320rpx;color:#333;font-size:34rpx;padding:20rpx;box-sizing: border-box; width:100%; " placeholder-style="font-size: 40rpx; color: #CCCCCC; letter-spacing: 0; text-align: left;" bindinput="bindTextAreaInput" placeholder="请尽情吐槽吧"
             maxlength="300" auto-focus value="{{value}}" />
         <view style="font-size:32rpx;text-align:right;color:#ccc;padding-right:10rpx;">{{count}}/300</view>
     </view>
 
     <view bindtap='makeComplaints' style="margin-left:40rpx;background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);margin-top:62rpx;width:630rpx;font-weight:500;font-size: 36rpx;color: #FFF;letter-spacing: 0; text-align: center;line-height:100rpx;border-radius:50rpx;">
-        我要吐槽</view>
+        我要吐槽</view> -->
 
+    <view class='wrapper'>
+        <view class='top'>
+            <image src='/images/mine/huiyuan.png' class='img'></image>
+            <view class='name'>花开可可</view>
+            <view class='time'>2019-07-26 14:12:41</view>
+        </view>
+        <view class='content-wrapper'>
+            <view>
+                <text class='content-dot'># 菜品偏油</text>
+                <text class='content-dot'># 口味偏重</text>
+                <text class='content'>太油腻了，夏天还是希望清淡点！</text>
+            </view>
+            <view class='reply'>回复：亲爱的顾客，感谢您对我们的评价和支持，祝您生活愉快！
+            </view>
+        </view>
+    </view>
+    <view bindtap='gotoSay' class='button'>我要说</view>
 </view>

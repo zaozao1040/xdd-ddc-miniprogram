@@ -8,7 +8,7 @@
 }
 
 .integral-item {
-    border-top: 2rpx solid #F0F0F0;
+    border-top: 1rpx solid #F0F0F0;
     padding: 0 30rpx;
     display: flex;
     justify-content: space-between;

@@ -136,10 +136,10 @@
 
             <view style='margin:0 16rpx;'>
                 <view style='background:#fff;padding:0 30rpx;border-radius:6rpx;'>
-                    <view class='pay-item-last' style='border-bottom: 2rpx solid #F2F2F2;'>
+                    <view class='pay-item-last' style='border-bottom: 1rpx solid #F2F2F2;'>
                         <view class='pay-title' style='line-height:98rpx;'>支付方式</view>
                     </view>
-                    <view class='pay-item-last' style='padding-bottom:26rpx;border-bottom: 2rpx solid #F2F2F2;'>
+                    <view class='pay-item-last' style='padding-bottom:26rpx;border-bottom: 1rpx solid #F2F2F2;'>
                         <view wx:if='{{allBalance<realMoney}}' style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:90;'></view>
                         <view class='flex-a' style="margin-top:32rpx;">
                             <view style='padding-top:2rpx;margin-right:10rpx;width:40rpx;height:40rpx;'>

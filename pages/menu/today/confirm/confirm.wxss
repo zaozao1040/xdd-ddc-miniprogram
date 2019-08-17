@@ -338,7 +338,7 @@
      display: flex;
      justify-content: space-between;
      padding-bottom: 30rpx;
-     border-bottom: 2rpx solid #F2F2F2;
+     border-bottom: 1rpx solid #F2F2F2;
  }
  
  .pay-item-last {
@@ -413,7 +413,7 @@
  }
  
  .balance-r_button {
-     border: 2rpx solid #CCCCCC;
+     border: 1rpx solid #CCCCCC;
      border-radius: 40rpx;
      width: 236rpx;
      height: 76rpx;
@@ -467,7 +467,7 @@
      width: 100%;
      bottom: 0;
      height: 100rpx;
-     border-top: 2rpx solid #E5E5E5;
+     border-top: 1rpx solid #E5E5E5;
  }
  
  .button-left {

@@ -54,6 +54,7 @@
          mealTypeSmall: { lunch: '午餐', dinner: '晚餐', breakfast: '早餐', night: '夜宵' },
          getTimeDataByResponseNow: false, //是否可点击日期和餐时 
          totalMoney_back: 0,
+         boxActiveFlagFirst: true
 
      },
      //处理七天日期
@@ -781,7 +782,8 @@
          if (this.data.totalCount > 0) {
 
              this.setData({
-                 boxActiveFlag: !this.data.boxActiveFlag
+                 boxActiveFlag: !this.data.boxActiveFlag,
+                 boxActiveFlagFirst: false
              })
              if (this.data.boxActiveFlag) { //获取计算购物车的scroll的高度所必须的参数top_1  
                  this.getSelectedFoods()

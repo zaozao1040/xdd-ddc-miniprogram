@@ -73,7 +73,7 @@ Page({
             this.setData({
                 loginType: 'phone'
             })
-            wx.setNavigationBarTitle({ title: '手机号登录' })
+            wx.setNavigationBarTitle({ title: '验证码登录' })
         }
 
 

@@ -1,4 +1,4 @@
-<view style='border-top:2rpx solid #EBEBEB;padding:38rpx 40rpx 0 30rpx;'>
+<view style='border-top:1rpx solid #EBEBEB;padding:38rpx 40rpx 0 30rpx;'>
     <view class='title'>关于钱包：</view>
     <view class='content'>1. 钱包是苏州星点点信息科技有限公司为旗下点点餐平台用户开立的支付账户。点餐币是苏州星点点信息科技有限公司旗下点点餐平台支付时使用的虚拟货币，包含于钱包中。
     </view>

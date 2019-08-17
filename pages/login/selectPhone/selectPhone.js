@@ -9,8 +9,31 @@ Page({
         showChooseOrganizeFlag: false, //显示开关
 
         bindOrganizeFlag: false, //绑定企业弹框
+        agreeAuthority: false
     },
-
+    showAuthorityInfo() {
+        let _this = this
+        _this.setData({
+            showInfoFlag: true
+        })
+        if (_this.data.timeoutInfo) {
+            clearTimeout(_this.data.timeoutInfo)
+        }
+        let a = setTimeout(() => {
+            _this.setData({
+                showInfoFlag: false
+            })
+        }, 2000)
+        _this.setData({
+            timeoutInfo: a
+        })
+    },
+    changeAuthority() {
+        let _this = this
+        _this.setData({
+            agreeAuthority: !_this.data.agreeAuthority
+        })
+    },
     /**
      * 生命周期函数--监听页面加载
      */

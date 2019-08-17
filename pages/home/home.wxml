@@ -233,19 +233,7 @@
 
         <!-- --------------------------------------- 下面是各种弹出层 --------------------------------------- -->
 
-        <!-- 用户授权框 弹出 2.6.1-->
-        <view class="modulebox-background-wrapper" wx:if="{{showUserAuthFlag}}">
-            <view class="modulebox-wrapper" style='height:490rpx;'>
-                <view class="modulebox-img-wrapper">
-                    <image class="modulebox-img" src="/images/login/logo.png" mode="widthFix" style="width:100%;"></image>
-                </view>
-                <view class="modulebox-des">
-                    欢迎来到点点餐订餐小程序
-                </view>
-                <button class="modulebox-button" open-type="getUserInfo" bindgetuserinfo="getWxUserInfo">微信授权</button>
-                <view class="modulebox-button-no" catchtap='handleCloseUserAuthFlag'>不授权</view>
-            </view>
-        </view>
+
         <!-- 审核状态框 弹出2.6.1 -->
         <view class="modulebox-background-wrapper" wx:if="{{showCheckFlag}}">
             <view class="modulebox-wrapper-organize">

@@ -68,11 +68,9 @@
             </view>
         </view>
 
-
-        <view class="mask" wx:if="{{cancelFlag||showRatingsFlag}}" catchtouchmove="preventTouchMove"></view>
+        <view class="mask" wx:if="{{cancelFlag||showRatingsFlag||takeorderModalShow||takeorderAgainShow}}" catchtouchmove="preventTouchMove"></view>
         <!--取消订单弹出框-->
         <c-custom-modal content='确定要取消订单？' cancel='再等等' confirm='确定取消' wx:if='{{cancelFlag}}' bind:closemodal='handleCancelOrderWait' bind:handleconfirm='handleCancelOrderConfirm'></c-custom-modal>
-
 
         <!-- 标题 -->
         <view class="header-wrapper">
@@ -102,7 +100,6 @@
                         </view>
                     </picker>
                 </view>
-
             </view>
         </view>
         <view wx:if="{{itemStatusActiveFlag!=1&&orderList.length==0}}" class='c_scrollPosition_forCalculate' style="font-size:30rpx;background:#F5F5F5;height:{{windowHeight-scrollTop}}px;">
@@ -113,7 +110,7 @@
                 <!-- <view wx:if='{{itemStatusActiveFlag==1}}'>没有待取餐的订单哦～</view> -->
                 <view wx:if='{{itemStatusActiveFlag==2}}'>没有待评价的订单哦～</view>
                 <view wx:if='{{itemStatusActiveFlag==0}}'>暂时还没有订单，快去点餐吧～</view>
-                <view wx:if='{{itemStatusActiveFlag==0}}' style='margin-top:60rpx;' class='button-login' catchtap='handleGotoMenu'>去点餐</view>
+                <view wx:if='{{itemStatusActiveFlag==0&& getalready}}' style='margin-top:60rpx;' class='button-login' catchtap='handleGotoMenu'>去点餐</view>
             </view>
         </view>
         <scroll-view wx:else class="c_scrollPosition_forCalculate" scroll-y bindscroll='closeDateFilter' style="height: {{windowHeight - scrollTop}}px;background:#F5F5F5;" bindscrolltolower='gotoNextPage'>
@@ -192,14 +189,37 @@
         </scroll-view>
 
         <!--是否取餐-->
-        <c-custom-modal title='是否取餐?' content='{{takeorderModal.content}}' cancel='暂不取餐' confirm='取餐' wx:if='{{takeorderModalShow}}' bind:closemodal='closeModal' bind:handleconfirm='takeFoodOrderForModal'></c-custom-modal>
-        <c-custom-modal title='是否再次取餐?' content='{{takeorderModal.nextContent}}' wx:if='{{takeorderAgainShow}}' bind:closemodal='closeModalAgain' bind:handleconfirm='takeFoodOrderAgainForModal'></c-custom-modal>
+        <!-- <c-custom-modal title='是否取餐?' content='{{takeorderModal.content}}' cancel='暂不取餐' confirm='取餐' wx:if='{{takeorderModalShow}}'
+             bind:closemodal='closeModal' bind:handleconfirm='takeFoodOrderForModal'></c-custom-modal> -->
+        <!-- <c-custom-modal title='是否再次取餐?' content='{{takeorderModal.nextContent}}' wx:if='{{takeorderAgainShow}}' 
+            bind:closemodal='closeModalAgain' bind:handleconfirm='takeFoodOrderAgainForModal'></c-custom-modal> -->
         <c-pop content='{{orderSuccessContent}}' wx:if='{{orderSuccessFlag}}' bind:closemodal='closePop'></c-pop>
 
+        <!--取餐需要验证-->
+        <view class='{{takeorderModalShow?"take-wrapper in":"take-wrapper  out"}}' style='display:{{takeorderModalShowInit?"none":"block"}}'>
+            <image src='/images/order/takeorder.png' style='width:140rpx;height:140rpx;position:absolute;right:304rpx;top:-70rpx;'></image>
+            <view class='take-title'>取餐提示</view>
+            <view class='take-des'>请到柜子旁取餐，取餐后请尽快用餐，太晚吃饭对胃不好哦～</view>
+            <image src='/images/home/filter_close.png' style='width:88rpx;height:88rpx;position:absolute;right:10rpx;top:10rpx;' catchtap='closeModal'></image>
+            <scroll-view scroll-y style='height:318rpx;'>
+                <view style=' padding:0 60rpx;'>
+                    <view wx:for='{{takeorderData}}'>
+                        <view class='flex-b' style='margin-top:30rpx;'>
+                            <view class='take-name'>{{item.foodName}}</view>
+                            <view class='take-cabinet' wx:if='{{item.cabinet&&item.cabinet.length>0}}'>{{item.cabinet[0].cabinetNumber+'-'+item.cabinet[0].cellNumber}}</view>
+                            <view class='take-cabinet' wx:elif='{{item.boxNumber}}'>{{item.boxNumber}}</view>
+                        </view>
+                        <view class='take-remind' wx:if='{{item.prompt}}'>{{item.prompt}}</view>
+                    </view>
 
+                </view>
+            </scroll-view>
+            <view class='take-button' wx:if='{{takeorderModalShow}}' bindtap='takeFoodOrderForModal'> 取餐</view>
+            <view class='take-button' wx:if='{{takeorderAgainShow}}' bindtap='takeFoodOrderAgainForModal'> 再次取餐</view>
+        </view>
     </view>
     <view wx:else>
-        <view style='width:360rpx;height:360rpx;margin:186rpx 0 0 196rpx; '>
+        <view style='width:360rpx;height:360rpx;margin:186rpx 0 0 196rpx;'>
             <image src='/images/order/nologin.png' style='width:360rpx;height:360rpx;'></image>
         </view>
         <view class='no-login-des'>您还没有登录，请登录后查看订单</view>

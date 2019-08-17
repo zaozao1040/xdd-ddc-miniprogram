@@ -123,6 +123,10 @@
      height: 96rpx;
  }
  
+ .button::after {
+     border: none;
+ }
+ 
  .bind-title {
      font-family: PingFangSC-Regular;
      font-size: 40rpx;

@@ -32,9 +32,9 @@
 
         <view catchtap="loginByNamePwd" class="button-active" wx:if='{{name&&password}}'>登录</view>
         <view class="button-inactive" wx:else>登录</view>
-        <view class='another' bindtap='changeValidateType'>手机号登录</view>
+        <view class='another' bindtap='changeValidateType'>验证码登录</view>
     </view>
-    <view class='agree-des'>登录代表您已同意<text style='color:#F79C4C;'>点点餐用户协议、隐私政策</text></view>
+
     <!--弹框-->
     <view class="modulebox-background-wrapper" wx:if='{{bindOrganizeFlag}}'>
         <view class='bind-organize-warpper'>

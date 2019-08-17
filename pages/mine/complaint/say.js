@@ -1,16 +1,17 @@
-import { base } from '../../../comm/public/request'
-let requestModel = new base()
+// pages/mine/complaint/say.js
 Page({
+
+    /**
+     * 页面的初始数据
+     */
     data: {
-        windowHeight: 200,
-        value: '', //吐槽的内容
         count: 0,
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function() {
+    onLoad: function(options) {
         let _this = this
         wx.getSystemInfo({
             success(res) {
@@ -22,40 +23,6 @@ Page({
             }
         })
     },
-    gotoSay() {
-        wx.navigateTo({
-            url: './say'
-        })
-    },
-    makeComplaints() {
-        let _this = this
-        if (_this.data.value) {
-            requestModel.getUserCode(userCode => {
-                let param = {}
-                param.userCode = userCode
-                param.content = _this.data.value
-
-                let url = '/help/suggestion'
-                let params = {
-                    data: param,
-                    url,
-                    method: 'post'
-                }
-
-                requestModel.request(params, () => {
-                    wx.showToast({
-                        title: '吐槽完成',
-                        icon: 'success',
-                        duration: 2000
-                    })
-                    _this.setData({
-                        value: '',
-                        count: 0
-                    })
-                })
-            })
-        }
-    },
     bindTextAreaInput(e) {
         if (e.detail.value) {
             this.setData({
@@ -63,6 +30,11 @@ Page({
                 count: e.detail.cursor
             })
         }
+    },
+    gotoAddWords() {
+        wx.navigateTo({
+            url: './words/words'
+        })
     },
     /**
      * 生命周期函数--监听页面初次渲染完成

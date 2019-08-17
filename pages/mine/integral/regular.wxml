@@ -1,4 +1,4 @@
-<view style='padding:0 20rpx 40rpx 30rpx;border-top:2rpx solid #ebebeb;'>
+<view style='padding:0 20rpx 40rpx 30rpx;border-top:1rpx solid #ebebeb;'>
     <view class='title'>积分有什么用处？</view>
     <view class='content'>1、积分可以在积分页面进行兑换，每满100积分兑换1赠 送点餐币，每周限兑换3赠送点餐币。 </view>
     <view class='content'>

@@ -20,10 +20,7 @@
 
                     <view class='service-wrapper'>
                         <!--  服务评价 -->
-                        <view class='flex-a'>
-                            <view class='service-title'>服务评价</view>
-                            <view class='service-title-des' wx:if='{{serviceInfo.star==0||serviceInfo.star>3}}'>3星及以下可文字评价</view>
-                        </view>
+                        <view class='service-title'>服务评价</view>
 
                         <view class='service-des'>对配送服务、引导服务、清洁卫生、现场服务和餐具设备进行评价</view>
                         <view class='flex-a'>
@@ -33,7 +30,7 @@
                             </view>
                         </view>
                         <!-- 评价标签 -->
-                        <view style="background:#F5F5F5;padding:22rpx 32rpx 22rpx 22rpx;margin-top:30rpx;" wx:if='{{serviceInfo.star>0&&serviceInfo.star<4}}'>
+                        <view style="background:#F5F5F5;padding:22rpx 32rpx 22rpx 22rpx;margin-top:30rpx;">
                             <!-- <view class='comment-label' wx:if='{{serviceInfo.serviceEvaluateLabelsActive}}'>
                             <view wx:for="{{serviceInfo.serviceEvaluateLabelsActive}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="*this" bindtap="handleClickLabelService" data-labelindex="{{labelIndex}}">
                                 <view class="{{labelItem.active==true?'labelItem-active':'labelItem'}}" style='margin-right:{{labelIndex%3!=2?30:0}}rpx;'>
@@ -42,7 +39,7 @@
                             </view>
                         </view> -->
 
-                            <textarea class='textarea' placeholder-style='color:#CBCBCB;' placeholder="是否让您不满意了，有什么想说的，和我们说说吧～" maxlength="60" bindinput="contentInputService"></textarea>
+                            <textarea class='textarea' placeholder-style='color:#CBCBCB;' placeholder="请对本次服务进行评价哟～" maxlength="60" bindinput="contentInputService"></textarea>
 
 
                             <view class="img-wrapper">
@@ -67,10 +64,9 @@
                             </image>
                             <view class="foodName"> {{foodItem.foodName}} x{{foodItem.foodQuantity}}</view>
                         </view>
-                        <view class='flex-a' style='margin:28rpx 0 20rpx;'>
-                            <view class='service-title'>餐品评价</view>
-                            <view class='service-title-des'>3星及以下显示标签评价</view>
-                        </view>
+
+                        <view class='service-title' style='margin:28rpx 0 20rpx;'>餐品评价</view>
+
                         <view class='flex-a'>
                             <view wx:for="{{5}}" wx:key="{{index}}" bindtap="handleClickFoodStar" data-foodindex="{{foodIndex}}" data-star="{{index+1}}">
                                 <image wx:if='{{index<foodItem.star}}' src="/images/order/staryes.png" style='width:56rpx;height:56rpx;margin-right: 20rpx; '></image>
@@ -89,7 +85,7 @@
                         </view>
                         <view style="background:#F5F5F5;padding:22rpx 32rpx 22rpx 22rpx;margin-top:30rpx;">
 
-                            <textarea class='textarea' placeholder-style='color:#CBCBCB;' placeholder="是否让您不满意了，有什么想说的，和我们说说吧～" maxlength="60" bindinput="contentInput" data-foodindex="{{foodIndex}}"></textarea>
+                            <textarea class='textarea' placeholder-style='color:#CBCBCB;' placeholder="请对本次餐品进行评价哟～" maxlength="60" bindinput="contentInput" data-foodindex="{{foodIndex}}"></textarea>
 
                             <view class="img-wrapper">
                                 <view class='flex-a'>

@@ -40,7 +40,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 5,
+			"current": 8,
 			"list": [
 				{
 					"id": -1,
@@ -82,6 +82,26 @@
 					"name": "comment",
 					"pathName": "pages/order/comment/comment",
 					"query": "userCode=USER532153350464995387&orderCode=DDC611247543854039040",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "complaint",
+					"pathName": "pages/mine/complaint/complaint",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/complaint/say",
+					"pathName": "pages/mine/complaint/say",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/complaint/words/words",
+					"pathName": "pages/mine/complaint/words/words",
 					"scene": null
 				}
 			]

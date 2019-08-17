@@ -52,5 +52,5 @@
     color: #F79C4C;
     text-align: center;
     line-height: 100rpx;
-    border-top: 2rpx solid #E5E5E5;
+    border-top: 1rpx solid #E5E5E5;
 }

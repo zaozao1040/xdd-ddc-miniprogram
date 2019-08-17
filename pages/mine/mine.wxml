@@ -104,13 +104,13 @@
                     <view class='offer-num'> {{allBalance}} </view>
                     <view class='offer-title'>钱包</view>
                 </view>
-                <view style='width:2rpx;height:30rpx;margin-top:24rpx;background: #999999;'></view>
+                <view style='width:2rpx;height:30rpx;margin-top:28rpx;background: #999999;'></view>
 
                 <view class="offerItem-wrapper" bindtap='gotoDiscount'>
                     <view class='offer-num'> {{discount}} </view>
                     <view class='offer-title'> 优惠券 </view>
                 </view>
-                <view style='width:2rpx;height:30rpx;margin-top:24rpx;background: #999999;'></view>
+                <view style='width:2rpx;height:30rpx;margin-top:28rpx;background: #999999;'></view>
 
                 <view class="offerItem-wrapper" bindtap='gotoIntegral'>
                     <view class='offer-num'> {{integral}} </view>
@@ -160,7 +160,7 @@
                         <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
                             <image src="/images/mine/me_complaint.png" style='width:80rpx;height:80rpx;'></image>
                         </view>
-                        <view class='label-title'>我的吐槽</view>
+                        <view class='label-title'>我的话题</view>
                     </view>
                     <view bindtap="gotoEvaluateService" wx:if='{{(userInfo.orgAdmin==true)&&(userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN")}}'>
                         <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">

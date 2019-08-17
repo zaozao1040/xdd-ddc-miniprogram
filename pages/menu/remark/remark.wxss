@@ -15,7 +15,7 @@
     color: rgba(51, 51, 51, 1);
     line-height: 42rpx;
     padding-bottom: 18rpx;
-    border-bottom: 2rpx solid #EBEBEB;
+    border-bottom: 1rpx solid #EBEBEB;
 }
 
 .cart-menuItem {
@@ -87,14 +87,14 @@
     color: rgba(51, 51, 51, 1);
     line-height: 76rpx;
     padding-left: 30rpx;
-    border: 2rpx solid #EBEBEB;
+    border: 1rpx solid #EBEBEB;
 }
 
 .remark-count-group {
     width: 290rpx;
     height: 80rpx;
     box-sizing: border-box;
-    border: 2rpx solid #EBEBEB;
+    border: 1rpx solid #EBEBEB;
     border-left: none;
     display: flex;
     justify-content: space-between;

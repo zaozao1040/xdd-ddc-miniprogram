@@ -91,7 +91,7 @@
             <view class="order-info-one">
                 <view class="left-label flex-a">
                     <view>订单编号</view>
-                    <view style='font-size:24rpx;margin-left:10rpx;line-height:36rpx;border-radius:6rpx;color:#F79C4C;border:2rpx solid #F79C4C;padding:0 6rpx;' bindtap='handleCopy'>复制</view>
+                    <view style='font-size:24rpx;margin-left:10rpx;line-height:36rpx;border-radius:6rpx;color:#F79C4C;border:1rpx solid #F79C4C;padding:0 6rpx;' bindtap='handleCopy'>复制</view>
                 </view>
                 <view class="right-content">{{detailInfo.orderCode}}</view>
             </view>

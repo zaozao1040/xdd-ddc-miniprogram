@@ -15,12 +15,12 @@
                 <view class='value-number-wrapper'>
                     <view class='value-number-left'>报餐数量</view>
                     <view class="value-number">
-                        <view style='line-height: 80rpx;border-right: 2rpx solid #EBEBEB;color:#666666;width:80rpx;flex-shrink:0;' bindtap='minus'>-</view>
+                        <view style='line-height: 80rpx;border-right: 1rpx solid #EBEBEB;color:#666666;width:80rpx;flex-shrink:0;' bindtap='minus'>-</view>
                         <input style='height:80rpx;line-height: 80rpx;' value="{{value}}" focus type="number" bindinput='inputAddfoodNumber' />
-                        <view style='line-height: 80rpx;border-left: 2rpx solid #EBEBEB;color:#666666;width:80rpx;flex-shrink:0;' bindtap='add'>+</view>
+                        <view style='line-height: 80rpx;border-left: 1rpx solid #EBEBEB;color:#666666;width:80rpx;flex-shrink:0;' bindtap='add'>+</view>
                     </view>
                 </view>
-                <view style="height:244rpx;background:#FAFAFA;border:2rpx solid #EBEBEB;">
+                <view style="height:244rpx;background:#FAFAFA;border:1rpx solid #EBEBEB;">
                     <textarea class='remark' placeholder-style="font-size: 28rpx; color: #CCCCCC; letter-spacing: 0; text-align: left;" bindinput="bindRemakInput" placeholder="备注" maxlength="100" auto-focus value="{{remarkValue}}" />
                     <view style="font-size:28rpx;text-align:right;color:#ccc;padding:0 10rpx 10rpx 0;">{{remarkCount}}/100</view>
                 </view>

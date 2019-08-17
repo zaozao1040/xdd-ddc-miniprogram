@@ -89,17 +89,16 @@ Page({
             }
             //服务 默认五星好评
             let tmp_serviceInfo = _this.data.serviceInfo
-            tmp_serviceInfo.star = 0
+            tmp_serviceInfo.star = 5
             tmp_serviceInfo.selectedTagNum = 0
             tmp_serviceInfo.serviceEvaluateLabelsActive = serviceEvaluateLabels[5]
-            console.log('xasdfa', tmp_serviceInfo)
+
             _this.setData({
                 serviceInfo: tmp_serviceInfo,
                 orderFoodList: orderFoodList,
                 evaluateLabels: evaluateLabels,
                 serviceEvaluateLabels: serviceEvaluateLabels
             })
-            console.log('6666', _this.data.orderFoodList)
         })
 
     },
@@ -261,8 +260,6 @@ Page({
                                 _this.setData({
                                     orderFoodList: tmp_orderFoodList //预览图片响应式
                                 })
-                                console.log('res_0.tempFilePaths[0]', res_0.tempFilePaths[0])
-                                console.log('tmp_data.data', tmp_data.data)
                             } else {
                                 wx.showToast({
                                     title: tmp_data.msg,
@@ -279,14 +276,7 @@ Page({
     },
     /* 去评价的对话框的确定 */
     buttonClickYes_ratings: function(e) {
-        if (this.data.serviceInfo.star < 1) {
-            wx.showToast({
-                title: '请给服务评分！',
-                image: '/images/msg/warning.png',
-                duration: 1000
-            })
-            return
-        }
+
         if (this.data.operatingNow) {
             return
         }

@@ -1,7 +1,7 @@
 .offer-item {
     display: flex;
     background: #fff;
-    padding: 32rpx 0;
+    padding: 28rpx 0 22rpx;
     border-radius: 6rpx;
 }
 
@@ -88,10 +88,12 @@
 
 .offer-num {
     font-family: PingFang-SC-Regular;
-    font-size: 32rpx;
+    font-size: 40rpx;
     color: #333333;
     letter-spacing: 0;
-    line-height: 44rpx;
+    line-height: 48rpx;
+    font-weight: 600;
+    margin-bottom: 10rpx;
 }
 
 .offer-title {

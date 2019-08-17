@@ -158,16 +158,6 @@
     line-height: 42rpx;
 }
 
-.agree-des {
-    font-size: 26rpx;
-    font-family: PingFang-SC-Regular;
-    font-weight: 400;
-    color: rgba(153, 153, 153, 1);
-    position: fixed;
-    bottom: 60rpx;
-    left: 114rpx;
-}
-
 .modulebox-background-wrapper {
     position: fixed;
     left: 0;
@@ -220,7 +210,7 @@
     width: 100%;
     bottom: 0;
     height: 100rpx;
-    border-top: 2rpx solid #E5E5E5;
+    border-top: 1rpx solid #E5E5E5;
 }
 
 .bind-organize-left {

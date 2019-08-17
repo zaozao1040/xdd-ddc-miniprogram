@@ -13,8 +13,7 @@ Page({
         timer: null,
         canClick: true,
         showDaliFlag: false, //显示新人大礼的标志  默认不显示
-        showCheckFlag: false, //显示审核状态框标志 默认不显示
-        showUserAuthFlag: false, //显示用户授权框标志 默认不显示
+        showCheckFlag: false, //显示审核状态框标志 默认不显示 
         registered: false,
 
         imagesList: [],
@@ -179,10 +178,9 @@ Page({
         let { avatarUrl, nickName, gender } = wx.getStorageSync('getWxUserInfo')
 
         if (!(avatarUrl && nickName && gender)) {
-            this.setData({
-                showUserAuthFlag: true
-            })
-            wx.hideTabBar()
+            wx.navigateTo({
+                    url: '/pages/login/authority/authority',
+                })
                 //无 userCode，则到登录页面
         } else if (!wx.getStorageSync('userCode')) {
             wx.navigateTo({
@@ -340,7 +338,6 @@ Page({
                 this.setData({
                     showBindOrganizeFlag: true
                 })
-
             }
             /* 获取首页取餐信息 */
 
@@ -719,25 +716,7 @@ Page({
             }
         }, true)
     },
-    /*   用户授权弹框-获取微信授权 */
-    getWxUserInfo(e) {
-        let _this = this
-        console.log('openid', e)
-        if (e.detail.iv) { //这个字段存在，代表授权成功
-            wx.setStorageSync('getWxUserInfo', e.detail.userInfo)
-            wx.navigateTo({
-                url: '/pages/login/selectPhone/selectPhone',
-            })
-            _this.setData({
-                showUserAuthFlag: false
-            })
-        }
-    },
-    handleCloseUserAuthFlag() {
-        this.setData({
-            showUserAuthFlag: false
-        })
-    },
+
     //用于解决小程序的遮罩层滚动穿透
     preventTouchMove: function() {
 
