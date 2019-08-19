@@ -1,31 +1,27 @@
 <view>
     <view class='wrapper'>
-        <input bindinput="bindInput" value="{{value}}" class="input" placeholder="# 输入创建话题（12个字以内）" type="string"></input>
-        <view class='button' wx:if='{{value}}'>创建</view>
+        <image wx:if='{{value}}' src='/images/mine/jing2.png' style='width:32rpx;height:32rpx;position: fixed;top:56rpx;left:50rpx;z-index:1001;'></image>
+        <image wx:else src='/images/mine/jing3.png' style='width:32rpx;height:32rpx;position: fixed;top:56rpx;left:50rpx;z-index:1001;'></image>
+        <input bindinput="bindInput" value="{{value}}" class="input" placeholder-style='color:#999999;' placeholder="输入创建话题（12个字以内）" type="string"></input>
+        <view class='button' wx:if='{{value&&activeLeft==0}}' bindtap='createMineWords'>创建</view>
         <view class='button' wx:else style='background:#ddd;color:#fff;'>创建</view>
     </view>
     <view class='word-list'>
-        <view class='left-list'>
-            <view class='left-item-active'>我的 </view>
-            <view class='left-item'>推荐 </view>
-            <view class='left-item'>推荐 </view>
-            <view class='left-item'>推荐 </view>
+        <view class='left-list' style='height:{{windowHeight-scrollTop-1}}px;'>
+            <view wx:for='{{leftList}}' wx:key='index' class='{{activeLeft==index?"left-item-active":"left-item"}}' bindtap='changeActiveLeft' data-index='{{index}}'>{{item.name}}</view>
 
         </view>
-        <view class='right-list'>
-            <view class='right-title'>我创建的 </view>
-            <view class='right-item'>
-                <view class='sym'>#</view>
-                <view class='content'>菜品丰富</view>
+        <scroll-view style='height:{{windowHeight-scrollTop-1}}px;' scroll-y>
+            <view class='right-list'>
+                <view class='right-title'>{{leftList[activeLeft].title}}</view>
+                <view class='right-item' wx:for='{{leftList[activeLeft].list}}' wx:key='index'>
+                    <view class='sym'>
+                        <image src='/images/mine/jing2.png' style='width:32rpx;height:32rpx;'></image>
+                    </view>
+                    <view class='content'>{{item}}</view>
+                </view>
             </view>
-            <view class='right-item'>
-                <view class='sym'>#</view>
-                <view class='content'>菜品丰富</view>
-            </view>
-            <view class='right-item'>
-                <view class='sym'>#</view>
-                <view class='content'>菜品丰富</view>
-            </view>
-        </view>
+        </scroll-view>
+
     </view>
 </view>

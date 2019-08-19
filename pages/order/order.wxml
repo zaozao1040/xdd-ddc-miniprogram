@@ -156,9 +156,11 @@
                                 </view>
                             </view>
 
-                            <view class='flex-b'>
-
+                            <view class='flex-a'>
                                 <view class='food-money'>实付：￥<text style='font-weight:500;position:relative; left:-4rpx;;'>{{orderItem.payPrice}}</text></view>
+                                <view class='take-time'>
+                                    <view wx:if='{{orderItem.takeMealEndTime}}'>截止时间:{{orderItem.takeMealEndTime}}</view>
+                                </view>
                                 <view class='order-button'>
                                     <block wx:if="{{!orderItem.expiredFlag}}">
                                         <view wx:if="{{orderItem.status== 1}}" class='see-detail' style='margin-left:16rpx;' catchtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-payprice="{{orderItem.payPrice}}" data-paystatus="{{orderItem.payStatus}}">

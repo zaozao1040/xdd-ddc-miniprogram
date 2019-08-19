@@ -1,12 +1,17 @@
 <view style='background: #F5F5F5;height:{{windowHeight}}px;padding: 20rpx;'>
     <view class='wrapper'>
-        <view class='title'># 添加话题</view>
+        <view class='flex-a'>
+            <image src='/images/mine/jing2.png' style='width:40rpx;height:40rpx;'></image>
+            <view class='title'> 添加话题</view>
+        </view>
+
         <view class='word_list'>
-            <view class='item-active'># 菜品丰富</view>
-            <view class='item'># 食材新鲜</view>
-            <view class='item'># 好吃不油腻</view>
-            <view class='item'># 食材很新鲜</view>
-            <view class='item'># 食材新鲜</view>
+            <view wx:for='{{wordList}}' style='position:relative;' wx:key='index' class='{{item.active?"item-active flex-a":"item flex-a"}}' bindtap='changeSelect' data-index='{{index}}'>
+                <image style='width:22rpx;height:22rpx;position:absolute;z-index:1001;right:-10rpx;top:-10rpx;' src='/images/mine/delete.png' bindtap='deleteOne'></image>
+                <image src='/images/mine/jing2.png' style='width:32rpx;height:32rpx;margin-top:10rpx;'></image>
+                <view>{{item.title}}</view>
+            </view>
+
             <view class='item' bindtap='gotoAddWords'><text style='color:#F7A14C;'>+</text>更多</view>
         </view>
     </view>

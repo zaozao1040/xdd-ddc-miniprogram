@@ -2,13 +2,14 @@
     font-size: 14px;
     font-family: PingFang-SC;
     font-weight: 400;
-    color: rgba(153, 153, 153, 1);
+    color: #333333;
     line-height: 80rpx;
-    padding-left: 24rpx;
+    padding-left: 52rpx;
     width: 530rpx;
     height: 80rpx;
     background: rgba(245, 245, 245, 1);
     border-radius: 6rpx;
+    box-sizing: border-box;
 }
 
 .wrapper {
@@ -38,7 +39,6 @@
 .left-list {
     width: 160rpx;
     background: rgba(247, 248, 248, 1);
-    height: 1060rpx;
 }
 
 .right {

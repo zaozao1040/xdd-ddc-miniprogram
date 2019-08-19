@@ -5,13 +5,39 @@ Page({
      * 页面的初始数据
      */
     data: {
+        activeNum: 1,
         count: 0,
+        max: 6,
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
+        let wordList = [{
+                title: '菜品丰富',
+                active: true,
+            },
+            {
+                title: '食材新鲜',
+                active: false,
+            },
+            {
+                title: '好吃不油腻',
+                active: false,
+            },
+            {
+                title: '食材很新鲜',
+                active: false,
+            },
+            {
+                title: '食材新鲜',
+                active: false
+            }
+        ]
+        this.setData({
+            wordList: wordList
+        })
         let _this = this
         wx.getSystemInfo({
             success(res) {
@@ -22,6 +48,37 @@ Page({
                 }
             }
         })
+    },
+    deleteOne(e) {
+
+    },
+    changeSelect(e) {
+        let _this = this
+        let index = e.currentTarget.dataset.index
+        let item = _this.data.wordList[index]
+        if (item.active) {
+            item.active = false
+            _this.data.activeNum--
+                _this.setData({
+                    wordList: _this.data.wordList,
+
+                })
+        } else {
+            if (_this.data.activeNum == _this.data.max) {
+                wx.showToast({
+                    title: '最多' + _this.data.max + '个',
+                    icon: '/images/msg/warning.png',
+                    duration: 2000
+                })
+            } else {
+                item.active = true
+                _this.data.activeNum++
+                    _this.setData({
+                        wordList: _this.data.wordList,
+
+                    })
+            }
+        }
     },
     bindTextAreaInput(e) {
         if (e.detail.value) {
