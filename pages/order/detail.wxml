@@ -107,12 +107,12 @@
                 <view class="left-label">支付方式</view>
                 <view class="right-content">{{detailInfo.payTypeDes}}</view>
             </view>
-            <!-- <view class="order-info-one">
+            <view class="order-info-one" bindtap='gotoMyComment'>
                 <view class="left-label">我的评价</view>
                 <view style='width:44rpx;height:44rpx;'>
                     <image src='/images/mine/xiangyoubaise.png' style='width:44rpx;height:44rpx;'></image>
                 </view>
-            </view> -->
+            </view>
         </view>
         <view class="order-info-wrapper flex-b" style='margin-bottom:0;' bindtap='getPhoneNumber'>
             <image style='height:32rpx;width:32rpx;margin-top:4rpx;' src='/images/order/phone.png'></image>

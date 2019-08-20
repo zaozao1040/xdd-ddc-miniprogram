@@ -1,0 +1,36 @@
+<view style='padding:30rpx;'>
+    <view class='flex-a' style='padding-bottom:30rpx;'>
+        <view class='title'>服务评价</view>
+        <image src='/images/order/staryes.png' class='star'></image>
+        <image src='/images/order/staryes.png' class='star'></image>
+        <image src='/images/order/staryes.png' class='star'></image>
+        <image src='/images/order/staryes.png' class='star'></image>
+        <image src='/images/order/staryes.png' class='star'></image>
+    </view>
+    <view class='one-food' wx:for='{{2}}'>
+        <view class='top'>
+            <image src='/images/mine/huiyuan.png' class='img'></image>
+            <view class='food-name'>牛排鸡肉健身套餐 x1</view>
+        </view>
+        <view class='flex-a'>
+            <view class='title'>餐品评价</view>
+            <image src='/images/order/staryes.png' class='star'></image>
+            <image src='/images/order/staryes.png' class='star'></image>
+            <image src='/images/order/starno.png' class='star'></image>
+            <image src='/images/order/starno.png' class='star'></image>
+            <image src='/images/order/starno.png' class='star'></image>
+        </view>
+        <view class='flex-a' style='margin-top:10rpx;'>
+            <view class='tag'>服务不好</view>
+            <view class='tag'>不够耐心</view>
+            <view class='tag'>不够热情</view>
+        </view>
+        <view class='comment'>味道真的很不错，超赞的！味道真的很不错，超赞的！味道真的很不错，超赞的！</view>
+        <view class='flex-a' style='margin-top:10rpx;'>
+            <image src='/images/mine/huiyuan.png' class='c-img'></image>
+            <image src='/images/mine/huiyuan.png' class='c-img'></image>
+            <image src='/images/mine/huiyuan.png' class='c-img'></image>
+        </view>
+        <view class='reply'>回复：亲爱的顾客，感谢您对我们的评价和支持，祝您生活愉快！</view>
+    </view>
+</view>

@@ -40,7 +40,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 8,
+			"current": 10,
 			"list": [
 				{
 					"id": -1,
@@ -92,16 +92,31 @@
 					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "pages/mine/complaint/say",
+					"id": 7,
+					"name": "complaint/say",
 					"pathName": "pages/mine/complaint/say",
 					"query": "",
 					"scene": null
 				},
 				{
-					"id": -1,
-					"name": "pages/mine/complaint/words/words",
+					"id": 8,
+					"name": "complaint/words/words",
 					"pathName": "pages/mine/complaint/words/words",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 9,
+					"name": "comment",
+					"pathName": "pages/mine/comment/comment",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "comment/detail",
+					"pathName": "pages/mine/comment/detail",
+					"query": "",
 					"scene": null
 				}
 			]

@@ -150,7 +150,7 @@
                         </view>
                         <view class='label-title'>我要补餐</view>
                     </view>
-                    <view bindtap="gotoAddfood">
+                    <view bindtap="gotoComment">
                         <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
                             <image src="/images/mine/me_comment.png" style='width:80rpx;height:80rpx;'></image>
                         </view>

@@ -39,7 +39,11 @@
     "pages/login/phone/phone",
     "pages/login/authority/authority",
     "pages/mine/complaint/say",
-    "pages/mine/complaint/words/words"
+    "pages/mine/complaint/words/words",
+    "pages/mine/comment/comment",
+    "pages/mine/comment/detail",
+    "pages/order/myComment/myComment", 
+    "pages/components/comment/comment"
   ],
   "permission": {
     "scope.userLocation": {

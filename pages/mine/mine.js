@@ -41,6 +41,11 @@ Page({
             })
         }
     },
+    gotoComment() {
+        wx.navigateTo({
+            url: '/pages/mine/comment/comment'
+        })
+    },
     //跳转到详细资料页面
     gotoDetailInfo() {
         wx.navigateTo({

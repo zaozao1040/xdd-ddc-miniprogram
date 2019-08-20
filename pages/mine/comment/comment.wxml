@@ -1,0 +1,129 @@
+<view style='box-sizing:border-box;background:#F5F5F5;padding:20rpx;height:{{windowHeight>scrollHeight?windowHeight:""}}px;' class='c_scrollPosition_forCalculate'>
+    <view class='top-wrapper'>全部评价 <text style='color:#F7A64C;'>3条</text></view>
+    <view class='wrapper' bindtap='gotoDetail'>
+        <view class='top'>
+            <image src='/images/mine/huiyuan.png' class='img'></image>
+            <view style='flex-grow:1;'>
+                <view class='name'>花开可可</view>
+                <view class='date'>2019-07-19 18:36:01</view>
+            </view>
+            <image src='/images/order/right.png' style='height:26rpx;width:24rpx;margin:36rpx 30rpx 0 0;'></image>
+
+        </view>
+        <view style='padding:20rpx 30rpx 30rpx; '>
+            <view class='order'>
+                <view class='order-date'>07月19日（周五）晚餐</view>
+                <view class='flex-a'>
+                    <view class='food-name'>牛排鸡肉健身套餐</view>
+                    <view class='food-count'>等2件餐品</view>
+                </view>
+            </view>
+            <view class='flex-a' style='padding :30rpx 0 20rpx;border-bottom:1rpx solid #F5F5F5; '>
+                <view class='title'>服务评价</view>
+                <image src='/images/order/staryes.png' class='star'></image>
+                <image src='/images/order/staryes.png' class='star'></image>
+                <image src='/images/order/staryes.png' class='star'></image>
+                <image src='/images/order/staryes.png' class='star'></image>
+                <image src='/images/order/staryes.png' class='star'></image>
+            </view>
+            <view class='flex-a' style='padding-top:20rpx; '>
+                <view class='title'>餐品评价</view>
+                <image src='/images/order/staryes.png' class='star'></image>
+                <image src='/images/order/staryes.png' class='star'></image>
+                <image src='/images/order/starno.png' class='star'></image>
+                <image src='/images/order/starno.png' class='star'></image>
+                <image src='/images/order/starno.png' class='star'></image>
+            </view>
+            <view class='flex-a' style='margin-top:10rpx;'>
+                <view class='tag'>服务不好</view>
+                <view class='tag'>不够耐心</view>
+                <view class='tag'>不够热情</view>
+            </view>
+            <view class='comment'>味道真的很不错，超赞的！味道真的很不错，超赞的！味道真的很不错，超赞的！</view>
+        </view>
+    </view>
+    <view class='wrapper'>
+        <view class='top'>
+            <image src='/images/mine/huiyuan.png' class='img'></image>
+            <view style='flex-grow:1;'>
+                <view class='name'>花开可可</view>
+                <view class='date'>2019-07-19 18:36:01</view>
+            </view>
+
+            <image src='/images/order/right.png' style='height:28rpx;width:24rpx;margin:36rpx 30rpx 0 0; '></image>
+
+
+        </view>
+        <view style='padding:20rpx 30rpx 30rpx; '>
+            <view class='order'>
+                <view class='order-date'>07月19日（周五）晚餐</view>
+                <view class='flex-a'>
+                    <view class='food-name'>牛排鸡肉健身套餐</view>
+                    <view class='food-count'>等2件餐品</view>
+                </view>
+            </view>
+            <view class='flex-a' style='padding :30rpx 0 20rpx;border-bottom:1rpx solid #F5F5F5; '>
+                <view class='title'>服务评价</view>
+                <image src='/images/mine/staryes.png' class='star'></image>
+                <image src='/images/mine/staryes.png' class='star'></image>
+                <image src='/images/order/staryes.png' class='star'></image>
+                <image src='/images/order/staryes.png' class='star'></image>
+                <image src='/images/order/staryes.png' class='star'></image>
+            </view>
+            <view class='flex-a' style='padding-top:20rpx; '>
+                <view class='title'>餐品评价</view>
+                <image src='/images/order/staryes.png' class='star'></image>
+                <image src='/images/order/staryes.png' class='star'></image>
+                <image src='/images/order/starno.png' class='star'></image>
+                <image src='/images/order/starno.png' class='star'></image>
+                <image src='/images/order/starno.png' class='star'></image>
+            </view>
+            <view class='flex-a' style='margin-top:10rpx;'>
+                <view class='tag'>服务不好</view>
+                <view class='tag'>不够耐心</view>
+                <view class='tag'>不够热情</view>
+            </view>
+            <view class='comment'>味道真的很不错，超赞的！味道真的很不错，超赞的！味道真的很不错，超赞的！</view>
+        </view>
+    </view>
+    <view class='wrapper'>
+        <view class='top'>
+            <image src='/images/mine/huiyuan.png' class='img'></image>
+            <view>
+                <view class='name'>花开可可</view>
+                <view class='date'>2019-07-19 18:36:01</view>
+            </view>
+        </view>
+        <view style='padding:20rpx 30rpx 30rpx; '>
+            <view class='order'>
+                <view class='order-date'>07月19日（周五）晚餐</view>
+                <view class='flex-a'>
+                    <view class='food-name'>牛排鸡肉健身套餐</view>
+                    <view class='food-count'>等2件餐品</view>
+                </view>
+            </view>
+            <view class='flex-a' style='padding :30rpx 0 20rpx;border-bottom:1rpx solid #F5F5F5; '>
+                <view class='title'>服务评价</view>
+                <image src='/images/order/staryes.png' class='star'></image>
+                <image src='/images/order/staryes.png' class='star'></image>
+                <image src='/images/order/staryes.png' class='star'></image>
+                <image src='/images/order/staryes.png' class='star'></image>
+                <image src='/images/order/staryes.png' class='star'></image>
+            </view>
+            <view class='flex-a' style='padding-top:20rpx; '>
+                <view class='title'>餐品评价</view>
+                <image src='/images/order/staryes.png' class='star'></image>
+                <image src='/images/order/staryes.png' class='star'></image>
+                <image src='/images/order/starno.png' class='star'></image>
+                <image src='/images/order/starno.png' class='star'></image>
+                <image src='/images/order/starno.png' class='star'></image>
+            </view>
+            <view class='flex-a' style='margin-top:10rpx;'>
+                <view class='tag'>服务不好</view>
+                <view class='tag'>不够耐心</view>
+                <view class='tag'>不够热情</view>
+            </view>
+            <view class='comment'>味道真的很不错，超赞的！味道真的很不错，超赞的！味道真的很不错，超赞的！</view>
+        </view>
+    </view>
+</view>
