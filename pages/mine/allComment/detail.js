@@ -1,11 +1,12 @@
-// pages/mine/comment/comment.js
+import { base } from '../../../comm/public/request'
+let requestModel = new base()
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-
+        detail: {}
     },
 
     /**
@@ -13,31 +14,18 @@ Page({
      */
     onLoad: function(options) {
         let _this = this
-        wx.getSystemInfo({
-            success(res) {
-                _this.setData({
-                    windowHeight: res.windowHeight
-                })
-                console.log('scrollHeight', _this.data.windowHeight)
-            }
-        })
-
-        const query = wx.createSelectorQuery()
-        query.select('.c_scrollPosition_forCalculate').boundingClientRect()
-        query.selectViewport().scrollOffset()
-        query.exec(function(res) {
+        let url = '/evaluate/getUserEvaluateDetail?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + options.orderCode
+        let param = {
+            url
+        }
+        requestModel.request(param, (data) => {
             _this.setData({
-                scrollHeight: res[0].bottom // #the-id节点的上边界坐标
+                detail: data,
+                already: true
             })
+        })
+    },
 
-            console.log('scrollHeight', res)
-        })
-    },
-    gotoDetail() {
-        wx.navigateTo({
-            url: './detail'
-        })
-    },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

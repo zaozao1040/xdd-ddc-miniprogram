@@ -54,7 +54,8 @@
 
              this.setData({
              selectedDate: e.detail.value,
-             selectedDateFlag: true
+             selectedDateFlag: true,
+             showShapeFlag: false
          })
          this.getOrderList(true)
      },
@@ -64,15 +65,13 @@
              showShapeFlag: !_this.data.showShapeFlag
          })
      },
-     showDatePicker() {
-         this.setData({
-             showShapeFlag: false
-         })
-     },
      closeDateFilter() {
-         this.setData({
-             showShapeFlag: false
-         })
+         if (this.data.showShapeFlag) {
+             this.setData({
+                 showShapeFlag: false
+             })
+         }
+
      },
      /* 跳转订单详情 */
      handleGotoOrderDetail: function(e) {
@@ -109,6 +108,7 @@
       * 生命周期函数--监听页面加载
       */
      onLoad: function(options) {
+
          if (options.content) {
              let content = options.content
 

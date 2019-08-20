@@ -1,0 +1,3 @@
+<view wx:if='{{already}}'>
+    <c-comment detail='{{detail}}'></c-comment>
+</view>

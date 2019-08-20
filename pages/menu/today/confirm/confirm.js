@@ -387,7 +387,7 @@
                              tmp_selectedFoods[mealType].selectedFoods.forEach(onefood => {
                                  let foods_item = {
                                      foodCode: onefood.foodCode,
-                                     quantity: onefood.foodCount,
+                                     foodQuantity: onefood.foodCount,
                                      markDetail: onefood.remarkList
                                  }
                                  order_item.foods.push(foods_item)

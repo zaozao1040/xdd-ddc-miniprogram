@@ -1,0 +1,47 @@
+<scroll-view style='height:{{windowHeight}}px;' bindscrolltolower='gotoNextPage' scroll-y>
+
+    <view style='box-sizing:border-box;background:#F5F5F5;padding:20rpx;height:{{windowHeight>scrollHeight?windowHeight:""}}px;' class='c_scrollPosition_forCalculate'>
+        <view class='top-wrapper'>全部评价 <text style='color:#F7A64C;'>{{amount}}条</text></view>
+        <view class='wrapper' bindtap='gotoDetail' wx:for='{{list}}' data-ordercode='{{item.orderCode}}' wx:key='index'>
+            <view class='top'>
+                <image src='{{avatarUrl}}' class='img'></image>
+                <view style='flex-grow:1;'>
+                    <view class='name'>{{nickName}}</view>
+                    <view class='date'>{{item.evaluateTime}}</view>
+                </view>
+                <image src='/images/order/right.png' style='height:26rpx;width:24rpx;margin:36rpx 30rpx 0 0;'></image>
+
+            </view>
+            <view style='padding:20rpx 30rpx 30rpx; '>
+                <view class='order'>
+                    <view class='order-date'>{{item.dateDes}}</view>
+                    <view class='flex-a'>
+                        <view class='food-name'>{{item.orderFoodEvaluate[0].foodName}}</view>
+                        <view class='food-count' wx:if='{{item.totalCount>0}}'>等{{item.totalCount}}件餐品</view>
+                    </view>
+                </view>
+                <view style='padding :30rpx 0 20rpx;border-bottom:1rpx solid #F5F5F5; '>
+                    <view class='flex-a'>
+                        <view class='title'>服务评价</view>
+                        <image src='/images/order/staryes.png' class='star' wx:for='{{item.orderStar}}' wx:for-index='starIndex' wx:key='starIndex'></image>
+                        <image src='/images/order/starno.png' class='star' wx:for='{{5-item.orderStar}}' wx:for-index='starIndex' wx:key='5-starIndex'></image>
+                    </view>
+                    <view class='flex-a' style='margin-top:10rpx;' wx:if='{{item.orderTag&&item.orderTag.length>0}}'>
+                        <view class='tag' wx:for='{{item.orderTag}}' wx:for-item="tagItem" wx:for-index='tagIndex' wx:key='tagIndex'>{{tagItem}}</view>
+                    </view>
+                </view>
+                <view>
+                    <view class='flex-a' style='padding-top:20rpx; '>
+                        <view class='title'>餐品评价</view>
+                        <image src='/images/order/staryes.png' class='star' wx:for='{{item.orderFoodEvaluate[0].foodStar}}' wx:for-index='starIndex' wx:key='starIndex'></image>
+                        <image src='/images/order/starno.png' class='star' wx:for='{{5-item.orderFoodEvaluate[0].foodStar}}' wx:for-index='starIndex' wx:key='5-starIndex'></image>
+                    </view>
+                    <view class='flex-a' style='margin-top:10rpx;' wx:if='{{item.orderFoodEvaluate[0].foodTag&&item.orderFoodEvaluate[0].foodTag.length>0}}'>
+                        <view class='tag' wx:for='{{item.orderFoodEvaluate[0].foodTag}}' wx:for-item="tagItem" wx:for-index='tagIndex' wx:key='tagIndex'>{{tagItem}}</view>
+                    </view>
+                    <view class='comment' wx:if='{{item.orderFoodEvaluate[0].foodContent}}'>{{item.orderFoodEvaluate[0].foodContent}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+</scroll-view>

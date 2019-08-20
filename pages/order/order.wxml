@@ -1,4 +1,5 @@
-<view bindtap='closeDateFilter'>
+<!-- <view bindtap='closeDateFilter'> -->
+<view>
     <view wx:if='{{userCode}}'>
         <!-- 去付款弹出的选择支付方式对话框 -->
         <view class="selectPayType-wrapper" wx:if="{{showPayTypeFlag}}">
@@ -91,9 +92,9 @@
                 <image wx:else src='/images/order/filterno.png' style='margin-top:2rpx;width:40rpx;height:40rpx;'></image>
 
                 <view wx:if='{{itemStatusActiveFlag==0&&showShapeFlag}}'>
-                    <picker mode="date" value="{{selectedDate}}" start="2018-09-01" end="{{endDatePicker}}" bindchange="bindDateChange">
+                    <picker mode="date" value="{{selectedDate}}" start="2018-09-01" end="{{endDatePicker}}" bindchange="bindDateChange" bindcancel='showShape'>
                         <view class="picker">
-                            <view style='position:fixed;top:54rpx;right:40rpx;width:120rpx;height:60rpx;z-index:200;' catchtap='showDatePicker'>
+                            <view style='position:fixed;top:54rpx;right:40rpx;width:120rpx;height:60rpx;z-index:200;'>
                                 <view class='date-shape'>日期筛选</view>
                                 <image src='/images/order/shape.png' style=' width:120rpx;height:60rpx;z-index:200;'></image>
                             </view>

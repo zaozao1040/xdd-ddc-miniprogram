@@ -5,9 +5,9 @@
             <view class="cart-day-title">{{detailInfo.mealDate}}{{' '+detailInfo.mealTypeDes}}</view>
 
             <view class="cart-menuItem" wx:for="{{detailInfo.orderFoodList}}" wx:key="{{index}}">
-                <view class="cart-menuItem-left">
+                <!-- <view class="cart-menuItem-left">
                     <image class="cart-menuItem-img" src="{{item.foodImage}}"></image>
-                </view>
+                </view> -->
                 <view class='flex-1'>
                     <view class='food-name'>
                         <view class="cart-menuItemDes">{{item.foodName}}</view>

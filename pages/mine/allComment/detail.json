@@ -3,4 +3,5 @@
     "usingComponents": {
         "c-comment": "/pages/components/comment/comment"
     }
+
 }

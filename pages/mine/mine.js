@@ -43,7 +43,7 @@ Page({
     },
     gotoComment() {
         wx.navigateTo({
-            url: '/pages/mine/comment/comment'
+            url: '/pages/mine/allComment/allComment'
         })
     },
     //跳转到详细资料页面

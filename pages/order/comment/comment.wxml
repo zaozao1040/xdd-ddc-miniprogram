@@ -14,8 +14,6 @@
     <view class='c_scrollPosition_forCalculate' style='background:#F5F5F5;height:{{windowHeight-scrollTop}}px;'>
         <scroll-view scroll-y style='height:{{windowHeight-scrollTop}}px;'>
             <view style='padding:16rpx 24rpx;'>
-
-
                 <form report-submit="true" bindsubmit="buttonClickYes_ratings">
 
                     <view class='service-wrapper'>

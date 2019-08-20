@@ -242,8 +242,9 @@ Page({
         }
     },
     gotoMyComment() {
+        let _this = this
         wx.navigateTo({
-            url: './myComment/myComment'
+            url: './myComment/myComment?orderCode=' + _this.data.detailInfo.orderCode
         })
     },
     /**

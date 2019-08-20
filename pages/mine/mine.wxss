@@ -24,7 +24,7 @@
 .wrapper-top {
     display: flex;
     padding: 20rpx 0 40rpx;
-    background: linear-gradient(350deg, rgba(247, 156, 76, 1) 0%, rgba(247, 190, 76, 1) 100%);
+    background: linear-gradient(350deg, rgba(247, 156, 76, 1) 0%, rgba(247, 190, 76, 0.85) 100%);
 }
 
 .service-list {
