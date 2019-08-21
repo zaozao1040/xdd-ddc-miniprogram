@@ -697,21 +697,6 @@
          let ordercode = this.data.takeOrderCode
          this.takeFoodOrderAgain(ordercode, false)
      },
-     takeFoodOrderAgainForModal() {
-         let tmp_takeorderModal = this.data.takeorderModal
-         let ordercode = tmp_takeorderModal.orderCode
-         let content = tmp_takeorderModal.nextContent
-         this.takeFoodOrderAgain(ordercode, true, content)
-     },
-     //  closeModalAgain() {
-     //      let _this = this
-     //      _this.setData({
-     //              takeorderModalShow: false,
-     //              takeorderAgainShow: false
-     //          })
-     //          //取餐后为啥要只刷第一页的啊
-     //      _this.getOrderList(true)
-     //  },
      //取餐private函数
      takeFoodOrderAgain(ordercode, again) {
          let _this = this
@@ -723,8 +708,9 @@
 
              _this.setData({
                  takeorderModalShow: false,
-                 takeorderAgainShow: true
+                 takeorderAgainShow: false
              })
+             wx.showTabBar()
          })
      },
      /* 去取餐 */

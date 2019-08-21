@@ -69,7 +69,7 @@
             </view>
         </view>
 
-        <view class="mask" wx:if="{{cancelFlag||showRatingsFlag||takeorderModalShow||takeorderAgainShow}}" catchtouchmove="preventTouchMove"></view>
+        <view class="mask" wx:if="{{cancelFlag||showRatingsFlag||takeorderModalShow}}" catchtouchmove="preventTouchMove"></view>
         <!--取消订单弹出框-->
         <c-custom-modal content='确定要取消订单？' cancel='再等等' confirm='确定取消' wx:if='{{cancelFlag}}' bind:closemodal='handleCancelOrderWait' bind:handleconfirm='handleCancelOrderConfirm'></c-custom-modal>
 
@@ -141,6 +141,11 @@
                 <view wx:else>
                     <view wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
                         <view class='one-order' catchtap="handleGotoOrderDetail" data-ordercode="{{orderItem.orderCode}}">
+                            <view class='m-s'>
+                                <view class='manager' wx:if='{{orderItem.orgOrder}}'>管理员</view>
+                                <view class='supplementary' wx:if='{{orderItem.supplementtaryMeal==1}}'>补餐</view>
+                            </view>
+
                             <view class='one-order-top'>
                                 <view class='top-date'>{{orderItem.takeMealTimeDes}}{{orderItem.mealTypeDes}}</view>
                                 <view class='flex-a'>
@@ -191,11 +196,7 @@
             </view>
         </scroll-view>
 
-        <!--是否取餐-->
-        <!-- <c-custom-modal title='是否取餐?' content='{{takeorderModal.content}}' cancel='暂不取餐' confirm='取餐' wx:if='{{takeorderModalShow}}'
-             bind:closemodal='closeModal' bind:handleconfirm='takeFoodOrderForModal'></c-custom-modal> -->
-        <!-- <c-custom-modal title='是否再次取餐?' content='{{takeorderModal.nextContent}}' wx:if='{{takeorderAgainShow}}' 
-            bind:closemodal='closeModalAgain' bind:handleconfirm='takeFoodOrderAgainForModal'></c-custom-modal> -->
+
         <c-pop content='{{orderSuccessContent}}' wx:if='{{orderSuccessFlag}}' bind:closemodal='closePop'></c-pop>
 
         <!--取餐需要验证-->
@@ -218,7 +219,7 @@
                 </view>
             </scroll-view>
             <view class='take-button' wx:if='{{takeorderModalShow}}' bindtap='takeFoodOrderForModal'> 取餐</view>
-            <view class='take-button' wx:if='{{takeorderAgainShow}}' bindtap='takeFoodOrderAgainForModal'> 再次取餐</view>
+            <view class='take-button' wx:if='{{takeorderAgainShow}}' bindtap='takeFoodOrderForModal'> 再次取餐</view>
         </view>
     </view>
     <view wx:else>

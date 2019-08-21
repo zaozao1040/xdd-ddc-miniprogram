@@ -14,14 +14,15 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        let { avatarUrl, nickName } = wx.getStorageSync('getWxUserInfo')
+        console.log(wx.getStorageSync('getWxUserInfo'))
+        let { headImage, userName } = wx.getStorageSync('userInfo').userInfo
         this.setData({
-            avatarUrl: avatarUrl,
-            nickName: nickName
+            headImage: headImage,
+            userName: userName
         })
 
         let _this = this
-        let url = '/evaluate/getUserEvaluateDetail?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + options.orderCode
+        let url = '/userEvaluate/getUserEvaluateDetail?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + options.orderCode
         let param = {
             url
         }

@@ -1,58 +1,31 @@
-<view style='background: #F5F5F5;height:{{windowHeight}}px;padding: 20rpx;'>
-    <!-- <view style="height:380rpx;background:#fff;border-radius:8rpx;">
-        <textarea style="height:320rpx;color:#333;font-size:34rpx;padding:20rpx;box-sizing: border-box; width:100%; " placeholder-style="font-size: 40rpx; color: #CCCCCC; letter-spacing: 0; text-align: left;" bindinput="bindTextAreaInput" placeholder="请尽情吐槽吧"
-            maxlength="300" auto-focus value="{{value}}" />
-        <view style="font-size:32rpx;text-align:right;color:#ccc;padding-right:10rpx;">{{count}}/300</view>
+<view wx:if='{{list.length>0}}'>
+    <scroll-view style='height:{{scrollHeight-10}}px;background:#F5F5F5;' bindscrolltolower='gotoNextPage' scroll-y>
+        <view style='padding: 20rpx; '>
+            <view class='wrapper' wx:for='{{list}}'>
+                <view class='top'>
+                    <image src='{{headImage}}' class='img'></image>
+                    <view class='name'>{{userName}}</view>
+                    <view class='time'>{{item.addTime}}</view>
+                </view>
+                <view class='content-wrapper' style='padding-top:22rpx;'>
+                    <view>
+                        <block wx:for='{{item.topicList}}' wx:for-item='topicItem'>
+                            <image src='/images/mine/jing1.png' style='width:42rpx;height:42rpx; position:relative;top:8rpx; '></image>
+                            <text class='content-dot'>{{topicItem.content}}</text>
+                        </block>
+                        <text class='content' wx:if='{{item.content}}'>{{item.content}}</text>
+                    </view>
+                    <view class='reply' wx:if='{{item.replyContent}}'>{{item.replyContent}}</view>
+                </view>
+            </view>
+        </view>
+    </scroll-view>
+    <view style='background:#F5F5F5;height:{{windowHeight-scrollHeight+10}}px; '>
+        <view bindtap='gotoSay' class='button'>我要说</view>
     </view>
-
-    <view bindtap='makeComplaints' style="margin-left:40rpx;background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);margin-top:62rpx;width:630rpx;font-weight:500;font-size: 36rpx;color: #FFF;letter-spacing: 0; text-align: center;line-height:100rpx;border-radius:50rpx;">
-        我要吐槽</view> -->
-
-    <view class='wrapper'>
-        <view class='top'>
-            <image src='/images/mine/huiyuan.png' class='img'></image>
-            <view class='name'>花开可可</view>
-            <view class='time'>2019-07-26 14:12:41</view>
-        </view>
-        <view class='content-wrapper' style='padding-top:30rpx;'>
-            <view class='flex-a'>
-                <image src='/images/mine/jing1.png' style='width:42rpx;height:42rpx;'></image>
-                <text class='content-dot'>菜品偏油</text>
-                <image src='/images/mine/jing1.png' style='width:42rpx;height:42rpx;'></image>
-                <text class='content-dot'>口味偏重</text>
-                <text class='content'>太油腻了，夏天还是希望清淡点！</text>
-            </view>
-            <view class='reply'>回复：亲爱的顾客，感谢您对我们的评价和支持，祝您生活愉快！
-            </view>
-        </view>
-    </view>
-    <view class='wrapper'>
-        <view class='top'>
-            <image src='/images/mine/huiyuan.png' class='img'></image>
-            <view class='name'>花开可可</view>
-            <view class='time'>2019-07-26 14:12:41</view>
-        </view>
-        <view class='content-wrapper'>
-            <view>
-                <image src='/images/mine/jing1.png' style='width:40rpx;height:40rpx;position:relative;top:8rpx;'></image>
-                <text class='content-dot'>菜品偏油</text>
-                <image src='/images/mine/jing1.png' style='width:40rpx;height:40rpx;position:relative;top:8rpx;'></image>
-                <text class='content-dot'>口味偏重</text>
-                <image src='/images/mine/jing1.png' style='width:40rpx;height:40rpx;position:relative;top:8rpx;'></image>
-                <text class='content-dot'>口味偏重</text>
-                <image src='/images/mine/jing1.png' style='width:40rpx;height:40rpx;position:relative;top:8rpx;'></image>
-                <text class='content-dot'>口味偏重</text>
-                <image src='/images/mine/jing1.png' style='width:40rpx;height:40rpx;position:relative;top:8rpx;'></image>
-                <text class='content-dot'>口味偏重</text>
-                <image src='/images/mine/jing1.png' style='width:40rpx;height:40rpx;position:relative;top:8rpx;'></image>
-                <text class='content-dot'>口味偏重</text>
-                <image src='/images/mine/jing1.png' style='width:40rpx;height:40rpx;position:relative;top:8rpx;'></image>
-                <text class='content-dot'>口味偏重</text>
-                <text class='content'>太油腻了，夏天还是希望清淡点！</text>
-            </view>
-            <view class='reply'>回复：亲爱的顾客，感谢您对我们的评价和支持，祝您生活愉快！
-            </view>
-        </view>
-    </view>
-    <view bindtap='gotoSay' class='button'>我要说</view>
+</view>
+<view style='height:{{windowHeight}}px;background:#F5F5F5;'>
+    <image src='/images/mine/nocomplaint.png' style='width:244rpx;height:244rpx;margin:236rpx 0 2rpx 250rpx; '></image>
+    <view class='nono'>暂无话题，快来说点什么吧～</view>
+    <view class='no-button' bindtap='gotoSay'>我要说</view>
 </view>

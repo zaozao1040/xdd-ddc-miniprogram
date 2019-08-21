@@ -14,7 +14,7 @@ Page({
      */
     onLoad: function(options) {
         let _this = this
-        let url = '/evaluate/getUserEvaluateDetail?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + options.orderCode
+        let url = '/userEvaluate/getUserEvaluateDetail?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + options.orderCode
         let param = {
             url
         }

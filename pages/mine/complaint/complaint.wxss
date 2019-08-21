@@ -16,6 +16,7 @@
     margin-right: 10rpx;
     flex-grow: 0;
     flex-shrink: 0;
+    border-radius: 50%;
 }
 
 .name {
@@ -69,9 +70,8 @@
 }
 
 .button {
-    margin-left: 40rpx;
-    background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
-    margin-top: 62rpx;
+    margin-left: 58rpx;
+    background: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
     width: 630rpx;
     font-weight: 400;
     font-size: 34rpx;
@@ -87,4 +87,27 @@
 .flex-a {
     display: flex;
     flex-wrap: wrap;
+}
+
+.nono {
+    font-size: 30rpx;
+    font-family: PingFang-SC;
+    font-weight: 400;
+    color: rgba(153, 153, 153, 1);
+    line-height: 42rpx;
+    text-align: center;
+    margin-bottom: 60rpx;
+}
+
+.no-button {
+    margin-left: 208rpx;
+    background: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
+    width: 336rpx;
+    font-weight: 400;
+    font-size: 34rpx;
+    color: #FFF;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 88rpx;
+    border-radius: 50rpx;
 }

@@ -29,6 +29,7 @@
     flex-grow: 0;
     flex-shrink: 0;
     margin: 18rpx 10rpx 18rpx 30rpx;
+    border-radius: 50%;
 }
 
 .name {

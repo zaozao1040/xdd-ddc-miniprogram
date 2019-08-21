@@ -7,16 +7,16 @@
 
         <view class='word_list'>
             <view wx:for='{{wordList}}' style='position:relative;' wx:key='index' class='{{item.active?"item-active flex-a":"item flex-a"}}' bindtap='changeSelect' data-index='{{index}}'>
-                <image style='width:22rpx;height:22rpx;position:absolute;z-index:1001;right:-10rpx;top:-10rpx;' src='/images/mine/delete.png' bindtap='deleteOne'></image>
+                <image wx:if='{{item.active}}' class='delete' src='/images/mine/delete.png' catchtap='deleteOne' data-index='{{index}}'></image>
                 <image src='/images/mine/jing2.png' style='width:32rpx;height:32rpx;margin-top:10rpx;'></image>
-                <view>{{item.title}}</view>
+                <view>{{item.content}}</view>
             </view>
 
             <view class='item' bindtap='gotoAddWords'><text style='color:#F7A14C;'>+</text>更多</view>
         </view>
     </view>
     <view style="height:300rpx;background:#fff;border-radius:8rpx;">
-        <textarea class='textarea' placeholder-class='textarea' bindinput="bindTextAreaInput" placeholder="有什么想说的，和我们说说吧～" maxlength="300" auto-focus value="{{value}}" />
+        <textarea style='color:#333;' class='textarea' placeholder-class='textarea' bindinput="bindTextAreaInput" placeholder="有什么想说的，和我们说说吧～" maxlength="300" auto-focus value="{{value}}" />
         <!-- <view style="font-size:32rpx;text-align:right;color:#ccc;padding-right:10rpx;">{{count}}/300</view> -->
     </view>
 

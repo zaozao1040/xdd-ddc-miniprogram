@@ -1,7 +1,7 @@
 <view wx:if='{{already}}'>
     <view class='top'>
-        <image src='{{avatarUrl}}' class='img'></image>
-        <view class='name'>{{nickName}}</view>
+        <image src='{{headImage}}' class='img'></image>
+        <view class='name'>{{userName}}</view>
         <view class='date'>{{detail.evaluateTime}}</view>
     </view>
     <c-comment detail='{{detail}}'></c-comment>

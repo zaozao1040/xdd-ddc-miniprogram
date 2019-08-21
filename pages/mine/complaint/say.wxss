@@ -81,3 +81,12 @@
 .flex-a {
     display: flex;
 }
+
+.delete {
+    width: 22rpx;
+    height: 22rpx;
+    position: absolute;
+    z-index: 1001;
+    right: -10rpx;
+    top: -10rpx;
+}

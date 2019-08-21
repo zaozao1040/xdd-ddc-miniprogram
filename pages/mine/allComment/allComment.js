@@ -35,7 +35,7 @@ Page({
         let _this = this
         let page = _this.data.page
         let limit = _this.data.limit
-        let url = '/evaluate/getUserEvaluateList?userCode=' + wx.getStorageSync('userCode') + '&page=' + page + '&limit=' + limit
+        let url = '/userEvaluate/getUserEvaluateList?userCode=' + wx.getStorageSync('userCode') + '&page=' + page + '&limit=' + limit
         let param = {
             url
         }
@@ -84,10 +84,10 @@ Page({
      */
     onLoad: function(options) {
         let _this = this
-        let { avatarUrl, nickName } = wx.getStorageSync('getWxUserInfo')
+        let { headImage, userName } = wx.getStorageSync('userInfo').userInfo
         _this.setData({
-            avatarUrl: avatarUrl,
-            nickName: nickName
+            headImage,
+            userName
         })
         wx.getSystemInfo({
             success(res) {
@@ -96,17 +96,6 @@ Page({
                 })
                 console.log('scrollHeight', _this.data.windowHeight)
             }
-        })
-
-        const query = wx.createSelectorQuery()
-        query.select('.c_scrollPosition_forCalculate').boundingClientRect()
-        query.selectViewport().scrollOffset()
-        query.exec(function(res) {
-            _this.setData({
-                scrollHeight: res[0].bottom // #the-id节点的上边界坐标
-            })
-
-            console.log('scrollHeight', res)
         })
 
         _this.getList()

@@ -107,7 +107,7 @@
                 <view class="left-label">支付方式</view>
                 <view class="right-content">{{detailInfo.payTypeDes}}</view>
             </view>
-            <view class="order-info-one" bindtap='gotoMyComment'>
+            <view class="order-info-one" bindtap='gotoMyComment' wx:if='{{detailInfo.evaluateStatus==2}}'>
                 <view class="left-label">我的评价</view>
                 <view style='width:44rpx;height:44rpx;'>
                     <image src='/images/mine/xiangyoubaise.png' style='width:44rpx;height:44rpx;'></image>
