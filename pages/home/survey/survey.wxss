@@ -1,0 +1,179 @@
+.img {
+    width: 100%;
+    height: 520rpx;
+    margin: 0 auto;
+    position: relative;
+    z-index: 200;
+}
+
+.back {
+    width: 100%;
+    height: 264rpx;
+    background: linear-gradient( 180deg, rgba(255, 206, 68, 1) 0%, rgba(255, 175, 92, 1) 100%);
+    position: absolute;
+    top: 426rpx;
+    z-index: 100;
+}
+
+.wrapper {
+    background: #ffce44;
+    padding-bottom: 32rpx;
+}
+
+.content {
+    position: relative;
+    z-index: 200;
+    width: 690rpx;
+    margin: 0 auto;
+}
+
+.top {
+    background: #fafafa;
+    padding: 30rpx 2rpx 30rpx 28rpx;
+    font-size: 30rpx;
+    font-family: PingFang-SC;
+    font-weight: 400;
+    color: rgba(51, 51, 51, 1);
+    line-height: 42rpx;
+    border-radius: 20rpx 20rpx 0 0;
+}
+
+.ques {
+    padding: 32rpx 30rpx;
+    background: #fff;
+    border-radius: 0 0 20rpx 20rpx;
+}
+
+.title {
+    font-size: 32rpx;
+    font-family: PingFangSC;
+    font-weight: 700;
+    color: #333333;
+    line-height: 44rpx;
+}
+
+.one-question {
+    margin: 10rpx 0 40rpx;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.radio,
+.radio-active {
+    margin-top: 16rpx;
+    width: 20rpx;
+    height: 20rpx;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.radio {
+    border: 4rpx solid rgba(229, 229, 229, 1);
+}
+
+.radio-active {
+    border: 4rpx solid #ffca47;
+}
+
+.ques-content,
+.ques-cont-equal,
+.ques-content-age {
+    font-size: 30rpx;
+    font-family: PingFang-SC;
+    font-weight: 400;
+    color: rgba(51, 51, 51, 1);
+    line-height: 42rpx;
+}
+
+.ques-content {
+    margin: 10rpx 40rpx 0 10rpx;
+}
+
+.ques-cont-equal {
+    margin: 10rpx 0 0 10rpx;
+    width: 124rpx;
+}
+
+.ques-content-age {
+    margin: 10rpx 0 0 10rpx;
+    width: 166rpx;
+}
+
+.flex-a {
+    display: flex;
+}
+
+input {
+    width: 630rpx;
+    height: 68rpx;
+    background: rgba(250, 250, 250, 1);
+    border: 2rpx solid rgba(235, 235, 235, 1);
+    font-size: 30rpx;
+    font-family: PingFangSC;
+    font-weight: 400;
+    color: #666;
+    line-height: 68rpx;
+    padding-left: 20rpx;
+    box-sizing: border-box;
+}
+
+input:focus {
+    outline: none;
+}
+
+textarea {
+    width: 630rpx;
+    height: 148rpx;
+    font-size: 30rpx;
+    font-family: PingFangSC;
+    font-weight: 400;
+    color: #666;
+    line-height: 42rpx;
+    padding-top: 14rpx;
+    padding-left: 20rpx;
+    box-sizing: border-box;
+    background: rgba(250, 250, 250, 1);
+    border: 2rpx solid rgba(235, 235, 235, 1);
+}
+
+textarea:focus {
+    outline: none;
+}
+
+.checkbox {
+    width: 20rpx;
+    height: 20rpx;
+    margin-top: 16rpx;
+    cursor: pointer;
+    border: 4rpx solid rgba(229, 229, 229, 1);
+}
+
+.checkbox-active {
+    width: 28rpx;
+    height: 28rpx;
+    margin-top: 16rpx;
+    cursor: pointer;
+}
+
+.button {
+    width: 510rpx;
+    height: 80rpx;
+    background: rgba(255, 206, 68, 1);
+    border-radius: 14rpx;
+    font-size: 32rpx;
+    font-family: PingFangSC;
+    font-weight: 400;
+    color: rgba(51, 51, 51, 1);
+    line-height: 80rpx;
+    text-align: center;
+    margin: 40rpx auto 14rpx;
+}
+
+.des {
+    font-size: 24rpx;
+    font-family: PingFang-SC;
+    font-weight: 400;
+    color: rgba(153, 153, 153, 1);
+    line-height: 34rpx;
+    text-align: center;
+}
