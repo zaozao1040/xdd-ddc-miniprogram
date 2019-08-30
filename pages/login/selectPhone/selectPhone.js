@@ -40,7 +40,18 @@ Page({
     onLoad: function(options) {
 
     },
-
+    showProtocal() {
+        let extendUrl = 'https://www.ddiancan.cn/protocal'
+        wx.navigateTo({
+            url: '/pages/home/link?extendUrl=' + extendUrl + '&title=用户协议'
+        })
+    },
+    showPrivacy() {
+        let extendUrl = 'https://www.ddiancan.cn/privacy'
+        wx.navigateTo({
+            url: '/pages/home/link?extendUrl=' + extendUrl + '&title=隐私政策'
+        })
+    },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

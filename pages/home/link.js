@@ -13,13 +13,18 @@ Page({
      */
 
     onLoad: function(options) {
+
         this.setData({
-                extendUrl: options.extendUrl //这个options就是navigator跳转过来的url参数
+            extendUrl: options.extendUrl + '?userCode=' + wx.getStorageSync('userCode')
+        })
+        if (options.title) {
+            wx.setNavigationBarTitle({
+                title: options.title
             })
-            // this.setData({
-            //     extendUrl: 'http://192.168.0.101:8080/protocal?userCode=' + wx.getStorageSync('userCode') //这个options就是navigator跳转过来的url参数
-            // })
-        console.log(this.data.extendUrl)
+        }
+        // this.setData({
+        //     extendUrl: 'http://192.168.0.101:8080/survey?userCode=' + wx.getStorageSync('userCode')
+        // })
     },
 
 

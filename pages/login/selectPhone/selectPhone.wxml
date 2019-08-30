@@ -18,7 +18,7 @@
     <view class='info' wx:if='{{showInfoFlag}}'>请勾选协议</view>
     <image class='checked' wx:if='{{agreeAuthority}}' bindtap='changeAuthority' src='/images/login/checked.png'></image>
     <view class='unchecked' wx:else bindtap='changeAuthority'></view>
-    <view class='agree-des' bindtap='changeAuthority'>登录代表您已同意<text style='color:#F79C4C;'>点点餐用户协议、隐私政策</text></view>
+    <view class='agree-des' bindtap='changeAuthority'>登录代表您已同意<text style='color:#F79C4C;' catchtap='showProtocal'>点点餐用户协议</text><text style='color:#F79C4C;' catchtap='showPrivacy'>、隐私政策</text></view>
 
 
     <!--弹框-->

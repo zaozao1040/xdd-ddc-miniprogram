@@ -1,7 +1,7 @@
  const baseUrl = getApp().globalData.baseUrl
 
  import { base } from '../../comm/public/request'
- import { order } from './order-model';
+
  let requestModel = new base()
 
  Page({
@@ -651,65 +651,31 @@
          })
 
      },
-
-     //取餐private函数
-     takeFoodOrder(ordercode) {
-         let _this = this
-             //就调用接口加载柜子号 
-         let param = {
-             url: '/order/orderPickPre?userCode=' + _this.data.userCode + '&orderCode=' + ordercode
-         }
-         requestModel.request(param, (data) => {
-
-             if (data) {
-                 _this.setData({
-                     takeorderData: data,
-                     takeorderModalShow: true,
-                     takeorderModalShowInit: false,
-                     takeOrderCode: ordercode
-                 })
-
-                 wx.hideTabBar()
-             }
-         })
-     },
      closeModal() {
-         let _this = this
-         if (_this.data.takeorderModalShow) {
-             _this.setData({
-                 takeorderModalShow: false
-             })
-         }
-
-         if (_this.data.takeorderModalShow) {
-
-             _this.setData({
-                     takeorderModalShow: false,
-                     takeorderAgainShow: false
+         if (this.data.takeorderModalShow) {
+             this.setData({
+                     takeorderModalShow: false
                  })
                  //取餐后为啥要只刷第一页的啊
-             _this.getOrderList(true)
+
          }
          wx.showTabBar()
 
      },
-     takeFoodOrderForModal() {
-         let ordercode = this.data.takeOrderCode
-         this.takeFoodOrderAgain(ordercode, false)
-     },
-     //取餐private函数
-     takeFoodOrderAgain(ordercode, again) {
+     //取餐
+     takeFoodOrder() {
          let _this = this
-
+         let ordercode = _this.data.takeOrderCode
+         let pickagain = _this.data.takeOrderPickagain
          let param = {
-             url: '/order/orderPick?userCode=' + _this.data.userCode + '&orderCode=' + ordercode + '&again=' + again
+             url: '/order/orderPick?userCode=' + _this.data.userCode + '&orderCode=' + ordercode + '&again=' + pickagain
          }
          requestModel.request(param, () => {
 
              _this.setData({
-                 takeorderModalShow: false,
-                 takeorderAgainShow: false
+                 takeorderModalShow: false
              })
+             _this.getOrderList(true)
              wx.showTabBar()
          })
      },
@@ -725,7 +691,27 @@
          }
          _this.data.canClick = false
 
-         _this.takeFoodOrder(e.currentTarget.dataset.ordercode)
+         let { ordercode, pickagain } = e.currentTarget.dataset
+             //就调用接口加载柜子号 
+         let param = {
+             url: '/order/orderPickPre?userCode=' + _this.data.userCode + '&orderCode=' + ordercode
+         }
+         requestModel.request(param, (data) => {
+
+             if (data) {
+                 _this.setData({
+                     takeorderData: data,
+                     takeorderModalShow: true,
+                     takeorderModalShowInit: false,
+                     takeOrderCode: ordercode,
+                     takeOrderPickagain: pickagain
+                 })
+
+                 wx.hideTabBar()
+             }
+         })
+
+
          if (_this.data.timer) {
              clearTimeout(_this.data.timer)
          }
@@ -739,12 +725,8 @@
          this.setData({
              showShapeFlag: false
          })
-         let a = {}
-         a.orderCode = e.currentTarget.dataset.ordercode
-         a.orderFoodList = e.currentTarget.dataset.orderfoodlist
-         wx.setStorageSync('commentOrder', a)
          wx.navigateTo({
-             url: './comment/comment'
+             url: './comment/comment?orderCode=' + e.currentTarget.dataset.ordercode
          })
      },
 

@@ -243,6 +243,30 @@ Page({
                             //要做俩连动，左侧连动正常了，正常没有连动左侧
                             foodItem.left = true
                             foodItem.foodCount = 0
+
+                            //判断餐品是不是已经售完 
+                            if (foodItem.beyondStockOrder) {
+
+                                //可超过库存点餐
+                                if (foodItem.foodBeyondQuota && foodItem.foodBeyondQuota.surplusNum == 0) {
+                                    foodItem.sellAllOut = true
+                                } else {
+                                    foodItem.sellAllOut = false
+                                }
+                                if (foodItem.foodQuota && foodItem.foodQuota.surplusNum == 0) {
+                                    foodItem.linefoodPrice = true
+                                }
+
+                            } else {
+                                //不可超过库存点餐
+                                if (foodItem.foodQuota && foodItem.foodQuota.surplusNum == 0) {
+                                    foodItem.sellAllOut = true
+                                } else {
+                                    foodItem.sellAllOut = false
+                                }
+                            }
+
+
                             let foodList_menuTypeIndex = typeIdFoodCode[foodItem.typeId].menuTypeIndex
                             let foodList_foodIndex = typeIdFoodCode[foodItem.typeId].foodCodeIndexs[foodItem.foodCode]
                             foodItem.menuTypeIndex = foodList_menuTypeIndex
@@ -264,6 +288,27 @@ Page({
                         foodItem.foodTotalPrice = 0
                         foodItem.foodTotalOriginalPrice = 0
                         foodItem.foodCount = 0
+
+
+                        //判断餐品是不是已经售完 
+                        if (foodItem.beyondStockOrder) {
+
+                            //可超过库存点餐
+                            if (foodItem.foodBeyondQuota && foodItem.foodBeyondQuota.surplusNum == 0) {
+                                foodItem.sellAllOut = true
+                            } else {
+                                foodItem.sellAllOut = false
+                            }
+                        } else {
+
+                            //不可超过库存点餐
+                            if (foodItem.foodQuota && foodItem.foodQuota.surplusNum == 0) {
+
+                                foodItem.sellAllOut = true
+                            } else {
+                                foodItem.sellAllOut = false
+                            }
+                        }
                     })
                     tmp_menuCountList.push(0)
                     tmp_menuCountListCopy.push(0)
@@ -291,7 +336,7 @@ Page({
                 tmp_allData[tmp_mealTypeItem] = resData
                 _this.setData({
                     allMenuData: tmp_allData, //保存下所有数据
-                    allMenuDataCopy: tmp_allData, //保存下所有数据
+                    allMenuDataCopy: JSON.parse(JSON.stringify(tmp_allData)), //保存下所有数据
                     getdataalready: true,
                     lazyShowImage: tmp_lazyShowImage,
                     lazyShowImageCount: tmp_lazyShowImageCount
@@ -407,14 +452,15 @@ Page({
 
     handleClearFoods: function() {
         //清空时重新加载数据 
+        let _this = this
         this.setData({
             totalCount: 0,
             totalMoney: 0,
             totalMoneyRealDeduction: 0,
             boxActiveFlag: false,
-            selectedFoodsIndex: this.data.selectedFoodsIndexCopy,
-            allMenuData: this.data.allMenuDataCopy,
-            menuCountList: this.data.menuCountListCopy
+            selectedFoodsIndex: JSON.parse(JSON.stringify(_this.data.selectedFoodsIndexCopy)),
+            allMenuData: JSON.parse(JSON.stringify(_this.data.allMenuDataCopy)),
+            menuCountList: JSON.parse(JSON.stringify(_this.data.menuCountListCopy))
         })
 
     },
@@ -464,23 +510,43 @@ Page({
             // 应该是下面所有的操作都是在减1之后
         if (tmp_oneFood.foodCount > 0) {
 
+            // 计算totalMoney, totalDeduction，totalRealMonty
+            let minusFoodPrice = tmp_oneFood.foodPrice
+            if (tmp_oneFood.foodQuota) {
+                let tmpstock = tmp_oneFood.foodQuota
+                let tmpfoodCount = tmp_oneFood.foodCount
+                if ((tmpstock.surplusNum || tmpstock.surplusNum == 0) && tmpfoodCount > tmpstock.surplusNum) {
+                    //超出库存了，则减去的价格为原价
+                    if (tmp_oneFood.linefoodPrice) {
+                        minusFoodPrice = tmp_oneFood.foodOriginalPrice
+                    }
+                }
+            }
+            tmp_oneFood.foodCount -= 1
+            if (tmp_oneFood.linefoodPrice) {
+                let tmpfoodCount_more = tmp_oneFood.foodCount - tmp_oneFood.foodQuota.surplusNum
+                if (tmpfoodCount_more == 0 && tmp_oneFood.foodQuota.surplusNum > 0) {
+                    tmp_oneFood.linefoodPrice = false
+                }
+            }
             //5/31判断是不是左侧标签
             let { left, leftmenuindex, leftfoodindex } = e.currentTarget.dataset
 
             if (left) {
                 //表示点击的是左侧标签
                 this.data.allMenuData[tmp_mealTypeItem].foodList[leftmenuindex].foodList[leftfoodindex].foodCount -= 1
+                this.data.allMenuData[tmp_mealTypeItem].foodList[leftmenuindex].foodList[leftfoodindex].linefoodPrice = tmp_oneFood.linefoodPrice
             } else {
                 //表示点击的是正常餐品，要连动修改左侧标签餐品
                 if (tmp_oneFood.leftMenuTypeIndex != undefined) {
                     //表示正常餐品级联了左侧标签餐品
                     this.data.allMenuData[tmp_mealTypeItem].foodList[tmp_oneFood.leftMenuTypeIndex].foodList[tmp_oneFood.leftFoodIndex].foodCount -= 1
+                    this.data.allMenuData[tmp_mealTypeItem].foodList[tmp_oneFood.leftMenuTypeIndex].foodList[tmp_oneFood.leftFoodIndex].linefoodPrice = tmp_oneFood.linefoodPrice
                 }
 
             }
 
 
-            tmp_oneFood.foodCount -= 1
             this.data.allMenuData[tmp_mealTypeItem].foodList[menutypeIndex].foodList[foodIndex] = tmp_oneFood
                 // 总的数目减1
             let temptotalCount = this.data.totalCount - 1
@@ -489,14 +555,14 @@ Page({
             tmp_menuCountList[tmp_mealTypeItem][menutypeIndex] -= 1 // 没有判断是不是大于0，这样会不会偶尔出bug？？后面这些代码都需要修整
 
 
-            // 计算totalMoney, totalDeduction，totalRealMonty
-            let tmptotalMoney = this.data.totalMoney - tmp_oneFood.foodPrice
+
+            let tmptotalMoney = this.data.totalMoney - minusFoodPrice
 
             let currnt_menuData = this.data.allMenuData[tmp_mealTypeItem]
-            currnt_menuData.totalMoney -= tmp_oneFood.foodPrice
+            currnt_menuData.totalMoney -= minusFoodPrice
             currnt_menuData.totalMoney = parseFloat(currnt_menuData.totalMoney.toFixed(2))
             if (tmp_oneFood.canMeal) { //可使用餐标
-                currnt_menuData.totalMoney_meal -= tmp_oneFood.foodPrice
+                currnt_menuData.totalMoney_meal -= minusFoodPrice
             }
             // 这种每次重新计算的方法好吗
             let new_deduction = 0
@@ -595,12 +661,41 @@ Page({
                 })
                 canAddFlag = false
             } else if ((tmpstock.surplusNum || tmpstock.surplusNum == 0) && tmpfoodCount >= tmpstock.surplusNum) {
-                wx.showToast({
-                    title: '库存不足',
-                    image: '/images/msg/error.png',
-                    duration: 2000
-                })
-                canAddFlag = false
+                let tmpfoodCount_more = tmpfoodCount - tmpstock.surplusNum
+                    //库存不足，判断是不是可以超出库存点餐beyondStockOrder=true就可以 
+                if (tmp_oneFood.beyondStockOrder) {
+                    //超库存存在则判断超库存
+                    if (tmp_oneFood.foodBeyondQuota && tmp_oneFood.foodBeyondQuota.surplusNum && tmp_oneFood.foodBeyondQuota.surplusNum <= tmpfoodCount_more) {
+                        wx.showToast({
+                            title: '库存不足',
+                            image: '/images/msg/error.png',
+                            duration: 2000
+                        })
+                        canAddFlag = false
+                    } else {
+                        //可以按原价点 
+                        tmp_oneFood.linefoodPrice = true
+                        this.setData({
+                            overRemindFlag: true
+                        })
+                        if (this.data.overRemindTimer) {
+                            clearTimeout(this.data.overRemindTimer)
+                        }
+                        this.data.overRemindTimer = setTimeout(() => {
+                            this.setData({
+                                overRemindFlag: false
+                            })
+                        }, 1500)
+                    }
+
+                } else {
+                    wx.showToast({
+                        title: '库存不足',
+                        image: '/images/msg/error.png',
+                        duration: 2000
+                    })
+                    canAddFlag = false
+                }
             }
         }
 
@@ -614,11 +709,13 @@ Page({
             if (left) {
                 //表示点击的是左侧标签
                 _this.data.allMenuData[tmp_mealTypeItem].foodList[leftmenuindex].foodList[leftfoodindex].foodCount += 1
+                _this.data.allMenuData[tmp_mealTypeItem].foodList[leftmenuindex].foodList[leftfoodindex].linefoodPrice = tmp_oneFood.linefoodPrice
             } else {
                 //表示点击的是正常餐品，要连动修改左侧标签餐品
                 if (tmp_oneFood.leftMenuTypeIndex != undefined) {
                     //表示正常餐品级联了左侧标签餐品
                     _this.data.allMenuData[tmp_mealTypeItem].foodList[tmp_oneFood.leftMenuTypeIndex].foodList[tmp_oneFood.leftFoodIndex].foodCount += 1
+                    _this.data.allMenuData[tmp_mealTypeItem].foodList[tmp_oneFood.leftMenuTypeIndex].foodList[tmp_oneFood.leftFoodIndex].linefoodPrice = tmp_oneFood.linefoodPrice
                 }
 
             }
@@ -668,7 +765,7 @@ Page({
                     let tmp_copy = {}
                     tmp_copy.name = _this.data.mealTypeSmall[tmp_mealTypeItem]
                     tmp_copy.foodList = []
-                    _this.data.selectedFoodsIndexCopy[tmp_mealTypeItem] = tmp_copy
+                    _this.data.selectedFoodsIndexCopy[tmp_mealTypeItem] = JSON.parse(JSON.stringify(tmp_copy))
                 }
 
                 let tmpselectFoodsIndex = _this.data.selectedFoodsIndex
@@ -682,13 +779,17 @@ Page({
             }
 
             // 计算totalMoney, totalDeduction，totalRealMonty
-            let tmptotalMoney = _this.data.totalMoney + tmp_oneFood.foodPrice
+            let addFoodPrice = tmp_oneFood.foodPrice
+            if (tmp_oneFood.linefoodPrice) {
+                addFoodPrice = tmp_oneFood.foodOriginalPrice
+            }
+            let tmptotalMoney = _this.data.totalMoney + addFoodPrice
 
             let currnt_menuData = _this.data.allMenuData[tmp_mealTypeItem]
-            currnt_menuData.totalMoney += tmp_oneFood.foodPrice
+            currnt_menuData.totalMoney += addFoodPrice
             currnt_menuData.totalMoney = parseFloat(currnt_menuData.totalMoney.toFixed(2))
             if (tmp_oneFood.canMeal) { //可使用餐标
-                currnt_menuData.totalMoney_meal += tmp_oneFood.foodPrice
+                currnt_menuData.totalMoney_meal += addFoodPrice
             }
 
             // 这种每次重新计算的方法好吗
@@ -727,8 +828,6 @@ Page({
     // 点击购物车图标
     handleClickBox() {
         if (this.data.totalCount > 0) {
-
-
             this.setData({
                 boxActiveFlag: !this.data.boxActiveFlag
             })
@@ -741,7 +840,6 @@ Page({
     },
     // 在点击购物车图标查看购物车或者点击去结算时，计算菜单信息
     getSelectedFoods() {
-
         let tmpselectFoodsIndex = this.data.selectedFoodsIndex
         let tmp_allData = this.data.allMenuData
         let mealEnglistLabel = this.data.mealEnglistLabel
@@ -758,7 +856,24 @@ Page({
                             onefood.foodIndex = tmpselectFoodsIndex[x].foodList[y][i]
                                 // totalPrice只有在购物车列表和订单信息那里才需要展示，所以在menu列表那边add和minus时不需要写
                                 //不需要的时候就不要计算
-                            onefood.foodTotalPrice = parseFloat((onefood.foodPrice * onefood.foodCount).toFixed(2))
+
+                            if (onefood.foodQuota) { //说明有库存 要不要判断不为0啊
+                                let tmpstock = onefood.foodQuota
+                                let tmpfoodCount = onefood.foodCount
+                                if ((tmpstock.surplusNum || tmpstock.surplusNum == 0) && tmpfoodCount > tmpstock.surplusNum) {
+                                    //超出库存
+                                    //如果不可以按原价点
+
+                                    let overCount = parseInt(onefood.foodCount - tmpstock.surplusNum)
+                                    onefood.foodTotalPrice = parseFloat((onefood.foodPrice * tmpstock.surplusNum + onefood.foodOriginalPrice * overCount).toFixed(2))
+
+                                } else {
+                                    onefood.foodTotalPrice = parseFloat((onefood.foodPrice * onefood.foodCount).toFixed(2))
+                                }
+                            } else {
+                                onefood.foodTotalPrice = parseFloat((onefood.foodPrice * onefood.foodCount).toFixed(2))
+                            }
+
                             onefood.foodTotalOriginalPrice = parseFloat((onefood.foodOriginalPrice * onefood.foodCount).toFixed(2))
                             tmpselectedfoods.push(onefood)
                         }
@@ -787,15 +902,36 @@ Page({
             // 应该是下面所有的操作都是在减1之后
         if (tmp_oneFood.foodCount > 0) {
 
+            //计算减去的价格
+            let minusFoodPrice = tmp_oneFood.foodPrice
+            if (tmp_oneFood.foodQuota) {
+                let tmpstock = tmp_oneFood.foodQuota
+                let tmpfoodCount = tmp_oneFood.foodCount
+                if ((tmpstock.surplusNum || tmpstock.surplusNum == 0) && tmpfoodCount > tmpstock.surplusNum) {
+                    //超出库存了，则减去的价格为原价
+                    if (tmp_oneFood.linefoodPrice) {
+                        minusFoodPrice = tmp_oneFood.foodOriginalPrice
+                    }
+                }
+            }
+
+
+            tmp_oneFood.foodCount -= 1
+                //8--28添加
+            if (tmp_oneFood.linefoodPrice) {
+                let tmpfoodCount_more = tmp_oneFood.foodCount - tmp_oneFood.foodQuota.surplusNum
+                if (tmpfoodCount_more == 0 && tmp_oneFood.foodQuota.surplusNum > 0) {
+                    tmp_oneFood.linefoodPrice = false
+                }
+            }
 
             //表示点击的是正常餐品，要连动修改左侧标签餐品
             if (tmp_oneFood.leftMenuTypeIndex != undefined) {
                 //表示正常餐品级联了左侧标签餐品
                 this.data.allMenuData[tmp_mealTypeItem].foodList[tmp_oneFood.leftMenuTypeIndex].foodList[tmp_oneFood.leftFoodIndex].foodCount -= 1
+                this.data.allMenuData[tmp_mealTypeItem].foodList[tmp_oneFood.leftMenuTypeIndex].foodList[tmp_oneFood.leftFoodIndex].linefoodPrice = tmp_oneFood.linefoodPrice
             }
 
-
-            tmp_oneFood.foodCount -= 1
 
 
             this.data.allMenuData[tmp_mealTypeItem].foodList[menutypeIndex].foodList[foodIndex] = tmp_oneFood
@@ -806,13 +942,14 @@ Page({
             tmp_menuCountList[tmp_mealTypeItem][menutypeIndex] -= 1 // 没有判断是不是大于0，这样会不会偶尔出bug？？后面这些代码都需要修整
 
 
-            let tmptotalMoney = this.data.totalMoney - tmp_oneFood.foodPrice
+
+            let tmptotalMoney = this.data.totalMoney - minusFoodPrice
 
             let currnt_menuData = this.data.allMenuData[tmp_mealTypeItem]
-            currnt_menuData.totalMoney -= tmp_oneFood.foodPrice
+            currnt_menuData.totalMoney -= minusFoodPrice
             currnt_menuData.totalMoney = parseFloat(currnt_menuData.totalMoney.toFixed(2))
             if (tmp_oneFood.canMeal) { //可使用餐标
-                currnt_menuData.totalMoney_meal -= tmp_oneFood.foodPrice
+                currnt_menuData.totalMoney_meal -= minusFoodPrice
             }
             // 这种每次重新计算的方法好吗
             let new_deduction = 0
@@ -840,13 +977,11 @@ Page({
 
             // 购物车中的减1
             let tmp_selectedFood = this.data.selectedFoodsIndex[tmp_mealTypeItem].selectedFoods[tmp_selectedFoodIndex]
-            tmp_selectedFood.foodCount--;
-            tmp_selectedFood.foodTotalPrice = parseFloat((tmp_selectedFood.foodTotalPrice - tmp_selectedFood.foodPrice).toFixed(2));
+                // tmp_selectedFood.foodCount--;
+            tmp_selectedFood.foodTotalPrice = parseFloat((tmp_selectedFood.foodTotalPrice - minusFoodPrice).toFixed(2));
             tmp_selectedFood.foodTotalOriginalPrice = parseFloat((tmp_selectedFood.foodTotalOriginalPrice - tmp_selectedFood.foodOriginalPrice).toFixed(2));
             this.data.selectedFoodsIndex[tmp_mealTypeItem].selectedFoods[tmp_selectedFoodIndex] = tmp_selectedFood
             this.data.selectedFoodsIndex[tmp_mealTypeItem].deductionMoney = parseFloat(new_deduction.toFixed(2))
-
-
 
             this.setData({
                 allMenuData: this.data.allMenuData,
@@ -885,6 +1020,7 @@ Page({
     },
     // 点击加号，将餐品加一
     handleCartAddfood(e) {
+
         let menutypeIndex = e.currentTarget.dataset.menutypeindex // 餐品类别的index
         let foodIndex = e.currentTarget.dataset.foodindex // 在menutypeIndex的foods的index 
         let tmp_mealTypeItem = e.currentTarget.dataset.mealtypeitem
@@ -908,30 +1044,64 @@ Page({
             }
             // 要记住 if(0) 为false
             else if ((tmpstock.surplusNum || tmpstock.surplusNum == 0) && tmpfoodCount >= tmpstock.surplusNum) {
-                wx.showToast({
-                    title: '库存不足',
-                    image: '/images/msg/error.png',
-                    duration: 2000
-                })
-                canAddFlag = false
+                let tmpfoodCount_more = tmpfoodCount - tmpstock.surplusNum
+                    //库存不足，判断是不是可以超出库存点餐beyondStockOrder=true就可以 
+                if (tmp_oneFood.beyondStockOrder) {
+                    //超库存存在则判断超库存
+                    if (tmp_oneFood.foodBeyondQuota && tmp_oneFood.foodBeyondQuota.surplusNum && tmp_oneFood.foodBeyondQuota.surplusNum <= tmpfoodCount_more) {
+                        wx.showToast({
+                            title: '库存不足',
+                            image: '/images/msg/error.png',
+                            duration: 2000
+                        })
+                        canAddFlag = false
+                    } else {
+                        //可以按原价点 
+                        tmp_oneFood.linefoodPrice = true
+                        this.setData({
+                            overRemindFlag: true
+                        })
+                        if (this.data.overRemindTimer) {
+                            clearTimeout(this.data.overRemindTimer)
+                        }
+                        this.data.overRemindTimer = setTimeout(() => {
+                            this.setData({
+                                overRemindFlag: false
+                            })
+                        }, 1500)
+                    }
+
+                } else {
+                    wx.showToast({
+                        title: '库存不足',
+                        image: '/images/msg/error.png',
+                        duration: 2000
+                    })
+                    canAddFlag = false
+                }
             }
         }
 
-        if (canAddFlag) { // 说明可以再点餐
-
-
+        if (canAddFlag) { // 说明可以再点餐 
             //表示点击的是正常餐品，要连动修改左侧标签餐品
             if (tmp_oneFood.leftMenuTypeIndex != undefined) {
                 //表示正常餐品级联了左侧标签餐品
                 this.data.allMenuData[tmp_mealTypeItem].foodList[tmp_oneFood.leftMenuTypeIndex].foodList[tmp_oneFood.leftFoodIndex].foodCount += 1
+                this.data.allMenuData[tmp_mealTypeItem].foodList[tmp_oneFood.leftMenuTypeIndex].foodList[tmp_oneFood.leftFoodIndex].linefoodPrice = tmp_oneFood.linefoodPrice
             }
 
+            let addFoodPrice = 0
+            if (tmp_oneFood.linefoodPrice) {
+                addFoodPrice = tmp_oneFood.foodOriginalPrice
+            } else {
+                addFoodPrice = tmp_oneFood.foodPrice
+            }
 
             tmp_oneFood.foodCount += 1 // 需不需要判断库存
 
             let tmpFoodTotalPrice = tmp_oneFood.foodTotalPrice
                 //需要好好看看parseFloat,后面优化parseFloat相关内容
-            tmpFoodTotalPrice = parseFloat(parseFloat(tmpFoodTotalPrice + parseFloat(tmp_oneFood.foodPrice)).toFixed(2))
+            tmpFoodTotalPrice = parseFloat(parseFloat(tmpFoodTotalPrice + parseFloat(addFoodPrice)).toFixed(2))
             tmp_oneFood.foodTotalPrice = tmpFoodTotalPrice
 
             let tmpFoodTotalOriginalPrice = tmp_oneFood.foodTotalOriginalPrice
@@ -953,13 +1123,14 @@ Page({
             })
 
             // 计算totalMoney, totalDeduction，totalRealMonty
-            let tmptotalMoney = this.data.totalMoney + tmp_oneFood.foodPrice
+
+            let tmptotalMoney = this.data.totalMoney + addFoodPrice
 
             let currnt_menuData = this.data.allMenuData[tmp_mealTypeItem]
-            currnt_menuData.totalMoney += tmp_oneFood.foodPrice
+            currnt_menuData.totalMoney += addFoodPrice
             currnt_menuData.totalMoney = parseFloat(currnt_menuData.totalMoney.toFixed(2))
             if (tmp_oneFood.canMeal) { //可使用餐标
-                currnt_menuData.totalMoney_meal += tmp_oneFood.foodPrice
+                currnt_menuData.totalMoney_meal += addFoodPrice
             }
             // 这种每次重新计算的方法好吗
             let new_deduction = 0
@@ -984,13 +1155,16 @@ Page({
 
             let tmp_totalMoneyRealDeduction = parseFloat((this.data.totalMoneyRealDeduction - oldDeduction + new_deduction).toFixed(2))
             let tmp_realTotalMoney = (tmptotalMoney - tmp_totalMoneyRealDeduction) > 0 ? tmptotalMoney - tmp_totalMoneyRealDeduction : 0
+
+            console.log(' this.data.selectedFoodsIndex', this.data.selectedFoodsIndex)
                 // 购物车中被增1的增1
-            let tmp_selectedFood = this.data.selectedFoodsIndex[tmp_mealTypeItem].selectedFoods[tmp_selectedFoodIndex]
-            tmp_selectedFood.foodCount++;
-            tmp_selectedFood.foodTotalPrice = parseFloat((tmp_selectedFood.foodTotalPrice + tmp_selectedFood.foodPrice).toFixed(2));
-            tmp_selectedFood.foodTotalOriginalPrice = parseFloat((tmp_selectedFood.foodTotalOriginalPrice + tmp_selectedFood.foodOriginalPrice).toFixed(2));
-            this.data.selectedFoodsIndex[tmp_mealTypeItem].selectedFoods[tmp_selectedFoodIndex] = tmp_selectedFood
-            this.data.selectedFoodsIndex[tmp_mealTypeItem].deductionMoney = parseFloat(new_deduction.toFixed(2))
+                // let tmp_selectedFood = this.data.selectedFoodsIndex[tmp_mealTypeItem].selectedFoods[tmp_selectedFoodIndex]
+                // tmp_selectedFood.foodCount++;
+                // tmp_selectedFood.foodTotalPrice = parseFloat((tmp_selectedFood.foodTotalPrice + tmp_selectedFood.foodPrice).toFixed(2));
+                // tmp_selectedFood.foodTotalPrice = parseFloat((tmp_selectedFood.foodTotalPrice + addFoodPrice).toFixed(2));
+                // tmp_selectedFood.foodTotalOriginalPrice = parseFloat((tmp_selectedFood.foodTotalOriginalPrice + tmp_selectedFood.foodOriginalPrice).toFixed(2));
+                // this.data.selectedFoodsIndex[tmp_mealTypeItem].selectedFoods[tmp_selectedFoodIndex] = tmp_selectedFood
+                // this.data.selectedFoodsIndex[tmp_mealTypeItem].deductionMoney = parseFloat(new_deduction.toFixed(2))
             this.setData({
                 allMenuData: this.data.allMenuData,
                 totalMoney: parseFloat(tmptotalMoney.toFixed(2)),
@@ -1059,6 +1233,7 @@ Page({
                 _this.data.selectedFoodsIndex.mealDate = _this.data.mealDate
 
                 wx.setStorageSync('todaySelectedFoods', _this.data.selectedFoodsIndex)
+                console.log('todaySelectedFoods', _this.data.selectedFoodsIndex)
 
                 wx.navigateTo({
                     url: '/pages/menu/today/confirm/confirm?totalMoney=' +

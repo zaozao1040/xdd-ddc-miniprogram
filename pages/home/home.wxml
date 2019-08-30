@@ -84,7 +84,7 @@
         </view>
         <!-- 首页提示取餐3.0-->
         <view wx:if='{{gethomeOrderList}}'>
-            <view style="margin:0 0 30rpx 30rpx;" wx:if="{{homeOrderList.length>0}}">
+            <view style="margin-left:30rpx;" wx:if="{{homeOrderList.length>0}}">
                 <view class='takefood-title'>今日餐品</view>
                 <view>
                     <swiper next-margin='24rpx' style='width: 100%; height: 212rpx;'>
@@ -94,19 +94,10 @@
                                     <view class='takefood-img-wrapper'>
                                         <image class="takefood-img" src="{{homeOrderItem.foodImage}}"></image>
                                     </view>
-                                    <view>
+                                    <view style='flex-grow: 1;'>
                                         <view class='flexdisplay'>
                                             <view class='takefood-cabinet'>
-                                                <view class='flexdisplay' style="line-height:50rpx;" wx:if='{{homeOrderItem.isBinding}}'>
-                                                    <view class="takefood-cabinet-title">{{homeOrderItem.bindDes}}</view>
-                                                    <view class="takefood-cabinet-number">
-                                                        {{homeOrderItem.bindNumber}}
-                                                    </view>
-                                                </view>
-                                                <view style="line-height:50rpx;" wx:else>
-                                                    <view class="takefood-cabinet-title">没绑柜</view>
-                                                </view>
-                                                <view class='flexdisplay' style="line-height: 40rpx;margin:4rpx 0 8rpx;">
+                                                <view class='flexdisplay' style="line-height: 40rpx;margin:14rpx 0 8rpx;">
                                                     <view class="takefood-mealType">{{homeOrderItem.mealTypeShow}}</view>
                                                     <view class='flexdisplay' wx:if='{{homeOrderItem.foodName.length<9}}'>
                                                         <view class="takefood-foodname" wx:if='{{homeOrderItem.foodQuantity>1}}'>
@@ -122,22 +113,41 @@
                                                             x{{homeOrderItem.foodQuantity}}</view>
                                                     </view>
                                                 </view>
+                                                <view class='takefood-time'>取餐时间: {{homeOrderItem.takeMealTimeDes}}</view>
                                             </view>
-                                            <view class="takefood-button" bindtap="handleTakeOrder" data-foodcode="{{homeOrderItem.foodCode}}" data-ordercode="{{homeOrderItem.orderCode}}" data-isbinding="{{homeOrderItem.isBinding}}" data-hascabinet="{{homeOrderItem.hasCabinet}}" data-binddes="{{homeOrderItem.bindDes}}"
-                                                data-bindnumber="{{homeOrderItem.bindNumber}}" data-foodindex="{{homeOrderIndex}}" data-prompt="{{homeOrderItem.prompt}}">取餐</view>
+                                            <view class="takefood-button" bindtap="handleTakeOrder" data-ordercode="{{homeOrderItem.orderCode}}" data-pickagain="{{homeOrderItem.pickAgain}}">取餐</view>
                                         </view>
-                                        <view class='takefood-time'>取餐时间: {{homeOrderItem.takeMealTimeDes}}</view>
+
                                     </view>
-                                </view>
-                                <view class="prompt">
-                                    <text class="prompt-title"> 用餐提示: </text>
-                                    <text class="prompt-des"> {{homeOrderItem.prompt}} </text>
                                 </view>
                             </swiper-item>
                         </block>
                     </swiper>
                 </view>
             </view>
+        </view>
+
+        <!--取餐需要验证-->
+        <view class='{{takeorderModalShow?"take-wrapper in":"take-wrapper  out"}}' style='display:{{takeorderModalShowInit?"none":"block"}}'>
+            <image src='/images/order/takeorder.png' style='width:140rpx;height:140rpx;position:absolute;right:304rpx;top:-70rpx;'></image>
+            <view class='take-title'>取餐提示</view>
+            <view class='take-des'>请到柜子旁取餐，取餐后请尽快用餐，太晚吃饭对胃不好哦～</view>
+            <image src='/images/home/filter_close.png' style='width:88rpx;height:88rpx;position:absolute;right:10rpx;top:10rpx;' catchtap='closeModal'></image>
+            <scroll-view scroll-y style='height:318rpx;'>
+                <view style=' padding:0 60rpx;'>
+                    <view wx:for='{{takeorderData}}'>
+                        <view class='flex-b' style='margin-top:30rpx;'>
+                            <view class='take-name'>{{item.foodName}}</view>
+                            <view class='take-cabinet' wx:if='{{item.cabinet&&item.cabinet.length>0}}'>{{item.cabinet[0].cabinetNumber+'-'+item.cabinet[0].cellNumber}}</view>
+                            <view class='take-cabinet' wx:elif='{{item.boxNumber}}'>{{item.boxNumber}}</view>
+                        </view>
+                        <view class='take-remind' wx:if='{{item.prompt}}'>{{item.prompt}}</view>
+                    </view>
+
+                </view>
+            </scroll-view>
+            <view class='take-button' wx:if='{{takeOrderPickagain}}' catchtap='takeFoodOrder'> 再次取餐</view>
+            <view class='take-button' wx:else catchtap='takeFoodOrder'> 取餐</view>
         </view>
 
         <!-- 首页提示评价3.1-->
@@ -174,31 +184,7 @@
             </view>
         </view>
 
-        <!--取餐弹框1-->
-        <view class="modulebox-background-wrapper" wx:if='{{takeFood.show}}'>
-            <view class='bind-organize-warpper' style='width:580rpx;height:340rpx;'>
-                <view class='bind-organize-title'>是否取餐？</view>
-                <view class='bind-organize-content' wx:if='{{takeFood.currentContent}}'>{{takeFood.currentContent}}</view>
-                <view class='bind-organize-content'>{{takeFood.prompt}}</view>
 
-                <view class='bind-display'>
-                    <view class='bind-organize-left' bindtap='getTakeMealInfo'>暂不取餐</view>
-                    <view class='bind-organize-right' bindtap='takeFoodOrderAgain' data-again='{{false}}' data-ordercode='{{takeFood.orderCode}}'>取餐</view>
-                </view>
-            </view>
-        </view>
-        <!--取餐弹框2-->
-        <view class="modulebox-background-wrapper" wx:if='{{takeFood.again}}'>
-            <view class='bind-organize-warpper' style='width:580rpx;height:340rpx;'>
-                <view class='bind-organize-title'>是否再次取餐？</view>
-                <view class='bind-organize-content'>{{takeFood.nextContent}}</view>
-
-                <view class='bind-display'>
-                    <view class='bind-organize-left' bindtap='getTakeMealInfo'>已经取出</view>
-                    <view class='bind-organize-right' bindtap='takeFoodOrderAgain' data-again='{{true}}' data-ordercode='{{takeFood.orderCode}}'>确认取餐</view>
-                </view>
-            </view>
-        </view>
         <!--企业管理员无报餐权限弹框-->
         <view class='modulebox-background-wrapper' wx:if='{{orgAdminNoMealFlag}}'>
             <view class='bind-organize-warpper' style='width:580rpx;height:340rpx;'>
@@ -277,7 +263,7 @@
 
         <!--选择预约3.0-->
 
-        <view class="mask" wx:if="{{showMenuSelect}}" catchtouchmove="preventTouchMove"></view>
+        <view class="mask" wx:if="{{showMenuSelect||takeorderModalShow}}" catchtouchmove="preventTouchMove"></view>
 
         <view style="position:fixed;bottom:0;width:100%; z-index:1001;background:#fff;" wx:if="{{showMenuSelect}}" catchtouchmove="preventTouchMove">
             <view class='flexdisplay'>

@@ -25,80 +25,80 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-        let _this = this
-        requestModel.getUserCode(userCode => {
-            _this.data.userCode = userCode
-            _this.handleEvaluateOrder()
-        })
 
+        this.setData({
+            userCode: wx.getStorageSync('userCode'),
+            orderCode: options.orderCode
+        })
+        this.handleEvaluateOrder()
     },
     /* 去评价 */
     handleEvaluateOrder: function() {
-        let options = wx.getStorageSync('commentOrder')
-        console.log('commentOrder', options)
-        let _this = this
-        let orderCode = options.orderCode
-        let list = options.orderFoodList
-        let orderFoodList = []
+        let url = '/orderEvaluate/getOrderInfo?userCode=' + this.data.userCode + '&orderCode=' + this.data.orderCode
+        let param = { url }
+        requestModel.request(param, data => {
 
-        for (let i = 0; i < list.length; i++) {
-            let a = {}
-            a.foodName = list[i].foodName
-            a.foodImage = list[i].foodImage
-            a.foodQuantity = list[i].foodQuantity
-            a.foodPrice = list[i].foodPrice
-            a.foodCode = list[i].foodCode
-            a.content = ''
-            a.imagePaths = []
-            a.images = []
-            orderFoodList.push(a)
+            let _this = this
+            let list = data.orderFoodList
+            let orderFoodList = []
 
-        }
-        _this.setData({
-            orderCode: orderCode,
-            orderFoodList: orderFoodList
-        })
+            for (let i = 0; i < list.length; i++) {
+                let a = {}
+                a.foodName = list[i].foodName
+                a.foodImage = list[i].foodImage
+                a.foodQuantity = list[i].foodQuantity
+                a.foodPrice = list[i].foodPrice
+                a.foodCode = list[i].foodCode
+                a.content = ''
+                a.imagePaths = []
+                a.images = []
+                orderFoodList.push(a)
 
-        //关闭底部 
-        wx.hideTabBar()
-
-
-        /* 请求星级标签列表 */
-        let param = {
-            url: '/orderEvaluate/getEvaluateTagList?userCode=' + _this.data.userCode
-        }
-        requestModel.request(param, (data) => {
-            //处理标签 餐品标签+评价标签
-            let evaluateLabels = {}
-            let serviceEvaluateLabels = {}
-            data.tagFoodStarList.forEach(item => {
-                evaluateLabels[item.star] = item.tagList
-            })
-            data.tagServiceStarList.forEach(item => {
-                serviceEvaluateLabels[item.star] = item.tagList
-            })
-
-            for (let i = 0; i < orderFoodList.length; i++) {
-                //餐品 默认五星好评
-                orderFoodList[i].star = 5
-                if (evaluateLabels[5] && evaluateLabels[5].length > 0) {
-                    //orderFoodList[i].evaluateLabelsActive = evaluateLabels[5] //必须用下面的深拷贝，否则每个i的数据都指向同一段内存，互相污染
-                    orderFoodList[i].evaluateLabelsActive = JSON.parse(JSON.stringify(evaluateLabels[5]))
-                    orderFoodList[i].selectedTagNum = 0
-                }
             }
-            //服务 默认五星好评
-            let tmp_serviceInfo = _this.data.serviceInfo
-            tmp_serviceInfo.star = 5
-            tmp_serviceInfo.selectedTagNum = 0
-            tmp_serviceInfo.serviceEvaluateLabelsActive = serviceEvaluateLabels[5]
-
             _this.setData({
-                serviceInfo: tmp_serviceInfo,
-                orderFoodList: orderFoodList,
-                evaluateLabels: evaluateLabels,
-                serviceEvaluateLabels: serviceEvaluateLabels
+                orderFoodList: orderFoodList
             })
+
+            //关闭底部 
+            wx.hideTabBar()
+                /* 请求星级标签列表 */
+            let param = {
+                url: '/orderEvaluate/getEvaluateTagList?userCode=' + _this.data.userCode
+            }
+            requestModel.request(param, (data) => {
+                //处理标签 餐品标签+评价标签
+                let evaluateLabels = {}
+                let serviceEvaluateLabels = {}
+                data.tagFoodStarList.forEach(item => {
+                    evaluateLabels[item.star] = item.tagList
+                })
+                data.tagServiceStarList.forEach(item => {
+                    serviceEvaluateLabels[item.star] = item.tagList
+                })
+
+                for (let i = 0; i < orderFoodList.length; i++) {
+                    //餐品 默认五星好评
+                    orderFoodList[i].star = 5
+                    if (evaluateLabels[5] && evaluateLabels[5].length > 0) {
+                        //orderFoodList[i].evaluateLabelsActive = evaluateLabels[5] //必须用下面的深拷贝，否则每个i的数据都指向同一段内存，互相污染
+                        orderFoodList[i].evaluateLabelsActive = JSON.parse(JSON.stringify(evaluateLabels[5]))
+                        orderFoodList[i].selectedTagNum = 0
+                    }
+                }
+                //服务 默认五星好评
+                let tmp_serviceInfo = _this.data.serviceInfo
+                tmp_serviceInfo.star = 5
+                tmp_serviceInfo.selectedTagNum = 0
+                tmp_serviceInfo.serviceEvaluateLabelsActive = serviceEvaluateLabels[5]
+                console.log('orderFoodList', orderFoodList)
+                _this.setData({
+                    serviceInfo: tmp_serviceInfo,
+                    orderFoodList: orderFoodList,
+                    evaluateLabels: evaluateLabels,
+                    serviceEvaluateLabels: serviceEvaluateLabels
+                })
+            })
+
         })
 
     },
@@ -349,7 +349,7 @@ Page({
         /* 同时更新orderFoodList的star和orderFoodList属性 */
         let tmp_orderFoodList = _this.data.orderFoodList
         tmp_orderFoodList[foodindex].star = star
-        tmp_orderFoodList[foodindex].evaluateLabelsActive = _this.data.evaluateLabels[star]
+        tmp_orderFoodList[foodindex].evaluateLabelsActive = JSON.parse(JSON.stringify(_this.data.evaluateLabels[star]))
         tmp_orderFoodList[foodindex].selectedTagNum = 0
 
         this.setData({

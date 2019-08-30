@@ -282,7 +282,9 @@
      font-size: 34rpx;
      color: #333333;
      letter-spacing: 0;
-     line-height: 120rpx;
+     /* line-height: 120rpx; */
+     line-height: 48rpx;
+     padding-top: 36rpx;
      display: flex;
      width: 402rpx;
      justify-content: space-between;
@@ -650,4 +652,41 @@
      color: rgba(255, 255, 255, 0.40);
      letter-spacing: 0;
      text-align: left;
+ }
+ 
+ .game-over {
+     height: 24rpx;
+     background: rgba(191, 191, 191, 1);
+     border-radius: 6rpx;
+     line-height: 24rpx;
+     font-size: 20rpx;
+     font-family: PingFang-SC;
+     font-weight: 400;
+     color: rgba(255, 255, 255, 1);
+     padding: 0 6rpx;
+ }
+ 
+ .over-des {
+     font-size: 26rpx;
+     font-family: PingFang-SC;
+     font-weight: 400;
+     color: rgba(255, 120, 0, 1);
+     line-height: 36rpx;
+     padding-bottom: 20rpx;
+ }
+ 
+ .over-remind {
+     background: rgba(51, 51, 51, 1);
+     border-radius: 10rpx;
+     font-size: 30rpx;
+     font-family: PingFangSC;
+     font-weight: 400;
+     color: rgba(255, 255, 255, 1);
+     line-height: 42rpx;
+     padding: 18rpx 26rpx;
+     position: fixed;
+     bottom: 200rpx;
+     z-index: 999999;
+     width: 348rpx;
+     left: 170rpx;
  }

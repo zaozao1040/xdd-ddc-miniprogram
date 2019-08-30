@@ -28,7 +28,7 @@
                     </view>
                     <view class='pay-way' style='margin-top:24rpx;'>
                         <view class='flex-a'>
-                            <image src="/images/menu/today/order_wechatpay.png" style="width:40rpx;height:40rpx;margin-right:10rpx;">
+                            <image src="/images/menu/order_wechatpay.png" style="width:40rpx;height:40rpx;margin-right:10rpx;">
                             </image>
                             <view class='pay-way-des'>微信支付</view>
                         </view>
@@ -40,7 +40,7 @@
                 <view wx:else>
                     <view class='pay-way'>
                         <view class='flex-a'>
-                            <image src="/images/menu/today/order_wechatpay.png" style="width:40rpx;height:40rpx;margin-right:10rpx;">
+                            <image src="/images/menu/order_wechatpay.png" style="width:40rpx;height:40rpx;margin-right:10rpx;">
                             </image>
                             <view class='pay-way-des'>微信支付</view>
                         </view>
@@ -165,18 +165,18 @@
                             <view class='flex-a'>
                                 <view class='food-money'>实付：￥<text style='font-weight:500;position:relative; left:-4rpx;;'>{{orderItem.payPrice}}</text></view>
                                 <view class='take-time'>
-                                    <view wx:if='{{orderItem.takeMealEndTime}}'>截止时间:{{orderItem.takeMealEndTime}}</view>
+                                    <view wx:if='{{orderItem.takeMealEndTime&&!(orderItem.status== 2 &&orderItem.evaluateStatus  == 1)}}'>截止时间:{{orderItem.takeMealEndTime}}</view>
                                 </view>
                                 <view class='order-button'>
                                     <block wx:if="{{!orderItem.expiredFlag}}">
                                         <view wx:if="{{orderItem.status== 1}}" class='see-detail' style='margin-left:16rpx;' catchtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-payprice="{{orderItem.payPrice}}" data-paystatus="{{orderItem.payStatus}}">
                                             取消订单
                                         </view>
+                                        <view wx:if="{{orderItem.status== 2 &&orderItem.pickStatus  == 1}}" class='take-food' catchtap="handleTakeOrder" data-ordercode="{{orderItem.orderCode}}" data-pickagain="{{orderItem.pickAgain}}">
+                                            取餐
+                                        </view>
                                         <view wx:if="{{orderItem.status== 2 &&orderItem.evaluateStatus  == 1}}" class='take-food' catchtap="handleEvaluateOrder" data-ordercode="{{orderItem.orderCode}}" data-orderfoodlist="{{orderItem.orderFoodList}}" data-foods="{{orderItem.orderFoodList}}">
                                             评价有礼
-                                        </view>
-                                        <view wx:if="{{orderItem.status== 2 &&orderItem.pickStatus  == 1}}" class='take-food' catchtap="handleTakeOrder" data-ordercode="{{orderItem.orderCode}}" data-cabinet="{{orderItem.cabinet}}">
-                                            取餐
                                         </view>
                                         <view wx:if="{{orderItem.isPay  == false&&orderItem.status  == 1 }}" class='take-food' catchtap="handleSecondpayOrder" data-payprice='{{orderItem.payPrice}}' data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}">
                                             付款
@@ -218,8 +218,8 @@
 
                 </view>
             </scroll-view>
-            <view class='take-button' wx:if='{{takeorderModalShow}}' bindtap='takeFoodOrderForModal'> 取餐</view>
-            <view class='take-button' wx:if='{{takeorderAgainShow}}' bindtap='takeFoodOrderForModal'> 再次取餐</view>
+            <view class='take-button' wx:if='{{takeOrderPickagain}}' bindtap='takeFoodOrder'> 再次取餐</view>
+            <view class='take-button' wx:else bindtap='takeFoodOrder'> 取餐</view>
         </view>
     </view>
     <view wx:else>

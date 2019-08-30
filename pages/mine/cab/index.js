@@ -3,6 +3,8 @@ import {
 } from 'cab-model.js';
 let cabModel = new cab();
 let sliderWidth = 96; // 需要设置slider的宽度，用于计算中间位置
+import { base } from '../../../comm/public/request'
+let requestModel = new base()
 Page({
 
     /**
@@ -35,6 +37,35 @@ Page({
         cabNum: '',
         cabNumListHeight: '300rpx',
         hasCabinet: false
+    },
+    //获取服务电话
+    getPhoneNumber() {
+        let _this = this
+        let param = {
+            url: '/help/getHelp'
+        }
+        requestModel.request(param, data => {
+            _this.setData({
+                showPhoneModal: true,
+                servicePhone: data.contactPhone
+            })
+        })
+    },
+    closePhoneModal() {
+        this.setData({
+            showPhoneModal: false
+        })
+    },
+
+    handleContact() {
+        let _this = this
+        wx.makePhoneCall({
+            phoneNumber: _this.data.servicePhone
+        })
+
+        _this.setData({
+            showPhoneModal: false
+        })
     },
     getSystemInfo: function() {
         let that = this;

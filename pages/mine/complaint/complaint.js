@@ -68,7 +68,7 @@ Page({
                 })
             }
 
-            if (amount > 1 && !_this.data.scrollHeight) {
+            if (amount >= 1 && !_this.data.scrollHeight) {
                 const query2 = wx.createSelectorQuery()
                 query2.select('.button').boundingClientRect()
                 query2.selectViewport().scrollOffset()

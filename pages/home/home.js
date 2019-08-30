@@ -74,7 +74,8 @@ Page({
         oneDayInfo: {},
         orgAdminNoMealFlag: false, //企业管理员，无点餐权限弹窗
         orgAdminMealFlag: false, //企业管理员，点餐提示弹窗
-        windowHeight: 500
+        windowHeight: 500,
+        takeorderModalShowInit: true
     },
     // 选择今天
     handleSelectToday() {
@@ -443,23 +444,21 @@ Page({
         let _this = this
 
         let param = {
-            url: '/order/getOrderList?userCode=' + wx.getStorageSync('userCode') + '&page=1&limit=10&type=2'
+            url: '/home/getHomeOrderEvaluate?userCode=' + wx.getStorageSync('userCode')
         }
-        requestModel.request(param, (res) => {
+        requestModel.request(param, (data) => {
 
             _this.setData({
-                orderList: res.list
+                orderList: data
             })
         }, true)
     },
     /* 去评价 */
     handleEvaluateOrder: function(e) {
-        let a = {}
-        a.orderCode = e.currentTarget.dataset.ordercode
-        a.orderFoodList = e.currentTarget.dataset.orderfoodlist
-        wx.setStorageSync('commentOrder', a)
+
+        wx.removeStorageSync('commentOrder')
         wx.navigateTo({
-            url: '/pages/order/comment/comment'
+            url: '/pages/order/comment/comment?orderCode=' + e.currentTarget.dataset.ordercode
         })
     },
     /* 获取首页取餐信息 */
@@ -478,59 +477,34 @@ Page({
             data.forEach(item => {
                 if (item.pickStatus == 1 && item.status == 2) {
                     if (item.orderFoodList) {
-                        item.orderFoodList.forEach(onefood => {
-                            let a = {}
-                            a.foodImage = onefood.foodImage //图片
-                            a.mealTypeShow = _this.data.mealTypeMap[item.mealType] //餐时
-                            a.foodName = onefood.foodName
-                            a.foodQuantity = onefood.foodQuantity
-                            a.orderCode = item.orderCode
-                            a.foodCode = onefood.foodCode
-                            a.prompt = onefood.prompt
+                        let onefood = item.orderFoodList[0]
 
-                            if (onefood.takeMealStartTime && onefood.takeMealEndTime) {
+                        let a = {}
+                        a.foodImage = onefood.foodImage //图片
+                        a.mealTypeShow = _this.data.mealTypeMap[item.mealType] //餐时
+                        a.foodName = onefood.foodName
+                        a.orderCode = item.orderCode
+                        a.pickAgain = item.pickAgain
 
+                        if (onefood.takeMealStartTime && onefood.takeMealEndTime) {
 
-                                // 取餐时间
-                                let start = (onefood.takeMealStartTime.split(' '))[1].split(':') //时 分 秒
+                            // 取餐时间
+                            let start = (onefood.takeMealStartTime.split(' '))[1].split(':') //时 分 秒
 
-                                let end = (onefood.takeMealEndTime.split(' '))[1].split(':')
+                            let end = (onefood.takeMealEndTime.split(' '))[1].split(':')
 
-                                //取餐时间顶多是到明天吗？不管了，就是明天
-                                let s = '今天' + start[0] + '点' + (start[1] != '00' ? (start[1] + '分') : '')
-                                let endHours = end[0] == '00' ? 24 : end[0]
-                                let e = endHours < start[0] ? ('明天' + endHours + '点') : (endHours + '点') + (end[1] != '00' ? (end[1] + '分') : '')
-                                a.takeMealTimeDes = s + '到' + e
-                            } else {
-                                let b = item.mealDate.split('-')
+                            //取餐时间顶多是到明天吗？不管了，就是明天
+                            let s = '今天' + start[0] + '点' + (start[1] != '00' ? (start[1] + '分') : '')
+                            let endHours = end[0] == '00' ? 24 : end[0]
+                            let e = endHours < start[0] ? ('明天' + endHours + '点') : (endHours + '点') + (end[1] != '00' ? (end[1] + '分') : '')
+                            a.takeMealTimeDes = s + '到' + e
+                        } else {
+                            let b = item.mealDate.split('-')
+                            a.takeMealTimeDes = b[1] + '月' + b[2] + '日'
+                        }
 
-                                a.takeMealTimeDes = b[1] + '月' + b[2] + '日'
-                            }
+                        tmp_homeOrderList.push(a)
 
-                            //柜子还是箱子
-                            if (onefood.cabinet && onefood.cabinet.length > 0) {
-                                a.isBinding = true
-                                a.bindDes = '柜子号'
-                                a.hasCabinet = true
-                                let c = ''
-                                onefood.cabinet.forEach((cabinet, index) => {
-                                    c += cabinet.cabinetNumber + '-' + cabinet.cellNumber
-                                    if (index < onefood.cabinet.length - 1) {
-                                        c += ', '
-                                    }
-                                })
-                                a.bindNumber = c
-                            } else if (onefood.boxNumber && onefood.boxNumber.length > 0) {
-                                a.isBinding = true
-                                a.bindDes = '箱子号'
-                                a.bindNumber = onefood.boxNumber
-                            } else {
-                                a.isBinding = false
-                                a.bindDes = ''
-                                a.bindNumber = ''
-                            }
-                            tmp_homeOrderList.push(a)
-                        })
                     }
                 }
             })
@@ -541,89 +515,40 @@ Page({
             })
         }, true)
 
-        _this.getOrderList()
+        // _this.getOrderList()
     },
 
-    //取餐private函数
-    takeFoodOrder(ordercode, foodcode, prompt) {
-
-        let _this = this
-            //就调用接口加载柜子号 
-        let param = {
-            url: '/order/orderPickPre?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' +
-                ordercode + '&foodCode=' + foodcode
-        }
-        requestModel.request(param, (data) => {
-            let tmp_content = ''
-            if (data) {
-                let bindnumber = ''
-                if (data.length > 0) {
-                    for (let i = 0; i < data.length - 1; i++) {
-                        bindnumber += data[i].cabinetNumber + '-' + data[i].cellNumber + ', '
-                    }
-                    bindnumber += data[data.length - 1].cabinetNumber + '-' + data[data.length - 1].cellNumber
-
-                    tmp_content = '当前柜子为：' + bindnumber + ',请确认本人在柜子旁'
-                }
-
-                let content = data.length > 0 ? '如果柜子' + bindnumber + '中餐品未取出，可点击确定再次取餐' :
-                    '如果餐品未取出，可点击确定再次取餐'
-                let tmp_takeFood = _this.data.takeFood
-                tmp_takeFood.orderCode = ordercode
-                tmp_takeFood.foodCode = foodcode
-
-
-                tmp_takeFood.show = true
-                tmp_takeFood.prompt = prompt
-                tmp_takeFood.nextContent = content
-                tmp_takeFood.currentContent = tmp_content
-                _this.setData({
-                    takeFood: tmp_takeFood
-                })
-
-            }
-        })
-    },
-    //取餐private函数
-    takeFoodOrderAgain(e) {
-        let {
-            ordercode,
-            again
-        } = e.currentTarget.dataset
-        let _this = this
-
-        let param = {
-            url: '/order/orderPick?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + ordercode +
-                '&again=' + again
-        }
-        requestModel.request(param, () => {
-            _this.data.takeFood.again = true
-            _this.data.takeFood.show = false
-            _this.setData({
-                takeFood: _this.data.takeFood
-            })
-        })
-    },
-    /* 取餐 */
+    /* 去取餐 */
     handleTakeOrder: function(e) {
+        this.setData({
+            showShapeFlag: false
+        })
 
         let _this = this
         if (!_this.data.canClick) {
-            _this.data.timer = setTimeout(function() {
-                _this.data.canClick = true
-            }, 2000)
             return
         }
         _this.data.canClick = false
 
-        let {
-            ordercode,
-            foodcode,
-            prompt
-        } = e.currentTarget.dataset
+        let { ordercode, pickagain } = e.currentTarget.dataset
+            //就调用接口加载柜子号 
+        let param = {
+            url: '/order/orderPickPre?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + ordercode
+        }
+        requestModel.request(param, (data) => {
 
+            if (data) {
+                _this.setData({
+                    takeorderData: data,
+                    takeorderModalShow: true,
+                    takeorderModalShowInit: false,
+                    takeOrderCode: ordercode,
+                    takeOrderPickagain: pickagain
+                })
 
-        _this.takeFoodOrder(ordercode, foodcode, prompt)
+                wx.hideTabBar()
+            }
+        })
 
 
         if (_this.data.timer) {
@@ -632,6 +557,35 @@ Page({
         _this.data.timer = setTimeout(function() {
             _this.data.canClick = true
         }, 2000)
+    },
+    closeModal() {
+        if (this.data.takeorderModalShow) {
+            this.setData({
+                    takeorderModalShow: false
+                })
+                //取餐后为啥要只刷第一页的啊
+
+        }
+        wx.showTabBar()
+
+    },
+    //取餐
+    takeFoodOrder() {
+        let _this = this
+        let ordercode = _this.data.takeOrderCode
+        let pickagain = _this.data.takeOrderPickagain
+        let param = {
+            url: '/order/orderPick?userCode=' + wx.getStorageSync('userCode') + '&orderCode=' + ordercode + '&again=' + pickagain
+        }
+        requestModel.request(param, () => {
+
+            _this.setData({
+                takeorderModalShow: false,
+                takeOrderCode: null
+            })
+            _this.getOrderList(true)
+            wx.showTabBar()
+        })
     },
 
     closeDali: function() {

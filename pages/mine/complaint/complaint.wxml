@@ -24,7 +24,7 @@
         <view bindtap='gotoSay' class='button'>我要说</view>
     </view>
 </view>
-<view style='height:{{windowHeight}}px;background:#F5F5F5;'>
+<view style='height:{{windowHeight}}px;background:#F5F5F5;' wx:else>
     <image src='/images/mine/nocomplaint.png' style='width:244rpx;height:244rpx;margin:236rpx 0 2rpx 250rpx; '></image>
     <view class='nono'>暂无话题，快来说点什么吧～</view>
     <view class='no-button' bindtap='gotoSay'>我要说</view>

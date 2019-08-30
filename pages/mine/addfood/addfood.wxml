@@ -47,7 +47,7 @@
                                 <view class="food-wrapper" wx:for="{{ menutypeItem.foodList }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodItem.dateId">
                                     <view wx:if="{{foodItem.foodQuota &&foodItem.foodQuota.surplusNum==0 }}" class="img-wrapper-stock" data-typename='{{menutypeItem.typeName }}' bindtap="handleGotoFoodDetail" data-foodcode="{{ foodItem.foodCode }}"></view>
                                     <view class="img-wrapper" bindtap="handleGotoFoodDetail" data-foodcode="{{ foodItem.foodCode }}" data-typename='{{menutypeItem.typeName }}' id="food{{menutypeIndex}}{{foodIndex}}">
-                                        <image wx:if="{{ foodItem.foodQuota &&foodItem.foodQuota.quotaNum }}" class='food-img-res' src="/images/menu/today/order_purchase.png"></image>
+                                        <image wx:if="{{ foodItem.foodQuota &&foodItem.foodQuota.quotaNum }}" class='food-img-res' src="/images/menu/order_purchase.png"></image>
                                         <image class="food-img" src="{{foodItem.image}}"></image>
                                     </view>
                                     <view class="food-info-wrapper">
@@ -89,12 +89,12 @@
                                             </view>
                                             <!-- ***************  + - 添加、减掉餐品的小控件(菜单中) *************** -->
                                             <view class="num-control">
-                                                <image src="/images/menu/today/order_less.png" style="width:40rpx;height:40rpx; " wx:if="{{ foodItem.foodCount > 0 }}" data-menutypeindex="{{ menutypeIndex }}" data-foodindex="{{ foodIndex }}" catchtap="handleMinusfood">
+                                                <image src="/images/menu/order_less.png" style="width:40rpx;height:40rpx; " wx:if="{{ foodItem.foodCount > 0 }}" data-menutypeindex="{{ menutypeIndex }}" data-foodindex="{{ foodIndex }}" catchtap="handleMinusfood">
                                                 </image>
                                                 <view wx:if="{{ foodItem.foodCount > 0 }}" class="num">
                                                     {{ foodItem.foodCount }}
                                                 </view>
-                                                <image src="/images/menu/today/order_add.png" style="width:40rpx;height:40rpx; " id='add{{menutypeIndex}}{{foodIndex}}' data-menutypeindex="{{ menutypeIndex }}" data-foodindex="{{ foodIndex }}" catchtap="handleAddfood">
+                                                <image src="/images/menu/order_add.png" style="width:40rpx;height:40rpx; " id='add{{menutypeIndex}}{{foodIndex}}' data-menutypeindex="{{ menutypeIndex }}" data-foodindex="{{ foodIndex }}" catchtap="handleAddfood">
                                                 </image>
                                             </view>
                                         </view>
@@ -145,13 +145,12 @@
 
                                     <!-- ***************  + - 添加、减掉餐品的小控件(购物车中) *************** -->
                                     <view class="chart-num-control">
-                                        <image src="/images/menu/today/order_less.png" style="width:40rpx;height:40rpx;" wx:if="{{ onefood.foodCount > 0 }}" data-selectedfoodindex="{{selectedFoodIndex}}" data-menutypeindex="{{ onefood.menuItemIndex }}" data-foodindex="{{ onefood.foodIndex }}"
-                                            catchtap="handleCartMinusfood">
+                                        <image src="/images/menu/order_less.png" style="width:40rpx;height:40rpx;" wx:if="{{ onefood.foodCount > 0 }}" data-selectedfoodindex="{{selectedFoodIndex}}" data-menutypeindex="{{ onefood.menuItemIndex }}" data-foodindex="{{ onefood.foodIndex }}" catchtap="handleCartMinusfood">
                                         </image>
                                         <view wx:if="{{ onefood.foodCount > 0 }}" class="chart-num">
                                             {{ onefood.foodCount}}
                                         </view>
-                                        <image src="/images/menu/today/order_add.png" style="width:40rpx;height:40rpx;" data-selectedfoodindex="{{selectedFoodIndex}}" data-menutypeindex="{{ onefood.menuItemIndex }}" data-foodindex="{{ onefood.foodIndex }}" catchtap="handleCartAddfood">
+                                        <image src="/images/menu/order_add.png" style="width:40rpx;height:40rpx;" data-selectedfoodindex="{{selectedFoodIndex}}" data-menutypeindex="{{ onefood.menuItemIndex }}" data-foodindex="{{ onefood.foodIndex }}" catchtap="handleCartAddfood">
                                         </image>
                                     </view>
                                 </view>
@@ -189,8 +188,8 @@
                     <view style="height:126rpx;width:126rpx;position:absolute; left:28rpx; bottom:0;" bindtap="handleClickBox" id='cartCount'>
                         <view wx:if="{{ totalCount > 0 }}" id='cartCount2' style="right:14rpx;position:absolute;z-index:1003;height:32rpx;width:32rpx;background:#FF5035;text-align:center;line-height:32rpx;border-radius:32rpx;font-family: PingFang-SC-Medium;font-size: 22rpx; color: #FFF; letter-spacing: 0;">
                             {{totalCount}}</view>
-                        <image src="/images/menu/today/order_closeshop.png" style="height:126rpx;width:126rpx;" wx:if="{{ totalCount == 0 }}"></image>
-                        <image src="/images/menu/today/order_shop.png" style="height:126rpx;width:126rpx;" wx:else></image>
+                        <image src="/images/menu/order_closeshop.png" style="height:126rpx;width:126rpx;" wx:if="{{ totalCount == 0 }}"></image>
+                        <image src="/images/menu/order_shop.png" style="height:126rpx;width:126rpx;" wx:else></image>
                     </view>
 
                     <!-- 购物车激活状态 -->

@@ -161,7 +161,7 @@
                     </view>
                     <view class='pay-item-last' style='padding-bottom:26rpx;'>
                         <view class='flex-a'>
-                            <image src="/images/menu/today/order_wechatpay.png" style="padding-top:34rpx;width:40rpx;height:40rpx;">
+                            <image src="/images/menu/order_wechatpay.png" style="padding-top:34rpx;width:40rpx;height:40rpx;">
                             </image>
                             <view class='pay-wechat'>微信支付</view>
                         </view>

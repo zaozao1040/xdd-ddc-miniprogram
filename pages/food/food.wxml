@@ -26,7 +26,8 @@
                         {{foodInfo.foodName}}
                     </view>
                     <view class="tag-wrapper">
-                        <view class="tag-item">{{typeName}}</view>
+                        <view class="tag-item">
+                            {{typeName}}</view>
                         <view class="tag-item" wx:if="{{foodInfo.foodLabels}}" wx:for="{{foodInfo.foodLabels}}" wx:for-item="labelItem" wx:key="{{index}}">
                             {{labelItem}}
                         </view>
@@ -93,10 +94,10 @@
                             </view>
                             <view class="line2">
                                 <block wx:for="{{ratingItem.star}}" wx:key="index">
-                                    <image src='/images/menu/star_c.png' style='width:32rpx;height:32rpx;margin-right:6rpx;'></image>
+                                    <image src='/images/order/staryes.png' style='width:32rpx;height:32rpx;margin-right:6rpx;'></image>
                                 </block>
                                 <block wx:for="{{5-ratingItem.star}}" wx:key="index">
-                                    <image src='/images/menu/star_u.png' style='width:32rpx;height:32rpx;margin-right:6rpx;'></image>
+                                    <image src='/images/order/starno.png' style='width:32rpx;height:32rpx;margin-right:6rpx;'></image>
                                 </block>
                             </view>
                             <view class="line3" wx:if="{{ratingItem.content}}">{{ratingItem.content}}</view>
