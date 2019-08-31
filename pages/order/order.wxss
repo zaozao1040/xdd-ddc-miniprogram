@@ -821,25 +821,3 @@
     z-index: 300;
     display: flex;
 }
-
-.takefood-cabinet-number {
-    font-family: PingFang-SC-Medium;
-    font-size: 36rpx;
-    color: #F79C4C;
-    letter-spacing: 0;
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 270rpx;
-}
-
-.takefood-cabinet-title {
-    font-family: PingFang-SC-Regular;
-    font-size: 24rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    margin-right: 20rpx;
-    white-space: nowrap;
-}
