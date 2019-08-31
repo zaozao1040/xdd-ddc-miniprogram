@@ -177,7 +177,7 @@ Page({
     handleGotoMenu: function() {
         //前端没有getWxUserInfo信息，则弹出用户授权
         let getWxUserInfo = wx.getStorageSync('getWxUserInfo')
-
+        console.log('getWxUserInfo', getWxUserInfo)
         if (!getWxUserInfo) {
             wx.navigateTo({
                     url: '/pages/login/authority/authority',
@@ -485,7 +485,7 @@ Page({
                         a.foodName = onefood.foodName
                         a.orderCode = item.orderCode
                         a.pickAgain = item.pickAgain
-
+                        a.cabinet = item.cabinet
                         if (onefood.takeMealStartTime && onefood.takeMealEndTime) {
 
                             // 取餐时间

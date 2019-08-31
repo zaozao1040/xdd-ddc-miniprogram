@@ -160,6 +160,10 @@
                                     <view class='food-name'>{{orderItem.orderFoodList[0].foodName}}</view>
                                     <view class='food-count' wx:if='{{orderItem.foodQuantity>1}}'> 等{{orderItem.foodQuantity}}件餐品</view>
                                 </view>
+                                <view class="food-name" wx:if='{{orderItem.cabinet&&orderItem.cabinet.length>0}}'>
+                                    <text style='font-size:26rpx;'>柜号 </text><text style='color:#F79C4C;'>{{orderItem.cabinet[0].cabinetNumber}}-{{orderItem.cabinet[0].cellNumber}}</text>
+                                </view>
+
                             </view>
 
                             <view class='flex-a'>
