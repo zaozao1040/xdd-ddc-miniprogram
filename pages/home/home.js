@@ -515,7 +515,6 @@ Page({
             })
         }, true)
 
-        // _this.getOrderList()
     },
 
     /* 去取餐 */
@@ -583,7 +582,8 @@ Page({
                 takeorderModalShow: false,
                 takeOrderCode: null
             })
-            _this.getOrderList(true)
+            _this.getTakeMealInfo()
+            _this.getOrderList()
             wx.showTabBar()
         })
     },

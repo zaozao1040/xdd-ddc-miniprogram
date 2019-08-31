@@ -91,7 +91,7 @@
      color: #999;
      background: #F9F9F9;
      border-radius: 3px;
-     margin-top: 44rpx;
+     margin-top: 22rpx;
  }
  
  .image-remove {
@@ -107,14 +107,23 @@
      padding-bottom: 2rpx;
      z-index: 500;
      margin-left: 110rpx;
-     margin-top: 30rpx;
+     margin-top: 10rpx;
  }
  
  .image-shangchuan {
      margin-right: 10rpx;
      height: 130rpx;
      width: 130rpx;
-     margin-top: 44rpx;
+     margin-top: 24rpx;
+ }
+ 
+ .button-view {
+     height: 136rpx;
+     position: fixed;
+     bottom: 0;
+     left: 0;
+     right: 0;
+     background: #fff;
  }
  
  .button {
@@ -126,12 +135,13 @@
      text-align: center;
      height: 96rpx;
      line-height: 96rpx;
-     bottom: 30rpx;
+     bottom: 20rpx;
      left: 0;
      right: 0;
      width: 630rpx;
-     margin: auto;
+     margin: 0 auto;
      position: fixed;
+     margin-top: 10rpx;
  }
  
  .button::after {
@@ -214,10 +224,10 @@
  
  .textarea {
      width: 588rpx;
-     height: 80rpx;
+     height: 100rpx;
      font-size: 28rpx;
      font-family: PingFangSC-Regular;
      font-weight: 400;
-     color: rgba(203, 203, 203, 1);
+     color: #333;
      line-height: 40rpx;
  }

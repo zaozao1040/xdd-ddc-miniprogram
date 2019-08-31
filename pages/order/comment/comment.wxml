@@ -11,8 +11,8 @@
 <view wx:else>
 
     <view class='top'>文字+照片评价任意餐品即可获得<text style='color:#F2994A;'>15积分</text></view>
-    <view class='c_scrollPosition_forCalculate' style='background:#F5F5F5;height:{{windowHeight-scrollTop}}px;'>
-        <scroll-view scroll-y style='height:{{windowHeight-scrollTop}}px;'>
+    <view class='c_scrollPosition_forCalculate' style='background:#F5F5F5;height:{{scrollBottom-scrollTop}}px;'>
+        <scroll-view scroll-y style='height:{{scrollBottom-scrollTop}}px;'>
             <view style='padding:16rpx 24rpx;'>
                 <form report-submit="true" bindsubmit="buttonClickYes_ratings">
 
@@ -83,7 +83,7 @@
                         </view>
                         <view style="background:#F5F5F5;padding:22rpx 32rpx 22rpx 22rpx;margin-top:30rpx;">
 
-                            <textarea class='textarea' placeholder-style='color:#CBCBCB;' placeholder="请对本次餐品进行评价哟～" maxlength="60" bindinput="contentInput" data-foodindex="{{foodIndex}}"></textarea>
+                            <textarea focus='{{autoFocusSecond}}' class='textarea' placeholder-style='color:#CBCBCB;' bindtap='showSecondTextarea' placeholder="请对本次餐品进行评价哟～" maxlength="60" bindinput="contentInput" data-foodindex="{{foodIndex}}"></textarea>
 
                             <view class="img-wrapper">
                                 <view class='flex-a'>
@@ -93,17 +93,18 @@
                                         </image>
                                     </view>
                                 </view>
-                                <image class="image-shangchuan" wx:if="{{foodItem.imagePaths.length<3}}" src="/images/order/xiangji.png" bindtap="handleClickAddImg" data-foodindex="{{foodIndex}}"></image>
+                                <image class="image-shangchuan" wx:if="{{foodItem.imagePaths.length<3}}" src="/images/order/xiangji.png" catchtap="handleClickAddImg" data-foodindex="{{foodIndex}}"></image>
 
                             </view>
 
                         </view>
                     </view>
-                    <view wx:if='{{orderFoodList.length>0}}' style='height:144rpx;width:100rpx;'></view>
-                    <button class="button" formType="submit" data-ordercode="{{orderItem.orderCode}}">评价</button>
                 </form>
             </view>
         </scroll-view>
-    </view>
+        <view class='button-view'>
+            <button class="button" formType="submit" data-ordercode="{{orderItem.orderCode}}">评价</button>
+        </view>
 
+    </view>
 </view>

@@ -419,8 +419,23 @@ Page({
                 scrollTop: res[0].top // #the-id节点的上边界坐标
             })
         })
-    },
 
+        const query2 = wx.createSelectorQuery()
+        query2.select('.button-view').boundingClientRect()
+        query2.selectViewport().scrollOffset()
+        query2.exec(function(res) {
+            console.log(res[0].top)
+            _this.setData({
+                scrollBottom: res[0].top // #the-id节点的上边界坐标
+            })
+        })
+    },
+    // 用于偶尔不弹出第二个弹框的 bug
+    showSecondTextarea() {
+        this.setData({
+            autoFocusSecond: true
+        })
+    },
     /**
      * 生命周期函数--监听页面隐藏
      */

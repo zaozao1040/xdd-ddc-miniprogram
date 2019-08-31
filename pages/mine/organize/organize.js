@@ -211,56 +211,26 @@ Page({
             })
         } else if (organizeName.length >= 2) {
 
-            wx.getLocation({
-                type: 'gcj02',
-                success: function(res) {
-                    let urlP = encodeURI('userCode=' + _this.data.userCode + '&longitude=' + res.longitude + '&latitude=' + res.latitude + '&organizeName=' + organizeName)
-                    let param = {
-                        url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
-                    }
+            let urlP = encodeURI('userCode=' + _this.data.userCode + '&longitude=0&latitude=0&organizeName=' + organizeName)
+            let param = {
+                url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
+            }
 
-                    //请求企业列表
-                    requestModel.request(param, (data) => {
-                        _this.setData({
-                            employeeNumber: false,
-                            organizeList: data,
-                            organizeSelected: false,
-                            organizeCode: ''
-                        })
-                        if (data.length == 0) {
-                            _this.setData({
-                                organizeListNoResult: true //查到企业列表无结果，则相应视图
-                            })
-                        } else {
-                            _this.setData({
-                                organizeListNoResult: false
-                            })
-                        }
+            //请求企业列表
+            requestModel.request(param, (data) => {
+                _this.setData({
+                    employeeNumber: false,
+                    organizeList: data,
+                    organizeSelected: false,
+                    organizeCode: ''
+                })
+                if (data.length == 0) {
+                    _this.setData({
+                        organizeListNoResult: true //查到企业列表无结果，则相应视图
                     })
-                },
-                fail: function() {
-                    let urlP = encodeURI('userCode=' + _this.data.userCode + '&longitude=1&latitude=1&organizeName=' + organizeName)
-                    let param = {
-                        url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
-                    }
-
-                    //请求企业列表
-                    requestModel.request(param, (data) => {
-                        _this.setData({
-                            employeeNumber: false,
-                            organizeList: data,
-                            organizeSelected: false,
-                            organizeCode: ''
-                        })
-                        if (data.length == 0) {
-                            _this.setData({
-                                organizeListNoResult: true //查到企业列表无结果，则相应视图
-                            })
-                        } else {
-                            _this.setData({
-                                organizeListNoResult: false
-                            })
-                        }
+                } else {
+                    _this.setData({
+                        organizeListNoResult: false
                     })
                 }
             })
