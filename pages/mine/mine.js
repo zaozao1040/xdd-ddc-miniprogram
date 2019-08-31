@@ -28,9 +28,9 @@ Page({
     },
     //跳转到登录页面
     gotoLogin() {
-        let { avatarUrl, nickName, gender } = wx.getStorageSync('getWxUserInfo')
+        let getWxUserInfo = wx.getStorageSync('getWxUserInfo')
 
-        if (!(avatarUrl && nickName && gender)) {
+        if (!getWxUserInfo) {
             wx.navigateTo({
                     url: '/pages/login/authority/authority',
                 })

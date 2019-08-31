@@ -85,9 +85,9 @@
      },
      //跳转到登录页面
      gotoLogin() {
-         let { avatarUrl, nickName, gender } = wx.getStorageSync('getWxUserInfo')
+         let getWxUserInfo = wx.getStorageSync('getWxUserInfo')
 
-         if (!(avatarUrl && nickName && gender)) {
+         if (!getWxUserInfo) {
              wx.navigateTo({
                      url: '/pages/login/authority/authority',
                  })
@@ -108,7 +108,7 @@
       * 生命周期函数--监听页面加载
       */
      onLoad: function(options) {
-
+         console.log('08-30', options)
          if (options.content) {
              let content = options.content
 

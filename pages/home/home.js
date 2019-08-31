@@ -176,9 +176,9 @@ Page({
     },
     handleGotoMenu: function() {
         //前端没有getWxUserInfo信息，则弹出用户授权
-        let { avatarUrl, nickName, gender } = wx.getStorageSync('getWxUserInfo')
+        let getWxUserInfo = wx.getStorageSync('getWxUserInfo')
 
-        if (!(avatarUrl && nickName && gender)) {
+        if (!getWxUserInfo) {
             wx.navigateTo({
                     url: '/pages/login/authority/authority',
                 })
