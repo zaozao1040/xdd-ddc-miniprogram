@@ -99,12 +99,13 @@
 
                         </view>
                     </view>
+                    <view class='button-view'>
+                        <button class="button" formType="submit" data-ordercode="{{orderItem.orderCode}}">评价</button>
+                    </view>
                 </form>
             </view>
         </scroll-view>
-        <view class='button-view'>
-            <button class="button" formType="submit" data-ordercode="{{orderItem.orderCode}}">评价</button>
-        </view>
+
 
     </view>
 </view>
