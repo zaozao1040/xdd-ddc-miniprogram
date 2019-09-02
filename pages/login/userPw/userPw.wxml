@@ -1,0 +1,50 @@
+<view>
+
+  <view class="login-container" wx:if="{{loginType=='phone'}}">
+      <view class="section-3">
+          <view class='header'>+86</view>
+          <view class='line'></view>
+          <input placeholder-class='placeholder-class' class='phone-number' bindinput="phoneInput" maxlength="11" placeholder="请输入手机号" type="number"></input>
+      </view>
+      <view class="section-3" style='margin-top:20rpx;'>
+
+          <input placeholder-class='placeholder-class' class='phone-number' bindinput="codeInput" placeholder="请输入验证码" type="number"></input>
+          <view catchtap="sendCode" class="rg-section-v6" wx:if="{{firstCode&&phone.length==11}}">获取验证码</view>
+          <view class="rg-section-v5" wx:elif="{{firstCode}}">获取验证码</view>
+          <view class="rg-section-v5" wx:if="{{waitTime>0}}">{{waitTime}}s</view>
+          <view catchtap="sendCode" class="rg-section-v6" wx:if="{{waitTime==0&&phone.length==11}}">重新发送</view>
+          <view class="rg-section-v5" wx:elif="{{waitTime==0}}">重新发送</view>
+      </view>
+      <view class='des'>未注册手机验证后即完成注册</view>
+      <view catchtap="loginByPhone" class="button-active" wx:if='{{code&&phone.length==11}}'>登录</view>
+      <view class="button-inactive" wx:else>登录</view>
+      <view class='another' bindtap='changeValidateType'>用户名登录</view>
+
+  </view>
+  <view class="login-container" wx:else>
+      <view class="section-3">
+
+          <input placeholder-class='placeholder-class' class='phone-number' bindinput="nameInput"  placeholder="请输入用户名" ></input>
+      </view>
+      <view class="section-3" style='margin-top:20rpx;'>
+          <input placeholder-class='placeholder-class' password class='phone-number' bindinput="pwdInput"  placeholder="请输入密码" ></input>
+      </view>
+
+      <view catchtap="loginWithNamePwd" class="button-active" wx:if='{{name&&password}}'>登录</view>
+      <view class="button-inactive" wx:else>登录</view>
+      <view class='another' bindtap='changeValidateType'>验证码登录</view>
+  </view>
+
+  <!--弹框-->
+  <view class="modulebox-background-wrapper" wx:if='{{bindOrganizeFlag}}'>
+      <view class='bind-organize-warpper'>
+          <view class='bind-organize-title'>提示</view>
+          <view class='bind-organize-content'>是否绑定企业?</view>
+
+          <view class='bind-display'>
+              <view class='bind-organize-left' bindtap='cancelBind'>直接登录</view>
+              <view class='bind-organize-right' bindtap='gotoBind'>去绑定</view>
+          </view>
+      </view>
+  </view>
+</view>

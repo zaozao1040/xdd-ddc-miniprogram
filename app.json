@@ -44,7 +44,8 @@
     "pages/mine/allComment/detail",
     "pages/order/myComment/myComment",
     "pages/components/comment/comment",
-    "pages/home/survey/survey"
+    "pages/home/survey/survey",
+    "pages/login/userPw/userPw"
   ],
   "permission": {
     "scope.userLocation": {

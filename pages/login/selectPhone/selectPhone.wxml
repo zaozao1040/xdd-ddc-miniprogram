@@ -7,12 +7,15 @@
         <view wx:if='{{agreeAuthority}}'>
             <button class="button" open-type="getPhoneNumber" bindgetphonenumber="handleGetPhoneNumber">微信快捷登录</button>
             <view class='button-a' bindtap='changeValidateType'>验证码登录</view>
+            <view class='button-a' style='margin-top:40rpx;' bindtap='changeValidateTypeUserPw'>用户名密码登录</view>
         </view>
         <view wx:else>
             <button class="button" style='background:#DDDDDD;' bindtap='showAuthorityInfo'>微信快捷登录</button>
             <view class='button-a' style='color:#CCCCCC;' bindtap='showAuthorityInfo'>验证码登录</view>
+            <view class='button-a' style='color:#CCCCCC;margin-top:40rpx;' bindtap='showAuthorityInfo'>用户名密码登录</view>
         </view>
-
+        
+        <button class="button-cancel" style='background:#DDDDDD;' bindtap='buttonCancel'>取消</button>
     </view>
 
     <view class='info' wx:if='{{showInfoFlag}}'>请勾选协议</view>

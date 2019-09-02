@@ -102,7 +102,6 @@ Page({
 
     },
     handleGetPhoneNumber(e) {
-        console.log('xxxxx',e)
         var _this = this
         if (e.detail.iv) { //这个字段存在 代表用户选择了“授权”
             wx.showLoading()
@@ -172,10 +171,13 @@ Page({
             }, 2000)
         }
     },
-    // 修改验证方式
+    // 修改验证方式-手机号验证码
     changeValidateType() {
-
         wx.navigateTo({ url: '../phone/phone' })
+    },
+    // 修改验证方式-用户名密码
+    changeValidateTypeUserPw() {
+        wx.navigateTo({ url: '../userPw/userPw' })
     },
     // 用户名
     bindNameInput(e) {
@@ -215,4 +217,9 @@ Page({
 
         })
     },
+    buttonCancel(){
+        wx.switchTab({
+            url: '/pages/home/home',
+        })
+    }
 })

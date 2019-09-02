@@ -228,3 +228,16 @@
     border-radius: 6rpx;
     left: 264rpx;
 }
+
+.button-cancel{
+    background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
+    border-radius: 25rpx;
+    margin:60rpx;
+    height: 48rpx;
+    text-align: center;
+    line-height: 48rpx;
+    color: #FFF;
+    font-size: 34rpx;
+    width: 132rpx;
+    float: right;
+}
