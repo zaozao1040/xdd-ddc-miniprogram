@@ -102,7 +102,7 @@ Page({
 
     },
     handleGetPhoneNumber(e) {
-
+        console.log('xxxxx',e)
         var _this = this
         if (e.detail.iv) { //这个字段存在 代表用户选择了“授权”
             wx.showLoading()
@@ -159,6 +159,17 @@ Page({
                         // })
                 }
             })
+        }else{
+            wx.showToast({
+                title: '已取消登录',
+                image: '/images/msg/warning.png',
+                duration: 2000
+            })
+            setTimeout(() => {
+                wx.switchTab({
+                    url: '/pages/home/home',
+                })
+            }, 2000)
         }
     },
     // 修改验证方式
