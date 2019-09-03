@@ -436,14 +436,13 @@
          let tmp_listHeight = [0] //首元素置为0 下面的循环次数为 rect.length-1 就能保证不会多出一次
          let totalHeight = 0
          wx.createSelectorQuery().selectAll('.c_foodPosition_forCalculate').boundingClientRect(function(rect) {
+             console.log('listHeight--menu-rect', rect)
              for (let i = 0; i < rect.length - 1; i++) {
                  totalHeight = totalHeight + rect[i].height
                  tmp_listHeight.push(totalHeight)
              }
              _this.data.listHeight = tmp_listHeight
-                 /*       _this.setData({
-                         listHeight: tmp_listHeight
-                       }) */
+             console.log('listHeight--menu', _this.data.listHeight)
          }).exec()
      },
      /* 滚动事件监听 */

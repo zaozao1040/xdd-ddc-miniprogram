@@ -12,7 +12,7 @@
                     {{ mealTypeSmall[item]}}</view>
             </block>
         </view>
-        <view style='width:100%;height:{{windowHeight-mealtyleListBottom}}px' wx:if='{{getTimeDataByResponseNow}}'>
+        <view style='width:100%;height:{{windowHeight-mealtyleListBottom}}px' wx:if='{{!getdataalready}}'>
             <image src='/images/menu/menu_preload.png' style='width:100%;height:{{windowHeight-mealtyleListBottom}}px;'></image>
             <view class="footer-wrapper" style="z-index:1200;">
                 <view class="box-wrapper">

@@ -177,7 +177,6 @@ Page({
     handleGotoMenu: function() {
         //前端没有getWxUserInfo信息，则弹出用户授权
         let getWxUserInfo = wx.getStorageSync('getWxUserInfo')
-        console.log('getWxUserInfo', getWxUserInfo)
         if (!getWxUserInfo) {
             wx.navigateTo({
                     url: '/pages/login/authority/authority',
@@ -188,7 +187,6 @@ Page({
                 url: '/pages/login/selectPhone/selectPhone',
             })
         } else {
-
             let _this = this
             requestModel.getUserInfo(userInfo => {
                 _this.setData({

@@ -18,7 +18,8 @@ Page({
             imagePaths: [],
             images: []
         },
-        remrkSucceed: false
+        remrkSucceed: false,
+        getDataAlready: false
     },
 
     /**
@@ -56,7 +57,29 @@ Page({
 
             }
             _this.setData({
-                orderFoodList: orderFoodList
+                orderFoodList: orderFoodList,
+                getDataAlready: true
+            })
+
+            //在已经加载出来评价的时候才展示
+            const query = wx.createSelectorQuery()
+            query.select('.c_scrollPosition_forCalculate').boundingClientRect()
+            query.selectViewport().scrollOffset()
+            query.exec(function(res) {
+                console.log('c_scrollPosition_forCalculate', res)
+                _this.setData({
+                    scrollTop: res[0].top // #the-id节点的上边界坐标
+                })
+            })
+
+            const query2 = wx.createSelectorQuery()
+            query2.select('.button-view').boundingClientRect()
+            query2.selectViewport().scrollOffset()
+            query2.exec(function(res) {
+                console.log('button-view', res)
+                _this.setData({
+                    scrollBottom: res[0].top // #the-id节点的上边界坐标
+                })
             })
 
             //关闭底部 
@@ -410,28 +433,10 @@ Page({
                 })
             }
         })
-        const query = wx.createSelectorQuery()
-        query.select('.c_scrollPosition_forCalculate').boundingClientRect()
-        query.selectViewport().scrollOffset()
-        query.exec(function(res) {
-            console.log(res[0].top)
-            _this.setData({
-                scrollTop: res[0].top // #the-id节点的上边界坐标
-            })
-        })
-
-        const query2 = wx.createSelectorQuery()
-        query2.select('.button-view').boundingClientRect()
-        query2.selectViewport().scrollOffset()
-        query2.exec(function(res) {
-            console.log(res[0].top)
-            _this.setData({
-                scrollBottom: res[0].top // #the-id节点的上边界坐标
-            })
-        })
     },
     // 用于偶尔不弹出第二个弹框的 bug
     showSecondTextarea() {
+        console.log('点击了第二个textarea')
         this.setData({
             autoFocusSecond: true
         })

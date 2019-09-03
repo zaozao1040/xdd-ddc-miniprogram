@@ -142,6 +142,7 @@
      margin: 0 auto;
      position: fixed;
      margin-top: 10rpx;
+     z-index: 9999;
  }
  
  .button::after {
@@ -187,6 +188,7 @@
      line-height: 80rpx;
      padding-left: 30rpx;
      width: 672rpx;
+     z-index: 9999;
  }
  
  .service-wrapper {
