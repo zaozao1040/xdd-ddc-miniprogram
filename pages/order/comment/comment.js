@@ -434,13 +434,6 @@ Page({
             }
         })
     },
-    // 用于偶尔不弹出第二个弹框的 bug
-    showSecondTextarea() {
-        console.log('点击了第二个textarea')
-        this.setData({
-            autoFocusSecond: true
-        })
-    },
     /**
      * 生命周期函数--监听页面隐藏
      */

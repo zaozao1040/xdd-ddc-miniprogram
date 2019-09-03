@@ -72,9 +72,9 @@
                                 </view>
                             </view>
                             <view style="background:#F5F5F5;padding:22rpx 32rpx 22rpx 22rpx;margin-top:30rpx;">
-                                <view bindtap='showSecondTextarea'>
-                                    <textarea focus='{{autoFocusSecond}}' class='textarea' placeholder-style='color:#CBCBCB;' placeholder="请对本次餐品进行评价哟～" maxlength="60" bindinput="contentInput" data-foodindex="{{foodIndex}}"></textarea>
-                                </view>
+
+                                <textarea class='textarea' placeholder-style='color:#CBCBCB;' placeholder="请对本次餐品进行评价哟～" maxlength="60" bindinput="contentInput" data-foodindex="{{foodIndex}}"></textarea>
+
                                 <view class="img-wrapper">
                                     <view class='flex-a'>
                                         <view wx:for="{{foodItem.imagePaths}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex">
