@@ -673,6 +673,19 @@ Page({
     preventTouchMove: function() {
 
     },
-
+    //跳到小店
+    gotoMiniProgram() {
+        wx.navigateToMiniProgram({
+            appId: 'wx8492039f6e368de0',
+            path: 'pages/home/home?userCode=' + wx.getStorageSync('userCode'),
+            extraData: {
+                userCode: wx.getStorageSync('userCode')
+            },
+            envVersion: 'develop',
+            success(res) {
+                // 打开成功
+            }
+        })
+    },
 
 })

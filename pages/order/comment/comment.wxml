@@ -10,7 +10,6 @@
 </view>
 <view wx:else>
     <view wx:if='{{getDataAlready}}'>
-
         <view class='top'>文字+照片评价任意餐品即可获得<text style='color:#F2994A;'>15积分</text></view>
 
         <view class='c_scrollPosition_forCalculate' style='background:#F5F5F5;height:{{scrollBottom-scrollTop}}px;'>

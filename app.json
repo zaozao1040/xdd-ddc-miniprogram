@@ -43,8 +43,7 @@
     "pages/mine/allComment/allComment",
     "pages/mine/allComment/detail",
     "pages/order/myComment/myComment",
-    "pages/components/comment/comment",
-    "pages/home/survey/survey",
+    "pages/components/comment/comment", 
     "pages/login/userPw/userPw"
   ],
   "permission": {
@@ -91,7 +90,7 @@
     ]
   },
   "navigateToMiniProgramAppIdList": [
-    "wxeab88f3400bf4937"
+    "wx8492039f6e368de0"
   ],
   "sitemapLocation": "sitemap.json"
 }
