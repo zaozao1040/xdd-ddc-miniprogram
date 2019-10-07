@@ -129,7 +129,8 @@
              realMoney: parseFloat(options.realMoney),
              realMoney_save: options.realMoney,
              totalDeduction: options.totalMoneyRealDeduction,
-             orderType: options.orderType
+             orderType: options.orderType,
+             cantMealTotalMoney: options.cantMealTotalMoney //不可使用餐标的总额
          })
          this.getOrderVerificationString()
 
@@ -153,7 +154,7 @@
      onShow: function() {
          let _this = this
          requestModel.getUserInfo(userInfo => {
-             let { userType, orgAdmin } = userInfo
+             let { userType, orgAdmin, allowUserOrganizePayNoCanMeal } = userInfo
              if (userType == 'ORG_ADMIN' && orgAdmin == true) {
                  _this.setData({
                      orgAdmin: true
@@ -176,31 +177,41 @@
                  })
              }
 
-         })
-         requestModel.getUserCode(userCode => {
-             let param = {
-                 url: '/user/getUserFinance?userCode=' + userCode
-             }
-             requestModel.request(param, data => {
-                 _this.setData({
-                     allBalance: data.allBalance,
-                 })
-                 if (!_this.data.realMoney) { //等于0则是标准支付
 
-                     _this.setData({
-                         payType: 'STANDARD_PAY'
-                     })
-                 } else if (data.allBalance < this.data.realMoney) { //余额小于实际付款，则改为微信付款
-                     _this.setData({
-                         payType: 'WECHAT_PAY'
-                     })
-                 } else {
-                     _this.setData({
-                         payType: 'BALANCE_PAY'
-                     })
+             requestModel.getUserCode(userCode => {
+                 let param = {
+                     url: '/user/getUserFinance?userCode=' + userCode
                  }
+                 requestModel.request(param, data => {
+                     _this.setData({
+                         allBalance: data.allBalance,
+                         totalBalance: data.totalBalance
+                     })
+                     if (!_this.data.realMoney) { //等于0则是标准支付
+
+                         _this.setData({
+                             payType: 'STANDARD_PAY'
+                         })
+                     } else if (data.allBalance < _this.data.realMoney) { //余额小于实际付款，则改为微信付款
+                         _this.setData({
+                             payType: 'WECHAT_PAY',
+                             noEnoughBalanceAll: true
+                         })
+                     } else if (!allowUserOrganizePayNoCanMeal && (data.totalBalance < _this.data.cantMealTotalMoney)) {
+                         _this.setData({
+                             payType: 'WECHAT_PAY',
+                             noEnoughBalancePersonal: true
+                         })
+                     } else {
+                         _this.setData({
+                             payType: 'BALANCE_PAY'
+                         })
+                     }
+                 })
              })
+
          })
+
 
 
          //从后端获取优惠券信息

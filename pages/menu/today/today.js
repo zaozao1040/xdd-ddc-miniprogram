@@ -50,6 +50,7 @@ Page({
         mealTypeSmall: { lunch: '午餐', dinner: '晚餐', breakfast: '早餐', night: '夜宵' },
         getTimeDataByResponseNow: false, //是否可点击日期和餐时
         totalMoney_back: 0, //返回的总金额
+        cantMealTotalMoney: 0, //不可使用餐标的总的钱
     },
     onLoad: function(options) {
         let _this = this
@@ -553,6 +554,13 @@ Page({
             currnt_menuData.totalMoney = parseFloat(currnt_menuData.totalMoney.toFixed(2))
             if (tmp_oneFood.canMeal) { //可使用餐标
                 currnt_menuData.totalMoney_meal -= minusFoodPrice
+            } else {
+                //计算不可使用餐标的钱的总额 2019--10--7
+                let tmp_cantMealTotalMoney = this.data.cantMealTotalMoney
+                tmp_cantMealTotalMoney = parseFloat((tmp_cantMealTotalMoney - minusFoodPrice).toFixed(2))
+                this.setData({
+                    cantMealTotalMoney: tmp_cantMealTotalMoney
+                })
             }
             // 这种每次重新计算的方法好吗
             let new_deduction = 0
@@ -780,6 +788,13 @@ Page({
             currnt_menuData.totalMoney = parseFloat(currnt_menuData.totalMoney.toFixed(2))
             if (tmp_oneFood.canMeal) { //可使用餐标
                 currnt_menuData.totalMoney_meal += addFoodPrice
+            } else {
+                //计算不可使用餐标的钱的总额 2019--10--7
+                let tmp_cantMealTotalMoney = this.data.cantMealTotalMoney
+                tmp_cantMealTotalMoney = parseFloat((tmp_cantMealTotalMoney + addFoodPrice).toFixed(2))
+                this.setData({
+                    cantMealTotalMoney: tmp_cantMealTotalMoney
+                })
             }
 
             // 这种每次重新计算的方法好吗
@@ -940,6 +955,13 @@ Page({
             currnt_menuData.totalMoney = parseFloat(currnt_menuData.totalMoney.toFixed(2))
             if (tmp_oneFood.canMeal) { //可使用餐标
                 currnt_menuData.totalMoney_meal -= minusFoodPrice
+            } else {
+                //计算不可使用餐标的钱的总额 2019--10--7
+                let tmp_cantMealTotalMoney = this.data.cantMealTotalMoney
+                tmp_cantMealTotalMoney = parseFloat((tmp_cantMealTotalMoney - minusFoodPrice).toFixed(2))
+                this.setData({
+                    cantMealTotalMoney: tmp_cantMealTotalMoney
+                })
             }
             // 这种每次重新计算的方法好吗
             let new_deduction = 0
@@ -1121,6 +1143,13 @@ Page({
             currnt_menuData.totalMoney = parseFloat(currnt_menuData.totalMoney.toFixed(2))
             if (tmp_oneFood.canMeal) { //可使用餐标
                 currnt_menuData.totalMoney_meal += addFoodPrice
+            } else {
+                //计算不可使用餐标的钱的总额 2019--10--7
+                let tmp_cantMealTotalMoney = this.data.cantMealTotalMoney
+                tmp_cantMealTotalMoney = parseFloat((tmp_cantMealTotalMoney + addFoodPrice).toFixed(2))
+                this.setData({
+                    cantMealTotalMoney: tmp_cantMealTotalMoney
+                })
             }
             // 这种每次重新计算的方法好吗
             let new_deduction = 0
@@ -1228,7 +1257,8 @@ Page({
                 wx.navigateTo({
                     url: '/pages/menu/today/confirm/confirm?totalMoney=' +
                         _this.data.totalMoney + '&totalMoneyRealDeduction=' +
-                        _this.data.totalMoneyRealDeduction + '&realMoney=' + _this.data.realTotalMoney + '&orderType=one'
+                        _this.data.totalMoneyRealDeduction + '&realMoney=' + _this.data.realTotalMoney + '&orderType=one' +
+                        '&cantMealTotalMoney=' + _this.data.cantMealTotalMoney
 
                 })
             }

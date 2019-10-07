@@ -140,16 +140,22 @@
                         <view class='pay-title' style='line-height:98rpx;'>支付方式</view>
                     </view>
                     <view class='pay-item-last' style='padding-bottom:26rpx;border-bottom: 1rpx solid #F2F2F2;'>
-                        <view wx:if='{{allBalance<realMoney}}' style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:90;'></view>
+                        <view wx:if='{{noEnoughBalanceAll||noEnoughBalancePersonal}}' style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:90;'></view>
                         <view class='flex-a' style="margin-top:32rpx;">
                             <view style='padding-top:2rpx;margin-right:10rpx;width:40rpx;height:40rpx;'>
                                 <image src="/images/menu/wallet.png" style="width:40rpx;height:40rpx;">
                                 </image>
                             </view>
-                            <view class='pay-balance'>钱包支付(钱包余额</view>
-                            <image src='/images/menu/diancanbi.png' style='width:28rpx;height:28rpx;padding:6rpx 8rpx 0;'></image>
-                            <view class='pay-balance'>{{allBalance}})</view>
-
+                            <block wx:if='{{noEnoughBalancePersonal}}'>
+                                <view class='pay-balance'>钱包支付(个人钱包</view>
+                                <image src='/images/menu/diancanbi.png' style='width:28rpx;height:28rpx;padding:6rpx 8rpx 0;'></image>
+                                <view class='pay-balance'>{{totalBalance}})</view>
+                            </block>
+                            <block wx:else>
+                                <view class='pay-balance'>钱包支付(钱包余额</view>
+                                <image src='/images/menu/diancanbi.png' style='width:28rpx;height:28rpx;padding:6rpx 8rpx 0;'></image>
+                                <view class='pay-balance'>{{allBalance}})</view>
+                            </block>
                         </view>
 
                         <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
@@ -171,8 +177,6 @@
                             <image src="/images/menu/uncheck.png" bindtap="handleChangeWalletSelectedFlag" style="width:44rpx;height:44rpx;" wx:else></image>
 
                         </view>
-
-
                     </view>
                 </view>
             </view>

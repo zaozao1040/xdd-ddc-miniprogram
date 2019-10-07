@@ -70,7 +70,7 @@ Page({
             })
         } else if (type == 'organize') {
             wx.setNavigationBarTitle({
-                    title: '企业充值币明细'
+                    title: '企业点餐币明细'
                 })
                 //企业充值记录
             _this.setData({
@@ -79,7 +79,7 @@ Page({
             })
         } else {
             wx.setNavigationBarTitle({
-                    title: '个人充值币明细'
+                    title: '个人点餐币明细'
                 })
                 //个人充值记录
             _this.setData({
