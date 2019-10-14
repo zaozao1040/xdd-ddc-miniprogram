@@ -62,6 +62,12 @@
         </view>
         <!-- 3个图标 3.0 -->
         <view class="label-wrapper">
+            <view style="width:112rpx;text-align: center; " bindtap="gotoMiniProgram" wx:if='{{userInfo.shop}}'>
+                <view style="margin-left:12rpx;height: 88rpx;width:88rpx;">
+                    <image src='/images/home/shop.png' style="height: 88rpx;width:88rpx;"></image>
+                </view>
+                <view class="label-des">星光小栈</view>
+            </view>
             <view style="width:112rpx;text-align: center; " bindtap="handleGotoLabel" data-type="qianbao">
                 <view style="margin-left:12rpx;height: 88rpx;width:88rpx;">
                     <image src='/images/home/home_balance.png' style="height: 88rpx;width:88rpx;"></image>
@@ -81,12 +87,7 @@
                 </view>
                 <view class="label-des">我的积分</view>
             </view>
-            <view style="width:112rpx;text-align: center; " bindtap="gotoMiniProgram" wx:if='{{userInfo.shop}}'>
-                <view style="margin-left:12rpx;height: 88rpx;width:88rpx;">
-                    <image src='/images/home/shop.png' style="height: 88rpx;width:88rpx;"></image>
-                </view>
-                <view class="label-des">小店服务</view>
-            </view>
+
         </view>
         <!-- 首页提示取餐3.0-->
         <view wx:if='{{gethomeOrderList}}'>
