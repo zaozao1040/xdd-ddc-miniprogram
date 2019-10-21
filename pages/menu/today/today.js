@@ -445,6 +445,7 @@ Page({
         //清空时重新加载数据 
         let _this = this
         this.setData({
+            totalMoney_back: 0,
             totalCount: 0,
             totalMoney: 0,
             totalMoneyRealDeduction: 0,

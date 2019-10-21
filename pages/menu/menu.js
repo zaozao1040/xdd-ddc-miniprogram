@@ -472,7 +472,8 @@
 
          let _this = this
              //清空时重新加载数据 
-         this.setData({
+         _this.setData({
+             totalMoney_back: 0,
              totalCount: 0,
              totalMoney: 0,
              totalMoneyRealDeduction: 0,
@@ -481,6 +482,8 @@
              allMenuData: JSON.parse(JSON.stringify(_this.data.allMenuDataCopy)),
              menuCountList: JSON.parse(JSON.stringify(_this.data.menuCountListCopy))
          })
+
+         console.log('_this.data.allMenuDataCopy', _this.data.allMenuDataCopy)
 
      },
 
