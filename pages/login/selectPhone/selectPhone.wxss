@@ -101,19 +101,28 @@
     margin: auto;
 }
 
-.bind-organize-warpper {
+.bind-organize-warpper,
+.bind-login-warpper {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
     margin: auto;
-    height: 328rpx;
-    width: 520rpx;
     padding-bottom: 0;
     background: #fff;
     border-radius: 8rpx;
     z-index: 1001;
+}
+
+.bind-login-warpper {
+    height: 410rpx;
+    width: 560rpx;
+}
+
+.bind-organize-warpper {
+    height: 328rpx;
+    width: 520rpx;
 }
 
 .bind-organize-title {
@@ -185,13 +194,11 @@
 }
 
 .agree-des {
+    width: 390rpx;
     font-size: 26rpx;
     font-family: PingFang-SC-Regular;
     font-weight: 400;
     color: rgba(153, 153, 153, 1);
-    position: fixed;
-    bottom: 62rpx;
-    left: 136rpx;
     line-height: 36rpx;
 }
 
@@ -202,20 +209,23 @@
 .unchecked {
     width: 32rpx;
     height: 32rpx;
-    background: rgba(245, 245, 245, 1);
     border-radius: 6rpx;
-    border: 1rpx solid rgba(204, 204, 204, 1);
-    position: fixed;
-    bottom: 64rpx;
-    left: 94rpx;
+    border: 1rpx solid rgba(247, 156, 76, 1);
+    margin: 0 20rpx 0 60rpx;
+}
+
+.unchecked-init {
+    width: 32rpx;
+    height: 32rpx;
+    border-radius: 6rpx;
+    border: 1rpx solid #ccc;
+    margin: 0 20rpx 0 60rpx;
 }
 
 .checked {
     width: 36rpx;
     height: 36rpx;
-    position: fixed;
-    bottom: 64rpx;
-    left: 94rpx;
+    margin: 0 20rpx 0 60rpx;
 }
 
 .info {
@@ -229,10 +239,10 @@
     left: 264rpx;
 }
 
-.button-cancel{
+.button-cancel {
     background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
     border-radius: 25rpx;
-    margin:60rpx;
+    margin: 60rpx;
     height: 48rpx;
     text-align: center;
     line-height: 48rpx;
@@ -240,4 +250,40 @@
     font-size: 34rpx;
     width: 132rpx;
     float: right;
+}
+
+.bind-login-title {
+    font-size: 36rpx;
+    font-family: PingFang-SC-Medium, PingFang-SC;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 1);
+    line-height: 174rpx;
+    text-align: center;
+}
+
+.flex-a {
+    display: flex;
+}
+
+.bind-login-left {
+    width: 100rpx;
+    flex-grow: 1;
+    font-size: 36rpx;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 1);
+    line-height: 100rpx;
+    text-align: center;
+    border-right: 1rpx solid #E5E5E5;
+}
+
+.bind-login-right {
+    width: 100rpx;
+    flex-grow: 1;
+    font-size: 36rpx;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #576B95;
+    line-height: 100rpx;
+    text-align: center;
 }

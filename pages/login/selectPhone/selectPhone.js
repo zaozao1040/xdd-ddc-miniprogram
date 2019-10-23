@@ -14,24 +14,31 @@ Page({
     showAuthorityInfo() {
         let _this = this
         _this.setData({
-            showInfoFlag: true
-        })
-        if (_this.data.timeoutInfo) {
-            clearTimeout(_this.data.timeoutInfo)
-        }
-        let a = setTimeout(() => {
-            _this.setData({
-                showInfoFlag: false
-            })
-        }, 2000)
-        _this.setData({
-            timeoutInfo: a
+            showInfoFlag: true,
+            initAuthority: true
         })
     },
     changeAuthority() {
         let _this = this
         _this.setData({
             agreeAuthority: !_this.data.agreeAuthority
+        })
+    },
+    cancelLogin() {
+        this.setData({
+            agreeAuthority: false,
+            showInfoFlag: false
+        })
+    },
+    gotoLogin() {
+        this.setData({
+            agreeAuthority: true,
+            showInfoFlag: false
+        })
+    },
+    gotoLoginWithoutAuthor() {
+        this.setData({
+            initAuthority: false
         })
     },
     /**
@@ -158,17 +165,12 @@ Page({
                         // })
                 }
             })
-        }else{
+        } else {
             wx.showToast({
                 title: '已取消登录',
                 image: '/images/msg/warning.png',
                 duration: 2000
             })
-            setTimeout(() => {
-                wx.switchTab({
-                    url: '/pages/home/home',
-                })
-            }, 2000)
         }
     },
     // 修改验证方式-手机号验证码
@@ -215,11 +217,6 @@ Page({
                 duration: 2000
             })
 
-        })
-    },
-    buttonCancel(){
-        wx.switchTab({
-            url: '/pages/home/home',
         })
     }
 })
