@@ -6,16 +6,7 @@ App({
               // baseUrl: 'https://wx.api.uat.91dcan.cn', //测试库
 
         userInfo: null,
-        selectedFoods: [],
-        cacheMenuDataAll: [
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null],
-            [null, null, null, null]
-        ], //7行4列数组，用于存所有选中的数据---当前所有数据
+        selectedFoods: [], 
         totalCount: 0,
         totalMoney: 0, //总价格
         realMoney: 0, //实际价格
