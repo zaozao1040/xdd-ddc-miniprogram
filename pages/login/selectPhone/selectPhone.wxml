@@ -18,6 +18,13 @@
     </view>
 
 
+    <image class='checked-b' wx:if='{{agreeAuthority}}' bindtap='changeAuthority' src='/images/login/checked.png'></image>
+    <view class='unchecked-b' wx:else bindtap='changeAuthority'></view>
+    <view class='agree-des-b' bindtap='changeAuthority'>
+        登录代表您已同意<text style='color:#F79C4C;' catchtap='showProtocal'>点点餐用户协议</text><text style='color:#F79C4C;' catchtap='showPrivacy'>、隐私政策</text>
+    </view>
+
+
     <!--弹框-->
     <view class="modulebox-background-wrapper" wx:if='{{showInfoFlag}}'>
         <view class='bind-login-warpper'>
