@@ -111,7 +111,8 @@
 
                  this.setData({
                      timeInfo: data,
-                     getSevenDaysInfoAlready: true
+                     getSevenDaysInfoAlready: true,
+                     getdataalready: true
                  })
                  for (let i = 0; i < this.data.mealEnglistLabel.length; i++) {
                      //5/15 今天一定有可定的餐时吗？即：该公司预定了这个餐时
