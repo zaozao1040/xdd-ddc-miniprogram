@@ -299,7 +299,8 @@ Page({
             deviceNum: that.data.deviceNum
         }
         that.setData({
-            currentcabinetId: id
+            currentcabinetId: id,
+            newCabinetNum: cabinetNum
         })
         cabModel.openCab(params, (res) => {
             if (res = 200) {
