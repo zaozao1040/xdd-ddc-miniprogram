@@ -405,6 +405,7 @@ Page({
             }
             that.setData({
                 showModal: false,
+                showEnoughModal: true //是否放得下
             })
         })
     },
