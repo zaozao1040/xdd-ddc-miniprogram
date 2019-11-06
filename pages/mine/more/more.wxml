@@ -5,6 +5,7 @@
             <button class="weui-btn" type="primary" data-of='S' bindtap="hotOrCancerHot" plain="true">全部加热</button>
             <button class="weui-btn" type="primary" data-of='C' bindtap="hotOrCancerHot" plain="true">全部取消加热</button>
             <button class="weui-btn" type="primary" bindtap="cancelOrderSn" plain="true">订单解绑</button>
+            <button class="weui-btn" type="primary" bindtap="onOffLightBox" plain="true">操作灯箱</button>
             <view class='open-sigle-cab'>
                 <view class="weui-cell__bd">
                     <input class="weui-input" bindinput="cabNumInputSigleOpen" maxlength="11" placeholder="编号：A">编号</input>

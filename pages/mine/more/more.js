@@ -231,6 +231,45 @@ Page({
                 return;
             }
         })
+    },
+    onOffLightBox: function() {
+        let that = this;
+        let itemList = ['开灯', '关灯'];
+        wx.showActionSheet({
+            itemList: itemList,
+            itemColor: "#007500",
+            success: function(res) {
+                if (!res.cancel) {
+                    let tapIndex = res.tapIndex;
+                    switch (tapIndex) {
+                        case 0:
+                            that.operateLightBox(true);
+                            break;
+                        case 1:
+                            that.operateLightBox(false);
+                            break;
+                    }
+                }
+            }
+        });
+    },
+    operateLightBox: function(isOpen) {
+        let deviceNum = this.data.deviceNum;
+        let params = {
+            deviceNum: deviceNum,
+            isOpen: isOpen
+        }
+        moreModel.operateLightBox(params, (res) => {
+            console.log(res);
+            if (res) {
+                wx.showToast({
+                    title: res.msg,
+                    icon: 'none',
+                    duration: 1500,
+                    mask: true
+                });
+            }
+        })
     }
 
 

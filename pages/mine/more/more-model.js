@@ -47,7 +47,19 @@ class more extends base {
         };
         this.request(allParams);
     }
-
+    operateLightBox(param, callback) {
+        let that = this;
+        let allParams = {
+            url: "onOffLightBox",
+            type: "POST",
+            data: param,
+            sCallback: function(data) {
+                callback && callback(data);
+            },
+            eCallback: function() {}
+        };
+        this.request2(allParams);
+    }
 
 }
 export {
