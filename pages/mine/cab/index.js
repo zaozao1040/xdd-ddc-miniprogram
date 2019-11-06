@@ -381,11 +381,11 @@ Page({
 
     openCabByChoose: function(e) {
         let that = this;
-        let cabinetId = e.currentTarget.dataset.cabinetId;
+        let cabinetNum = e.currentTarget.dataset.cabinetNum;
         let id = e.currentTarget.dataset.id;
         let deviceNum = this.data.deviceNum;
         let params = {
-            cabinetNum: cabinetId,
+            cabinetNum: cabinetNum,
             deviceNum: deviceNum
         };
         cabModel.actionOpenCab(params, (res) => {
@@ -408,64 +408,50 @@ Page({
         })
     },
 
-    onConfirm: function() {
+    onConfirm: function(e) {
         let that = this;
         let orderSn = this.data.currentOrdersn;
-        let currentcabinetId = this.data.currentcabinetId;
-        let deviceNum = this.data.deviceNum;
-        let params = {
-            cabinetNum: currentcabinetId,
-            deviceNum: deviceNum
-        };
-        cabModel.openCab(params, (res) => {
-            if (res = 200) {
-                let bindParams = {
-                    orderSn: orderSn,
-                    cabinetId: currentcabinetId,
-                    bindOther: "yes"
-                }
-                cabModel.bindFood(bindParams, (bindFoodOrginRes) => {
-                    let bindFoodRes = bindFoodOrginRes.code;
-                    if (bindFoodRes === 200) {
-                        that.toUser(orderSn)
-                        that.setData({
-                            loadingHidden: true,
-                            showModal: false,
-                        })
-                        wx.showToast({
-                            title: bindFoodOrginRes.msg,
-                            icon: 'none',
-                            duration: 2000,
-                            mask: true
-                        });
-                        that.onShowNew();
-                    } else if (bindFoodRes === 20000) {
-                        that.setData({
-                            radioItems: bindFoodOrginRes.data,
-                            showModal: true,
-                            loadingHidden: true,
-                        })
+        let currentcabinetId = e.currentTarget.dataset.cabinetId;
 
-                    } else {
-                        wx.showToast({
-                            title: '未知错误',
-                            icon: 'none',
-                            duration: 1500,
-                            mask: true
-                        });
-                        that.setData({
-                            loadingHidden: true
-                        })
-                        return;
-                    }
+        let bindParams = {
+            orderSn: orderSn,
+            cabinetId: currentcabinetId,
+            bindOther: true
+        }
+        cabModel.bindFood(bindParams, (bindFoodOrginRes) => {
+            let bindFoodRes = bindFoodOrginRes.code;
+            if (bindFoodRes === 200) {
+                that.toUser(orderSn)
+                that.setData({
+                    loadingHidden: true,
+                    showEnoughModal: false,
+                    showModal: false,
                 })
-            } else {
                 wx.showToast({
-                    title: '开柜失败',
+                    title: bindFoodOrginRes.msg,
                     icon: 'none',
                     duration: 2000,
                     mask: true
                 });
+                that.cabRefresh();
+            } else if (bindFoodRes === 20000) {
+                that.setData({
+                    radioItems: bindFoodOrginRes.data,
+                    showEnoughModal: false,
+                    showModal: false,
+                    loadingHidden: true,
+                })
+            } else {
+                wx.showToast({
+                    title: bindFoodOrginRes.msg,
+                    icon: 'none',
+                    duration: 1500,
+                    mask: true
+                });
+                that.setData({
+                    loadingHidden: true
+                })
+                return;
             }
         })
     },
@@ -526,6 +512,7 @@ Page({
                 pageone_three: pageone_three,
                 pageone_four: pageone_four,
                 deviceNum: dev,
+                deviceStatus: res.deviceStatus,
                 loadingHidden: true,
             })
         })

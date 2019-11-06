@@ -7,6 +7,8 @@
                     <view class='flex-a'>
                         <view style='width:190rpx;text-align:right;color:#333;font-size:36rpx;margin-right:10rpx;'>柜子地址:</view>
                         <view>{{cabinetList[0].deviceAddress}}</view>
+                        <view style='padding-left:20rpx;color:green;' wx:if='{{deviceStatus=="在线"}}'>{{deviceStatus}}</view>
+                        <view style='padding-left:20rpx;color:#dd0000;' wx:else>{{deviceStatus}}</view>
                     </view>
                     <view class="more-job" bindtap="goMore">更多操作</view>
                 </view>
@@ -96,21 +98,28 @@
 
 
 
-    <view class="modal-mask" wx:if="{{showModal}}"></view>
+    <view class="modal-mask" wx:if="{{showModal||showEnoughModal}}"></view>
     <view class="modal-dialog" wx:if="{{showModal}}">
-        <view class="modal-title-title">以下格子存在改订单</view>
+        <view class="modal-title-title">以下格子存在该订单中部分餐品</view>
         <radio-group>
-            <label class="weui-cell weui-check__label" wx:for="{{radioItems}}" wx:key="value">
-            <view class="weui-cell__bd" bindtap='openCabByChoose'>{{item.cabinetNum}}</view>
-            <view data-id="{{item.id}}" data-cabinet-id="{{item.cabinetId}}" bindtap='openCabByChoose' class="weui-cell__ft weui-cell__ft_in-radio" >
-                <text>开柜</text>
-            </view>
-        </label>
+            <label class="weui-cell weui-check__label">
+                <view class="weui-cell__bd" bindtap='openCabByChoose'>{{radioItems.cabinetNum}}</view>
+                <view data-id="{{radioItems.id}}" data-cabinet-num="{{radioItems.cabinetNum}}" bindtap='openCabByChoose' class="weui-cell__ft weui-cell__ft_in-radio" >
+                    <text style='color:green;'>开柜</text>
+                </view>
+            </label>
         </radio-group>
         <view class="modal-footer">
             <view class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</view>
-            <view class="btn-confirm" bindtap="onConfirm" data-status="confirm">再次绑定</view>
+            <view class="btn-confirm" bindtap="onConfirm" data-status="confirm" data-cabinet-id="{{currentcabinetId}}">放新格子</view>
         </view>
+    </view>
+
+    <view class="modal-dialog" wx:if="{{showEnoughModal}}">
+        <view class="modal-title-title">旧格子{{radioItems.cabinetNum}}是否放得下</view>
+        <view class="btn-old" bindtap="onConfirm" data-status="cancel" data-cabinet-id="{{radioItems.cabinetId}}">放得下，放{{radioItems.cabinetNum}}中</view>
+        <view class="btn-new" bindtap="onConfirm" data-status="confirm" data-cabinet-id="{{currentcabinetId}}">放不下，放新格子{{newCabinetNum}}中</view>
+
     </view>
 
     <loading hidden="{{loadingHidden}}">

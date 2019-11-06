@@ -219,15 +219,6 @@
     border-bottom: 1px solid #dedede;
 }
 
-.modal-title {
-    font-size: 36rpx;
-    height: 100rpx;
-    line-height: 100rpx;
-    color: #030303;
-    border-bottom: 1px solid #dedede;
-    text-align: center;
-}
-
 .modal-footer {
     display: flex;
     flex-direction: row;
@@ -246,6 +237,19 @@
 
 .btn-confirm {
     width: 50%;
+    color: #ec5300;
+    text-align: center;
+}
+
+.btn-old {
+    padding: 20px 0;
+    color: green;
+    text-align: center;
+    border: 1rpx solid green;
+}
+
+.btn-new {
+    padding: 20px 0;
     color: #ec5300;
     text-align: center;
 }
