@@ -65,6 +65,11 @@ Page({
                 _this.setData({
                     orgAdmin: false
                 })
+                if (userType == 'VISITOR') {
+                    _this.setData({
+                        notShowPrice: true
+                    })
+                }
             }
             _this.setData({
                 organizeTrial: userInfo.organizeTrial

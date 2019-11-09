@@ -99,7 +99,10 @@
 
 
                                     </view>
-                                    <view class='price-num-control'>
+                                    <view class='price-num-control' wx:if='{{notShowPrice}}' style='flex-flow: row-reverse;'>
+                                        <image src="/images/menu/order_add.png" style="width:40rpx;height:40rpx; "></image>
+                                    </view>
+                                    <view class='price-num-control' wx:else>
                                         <view class='flex-a' wx:if='{{foodItem.linefoodPrice}}'>
                                             <view class="price-real-icon">￥</view>
                                             <view class="price-real">
@@ -181,7 +184,7 @@
                     </view>
                 </view>
                 <view wx:else style="position:absolute; left:160rpx;top:4rpx; ">
-                    <view class='no-shop' style='padding-top:{{orgAdmin?16:0}}rpx;'>未选购餐品</view>
+                    <view class='no-shop' style='padding-top:{{orgAdmin?16:0}}rpx;' wx:if='{{!notShowPrice}}'>未选购餐品</view>
                     <block wx:if="{{allMenuData[mealTypeItem].mealType.standardPrice == 0 || allMenuData[mealTypeItem].mealType.standardPrice == null}}"></block>
                     <!--这个是咋判断的，需要问后台没有餐标的时候到底返回啥值-->
 

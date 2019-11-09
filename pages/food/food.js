@@ -46,6 +46,13 @@ Page({
             })
         })
 
+        requestModel.getUserInfo(userInfo => {
+            if (userInfo.userType == 'VISITOR') {
+                this.setData({
+                    notShowPrice: true
+                })
+            }
+        }, true)
 
         this.initRatings()
     },

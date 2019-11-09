@@ -165,6 +165,11 @@
                  _this.setData({
                      orgAdmin: false
                  })
+                 if (userType == 'VISITOR') {
+                     _this.setData({
+                         notShowPrice: true
+                     })
+                 }
              }
              _this.setData({
                  organizeTrial: userInfo.organizeTrial
@@ -1361,4 +1366,11 @@
                  this.data.timeInfo[this.data.activeDayIndex].mealDate + '&mealType=' + this.data.mealTypeItem + '&typeName=' + e.currentTarget.dataset.typename
          })
      },
+     handleBindOrg() {
+         wx.showToast({
+             title: '未绑定企业',
+             image: '/images/msg/error.png',
+             duration: 2000
+         })
+     }
  })
