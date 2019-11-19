@@ -223,8 +223,8 @@ Page({
             url: '/meal/getPreMealDateAndType?userCode=' + wx.getStorageSync('userCode')
         }
         requestModel.request(param, data => {
-
-            // 处理日期
+            console.log('getPreMealDateAndType', data)
+                // 处理日期
             let dayInfo = ['今天', '明天', '后天'] //最多也就是后天吧
             let durationInfo = ['凌晨', '上午', '下午', '晚上']
 

@@ -39,6 +39,10 @@
 		"game": {
 			"list": []
 		},
+		"gamePlugin": {
+			"current": -1,
+			"list": []
+		},
 		"miniprogram": {
 			"current": 12,
 			"list": [
@@ -131,6 +135,12 @@
 					"name": "today/today",
 					"pathName": "pages/menu/today/today",
 					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/test",
+					"pathName": "pages/test/test",
 					"scene": null
 				}
 			]

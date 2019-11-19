@@ -15,7 +15,7 @@ Page({
     onLoad: function(options) {
 
         this.setData({
-            extendUrl: options.extendUrl + '?userCode=' + wx.getStorageSync('userCode')
+            extendUrl: options.extendUrl + '?userCode=' + wx.getStorageSync('userCode') + '&from=miniprogram'
         })
         if (options.title) {
             wx.setNavigationBarTitle({

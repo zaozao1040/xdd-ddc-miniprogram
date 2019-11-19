@@ -168,7 +168,13 @@
                         </view>
                         <view class='label-title'>服务评分</view>
                     </view>
-                    <view style='width:104rpx;height:100rpx;' wx:else></view>
+                    <!-- <view style='width:104rpx;height:100rpx;' wx:else></view> -->
+                    <view bindtap="gotoShare">
+                        <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
+                            <image src="/images/mine/me_complaint.png" style='width:80rpx;height:80rpx;'></image>
+                        </view>
+                        <view class='label-title'>分享有赏</view>
+                    </view>
                 </view>
             </view>
             <view class='function-wrapper'>

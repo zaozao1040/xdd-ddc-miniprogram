@@ -43,8 +43,8 @@
     "pages/mine/allComment/allComment",
     "pages/mine/allComment/detail",
     "pages/order/myComment/myComment",
-    "pages/components/comment/comment", 
-    "pages/login/userPw/userPw"
+    "pages/components/comment/comment",
+    "pages/login/userPw/userPw" 
   ],
   "permission": {
     "scope.userLocation": {
