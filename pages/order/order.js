@@ -272,7 +272,7 @@ Page({
 
     handleFromDay() {
         let time = new Date(this.data.checkOrderDate).getTime()
-        let now = new Date(time - 24 * 2600 * 1000)
+        let now = new Date(time - 24 * 3600 * 1000)
 
         let current = new Date()
         if ((now.getFullYear() == current.getFullYear()) && (now.getMonth() == current.getMonth()) && (now.getDate() == current.getDate())) {
@@ -292,7 +292,7 @@ Page({
     },
     handleNextDay() {
         let time = new Date(this.data.checkOrderDate).getTime()
-        let now = new Date(time + 24 * 2600 * 1000)
+        let now = new Date(time + 24 * 3600 * 1000)
 
         let current = new Date()
         if ((now.getFullYear() == current.getFullYear()) && (now.getMonth() == current.getMonth()) && (now.getDate() == current.getDate())) {

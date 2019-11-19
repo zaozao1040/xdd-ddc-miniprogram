@@ -150,11 +150,16 @@ Page({
     /**
      * 当状态为2的时候，提示更多操作
      */
-    open: function(cabinetNum, id) {
+    open: function(cabinetNum, id, takeMeal) {
+        console.log("this is open one");
         let that = this;
         let deviceNum = this.data.deviceNum;
+        let itemList = ['开柜', '加热', '取消加热'];
+        if (takeMeal) {
+            itemList.push("取餐");
+        }
         wx.showActionSheet({
-            itemList: ['开柜', '加热', '取消加热', '取餐'],
+            itemList: itemList,
             itemColor: "#007500",
             success: function(res) {
                 if (!res.cancel) {
@@ -251,6 +256,13 @@ Page({
         })
     },
 
+    handleLongPress: function(e) {
+        let cabinetNum = e.currentTarget.dataset.cabinetNum;
+        let id = e.currentTarget.dataset.id;
+        let cabNums = e.currentTarget.dataset.cabNum;
+        this.open(cabinetNum, id, false);
+        return;
+    },
     /**
      * 开柜
      */
@@ -291,7 +303,7 @@ Page({
             that.setData({
                 loadingHidden: true,
             })
-            this.open(cabinetNum, id);
+            this.open(cabinetNum, id, true);
             return;
         }
         let params = {
@@ -346,8 +358,6 @@ Page({
                                     showModal: true,
                                     loadingHidden: true,
                                 })
-                                console.log(bindFoodRes);
-                                console.log(bindFoodOrginRes.data);
                             } else {
                                 wx.showToast({
                                     title: bindFoodOrginRes.msg,

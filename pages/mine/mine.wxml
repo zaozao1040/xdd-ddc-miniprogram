@@ -170,10 +170,10 @@
                     </view>
                     <!-- <view style='width:104rpx;height:100rpx;' wx:else></view> -->
                     <view bindtap="gotoShare">
-                        <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
-                            <image src="/images/mine/me_complaint.png" style='width:80rpx;height:80rpx;'></image>
+                        <view style="margin-left:26rpx;width:64rpx;height:58rpx;margin-top:23rpx;">
+                            <image src="/images/mine/share.png" style='width:42rpx;height:42rpx;'></image>
                         </view>
-                        <view class='label-title'>分享有赏</view>
+                        <view class='label-title'>推荐有赏</view>
                     </view>
                 </view>
             </view>

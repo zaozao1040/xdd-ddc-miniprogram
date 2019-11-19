@@ -363,7 +363,7 @@ Page({
     gotoShare() {
         let extendUrl = 'https://share.91dcan.cn/'
         wx.navigateTo({
-            url: '/pages/home/link?extendUrl=' + extendUrl + '&title=分享有赏'
+            url: '/pages/home/link?extendUrl=' + extendUrl + '&title=推荐有赏'
         })
     },
 
