@@ -270,10 +270,7 @@ class base {
                 }
                 params.sCallback && params.sCallback(res.data);
             },
-            fail: function(err) {
-                //console.log(err)
-                //that._processError(err);
-            }
+            fail: function(err) {}
         });
     }
 }

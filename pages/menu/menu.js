@@ -197,13 +197,11 @@
                      this.setData({
                          mealTypeItem: meal
                      })
-
                      break
-
                  }
              }
 
-             if (!this.data.allMenuData[day][this.data.mealTypeItem]) {
+             if (this.data.mealTypeItem && !this.data.allMenuData[day][this.data.mealTypeItem]) {
                  this.setData({
                      getdataalready: false
                  })
@@ -239,13 +237,9 @@
          let activeDayIndex = this.data.activeDayIndex
          let _this = this
          requestModel.getUserCode(userCode => {
-
-
              let param = {
                  url: '/food/getFoodDateList?userCode=' + userCode + '&mealDate=' + this.data.timeInfo[activeDayIndex].mealDate + '&mealType=' + tmp_mealTypeItem.toUpperCase()
-
              }
-
              requestModel.request(param, resData => { //获取加餐所有信息
 
                  resData.totalMoney = 0 //给每天的每个餐时一个点餐的总的金额
@@ -398,6 +392,10 @@
                  _this.setData({
                      getTimeDataByResponseNow: false
                  })
+             }, false, () => {
+                 this.setData({
+                     getTimeDataByResponseNow: false
+                 })
              })
          })
      },
@@ -443,13 +441,11 @@
          let tmp_listHeight = [0] //首元素置为0 下面的循环次数为 rect.length-1 就能保证不会多出一次
          let totalHeight = 0
          wx.createSelectorQuery().selectAll('.c_foodPosition_forCalculate').boundingClientRect(function(rect) {
-             console.log('listHeight--menu-rect', rect)
              for (let i = 0; i < rect.length - 1; i++) {
                  totalHeight = totalHeight + rect[i].height
                  tmp_listHeight.push(totalHeight)
              }
              _this.data.listHeight = tmp_listHeight
-             console.log('listHeight--menu', _this.data.listHeight)
          }).exec()
      },
      /* 滚动事件监听 */
@@ -488,8 +484,6 @@
              allMenuData: JSON.parse(JSON.stringify(_this.data.allMenuDataCopy)),
              menuCountList: JSON.parse(JSON.stringify(_this.data.menuCountListCopy))
          })
-
-         console.log('_this.data.allMenuDataCopy', _this.data.allMenuDataCopy)
 
      },
 
@@ -961,9 +955,6 @@
          this.setData({
              selectedFoodsIndex: tmpselectFoodsIndex
          })
-
-         console.log('selectedFoodsIndex--xx', tmpselectFoodsIndex)
-
      },
      // 点击减号，将餐品减一
      handleCartMinusfood(e) {
@@ -1272,9 +1263,7 @@
                  //1.餐标可用 2.当天当餐点餐了，用总价判断点餐没是否不妥？3.不能低于餐标 4.抵扣金额小于企业餐标 5/6
                  //都改为不可低于最低下单金额了 7/25
                  let { totalMoney, mealType } = item[meal]
-                     //
-                 console.log('totalMoney', totalMoney)
-                 console.log('mealType.lowestStandard', mealType.lowestStandard)
+
                  if (totalMoney > 0 && totalMoney < mealType.lowestStandard) {
 
                      let t_title = this.data.timeInfo[i].label + ' ' + this.data.mealTypeSmall[meal]

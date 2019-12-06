@@ -81,7 +81,7 @@ Page({
         let index = tmp_appointmention == 'today' ? 0 : 1
         let tmp_mealtypeinfo = wx.getStorageSync('twoDaysInfo')[index]
 
-        console.log('tmp_mealtypeinfo', tmp_mealtypeinfo)
+
         let dd = tmp_mealtypeinfo.mealDate.split("-")
         let mealDateShow = dd[1] + "/" + dd[2]
         _this.setData({
@@ -241,7 +241,7 @@ Page({
                     typeIdFoodCode[item.typeId] = a
                 })
 
-                console.log('typeIdFoodCode', typeIdFoodCode)
+
                 if (resData.foodCustomizeList && resData.foodCustomizeList.length > 0) {
                     resData.foodCustomizeList.forEach((item, index1) => {
                         item.left = true
@@ -287,7 +287,7 @@ Page({
                     })
                 }
 
-                console.log('resData.foodCustomizeList', resData.foodCustomizeList)
+
                 resData.foodList.forEach(item => {
                     item.left = false
                     item.foodList.forEach(foodItem => {
@@ -413,13 +413,12 @@ Page({
         let tmp_listHeight = [0] //首元素置为0 下面的循环次数为 rect.length-1 就能保证不会多出一次
         let totalHeight = 0
         wx.createSelectorQuery().selectAll('.c_foodPosition_forCalculate').boundingClientRect(function(rect) {
-            console.log('listHeight---rect', rect)
+
             for (let i = 0; i < rect.length - 1; i++) {
                 totalHeight = totalHeight + rect[i].height
                 tmp_listHeight.push(totalHeight)
             }
             _this.data.listHeight = tmp_listHeight
-            console.log('listHeight', _this.data.listHeight)
         }).exec()
     },
     /* 滚动事件监听 */
@@ -832,8 +831,6 @@ Page({
                 totalMoneyRealDeduction: tmp_totalMoneyRealDeduction
             })
 
-
-            console.log('allMenuData', _this.data.allMenuData)
         }
     },
     // 点击购物车图标
@@ -995,7 +992,7 @@ Page({
 
             // 购物车中的减1
             let tmp_selectedFood = this.data.selectedFoodsIndex[tmp_mealTypeItem].selectedFoods[tmp_selectedFoodIndex]
-                // tmp_selectedFood.foodCount--;
+            tmp_selectedFood.foodCount--;
             tmp_selectedFood.foodTotalPrice = parseFloat((tmp_selectedFood.foodTotalPrice - minusFoodPrice).toFixed(2));
             tmp_selectedFood.foodTotalOriginalPrice = parseFloat((tmp_selectedFood.foodTotalOriginalPrice - tmp_selectedFood.foodOriginalPrice).toFixed(2));
             this.data.selectedFoodsIndex[tmp_mealTypeItem].selectedFoods[tmp_selectedFoodIndex] = tmp_selectedFood
@@ -1181,15 +1178,14 @@ Page({
             let tmp_totalMoneyRealDeduction = parseFloat((this.data.totalMoneyRealDeduction - oldDeduction + new_deduction).toFixed(2))
             let tmp_realTotalMoney = (tmptotalMoney - tmp_totalMoneyRealDeduction) > 0 ? tmptotalMoney - tmp_totalMoneyRealDeduction : 0
 
-            console.log(' this.data.selectedFoodsIndex', this.data.selectedFoodsIndex)
-                // 购物车中被增1的增1
-                // let tmp_selectedFood = this.data.selectedFoodsIndex[tmp_mealTypeItem].selectedFoods[tmp_selectedFoodIndex]
-                // tmp_selectedFood.foodCount++;
-                // tmp_selectedFood.foodTotalPrice = parseFloat((tmp_selectedFood.foodTotalPrice + tmp_selectedFood.foodPrice).toFixed(2));
-                // tmp_selectedFood.foodTotalPrice = parseFloat((tmp_selectedFood.foodTotalPrice + addFoodPrice).toFixed(2));
-                // tmp_selectedFood.foodTotalOriginalPrice = parseFloat((tmp_selectedFood.foodTotalOriginalPrice + tmp_selectedFood.foodOriginalPrice).toFixed(2));
-                // this.data.selectedFoodsIndex[tmp_mealTypeItem].selectedFoods[tmp_selectedFoodIndex] = tmp_selectedFood
-                // this.data.selectedFoodsIndex[tmp_mealTypeItem].deductionMoney = parseFloat(new_deduction.toFixed(2))
+
+            // 购物车中被增1的增1
+            let tmp_selectedFood = this.data.selectedFoodsIndex[tmp_mealTypeItem].selectedFoods[tmp_selectedFoodIndex]
+            tmp_selectedFood.foodCount++;
+            tmp_selectedFood.foodTotalPrice = parseFloat((tmp_selectedFood.foodTotalPrice + addFoodPrice).toFixed(2));
+            tmp_selectedFood.foodTotalOriginalPrice = parseFloat((tmp_selectedFood.foodTotalOriginalPrice + tmp_selectedFood.foodOriginalPrice).toFixed(2));
+            this.data.selectedFoodsIndex[tmp_mealTypeItem].selectedFoods[tmp_selectedFoodIndex] = tmp_selectedFood
+            this.data.selectedFoodsIndex[tmp_mealTypeItem].deductionMoney = parseFloat(new_deduction.toFixed(2))
             this.setData({
                 allMenuData: this.data.allMenuData,
                 totalMoney: parseFloat(tmptotalMoney.toFixed(2)),
@@ -1211,8 +1207,7 @@ Page({
             // 是这么判断的吗？ 5/6
             //1.餐标可用 2.当天当餐点餐了，用总价判断点餐没是否不妥？3.不能低于餐标 4.抵扣金额小于企业餐标
             let { totalMoney, mealType } = this.data.allMenuData[meal]
-            console.log('totalMoney', totalMoney)
-            console.log('mealType.lowestStandard', mealType.lowestStandard)
+
             if (totalMoney > 0 && totalMoney < mealType.lowestStandard) {
 
                 let t_title = this.data.appointment + ' ' + this.data.mealTypeSmall[meal]
@@ -1244,7 +1239,7 @@ Page({
         setTimeout(() => {
             _this.data.commitNow = false
         }, 2000)
-        console.log('commitNow')
+
         if (_this.data.totalCount > 0) {
             let flag = true
             if (!_this.data.orgAdmin) {
@@ -1258,7 +1253,7 @@ Page({
                 _this.data.selectedFoodsIndex.mealDate = _this.data.mealDate
 
                 wx.setStorageSync('todaySelectedFoods', _this.data.selectedFoodsIndex)
-                console.log('todaySelectedFoods', _this.data.selectedFoodsIndex)
+
 
                 wx.navigateTo({
                     url: '/pages/menu/today/confirm/confirm?totalMoney=' +
