@@ -115,7 +115,7 @@ Page({
                     let tmp_rechargeList = data.list
                     tmp_rechargeList.forEach(element => {
                         element.difference = (element.difference > 0 ? '+' : '') + (element.difference).toFixed(2)
-                        element.recordTypeDes = typeMap[element.recordType]
+                            // element.recordTypeDes = typeMap[element.recordType]
                         element.operateTimeDes = element.operateTime
                     })
                     if (page == 1) {

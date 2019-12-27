@@ -35,7 +35,7 @@
                             <view class='detail-money' wx:if='{{organizeBalanceFlag}}'>{{organizeBalance}}</view>
                             <view class='detail-money' style='color:#C7C7C7;' wx:else>尚无</view>
                         </view>
-
+                        <view class='detail-money-clear'>(本月底清零金额：{{thisMonthClearOrganizeBlance}})</view>
                     </view>
 
                 </view>

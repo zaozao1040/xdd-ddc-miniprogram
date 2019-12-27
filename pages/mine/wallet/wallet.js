@@ -31,6 +31,7 @@
                      allBalance: data.allBalance, //所有币
                      totalBalance: data.totalBalance, //点餐币
                      totalPresentBalance: data.totalPresentBalance, //赠币的和
+                     thisMonthClearOrganizeBlance: data.thisMonthClearOrganizeBlance //本月清零的企业点餐币
 
                  })
              })

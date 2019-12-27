@@ -168,6 +168,9 @@
 
                             <view class='flex-a'>
                                 <view class='food-money'>实付：￥<text style='font-weight:500;position:relative; left:-4rpx;;'>{{orderItem.payPrice}}</text></view>
+                                <view wx:if="{{orderItem.standardPrice}}">
+                                    <image src='/images/order/standard.png' style='width:68rpx;height:32rpx;margin-left:10rpx;margin-top:13rpx;'></image>
+                                </view>
                                 <view class='take-time'>
                                     <view wx:if='{{orderItem.takeMealEndTime&&!(orderItem.status== 2 &&orderItem.evaluateStatus  == 1)}}'>截止时间:{{orderItem.takeMealEndTime}}</view>
                                 </view>
