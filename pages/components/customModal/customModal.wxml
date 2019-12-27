@@ -3,6 +3,7 @@
         <view class='title'>{{title}}</view>
         <slot></slot>
         <view class='content'>{{content}}<text style='color:#F79C4C;'>{{money}}</text></view>
+        <view class='content'>{{content2}} </view>
         <view class='button-display'>
             <view class='button-left' bindtap='closeModal'>{{cancel}}</view>
             <view class='button-right' bindtap='handleConfirm' data-modalparam='{{params}}'>{{confirm}}</view>

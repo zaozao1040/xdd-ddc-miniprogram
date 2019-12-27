@@ -6,6 +6,7 @@ Component({
             value: '提示'
         },
         content: String,
+        content2: String,
         money: String,
         cancel: {
             type: String,

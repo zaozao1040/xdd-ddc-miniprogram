@@ -71,7 +71,12 @@
 
         <view class="mask" wx:if="{{cancelFlag||showRatingsFlag||takeorderModalShow}}" catchtouchmove="preventTouchMove"></view>
         <!--取消订单弹出框-->
-        <c-custom-modal content='确定要取消订单？' cancel='再等等' confirm='确定取消' wx:if='{{cancelFlag}}' bind:closemodal='handleCancelOrderWait' bind:handleconfirm='handleCancelOrderConfirm'></c-custom-modal>
+
+        <view wx:if='{{cancelFlag}}'>
+            <c-custom-modal wx:if="{{showAnotherOrderInfo}}" title='是否取消订单？' content='订单取消餐标将作废不返还' content2='同一餐别下还有自费订单还未取消' cancel='再等等' confirm='确定取消' bind:closemodal='handleCancelOrderWait' bind:handleconfirm='handleCancelOrderConfirm'></c-custom-modal>
+            <c-custom-modal wx:elif="{{cancelOrderStandardPrice}}" title='是否取消订单？' content='订单取消餐标将作废不返还' cancel='再等等' confirm='确定取消' bind:closemodal='handleCancelOrderWait' bind:handleconfirm='handleCancelOrderConfirm'></c-custom-modal>
+            <c-custom-modal wx:else content='确定要取消订单？' cancel='再等等' confirm='确定取消' bind:closemodal='handleCancelOrderWait' bind:handleconfirm='handleCancelOrderConfirm'></c-custom-modal>
+        </view>
 
         <!-- 标题 -->
         <view class="header-wrapper">
@@ -176,7 +181,8 @@
                                 </view>
                                 <view class='order-button'>
                                     <block wx:if="{{!orderItem.expiredFlag}}">
-                                        <view wx:if="{{orderItem.status== 1}}" class='see-detail' style='margin-left:16rpx;' catchtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-payprice="{{orderItem.payPrice}}" data-paystatus="{{orderItem.payStatus}}">
+                                        <view wx:if="{{orderItem.status== 1}}" class='see-detail' style='margin-left:16rpx;' catchtap="handleCancelOrder" data-standardprice="{{orderItem.standardPrice}}" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}" data-payprice="{{orderItem.payPrice}}"
+                                            data-paystatus="{{orderItem.payStatus}}">
                                             取消订单
                                         </view>
                                         <view wx:if="{{orderItem.status== 2 &&orderItem.pickStatus  == 1}}" class='take-food' catchtap="handleTakeOrder" data-ordercode="{{orderItem.orderCode}}" data-pickagain="{{orderItem.pickAgain}}">
