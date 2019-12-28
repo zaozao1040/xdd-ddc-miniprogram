@@ -447,22 +447,21 @@ Page({
     },
     /* 取消订单 */
     handleCancelOrder(e) {
-        let _this = this
+        // let _this = this
 
-        let param = {
-            url: '/order/cancelOrderPre?userCode=' + _this.data.userCode + '&orderCode=' + e.currentTarget.dataset.ordercode
-        }
-        requestModel.request(param, (data) => {
-            this.setData({
-                showAnotherOrderInfo: data
-            })
-            console.log('showAnotherOrderInfo', data)
-        })
+        // let param = {
+        //     url: '/order/cancelOrderPre?userCode=' + _this.data.userCode + '&orderCode=' + e.currentTarget.dataset.ordercode
+        // }
+        // requestModel.request(param, (data) => {
+        //     this.setData({
+        //         showAnotherOrderInfo: data
+        //     })
+        //     console.log('showAnotherOrderInfo', data)
+        // })
         this.setData({
             cancelOrderCode: e.currentTarget.dataset.ordercode,
             cancelFlag: true,
-            showShapeFlag: false,
-            cancelOrderStandardPrice: e.currentTarget.dataset.standardprice
+            showShapeFlag: false
         })
     },
     /* 取消取消订单 */

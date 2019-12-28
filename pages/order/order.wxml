@@ -72,11 +72,15 @@
         <view class="mask" wx:if="{{cancelFlag||showRatingsFlag||takeorderModalShow}}" catchtouchmove="preventTouchMove"></view>
         <!--取消订单弹出框-->
 
-        <view wx:if='{{cancelFlag}}'>
+        <!-- <view wx:if='{{cancelFlag}}'>
             <c-custom-modal wx:if="{{showAnotherOrderInfo}}" title='是否取消订单？' content='订单取消餐标将作废不返还' content2='同一餐别下还有自费订单还未取消' cancel='再等等' confirm='确定取消' bind:closemodal='handleCancelOrderWait' bind:handleconfirm='handleCancelOrderConfirm'></c-custom-modal>
             <c-custom-modal wx:elif="{{cancelOrderStandardPrice}}" title='是否取消订单？' content='订单取消餐标将作废不返还' cancel='再等等' confirm='确定取消' bind:closemodal='handleCancelOrderWait' bind:handleconfirm='handleCancelOrderConfirm'></c-custom-modal>
             <c-custom-modal wx:else content='确定要取消订单？' cancel='再等等' confirm='确定取消' bind:closemodal='handleCancelOrderWait' bind:handleconfirm='handleCancelOrderConfirm'></c-custom-modal>
-        </view>
+        </view> -->
+
+
+        <c-custom-modal wx:if='{{cancelFlag}}' content='确定要取消订单？' cancel='再等等' confirm='确定取消' bind:closemodal='handleCancelOrderWait' bind:handleconfirm='handleCancelOrderConfirm'></c-custom-modal>
+
 
         <!-- 标题 -->
         <view class="header-wrapper">
