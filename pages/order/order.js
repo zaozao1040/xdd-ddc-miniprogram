@@ -1,4 +1,6 @@
-import { base } from '../../comm/public/request'
+import {
+    base
+} from '../../comm/public/request'
 
 let requestModel = new base()
 
@@ -30,7 +32,7 @@ Page({
         windowHeight: 0,
         scrollTop: 0,
         //
-        itemStatusActiveFlag: 1, //0：全部订单，1：今日待取，2：待评价
+        itemStatusActiveFlag: 0, //0：全部订单，1：今日待取，2：待评价
         orderList: [],
         mealTypeMap: {
             BREAKFAST: '早餐',
@@ -225,7 +227,9 @@ Page({
     },
     //获取订单状态
     getOrderStatus(element) {
-        let a = { has: true }
+        let a = {
+            has: true
+        }
         if (element.status == 1) {
             if (element.isPay == 0) {
                 a.label = '未支付'
@@ -503,10 +507,22 @@ Page({
     },
 
     /* radio选择支付方式 */
-    radioChange() {
+    radioChangeWechatPay() {
         this.setData({
-            payType: this.data.payType == "WECHAT_PAY" ? "BALANCE_PAY" : 'WECHAT_PAY'
+            payType: 'WECHAT_PAY'
         })
+    },
+    radioChange: function() {
+        //可使用余额小于_this.data.realMoney
+        if (this.data.canUseBalance < this.data.payPrice) { //如果用户余额少于用户需要支付的价格，不允许用余额,也就是禁止打开switch
+            this.setData({
+                payType: 'BALANCE_MIX_WECHAT_PAY'
+            })
+        } else {
+            this.setData({
+                payType: 'BALANCE_PAY'
+            })
+        }
     },
     /* 去付款的对话框的确定 */
     buttonClickYes: function() {
@@ -535,24 +551,92 @@ Page({
         })
         let _this = this;
 
-        let payPrice = e.currentTarget.dataset.payprice
         let orderCode = e.currentTarget.dataset.ordercode
-            // 判断余额够不够
-        let param = {
-            url: '/user/getUserFinance?userCode=' + _this.data.userCode
-        }
-        requestModel.request(param, data => {
 
-            _this.setData({
-                showPayTypeFlag: true,
-                balanceEnough: data.allBalance < payPrice ? false : true,
-                payPrice: payPrice,
-                payOrderCode: orderCode,
-                allBalance: data.allBalance,
-                payType: data.allBalance < payPrice ? "WECHAT_PAY" : 'BALANCE_PAY'
+        let param2 = {
+            url: '/order/orderPayPre?userCode=' + _this.data.userCode + '&orderCode=' + orderCode
+        }
+        requestModel.request(param2, data2 => {
+            let payPrice = data2
+            let cantMealTotalMoney = 0
+
+            requestModel.getUserInfo(userInfo => {
+                let {
+                    allowUserOrganizePayNoCanMeal
+                } = userInfo
+                // 判断余额够不够
+                let param = {
+                    url: '/user/getUserFinance?userCode=' + _this.data.userCode
+                }
+
+
+                requestModel.getUserCode(userCode => {
+                    let param = {
+                        url: '/user/getUserFinance?userCode=' + userCode
+                    }
+                    requestModel.request(param, data => {
+
+                        /*
+                        allowUserOrganizePayNoCanMeal允许用户使用企业点餐币付不可使用餐标的餐
+                        订单实际支付金额是0，就是标准支付
+                        allowUserOrganizePayNoCanMeal是true，钱包余额就是allBalance
+                        是false，钱包余额就是min(organizeBalance,cantMealTotalMoney)+totalBalance=canUseBalance,
+                                ,使用余额支付的金额就是balancePayMoney=min(organizeBalance,cantMealTotalMoney)+min(totalBalance,realMoney-min(organizeBalance,cantMealTotalMoney))
+                        即不可使用企业钱包支付不可使用餐标的钱的，就是
+                              min(organizeBalance,cantMealTotalMoney)：企业余额用于付可使用餐标的订单金额，
+                              min(totalBalance,realMoney-min(organizeBalance,cantMealTotalMoney))：企业余额付过钱后剩下的订单金额
+                                                                       就是realMoney-min(organizeBalance,cantMealTotalMoney)，
+                                                                       然后个人点餐币用于付剩下的订单金额
+                        
+                       如果 canUseBalance=0，只能微信支付
+                       canUseBalance>=realMoney，就是余额支付
+                       否则就是余额+微信支付
+                        */
+
+                        let canUseBalance = data.allBalance
+                        _this.data.balancePayMoney = data.allBalance
+
+
+
+                        if (!allowUserOrganizePayNoCanMeal) {
+                            let organizePayBalance = data.organizeBalance < cantMealTotalMoney ? data.organizeBalance : cantMealTotalMoney
+                            organizePayBalance = parseFloat(organizePayBalance)
+                            let remainMoney = payPrice - organizePayBalance
+                            let personPayBalance = data.totalBalance < remainMoney ? data.totalBalance : remainMoney
+                            let personBalance = data.totalBalance
+                            canUseBalance = parseFloat(organizePayBalance.toFixed(2)) + parseFloat(personBalance.toFixed(2))
+                            _this.data.balancePayMoney = parseFloat(organizePayBalance.toFixed(2)) + parseFloat(personPayBalance.toFixed(2))
+                        }
+
+                        if (canUseBalance == 0) {
+                            _this.setData({
+                                payType: 'WECHAT_PAY'
+                            })
+                        } else if (canUseBalance >= payPrice) {
+                            _this.setData({
+                                payType: 'BALANCE_PAY'
+                            })
+                        } else {
+                            _this.setData({
+                                payType: 'BALANCE_MIX_WECHAT_PAY'
+                            })
+                        }
+                        _this.setData({
+                            canUseBalance,
+                            balanceDes: allowUserOrganizePayNoCanMeal ? '个人钱包' : '钱包余额',
+                            showPayTypeFlag: true,
+                            balanceEnough: payPrice == 0,
+                            payOrderCode: orderCode,
+                            payPrice
+                        })
+
+                    })
+                })
 
             })
+
         })
+
     },
     /* 去付款-微信支付 */
     payNowByWx: function() {
@@ -572,9 +656,12 @@ Page({
         let param = {
             userCode: _this.data.userCode,
             orderCode: _this.data.payOrderCode,
-            payType: 'WECHAT_PAY'
+            payType: _this.data.payType
         }
-
+        if (_this.data.payType == 'BALANCE_MIX_WECHAT_PAY') {
+            param.balancePayMoney = _this.data.balancePayMoney
+            param.thirdPayMoney = parseFloat(_this.data.payPrice.toFixed(2)) + parseFloat(_this.data.balancePayMoney.toFixed(2))
+        }
         let params = {
             data: param,
             url: '/order/orderPay',
@@ -697,7 +784,10 @@ Page({
         }
         _this.data.canClick = false
 
-        let { ordercode, pickagain } = e.currentTarget.dataset
+        let {
+            ordercode,
+            pickagain
+        } = e.currentTarget.dataset
             //就调用接口加载柜子号 
         let param = {
             url: '/order/orderPickPre?userCode=' + _this.data.userCode + '&orderCode=' + ordercode

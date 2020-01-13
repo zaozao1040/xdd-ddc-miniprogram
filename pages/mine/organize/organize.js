@@ -149,6 +149,7 @@ Page({
         console.log('canBinding', _this.data.canBinding)
     },
     selectOrganize: function(e) {
+        console.log('aaa')
         this.setData({
             organize: e.currentTarget.dataset.organizename,
             employeeNumber: e.currentTarget.dataset.employeenumber,
@@ -162,6 +163,7 @@ Page({
             image: '/images/msg/success.png',
             duration: 2000
         })
+
     },
     nameInput: function(e) {
         this.setData({

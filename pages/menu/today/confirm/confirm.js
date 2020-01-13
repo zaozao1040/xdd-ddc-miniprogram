@@ -1,4 +1,6 @@
- import { base } from '../../../../comm/public/request'
+ import {
+     base
+ } from '../../../../comm/public/request'
  let requestModel = new base()
  Page({
 
@@ -154,7 +156,11 @@
      onShow: function() {
          let _this = this
          requestModel.getUserInfo(userInfo => {
-             let { userType, orgAdmin, allowUserOrganizePayNoCanMeal } = userInfo
+             let {
+                 userType,
+                 orgAdmin,
+                 allowUserOrganizePayNoCanMeal
+             } = userInfo
              if (userType == 'ORG_ADMIN' && orgAdmin == true) {
                  _this.setData({
                      orgAdmin: true
@@ -184,28 +190,82 @@
                  }
                  requestModel.request(param, data => {
                      _this.setData({
-                         allBalance: data.allBalance,
-                         totalBalance: data.totalBalance
-                     })
+                             allBalance: data.allBalance,
+                             totalBalance: data.totalBalance
+                         })
+                         /*
+                     allowUserOrganizePayNoCanMeal允许用户使用企业点餐币付不可使用餐标的餐
+                     订单实际支付金额是0，就是标准支付
+                     allowUserOrganizePayNoCanMeal是true，钱包余额就是allBalance
+                     是false，钱包余额就是min(organizeBalance,cantMealTotalMoney)+totalBalance=canUseBalance,
+                             ,使用余额支付的金额就是balancePayMoney=min(organizeBalance,cantMealTotalMoney)+min(totalBalance,realMoney-min(organizeBalance,cantMealTotalMoney))
+                     即不可使用企业钱包支付不可使用餐标的钱的，就是
+                           min(organizeBalance,cantMealTotalMoney)：企业余额用于付可使用餐标的订单金额，
+                           min(totalBalance,realMoney-min(organizeBalance,cantMealTotalMoney))：企业余额付过钱后剩下的订单金额
+                                                                    就是realMoney-min(organizeBalance,cantMealTotalMoney)，
+                                                                    然后个人点餐币用于付剩下的订单金额
+                     
+                    如果 canUseBalance=0，只能微信支付
+                    canUseBalance>=realMoney，就是余额支付
+                    否则就是余额+微信支付
+                     */
+
+                     let canUseBalance = data.allBalance
+                     _this.data.balancePayMoney = data.allBalance
+
                      if (!_this.data.realMoney) { //等于0则是标准支付
 
                          _this.setData({
-                             payType: 'STANDARD_PAY'
+                             payType: 'STANDARD_PAY',
+                             canUseBalance
                          })
-                     } else if (data.allBalance < _this.data.realMoney) { //余额小于实际付款，则改为微信付款
-                         _this.setData({
-                             payType: 'WECHAT_PAY',
-                             noEnoughBalanceAll: true
-                         })
-                     } else if (!allowUserOrganizePayNoCanMeal && (data.totalBalance < _this.data.cantMealTotalMoney)) {
-                         _this.setData({
-                             payType: 'WECHAT_PAY',
-                             noEnoughBalancePersonal: true
-                         })
+
                      } else {
+
+                         if (!allowUserOrganizePayNoCanMeal) {
+                             let organizePayBalance = data.organizeBalance < _this.data.cantMealTotalMoney ? data.organizeBalance : _this.data.cantMealTotalMoney
+                             organizePayBalance = parseFloat(organizePayBalance)
+                             let remainMoney = _this.data.realMoney - organizePayBalance
+                             let personPayBalance = data.totalBalance < remainMoney ? data.totalBalance : remainMoney
+                             let personBalance = data.totalBalance
+                             canUseBalance = parseFloat(organizePayBalance.toFixed(2)) + parseFloat(personBalance.toFixed(2))
+                             _this.data.balancePayMoney = parseFloat(organizePayBalance.toFixed(2)) + parseFloat(personPayBalance.toFixed(2))
+                         }
+
+                         if (canUseBalance == 0) {
+                             _this.setData({
+                                 payType: 'WECHAT_PAY',
+                                 noEnoughBalanceAll: true
+                             })
+                         } else if (canUseBalance >= _this.data.realMoney) {
+                             _this.setData({
+                                 payType: 'BALANCE_PAY'
+                             })
+                         } else {
+                             _this.setData({
+                                 payType: 'BALANCE_MIX_WECHAT_PAY'
+                             })
+                         }
                          _this.setData({
-                             payType: 'BALANCE_PAY'
-                         })
+                                 canUseBalance,
+                                 balanceDes: allowUserOrganizePayNoCanMeal ? '个人钱包' : '钱包余额'
+                             })
+                             // if (data.allBalance < _this.data.realMoney) { //余额小于实际付款，则改为微信付款
+                             //     _this.setData({
+                             //             payType: 'WECHAT_PAY',
+                             //             noEnoughBalanceAll: true
+                             //         })
+                             //         // 
+                             // } else if (!allowUserOrganizePayNoCanMeal && (data.totalBalance < _this.data.cantMealTotalMoney)) {
+                             //     _this.setData({
+                             //         payType: 'WECHAT_PAY',
+                             //         noEnoughBalancePersonal: true
+                             //     })
+                             // } else {
+                             //     _this.setData({
+                             //         payType: 'BALANCE_PAY'
+                             //     })
+                             // }
                      }
                  })
              })
@@ -364,6 +424,8 @@
              if (_this.data.adviceDiscountObj) {
                  tmp_userDiscountCode = _this.data.adviceDiscountObj.userDiscountCode
              }
+             console.log('_this.data.payType,', _this.data.payType)
+
              let tmp_param = {
                  verificationString: _this.data.verificationString,
                  userCode: userCode,
@@ -376,6 +438,8 @@
                  order: []
 
              }
+
+
 
              _this.data.selectedFoods = wx.getStorageSync('sevenSelectedFoods')
 
@@ -414,6 +478,11 @@
              if (!param.orderPayMoney) {
                  param.payType = 'STANDARD_PAY' //支付方式改为标准支付
              }
+
+             if (param.payType == 'BALANCE_MIX_WECHAT_PAY') {
+                 param.balancePayMoney = _this.data.balancePayMoney
+                 param.thirdPayMoney = parseFloat(_this.data.realMoney.toFixed(2)) + parseFloat(_this.data.balancePayMoney.toFixed(2))
+             }
              let params = {
                  data: param,
                  url: '/order/generateOrder',
@@ -427,7 +496,7 @@
                      wx.reLaunch({
                          url: '/pages/order/order?content=' + '订单已生成',
                      })
-                 } else if (param.payType == 'WECHAT_PAY' && resdata.needPay) { //微信支付
+                 } else if ((param.payType == 'WECHAT_PAY' || param.payType == 'BALANCE_MIX_WECHAT_PAY') && resdata.needPay) { //微信支付
                      wx.showLoading()
                      if (data.timeStamp) {
                          wx.requestPayment({
@@ -479,29 +548,29 @@
              url: '/pages/mine/address/address?frontPageFlag=confirm',
          })
      },
-     /* 勾选余额付款的按钮 */
-     handleChangeWalletSelectedFlag: function() {
-         let _this = this
-         if (_this.data.payType == 'BALANCE_PAY') { //如果原来是开启余额支付，则本次点击会切换成关闭，同时切换成微信支付
-             _this.setData({
-                 payType: 'WECHAT_PAY'
+     //余额钱包不亮时，点余额钱包判断可为余额支付还是余额+微信支付
+     handleChangeBalancePayFlag: function() {
+         //可使用余额小于_this.data.realMoney
+         if (this.data.canUseBalance < this.data.realMoney) { //如果用户余额少于用户需要支付的价格，不允许用余额,也就是禁止打开switch
+             this.setData({
+                 payType: 'BALANCE_MIX_WECHAT_PAY'
              })
-         } else { //如果原来是关闭余额支付，则首先判断余额是否充足
-             if (_this.data.allBalance < _this.data.realMoney) { //如果用户余额少于用户需要支付的价格，不允许用余额,也就是禁止打开switch
-                 wx.showToast({
-                     title: '余额不足,请充值',
-                     image: '/images/msg/error.png',
-                     duration: 2000
-                 })
-                 return
-             } else { //使用余额支付方式
-                 _this.setData({
-                     payType: 'BALANCE_PAY'
-                 })
-             }
+         } else {
+             this.setData({
+                 payType: 'BALANCE_PAY'
+             })
          }
      },
+     /* 余额钱包亮时，点余额钱包变为微信支付,微信支付不亮时，点微信支付变为微信支付 */
+     handleChangeWechatPayFlag: function() {
+         this.setData({
+             payType: 'WECHAT_PAY'
+         })
+
+     },
      gotoRemark() {
-         wx.navigateTo({ url: '/pages/menu/remark/remark' })
+         wx.navigateTo({
+             url: '/pages/menu/remark/remark'
+         })
      }
  })

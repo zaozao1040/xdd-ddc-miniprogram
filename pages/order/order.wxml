@@ -6,20 +6,22 @@
             <view class="selectPayType">
                 <view class="selectPayType_line1" style='margin-top:30rpx;'>支付金额</view>
                 <view class="selectPayType_line1">￥{{payPrice}}</view>
-
-                <view wx:if='{{balanceEnough}}'>
+                <!--余额钱包亮时，点余额钱包变为微信支付-->
+                <!--余额钱包不亮时，点余额钱包判断可为余额支付还是余额+微信支付-->
+                <!--微信支付不亮时，点微信支付变为微信支付-->
+                <view wx:if='{{canUseBalance}}'>
                     <view class='pay-way'>
                         <view class='flex-a'>
                             <image src="/images/menu/wallet.png" style="width:40rpx;height:40rpx;margin-right:10rpx;">
                             </image>
                             <view class='flex-a'>
-                                <view class='pay-way-des'>钱包支付 (钱包余额</view>
+                                <view class='pay-way-des'>钱包支付 ({{balanceDes}}</view>
                                 <image src='/images/mine/diancanbi_u.png' style='height:28rpx;width:28rpx;padding:6rpx;'></image>
-                                <view class='pay-way-des'>{{allBalance}})</view>
+                                <view class='pay-way-des'>{{canUseBalance}})</view>
                             </view>
                         </view>
-                        <view wx:if='{{balanceEnough}}' style='width:44rpx;height:44rpx;'>
-                            <image wx:if='{{payType=="BALANCE_PAY"}}' src='/images/order/check.png' style='width:44rpx;height:44rpx;'></image>
+                        <view wx:if='{{canUseBalance}}' style='width:44rpx;height:44rpx;'>
+                            <image wx:if='{{payType=="BALANCE_PAY"||payType=="BALANCE_MIX_WECHAT_PAY"}}' catchtap="radioChangeWechatPay" src='/images/order/check.png' style='width:44rpx;height:44rpx;'></image>
                             <image wx:else src='/images/order/uncheck.png' style='width:44rpx;height:44rpx;' catchtap="radioChange"></image>
                         </view>
                         <view wx:else style='width:44rpx;height:44rpx;'>
@@ -32,8 +34,8 @@
                             </image>
                             <view class='pay-way-des'>微信支付</view>
                         </view>
-                        <image wx:if='{{payType=="WECHAT_PAY"}}' src='/images/order/check.png' style='width:44rpx;height:44rpx;'></image>
-                        <image wx:else src='/images/order/uncheck.png' style='width:44rpx;height:44rpx;' catchtap="radioChange">
+                        <image wx:if='{{payType=="WECHAT_PAY"||payType=="BALANCE_MIX_WECHAT_PAY"}}' src='/images/order/check.png' style='width:44rpx;height:44rpx;'></image>
+                        <image wx:else src='/images/order/uncheck.png' style='width:44rpx;height:44rpx;' catchtap="radioChangeWechatPay">
                         </image>
                     </view>
                 </view>
@@ -54,9 +56,9 @@
                             <image src="/images/menu/wallet.png" style="width:40rpx;height:40rpx;margin-right:10rpx;">
                             </image>
                             <view class='flex-a'>
-                                <view class='pay-way-des'>钱包支付 (钱包余额</view>
+                                <view class='pay-way-des'>钱包支付2 ({{balanceDes}}</view>
                                 <image src='/images/mine/diancanbi_u.png' style='height:28rpx;width:28rpx;padding:6rpx;'></image>
-                                <view class='pay-way-des'>{{allBalance}})</view>
+                                <view class='pay-way-des'>{{canUseBalance}})</view>
                             </view>
                         </view>
                     </view>
