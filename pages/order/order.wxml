@@ -56,7 +56,7 @@
                             <image src="/images/menu/wallet.png" style="width:40rpx;height:40rpx;margin-right:10rpx;">
                             </image>
                             <view class='flex-a'>
-                                <view class='pay-way-des'>钱包支付2 ({{balanceDes}}</view>
+                                <view class='pay-way-des'>钱包支付 ({{balanceDes}}</view>
                                 <image src='/images/mine/diancanbi_u.png' style='height:28rpx;width:28rpx;padding:6rpx;'></image>
                                 <view class='pay-way-des'>{{canUseBalance}})</view>
                             </view>

@@ -224,14 +224,14 @@
                          if (!allowUserOrganizePayNoCanMeal) {
 
                              let canMealTotalMoney = parseFloat(_this.data.realMoney - _this.data.cantMealTotalMoney).toFixed(2)
-                             let organizePayBalance = data.organizeBalance < _this.data.canMealTotalMoney ? data.organizeBalance : _this.data.canMealTotalMoney
+                             let organizePayBalance = data.organizeBalance < canMealTotalMoney ? data.organizeBalance : canMealTotalMoney
                              organizePayBalance = parseFloat(organizePayBalance)
                              let remainMoney = _this.data.realMoney - organizePayBalance
                              let personPayBalance = data.totalBalance < remainMoney ? data.totalBalance : remainMoney
                              let personBalance = data.totalBalance
                              let organizeBalance = data.totalBalance < remainMoney ? organizePayBalance : data.organizeBalance
                              canUseBalance = parseFloat(organizeBalance.toFixed(2)) + parseFloat(personBalance.toFixed(2))
-                             _this.data.balancePayMoney = parseFloat(parseFloat(organizePayBalance.toFixed(2)) + parseFloat(personPayBalance.toFixed(2))).toFixed(2)
+                             _this.data.balancePayMoney = parseFloat(organizePayBalance.toFixed(2)) + parseFloat(personPayBalance.toFixed(2))
                          }
 
                          if (canUseBalance == 0) {

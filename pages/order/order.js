@@ -557,18 +557,14 @@ Page({
             url: '/order/orderPayPre?userCode=' + _this.data.userCode + '&orderCode=' + orderCode
         }
         requestModel.request(param2, data2 => {
-            let payPrice = data2
-            let canMealTotalMoney = 0
+
+            let payPrice = data2.needPayMoney
+            let canMealTotalMoney = data2.canMealTotalMoney
 
             requestModel.getUserInfo(userInfo => {
                 let {
                     allowUserOrganizePayNoCanMeal
                 } = userInfo
-                // 判断余额够不够
-                let param = {
-                    url: '/user/getUserFinance?userCode=' + _this.data.userCode
-                }
-
 
                 requestModel.getUserCode(userCode => {
                     let param = {
@@ -576,12 +572,8 @@ Page({
                     }
                     requestModel.request(param, data => {
 
-
-
                         let canUseBalance = data.allBalance
                         _this.data.balancePayMoney = data.allBalance
-
-
 
                         if (!allowUserOrganizePayNoCanMeal) {
                             let organizePayBalance = data.organizeBalance < canMealTotalMoney ? data.organizeBalance : canMealTotalMoney

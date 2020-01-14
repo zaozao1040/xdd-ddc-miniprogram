@@ -1,8 +1,8 @@
 const mtjwxsdk = require('./utils/mtj-wx-sdk.js');
 App({
     globalData: {
-            //  baseUrl: 'https://wx.api.91dcan.cn', //线上真实数据，发a布使用！！！！！！！！！！
-            baseUrl: 'http://10.168.1.204:9082', //志康 
+           baseUrl: 'https://wx.api.91dcan.cn', //线上真实数据，发a布使用！！！！！！！！！！
+           // baseUrl: 'http://10.168.1.204:9082', //志康 
               // baseUrl: 'https://wx.api.uat.91dcan.cn', //测试库
 
         userInfo: null,
