@@ -527,7 +527,7 @@ Page({
     /* 去付款的对话框的确定 */
     buttonClickYes: function() {
 
-        if (this.data.payType == 'WECHAT_PAY') {
+        if (this.data.payType == 'WECHAT_PAY' || this.data.payType == 'BALANCE_MIX_WECHAT_PAY') {
             this.payNowByWx()
         } else {
             this.payNowByBalance()
@@ -560,11 +560,8 @@ Page({
 
             let payPrice = data2.needPayMoney
             let canMealTotalMoney = data2.canMealTotalMoney
-
             requestModel.getUserInfo(userInfo => {
-                let {
-                    allowUserOrganizePayNoCanMeal
-                } = userInfo
+                let { allowUserOrganizePayNoCanMeal } = userInfo
 
                 requestModel.getUserCode(userCode => {
                     let param = {
