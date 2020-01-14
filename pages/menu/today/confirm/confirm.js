@@ -213,8 +213,7 @@
                      let canUseBalance = data.allBalance
                      _this.data.balancePayMoney = data.allBalance
 
-                     if (!_this.data.realMoney) { //等于0则是标准支付
-
+                     if (!_this.data.realMoney) { //等于0则是标准支付 
                          _this.setData({
                              payType: 'STANDARD_PAY',
                              canUseBalance
@@ -223,19 +222,21 @@
                      } else {
 
                          if (!allowUserOrganizePayNoCanMeal) {
-                             let organizePayBalance = data.organizeBalance < _this.data.cantMealTotalMoney ? data.organizeBalance : _this.data.cantMealTotalMoney
+
+                             let canMealTotalMoney = parseFloat(_this.data.realMoney - _this.data.cantMealTotalMoney).toFixed(2)
+                             let organizePayBalance = data.organizeBalance < _this.data.canMealTotalMoney ? data.organizeBalance : _this.data.canMealTotalMoney
                              organizePayBalance = parseFloat(organizePayBalance)
                              let remainMoney = _this.data.realMoney - organizePayBalance
                              let personPayBalance = data.totalBalance < remainMoney ? data.totalBalance : remainMoney
                              let personBalance = data.totalBalance
-                             canUseBalance = parseFloat(organizePayBalance.toFixed(2)) + parseFloat(personBalance.toFixed(2))
-                             _this.data.balancePayMoney = parseFloat(organizePayBalance.toFixed(2)) + parseFloat(personPayBalance.toFixed(2))
+                             let organizeBalance = data.totalBalance < remainMoney ? organizePayBalance : data.organizeBalance
+                             canUseBalance = parseFloat(organizeBalance.toFixed(2)) + parseFloat(personBalance.toFixed(2))
+                             _this.data.balancePayMoney = parseFloat(parseFloat(organizePayBalance.toFixed(2)) + parseFloat(personPayBalance.toFixed(2))).toFixed(2)
                          }
 
                          if (canUseBalance == 0) {
                              _this.setData({
-                                 payType: 'WECHAT_PAY',
-                                 noEnoughBalanceAll: true
+                                 payType: 'WECHAT_PAY'
                              })
                          } else if (canUseBalance >= _this.data.realMoney) {
                              _this.setData({
@@ -481,7 +482,7 @@
 
              if (param.payType == 'BALANCE_MIX_WECHAT_PAY') {
                  param.balancePayMoney = _this.data.balancePayMoney
-                 param.thirdPayMoney = parseFloat(_this.data.realMoney.toFixed(2)) + parseFloat(_this.data.balancePayMoney.toFixed(2))
+                 param.thirdPayMoney = parseFloat(_this.data.realMoney.toFixed(2)) - parseFloat(_this.data.balancePayMoney.toFixed(2)).toFixed(2)
              }
              let params = {
                  data: param,

@@ -558,7 +558,7 @@ Page({
         }
         requestModel.request(param2, data2 => {
             let payPrice = data2
-            let cantMealTotalMoney = 0
+            let canMealTotalMoney = 0
 
             requestModel.getUserInfo(userInfo => {
                 let {
@@ -576,22 +576,7 @@ Page({
                     }
                     requestModel.request(param, data => {
 
-                        /*
-                        allowUserOrganizePayNoCanMeal允许用户使用企业点餐币付不可使用餐标的餐
-                        订单实际支付金额是0，就是标准支付
-                        allowUserOrganizePayNoCanMeal是true，钱包余额就是allBalance
-                        是false，钱包余额就是min(organizeBalance,cantMealTotalMoney)+totalBalance=canUseBalance,
-                                ,使用余额支付的金额就是balancePayMoney=min(organizeBalance,cantMealTotalMoney)+min(totalBalance,realMoney-min(organizeBalance,cantMealTotalMoney))
-                        即不可使用企业钱包支付不可使用餐标的钱的，就是
-                              min(organizeBalance,cantMealTotalMoney)：企业余额用于付可使用餐标的订单金额，
-                              min(totalBalance,realMoney-min(organizeBalance,cantMealTotalMoney))：企业余额付过钱后剩下的订单金额
-                                                                       就是realMoney-min(organizeBalance,cantMealTotalMoney)，
-                                                                       然后个人点餐币用于付剩下的订单金额
-                        
-                       如果 canUseBalance=0，只能微信支付
-                       canUseBalance>=realMoney，就是余额支付
-                       否则就是余额+微信支付
-                        */
+
 
                         let canUseBalance = data.allBalance
                         _this.data.balancePayMoney = data.allBalance
@@ -599,12 +584,13 @@ Page({
 
 
                         if (!allowUserOrganizePayNoCanMeal) {
-                            let organizePayBalance = data.organizeBalance < cantMealTotalMoney ? data.organizeBalance : cantMealTotalMoney
+                            let organizePayBalance = data.organizeBalance < canMealTotalMoney ? data.organizeBalance : canMealTotalMoney
                             organizePayBalance = parseFloat(organizePayBalance)
                             let remainMoney = payPrice - organizePayBalance
                             let personPayBalance = data.totalBalance < remainMoney ? data.totalBalance : remainMoney
                             let personBalance = data.totalBalance
-                            canUseBalance = parseFloat(organizePayBalance.toFixed(2)) + parseFloat(personBalance.toFixed(2))
+                            let organizeBalance = data.totalBalance < remainMoney ? organizePayBalance : data.organizeBalance
+                            canUseBalance = parseFloat(organizeBalance.toFixed(2)) + parseFloat(personBalance.toFixed(2))
                             _this.data.balancePayMoney = parseFloat(organizePayBalance.toFixed(2)) + parseFloat(personPayBalance.toFixed(2))
                         }
 
@@ -660,7 +646,7 @@ Page({
         }
         if (_this.data.payType == 'BALANCE_MIX_WECHAT_PAY') {
             param.balancePayMoney = _this.data.balancePayMoney
-            param.thirdPayMoney = parseFloat(_this.data.payPrice.toFixed(2)) + parseFloat(_this.data.balancePayMoney.toFixed(2))
+            param.thirdPayMoney = parseFloat(_this.data.payPrice.toFixed(2)) - parseFloat(_this.data.balancePayMoney.toFixed(2))
         }
         let params = {
             data: param,
