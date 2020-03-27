@@ -1,12 +1,12 @@
 const mtjwxsdk = require('./utils/mtj-wx-sdk.js');
 App({
     globalData: {
-          // baseUrl: 'https://wx.api.91dcan.cn', //线上真实数据，发a布使用！！！！！！！！！！
-            baseUrl: 'http://10.168.1.204:9082', //志康 
-              // baseUrl: 'https://wx.api.uat.91dcan.cn', //测试库
+        // baseUrl: 'https://wx.api.91dcan.cn', //线上真实数据，发a布使用！！！！！！！！！！
+        baseUrl: 'http://10.168.1.204:9082', //志康 
+        // baseUrl: 'https://wx.api.uat.91dcan.cn', //测试库
 
         userInfo: null,
-        selectedFoods: [], 
+        selectedFoods: [],
         totalCount: 0,
         totalMoney: 0, //总价格
         realMoney: 0, //实际价格
@@ -16,25 +16,25 @@ App({
     /**
      * 当小程序初始化完成时，会触发 onLaunch（全局只触发一次）
      */
-    onLaunch: function() { 
+    onLaunch: function () {
         wx.loadFontFace({
             family: 'PingFang-SC-Medium',
             source: 'url("https://oss.91dcan.cn/miniprogram/fonts/PingFangMedium.ttf")',
-            success: function() { console.log('load font success') }
+            success: function () { console.log('load font success') }
         })
         if (wx.canIUse('getUpdateManager')) {
             const updateManager = wx.getUpdateManager()
 
-            updateManager.onCheckForUpdate(function(res) {
+            updateManager.onCheckForUpdate(function (res) {
                 // 请求完新版本信息的回调
                 console.log(res.hasUpdate)
             })
 
-            updateManager.onUpdateReady(function() {
+            updateManager.onUpdateReady(function () {
                 wx.showModal({
                     title: '更新提示',
                     content: '新版本已经准备好，是否重启应用？',
-                    success: function(res) {
+                    success: function (res) {
                         if (res.confirm) {
                             // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
                             updateManager.applyUpdate()
@@ -42,7 +42,7 @@ App({
                     }
                 })
             })
-            updateManager.onUpdateFailed(function() {
+            updateManager.onUpdateFailed(function () {
                 // 新的版本下载失败
                 wx.showModal({
                     title: '更新提示',
@@ -58,21 +58,21 @@ App({
     /**
      * 当小程序启动，或从后台进入前台显示，会触发 onShow
      */
-    onShow: function(options) {
+    onShow: function (options) {
         this.checkUpdate()
     },
 
     /**
      * 当小程序从前台进入后台，会触发 onHide
      */
-    onHide: function() {
+    onHide: function () {
 
     },
 
     /**
      * 当小程序发生脚本错误，或者 api 调用失败时，会触发 onError 并带上错误信息
      */
-    onError: function(msg) {
+    onError: function (msg) {
 
     },
     /**
@@ -81,15 +81,15 @@ App({
     checkUpdate() {
         if (wx.canIUse('getUpdateManager')) {
             const updateManager = wx.getUpdateManager()
-            updateManager.onCheckForUpdate(function(res) {
+            updateManager.onCheckForUpdate(function (res) {
                 // 请求完新版本信息的回调
                 if (res.hasUpdate) {
-                    updateManager.onUpdateReady(function() {
+                    updateManager.onUpdateReady(function () {
                         wx.showModal({
                             title: '更新提示',
                             content: '新版本已经准备好,点击确认重启应用',
                             showCancel: false,
-                            success: function(res) {
+                            success: function (res) {
                                 if (res.confirm) {
                                     // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
                                     updateManager.applyUpdate()
@@ -97,7 +97,7 @@ App({
                             }
                         })
                     })
-                    updateManager.onUpdateFailed(function() {
+                    updateManager.onUpdateFailed(function () {
                         // 新的版本下载失败
                         wx.showModal({
                             title: '已经有新版本了哟~',
