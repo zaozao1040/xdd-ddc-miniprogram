@@ -321,7 +321,6 @@ Page({
           images: _this.data.serviceInfo.images,
           foodEvaluateList: [],
         };
-
         _this.data.orderFoodList.forEach((food) => {
           let a = {};
           a.foodCode = food.foodCode;
