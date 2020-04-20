@@ -1,0 +1,1 @@
+export default {a:{},canDoFunction(b={}){this.a[b.key]?b.fail&&b.fail():(this.lockKey(b.key),b.success&&b.success(),b.time&&setTimeout(()=>{this.releaseKey(b.key)},b.time))},releaseKey(b){delete this.a[b]},lockKey(b){this.a[b]=!0}};

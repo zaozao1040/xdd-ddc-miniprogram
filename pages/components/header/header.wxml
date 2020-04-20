@@ -1,0 +1,110 @@
+<view class="header-warpper">
+  <view class="header-left-wrapper">
+    <view class="header-title">{{ currentOrganizeInfo.organizeName }}</view>
+  </view>
+  <button
+    class="header-button"
+    size="mini"
+    type="primary"
+    bindtap="clickOperation"
+  >
+    <text class="header-button-title">更多操作</text>
+    <image
+      src="/images/cab/xiangxia.png"
+      style="width: 30rpx; height: 30rpx;"
+    ></image>
+  </button>
+  <!-- 一键操作的弹出层 -->
+  <view
+    class="header-operation-bg"
+    wx:if="{{ showOperationFlag }}"
+    catchtap="clickOperation"
+  >
+    <view class="header-operation-warpper" catchtap="clickOperationStop">
+      <view class="header-operation-title">
+        一键操作
+        <image
+          src="/images/cab/close.png"
+          catchtap="clickOperation"
+          style="font-size: 30rpx;"
+          class="header-operation-close-icon"
+        ></image>
+      </view>
+      <view style="height: 90rpx;">
+        <button
+          class="header-operation-button"
+          size="mini"
+          type="default"
+          plain
+          data-type="openAll"
+          data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
+          bindtap="clickOrganizeOperation"
+        >
+          一键开柜
+        </button>
+      </view>
+      <view style="height: 90rpx;">
+        <button
+          class="header-operation-button"
+          size="mini"
+          type="default"
+          plain
+          data-type="heatAll"
+          data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
+          bindtap="clickOrganizeOperation"
+        >
+          一键加热
+        </button>
+        <button
+          class="header-operation-button"
+          size="mini"
+          type="default"
+          plain
+          data-type="cancelHeatAll"
+          data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
+          bindtap="clickOrganizeOperation"
+        >
+          一键取消加热
+        </button>
+      </view>
+      <view style="height: 90rpx;">
+        <button
+          class="header-operation-button"
+          size="mini"
+          type="default"
+          plain
+          data-type="disinfectAll"
+          data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
+          bindtap="clickOrganizeOperation"
+        >
+          一键开启消毒灯
+        </button>
+        <button
+          class="header-operation-button"
+          size="mini"
+          type="default"
+          plain
+          data-type="cancelDisinfectAll"
+          data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
+          bindtap="clickOrganizeOperation"
+        >
+          一键关闭消毒灯
+        </button>
+      </view>
+      <view class="header-operation-title">
+        其他操作
+      </view>
+      <view style="height: 90rpx;">
+        <button
+          class="header-operation-button"
+          size="mini"
+          type="default"
+          plain
+          bindtap="clickCancelBindFood"
+        >
+          扫码解绑
+        </button>
+      </view>
+    </view>
+  </view>
+</view>

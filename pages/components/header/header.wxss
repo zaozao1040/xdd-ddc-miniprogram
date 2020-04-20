@@ -1,0 +1,91 @@
+/*  */
+.header-warpper {
+  background: white;
+  height: 60rpx;
+  line-height: 60rpx;
+  padding: 0 20rpx;
+  display: flex;
+  justify-content: space-between;
+}
+.header-left-wrapper {
+  display: flex;
+}
+.header-title {
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 30rpx;
+  color: #242527;
+  margin-right: 10rpx;
+  max-width: 450rpx;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+}
+.header-change {
+  font-size: 25rpx;
+  color: #242527;
+  margin-right: 5px;
+}
+.header-icon {
+  margin: auto;
+  height: 25rpx;
+  width: 25rpx;
+}
+.header-button {
+  height: 60rpx;
+  padding: 0 20rpx;
+  float: right;
+}
+.header-button-title {
+  margin-right: 5px;
+}
+.header-button-icon {
+  height: 25rpx;
+  width: 25rpx;
+}
+
+/* 一键操作的弹出层 */
+.header-operation-bg {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: rgba(13, 21, 31, 0.5);
+  z-index: 10;
+}
+.header-operation-warpper {
+  position: absolute;
+  top: 100rpx;
+  left: 40rpx;
+  right: 40rpx;
+  background: #f2f6fc;
+  border-radius: 10rpx;
+  padding: 40rpx;
+  z-index: 20;
+}
+
+.header-operation-title {
+  position: relative;
+  text-align: center;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #606266;
+  height: 80rpx;
+  line-height: 120rpx;
+}
+.header-operation-close-icon {
+  position: absolute;
+  top: -20rpx;
+  right: -20rpx;
+
+  font-size: 30rpx;
+  height: 80rpx;
+  width: 80rpx;
+  text-align: center;
+  line-height: 80rpx;
+}
+.header-operation-button {
+  margin-right: 20rpx;
+}
