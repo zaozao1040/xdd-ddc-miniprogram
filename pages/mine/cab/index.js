@@ -254,7 +254,7 @@ Page({
       });
     } else {
       this.setData({
-        dialogTitle: "第 " + cellSort + " 格",
+        dialogTitle: "第 " + (index + 1) + " 格",
         showOperationFlag: {
           cabinet: false,
           cell: true,

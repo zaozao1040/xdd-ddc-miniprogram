@@ -19,7 +19,7 @@
                 <view wx:else class="cell-inside-wrapper">
                     <view class="cell-code">
                         <image wx:if="{{item.heatStatus==1}}" src="/images/cab/fire.png" style="width: 30rpx; height: 30rpx;"></image>
-                      {{item.cellSort}}
+                        {{index+1}}
                     </view>
                     <view class="cell-name" wx:if="{{item.userCode}}">
                         {{item.userName}}
