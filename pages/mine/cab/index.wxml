@@ -3,7 +3,7 @@
     <view class="wrapper">
         <view class="labels-wrapper" wx:if="{{cabinetSimpleList.length>0}}">
             <scroll-view class="scroll-view" scroll-x>
-                <view class="label-wrapper {{index==currentCabinetIndex?'label-wrapper-active':''}}" wx:for="{{cabinetSimpleList}}" wx:for-index="index" wx:for-item="item" wx:key="index" data-index="{{index}}" data-cabinetCode="{{item.cabinetCode}}" data-cabinetSort="{{item.cabinetSort}}" data-cabinetStatus="{{item.cabinetStatus}}" bindtap="handleClickLabel">
+                <view class="label-wrapper {{index==currentCabinetIndex?'label-wrapper-active':''}}" wx:for="{{cabinetSimpleList}}" wx:for-index="index" wx:for-item="item" wx:key="index" data-index="{{index}}" data-item="{{item}}" bindtap="handleClickLabel">
                     <image src='/images/cab/offline.png' wx:if="{{item.cabinetStatus==1}}" style='width:30rpx;height:30rpx;'></image>
                     {{item.cabinetSort}}
                     <image src='/images/cab/xiangxia.png' wx:if="{{index==currentCabinetIndex}}" style='width:30rpx;height:30rpx;'></image>

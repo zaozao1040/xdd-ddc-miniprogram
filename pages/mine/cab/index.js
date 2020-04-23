@@ -75,10 +75,8 @@ Page({
   // 点击label
   handleClickLabel: function (e) {
     let index = e.currentTarget.dataset.index;
-    let cabinetCode = e.currentTarget.dataset.cabinetcode;
-    let cabinetSort = e.currentTarget.dataset.cabinetsort;
-    let cabinetStatus = e.currentTarget.dataset.cabinetstatus;
-    if (cabinetStatus == 1) {
+    let item = e.currentTarget.dataset.item;
+    if (item.cabinetStatus == 1) {
       wx.showToast({
         title: "该柜已离线",
         duration: 3000,
@@ -87,7 +85,7 @@ Page({
     }
     if (index == this.data.currentCabinetIndex) {
       this.setData({
-        dialogTitle: cabinetSort + " 柜",
+        dialogTitle: item.cabinetSort + " 柜",
         showOperationFlag: {
           cabinet: true,
           cell: false,
@@ -96,8 +94,9 @@ Page({
     } else {
       this.setData({
         currentCabinetIndex: index,
+        currentCabinetInfo: item,
       });
-      this.getCellList(cabinetCode);
+      this.getCellList(item.cabinetCode);
     }
   },
   // 获取4*9格子列表
