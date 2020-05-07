@@ -1,7 +1,7 @@
 {
-    "navigationBarTitleText": "柜子",
-    "enablePullDownRefresh": true,
-    "usingComponents": {
-        "c-custom-modal": "../components/customModal/customModal"
-    }
+  "navigationBarTitleText": "智能柜",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "c-header": "../components/header/header"
+  }
 }

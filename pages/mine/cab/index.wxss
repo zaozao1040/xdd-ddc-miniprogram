@@ -39,8 +39,8 @@
 .cells-wrapper {
   margin: 0 10rpx 20rpx 10rpx;
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  /* grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr; */
 }
 .cell-wrapper {
   text-align: center;
@@ -85,6 +85,15 @@
   color: rgb(66, 152, 66);
   height: 40rpx;
   line-height: 50rpx;
+}
+.cell-code-cabinetSort {
+  font-size: 25rpx;
+  padding-right: 5rpx;
+  vertical-align: middle;
+}
+.cell-code-nouser {
+  font-size: 30rpx;
+  color: #0d0d0e;
 }
 .heat-icon {
   margin-right: 8rpx;

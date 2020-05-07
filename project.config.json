@@ -141,6 +141,13 @@
 					"id": -1,
 					"name": "pages/test",
 					"pathName": "pages/test/test",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/cab/index",
+					"pathName": "pages/mine/cab/index",
 					"scene": null
 				}
 			]

@@ -16,7 +16,7 @@
   font-size: 30rpx;
   color: #242527;
   margin-right: 10rpx;
-  max-width: 450rpx;
+  max-width: 400rpx;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -88,4 +88,25 @@
 }
 .header-operation-button {
   margin-right: 20rpx;
+}
+
+.header-status {
+  font-size: 35rpx;
+  font-weight: 600;
+  width: 150rpx;
+  text-align: right;
+}
+.header-status-loading {
+  font-size: 30rpx;
+  color: #2f86f6;
+  font-weight: 400;
+}
+.header-status-online {
+  color: #52c41a;
+}
+.header-status-offline {
+  color: #f56c6c;
+}
+.header-status-notActive {
+  color: #909399;
 }

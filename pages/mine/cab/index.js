@@ -7,13 +7,15 @@ Page({
     //
     userInfo: null,
     //
-    cabinetSimpleList: [],
+    cabinetList: [],
     currentOrganizeInfo: {},
     currentCabinetIndex: 0,
     currentCabinetInfo: {},
     cellList: [],
     currentCellInfo: {},
     foodList: [],
+    //传递给header子组件
+    onlineInfo: {},
     //操作弹出层
     dialogTitle: "",
     showOperationFlag: {
@@ -32,15 +34,15 @@ Page({
         currentOrganizeInfo: tmp_organizeInfo,
       });
       console.log("asdfasfas", this.data.currentOrganizeInfo);
-      this.getCabinetSimpleList();
+      this.getCabinetList();
     } else {
       //获取企业信息-----------
     }
   },
-  getCabinetSimpleList: function () {
+  getCabinetList: function () {
     let _this = this;
     let params = {
-      url: config.baseUrl + "/cabinet/queryCabinetSimpleList",
+      url: config.baseUrl + "/client/cabinet/queryCabinetListByOrganizeCode",
       method: "GET",
       data: {
         organizeCode: _this.data.currentOrganizeInfo.organizeCode,
@@ -53,9 +55,9 @@ Page({
           icon: "none",
         });
       } else {
-        let tmp_cabinetSimpleList = result.data.data || [];
-        if (tmp_cabinetSimpleList.length > 0) {
-          let tmp_currentCabinetInfo = tmp_cabinetSimpleList[0];
+        let tmp_cabinetList = result.data.data || [];
+        if (tmp_cabinetList.length > 0) {
+          let tmp_currentCabinetInfo = tmp_cabinetList[0];
           if (tmp_currentCabinetInfo.cabinetStatus == 1) {
             wx.showToast({
               title: "该柜已离线",
@@ -64,11 +66,44 @@ Page({
             });
           }
           _this.getCellList(tmp_currentCabinetInfo.cabinetCode);
+          _this.getCabinetOnlineStatusInfo(tmp_currentCabinetInfo.cabinetCode);
           _this.setData({
-            cabinetSimpleList: tmp_cabinetSimpleList,
+            cabinetList: tmp_cabinetList,
             currentCabinetInfo: tmp_currentCabinetInfo,
           });
         }
+      }
+    });
+  },
+  // 获取柜子的在线状态
+  getCabinetOnlineStatusInfo(cabinetCode) {
+    let _this = this;
+    let tmp_cabinetCode = "";
+    if (cabinetCode) {
+      tmp_cabinetCode = cabinetCode;
+    } else {
+      tmp_cabinetCode = _this.data.currentCabinetInfo.cabinetCode;
+    }
+    let params = {
+      url: config.baseUrl + "/client/cabinet/queryCabinetOnlineStatus",
+      method: "get",
+      // needLoading: true,
+      data: {
+        cabinetCode: tmp_cabinetCode,
+      },
+    };
+    request(params, (result) => {
+      if (
+        result.data.code === 200 &&
+        _this.data.onlineInfo.status !== result.data.data.cabinetOnlineStaus
+      ) {
+        let tmp_onlineInfo = {
+          status: result.data.data.cabinetOnlineStaus,
+          des: ["离线", "在线", "未激活"][result.data.data.cabinetOnlineStaus],
+        };
+        _this.setData({
+          onlineInfo: tmp_onlineInfo,
+        });
       }
     });
   },
@@ -97,13 +132,14 @@ Page({
         currentCabinetInfo: item,
       });
       this.getCellList(item.cabinetCode);
+      this.getCabinetOnlineStatusInfo(item.cabinetCode);
     }
   },
   // 获取4*9格子列表
   getCellList: function (cabinetCode) {
     let _this = this;
     let params = {
-      url: config.baseUrl + "/cell/queryCellList",
+      url: config.baseUrl + "/client/cell/queryCellList",
       method: "GET",
       data: {
         cabinetCode: cabinetCode,
@@ -147,7 +183,7 @@ Page({
       success: (res) => {
         console.log(res);
         let params = {
-          url: config.baseUrl + "/cell/bindFood",
+          url: config.baseUrl + "/client/cell/bindFood",
           method: "POST",
           data: {
             cabinetCode: cabinetCode,
@@ -185,7 +221,7 @@ Page({
     let _this = this;
     let { index, cabinetCode, cellSort } = cellInfo;
     let params = {
-      url: config.baseUrl + "/cell/openCell",
+      url: config.baseUrl + "/client/cell/openCell",
       method: "POST",
       data: {
         cabinetCode: cabinetCode,
@@ -284,19 +320,19 @@ Page({
         let url = "";
         let successMsg = "";
         if (type == "openAll") {
-          url = "/cabinet/openCells";
+          url = "/client/cabinet/openCells";
           successMsg = "打开成功";
         } else if (type == "heatAll") {
-          url = "/cabinet/heatCells";
+          url = "/client/cabinet/heatCells";
           successMsg = "加热成功";
         } else if (type == "cancelHeatAll") {
-          url = "/cabinet/cancelHeatCells";
+          url = "/client/cabinet/cancelHeatCells";
           successMsg = "取消加热成功";
         } else if (type == "disinfectAll") {
-          url = "/cabinet/disinfectCells";
+          url = "/client/cabinet/disinfectCells";
           successMsg = "开启消毒灯成功";
         } else if (type == "cancelDisinfectAll") {
-          url = "/cabinet/cancelDisinfectCells";
+          url = "/client/cabinet/cancelDisinfectCells";
           successMsg = "关闭消毒灯成功";
         }
         let tmp_cabinetCode = _this.data.currentCabinetInfo.cabinetCode;
@@ -339,7 +375,7 @@ Page({
   // 获取格子餐品列表
   getFoodList(cabinetCode, cellSort) {
     let params = {
-      url: config.baseUrl + "/cell/queryFoodList",
+      url: config.baseUrl + "/client/cell/queryFoodList",
       method: "GET",
       data: {
         cabinetCode,
@@ -373,19 +409,19 @@ Page({
         let url = "";
         let successMsg = "";
         if (type == "open") {
-          url = "/cell/openCell";
+          url = "/client/cell/openCell";
           successMsg = "打开成功";
         } else if (type == "heat") {
-          url = "/cell/heatCell";
+          url = "/client/cell/heatCell";
           successMsg = "加热成功";
         } else if (type == "cancelHeat") {
-          url = "/cell/cancelHeatCell";
+          url = "/client/cell/cancelHeatCell";
           successMsg = "取消加热成功";
         } else if (type == "disinfect") {
-          url = "/cell/disinfectCell";
+          url = "/client/cell/disinfectCell";
           successMsg = "开启消毒灯成功";
         } else if (type == "cancelDisinfect") {
-          url = "/cell/cancelDisinfectCell";
+          url = "/client/cell/cancelDisinfectCell";
           successMsg = "关闭消毒灯成功";
         } else if (type == "bind") {
           let cellInfo = {
@@ -465,7 +501,7 @@ Page({
       time: 1000,
       success: () => {
         let params = {
-          url: config.baseUrl + "/cell/cancelBindFood",
+          url: config.baseUrl + "/client/cell/cancelBindFood",
           method: "POST",
           data: {
             orderCode,

@@ -1,25 +1,29 @@
 <view>
-    <c-header currentOrganizeInfo="{{currentOrganizeInfo}}"/>
+    <c-header currentOrganizeInfo="{{currentOrganizeInfo}}" onlineInfo="{{onlineInfo}}"/>
     <view class="wrapper">
-        <view class="labels-wrapper" wx:if="{{cabinetSimpleList.length>0}}">
+        <view class="labels-wrapper" wx:if="{{cabinetList.length>0}}">
             <scroll-view class="scroll-view" scroll-x>
-                <view class="label-wrapper {{index==currentCabinetIndex?'label-wrapper-active':''}}" wx:for="{{cabinetSimpleList}}" wx:for-index="index" wx:for-item="item" wx:key="index" data-index="{{index}}" data-item="{{item}}" bindtap="handleClickLabel">
-                    <image src='/images/cab/offline.png' wx:if="{{item.cabinetStatus==1}}" style='width:30rpx;height:30rpx;'></image>
+                <view class="label-wrapper {{index==currentCabinetIndex?'label-wrapper-active':''}}" wx:for="{{cabinetList}}" wx:for-index="index" wx:for-item="item" wx:key="index" data-index="{{index}}" data-item="{{item}}" bindtap="handleClickLabel">
+                    <!-- <image src='/images/cab/offline.png' wx:if="{{item.cabinetStatus==1}}" style='width:30rpx;height:30rpx;'></image> -->
                     {{item.cabinetSort}}
-                    <image src='/images/cab/xiangxia.png' wx:if="{{index==currentCabinetIndex}}" style='width:30rpx;height:30rpx;'></image>
+                    <!-- <image src='/images/cab/xiangxia.png' wx:if="{{index==currentCabinetIndex}}" style='width:30rpx;height:30rpx;'></image> -->
                 </view>
             </scroll-view>
         </view>
-        <view class="cells-wrapper">
+        <view class="cells-wrapper" style="grid-template-rows: repeat({{currentCabinetInfo.cabinetRow}}, 1fr);grid-template-columns: repeat({{currentCabinetInfo.cabinetColumn}}, 1fr);">
             <view class="cell-wrapper {{item.userName?'cell-wrapper-hasUser':''}} {{item.heatStatus==1?'cell-wrapper-heat':''}}" wx:for="{{cellList}}" wx:for-index="index" wx:for-item="item" wx:key="index" data-index="{{index}}" data-item="{{item}}" data-type="cell" bindlongpress="handleLongClickCell" bindtap="handleShortClickCell">
                 <view wx:if="{{item.runningStatus==0}}" class="cell-inside-wrapper-error">
                     <view class="error-icon iconfont icon-tixing"></view>
                     <view class="cell-error-title">故障</view>
                 </view>
                 <view wx:else class="cell-inside-wrapper">
-                    <view class="cell-code">
+                    <!-- <view class="cell-code">
                         <image wx:if="{{item.heatStatus==1}}" src="/images/cab/fire.png" style="width: 30rpx; height: 30rpx;"></image>
                         {{index+1}}
+                    </view> -->
+                    <view class="cell-code {{item.userCode?'':'cell-code-nouser'}}">
+                        <!-- <text a:if="{{item.heatStatus==1}}" class="heat-icon iconfont icon-huomiao"></text>--> 
+                        <text class="cell-code-cabinetSort">{{currentCabinetInfo.cabinetSort}} -</text>{{item.cabinetShowSort}}
                     </view>
                     <view class="cell-name" wx:if="{{item.userCode}}">
                         {{item.userName}}

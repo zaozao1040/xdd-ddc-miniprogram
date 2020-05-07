@@ -2,17 +2,22 @@
   <view class="header-left-wrapper">
     <view class="header-title">{{ currentOrganizeInfo.organizeName }}</view>
   </view>
+  <view class="header-status {{ onlineInfo.status == 0 ? 'header-status-offline' : '' }} {{ onlineInfo.status == 1 ? 'header-status-online' : '' }} {{ onlineInfo.status == 2 ? 'header-status-notActive' : ''}}">
+    <text wx:if="{{ onlineInfo.status == 99 }}" class="header-status-loading">{{onlineInfo.des}}</text>
+    <text wx:else>{{ onlineInfo.des }}</text>
+    <text
+      style="margin-left: 10rpx; color: #2f86f6; font-size: 30rpx;"
+      class="iconfont icon-shuaxin3"
+    ></text>
+  </view>
   <button
     class="header-button"
     size="mini"
     type="primary"
     bindtap="clickOperation"
+    style="margin: 0;"
   >
-    <text class="header-button-title">更多操作</text>
-    <image
-      src="/images/cab/xiangxia.png"
-      style="width: 30rpx; height: 30rpx;"
-    ></image>
+    <text class="header-button-title">更多</text>
   </button>
   <!-- 一键操作的弹出层 -->
   <view

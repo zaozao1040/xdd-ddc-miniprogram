@@ -11,6 +11,10 @@ Component({
       type: Object,
       value: {},
     },
+    onlineInfo: {
+      type: Object,
+      value: {},
+    },
   },
   /**
    * 组件的初始数据
