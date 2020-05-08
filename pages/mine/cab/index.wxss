@@ -46,6 +46,7 @@
   text-align: center;
   background: #dcdfe6;
   margin: 1rpx;
+  min-width: 120rpx;
 }
 .cell-wrapper-hasUser {
   background: rgb(112, 203, 112);
