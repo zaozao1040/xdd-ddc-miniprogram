@@ -5,6 +5,7 @@ import jiuaiDebounce from "../../../comm_plus/jiuai-debounce/jiuai-debounce.js";
 Page({
   data: {
     //
+    userCode: "",
     userInfo: null,
     //
     cabinetList: [],
@@ -32,8 +33,8 @@ Page({
       this.data.currentOrganizeInfo = tmp_organizeInfo;
       this.setData({
         currentOrganizeInfo: tmp_organizeInfo,
+        userCode: wx.getStorageSync("userInfo").userInfo.userCode,
       });
-      console.log("asdfasfas", this.data.currentOrganizeInfo);
       this.getCabinetList();
     } else {
       //获取企业信息-----------
@@ -46,6 +47,7 @@ Page({
       method: "GET",
       data: {
         organizeCode: _this.data.currentOrganizeInfo.organizeCode,
+        userCode: _this.data.userCode,
       },
     };
     request(params, (result) => {
@@ -90,6 +92,7 @@ Page({
       // needLoading: true,
       data: {
         cabinetCode: tmp_cabinetCode,
+        userCode: _this.data.userCode,
       },
     };
     request(params, (result) => {
@@ -143,6 +146,7 @@ Page({
       method: "GET",
       data: {
         cabinetCode: cabinetCode,
+        userCode: _this.data.userCode,
       },
     };
     request(params, (result) => {
@@ -186,6 +190,7 @@ Page({
           url: config.baseUrl + "/client/cell/bindFood",
           method: "POST",
           data: {
+            userCode: _this.data.userCode,
             cabinetCode: cabinetCode,
             cellSort: cellSort,
             orderCode: res.result,
@@ -226,6 +231,7 @@ Page({
       data: {
         cabinetCode: cabinetCode,
         cellSort: cellSort,
+        userCode: _this.data.userCode,
       },
     };
     request(params, (result) => {
@@ -278,7 +284,12 @@ Page({
   },
   // 长按点击格子
   handleLongClickCell(e) {
-    let { runningStatus, cabinetCode, cellSort } = e.currentTarget.dataset.item;
+    let {
+      cabinetShowSort,
+      runningStatus,
+      cabinetCode,
+      cellSort,
+    } = e.currentTarget.dataset.item;
     this.getFoodList(cabinetCode, cellSort);
     let index = e.currentTarget.dataset.index;
     if (runningStatus == 0) {
@@ -289,7 +300,8 @@ Page({
       });
     } else {
       this.setData({
-        dialogTitle: "第 " + (index + 1) + " 格",
+        dialogTitle:
+          this.data.currentCabinetInfo.cabinetSort + " - " + cabinetShowSort,
         showOperationFlag: {
           cabinet: false,
           cell: true,
@@ -328,12 +340,24 @@ Page({
         } else if (type == "cancelHeatAll") {
           url = "/client/cabinet/cancelHeatCells";
           successMsg = "取消加热成功";
+        } else if (type == "lightAll") {
+          url = "/client/cabinet/lightCells";
+          successMsg = "开启照明灯成功";
+        } else if (type == "cancelLightAll") {
+          url = "/client/cabinet/cancelLightCells";
+          successMsg = "关闭照明灯成功";
         } else if (type == "disinfectAll") {
           url = "/client/cabinet/disinfectCells";
           successMsg = "开启消毒灯成功";
         } else if (type == "cancelDisinfectAll") {
           url = "/client/cabinet/cancelDisinfectCells";
           successMsg = "关闭消毒灯成功";
+        } else if (type == "boxLightAll") {
+          url = "/client/cabinet/boxLightCells";
+          successMsg = "开启灯箱成功";
+        } else if (type == "cancelBoxLightAll") {
+          url = "/client/cabinet/cancelBoxLightCells";
+          successMsg = "关闭灯箱成功";
         }
         let tmp_cabinetCode = _this.data.currentCabinetInfo.cabinetCode;
         let params = {
@@ -341,6 +365,7 @@ Page({
           method: "POST",
           data: {
             cabinetCode: tmp_cabinetCode,
+            userCode: _this.data.userCode,
           },
         };
         wx.showLoading({
@@ -380,6 +405,7 @@ Page({
       data: {
         cabinetCode,
         cellSort,
+        userCode: this.data.userCode,
       },
     };
     request(params, (result) => {
@@ -417,6 +443,12 @@ Page({
         } else if (type == "cancelHeat") {
           url = "/client/cell/cancelHeatCell";
           successMsg = "取消加热成功";
+        } else if (type == "light") {
+          url = "/client/cell/lightCell";
+          successMsg = "开启照明灯成功";
+        } else if (type == "cancelLight") {
+          url = "/client/cell/cancelLightCell";
+          successMsg = "关闭照明灯成功";
         } else if (type == "disinfect") {
           url = "/client/cell/disinfectCell";
           successMsg = "开启消毒灯成功";
@@ -446,6 +478,7 @@ Page({
           data: {
             cabinetCode: cabinetCode,
             cellSort: cellSort,
+            userCode: _this.data.userCode,
           },
         };
         request(params, (result) => {
@@ -505,6 +538,7 @@ Page({
           method: "POST",
           data: {
             orderCode,
+            userCode: _this.data.userCode,
           },
         };
         request(params, (result) => {

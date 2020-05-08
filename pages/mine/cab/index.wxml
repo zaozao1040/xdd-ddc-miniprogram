@@ -48,12 +48,12 @@
              ></image>
             </view> 
             <view>
-                <button class="operation-button" size="mini" type="default" plain data-type="openAll" bindtap="clickCabinetOperation">
+                <button class="operation-button" size="mini" type="primary" plain data-type="openAll" bindtap="clickCabinetOperation">
                 开格
                 </button>             
             </view>
             <view>
-                <button class="operation-button" size="mini" type="default" plain data-type="heatAll" bindtap="clickCabinetOperation">
+                <button class="operation-button" size="mini" type="primary" plain data-type="heatAll" bindtap="clickCabinetOperation">
                 加热
                 </button> 
                 <button class="operation-button" size="mini" type="default" plain data-type="cancelHeatAll" bindtap="clickCabinetOperation">
@@ -61,13 +61,30 @@
                 </button>             
             </view>
             <view>
-                <button class="operation-button" size="mini" type="default" plain data-type="disinfectAll" bindtap="clickCabinetOperation">
+                <button class="operation-button" size="mini" type="primary" plain data-type="lightAll" bindtap="clickCabinetOperation">
+                开启照明灯
+                </button> 
+                <button class="operation-button" size="mini" type="default" plain data-type="cancelLightAll" bindtap="clickCabinetOperation">
+                    关闭照明灯
+                </button>             
+            </view>
+            <view>
+                <button class="operation-button" size="mini" type="primary" plain data-type="disinfectAll" bindtap="clickCabinetOperation">
                 开启消毒灯
                 </button> 
                 <button class="operation-button" size="mini" type="default" plain data-type="cancelDisinfectAll" bindtap="clickCabinetOperation">
                 关闭消毒灯
                 </button>             
             </view>
+            <view>
+                <button class="operation-button" size="mini" type="primary" plain data-type="boxLightAll" bindtap="clickCabinetOperation">
+                    开启灯箱
+                </button> 
+                <button class="operation-button" size="mini" type="default" plain data-type="cancelBoxLightAll" bindtap="clickCabinetOperation">
+                    关闭灯箱
+                </button>             
+            </view>
+
         </view>
     </view>
     <!-- 格子操作的弹出层 -->
@@ -101,18 +118,18 @@
                 </view>    
             </view>
             <view>
-                <button class="operation-button" size="mini" type="default" plain data-type="open" bindtap="clickCellOperation">
+                <button class="operation-button" size="mini" type="primary" plain data-type="open" bindtap="clickCellOperation">
                 开格
                 </button> 
-                <button class="operation-button" size="mini" type="default" plain data-type="bind" bindtap="clickCellOperation">
+                <button class="operation-button" size="mini" type="primary" plain data-type="bind" bindtap="clickCellOperation">
                 绑定
                 </button> 
-                <button class="operation-button" size="mini" type="default" plain data-type="openBind" bindtap="clickCellOperation">
+                <button class="operation-button" size="mini" type="primary" plain data-type="openBind" bindtap="clickCellOperation">
                 开格并绑定
                 </button> 
             </view>
             <view>
-                <button class="operation-button" size="mini" type="default" plain data-type="heat" bindtap="clickCellOperation">
+                <button class="operation-button" size="mini" type="primary" plain data-type="heat" bindtap="clickCellOperation">
                 加热
                 </button> 
                 <button class="operation-button" size="mini" type="default" plain data-type="cancelHeat" bindtap="clickCellOperation">
@@ -120,7 +137,15 @@
                 </button>            
             </view>
             <view>
-                <button class="operation-button" size="mini" type="default" plain data-type="disinfect" bindtap="clickCellOperation">
+                <button class="operation-button" size="mini" type="primary" plain data-type="light" bindtap="clickCellOperation">
+                    开启照明灯
+                </button> 
+                <button class="operation-button" size="mini" type="default" plain data-type="cancelLight" bindtap="clickCellOperation">
+                    关闭照明灯
+                </button>            
+            </view>
+            <view>
+                <button class="operation-button" size="mini" type="primary" plain data-type="disinfect" bindtap="clickCellOperation">
                 开启消毒灯
                 </button> 
                 <button class="operation-button" size="mini" type="default" plain data-type="cancelDisinfect" bindtap="clickCellOperation">

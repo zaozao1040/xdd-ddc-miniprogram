@@ -48,26 +48,39 @@ Component({
           let url = "";
           let successMsg = "";
           if (type == "openAll") {
-            url = "/organize/openCells";
+            url = "/client/organize/openCells";
             successMsg = "打开成功";
           } else if (type == "heatAll") {
-            url = "/organize/heatCells";
+            url = "/client/organize/heatCells";
             successMsg = "加热成功";
           } else if (type == "cancelHeatAll") {
-            url = "/organize/cancelHeatCells";
+            url = "/client/organize/cancelHeatCells";
             successMsg = "取消加热成功";
+          } else if (type == "lightAll") {
+            url = "/client/organize/lightCells";
+            successMsg = "开启照明灯成功";
+          } else if (type == "cancelLightAll") {
+            url = "/client/organize/cancelLightCells";
+            successMsg = "关闭照明灯成功";
           } else if (type == "disinfectAll") {
-            url = "/organize/cancelHeatCells";
+            url = "/client/organize/disinfectCells";
             successMsg = "开启消毒灯成功";
           } else if (type == "cancelDisinfectAll") {
-            url = "/organize/cancelHeatCells";
+            url = "/client/organize/cancelDisinfectCells";
             successMsg = "关闭消毒灯成功";
+          } else if (type == "boxLightAll") {
+            url = "/client/organize/boxLightCells";
+            successMsg = "开启灯箱成功";
+          } else if (type == "cancelBoxLightAll") {
+            url = "/client/organize/cancelBoxLightCells";
+            successMsg = "关闭灯箱成功";
           }
           let params = {
             url: config.baseUrl + url,
             method: "POST",
             data: {
               organizeCode,
+              userCode: wx.getStorageSync("userInfo").userInfo.userCode,
             },
           };
           wx.showLoading({

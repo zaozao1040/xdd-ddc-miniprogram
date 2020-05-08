@@ -2,8 +2,10 @@
   <view class="header-left-wrapper">
     <view class="header-title">{{ currentOrganizeInfo.organizeName }}</view>
   </view>
-  <view class="header-status {{ onlineInfo.status == 0 ? 'header-status-offline' : '' }} {{ onlineInfo.status == 1 ? 'header-status-online' : '' }} {{ onlineInfo.status == 2 ? 'header-status-notActive' : ''}}">
-    <text wx:if="{{ onlineInfo.status == 99 }}" class="header-status-loading">{{onlineInfo.des}}</text>
+  <view class="header-status {{  onlineInfo.status == 0 ? 'header-status-offline' : '' }} {{ onlineInfo.status == 1 ? 'header-status-online' : '' }} {{ onlineInfo.status == 2 ? 'header-status-notActive' : ''}}" >
+    <text wx:if="{{ onlineInfo.status == 99 }}" class="header-status-loading">{{
+      onlineInfo.des
+    }}</text>
     <text wx:else>{{ onlineInfo.des }}</text>
     <text
       style="margin-left: 10rpx; color: #2f86f6; font-size: 30rpx;"
@@ -27,7 +29,7 @@
   >
     <view class="header-operation-warpper" catchtap="clickOperationStop">
       <view class="header-operation-title">
-        一键操作
+        企业操作
         <image
           src="/images/cab/close.png"
           catchtap="clickOperation"
@@ -39,7 +41,7 @@
         <button
           class="header-operation-button"
           size="mini"
-          type="default"
+          type="primary"
           plain
           data-type="openAll"
           data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
@@ -52,13 +54,13 @@
         <button
           class="header-operation-button"
           size="mini"
-          type="default"
+          type="primary"
           plain
           data-type="heatAll"
           data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
           bindtap="clickOrganizeOperation"
         >
-          一键加热
+          加热
         </button>
         <button
           class="header-operation-button"
@@ -69,20 +71,44 @@
           data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
           bindtap="clickOrganizeOperation"
         >
-          一键取消加热
+          取消加热
         </button>
       </view>
       <view style="height: 90rpx;">
         <button
           class="header-operation-button"
           size="mini"
+          type="primary"
+          plain
+          data-type="lightAll"
+          data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
+          bindtap="clickOrganizeOperation"
+        >
+          开启照明灯
+        </button>
+        <button
+          class="header-operation-button"
+          size="mini"
           type="default"
+          plain
+          data-type="cancelLightAll"
+          data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
+          bindtap="clickOrganizeOperation"
+        >
+          关闭照明灯
+        </button>
+      </view>
+      <view style="height: 90rpx;">
+        <button
+          class="header-operation-button"
+          size="mini"
+          type="primary"
           plain
           data-type="disinfectAll"
           data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
           bindtap="clickOrganizeOperation"
         >
-          一键开启消毒灯
+          开启消毒灯
         </button>
         <button
           class="header-operation-button"
@@ -93,7 +119,31 @@
           data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
           bindtap="clickOrganizeOperation"
         >
-          一键关闭消毒灯
+          关闭消毒灯
+        </button>
+      </view>
+      <view style="height: 90rpx;">
+        <button
+          class="header-operation-button"
+          size="mini"
+          type="primary"
+          plain
+          data-type="boxLightAll"
+          data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
+          bindtap="clickOrganizeOperation"
+        >
+          开启灯箱
+        </button>
+        <button
+          class="header-operation-button"
+          size="mini"
+          type="default"
+          plain
+          data-type="cancelBoxLightAll"
+          data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
+          bindtap="clickOrganizeOperation"
+        >
+          关闭灯箱
         </button>
       </view>
       <view class="header-operation-title">
