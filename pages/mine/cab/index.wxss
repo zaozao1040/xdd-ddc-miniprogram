@@ -48,17 +48,25 @@
   margin: 1rpx;
   min-width: 120rpx;
 }
-.cell-wrapper-hasUser {
-  background: rgb(112, 203, 112);
-}
+
 .cell-wrapper-heat {
-  background: #da8787;
+  background: #ff7a45;
 }
 
 .cell-error {
 }
+
+.cell-inside-wrapper {
+  background: #237804;
+  margin: 8rpx;
+  border-radius: 10rpx;
+  height: 90rpx;
+}
+.cell-inside-wrapper-nouser {
+  background: white;
+}
 .cell-inside-wrapper-error {
-  background: #c0c4cc;
+  background: #595959;
   margin: 8rpx;
   border-radius: 10rpx;
   height: 90rpx;
@@ -73,39 +81,30 @@
   font-size: 25rpx;
   height: 50rpx;
   line-height: 50rpx;
-  color: #0d0d0e;
+  color: white;
 }
-.cell-inside-wrapper {
-  background: white;
-  margin: 8rpx;
-  border-radius: 10rpx;
-  height: 90rpx;
-}
+
 .cell-code {
   font-size: 30rpx;
-  color: rgb(66, 152, 66);
+  color: white;
   height: 40rpx;
   line-height: 50rpx;
 }
-.cell-code-cabinetSort {
-  font-size: 25rpx;
-  padding-right: 5rpx;
-  vertical-align: middle;
-}
+
 .cell-code-nouser {
   font-size: 30rpx;
   color: #0d0d0e;
 }
 .heat-icon {
   margin-right: 8rpx;
-  color: #f56c6c;
+  color: #ff7a45;
   font-size: 30rpx;
 }
 .cell-name {
   font-size: 30rpx;
   height: 50rpx;
   line-height: 50rpx;
-  color: rgb(66, 152, 66);
+  color: white;
 }
 .cell-name-nouser {
   font-size: 25rpx;
@@ -149,6 +148,9 @@
   width: 80rpx;
   text-align: center;
   line-height: 80rpx;
+}
+.operation-button-wrapper {
+  margin: 20rpx 0;
 }
 .operation-button {
   margin-right: 20rpx;

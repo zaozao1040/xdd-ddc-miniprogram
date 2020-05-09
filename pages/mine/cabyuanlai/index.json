@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "柜子",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "c-custom-modal": "../components/customModal/customModal"
+  }
+}

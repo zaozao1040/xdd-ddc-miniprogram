@@ -60,7 +60,7 @@
           data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
           bindtap="clickOrganizeOperation"
         >
-          加热
+        一键加热
         </button>
         <button
           class="header-operation-button"
@@ -71,7 +71,7 @@
           data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
           bindtap="clickOrganizeOperation"
         >
-          取消加热
+        一键取消加热
         </button>
       </view>
       <view style="height: 90rpx;">
@@ -84,7 +84,7 @@
           data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
           bindtap="clickOrganizeOperation"
         >
-          开启照明灯
+        一键开启照明灯
         </button>
         <button
           class="header-operation-button"
@@ -95,7 +95,7 @@
           data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
           bindtap="clickOrganizeOperation"
         >
-          关闭照明灯
+        一键关闭照明灯
         </button>
       </view>
       <view style="height: 90rpx;">
@@ -108,7 +108,7 @@
           data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
           bindtap="clickOrganizeOperation"
         >
-          开启消毒灯
+        一键开启消毒灯
         </button>
         <button
           class="header-operation-button"
@@ -119,7 +119,7 @@
           data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
           bindtap="clickOrganizeOperation"
         >
-          关闭消毒灯
+        一键关闭消毒灯
         </button>
       </view>
       <view style="height: 90rpx;">
@@ -132,7 +132,7 @@
           data-organizeCode="{{ currentOrganizeInfo.organizeCode }}"
           bindtap="clickOrganizeOperation"
         >
-          开启灯箱
+        开启灯箱
         </button>
         <button
           class="header-operation-button"

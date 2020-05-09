@@ -24,6 +24,13 @@ Page({
       cell: false,
     },
   },
+  onPullDownRefresh() {
+    this.getCabinetList();
+    this.setData({
+      currentCabinetIndex: 0,
+      currentCabinetInfo: this.data.cabinetList[0],
+    });
+  },
   onLoad() {
     if (wx.getStorageSync("userInfo")) {
       let tmp_organizeInfo = {
@@ -157,9 +164,9 @@ Page({
         });
       } else {
         let tmp_cellList = result.data.data || [];
-        let tmp_newCellList = this.generateVerticalArr(tmp_cellList);
+        //let tmp_newCellList = this.generateVerticalArr(tmp_cellList);
         _this.setData({
-          cellList: tmp_newCellList,
+          cellList: tmp_cellList,
         });
       }
     });
@@ -203,10 +210,11 @@ Page({
               icon: "none",
             });
           } else {
-            let { userName, userCode } = result.data.data;
+            let { userName, userCode, heatStatus } = result.data.data;
             let tmp_newCellList = this.data.cellList;
             tmp_newCellList[index].userName = userName;
             tmp_newCellList[index].userCode = userCode;
+            tmp_newCellList[index].heatStatus = heatStatus;
             _this.setData({
               cellList: tmp_newCellList,
               showOperationFlag: false,
@@ -548,10 +556,11 @@ Page({
               icon: "none",
             });
           } else {
-            let { userName, userCode } = result.data.data;
+            let { heatStatus, userName, userCode } = result.data.data;
             let tmp_newCellList = this.data.cellList;
             tmp_newCellList[index].userName = userName;
             tmp_newCellList[index].userCode = userCode;
+            tmp_newCellList[index].heatStatus = heatStatus;
             _this.setData({
               cellList: tmp_newCellList,
             }); //假刷新格子列表页

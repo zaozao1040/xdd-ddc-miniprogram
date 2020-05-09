@@ -1,0 +1,141 @@
+<view wx:if="{{hasCabinet}}">
+
+    <view class="page">
+        <view class="page__bd">
+            <view class="page__hd ff" style="border-top:15rpx solid rgb(245,245,245);border-bottom:15rpx solid rgb(245,245,245);">
+                <view class="page__desc more-content">
+                    <view class='flex-a'>
+                        <view style='width:190rpx;text-align:right;color:#333;font-size:36rpx;margin-right:10rpx;'>柜子地址:</view>
+                        <view>{{cabinetList[0].deviceAddress}}</view>
+                        <view style='padding-left:20rpx;color:green;' wx:if='{{deviceStatus=="在线"}}'>{{deviceStatus}}</view>
+                        <view style='padding-left:20rpx;color:#dd0000;' wx:else>{{deviceStatus}}</view>
+                    </view>
+                    <view class="more-job" bindtap="goMore">更多操作</view>
+                </view>
+
+                <view class="page__desc more-content" style="margin-top:10rpx;">
+                    <view style="width:190rpx;margin-right:10rpx;">
+                        <view style="text-align: right;color:#333;font-size:36rpx;">主柜:</view>
+                        <view style='font-size:30rpx;color:#444;text-align: right;'>(共{{cabNumList.length}}个主柜)</view>
+
+                    </view>
+                    <view wx:if="{{cabNumList.length>1}}">
+                        <view class="phone_personal" bindtap="clickDevice">{{deviceIndex+1}}</view>
+                        <view class="person_box">
+                            <scroll-view class="phone_select" hidden="{{selectDeviceNum}}" height="{{cabNumListHeight}}">
+                                <block wx:for="{{cabNumList}}" wx:key='*this'>
+                                    <view class="select_one" catchtap="handleSelectNewDeviceNum" data-devicenum="{{item}}" data-deviceindex="{{index}}">{{index+1}}</view>
+                                </block>
+                            </scroll-view>
+                        </view>
+                    </view>
+                    <view wx:else>
+                        <view class="phone_personal">{{deviceIndex+1}}</view>
+                    </view>
+
+                </view>
+            </view>
+            <view class="weui-tab">
+                <view class="weui-navbar">
+                    <block wx:for="{{tabs}}" wx:key="*this">
+                        <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+                            <view class="weui-navbar__title">{{item}}</view>
+                        </view>
+                    </block>
+                </view>
+                <view class="weui-tab__panel">
+                    <block wx:for="{{tabs}}" wx:key="index">
+                        <view class="weui-tab__content" hidden="{{activeIndex != index}}">
+                            <view class="page__bd column-box">
+                                <view class="row">
+                                    <block wx:for="{{pageone_one}}" wx:key="index">
+                                        <view style='background:{{item.cabinetNumStatus ==2?"#007500":"#fff"}};color:{{item.cabinetNumStatus ==2?"#fff":"#000"}};' class="column {{item.style}}" data-cabinet-num="{{item.cabinetNum}}" data-id="{{item.id}}" data-cab-num="{{item.cabinetNumStatus}}"
+                                            bindtap="openCab" bindlongpress="handleLongPress">
+                                            <view>{{item.cabinetOrder}}-{{item.serialNum}}</view>
+                                            <!-- <view>{{item.cabinetNumStatusName}}</view> -->
+                                            <view wx:if="{{item.cabinetNumStatus ==2}}">{{item.userName}}</view>
+                                            <view wx:else>{{item.cabinetNumStatusName}}</view>
+                                        </view>
+                                    </block>
+                                </view>
+                                <view class="row">
+                                    <block wx:for="{{pageone_two}}" wx:key="index">
+                                        <view style='background:{{item.cabinetNumStatus ==2?"#007500":"#fff"}};color:{{item.cabinetNumStatus ==2?"#fff":"#000"}};' class="column {{item.style}}" data-id="{{item.id}}" data-cabinet-num="{{item.cabinetNum}}" data-cab-num="{{item.cabinetNumStatus}}"
+                                            bindtap="openCab" bindlongpress="handleLongPress">
+                                            <view>{{item.cabinetOrder}}-{{item.serialNum}}</view>
+                                            <view wx:if="{{item.cabinetNumStatus ==2}}">{{item.userName}}</view>
+                                            <view wx:else>{{item.cabinetNumStatusName}}</view>
+                                        </view>
+                                    </block>
+                                </view>
+                                <view class="row">
+                                    <block wx:for="{{pageone_three}}" wx:key="index">
+                                        <view style='background:{{item.cabinetNumStatus ==2?"#007500":"#fff"}};color:{{item.cabinetNumStatus ==2?"#fff":"#000"}};' class="column {{item.style}}" data-id="{{item.id}}" data-cabinet-num="{{item.cabinetNum}}" data-cab-num="{{item.cabinetNumStatus}}"
+                                            bindtap="openCab" bindlongpress="handleLongPress">
+                                            <view>{{item.cabinetOrder}}-{{item.serialNum}}</view>
+                                            <view wx:if="{{item.cabinetNumStatus ==2}}">{{item.userName}}</view>
+                                            <view wx:else>{{item.cabinetNumStatusName}}</view>
+                                        </view>
+                                    </block>
+                                </view>
+                                <view class="row">
+                                    <block wx:for="{{pageone_four}}" wx:key="index">
+                                        <view style='background:{{item.cabinetNumStatus ==2?"#007500":"#fff"}};color:{{item.cabinetNumStatus ==2?"#fff":"#000"}};' class="column {{item.style}}" data-id="{{item.id}}" data-cabinet-num="{{item.cabinetNum}}" data-cab-num="{{item.cabinetNumStatus}}"
+                                            bindtap="openCab" bindlongpress="handleLongPress">
+                                            <view>{{item.cabinetOrder}}-{{item.serialNum}}</view>
+                                            <view wx:if="{{item.cabinetNumStatus ==2}}">{{item.userName}}</view>
+                                            <view wx:else>{{item.cabinetNumStatusName}}</view>
+                                        </view>
+                                    </block>
+                                </view>
+                            </view>
+                        </view>
+                    </block>
+                </view>
+            </view>
+        </view>
+    </view>
+
+
+
+    <view class="modal-mask" wx:if="{{showModal||showEnoughModal}}"></view>
+    <view class="modal-dialog" wx:if="{{showModal}}">
+        <view class="modal-title-title">以下格子存在该订单中部分餐品</view>
+        <radio-group>
+            <label class="weui-cell weui-check__label">
+                <view class="weui-cell__bd" bindtap='openCabByChoose'>{{radioItems.cabinetNum}}</view>
+                <view data-id="{{radioItems.id}}" data-cabinet-num="{{radioItems.cabinetNum}}" bindtap='openCabByChoose' class="weui-cell__ft weui-cell__ft_in-radio" >
+                    <text style='color:green;'>开柜</text>
+                </view>
+            </label>
+        </radio-group>
+        <view class="modal-footer">
+            <view class="btn-cancel" bindtap="onCancel" data-status="cancel">取消</view>
+            <view class="btn-confirm" bindtap="onConfirm" data-status="confirm" data-cabinet-id="{{currentcabinetId}}">放新格子</view>
+        </view>
+    </view>
+
+    <view class="modal-dialog" wx:if="{{showEnoughModal}}">
+        <view class="modal-title-title">旧格子{{radioItems.cabinetNum}}是否放得下</view>
+        <view class="btn-old" bindtap="onConfirm" data-status="cancel" data-cabinet-id="{{radioItems.cabinetId}}">放得下，放{{radioItems.cabinetNum}}中</view>
+        <view class="btn-new" bindtap="onConfirm" data-status="confirm" data-cabinet-id="{{currentcabinetId}}">放不下，放新格子{{newCabinetNum}}中</view>
+
+    </view>
+
+    <loading hidden="{{loadingHidden}}">
+        绑定中...
+    </loading>
+
+</view>
+<view wx:if='{{noCabinetShow}}'>
+    <view style='margin:216rpx auto 0;width:200rpx;height:200rpx;'>
+        <image class="" src="/images/menu/order_shop.png" style="width:200rpx;height:200rpx;"></image>
+    </view>
+    <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
+        贵公司未安装智能柜
+    </view>
+    <view bindtap='getPhoneNumber' style='margin-top:60rpx;font-family: PingFang-SC-Regular;font-size: 30rpx;color: #F79C4C;letter-spacing: 0;text-align: center;'>
+        联系客服
+    </view>
+    <c-custom-modal title='是否拨打客服电话?' content='{{servicePhone}}' wx:if='{{showPhoneModal}}' bind:closemodal='closePhoneModal' bind:handleconfirm='handleContact'></c-custom-modal>
+</view>
