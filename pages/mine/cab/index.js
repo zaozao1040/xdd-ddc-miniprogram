@@ -293,7 +293,7 @@ Page({
   // 长按点击格子
   handleLongClickCell(e) {
     let {
-      cabinetShowSort,
+      cellShowSort,
       runningStatus,
       cabinetCode,
       cellSort,
@@ -309,7 +309,7 @@ Page({
     } else {
       this.setData({
         dialogTitle:
-          this.data.currentCabinetInfo.cabinetSort + " - " + cabinetShowSort,
+          this.data.currentCabinetInfo.cabinetSort + " - " + cellShowSort,
         showOperationFlag: {
           cabinet: false,
           cell: true,

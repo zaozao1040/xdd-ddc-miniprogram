@@ -19,7 +19,7 @@
                     </view>
                     <view wx:else class="cell-inside-wrapper {{item.userCode?'':'cell-inside-wrapper-nouser'}}">
                         <view class="cell-code {{item.userCode?'':'cell-code-nouser'}}">
-                            {{currentCabinetInfo.cabinetSort}} - {{item.cabinetShowSort}}
+                            {{currentCabinetInfo.cabinetSort}} - {{item.cellShowSort}}
                         </view>
                         <view class="cell-name {{item.userCode?'':'cell-name-nouser'}}" wx:if="{{item.userCode}}">
                             {{item.userName}}
