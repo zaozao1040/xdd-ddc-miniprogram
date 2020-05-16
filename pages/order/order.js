@@ -1,4 +1,6 @@
-import { base } from '../../comm/public/request'
+import {
+    base
+} from '../../comm/public/request'
 
 let requestModel = new base()
 
@@ -30,7 +32,7 @@ Page({
         windowHeight: 0,
         scrollTop: 0,
         //
-        itemStatusActiveFlag: 1, //0：全部订单，1：今日待取，2：待评价
+        itemStatusActiveFlag: 0, //0：全部订单，1：今日待取，2：待评价
         orderList: [],
         mealTypeMap: {
             BREAKFAST: '早餐',
@@ -225,7 +227,9 @@ Page({
     },
     //获取订单状态
     getOrderStatus(element) {
-        let a = { has: true }
+        let a = {
+            has: true
+        }
         if (element.status == 1) {
             if (element.isPay == 0) {
                 a.label = '未支付'
@@ -503,15 +507,27 @@ Page({
     },
 
     /* radio选择支付方式 */
-    radioChange() {
+    radioChangeWechatPay() {
         this.setData({
-            payType: this.data.payType == "WECHAT_PAY" ? "BALANCE_PAY" : 'WECHAT_PAY'
+            payType: 'WECHAT_PAY'
         })
+    },
+    radioChange: function() {
+        //可使用余额小于_this.data.realMoney
+        if (this.data.canUseBalance < this.data.payPrice) { //如果用户余额少于用户需要支付的价格，不允许用余额,也就是禁止打开switch
+            this.setData({
+                payType: 'BALANCE_MIX_WECHAT_PAY'
+            })
+        } else {
+            this.setData({
+                payType: 'BALANCE_PAY'
+            })
+        }
     },
     /* 去付款的对话框的确定 */
     buttonClickYes: function() {
 
-        if (this.data.payType == 'WECHAT_PAY') {
+        if (this.data.payType == 'WECHAT_PAY' || this.data.payType == 'BALANCE_MIX_WECHAT_PAY') {
             this.payNowByWx()
         } else {
             this.payNowByBalance()
@@ -535,24 +551,67 @@ Page({
         })
         let _this = this;
 
-        let payPrice = e.currentTarget.dataset.payprice
         let orderCode = e.currentTarget.dataset.ordercode
-            // 判断余额够不够
-        let param = {
-            url: '/user/getUserFinance?userCode=' + _this.data.userCode
-        }
-        requestModel.request(param, data => {
 
-            _this.setData({
-                showPayTypeFlag: true,
-                balanceEnough: data.allBalance < payPrice ? false : true,
-                payPrice: payPrice,
-                payOrderCode: orderCode,
-                allBalance: data.allBalance,
-                payType: data.allBalance < payPrice ? "WECHAT_PAY" : 'BALANCE_PAY'
+        let param2 = {
+            url: '/order/orderPayPre?userCode=' + _this.data.userCode + '&orderCode=' + orderCode
+        }
+        requestModel.request(param2, data2 => {
+
+            let payPrice = data2.needPayMoney
+            let canMealTotalMoney = data2.canMealTotalMoney
+            requestModel.getUserInfo(userInfo => {
+                let { allowUserOrganizePayNoCanMeal } = userInfo
+
+                requestModel.getUserCode(userCode => {
+                    let param = {
+                        url: '/user/getUserFinance?userCode=' + userCode
+                    }
+                    requestModel.request(param, data => {
+
+                        let canUseBalance = data.allBalance
+                        _this.data.balancePayMoney = data.allBalance
+
+                        if (!allowUserOrganizePayNoCanMeal) {
+                            let organizePayBalance = data.organizeBalance < canMealTotalMoney ? data.organizeBalance : canMealTotalMoney
+                            organizePayBalance = parseFloat(organizePayBalance)
+                            let remainMoney = payPrice - organizePayBalance
+                            let personPayBalance = data.totalBalance < remainMoney ? data.totalBalance : remainMoney
+                            let personBalance = data.totalBalance
+                            let organizeBalance = data.totalBalance < remainMoney ? organizePayBalance : data.organizeBalance
+                            canUseBalance = parseFloat(organizeBalance.toFixed(2)) + parseFloat(personBalance.toFixed(2))
+                            _this.data.balancePayMoney = parseFloat(organizePayBalance.toFixed(2)) + parseFloat(personPayBalance.toFixed(2))
+                        }
+
+                        if (canUseBalance == 0) {
+                            _this.setData({
+                                payType: 'WECHAT_PAY'
+                            })
+                        } else if (canUseBalance >= payPrice) {
+                            _this.setData({
+                                payType: 'BALANCE_PAY'
+                            })
+                        } else {
+                            _this.setData({
+                                payType: 'BALANCE_MIX_WECHAT_PAY'
+                            })
+                        }
+                        _this.setData({
+                            canUseBalance,
+                            balanceDes: allowUserOrganizePayNoCanMeal ? '个人钱包' : '钱包余额',
+                            showPayTypeFlag: true,
+                            balanceEnough: payPrice == 0,
+                            payOrderCode: orderCode,
+                            payPrice
+                        })
+
+                    })
+                })
 
             })
+
         })
+
     },
     /* 去付款-微信支付 */
     payNowByWx: function() {
@@ -572,9 +631,12 @@ Page({
         let param = {
             userCode: _this.data.userCode,
             orderCode: _this.data.payOrderCode,
-            payType: 'WECHAT_PAY'
+            payType: _this.data.payType
         }
-
+        if (_this.data.payType == 'BALANCE_MIX_WECHAT_PAY') {
+            param.balancePayMoney = _this.data.balancePayMoney
+            param.thirdPayMoney = parseFloat(_this.data.payPrice.toFixed(2)) - parseFloat(_this.data.balancePayMoney.toFixed(2))
+        }
         let params = {
             data: param,
             url: '/order/orderPay',
@@ -697,7 +759,10 @@ Page({
         }
         _this.data.canClick = false
 
-        let { ordercode, pickagain } = e.currentTarget.dataset
+        let {
+            ordercode,
+            pickagain
+        } = e.currentTarget.dataset
             //就调用接口加载柜子号 
         let param = {
             url: '/order/orderPickPre?userCode=' + _this.data.userCode + '&orderCode=' + ordercode

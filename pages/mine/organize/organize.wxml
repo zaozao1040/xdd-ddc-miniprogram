@@ -18,7 +18,7 @@
         <view class="section-3-1">
             <image src="/images/mine/gonghao.png" style='width:48rpx;height:48rpx;'></image>
         </view>
-        <input bindinput="usernumberInput" value="{{usernumber}}" class="section-3-2" placeholder="请输入企业工号" type="string"></input>
+        <input id='the-id' bindinput="usernumberInput" value="{{usernumber}}" class="section-3-2" placeholder="请输入企业工号" type="string"></input>
     </view>
     <!-- 企业选择 -->
     <view class="search-wrapper">

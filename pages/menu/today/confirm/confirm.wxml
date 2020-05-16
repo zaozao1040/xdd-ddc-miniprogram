@@ -140,28 +140,31 @@
                         <view class='pay-title' style='line-height:98rpx;'>支付方式</view>
                     </view>
                     <view class='pay-item-last' style='padding-bottom:26rpx;border-bottom: 1rpx solid #F2F2F2;'>
-                        <view wx:if='{{noEnoughBalanceAll||noEnoughBalancePersonal}}' style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:90;'></view>
+                        <view wx:if='{{!canUseBalance}}' style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:90;'></view>
                         <view class='flex-a' style="margin-top:32rpx;">
                             <view style='padding-top:2rpx;margin-right:10rpx;width:40rpx;height:40rpx;'>
                                 <image src="/images/menu/wallet.png" style="width:40rpx;height:40rpx;">
                                 </image>
                             </view>
-                            <block wx:if='{{noEnoughBalancePersonal}}'>
-                                <view class='pay-balance'>钱包支付(个人钱包</view>
+                            <!--allowUserOrganizePayNoCanMeal为true，就是个人钱包，否则就是钱包余额-->
+                            <block>
+                                <view class='pay-balance'>钱包支付({{balanceDes}}</view>
                                 <image src='/images/menu/diancanbi.png' style='width:28rpx;height:28rpx;padding:6rpx 8rpx 0;'></image>
-                                <view class='pay-balance'>{{totalBalance}})</view>
+                                <view class='pay-balance'>{{canUseBalance}})</view>
                             </block>
-                            <block wx:else>
+                            <!-- <block wx:else>
                                 <view class='pay-balance'>钱包支付(钱包余额</view>
                                 <image src='/images/menu/diancanbi.png' style='width:28rpx;height:28rpx;padding:6rpx 8rpx 0;'></image>
                                 <view class='pay-balance'>{{allBalance}})</view>
-                            </block>
+                            </block> -->
                         </view>
-
+                        <!--余额钱包亮时，点余额钱包变为微信支付-->
+                        <!--余额钱包不亮时，点余额钱包判断可为余额支付还是余额+微信支付-->
+                        <!--微信支付不亮时，点微信支付变为微信支付-->
                         <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
-                            <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;" wx:if="{{payType=='BALANCE_PAY'}}">
+                            <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;" bindtap="handleChangeWechatPayFlag" wx:if="{{payType=='BALANCE_PAY' ||payType=='BALANCE_MIX_WECHAT_PAY'}}">
                             </image>
-                            <image src="/images/menu/uncheck.png" style="width:44rpx;height:44rpx;" bindtap="handleChangeWalletSelectedFlag" wx:else>
+                            <image src="/images/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:else bindtap="handleChangeBalancePayFlag">
                             </image>
                         </view>
                     </view>
@@ -172,9 +175,9 @@
                             <view class='pay-wechat'>微信支付</view>
                         </view>
                         <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
-                            <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;" wx:if="{{payType=='WECHAT_PAY'}}">
+                            <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;" wx:if="{{payType=='WECHAT_PAY'||payType=='BALANCE_MIX_WECHAT_PAY'}}">
                             </image>
-                            <image src="/images/menu/uncheck.png" bindtap="handleChangeWalletSelectedFlag" style="width:44rpx;height:44rpx;" wx:else></image>
+                            <image src="/images/menu/uncheck.png" catchtap="handleChangeWechatPayFlag" style="width:44rpx;height:44rpx;" wx:else></image>
 
                         </view>
                     </view>
