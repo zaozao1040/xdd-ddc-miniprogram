@@ -84,7 +84,7 @@
                                                         <view class="food-label-item" wx:for="{{foodItem.foodLabels}}" wx:key="{{ index }}">{{ item }}</view>
                                                     </view>
                                                     <view wx:if="{{foodItem.canMeal==false}}" style="font-size:20rpx;line-height: 28rpx;color:#ce8307;margin-top:10rpx;">
-                                                        不可使用餐标2
+                                                        不可使用餐标
                                                     </view>
                                                     <view class="foodLimitNum" wx:if="{{foodItem.foodQuota||foodItem.goodRate}}">
                                                         <block wx:if='{{foodItem.linefoodPrice}}'>
