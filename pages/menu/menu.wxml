@@ -71,9 +71,9 @@
                                             <view class="img-wrapper" bindtap="handleGotoFoodDetail" data-foodcode="{{ foodItem.foodCode }}" data-typename='{{menutypeItem.typeName }}'>
                                                 <image wx:if="{{ foodItem.foodQuota &&foodItem.foodQuota.quotaNum  }}" class='food-img-res' src="/images/menu/order_purchase.png"></image>
 
-                                                <image class="food-img" src="{{foodItem.image}}"></image>
+                                                <image class="food-img" lazy-load src="{{foodItem.image}}"></image>
                                             </view>
-
+                                            
                                             <view class="food-info-wrapper">
                                                 <view>
                                                     <view class="food-name">
@@ -84,7 +84,7 @@
                                                         <view class="food-label-item" wx:for="{{foodItem.foodLabels}}" wx:key="{{ index }}">{{ item }}</view>
                                                     </view>
                                                     <view wx:if="{{foodItem.canMeal==false}}" style="font-size:20rpx;line-height: 28rpx;color:#ce8307;margin-top:10rpx;">
-                                                        不可使用餐标
+                                                        不可使用餐标2
                                                     </view>
                                                     <view class="foodLimitNum" wx:if="{{foodItem.foodQuota||foodItem.goodRate}}">
                                                         <block wx:if='{{foodItem.linefoodPrice}}'>
