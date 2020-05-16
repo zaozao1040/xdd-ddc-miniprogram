@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    swiperDefaultIndex: 0,
     imageWidth: wx.getSystemInfoSync().windowWidth,
     timer: null,
     canClick: true,
@@ -17,7 +18,7 @@ Page({
 
     imagesList: [],
     //
-    homeOrderList: null, //首页取餐列表
+    homeOrderList: [], //首页取餐列表
     orderStatusMap: {
       NO_PAY: "未支付",
       PAYED_WAITINT_CONFIRM: "已支付",
@@ -540,7 +541,8 @@ Page({
         console.log("homeOrderList", tmp_homeOrderList);
         _this.setData({
           homeOrderList: tmp_homeOrderList,
-          gethomeOrderList: true,
+          swiperDefaultIndex: 0,
+          // gethomeOrderList: true,
         });
       },
       true

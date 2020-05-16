@@ -90,11 +90,11 @@
 
         </view>
         <!-- 首页提示取餐3.0-->
-        <view wx:if='{{gethomeOrderList}}'>
-            <view style="margin-left:30rpx;" wx:if="{{homeOrderList.length>0}}">
+        <view wx:if="{{homeOrderList.length>0}}">
+            <view style="margin-left:30rpx;">
                 <view class='takefood-title'>今日餐品</view>
                 <view>
-                    <swiper next-margin='24rpx' style='width: 100%; height: 212rpx;'>
+                    <swiper current="{{swiperDefaultIndex}}" next-margin='24rpx' style='width: 100%; height: 212rpx;'>
                         <block wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem" wx:key="homeOrderIndex">
                             <swiper-item>
                                 <view class="takefood-food">
