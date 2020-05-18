@@ -148,7 +148,7 @@
                             </view>
                             <!--allowUserOrganizePayNoCanMeal为true，就是个人钱包，否则就是钱包余额-->
                             <block>
-                                <view class='pay-balance'>钱包支付({{balanceDes}}</view>
+                                <view class='pay-balance'>钱包支付({{balanceDes}})</view>
                                 <image src='/images/menu/diancanbi.png' style='width:28rpx;height:28rpx;padding:6rpx 8rpx 0;'></image>
                                 <view class='pay-balance'>{{canUseBalance}})</view>
                             </block>

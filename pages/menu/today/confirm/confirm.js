@@ -230,7 +230,8 @@
                              let personPayBalance = data.totalBalance < remainMoney ? data.totalBalance : remainMoney
                              let personBalance = data.totalBalance
                              let organizeBalance = data.totalBalance < remainMoney ? organizePayBalance : data.organizeBalance
-                             canUseBalance = parseFloat(organizeBalance.toFixed(2)) + parseFloat(personBalance.toFixed(2))
+                             //canUseBalance = parseFloat(organizeBalance.toFixed(2)) + parseFloat(personBalance.toFixed(2))
+                             canUseBalance =parseFloat((parseFloat(organizeBalance) + parseFloat(personBalance)).toFixed(2)) //【邱宁修改】
                              _this.data.balancePayMoney = parseFloat(organizePayBalance.toFixed(2)) + parseFloat(personPayBalance.toFixed(2))
                          }
 
