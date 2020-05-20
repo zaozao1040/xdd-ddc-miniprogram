@@ -1,134 +1,165 @@
- .value-number {
-     font-size: 34rpx;
-     color: #F79C4C;
-     letter-spacing: 0;
-     text-align: center;
-     height: 80rpx;
-     border: 1rpx solid #EBEBEB;
-     display: flex;
-     border-radius: 2rpx;
- }
- 
- .one-line {
-     line-height: 130rpx;
-     padding: 0 40rpx;
-     display: flex;
-     justify-content: space-between;
- }
- 
- .list-item {
-     padding: 0 40rpx;
-     display: flex;
-     justify-content: space-between;
-     border-top: 1rpx solid #ccc;
- }
- 
- .value-number-wrapper {
-     display: flex;
-     margin: 30rpx 0 20rpx;
- }
- 
- .value-number-left {
-     flex-shrink: 0;
-     font-size: 30rpx;
-     font-family: PingFang-SC-Medium;
-     font-weight: 500;
-     color: rgba(102, 102, 102, 1);
-     line-height: 80rpx;
-     margin-right: 20rpx;
- }
- 
- .remark {
-     height: 200rpx;
-     color: #333;
-     font-size: 28rpx;
-     padding: 20rpx;
-     box-sizing: border-box;
-     width: 100%;
- }
- 
- .remark-menuItem {
-     padding-top: 40rpx;
-     padding-bottom: 10rpx;
-     display: flex;
-     justify-content: space-between;
- }
- 
- .remark-menuItem-left {
-     font-size: 30rpx;
-     font-family: PingFang-SC-Medium;
-     font-weight: 500;
-     color: rgba(51, 51, 51, 1);
-     line-height: 60rpx;
- }
- 
- .remark-menuItem-button {
-     width: 120rpx;
-     height: 60rpx;
-     background: linear-gradient(270deg, rgba(247, 156, 76, 1) 0%, rgba(247, 205, 78, 1) 100%);
-     border-radius: 34rpx;
-     text-align: center;
-     line-height: 60rpx;
-     font-size: 26rpx;
-     font-family: PingFangSC-Regular;
-     font-weight: 400;
-     color: rgba(255, 255, 255, 1);
- }
- 
- .remark-name {
-     box-sizing: border-box;
-     width: 240rpx;
-     height: 80rpx;
-     font-size: 30rpx;
-     font-family: PingFang-SC-Regular;
-     font-weight: 400;
-     color: rgba(51, 51, 51, 1);
-     line-height: 76rpx;
-     padding-left: 30rpx;
-     border: 1rpx solid #EBEBEB;
- }
- 
- .remark-name-default {
-     color: #ccc;
- }
- 
- .remark-count-group {
-     width: 290rpx;
-     height: 80rpx;
-     box-sizing: border-box;
-     border: 1rpx solid #EBEBEB;
-     border-left: none;
-     display: flex;
-     justify-content: space-between;
-     padding: 0 30rpx 0 10rpx;
-     line-height: 76rpx;
- }
- 
- .remark-count {
-     width: 60rpx;
-     flex-grow: 1;
-     height: 76rpx;
-     font-size: 30rpx;
-     font-family: PingFang-SC-Medium;
-     font-weight: 500;
-     color: rgba(247, 156, 76, 1);
-     line-height: 76rpx;
-     text-align: center;
- }
- 
- .remark-count-default {
-     color: #EBEBEB;
- }
- 
- .flex-1 {
-     display: flex;
- }
- 
- .remark-delete {
-     line-height: 80rpx;
-     font-size: 26rpx;
-     font-family: PingFang-SC-Regular;
-     font-weight: 400;
-     color: rgba(204, 204, 204, 1);
-     padding-left: 4rpx;
- }
+.value-number {
+  font-size: 34rpx;
+  color: #f79c4c;
+  letter-spacing: 0;
+  text-align: center;
+  height: 80rpx;
+  border: 1rpx solid #ebebeb;
+  display: flex;
+  border-radius: 2rpx;
+}
+
+.one-line {
+  line-height: 130rpx;
+  padding: 0 40rpx;
+  display: flex;
+  justify-content: space-between;
+}
+
+.list-item {
+  padding: 0 40rpx;
+  display: flex;
+  justify-content: space-between;
+  border-top: 1rpx solid #ccc;
+}
+
+/* 企业地址选择 */
+.org-scroll-view {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.org-address-wrapper {
+  margin: 20rpx 0;
+}
+.org-address-item {
+  padding: 10rpx;
+  background-color: #ccc;
+
+  display: inline-block;
+  width: 120rpx;
+  text-align: center;
+}
+.org-address-item-active {
+  background: linear-gradient(
+    270deg,
+    rgba(247, 156, 76, 1) 0%,
+    rgba(247, 205, 78, 1) 100%
+  );
+  color: white;
+}
+.org-address-des {
+  margin: 10rpx 0;
+}
+.value-number-wrapper {
+  display: flex;
+  margin: 30rpx 0 20rpx;
+}
+
+.value-number-left {
+  flex-shrink: 0;
+  font-size: 30rpx;
+  font-family: PingFang-SC-Medium;
+  font-weight: 500;
+  color: rgba(102, 102, 102, 1);
+  line-height: 80rpx;
+  margin-right: 20rpx;
+}
+
+.remark {
+  height: 200rpx;
+  color: #333;
+  font-size: 28rpx;
+  padding: 20rpx;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.remark-menuItem {
+  padding-top: 40rpx;
+  padding-bottom: 10rpx;
+  display: flex;
+  justify-content: space-between;
+}
+
+.remark-menuItem-left {
+  font-size: 30rpx;
+  font-family: PingFang-SC-Medium;
+  font-weight: 500;
+  color: rgba(51, 51, 51, 1);
+  line-height: 60rpx;
+}
+
+.remark-menuItem-button {
+  width: 120rpx;
+  height: 60rpx;
+  background: linear-gradient(
+    270deg,
+    rgba(247, 156, 76, 1) 0%,
+    rgba(247, 205, 78, 1) 100%
+  );
+  border-radius: 34rpx;
+  text-align: center;
+  line-height: 60rpx;
+  font-size: 26rpx;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+}
+
+.remark-name {
+  box-sizing: border-box;
+  width: 240rpx;
+  height: 80rpx;
+  font-size: 30rpx;
+  font-family: PingFang-SC-Regular;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 76rpx;
+  padding-left: 30rpx;
+  border: 1rpx solid #ebebeb;
+}
+
+.remark-name-default {
+  color: #ccc;
+}
+
+.remark-count-group {
+  width: 290rpx;
+  height: 80rpx;
+  box-sizing: border-box;
+  border: 1rpx solid #ebebeb;
+  border-left: none;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30rpx 0 10rpx;
+  line-height: 76rpx;
+}
+
+.remark-count {
+  width: 60rpx;
+  flex-grow: 1;
+  height: 76rpx;
+  font-size: 30rpx;
+  font-family: PingFang-SC-Medium;
+  font-weight: 500;
+  color: rgba(247, 156, 76, 1);
+  line-height: 76rpx;
+  text-align: center;
+}
+
+.remark-count-default {
+  color: #ebebeb;
+}
+
+.flex-1 {
+  display: flex;
+}
+
+.remark-delete {
+  line-height: 80rpx;
+  font-size: 26rpx;
+  font-family: PingFang-SC-Regular;
+  font-weight: 400;
+  color: rgba(204, 204, 204, 1);
+  padding-left: 4rpx;
+}

@@ -2,6 +2,6 @@
   "navigationBarTitleText": "智能柜",
   "enablePullDownRefresh": true,
   "usingComponents": {
-    "c-header": "../components/header/header"
+    "c-header": "../../components/header/header"
   }
 }

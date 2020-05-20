@@ -9,8 +9,18 @@
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
+		"coverView": true,
 		"autoAudits": false,
-		"checkInvalidKey": true
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		},
+		"useCompilerModule": true,
+		"userConfirmedUseCompilerModuleSwitch": false
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.10.4",
@@ -148,6 +158,13 @@
 					"id": -1,
 					"name": "pages/mine/cab/index",
 					"pathName": "pages/mine/cab/index",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "管理员报餐",
+					"pathName": "pages/mine/orgAdminAddfood/orgAdminAddfood",
 					"scene": null
 				}
 			]

@@ -12,6 +12,20 @@
             <view style="margin:0 20rpx 20rpx;background:#FFF; padding:40rpx;border-radius: 12rpx; ">
                 <view style="font-family: PingFang-SC-Medium;font-size: 30rpx; color: #333333; letter-spacing: 0;text-align: left;line-height:42rpx;">
                     {{date}} {{mealTypeNameList[mealType]}} 截止时间：{{endTime}}</view>
+                
+                <view class="org-address-wrapper">
+                    <scroll-view class="org-scroll-view" scroll-x>
+                        <view class="org-address-item {{index==currentAddressIndex?'org-address-item-active':''}}" wx:for="{{organizeAddressList}}" wx:for-index="index" wx:for-item="item" wx:key="index" data-index="{{index}}" data-item="{{item}}" bindtap="handleClickAddress">
+                            地址{{index+1}}
+                        </view>
+                    </scroll-view>
+                    <view class="org-address-des">
+                        <text class="error-icon iconfont icon-dizhi"></text>{{address}}
+                    </view>
+                </view>
+
+
+
                 <view class='value-number-wrapper'>
                     <view class='value-number-left'>报餐数量</view>
                     <view class="value-number">
