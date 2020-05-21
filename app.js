@@ -5,7 +5,6 @@ App({
     // baseUrl: "http://10.168.1.215:9082", //赵家兴
     // baseUrl: "http://10.168.1.197:9082", //李凤
     //  baseUrl: "http://10.168.1.204:9082", //韩信信 志康
-
     //  baseUrl: "https://wx.api.uat.91dcan.cn", //测试库
 
     userInfo: null,
