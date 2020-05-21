@@ -439,7 +439,7 @@ Page({
    */
   onPullDownRefresh: function () {
     this.data.pull = true;
-    this.getAddfoodData(_this.data.deliveryAddressCode);
+    this.getAddfoodData(this.data.deliveryAddressCode);
   },
 
   /**

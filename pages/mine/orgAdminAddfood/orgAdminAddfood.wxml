@@ -72,7 +72,7 @@
                     <view class='list-item'>
 
                         <view>
-                            <view style="font-size: 30rpx;  color: #333333;padding-top:18rpx;">{{item.name}}</view>
+                            <view style="font-size: 30rpx;  color: #333333;padding-top:18rpx;">{{item.userName||item.name}}</view>
                             <view style="font-size: 24rpx;  color: #999;padding-top:10rpx;"> {{item.addTime}} {{mealTypeNameList[mealType]}} </view>
                         </view>
                         <view style='line-height:120rpx;font-size: 34rpx; color: #F79C4C;' wx:if="{{item.difference>0}}"> +{{item.difference}}</view>
