@@ -165,6 +165,13 @@
 					"id": -1,
 					"name": "管理员报餐",
 					"pathName": "pages/mine/orgAdminAddfood/orgAdminAddfood",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/food/food",
+					"pathName": "pages/food/food",
 					"scene": null
 				}
 			]

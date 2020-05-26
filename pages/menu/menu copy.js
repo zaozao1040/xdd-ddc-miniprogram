@@ -1653,38 +1653,17 @@ Page({
   preventTouchMove: function () {},
   /* 餐品详情 */
   handleGotoFoodDetail: function (e) {
-    console.log("eeeeee", e.currentTarget.dataset);
-    this.handleCartAddfood(e);
-    // const query = wx.createSelectorQuery();
-    // query.select("#" + e.currentTarget.dataset.foodCode).boundingClientRect();
-    // console.log("asdfasdf", query);
-    // document
-    //   .getElementById("#" + e.currentTarget.dataset.foodcode + "_add")
-    //   .click();
-    // wx.createSelectorQuery()
-    //   .select("#" + e.currentTarget.dataset.foodcode + "_add")
-    //   .boundingClientRect(function (rect) {
-    //     // 节点的ID
-    //     console.log("asdfasdf", rect);
-    //   })
-    //   .exec();
-    // query.selectViewport().scrollOffset();
-    // query.exec(function (res) {
-    //   _this.setData({
-    //     scrollTop: res[0].bottom, // #the-id节点的上边界坐标
-    //   });
-    // });
-    // wx.navigateTo({
-    //   url:
-    //     "/pages/food/food?foodCode=" +
-    //     e.currentTarget.dataset.foodcode +
-    //     "&mealDate=" +
-    //     this.data.timeInfo[this.data.activeDayIndex].mealDate +
-    //     "&mealType=" +
-    //     this.data.mealTypeItem +
-    //     "&typeName=" +
-    //     e.currentTarget.dataset.typename,
-    // });
+    wx.navigateTo({
+      url:
+        "/pages/food/food?foodCode=" +
+        e.currentTarget.dataset.foodcode +
+        "&mealDate=" +
+        this.data.timeInfo[this.data.activeDayIndex].mealDate +
+        "&mealType=" +
+        this.data.mealTypeItem +
+        "&typeName=" +
+        e.currentTarget.dataset.typename,
+    });
   },
   handleBindOrg() {
     wx.showToast({
