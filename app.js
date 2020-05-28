@@ -6,7 +6,7 @@ App({
     // baseUrl: "http://10.168.1.197:9082", //李凤
     //  baseUrl: "http://10.168.1.204:9082", //韩信信 志康
 
-    //  baseUrl: "https://wx.api.uat.91dcan.cn", //测试库
+    // baseUrl: "https://wx.api.uat.91dcan.cn", //测试库
 
     userInfo: null,
     selectedFoods: [],
@@ -69,12 +69,12 @@ App({
   /**
    * 当小程序从前台进入后台，会触发 onHide
    */
-  onHide: function () {},
+  onHide: function () { },
 
   /**
    * 当小程序发生脚本错误，或者 api 调用失败时，会触发 onError 并带上错误信息
    */
-  onError: function (msg) {},
+  onError: function (msg) { },
   /**
    * 强制更新
    */

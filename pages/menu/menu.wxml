@@ -254,7 +254,7 @@
                         已选餐品
                     </view>
                     <view bindtap="handleClearFoods" style="font-family: PingFang-SC-Regular; font-size: 11px; color: #666666; letter-spacing: 0; text-align: left;">
-                        <text class="iconfont icon-trash_fill"></text> 清空
+                        <text class="iconfont icon-trash_fill"></text> 清空2
                     </view>
                 </view>
 
