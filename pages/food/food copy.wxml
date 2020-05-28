@@ -50,7 +50,6 @@
                             <text style="font-size: 20rpx;margin-top:20rpx;line-height:24rpx;">￥</text>{{foodInfo.foodPrice}}
                         </view>
                         <view wx:if="{{foodInfo.foodOriginalPrice>foodInfo.foodPrice}}" class="price-original">￥{{foodInfo.foodOriginalPrice}}</view>
-                        <view class="add-to-wrapper" bindtap="handleAddtoCart">加入购物车</view>
                     </view>
                     <view class="prompt-wrapper">
                         <view style='width:38rpx;height:42rpx;margin:18rpx 10rpx 0 20rpx;'>
@@ -58,7 +57,7 @@
                         </view>
                         <view class='prompt'><text style='color:#333;'>提示</text>：{{foodInfo.prompt}}</view>
                     </view>
-                                     
+
                 </view>
 
                 <view class="food-info-wrapper" wx:if="{{foodInfo.description}}">

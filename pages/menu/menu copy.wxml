@@ -66,9 +66,9 @@
                                         </view>
 
                                         <!-- 单个食物 -->
-                                        <view id="{{ foodItem.foodCode }}" bindtap="handleGotoFoodDetail" data-selectedfoodindex="{{selectedFoodIndex}}" data-menutypeindex="{{ onefood.menuItemIndex }}" data-mealtypeitem="{{item}}" data-foodindex="{{ onefood.foodIndex }}" data-dayindex="{{dayIndex}}" data-foodcode="{{ foodItem.foodCode }}" data-typename='{{menutypeItem.typeName }}' class="food-wrapper" wx:for="{{ menutypeItem.foodList }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex">
-                                            <view wx:if="{{foodItem.sellAllOut }}" class="img-wrapper-stock" ></view>
-                                            <view class="img-wrapper" >
+                                        <view class="food-wrapper" wx:for="{{ menutypeItem.foodList }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex">
+                                            <view wx:if="{{foodItem.sellAllOut }}" class="img-wrapper-stock" bindtap="handleGotoFoodDetail" data-typename='{{menutypeItem.typeName }}' data-foodcode="{{ foodItem.foodCode }}"></view>
+                                            <view class="img-wrapper" bindtap="handleGotoFoodDetail" data-foodcode="{{ foodItem.foodCode }}" data-typename='{{menutypeItem.typeName }}'>
                                                 <image wx:if="{{ foodItem.foodQuota &&foodItem.foodQuota.quotaNum  }}" class='food-img-res' src="/images/menu/order_purchase.png"></image>
 
                                                 <image class="food-img" lazy-load src="{{foodItem.image}}"></image>
@@ -146,7 +146,7 @@
                                                         <view wx:if="{{ foodItem.foodCount > 0 }}" class="num">
                                                             {{ foodItem.foodCount }}
                                                         </view>
-                                                        <image id="{{ foodItem.foodCode+'_add' }}" src="/images/menu/order_add.png" style="width:40rpx;height:40rpx; " data-left='{{menutypeItem.left}}' data-menutypeindex="{{ foodItem.menuTypeIndex+allMenuData[activeDayIndex][mealTypeItem].foodCustomizeListLength }}" data-leftmenuindex='{{index}}'
+                                                        <image src="/images/menu/order_add.png" style="width:40rpx;height:40rpx; " data-left='{{menutypeItem.left}}' data-menutypeindex="{{ foodItem.menuTypeIndex+allMenuData[activeDayIndex][mealTypeItem].foodCustomizeListLength }}" data-leftmenuindex='{{index}}'
                                                             data-leftfoodindex="{{  foodIndex }}" data-foodindex="{{ foodItem.foodIndex }}" catchtap="handleAddfood">
                                                         </image>
 
@@ -254,7 +254,7 @@
                         已选餐品
                     </view>
                     <view bindtap="handleClearFoods" style="font-family: PingFang-SC-Regular; font-size: 11px; color: #666666; letter-spacing: 0; text-align: left;">
-                        <text class="iconfont icon-trash_fill"></text> 清空2
+                        <text class="iconfont icon-trash_fill"></text> 清空
                     </view>
                 </view>
 
