@@ -33,7 +33,7 @@ Component({
         showOperationFlag: !this.data.showOperationFlag,
       });
     },
-    clickOperationStop() {},
+    clickOperationStop() { },
     // 点击企业的一键操作按钮
     clickOrganizeOperation(e) {
       let _this = this;
@@ -119,7 +119,7 @@ Component({
             type: "qr",
             success: (res) => {
               let params = {
-                url: config.baseUrl + "/cell/cancelBindFood",
+                url: config.baseUrl + "/client/cell/cancelBindFood",
                 method: "POST",
                 data: {
                   orderCode: res.result,

@@ -4,6 +4,7 @@ Page({
     data: {
         // 因为是一天的订餐，所以下面的七个都是对象，格式都是{LUNCH:{},DINNER:{}}或者{LUNCH:[],DINNER:[]}
         allMenuData: [{}, {}, {}, {}, {}, {}, {}], // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
+        //allMenuData: [...Array(7)].map(() => { return {} }), // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
         allMenuDataCopy: [{}, {}, {}, {}, {}, {}, {}], //初始化为allMenuData，在清空购物车时，赋值给allMenuData
 
         activeDayIndex: 1, //当前被点击的日期的index
@@ -1638,7 +1639,9 @@ Page({
             }
         }
     },
-    onShow: function () { },
+    onShow: function () {
+        console.log(this.data.allMenuData)
+    },
     // 关闭
     handleCloseCart() {
         this.setData({

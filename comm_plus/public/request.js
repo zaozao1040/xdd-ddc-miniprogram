@@ -17,6 +17,7 @@ export function request(params, sCallback, eCallback, cCallback) {
       ...params.data,
     } || {};
   wx.request({
+    timeout: 120000,
     url: params.url,
     method: params.method || "GET",
     data:
