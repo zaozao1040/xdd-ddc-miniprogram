@@ -152,7 +152,7 @@
                             {{item.cabinetSort}}-{{item.cellSort}}
                         </view>
                         <button wx:if="{{currentHeatStatus==item.heatStatus}}" type="primary" size="mini" style="margin:0;" class="operation-mergeBind-cell-unbind1" data-item="{{item}}" bindtap="handleMergeBind">合绑</button>
-                        <button wx:else style="margin:0;background:#a0cfff;border:none;" type="primary" size="mini" class="operation-mergeBind-cell-unbind1" bindtap="handleMergeBindNotHeatStatus">合绑</button>
+                        <button wx:else style="margin:0;background:#b7d4bb;border:none;" type="primary" size="mini" class="operation-mergeBind-cell-unbind1" bindtap="handleMergeBindNotHeatStatus">合绑</button>
                     </view>
                 </view>
             </view>  
@@ -160,7 +160,7 @@
                 暂无绑定..
             </view>  
             <view class="operation-mergeBind-buttons-wrapper">
-                <button type="primary" plain class="operation-mergeBind-button1" catchTap="clickOperation" >取消</button>
+                <button type="primary" plain class="operation-mergeBind-button1" bindtap="clickOperation" >取消</button>
                 <button type="primary" class="operation-mergeBind-button2" bindtap="handleContinueBind">放新格子 {{currentCabinetInfo.cabinetSort}}-{{currentCellInfo.cellShowSort}}</button>
             </view>  
         </view>

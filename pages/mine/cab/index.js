@@ -140,6 +140,7 @@ Page({
         showOperationFlag: {
           cabinet: true,
           cell: false,
+          mergeBind: false,
         },
       });
     } else {
@@ -220,7 +221,7 @@ Page({
                 cell: false,
                 mergeBind: true,
               },
-              currentOrderCode: res.code,
+              currentOrderCode: res.result,
               currentCellInfo: cellInfo, //这里为了展示格子编号
             });
           } else if (result.data.code !== 200) {
@@ -266,7 +267,7 @@ Page({
           cabinetCode,
           cellSort,
           heatStatus,
-        } = e.currentTargetget.dataset.item;
+        } = e.currentTarget.dataset.item;
         if (_this.data.currentHeatStatus != heatStatus) {
           wx.showModal({
             title: '不允许合绑',
@@ -337,7 +338,7 @@ Page({
   // 绑定（继续）
   handleContinueBind() {
     let _this = this;
-    console.log(_this.data.currentCellInfo);
+    console.log(_this.data.currentOrderCode, '4');
 
     jiuaiDebounce.canDoFunction({
       type: "jieliu",
@@ -450,22 +451,11 @@ Page({
             },
             currentCellInfo: { index: index, ...e.currentTarget.dataset.item },
           });
-        } else if (userCode) {
-          _this.setData({
-            dialogTitle:
-              _this.data.currentCabinetInfo.cabinetSort + " - " + cellShowSort,
-            showOperationFlag: {
-              cabinet: false,
-              cell: true,
-              mergeBind: false,
-            },
-            currentCellInfo: { index: index, ...e.currentTarget.dataset.item },
-          });
         } else {
-
           let cellInfo = {
             cabinetCode,
             cellSort,
+            cellShowSort,
             index,
           };
           _this.handleOpenBind(cellInfo);
@@ -496,16 +486,19 @@ Page({
         showOperationFlag: {
           cabinet: false,
           cell: true,
+          mergeBind: false,
         },
         currentCellInfo: { index: index, ...e.currentTarget.dataset.item },
       });
     }
   },
   clickOperation() {
+    console.log('44', this.data.showOperationFlag)
     this.setData({
       showOperationFlag: {
         cabinet: false,
         cell: false,
+        mergeBind: false,
       },
     });
   },

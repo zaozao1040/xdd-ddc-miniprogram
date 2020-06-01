@@ -17,7 +17,7 @@ export function request(params, sCallback, eCallback, cCallback) {
       ...params.data,
     } || {};
   wx.request({
-    timeout: 120000,
+    timeout: 120000,//超时时间设置为2分钟，目的是飞毯的一些批量操作智能柜，耗时较长
     url: params.url,
     method: params.method || "GET",
     data:
