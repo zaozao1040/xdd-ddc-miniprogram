@@ -45,7 +45,8 @@
     "pages/mine/allComment/detail",
     "pages/order/myComment/myComment",
     "pages/components/comment/comment",
-    "pages/login/userPw/userPw"
+    "pages/login/userPw/userPw",
+    "pages/order/qrCode/qrCode"
   ],
   "permission": {
     "scope.userLocation": {
@@ -90,6 +91,8 @@
       }
     ]
   },
-  "navigateToMiniProgramAppIdList": ["wx8492039f6e368de0"],
+  "navigateToMiniProgramAppIdList": [
+    "wx8492039f6e368de0"
+  ],
   "sitemapLocation": "sitemap.json"
 }

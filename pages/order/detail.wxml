@@ -1,6 +1,10 @@
 <view class="wrapper" wx:if='{{getdataalready}}'>
     <scroll-view scroll-y style="height:{{ windowHeight }}px" bindscroll="handleMostOuterScroll">
         <view class='header-status'>{{detailInfo.orderStatusDes}}</view>
+        <view class="header-dianzipingzheng" data-orderCode="{{detailInfo.orderCode}}" bindtap="handleGotoQrcode" >
+            <text style="margin-top: 6rpx; color: #F79C4C; font-size: 30rpx;" class="iconfont icon-hetong1"></text>
+            <text style='color:#F79C4C;margin-left:10rpx;'>电子凭证</text>
+        </view>
         <view class="orderItem-wrapper">
             <view class="cart-day-title">{{detailInfo.mealDate}}{{' '+detailInfo.mealTypeDes}}</view>
 
@@ -113,6 +117,9 @@
                     <image src='/images/mine/xiangyoubaise.png' style='width:44rpx;height:44rpx;'></image>
                 </view>
             </view>
+        </view>
+        <view class="order-info-wrapper flex-b" bindtap='getPhoneNumber'>
+
         </view>
         <view class="order-info-wrapper flex-b" style='margin-bottom:0;' bindtap='getPhoneNumber'>
             <image style='height:32rpx;width:32rpx;margin-top:4rpx;' src='/images/order/phone.png'></image>

@@ -1,221 +1,226 @@
 .wrapper {
-    background: #F5F5F5;
-    padding: 16rpx;
+  background: #f5f5f5;
+  padding: 16rpx;
 }
 
 .yy-1 {
-    font-family: PingFang-SC-Regular;
-    font-size: 30rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 60rpx;
+  font-family: PingFang-SC-Regular;
+  font-size: 30rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 60rpx;
 }
 
 .yy-2 {
-    font-family: PingFang-SC-Regular;
-    font-size: 30rpx;
-    color: #FF5035;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 60rpx;
+  font-family: PingFang-SC-Regular;
+  font-size: 30rpx;
+  color: #ff5035;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 60rpx;
 }
 
 .yy-3 {
-    margin-left: 30rpx;
-    font-family: PingFang-SC-Regular;
-    font-size: 32rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 60rpx;
+  margin-left: 30rpx;
+  font-family: PingFang-SC-Regular;
+  font-size: 32rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 60rpx;
 }
 
 .yy-4 {
-    font-family: PingFang-SC-Medium;
-    font-size: 44rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 60rpx;
+  font-family: PingFang-SC-Medium;
+  font-size: 44rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 60rpx;
 }
 
 .header-status {
-    font-family: PingFang-SC-Medium;
-    font-size: 40rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    padding: 0 0 20rpx 14rpx;
+  font-family: PingFang-SC-Medium;
+  font-size: 40rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  padding: 0 0 20rpx 14rpx;
 }
-
+.header-dianzipingzheng {
+  position: absolute;
+  right: 5rpx;
+  top: 5rpx;
+  border: 1px solid #f79c4c;
+  border-radius: 10rpx;
+  padding: 5rpx 10rpx;
+}
 .cart-day-title {
-    font-family: PingFang-SC-Regular;
-    font-size: 30rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    padding: 20rpx 0;
-    border-bottom: 1rpx solid #F2F2F2;
+  font-family: PingFang-SC-Regular;
+  font-size: 30rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f2f2f2;
 }
 
 .cart-menuItem {
-    display: flex;
-    padding: 20rpx 0;
-    border-bottom: 1rpx solid #F2F2F2;
+  display: flex;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f2f2f2;
 }
 
 .cart-menuItem-left {
-    width: 88rpx;
-    height: 88rpx;
-    margin-right: 20rpx;
+  width: 88rpx;
+  height: 88rpx;
+  margin-right: 20rpx;
 }
 
 .cart-menuItem-img {
-    width: 88rpx;
-    height: 88rpx;
-    border-radius: 8rpx;
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 8rpx;
 }
 
 .cart-menuItemDes {
-    font-family: PingFang-SC-Medium;
-    font-size: 30rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 42rpx;
-    position: relative;
+  font-family: PingFang-SC-Medium;
+  font-size: 30rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 42rpx;
+  position: relative;
 }
 
 .cart-menuItem-money {
-    font-family: HelveticaNeue-Medium;
-    font-size: 30rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 42rpx;
+  font-family: HelveticaNeue-Medium;
+  font-size: 30rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 42rpx;
 }
 
 .cart-menuItem-originmoney {
-    font-family: PingFang-SC-Regular;
-    font-size: 24rpx;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 42rpx;
-    margin-right: 20rpx;
-    height: 42rpx;
-    text-decoration: line-through;
+  font-family: PingFang-SC-Regular;
+  font-size: 24rpx;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 42rpx;
+  margin-right: 20rpx;
+  height: 42rpx;
+  text-decoration: line-through;
 }
 
 .cart-menuItem-mealtype {
-    font-family: PingFang-SC-Regular;
-    font-size: 24rpx;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 34rpx;
+  font-family: PingFang-SC-Regular;
+  font-size: 24rpx;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 34rpx;
 }
 
 .cart-organize-deduction {
-    display: flex;
-    justify-content: space-between;
-    padding: 30rpx 0;
-    border-bottom: 1rpx solid #F2F2F2;
+  display: flex;
+  justify-content: space-between;
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #f2f2f2;
 }
 
 .cart-discount-organize {
-    font-family: PingFang-SC-Medium;
-    font-size: 30rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 42rpx;
+  font-family: PingFang-SC-Medium;
+  font-size: 30rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 42rpx;
 }
 
 .cart-discount-organize-money {
-    font-family: HelveticaNeue-Medium;
-    font-size: 32rpx;
-    color: #FF5035;
-    letter-spacing: 0;
-    line-height: 42rpx;
+  font-family: HelveticaNeue-Medium;
+  font-size: 32rpx;
+  color: #ff5035;
+  letter-spacing: 0;
+  line-height: 42rpx;
 }
 
 .order-info-wrapper {
-    background: #fff;
-    padding: 30rpx;
-    margin-bottom: 16rpx;
-    border-radius: 6rpx;
+  background: #fff;
+  padding: 30rpx;
+  margin-bottom: 16rpx;
+  border-radius: 6rpx;
 }
 
 .order-info-title {
-    font-family: PingFang-SC-Medium;
-    font-size: 32rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    padding-bottom: 30rpx;
-    border-bottom: 1rpx solid #F2F2F2;
+  font-family: PingFang-SC-Medium;
+  font-size: 32rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  padding-bottom: 30rpx;
+  border-bottom: 1rpx solid #f2f2f2;
 }
 
 .order-info-one {
-    display: flex;
-    justify-content: space-between;
-    padding-top: 30rpx;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 30rpx;
 }
 
 .left-label {
-    font-family: PingFang-SC-Regular;
-    font-size: 30rpx;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 42rpx;
+  font-family: PingFang-SC-Regular;
+  font-size: 30rpx;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 42rpx;
 }
 
 .flex-a {
-    display: flex;
+  display: flex;
 }
 
 .flex-b {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .right-content {
-    font-family: PingFang-SC-Regular;
-    font-size: 30rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: right;
-    line-height: 42rpx;
+  font-family: PingFang-SC-Regular;
+  font-size: 30rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: right;
+  line-height: 42rpx;
 }
 
 .food-name {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 12rpx;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
 }
 
 .order-money {
-    display: flex;
-    justify-content: flex-end;
-    padding-top: 30rpx;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 30rpx;
 }
-
 
 /* 标题 */
 
 .orderItem-wrapper {
-    background: #fff;
-    padding: 20rpx 30rpx 30rpx;
-    margin-bottom: 16rpx;
-    border-radius: 6rpx;
+  background: #fff;
+  padding: 20rpx 30rpx 30rpx;
+  margin-bottom: 16rpx;
+  border-radius: 6rpx;
 }
 
 .flex-1 {
-    flex: 1;
+  flex: 1;
 }
-
 
 /* 根据订单状态不同的差异信息 */
