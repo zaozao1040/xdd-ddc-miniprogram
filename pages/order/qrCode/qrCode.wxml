@@ -1,2 +1,23 @@
-<!--pages/order/qrCode/qrCode.wxml-->
-<text>pages/order/qrCode/qrCode.wxml</text>
+<view class="title">
+
+</view>
+<canvas class='canvas' style="margin:auto;width:{{code_w}}px; height:{{code_w}}px;" canvas-id='canvas' bindlongtap='save'></canvas>
+<view class="date">
+    {{detailInfo.mealDate}}{{detailInfo.mealTypeDes}}
+</view>
+<view class="food-wrapper">
+    <view class="foodItem" wx:for="{{detailInfo.orderFoodList}}" wx:for-index="foodListIndex" wx:for-item="foodListItem">
+        <view class="foodName">
+            {{foodListItem.foodName}}
+        </view>
+        <view class="foodQuantity">
+            x {{foodListItem.foodQuantity}}份
+        </view>        
+    </view>
+</view>
+<view class="user">
+    {{userInfo.userName}}({{userInfo.phoneNumber}})
+</view>
+<view class="organize">
+    {{userInfo.organizeName}}
+</view>

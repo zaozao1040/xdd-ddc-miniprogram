@@ -200,26 +200,9 @@ Page({
   },
   // 柜子页面
   gotoCabinetminiProgram() {
-    let tmp_organizeCode = this.data.userInfo.organizeCode;
-    let tmpArr = [
-      "ORG613694937074106368",
-      "ORG627182825342369792",
-      "ORG530059864655790080",
-    ]; //艾尔福 奥力拓 东宾电池 这三家企业的智能柜页面，使用旧的
-    console.log(
-      "99",
-      this.data.userInfo.organizeCode,
-      tmpArr.indexOf(tmp_organizeCode)
-    );
-    if (tmpArr.indexOf(tmp_organizeCode) == -1) {
-      wx.navigateTo({
-        url: "/pages/mine/cab/index",
-      });
-    } else {
-      wx.navigateTo({
-        url: "/pages/mine/cabold/index",
-      });
-    }
+    wx.navigateTo({
+      url: "/pages/mine/cab/index",
+    });
   },
   gotoAddfoodAdmin() {
     wx.navigateTo({
@@ -257,7 +240,7 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {},
+  onReady: function () { },
 
   /**
    * 生命周期函数--监听页面显示
@@ -324,12 +307,12 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {},
+  onHide: function () { },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {},
+  onUnload: function () { },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
@@ -375,10 +358,10 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {},
+  onReachBottom: function () { },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {},
+  onShareAppMessage: function () { },
 });

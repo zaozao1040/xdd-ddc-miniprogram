@@ -118,9 +118,6 @@
                 </view>
             </view>
         </view>
-        <view class="order-info-wrapper flex-b" bindtap='getPhoneNumber'>
-
-        </view>
         <view class="order-info-wrapper flex-b" style='margin-bottom:0;' bindtap='getPhoneNumber'>
             <image style='height:32rpx;width:32rpx;margin-top:4rpx;' src='/images/order/phone.png'></image>
 
