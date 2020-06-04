@@ -3,7 +3,7 @@
 </view>
 <canvas class='canvas' style="margin:auto;width:{{code_w}}px; height:{{code_w}}px;" canvas-id='canvas' bindlongtap='save'></canvas>
 <view class="date">
-    {{detailInfo.mealDate}}{{detailInfo.mealTypeDes}}
+    {{detailInfo.mealDate}} {{detailInfo.mealTypeDes}}
 </view>
 <view class="food-wrapper">
     <view class="foodItem" wx:for="{{detailInfo.orderFoodList}}" wx:for-index="foodListIndex" wx:for-item="foodListItem">

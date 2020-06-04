@@ -27,7 +27,7 @@
   justify-content: center;
 }
 .foodName {
-  font-size: 30rpx;
+  font-size: 40rpx;
   font-family: PingFang-SC-Medium;
   font-weight: 500;
   color: #222;
@@ -35,7 +35,7 @@
 }
 .foodQuantity {
   margin-left: 20rpx;
-  font-size: 30rpx;
+  font-size: 40rpx;
   font-family: PingFang-SC-Medium;
   font-weight: 500;
   color: #222;
