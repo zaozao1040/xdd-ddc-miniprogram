@@ -4,6 +4,8 @@ import jiuaiDebounce from "../../../comm_plus/jiuai-debounce/jiuai-debounce.js";
 
 Page({
   data: {
+    //自定义loading
+    loading: false,
     //
     currentFoodtype: 'LUNCH',
     //
@@ -175,7 +177,13 @@ Page({
         organizeCode: _this.data.currentOrganizeInfo.organizeCode,
       },
     };
+    _this.setData({
+      loading: true,
+    });
     request(params, (result) => {
+      _this.setData({
+        loading: false,
+      });
       if (result.data.code !== 200) {
         wx.showToast({
           title: result.data.msg,

@@ -1,4 +1,5 @@
 <view>
+    <view wx:if="{{loading}}" class="cells-wrapper-loading">加载中..</view>
     <c-header currentOrganizeInfo="{{currentOrganizeInfo}}" onlineInfo="{{onlineInfo}}" />
     <view class="wrapper">
         <view class="labels-wrapper" wx:if="{{cabinetList.length>0}}">

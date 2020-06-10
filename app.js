@@ -7,8 +7,8 @@ App({
     // baseUrl: "http://10.168.1.204:9082", //韩信信 志康
     // baseUrl: "https://wx.api.uat.91dcan.cn", //测试库  服务器1
 
-    //baseUrlFlyingCarpet: "https://smartcabinet.91dcan.cn", //飞毯线上真实数据，发布使用！！！！！！！！！！
-    baseUrlFlyingCarpet: "http://10.168.1.215:9084", //赵家兴
+   //  baseUrlFlyingCarpet: "https://smartcabinet.91dcan.cn", //飞毯线上真实数据，发布使用！！！！！！！！！！
+   baseUrlFlyingCarpet: "http://10.168.1.215:9084", //赵家兴
 
     ningxiaOrgnaizeCode: "ORG717398064662446080", // 宁夏的orgnaizeCode,线上真实数据，发布使用！！！！！！！！！！
 

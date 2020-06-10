@@ -3,6 +3,22 @@
   margin: 20rpx;
   background: white;
 }
+.cells-wrapper-loading {
+  z-index: 100;
+  position: fixed;
+  top: 160rpx;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: hsla(0, 0%, 100%, 0.7);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #2f86f6;
+  font-size: 30rpx;
+  font-weight: 500;
+}
 /* 餐别列表 */
 .foodtypes-wrapper {
   height: 70rpx;

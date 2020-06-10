@@ -4,6 +4,8 @@ import jiuaiDebounce from "../../../comm_plus/jiuai-debounce/jiuai-debounce.js";
 
 Page({
   data: {
+    //自定义loading
+    loading: false,
     //
     userCode: "",
     userInfo: null,
@@ -163,7 +165,13 @@ Page({
         userCode: _this.data.userCode,
       },
     };
+    _this.setData({
+      loading: true,
+    });
     request(params, (result) => {
+      _this.setData({
+        loading: false,
+      });
       if (result.data.code !== 200) {
         wx.showToast({
           title: result.data.msg,
