@@ -146,10 +146,10 @@
           关闭灯箱
         </button>
       </view>
-      <view class="header-operation-title">
+      <view class="header-operation-title"  wx:if="{{ningxiaFlag==false}}">
         其他操作
       </view>
-      <view style="height: 90rpx;">
+      <view style="height: 90rpx;" wx:if="{{ningxiaFlag==false}}">
         <button
           class="header-operation-button"
           size="mini"

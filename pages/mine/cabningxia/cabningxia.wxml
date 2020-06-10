@@ -1,5 +1,5 @@
 <view>
-    <c-header currentOrganizeInfo="{{currentOrganizeInfo}}" onlineInfo="{{onlineInfo}}" />
+    <c-header ningxiaFlag="{{true}}" currentOrganizeInfo="{{currentOrganizeInfo}}" onlineInfo="{{onlineInfo}}" />
     <view class="wrapper">
         <view class="foodtypes-wrapper">
             <view class="foodtype-wrapper {{'BREAKFAST'==currentFoodtype?'foodtype-wrapper-active':''}}" data-foodtype="BREAKFAST" bindtap="handleClickFoodtype">
@@ -98,6 +98,9 @@
                 {{dialogTitle}}
                 <image src="/images/cab/close.png" catchtap="clickOperation" style="font-size: 30rpx;" class="operation-close-icon"></image>
             </view>
+            <view class="operation-title" wx:if="{{userInfo.userName}}">
+                {{userInfo.userName}}({{userInfo.phone}})
+            </view>
             <view class="foods-wrapper">
                 <view class="foods-wrapper-left">餐品:</view>
                 <view class="foods-wrapper-right">
@@ -106,7 +109,7 @@
                             <view class="food-name">{{item.foodName}} x 1</view>
                         </view>
                     </view>
-                    <view wx:else class="food-item-nofood">暂无绑定..</view>
+                    <view wx:else class="food-item-nofood">暂无投柜..</view>
                 </view>
             </view>
             <view class="operation-button-wrapper">

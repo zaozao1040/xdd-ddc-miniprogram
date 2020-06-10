@@ -444,6 +444,8 @@ Page({
           cabinetCode,
           cellSort,
           foodList,
+          userName,
+          phone
         } = e.currentTarget.dataset.item;
         let index = e.currentTarget.dataset.index;
 
@@ -459,6 +461,10 @@ Page({
             foodList: foodList,
             dialogTitle:
               _this.data.currentCabinetInfo.cabinetSort + " - " + cellShowSort,
+            userInfo: {
+              userName: userName,
+              phone: phone
+            },
             showOperationFlag: {
               cabinet: false,
               cell: true,
@@ -485,7 +491,9 @@ Page({
       runningStatus,
       cabinetCode,
       cellSort,
-      foodList
+      foodList,
+      userName,
+      phone
     } = e.currentTarget.dataset.item;
     this.setData({
       foodList: foodList
@@ -501,6 +509,10 @@ Page({
       this.setData({
         dialogTitle:
           this.data.currentCabinetInfo.cabinetSort + " - " + cellShowSort,
+        userInfo: {
+          userName: userName,
+          phone: phone
+        },
         showOperationFlag: {
           cabinet: false,
           cell: true,

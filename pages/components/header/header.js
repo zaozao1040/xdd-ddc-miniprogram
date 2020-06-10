@@ -15,6 +15,10 @@ Component({
       type: Object,
       value: {},
     },
+    ningxiaFlag: {
+      type: Boolean,
+      value: false
+    }
   },
   /**
    * 组件的初始数据
