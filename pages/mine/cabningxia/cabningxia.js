@@ -5,6 +5,8 @@ import jiuaiDebounce from "../../../comm_plus/jiuai-debounce/jiuai-debounce.js";
 Page({
   data: {
     //
+    currentFoodtype: 'LUNCH',
+    //
     userCode: "",
     userInfo: null,
     //
@@ -22,7 +24,13 @@ Page({
     showOperationFlag: {
       cabinet: false,
       cell: false,
+      mergeBind: false,
     },
+    //合并绑定
+    currentUserName: "",
+    currentHeatStatus: undefined,
+    currentOrderCode: "",
+    mergeFoodList: [],
   },
   onPullDownRefresh() {
     this.getCabinetList();
@@ -46,6 +54,15 @@ Page({
     } else {
       //获取企业信息-----------
     }
+  },
+  handleClickFoodtype: function (e) {
+    let _this = this
+    let foodtype = e.currentTarget.dataset.foodtype;
+    _this.setData({
+      currentFoodtype: foodtype
+    }, () => {
+      this.getCellList(_this.data.currentCabinetInfo.cabinetCode);
+    });
   },
   getCabinetList: function () {
     let _this = this;
@@ -134,6 +151,7 @@ Page({
         showOperationFlag: {
           cabinet: true,
           cell: false,
+          mergeBind: false,
         },
       });
     } else {
@@ -145,15 +163,16 @@ Page({
       this.getCabinetOnlineStatusInfo(item.cabinetCode);
     }
   },
-  // 获取4*9格子列表
+  // 获取4*9格子列表 
   getCellList: function (cabinetCode) {
     let _this = this;
     let params = {
-      url: config.baseUrl + "/client/cell/queryCellList",
+      url: config.baseUrl + "/ningxia/getCabinetUserAndFood",
       method: "GET",
       data: {
         cabinetCode: cabinetCode,
-        userCode: _this.data.userCode,
+        mealType: _this.data.currentFoodtype,
+        organizeCode: _this.data.currentOrganizeInfo.organizeCode,
       },
     };
     request(params, (result) => {
@@ -185,22 +204,169 @@ Page({
     }
     return newArr;
   },
-  // 绑定
-  handleBind(cellInfo) {
+
+  // 绑定（初次）
+  handleFirstBind(cellInfo) {
     let _this = this;
     let { index, cabinetCode, cellSort } = cellInfo;
     wx.scanCode({
       type: "qr",
       success: (res) => {
-        console.log(res);
         let params = {
           url: config.baseUrl + "/client/cell/bindFood",
           method: "POST",
           data: {
-            userCode: _this.data.userCode,
             cabinetCode: cabinetCode,
             cellSort: cellSort,
             orderCode: res.result,
+            bindType: "first",
+          },
+        };
+        request(params, (result) => {
+          if (result.data.code === 1001) {
+            _this.setData({
+              currentUserName: result.data.data.userName,
+              currentHeatStatus: result.data.data.heatStatus,
+              mergeFoodList: result.data.data.mergeFoodList,
+              showOperationFlag: {
+                cabinet: false,
+                cell: false,
+                mergeBind: true,
+              },
+              currentOrderCode: res.result,
+              currentCellInfo: cellInfo, //这里为了展示格子编号
+            });
+          } else if (result.data.code !== 200) {
+            wx.showToast({
+              title: result.data.msg,
+              icon: "none",
+            });
+          } else {
+            let { userName, userCode, heatStatus } = result.data.data;
+            let tmp_newCellList = this.data.cellList;
+            tmp_newCellList[index].userName = userName;
+            tmp_newCellList[index].userCode = userCode;
+            tmp_newCellList[index].heatStatus = heatStatus;
+            _this.setData({
+              cellList: tmp_newCellList,
+            });
+            wx.showToast({
+              title: "绑定成功",
+              icon: "success",
+            });
+          }
+        });
+      },
+      fail: (res) => {
+        wx.showToast({
+          title: "扫描失败",
+          icon: "none",
+        });
+      },
+    });
+  },
+  // 绑定（合并）
+  handleMergeBind(e) {
+    let _this = this;
+    jiuaiDebounce.canDoFunction({
+      type: "jieliu",
+      immediate: true,
+      key: "key_handleMergeBind",
+      time: 500,
+      success: () => {
+        let {
+          index,
+          cabinetCode,
+          cellSort,
+          heatStatus,
+        } = e.currentTarget.dataset.item;
+        if (_this.data.currentHeatStatus != heatStatus) {
+          wx.showModal({
+            title: '不允许合绑',
+            content: '两种餐品加热状态不一致，不能放在同一个格子',
+            showCancel: false,
+            confirmText: "确定",
+          })
+          return;
+        }
+        let params = {
+          url: config.baseUrl + "/client/cell/openCell",
+          method: "POST",
+          data: {
+            cabinetCode: cabinetCode,
+            cellSort: cellSort,
+          },
+        };
+        request(params, (result) => {
+          if (result.data.code !== 200) {
+            wx.showToast({
+              title: result.data.msg,
+              icon: "none",
+            });
+          } else {
+            let params = {
+              url: config.baseUrl + "/client/cell/bindFood",
+              method: "POST",
+              data: {
+                cabinetCode: cabinetCode,
+                cellSort: cellSort,
+                orderCode: _this.data.currentOrderCode,
+                bindType: "merge",
+              },
+            };
+            request(params, (result) => {
+              if (result.data.code !== 200) {
+                wx.showToast({
+                  title: result.data.msg,
+                  icon: "none",
+                });
+              } else {
+                _this.setData({
+                  showOperationFlag: {
+                    cabinet: false,
+                    cell: false,
+                    mergeBind: false,
+                  },
+                });
+                wx.showToast({
+                  title: "绑定成功",
+                  icon: "success",
+                });
+              }
+            });
+          }
+        });
+      },
+    });
+  },
+  handleMergeBindNotHeatStatus() {
+    wx.showModal({
+      title: '不允许合绑',
+      content: '两种餐品加热状态不一致，不能放在同一个格子',
+      showCancel: false,
+      confirmText: "确定",
+    })
+  },
+  // 绑定（继续）
+  handleContinueBind() {
+    let _this = this;
+    console.log(_this.data.currentOrderCode, '4');
+
+    jiuaiDebounce.canDoFunction({
+      type: "jieliu",
+      immediate: true,
+      key: "key_handleContinueBind",
+      time: 2000,
+      success: () => {
+        let { index, cabinetCode, cellSort } = _this.data.currentCellInfo;
+        let params = {
+          url: config.baseUrl + "/client/cell/bindFood",
+          method: "POST",
+          data: {
+            cabinetCode: cabinetCode,
+            cellSort: cellSort,
+            orderCode: _this.data.currentOrderCode,
+            bindType: "continue",
           },
         };
         request(params, (result) => {
@@ -217,11 +383,14 @@ Page({
             tmp_newCellList[index].heatStatus = heatStatus;
             _this.setData({
               cellList: tmp_newCellList,
-              showOperationFlag: false,
+              showOperationFlag: {
+                cabinet: false,
+                cell: false,
+                mergeBind: false,
+              },
             });
             wx.showToast({
               title: "绑定成功",
-              duration: 1000,
               icon: "success",
             });
           }
@@ -232,7 +401,7 @@ Page({
   // 开格并绑定
   handleOpenBind(cellInfo) {
     let _this = this;
-    let { index, cabinetCode, cellSort } = cellInfo;
+    let { index, cabinetCode, cellShowSort, cellSort } = cellInfo;
     let params = {
       url: config.baseUrl + "/client/cell/openCell",
       method: "POST",
@@ -252,9 +421,10 @@ Page({
         let cellInfo = {
           cabinetCode: cabinetCode,
           cellSort: cellSort,
+          cellShowSort: cellShowSort,
           index: index,
         };
-        _this.handleBind(cellInfo);
+        _this.handleFirstBind(cellInfo);
       }
     });
   },
@@ -265,24 +435,42 @@ Page({
       type: "jieliu",
       immediate: true,
       key: "key_handle",
-      time: 1000,
+      time: 500,
       success: () => {
         let {
+          cellShowSort,
+          userCode,
           runningStatus,
           cabinetCode,
           cellSort,
+          foodList,
         } = e.currentTarget.dataset.item;
+        let index = e.currentTarget.dataset.index;
+
         if (runningStatus == 0) {
           wx.showToast({
             title: "单元格故障",
             duration: 2000,
             icon: "none",
           });
+        } else if (foodList.length > 0) {
+
+          _this.setData({
+            foodList: foodList,
+            dialogTitle:
+              _this.data.currentCabinetInfo.cabinetSort + " - " + cellShowSort,
+            showOperationFlag: {
+              cabinet: false,
+              cell: true,
+              mergeBind: false,
+            },
+            currentCellInfo: { index: index, ...e.currentTarget.dataset.item },
+          });
         } else {
-          let index = e.currentTarget.dataset.index;
           let cellInfo = {
             cabinetCode,
             cellSort,
+            cellShowSort,
             index,
           };
           _this.handleOpenBind(cellInfo);
@@ -297,8 +485,11 @@ Page({
       runningStatus,
       cabinetCode,
       cellSort,
+      foodList
     } = e.currentTarget.dataset.item;
-    this.getFoodList(cabinetCode, cellSort);
+    this.setData({
+      foodList: foodList
+    });
     let index = e.currentTarget.dataset.index;
     if (runningStatus == 0) {
       wx.showToast({
@@ -313,16 +504,19 @@ Page({
         showOperationFlag: {
           cabinet: false,
           cell: true,
+          mergeBind: false,
         },
         currentCellInfo: { index: index, ...e.currentTarget.dataset.item },
       });
     }
   },
   clickOperation() {
+    console.log('44', this.data.showOperationFlag)
     this.setData({
       showOperationFlag: {
         cabinet: false,
         cell: false,
+        mergeBind: false,
       },
     });
   },
@@ -469,7 +663,7 @@ Page({
             cellSort,
             index,
           };
-          _this.handleBind(cellInfo);
+          _this.handleFirstBind(cellInfo);
           return;
         } else if (type == "openBind") {
           let cellInfo = {
@@ -530,49 +724,5 @@ Page({
       },
     });
   },
-  // 解绑
-  handleUnbind(e) {
-    let _this = this;
-    let orderCode = e.currentTarget.dataset.ordercode;
-    let { cabinetCode, cellSort, index } = this.data.currentCellInfo;
-    jiuaiDebounce.canDoFunction({
-      type: "jieliu",
-      immediate: true,
-      key: "key_handle",
-      time: 1000,
-      success: () => {
-        let params = {
-          url: config.baseUrl + "/client/cell/cancelBindFood",
-          method: "POST",
-          data: {
-            orderCode,
-            userCode: _this.data.userCode,
-          },
-        };
-        request(params, (result) => {
-          if (result.data.code !== 200) {
-            wx.showToast({
-              title: result.data.msg,
-              icon: "none",
-            });
-          } else {
-            let { heatStatus, userName, userCode } = result.data.data;
-            let tmp_newCellList = this.data.cellList;
-            tmp_newCellList[index].userName = userName;
-            tmp_newCellList[index].userCode = userCode;
-            tmp_newCellList[index].heatStatus = heatStatus;
-            _this.setData({
-              cellList: tmp_newCellList,
-            }); //假刷新格子列表页
-            _this.getFoodList(cabinetCode, cellSort); //food列表刷新
-            wx.showToast({
-              title: "解绑成功",
-              duration: 1000,
-              icon: "success",
-            });
-          }
-        });
-      },
-    });
-  },
+
 });

@@ -1,5 +1,10 @@
 import { base } from "../../comm/public/request";
 let requestModel = new base();
+
+//调用飞毯的接口
+import config_plus from "../../comm_plus/config/config.js";
+import { request as request_plus } from "../../comm_plus/public/request.js";
+
 Page({
   data: {
     //
@@ -19,6 +24,13 @@ Page({
     ],
     //客服电话
     servicePhone: null,
+
+    //开柜取餐
+    showTakeFoodLabelFlag: false,
+    showPhoneModal: false,
+    cabNumber: null,
+    cellInfo: {},
+    cellInfoDes: null,
 
     cc: 1,
     cabNumList: [], //柜子列表，如果柜子列表为空，就不显示‘打开柜子页面’
@@ -74,6 +86,7 @@ Page({
       showPop: false,
     });
   },
+
   /* 跳转 */
   handleClickLabel: function (e) {
     let clickIndex = e.currentTarget.dataset.labelindex;
@@ -110,6 +123,36 @@ Page({
       });
     }
   },
+  handleGotoTakeFood: function () {
+    let _this = this
+    //开柜取餐
+    _this.setData({
+      showTakeFoodModal: true,
+    });
+    let params = {
+      url: config_plus.baseUrl + "/ningxia/getUserInfoCabinet",
+      method: "GET",
+      data: {
+        organizeCode: _this.data.userInfo.organizeCode,
+        userCode: wx.getStorageSync("userCode"),
+      },
+    };
+    request_plus(params, (result) => {
+      if (result.data.code !== 200) {
+        wx.showToast({
+          title: result.data.msg,
+          icon: "none",
+        });
+      } else {
+        let tmp_cellInfoDes = result.data.data.cabinetSort + ' - ' + result.data.data.cellShowSort
+        _this.setData({
+          cellInfo: result.data.data,
+          cellInfoDes: tmp_cellInfoDes,
+        });
+      }
+    });
+
+  },
   closePhoneModal() {
     this.setData({
       showPhoneModal: false,
@@ -126,11 +169,43 @@ Page({
       showPhoneModal: false,
     });
   },
-  /*     handleContact(e) {
-            console.log(e.path)
-            console.log(e.query)
-        }, */
-  /**
+  //开柜取餐
+  closeTakeFoodModal() {
+    this.setData({
+      showTakeFoodModal: false,
+    });
+  },
+  handleTakeFoodContact() {
+    let _this = this;
+    let params = {
+      url: config_plus.baseUrl + "/client/cell/openCell",
+      method: "POST",
+      data: {
+        cabinetCode: _this.data.cellInfo.cabinetCode,
+        cellSort: _this.data.cellInfo.cellSort,
+        userCode: wx.getStorageSync("userCode"),
+      },
+    };
+    request_plus(params, (result) => {
+      if (result.data.code !== 200) {
+        wx.showToast({
+          title: result.data.msg,
+          icon: "none",
+        });
+      } else {
+        wx.showToast({
+          title: "打开成功",
+          duration: 1000,
+          icon: "success",
+        });
+      }
+    });
+
+    _this.setData({
+      showTakeFoodModal: false,
+    });
+  },
+  /*
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
@@ -200,9 +275,16 @@ Page({
   },
   // 柜子页面
   gotoCabinetminiProgram() {
-    wx.navigateTo({
-      url: "/pages/mine/cab/index",
-    });
+    if (this.data.userInfo.organizeCode == getApp().globalData.ningxiaOrgnaizeCode) {
+      wx.navigateTo({
+        url: "/pages/mine/cabningxia/cabningxia",
+      });
+    } else {
+      wx.navigateTo({
+        url: "/pages/mine/cab/index",
+      });
+    }
+
   },
   gotoAddfoodAdmin() {
     wx.navigateTo({
@@ -253,6 +335,11 @@ Page({
     });
     if (userCode) {
       requestModel.getUserInfo((userInfo) => {
+        if (userInfo.organizeCode == getApp().globalData.ningxiaOrgnaizeCode) {//【宁夏】临时方案
+          _this.setData({
+            showTakeFoodLabelFlag: true
+          });
+        }
         _this.setData({
           userInfo: userInfo,
           userInfoReady: true,

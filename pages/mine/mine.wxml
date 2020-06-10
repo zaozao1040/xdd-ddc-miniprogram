@@ -176,6 +176,14 @@
                         <view class='label-title'>推荐有赏</view>
                     </view>
                 </view>
+                <view  wx:if="{{showTakeFoodLabelFlag}}"  class='service-list'>
+                    <view bindtap="handleGotoTakeFood">
+                        <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
+                            <image src="/images/mine/me_cab.png" style='width:80rpx;height:80rpx;'></image>
+                        </view>
+                        <view class='label-title'>开柜取餐</view>
+                    </view>
+                </view>
             </view>
             <view class='function-wrapper'>
                 <view class='mine-service'>我的服务</view>
@@ -198,3 +206,4 @@
     </view>
 </view>
 <c-custom-modal title='是否拨打客服电话?' content='{{servicePhone}}' wx:if='{{showPhoneModal}}' bind:closemodal='closePhoneModal' bind:handleconfirm='handleContact'></c-custom-modal>
+<c-custom-modal title='是否开柜取餐?' content='{{cellInfoDes}}' wx:if='{{showTakeFoodModal}}' bind:closemodal='closeTakeFoodModal' bind:handleconfirm='handleTakeFoodContact'></c-custom-modal>

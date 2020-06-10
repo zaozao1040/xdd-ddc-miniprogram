@@ -1,0 +1,280 @@
+/*  */
+.wrapper {
+  margin: 20rpx;
+  background: white;
+}
+/* 餐别列表 */
+.foodtypes-wrapper {
+  height: 70rpx;
+  line-height: 70rpx;
+  margin: 0 10rpx;
+  padding: 10rpx 0;
+  background: white;
+  display: flex;
+}
+.foodtype-wrapper {
+  flex: 1;
+  text-align: center;
+  margin-right: 5rpx;
+  background: #f7f7f7;
+}
+.foodtype-wrapper-active {
+  background: rgb(70, 176, 70) !important;
+  color: white;
+}
+/* 标签列表 */
+.labels-wrapper {
+  height: 70rpx;
+  line-height: 70rpx;
+  margin: 0 10rpx;
+  padding: 10rpx 0;
+  background: white;
+}
+.label-wrapper-active {
+  background: rgb(70, 176, 70) !important;
+  color: white;
+}
+.label-wrapper-offline {
+  background: #909399;
+}
+
+.scroll-view {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.label-wrapper {
+  display: inline-block;
+  width: 120rpx;
+  text-align: center;
+  margin-right: 5rpx;
+  background: #f7f7f7;
+}
+.icon {
+  margin-left: 5rpx;
+  height: 25rpx;
+  width: 25rpx;
+}
+/* 格子列表 */
+.cells-wrapper {
+  margin: 0 10rpx 20rpx 10rpx;
+  display: grid;
+  /* grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr; */
+}
+.cell-wrapper {
+  text-align: center;
+  background: #dcdfe6;
+  margin: 1rpx;
+  min-width: 120rpx;
+}
+
+.cell-wrapper-heat {
+  background: #ff7a45;
+}
+
+.cell-error {
+}
+
+.cell-inside-wrapper {
+  background: #237804;
+  margin: 8rpx;
+  border-radius: 10rpx;
+  height: 90rpx;
+}
+.cell-inside-wrapper-nouser {
+  background: white;
+}
+.cell-inside-wrapper-error {
+  background: #595959;
+  margin: 8rpx;
+  border-radius: 10rpx;
+  height: 90rpx;
+}
+.cell-inside-wrapper-onfood {
+  font-size: 25rpx;
+}
+.cell-inside-wrapper-multiplefood {
+  font-size: 25rpx;
+}
+.error-icon {
+  font-size: 30rpx;
+  height: 40rpx;
+  line-height: 50rpx;
+  color: #f56c6c;
+}
+.cell-error-title {
+  font-size: 25rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  color: white;
+}
+
+.cell-code {
+  font-size: 30rpx;
+  color: white;
+  height: 40rpx;
+  line-height: 50rpx;
+}
+
+.cell-code-nouser {
+  font-size: 30rpx;
+  color: #0d0d0e;
+}
+.heat-icon {
+  margin-right: 8rpx;
+  color: #ff7a45;
+  font-size: 30rpx;
+}
+.cell-name {
+  font-size: 30rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  color: white;
+}
+.cell-name-nouser {
+  font-size: 25rpx;
+  color: #909399;
+}
+/* dialog弹出层 */
+.operation-bg {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: rgba(13, 21, 31, 0.5);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.operation-warpper {
+  margin: auto 60rpx;
+  background: #f2f6fc;
+  border-radius: 10rpx;
+  padding: 40rpx;
+  z-index: 20;
+}
+.operation-title {
+  text-align: center;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #606266;
+  position: relative;
+  margin-bottom: 20rpx;
+}
+.operation-close-icon {
+  position: absolute;
+  top: -20rpx;
+  right: -20rpx;
+
+  font-size: 30rpx;
+  height: 80rpx;
+  width: 80rpx;
+  text-align: center;
+  line-height: 80rpx;
+}
+.operation-button-wrapper {
+  margin: 20rpx 0;
+}
+.operation-button {
+  margin-right: 20rpx;
+}
+/* 合并绑定操作的弹出层 */
+
+.operation-mergeBind-des-qiangdiao {
+  font-size: 30rpx;
+
+  color: #303133;
+}
+.operation-mergeBind-des {
+  text-align: center;
+  font-size: 30rpx;
+  color: #909399;
+  margin-bottom: 30rpx;
+}
+.operation-mergeBind-cell-item-wrapper {
+}
+.operation-mergeBind-cell-item {
+  flex: auto;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+  border-bottom: 1rpx solid #c0c4cc;
+  padding-bottom: 10rpx;
+}
+.operation-mergeBind-cell-item:last-child {
+  border-bottom: none;
+}
+.operation-mergeBind-cell-item-food-wrapper {
+}
+.operation-mergeBind-cell-item-food-item {
+  height: 50rpx;
+  line-height: 50rpx;
+}
+.operation-mergeBind-cellSort {
+  height: 50rpx;
+  line-height: 50rpx;
+  margin-right: 30rpx;
+}
+.operation-mergeBind-cell-button {
+}
+.operation-mergeBind-cell-item-nofood {
+  color: #909399;
+  height: 50rpx;
+  line-height: 50rpx;
+}
+.operation-mergeBind-buttons-wrapper {
+  display: flex;
+}
+.operation-mergeBind-button1 {
+  flex: 1;
+}
+.operation-mergeBind-button2 {
+  flex: 2;
+  margin-left: 20rpx;
+}
+
+/* 格子操作的弹出层 */
+.foods-wrapper {
+  padding-top: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  font-size: 25rpx;
+  font-weight: 500;
+  color: #606266;
+}
+.foods-wrapper-left {
+  height: 50rpx;
+  line-height: 50rpx;
+}
+.foods-wrapper-right {
+  margin-left: 40rpx;
+  margin-right: 20rpx;
+  flex: 1;
+}
+.food-item-wrapper {
+}
+.food-item-nofood {
+  color: #909399;
+  height: 50rpx;
+  line-height: 50rpx;
+}
+.food-item {
+  flex: auto;
+  display: flex;
+  justify-content: space-between;
+  height: 50rpx;
+  line-height: 50rpx;
+  margin-bottom: 20rpx;
+}
+.food-name {
+  font-size: 30rpx;
+}
+.food-unbind {
+  border: 1rpx solid #2f86f6;
+  font-weight: normal;
+  color: #2f86f6;
+  padding: 0 10rpx;
+  border-radius: 5rpx;
+}

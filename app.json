@@ -46,7 +46,8 @@
     "pages/order/myComment/myComment",
     "pages/components/comment/comment",
     "pages/login/userPw/userPw",
-    "pages/order/qrCode/qrCode"
+    "pages/order/qrCode/qrCode",
+    "pages/mine/cabningxia/cabningxia"
   ],
   "permission": {
     "scope.userLocation": {
