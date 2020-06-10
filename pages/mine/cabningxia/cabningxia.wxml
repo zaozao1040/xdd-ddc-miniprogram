@@ -32,7 +32,7 @@
                     <view wx:else class="cell-inside-wrapper {{item.foodList.length>0?'':'cell-inside-wrapper-nouser'}}">
                         <view class="cell-code {{item.foodList.length>0?'':'cell-code-nouser'}}">
                             {{currentCabinetInfo.cabinetSort}} - {{item.cellShowSort}}
-                            <text wx:if="{{item.foodList.length>1}}" style="color: white; font-size: 30rpx;" class="iconfont icon-gengduo"></text>
+                            <text wx:if="{{item.foodList.length>1}}" style="color: orange; font-size: 30rpx;" class="iconfont icon-tixing"></text>
                         </view>
                         <view class="cell-name {{item.foodList.length>0?'':'cell-name-nouser'}}" wx:if="{{item.foodList.length>0}}">
                             <view class="" class="{{item.foodList.length==1?'cell-inside-wrapper-onfood':'cell-inside-wrapper-multiplefood'}}"  >
