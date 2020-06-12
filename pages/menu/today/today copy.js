@@ -2,12 +2,6 @@ import { base } from '../../../comm/public/request'
 let requestModel = new base()
 Page({
     data: {
-        //超力包装需求，每日只可使用一次餐标
-        limitStandard: wx.getStorageSync('userInfo').userInfo.limitStandard,// ------ 日餐标限制，为true代表每天只能使用一次餐标，为false代表每餐可用一次餐标
-        totalMoney_CL: 0,
-        totalMoneyRealDeduction_CL: 0,
-        realTotalMoney_CL: 0,
-
         // 因为是一天的订餐，所以下面的七个都是对象，格式都是{LUNCH:{},DINNER:{}}或者{LUNCH:[],DINNER:[]}
         allMenuData: {}, // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
         allMenuDataCopy: {}, //初始化为allMenuData，在清空购物车时，赋值给allMenuData
@@ -830,78 +824,12 @@ Page({
             let tmp_totalMoneyRealDeduction = parseFloat((_this.data.totalMoneyRealDeduction - oldDeduction + new_deduction).toFixed(2))
             let tmp_realTotalMoney = (tmptotalMoney - tmp_totalMoneyRealDeduction) > 0 ? tmptotalMoney - tmp_totalMoneyRealDeduction : 0
 
-
-
-            if (_this.data.limitStandard === false) { //绝大多数情况，正常的每餐都可以使用餐标
-                _this.setData({
-                    allMenuData: _this.data.allMenuData,
-                    totalMoney: parseFloat(tmptotalMoney.toFixed(2)), //购物车中 总金额
-                    realTotalMoney: parseFloat(tmp_realTotalMoney.toFixed(2)), // 购物车中 实际应付款
-                    totalMoneyRealDeduction: tmp_totalMoneyRealDeduction, //购物车中 企业总抵扣（企业餐标一起减免的钱）
-                });
-            } else {
-                /**
-                 * 这里是为超力包装新增加的计算方法，涉及4个影响视图的变量：
-                 * totalMoney_CL ： 购物车中 总金额
-                 * deductionMoney ： 购物车中 企业单餐抵扣    ---这个变量隐藏在allMenuData结构中
-                 * totalMoneyRealDeduction_CL ： 购物车中 企业总抵扣（企业餐标一起减免的钱）
-                 * realTotalMoney_CL ： 购物车中 实际应付款 （totalMoney 减去 totalMoneyRealDeduction）
-                 */
-                // 保存变量
-                let tmp_allMenuData = _this.data.allMenuData
-
-                let tmp_totalMoney = _this.data.totalMoney_CL
-                let tmp_menuDataFoodType = _this.data.allMenuData[tmp_mealTypeItem];
-                let tmp_totalMoneyRealDeduction = _this.data.totalMoneyRealDeduction_CL
-                let tmp_realTotalMoney = _this.data.realTotalMoney_CL
-
-                let tmp_foodPrice = tmp_oneFood.foodPrice
-                // 首先判断 ”餐品的是否可用餐标属性“
-                if (tmp_oneFood.canMeal) { // 可用餐标
-                    if (tmp_allMenuData.limitStandard_used == true) {//该天餐标已被占用-》细分 我餐占用 还是 他餐占用
-                        if (tmp_allMenuData[tmp_mealTypeItem].limitStandard_foodType_used == true) {//我餐占用（他餐占用情况时，这两个值都不变）
-                            tmp_menuDataFoodType.deductionMoney = currnt_menuData.totalMoney_meal < currnt_menuData.mealType.standardPrice ? currnt_menuData.totalMoney_meal : currnt_menuData.mealType.standardPrice
-                        } else { // 他餐占用
-                            tmp_menuDataFoodType.deductionMoney = 0
-                        }
-                        tmp_totalMoneyRealDeduction = _this.data.totalMoneyRealDeduction + tmp_menuDataFoodType.deductionMoney
-                        tmp_totalMoney = _this.data.totalMoney_CL + tmp_foodPrice
-                        tmp_realTotalMoney = tmp_totalMoney - tmp_totalMoneyRealDeduction
-                    } else {//该天餐标没被占用
-                        tmp_totalMoney = _this.data.totalMoney_CL + tmp_foodPrice
-                        tmp_menuDataFoodType.deductionMoney = currnt_menuData.totalMoney_meal < currnt_menuData.mealType.standardPrice ? currnt_menuData.totalMoney_meal : currnt_menuData.mealType.standardPrice
-                        tmp_totalMoneyRealDeduction = _this.data.totalMoneyRealDeduction + tmp_menuDataFoodType.deductionMoney
-                        tmp_realTotalMoney = tmp_totalMoney - tmp_totalMoneyRealDeduction
-                        //计算完后要改变两个占用状态
-                        tmp_allMenuData[tmp_mealTypeItem].limitStandard_foodType_used = true //新增字段limitStandard_foodType_used，代表该餐别占用餐标
-                        tmp_allMenuData.limitStandard_used = true
-                    }
-                } else { //不可用餐标
-                    tmp_totalMoney = _this.data.totalMoney_CL + tmp_foodPrice
-                    tmp_menuDataFoodType.deductionMoney = 0
-                    tmp_totalMoneyRealDeduction = _this.data.totalMoneyRealDeduction + tmp_menuDataFoodType.deductionMoney
-                    tmp_realTotalMoney = tmp_totalMoney - tmp_totalMoneyRealDeduction
-                }
-                _this.setData({
-                    allMenuData: tmp_allMenuData,
-                    /**
-                     * _CL是为了数据调试，最终视图还是靠不带_CL的变量来双向绑定的，所以两套数据要一模一样
-                     */
-                    //下面三个_CL是为了更新超力包装视图
-                    totalMoney_CL: parseFloat(tmp_totalMoney.toFixed(2)),
-                    realTotalMoney_CL: parseFloat(tmp_realTotalMoney.toFixed(2)),
-                    totalMoneyRealDeduction_CL: tmp_totalMoneyRealDeduction,
-                    //下面是为了让不带_CL和带_CL保证一致
-                    totalMoney: parseFloat(tmp_totalMoney.toFixed(2)),
-                    realTotalMoney: parseFloat(tmp_realTotalMoney.toFixed(2)),
-                    totalMoneyRealDeduction: tmp_totalMoneyRealDeduction,
-                });
-            }
-
-
-
-
-
+            _this.setData({
+                allMenuData: _this.data.allMenuData,
+                totalMoney: parseFloat(tmptotalMoney.toFixed(2)),
+                realTotalMoney: parseFloat(tmp_realTotalMoney.toFixed(2)),
+                totalMoneyRealDeduction: tmp_totalMoneyRealDeduction
+            })
 
         }
     },

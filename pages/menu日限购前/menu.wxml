@@ -248,7 +248,7 @@
             <!-- 【【另一个页面】】 购物车 -->
             <!--  弹出 购物车 -->
             <view class="{{ boxActiveFlag ? 'in' : 'out' }}" style="display:{{boxActiveFlagFirst?'none':'block'}};position: fixed; bottom: 0; left: 0; right: 0;z-index:1001;" catchtouchmove="preventTouchMove">
-                <view class="chart-top">企业总抵扣2：￥{{totalMoneyRealDeduction}}</view>
+                <view class="chart-top">企业总抵扣：￥{{totalMoneyRealDeduction}}</view>
                 <view class="chart-top-2">
                     <view style="font-family: PingFang-SC-Regular; font-size: 11px; color: #999999; letter-spacing: 0; text-align: left;">
                         已选餐品

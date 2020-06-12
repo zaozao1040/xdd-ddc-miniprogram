@@ -2,12 +2,8 @@ import { base } from "../../comm/public/request";
 let requestModel = new base();
 Page({
     data: {
-        // 日餐标限制
-        // limitStandard: true,// ------ 日餐标限制，为true代表每天只能使用一次餐标，为false代表每餐可用一次餐标
-        limitStandard: wx.getStorageSync('userInfo').userInfo.limitStandard,
         // 因为是一天的订餐，所以下面的七个都是对象，格式都是{LUNCH:{},DINNER:{}}或者{LUNCH:[],DINNER:[]}
-        // limitStandard_used 是 false，代表该日餐标是否已被占用(用户属性日餐标limitStandard为true时能用到)
-        allMenuData: [{ limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }], // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
+        allMenuData: [{}, {}, {}, {}, {}, {}, {}], // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
         //allMenuData: [...Array(7)].map(() => { return {} }), // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
         allMenuDataCopy: [{}, {}, {}, {}, {}, {}, {}], //初始化为allMenuData，在清空购物车时，赋值给allMenuData
 
@@ -43,9 +39,9 @@ Page({
 
         menutypeActiveFlag: 0, //当前被点击的餐品类别
         boxActiveFlag: false, //购物车的颜色，false时是灰色，true时有颜色
-        totalCount: 0, // 购物车中 物品个数
-        totalMoney: 0, //购物车中 总金额
-        realTotalMoney: 0, // 购物车中 实际应付款。（totalMoney-totalMoneyRealDeduction后得到的钱 ，即总额减去企业抵扣）
+        totalCount: 0, // 购物车中物品个数
+        totalMoney: 0, //购物车中餐品的总金额
+        realTotalMoney: 0, // totalMoney-totalMoneyRealDeduction后得到的钱
 
         timer: null,
         windowHeight: 500,
@@ -55,7 +51,7 @@ Page({
         scrollToView: "id_0",
         selectedFoods: [], //选择的食物的 menutypeIndex和foodIndex
 
-        totalMoneyRealDeduction: 0, //企业餐标一起减免的钱 企业总抵扣
+        totalMoneyRealDeduction: 0, //企业餐标一起减免的钱
         listHeight: [], //这个数组记录每个餐类的"之前所有餐类描述+所有具体餐品"的占用高度值
 
         cartHeight: 100, //购物车的高度 设置为2/1windowHeight的高度，最高为2/1windowHeight的高度
@@ -275,9 +271,10 @@ Page({
                 param,
                 (resData) => {
                     //获取加餐所有信息
+
                     resData.totalMoney = 0; //给每天的每个餐时一个点餐的总的金额
                     resData.totalMoney_back = 0; //给每天的每个餐时一个总的返的
-                    resData.totalMoney_meal = 0; //购物车中，每天的餐时可使用餐标的餐品的总金额
+                    resData.totalMoney_meal = 0; //每天的餐时可使用餐标的总金额
                     resData.deductionMoney = 0; //每天的餐时抵扣的金额
                     // 给每一个餐品添加一个foodCount，用于加号点击时加一减一
                     // 给每一个餐品添加一个foodTotalPrice
@@ -586,6 +583,175 @@ Page({
 
         return flag;
     },
+    // 点击减号，将餐品减一
+    handleMinusfood(e) {
+        let menutypeIndex = e.currentTarget.dataset.menutypeindex; // 餐品类别的index
+        let foodIndex = e.currentTarget.dataset.foodindex; // 在menutypeIndex的foods的index
+        let tmp_mealTypeItem = this.data.mealTypeItem;
+        let activeDayIndex = this.data.activeDayIndex;
+        let tmp_oneFood = this.data.allMenuData[activeDayIndex][tmp_mealTypeItem]
+            .foodList[menutypeIndex].foodList[foodIndex];
+        //  不大于0也不显示减图标啊，所以这里应该可以不用判断。还是判断下吧，因为可能用户会点的很快，这样就减为负数了。
+        // 应该是下面所有的操作都是在减1之后
+        if (tmp_oneFood.foodCount > 0) {
+            // 计算totalMoney, totalDeduction，totalRealMonty
+            let minusFoodPrice = tmp_oneFood.foodPrice;
+            if (tmp_oneFood.foodQuota) {
+                let tmpstock = tmp_oneFood.foodQuota;
+                let tmpfoodCount = tmp_oneFood.foodCount;
+                if (
+                    (tmpstock.surplusNum || tmpstock.surplusNum == 0) &&
+                    tmpfoodCount > tmpstock.surplusNum
+                ) {
+                    //超出库存了，则减去的价格为原价 8--28
+                    if (tmp_oneFood.linefoodPrice) {
+                        minusFoodPrice = tmp_oneFood.foodOriginalPrice;
+                    }
+                }
+            }
+            tmp_oneFood.foodCount -= 1;
+            //8--28添加
+            if (tmp_oneFood.linefoodPrice) {
+                let tmpfoodCount_more =
+                    tmp_oneFood.foodCount - tmp_oneFood.foodQuota.surplusNum;
+                if (tmpfoodCount_more == 0 && tmp_oneFood.foodQuota.surplusNum > 0) {
+                    tmp_oneFood.linefoodPrice = false;
+                }
+            }
+
+            //5/31判断是不是左侧标签
+            let left = e.currentTarget.dataset.left;
+            let leftmenuindex = e.currentTarget.dataset.leftmenuindex;
+            let leftfoodindex = e.currentTarget.dataset.leftfoodindex;
+            if (left) {
+                //表示点击的是左侧标签
+                this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[
+                    leftmenuindex
+                ].foodList[leftfoodindex].foodCount -= 1;
+                this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[
+                    leftmenuindex
+                ].foodList[leftfoodindex].linefoodPrice = tmp_oneFood.linefoodPrice;
+            } else {
+                //表示点击的是正常餐品，要连动修改左侧标签餐品
+                if (tmp_oneFood.leftMenuTypeIndex != undefined) {
+                    //表示正常餐品级联了左侧标签餐品
+                    this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[
+                        tmp_oneFood.leftMenuTypeIndex
+                    ].foodList[tmp_oneFood.leftFoodIndex].foodCount -= 1;
+                    this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[
+                        tmp_oneFood.leftMenuTypeIndex
+                    ].foodList[tmp_oneFood.leftFoodIndex].linefoodPrice =
+                        tmp_oneFood.linefoodPrice;
+                }
+            }
+
+            this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[
+                menutypeIndex
+            ].foodList[foodIndex] = tmp_oneFood;
+            // 总的数目减1
+            let temptotalCount = this.data.totalCount - 1;
+
+            let tmp_menuCountList = this.data.menuCountList; //menu菜单右上角加1
+            tmp_menuCountList[activeDayIndex][tmp_mealTypeItem][menutypeIndex] -= 1; // 没有判断是不是大于0，这样会不会偶尔出bug？？后面这些代码都需要修整
+
+            // 计算totalMoney, totalDeduction，totalRealMonty
+            let tmptotalMoney = this.data.totalMoney - minusFoodPrice;
+
+            let currnt_menuData = this.data.allMenuData[activeDayIndex][
+                tmp_mealTypeItem
+            ];
+            currnt_menuData.totalMoney -= minusFoodPrice;
+            currnt_menuData.totalMoney = parseFloat(
+                currnt_menuData.totalMoney.toFixed(2)
+            );
+            if (tmp_oneFood.canMeal) {
+                //可使用餐标
+                currnt_menuData.totalMoney_meal -= minusFoodPrice;
+            } else {
+                //计算不可使用餐标的钱的总额 2019--10--7
+                let tmp_cantMealTotalMoney = this.data.cantMealTotalMoney;
+                tmp_cantMealTotalMoney = parseFloat(
+                    (tmp_cantMealTotalMoney - minusFoodPrice).toFixed(2)
+                );
+                this.setData({
+                    cantMealTotalMoney: tmp_cantMealTotalMoney,
+                });
+            }
+            // 这种每次重新计算的方法好吗
+            let new_deduction = 0;
+
+            //如果是企业管理员
+            if (this.data.orgAdmin) {
+                new_deduction = currnt_menuData.totalMoney;
+            } else {
+                if (
+                    currnt_menuData.mealSet.userCanStandardPrice &&
+                    currnt_menuData.mealType.standardPrice > 0
+                ) {
+                    // 企业餐标可用并且大于0
+                    // 动态显示抵扣多少钱的，奇怪的要求 5/17
+                    if (
+                        currnt_menuData.totalMoney_meal <
+                        currnt_menuData.mealType.standardPrice
+                    ) {
+                        new_deduction = currnt_menuData.totalMoney_meal;
+                    } else {
+                        new_deduction = currnt_menuData.mealType.standardPrice;
+                    }
+
+                    this.handleCalculateMoney_back(currnt_menuData);
+                }
+            }
+
+            let oldDeduction = currnt_menuData.deductionMoney;
+            currnt_menuData.deductionMoney = parseFloat(new_deduction.toFixed(2));
+
+            let tmp_totalMoneyRealDeduction = parseFloat(
+                (
+                    this.data.totalMoneyRealDeduction -
+                    oldDeduction +
+                    new_deduction
+                ).toFixed(2)
+            );
+            let tmp_realTotalMoney =
+                tmptotalMoney - tmp_totalMoneyRealDeduction > 0
+                    ? tmptotalMoney - tmp_totalMoneyRealDeduction
+                    : 0;
+
+            this.setData({
+                allMenuData: this.data.allMenuData,
+                totalCount: temptotalCount,
+                menuCountList: tmp_menuCountList,
+                totalMoney: parseFloat(tmptotalMoney.toFixed(2)),
+                realTotalMoney: parseFloat(tmp_realTotalMoney.toFixed(2)),
+                totalMoneyRealDeduction: tmp_totalMoneyRealDeduction,
+            });
+
+            // 只有等于0，才从购物车中删除
+            if (tmp_oneFood.foodCount == 0) {
+                let tempselectFoodsIndex = this.data.selectedFoodsIndex;
+                tempselectFoodsIndex[activeDayIndex].count -= 1; //当天的总的个数减1
+                tempselectFoodsIndex[activeDayIndex][tmp_mealTypeItem].foodList[
+                    menutypeIndex
+                ] = tempselectFoodsIndex[activeDayIndex][tmp_mealTypeItem].foodList[
+                    menutypeIndex
+                ].filter((item) => {
+                    return item != foodIndex;
+                });
+
+                this.setData({
+                    selectedFoodsIndex: tempselectFoodsIndex,
+                });
+            } else {
+                let tempselectFoodsIndex = this.data.selectedFoodsIndex;
+                tempselectFoodsIndex[activeDayIndex].count -= 1; //当天的总的个数减1
+                this.setData({
+                    selectedFoodsIndex: tempselectFoodsIndex,
+                });
+            }
+        }
+    },
+
     handleCalculateMoney_back(currnt_menuData) {
         //可低于餐标，并且可以返回金额
         if (
@@ -815,7 +981,6 @@ Page({
             currnt_menuData.totalMoney = parseFloat(
                 currnt_menuData.totalMoney.toFixed(2)
             );
-
             if (tmp_oneFood.canMeal) {
                 //可使用餐标
                 currnt_menuData.totalMoney_meal += addFoodPrice;
@@ -831,16 +996,16 @@ Page({
             }
             // 这种每次重新计算的方法好吗
             let new_deduction = 0;
-
             //如果是企业管理员
             if (_this.data.orgAdmin) {
-                new_deduction = currnt_menuData.totalMoney; //企业管理员的话，扣减就为totalMoney代表全部扣减，不用花钱
+                new_deduction = currnt_menuData.totalMoney;
             } else {
-                if ( //餐标必需大于零，且允许使用餐标(如果之前下过单了，就不允许了)
+                if (
                     currnt_menuData.mealSet.userCanStandardPrice &&
                     currnt_menuData.mealType.standardPrice > 0
                 ) {
-                    if ( //new_deduction扣减，取餐标和totalMoney_meal中的小者
+                    // 企业餐标可用并且大于0
+                    if (
                         currnt_menuData.totalMoney_meal <
                         currnt_menuData.mealType.standardPrice
                     ) {
@@ -848,22 +1013,8 @@ Page({
                     } else {
                         new_deduction = currnt_menuData.mealType.standardPrice;
                     }
-                    this.handleCalculateMoney_back(currnt_menuData);
-                }
-            }
 
-            // 如果限制每天使用一次餐标，则重新计算一下 new_deduction总扣减
-            if (_this.data.limitStandard === true) {
-                if (_this.data.allMenuData[activeDayIndex].limitStandard_used == true) {
-                    //当天餐标已被占用，则当餐扣减直接为0
-                    new_deduction = 0
-                } else {
-                    //当天餐标没被占用，则当餐扣减可以累加，也就是不重新计算了
-                    let tmp_allMenuData = _this.data.allMenuData
-                    tmp_allMenuData[activeDayIndex].limitStandard_used = true
-                    _this.setData({
-                        allMenuData: tmp_allMenuData
-                    });
+                    this.handleCalculateMoney_back(currnt_menuData);
                 }
             }
 
@@ -888,174 +1039,6 @@ Page({
                 realTotalMoney: parseFloat(tmp_realTotalMoney.toFixed(2)),
                 totalMoneyRealDeduction: tmp_totalMoneyRealDeduction,
             });
-        }
-    },
-    // 点击减号，将餐品减一
-    handleMinusfood(e) {
-        let menutypeIndex = e.currentTarget.dataset.menutypeindex; // 餐品类别的index
-        let foodIndex = e.currentTarget.dataset.foodindex; // 在menutypeIndex的foods的index
-        let tmp_mealTypeItem = this.data.mealTypeItem;
-        let activeDayIndex = this.data.activeDayIndex;
-        let tmp_oneFood = this.data.allMenuData[activeDayIndex][tmp_mealTypeItem]
-            .foodList[menutypeIndex].foodList[foodIndex];
-        //  不大于0也不显示减图标啊，所以这里应该可以不用判断。还是判断下吧，因为可能用户会点的很快，这样就减为负数了。
-        // 应该是下面所有的操作都是在减1之后
-        if (tmp_oneFood.foodCount > 0) {
-            // 计算totalMoney, totalDeduction，totalRealMonty
-            let minusFoodPrice = tmp_oneFood.foodPrice;
-            if (tmp_oneFood.foodQuota) {
-                let tmpstock = tmp_oneFood.foodQuota;
-                let tmpfoodCount = tmp_oneFood.foodCount;
-                if (
-                    (tmpstock.surplusNum || tmpstock.surplusNum == 0) &&
-                    tmpfoodCount > tmpstock.surplusNum
-                ) {
-                    //超出库存了，则减去的价格为原价 8--28
-                    if (tmp_oneFood.linefoodPrice) {
-                        minusFoodPrice = tmp_oneFood.foodOriginalPrice;
-                    }
-                }
-            }
-            tmp_oneFood.foodCount -= 1;
-            //8--28添加
-            if (tmp_oneFood.linefoodPrice) {
-                let tmpfoodCount_more =
-                    tmp_oneFood.foodCount - tmp_oneFood.foodQuota.surplusNum;
-                if (tmpfoodCount_more == 0 && tmp_oneFood.foodQuota.surplusNum > 0) {
-                    tmp_oneFood.linefoodPrice = false;
-                }
-            }
-
-            //5/31判断是不是左侧标签
-            let left = e.currentTarget.dataset.left;
-            let leftmenuindex = e.currentTarget.dataset.leftmenuindex;
-            let leftfoodindex = e.currentTarget.dataset.leftfoodindex;
-            if (left) {
-                //表示点击的是左侧标签
-                this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[
-                    leftmenuindex
-                ].foodList[leftfoodindex].foodCount -= 1;
-                this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[
-                    leftmenuindex
-                ].foodList[leftfoodindex].linefoodPrice = tmp_oneFood.linefoodPrice;
-            } else {
-                //表示点击的是正常餐品，要连动修改左侧标签餐品
-                if (tmp_oneFood.leftMenuTypeIndex != undefined) {
-                    //表示正常餐品级联了左侧标签餐品
-                    this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[
-                        tmp_oneFood.leftMenuTypeIndex
-                    ].foodList[tmp_oneFood.leftFoodIndex].foodCount -= 1;
-                    this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[
-                        tmp_oneFood.leftMenuTypeIndex
-                    ].foodList[tmp_oneFood.leftFoodIndex].linefoodPrice =
-                        tmp_oneFood.linefoodPrice;
-                }
-            }
-
-            this.data.allMenuData[activeDayIndex][tmp_mealTypeItem].foodList[
-                menutypeIndex
-            ].foodList[foodIndex] = tmp_oneFood;
-            // 总的数目减1
-            let temptotalCount = this.data.totalCount - 1;
-
-            let tmp_menuCountList = this.data.menuCountList; //menu菜单右上角加1
-            tmp_menuCountList[activeDayIndex][tmp_mealTypeItem][menutypeIndex] -= 1; // 没有判断是不是大于0，这样会不会偶尔出bug？？后面这些代码都需要修整
-
-            // 计算totalMoney, totalDeduction，totalRealMonty
-            let tmptotalMoney = this.data.totalMoney - minusFoodPrice;
-
-            let currnt_menuData = this.data.allMenuData[activeDayIndex][
-                tmp_mealTypeItem
-            ];
-            currnt_menuData.totalMoney -= minusFoodPrice;
-            currnt_menuData.totalMoney = parseFloat(
-                currnt_menuData.totalMoney.toFixed(2)
-            );
-            if (tmp_oneFood.canMeal) {
-                //可使用餐标
-                currnt_menuData.totalMoney_meal -= minusFoodPrice;
-            } else {
-                //计算不可使用餐标的钱的总额 2019--10--7
-                let tmp_cantMealTotalMoney = this.data.cantMealTotalMoney;
-                tmp_cantMealTotalMoney = parseFloat(
-                    (tmp_cantMealTotalMoney - minusFoodPrice).toFixed(2)
-                );
-                this.setData({
-                    cantMealTotalMoney: tmp_cantMealTotalMoney,
-                });
-            }
-            // 这种每次重新计算的方法好吗
-            let new_deduction = 0;
-
-            //如果是企业管理员
-            if (this.data.orgAdmin) {
-                new_deduction = currnt_menuData.totalMoney;
-            } else {
-                if (
-                    currnt_menuData.mealSet.userCanStandardPrice &&
-                    currnt_menuData.mealType.standardPrice > 0
-                ) {
-                    // 企业餐标可用并且大于0
-                    // 动态显示抵扣多少钱的，奇怪的要求 5/17
-                    if (
-                        currnt_menuData.totalMoney_meal <
-                        currnt_menuData.mealType.standardPrice
-                    ) {
-                        new_deduction = currnt_menuData.totalMoney_meal;
-                    } else {
-                        new_deduction = currnt_menuData.mealType.standardPrice;
-                    }
-
-                    this.handleCalculateMoney_back(currnt_menuData);
-                }
-            }
-
-            let oldDeduction = currnt_menuData.deductionMoney;
-            currnt_menuData.deductionMoney = parseFloat(new_deduction.toFixed(2));
-
-            let tmp_totalMoneyRealDeduction = parseFloat(
-                (
-                    this.data.totalMoneyRealDeduction -
-                    oldDeduction +
-                    new_deduction
-                ).toFixed(2)
-            );
-            let tmp_realTotalMoney =
-                tmptotalMoney - tmp_totalMoneyRealDeduction > 0
-                    ? tmptotalMoney - tmp_totalMoneyRealDeduction
-                    : 0;
-
-            this.setData({
-                allMenuData: this.data.allMenuData,
-                totalCount: temptotalCount,
-                menuCountList: tmp_menuCountList,
-                totalMoney: parseFloat(tmptotalMoney.toFixed(2)),
-                realTotalMoney: parseFloat(tmp_realTotalMoney.toFixed(2)),
-                totalMoneyRealDeduction: tmp_totalMoneyRealDeduction,
-            });
-
-            // 只有等于0，才从购物车中删除
-            if (tmp_oneFood.foodCount == 0) {
-                let tempselectFoodsIndex = this.data.selectedFoodsIndex;
-                tempselectFoodsIndex[activeDayIndex].count -= 1; //当天的总的个数减1
-                tempselectFoodsIndex[activeDayIndex][tmp_mealTypeItem].foodList[
-                    menutypeIndex
-                ] = tempselectFoodsIndex[activeDayIndex][tmp_mealTypeItem].foodList[
-                    menutypeIndex
-                ].filter((item) => {
-                    return item != foodIndex;
-                });
-
-                this.setData({
-                    selectedFoodsIndex: tempselectFoodsIndex,
-                });
-            } else {
-                let tempselectFoodsIndex = this.data.selectedFoodsIndex;
-                tempselectFoodsIndex[activeDayIndex].count -= 1; //当天的总的个数减1
-                this.setData({
-                    selectedFoodsIndex: tempselectFoodsIndex,
-                });
-            }
         }
     },
     // 点击购物车图标
