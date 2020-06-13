@@ -872,6 +872,12 @@ Page({
                     ? tmptotalMoney - tmp_totalMoneyRealDeduction
                     : 0;
 
+            /**
+             * 计算totalMoney_meal_CL 即所有的可用餐标的餐品的价格总和
+             */
+
+
+
             if (_this.data.limitStandard === false) { //绝大多数情况，正常的每餐都可以使用餐标
                 _this.setData({
                     allMenuData: _this.data.allMenuData,
@@ -883,54 +889,69 @@ Page({
                 /**
                  * 这里是为超力包装新增加的计算方法，涉及4个影响视图的变量：
                  * totalMoney_CL ： 购物车中 总金额
-                 * deductionMoney ： 购物车中 企业单餐抵扣    ---这个变量隐藏在allMenuData结构中
+                 * deductionMoney_CL ： 购物车中 企业单餐抵扣    ---这个变量隐藏在allMenuData结构中
                  * totalMoneyRealDeduction_CL ： 购物车中 企业总抵扣（企业餐标一起减免的钱）
                  * realTotalMoney_CL ： 购物车中 实际应付款 （totalMoney 减去 totalMoneyRealDeduction）
                  */
                 // 保存变量
                 let tmp_allMenuData = _this.data.allMenuData
-
                 let tmp_totalMoney = _this.data.totalMoney_CL
                 let tmp_menuDataFoodType = _this.data.allMenuData[activeDayIndex][tmp_mealTypeItem];
                 let tmp_totalMoneyRealDeduction = _this.data.totalMoneyRealDeduction_CL
                 let tmp_realTotalMoney = _this.data.realTotalMoney_CL
 
                 let tmp_foodPrice = tmp_oneFood.foodPrice
+
+                // 计算totalMoney_meal_CL 即所有的可用餐标的餐品的价格总和
+                if (tmp_menuDataFoodType.hasOwnProperty('deductionMoney_CL') == false) {
+                    tmp_menuDataFoodType.deductionMoney_CL = 0
+                }
+                let old_deductionMoney_CL = 0 //保存一下
+                if (tmp_oneFood.canMeal) {
+                    if ((tmp_allMenuData[activeDayIndex].limitStandard_used == false) || (tmp_allMenuData[activeDayIndex][tmp_mealTypeItem].limitStandard_foodType_used == true)) {
+
+                        old_deductionMoney_CL = tmp_menuDataFoodType.deductionMoney_CL //计算前，先保存一下旧值
+                        tmp_menuDataFoodType.deductionMoney_CL += tmp_foodPrice
+                    }
+                }
+
                 // 首先判断 ”餐品的是否可用餐标属性“
                 if (tmp_oneFood.canMeal) { // 可用餐标
                     if (tmp_allMenuData[activeDayIndex].limitStandard_used == true) {//该天餐标已被占用-》细分 我餐占用 还是 他餐占用
                         if (tmp_allMenuData[activeDayIndex][tmp_mealTypeItem].limitStandard_foodType_used == true) {//我餐占用（他餐占用情况时，这两个值都不变）
-                            if (currnt_menuData.totalMoney_meal < currnt_menuData.mealType.standardPrice) { //用”所有可用餐标的餐品价格之和“与”当餐别的餐标“进行比较
-                                tmp_menuDataFoodType.deductionMoney = currnt_menuData.totalMoney_meal //取较小者
-                                tmp_totalMoneyRealDeduction = _this.data.totalMoneyRealDeduction + tmp_menuDataFoodType.deductionMoney //继续累加
+                            if (tmp_menuDataFoodType.deductionMoney_CL < tmp_menuDataFoodType.mealType.standardPrice) { //用”所有可用餐标的餐品价格之和“与”当餐别的餐标“进行比较
+                                tmp_menuDataFoodType.deductionMoney_CL = tmp_menuDataFoodType.deductionMoney_CL//取较小者
+                                tmp_totalMoneyRealDeduction = _this.data.totalMoneyRealDeduction + tmp_foodPrice //继续累加
                             } else {
-                                tmp_menuDataFoodType.deductionMoney = currnt_menuData.mealType.standardPrice //取较小者
-                                tmp_totalMoneyRealDeduction = _this.data.totalMoneyRealDeduction + (currnt_menuData.mealType.standardPrice - tmp_menuDataFoodType.deductionMoney) //继续累加，但是因超过餐标，所以除掉超出的部分，而超出的部分是两者的差
+                                tmp_menuDataFoodType.deductionMoney_CL = tmp_menuDataFoodType.mealType.standardPrice //取较小者
+                                let tmp = parseFloat(tmp_menuDataFoodType.mealType.standardPrice.toFixed(2)) - parseFloat(old_deductionMoney_CL.toFixed(2))
+                                tmp_totalMoneyRealDeduction = _this.data.totalMoneyRealDeduction + tmp
                             }
                         } else { // 他餐占用
-                            tmp_menuDataFoodType.deductionMoney = 0 //他餐占用了，则本餐不能用餐标，直接等于0
+                            tmp_menuDataFoodType.deductionMoney_CL = 0 //他餐占用了，则本餐不能用餐标，直接等于0
                         }
                         tmp_totalMoney = _this.data.totalMoney_CL + tmp_foodPrice
                         tmp_realTotalMoney = tmp_totalMoney - tmp_totalMoneyRealDeduction
+                        console.log('tmp_realTotalMoney', tmp_realTotalMoney)
                     } else {//该天餐标没被占用
-                        if (currnt_menuData.totalMoney_meal < currnt_menuData.mealType.standardPrice) { //用”所有可用餐标的餐品价格之和“与”当餐别的餐标“进行比较
-                            tmp_menuDataFoodType.deductionMoney = currnt_menuData.totalMoney_meal //取较小者
-                            tmp_totalMoneyRealDeduction = _this.data.totalMoneyRealDeduction + tmp_menuDataFoodType.deductionMoney //继续累加
-                        } else {
-                            tmp_menuDataFoodType.deductionMoney = currnt_menuData.mealType.standardPrice //取较小者
-                            tmp_totalMoneyRealDeduction = _this.data.totalMoneyRealDeduction + (currnt_menuData.mealType.standardPrice - tmp_menuDataFoodType.deductionMoney) //继续累加，但是因超过餐标，所以除掉超出的部分，而超出的部分是两者的差
-                        }
                         tmp_totalMoney = _this.data.totalMoney_CL + tmp_foodPrice
+                        if (tmp_menuDataFoodType.deductionMoney_CL < tmp_menuDataFoodType.mealType.standardPrice) { //用”所有可用餐标的餐品价格之和“与”当餐别的餐标“进行比较
+                            tmp_menuDataFoodType.deductionMoney_CL = tmp_menuDataFoodType.deductionMoney_CL //取较小者
+                            tmp_totalMoneyRealDeduction = _this.data.totalMoneyRealDeduction + tmp_foodPrice //继续累加
+                        } else {
+                            tmp_menuDataFoodType.deductionMoney_CL = tmp_menuDataFoodType.mealType.standardPrice //取较小者
+                            let tmp = parseFloat(tmp_menuDataFoodType.mealType.standardPrice.toFixed(2)) - parseFloat(old_deductionMoney_CL.toFixed(2))
+                            tmp_totalMoneyRealDeduction = _this.data.totalMoneyRealDeduction + tmp //继续累加，但是因超过餐标，所以除掉超出的部分，而超出的部分是两者的差
+                        }
                         tmp_realTotalMoney = tmp_totalMoney - tmp_totalMoneyRealDeduction
-                        console.log('0000', parseFloat(tmp_realTotalMoney.toFixed(2)))
                         //计算完后要改变两个占用状态
                         tmp_allMenuData[activeDayIndex][tmp_mealTypeItem].limitStandard_foodType_used = true //新增字段limitStandard_foodType_used，代表该餐别占用该天餐标
                         tmp_allMenuData[activeDayIndex].limitStandard_used = true
                     }
                 } else { //不可用餐标
                     tmp_totalMoney = _this.data.totalMoney_CL + tmp_foodPrice
-                    tmp_menuDataFoodType.deductionMoney = tmp_menuDataFoodType.deductionMoney + 0//该餐品不可使用餐标，不代表该餐别不可使用餐标，所以不是直接等于0，而是要叠加
-                    tmp_totalMoneyRealDeduction = _this.data.totalMoneyRealDeduction + tmp_menuDataFoodType.deductionMoney
+                    tmp_menuDataFoodType.deductionMoney_CL = tmp_menuDataFoodType.deductionMoney_CL + 0
+                    tmp_totalMoneyRealDeduction = _this.data.totalMoneyRealDeduction + 0
                     tmp_realTotalMoney = tmp_totalMoney - tmp_totalMoneyRealDeduction
                 }
                 _this.setData({
