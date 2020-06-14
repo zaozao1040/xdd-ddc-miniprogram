@@ -160,71 +160,8 @@
                                 </scroll-view>
                             </view>
                         </view>
-                        <!-- 【第六排】底部状态栏 分普通情况 和 超力包装情况-->
-             
-                        <block wx:if="{{ allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice!=0  }}"></block>
-                        <view class="footer-wrapper-top" wx:elif="{{ allMenuData[activeDayIndex][mealTypeItem].mealSet.userCanStandardPrice && totalCount > 0  }}">
-                            <view wx:if="{{orgAdmin}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
-                                您当前是管理员
-                            </view>
-                            <view wx:else class='back-back'>
-                                <view> 企业单餐抵扣a：￥{{allMenuData[activeDayIndex][mealTypeItem].deductionMoney}}</view>
-                                <view wx:if='{{totalMoney_back}}'> (返回企业餐标{{totalMoney_back}})</view>
-                            </view>
-                        </view>
-                        <view class="footer-wrapper-top" wx:elif="{{ !allMenuData[mealTypeItem].mealSet.userCanStandardPrice && totalCount > 0 }}">
-                            <view wx:if="{{orgAdmin}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
-                                您当前是管理员
-                            </view>
-                            <view wx:else style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
-                                当前额度已被使用
-                            </view>
 
-                        </view>
 
-                        <view class="footer-wrapper c_scrollPosition_2_forCalculate" style="z-index:1200;">
-                            <!--点击购物车-->
-                            <view class="{{shakeshake?'cartShake':'box-wrapper'}}" bindtap="handleClickBox" id='cartCount'>
-                                <view wx:if="{{ totalCount > 0 }}" id='cartCount2' style="right:14rpx;position:absolute;z-index:1003;height:32rpx;width:32rpx;background:#FF5035;text-align:center;line-height:32rpx;border-radius:32rpx;font-family: PingFang-SC-Medium;font-size: 22rpx; color: #FFF; letter-spacing: 0;">
-                                    {{totalCount}}</view>
-                                <image src="/images/menu/order_closeshop.png" style="height:126rpx;width:126rpx;" wx:if="{{ totalCount == 0 }}"></image>
-                                <image src="/images/menu/order_shop.png" style="height:126rpx;width:126rpx;" wx:else></image>
-                            </view>
-
-                            <!-- 购物车激活状态 -->
-                            <view wx:if="{{ totalCount > 0}}" class='flex-a'>
-                                <view wx:if="{{ totalMoney > 0 }}" style="line-height:100rpx;bottom:0;position:relative;left:160rpx;font-family: PingFang-SC-Medium; font-size: 20px; color: #FFFFFF; letter-spacing: 0; text-align: left;">
-                                    ￥{{ realTotalMoney }}
-                                </view>
-                                <view wx:if="{{ totalMoney > 0 }}" style="text-decoration: line-through; position:relative; left:180rpx;line-height:100rpx;bottom:0;position:relative;font-family: PingFang-SC-Regular; font-size: 12px;color: rgba(255,255,255,0.40); letter-spacing: 0; text-align: left;">
-                                    ￥{{ totalMoney }}
-                                </view>
-                            </view>
-                            <view wx:else style="position:absolute; left:160rpx;top:4rpx; ">
-                                <view class='no-shop' style='padding-top:{{orgAdmin?16:0}}rpx;' wx:if='{{!notShowPrice}}'>未选购餐品</view>
-                                <block wx:if="{{  !allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice}}"></block>
-                                <!--这个是咋判断的，需要问后台没有餐标的时候到底返回啥值-->
-
-                                <view wx:else style="position:relative; line-height:28rpx;font-family: PingFang-SC-Regular; font-size: 10px; color: rgba(255,255,255,0.40); letter-spacing: 0; text-align: left;">
-                                    <view wx:if="{{orgAdmin}}">您当前是管理员</view>
-                                    <view wx:elif="{{ allMenuData[activeDayIndex][mealTypeItem].mealSet.userCanStandardPrice }}">
-                                        <view class='flex-a'>
-                                            <view> 企业单餐抵扣b：￥{{allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice}}</view>
-                                            <view wx:if="{{ !allMenuData[activeDayIndex][mealTypeItem].mealType.followOrganize }}">（自定义餐标）</view>
-                                        </view>
-                                        <view>最低消费：￥{{allMenuData[activeDayIndex][mealTypeItem].mealType.lowestStandard}}</view>
-                                    </view>
-                                    <view wx:else>
-                                        <view>当前额度已被使用</view>
-                                        <view>最低消费：￥{{allMenuData[activeDayIndex][mealTypeItem].mealType.lowestStandard}}</view>
-                                    </view>
-                                </view>
-                            </view>
-                            <view class="footer-right" bindtap="goToMenuCommit" style="background:{{ totalCount == 0 ? '#9d9d9d' : '' }}">
-                                去结算
-                            </view>
-                        </view> 
-               
                         <!-- 【第六排】底部状态栏 -->
                         <block wx:if="{{ !allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice   }}"></block>
                         <view class="footer-wrapper-top" wx:elif="{{ allMenuData[activeDayIndex][mealTypeItem].mealSet.userCanStandardPrice && totalCount > 0  }}">
