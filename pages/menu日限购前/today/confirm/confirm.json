@@ -1,9 +1,0 @@
-{
-    "navigationBarTitleText": "提交订单",
-    "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTextStyle": "black",
-    "usingComponents": {
-        "c-discount": "../../../components/discount/discount",
-        "c-custom-modal": "../../../components/customModal/customModal"
-    }
-}

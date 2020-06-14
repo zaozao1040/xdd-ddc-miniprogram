@@ -1,7 +1,0 @@
-{
-    "navigationBarTitleText": "点点餐",
-    "usingComponents": {
-        "c-pop": "../../components/popUp/popUp",
-        "c-custom-modal": "../../components/customModal/customModal"
-    }
-}
