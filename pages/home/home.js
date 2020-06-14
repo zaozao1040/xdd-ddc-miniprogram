@@ -8,6 +8,10 @@ Page({
    * 页面的初始数据
    */
   data: {
+    //超力包装需求，每日只可使用一次餐标
+    limitStandard: wx.getStorageSync('userInfo').userInfo.limitStandard,// ------ 日餐标限制，为true代表每天只能使用一次餐标，为false代表每餐可用一次餐标
+    //limitStandard: false,
+
     swiperDefaultIndex: 0,
     imageWidth: wx.getSystemInfoSync().windowWidth,
     timer: null,
@@ -216,7 +220,12 @@ Page({
             orgAdminNoMealFlag: true,
           });
         } else {
-          _this.openSelectMealTime();
+          if (_this.data.limitStandard === true) { //超力包装情况直接跳到 预约多天的menu
+            _this.handleSelectWeek()
+          } else {
+            _this.openSelectMealTime();
+          }
+
         }
       }, true);
     }
@@ -709,7 +718,7 @@ Page({
   },
 
   //用于解决小程序的遮罩层滚动穿透
-  preventTouchMove: function () {},
+  preventTouchMove: function () { },
   //跳到小店
   gotoMiniProgram() {
     wx.navigateToMiniProgram({

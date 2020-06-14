@@ -5,13 +5,11 @@ Page({
         //超力包装需求，每日只可使用一次餐标
         limitStandard: wx.getStorageSync('userInfo').userInfo.limitStandard,// ------ 日餐标限制，为true代表每天只能使用一次餐标，为false代表每餐可用一次餐标
         //limitStandard: false,
-        totalMoney_CL: 0,
-        totalMoneyRealDeduction_CL: 0,
-        realTotalMoney_CL: 0,
+
         // 因为是一天的订餐，所以下面的七个都是对象，格式都是{LUNCH:{},DINNER:{}}或者{LUNCH:[],DINNER:[]}
         allMenuData: [{ limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }], // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
         //allMenuData: [...Array(7)].map(() => { return {} }), // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
-        allMenuDataCopy: [{}, {}, {}, {}, {}, {}, {}], //初始化为allMenuData，在清空购物车时，赋值给allMenuData
+        allMenuDataCopy: [{ limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }], //初始化为allMenuData，在清空购物车时，赋值给allMenuData
 
         activeDayIndex: 1, //当前被点击的日期的index
 
@@ -1063,7 +1061,7 @@ Page({
                                 if (tmp_allMenuData[activeDayIndex].limitStandard_used != tmp_allMenuData[activeDayIndex].limitStandard_used_old) {
                                     //这种情况下，要强制刷新
                                     wx.showModal({
-                                        title: "需要释放当日餐标",
+                                        title: "每天只可用1次餐标",
                                         content: "将清空购物车,请重新选择",
                                         showCancel: false,
                                         success: function (res) {
@@ -1626,7 +1624,7 @@ Page({
                                 if (tmp_allMenuData[activeDayIndex].limitStandard_used != tmp_allMenuData[activeDayIndex].limitStandard_used_old) {
                                     //这种情况下，要强制刷新
                                     wx.showModal({
-                                        title: "需要释放当日餐标",
+                                        title: "每天只可用1次餐标",
                                         content: "将清空购物车,请重新选择",
                                         showCancel: false,
                                         success: function (res) {

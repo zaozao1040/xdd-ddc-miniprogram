@@ -161,14 +161,14 @@
                             </view>
                         </view>
                         <!-- 【第六排】底部状态栏 分普通情况 和 超力包装情况-->
-             
+                        <!-- 这是超力包装前 <block wx:if="{{ !allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice  }}"></block> -->
                         <block wx:if="{{ allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice!=0  }}"></block>
                         <view class="footer-wrapper-top" wx:elif="{{ allMenuData[activeDayIndex][mealTypeItem].mealSet.userCanStandardPrice && totalCount > 0  }}">
                             <view wx:if="{{orgAdmin}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
                                 您当前是管理员
                             </view>
                             <view wx:else class='back-back'>
-                                <view> 企业单餐抵扣a：￥{{allMenuData[activeDayIndex][mealTypeItem].deductionMoney}}</view>
+                                <view> 企业单餐抵扣：￥{{allMenuData[activeDayIndex][mealTypeItem].deductionMoney}}</view>
                                 <view wx:if='{{totalMoney_back}}'> (返回企业餐标{{totalMoney_back}})</view>
                             </view>
                         </view>
@@ -209,7 +209,7 @@
                                     <view wx:if="{{orgAdmin}}">您当前是管理员</view>
                                     <view wx:elif="{{ allMenuData[activeDayIndex][mealTypeItem].mealSet.userCanStandardPrice }}">
                                         <view class='flex-a'>
-                                            <view> 企业单餐抵扣b：￥{{allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice}}</view>
+                                            <view> 企业单餐抵扣：￥{{allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice}}</view>
                                             <view wx:if="{{ !allMenuData[activeDayIndex][mealTypeItem].mealType.followOrganize }}">（自定义餐标）</view>
                                         </view>
                                         <view>最低消费：￥{{allMenuData[activeDayIndex][mealTypeItem].mealType.lowestStandard}}</view>
@@ -232,7 +232,7 @@
                                 您当前是管理员
                             </view>
                             <view wx:else class='back-back'>
-                                <view> 企业单餐抵扣a：￥{{allMenuData[activeDayIndex][mealTypeItem].deductionMoney}}</view>
+                                <view> 企业单餐抵扣：￥{{allMenuData[activeDayIndex][mealTypeItem].deductionMoney}}</view>
                                 <view wx:if='{{totalMoney_back}}'> (返回企业餐标{{totalMoney_back}})</view>
                             </view>
                         </view>
@@ -273,7 +273,7 @@
                                     <view wx:if="{{orgAdmin}}">您当前是管理员</view>
                                     <view wx:elif="{{ allMenuData[activeDayIndex][mealTypeItem].mealSet.userCanStandardPrice }}">
                                         <view class='flex-a'>
-                                            <view> 企业单餐抵扣b：￥{{allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice}}</view>
+                                            <view> 企业单餐抵扣：￥{{allMenuData[activeDayIndex][mealTypeItem].mealType.standardPrice}}</view>
                                             <view wx:if="{{ !allMenuData[activeDayIndex][mealTypeItem].mealType.followOrganize }}">（自定义餐标）</view>
                                         </view>
                                         <view>最低消费：￥{{allMenuData[activeDayIndex][mealTypeItem].mealType.lowestStandard}}</view>
