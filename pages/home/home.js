@@ -9,8 +9,8 @@ Page({
    */
   data: {
     //超力包装需求，每日只可使用一次餐标
-    limitStandard: wx.getStorageSync('userInfo').userInfo.limitStandard,// ------ 日餐标限制，为true代表每天只能使用一次餐标，为false代表每餐可用一次餐标
-    //limitStandard: false,
+    //limitStandard: wx.getStorageSync('userInfo').userInfo.limitStandard,// ------ 日餐标限制，为true代表每天只能使用一次餐标，为false代表每餐可用一次餐标
+    limitStandard: false,
 
     swiperDefaultIndex: 0,
     imageWidth: wx.getSystemInfoSync().windowWidth,
@@ -314,6 +314,15 @@ Page({
 
   onLoad: function (options) {
     let _this = this;
+  
+   
+    //limitStandard: wx.getStorageSync('userInfo').userInfo.limitStandard,
+    // if(wx.getStorageSync('userInfo').userInfo.limitStandard==false){
+    //   console.log('hahhah')
+    //   _this.setData({
+    //     limitStandard: true
+    //   });
+    // }
     wx.getSystemInfo({
       success: function (res) {
         _this.setData({
@@ -339,6 +348,14 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+      //超力包装 
+      if(wx.getStorageSync('userInfo')){
+        if(wx.getStorageSync('userInfo').userInfo.organizeCode=="ORG707884806851133440"){
+          this.setData({
+                limitStandard: true
+              });
+        }
+      }
     //已登录状态，直接登录
     requestModel.getUserInfo((userInfo) => {
       this.setData({

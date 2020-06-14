@@ -3,8 +3,8 @@ let requestModel = new base();
 Page({
     data: {
         //超力包装需求，每日只可使用一次餐标
-        limitStandard: wx.getStorageSync('userInfo').userInfo.limitStandard,// ------ 日餐标限制，为true代表每天只能使用一次餐标，为false代表每餐可用一次餐标
-        //limitStandard: false,
+        //limitStandard: wx.getStorageSync('userInfo').userInfo.limitStandard,// ------ 日餐标限制，为true代表每天只能使用一次餐标，为false代表每餐可用一次餐标
+        limitStandard: false,
 
         // 因为是一天的订餐，所以下面的七个都是对象，格式都是{LUNCH:{},DINNER:{}}或者{LUNCH:[],DINNER:[]}
         allMenuData: [{ limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }], // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
@@ -154,6 +154,7 @@ Page({
         });
     },
     onLoad: function () {
+
         this.handleSevenDays();
         // 首先处理七天日期
         let _this = this;
@@ -1851,7 +1852,12 @@ Page({
         }
     },
     onShow: function () {
-        console.log(this.data.allMenuData)
+                  //超力包装 
+    if(wx.getStorageSync('userInfo').userInfo.organizeCode=="ORG707884806851133440"){
+        this.setData({
+              limitStandard: true
+            });
+      }
     },
     // 关闭
     handleCloseCart() {
