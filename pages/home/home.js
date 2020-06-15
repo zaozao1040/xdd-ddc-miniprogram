@@ -314,8 +314,8 @@ Page({
 
   onLoad: function (options) {
     let _this = this;
-  
-   
+
+
     //limitStandard: wx.getStorageSync('userInfo').userInfo.limitStandard,
     // if(wx.getStorageSync('userInfo').userInfo.limitStandard==false){
     //   console.log('hahhah')
@@ -343,19 +343,24 @@ Page({
       _this.handleGotoMenu();
     }
   },
+  refreshUser: function () {
+    requestModel.getUserInfo((userInfo) => {
 
+      let limitStandard = false
+      if (userInfo) {
+        limitStandard = userInfo.limitStandard
+      }
+      this.setData({
+        limitStandard: limitStandard,
+      });
+    }, true);
+  },
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-      //超力包装 
-      if(wx.getStorageSync('userInfo')){
-        if(wx.getStorageSync('userInfo').userInfo.organizeCode=="ORG707884806851133440"){
-          this.setData({
-                limitStandard: true
-              });
-        }
-      }
+    // 超力包装 刷新用户info 主要是为了拿到limitStandard
+    this.refreshUser()
     //已登录状态，直接登录
     requestModel.getUserInfo((userInfo) => {
       this.setData({

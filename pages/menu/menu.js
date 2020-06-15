@@ -3,7 +3,7 @@ let requestModel = new base();
 Page({
     data: {
         //超力包装需求，每日只可使用一次餐标
-        //limitStandard: wx.getStorageSync('userInfo').userInfo.limitStandard,// ------ 日餐标限制，为true代表每天只能使用一次餐标，为false代表每餐可用一次餐标
+        //limitStandard: wx.getStorageSync('userInfo').userInfo.limitStandard ,// ------ 日餐标限制，为true代表每天只能使用一次餐标，为false代表每餐可用一次餐标
         limitStandard: false,
 
         // 因为是一天的订餐，所以下面的七个都是对象，格式都是{LUNCH:{},DINNER:{}}或者{LUNCH:[],DINNER:[]}
@@ -1851,13 +1851,26 @@ Page({
             }
         }
     },
-    onShow: function () {
-                  //超力包装 
-    if(wx.getStorageSync('userInfo').userInfo.organizeCode=="ORG707884806851133440"){
-        this.setData({
-              limitStandard: true
+    refreshUser: function () {
+        requestModel.getUserInfo((userInfo) => {
+
+            let limitStandard = false
+            if (userInfo) {
+                limitStandard = userInfo.limitStandard
+            }
+            this.setData({
+                limitStandard: limitStandard,
             });
-      }
+        }, true);
+    },
+    onShow: function () {
+        let limitStandard = false
+        if (wx.getStorageSync('userInfo')) {
+            limitStandard = wx.getStorageSync('userInfo').userInfo.limitStandard
+        }
+        this.setData({
+            limitStandard: limitStandard,
+        });
     },
     // 关闭
     handleCloseCart() {
