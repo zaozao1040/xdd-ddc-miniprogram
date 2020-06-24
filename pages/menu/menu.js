@@ -1,4 +1,5 @@
 import { base } from "../../comm/public/request";
+
 let requestModel = new base();
 Page({
     data: {
@@ -7,32 +8,37 @@ Page({
         limitStandard: false,
 
         // 因为是一天的订餐，所以下面的七个都是对象，格式都是{LUNCH:{},DINNER:{}}或者{LUNCH:[],DINNER:[]}
-        allMenuData: [{ limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }], // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
-        //allMenuData: [...Array(7)].map(() => { return {} }), // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
-        allMenuDataCopy: [{ limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }], //初始化为allMenuData，在清空购物车时，赋值给allMenuData
+        // allMenuData: [{ limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }], // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
+        allMenuData: [...Array(14)].map(() => { return { limitStandard_used: false } }), // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
+        // allMenuDataCopy: [{ limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }], //初始化为allMenuData，在清空购物车时，赋值给allMenuData
+        allMenuDataCopy: [...Array(14)].map(() => { return { limitStandard_used: false } }), // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
 
-        activeDayIndex: 1, //当前被点击的日期的index
+        activeDayIndex: 0, //当前被点击的日期的index
 
-        selectedFoodsIndex: [
-            { count: 0 },
-            { count: 0 },
-            { count: 0 },
-            { count: 0 },
-            { count: 0 },
-            { count: 0 },
-            { count: 0 },
-        ], //选择的食物的 menutypeIndex和foodIndex ，以及选中的食物，选中的餐品的个数
-        selectedFoodsIndexCopy: [
-            { count: 0 },
-            { count: 0 },
-            { count: 0 },
-            { count: 0 },
-            { count: 0 },
-            { count: 0 },
-            { count: 0 },
-        ], //用于清空购物车copy的
-        menuCountList: [{}, {}, {}, {}, {}, {}, {}], //每个category点了几个菜
-        menuCountListCopy: [{}, {}, {}, {}, {}, {}, {}], //用于清空购物车
+        // selectedFoodsIndex: [
+        //     { count: 0 },
+        //     { count: 0 },
+        //     { count: 0 },
+        //     { count: 0 },
+        //     { count: 0 },
+        //     { count: 0 },
+        //     { count: 0 },
+        // ], //选择的食物的 menutypeIndex和foodIndex ，以及选中的食物，选中的餐品的个数
+        selectedFoodsIndex: [...Array(14)].map(() => { return { count: 0 } }),
+        // selectedFoodsIndexCopy: [
+        //     { count: 0 },
+        //     { count: 0 },
+        //     { count: 0 },
+        //     { count: 0 },
+        //     { count: 0 },
+        //     { count: 0 },
+        //     { count: 0 },
+        // ], //用于清空购物车copy的
+        selectedFoodsIndexCopy: [...Array(14)].map(() => { return { count: 0 } }),
+        //menuCountList: [{}, {}, {}, {}, {}, {}, {}], //每个category点了几个菜
+        menuCountList: [...Array(14)].map(() => { return {} }),
+        //menuCountListCopy: [{}, {}, {}, {}, {}, {}, {}], //用于清空购物车
+        menuCountListCopy: [...Array(14)].map(() => { return {} }),
 
         getdataalready: false, //解决在没有从后台得到数据就做if判断并加载else的问题
         getdataalready2: false, //解决在没有从后台得到数据就做if判断并加载else的问题
@@ -1188,7 +1194,7 @@ Page({
         let mealEnglistLabel = this.data.mealEnglistLabel;
 
         // 是1到7吗？
-        for (let day = 0; day < 7; day++) {
+        for (let day = 0; day < 14; day++) {
             if (tmpselectFoodsIndex[day].count > 0) {
                 for (let i in mealEnglistLabel) {
                     // x 为餐时
