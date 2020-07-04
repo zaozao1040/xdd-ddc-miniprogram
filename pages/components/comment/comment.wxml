@@ -4,29 +4,74 @@
         <view class='flex-a'>
             <view class='title'>服务评价</view>
             <image src='/images/order/staryes.png' class='star' wx:for='{{comment.orderStar}}' wx:key='index'></image>
-            <image src='/images/order/starno.png' class='star' wx:for='{{5-comment.orderStar}}' wx:key='5-index'></image>
+            <image src='/images/order/starno.png' class='star' wx:for='{{5-comment.orderStar}}' wx:key='5-index'>
+            </image>
         </view>
         <view class='flex-a' style='margin-top:10rpx;' wx:if='{{comment.orderTag&&comment.orderTag.length>0}}'>
             <view class='tag' wx:for='{{comment.orderTag}}' wx:key='index'>{{item}}</view>
         </view>
     </view>
 
-    <view class='one-food' wx:for='{{comment.orderFoodEvaluate}}' wx:key='index'>
+    <view class='one-food' wx:for='{{comment.orderFoodEvaluates}}' wx:key='index'>
 
         <view class='food-name'>{{item.foodName}} x{{item.foodQuantity}}</view>
 
         <view class='flex-a'>
             <view class='title'>餐品评价</view>
-            <image src='/images/order/staryes.png' class='star' wx:for='{{item.foodStar}}' wx:for-index='starIndex' wx:key='starIndex'></image>
-            <image src='/images/order/starno.png' class='star' wx:for='{{5-item.foodStar}}' wx:for-index='starIndex' wx:key='5-starIndex'></image>
+            <image src='/images/order/staryes.png' class='star' wx:for='{{item.foodStar}}' wx:for-index='starIndex'
+                wx:key='starIndex'></image>
+            <image src='/images/order/starno.png' class='star' wx:for='{{5-item.foodStar}}' wx:for-index='starIndex'
+                wx:key='5-starIndex'></image>
         </view>
         <view class='flex-a' style='margin-top:10rpx;' wx:if='{{item.foodTag&&item.foodTag.length>0}}'>
-            <view class='tag' wx:for='{{item.foodTag}}' wx:for-item='tagItem' wx:for-index='tagIndex' wx:key='tagIndex'>{{tagItem}}</view>
+            <view class='tag' wx:for='{{item.foodTag}}' wx:for-item='tagItem' wx:for-index='tagIndex' wx:key='tagIndex'>
+                {{tagItem}}</view>
         </view>
         <view class='comment' wx:if='{{item.foodContent}}'>{{item.foodContent}}</view>
         <view class='flex-a' style='margin-top:10rpx;' wx:if='{{item.foodImage&&item.foodImage.length>0}}'>
-            <image src='{{imgItem}}' class='c-img' wx:for='{{item.foodImage}}' wx:for-item='imgItem' wx:for-index='imgIndex' wx:key='imgIndex'></image>
+            <image src='{{imgItem}}' class='c-img' wx:for='{{item.foodImage}}' wx:for-item='imgItem'
+                wx:for-index='imgIndex' wx:key='imgIndex'></image>
         </view>
         <view class='reply' wx:if='{{item.foodReplyContent}}'>回复：{{item.foodReplyContent}}</view>
+    </view>
+
+    <view wx:for='{{comment.orderReplys}}' wx:key='index' wx:for-item="replyItem" wx:for-index="replyIndex">
+        <view wx:if="{{replyItem.replyerType=='SERVICER'}}" class='reply-item-servicer'>
+            <view class='reply-header'>
+                <view class='reply-time'>{{replyItem.replyTime}}</view>
+                <image src='/images/mine/kefu.png' class='reply-img'>
+                </image>
+            </view>
+            <view class='reply-content' style="margin-bottom:12rpx;">{{replyItem.replyContent}}</view>
+            <view class='reply-button' bindtap="handleEvaluateReply">回复 ta</view>
+        </view>
+        <view wx:if="{{replyItem.replyerType=='USER'}}" class='reply-item-user'>
+            <view class='reply-header'>
+                <image wx:if='{{replyItem.replyerHeadImage}}' src='{{replyItem.replyerHeadImage}}' class='reply-img'>
+                </image>
+                <view class='reply-time'>{{replyItem.replyTime}}</view>
+            </view>
+            <view class='reply-content'>{{replyItem.replyContent}}</view>
+        </view>
+    </view>
+    <!-- 回复弹窗 -->
+    <view wx:if="{{showDialog}}" class="dialog-bg" catchtap="handleCloseDialog">
+        <view class="dialog-wrapper" catchtap="handleDonothing">
+            <view class="dialog-title">
+                回复客服
+            </view>
+            <view class="dialog-content">
+                <textarea style='color:#333;' class='textarea' placeholder-class='textarea'
+                    bindinput="bindTextAreaInput" placeholder="有什么想说的，和我们说说吧～" maxlength="300" auto-focus
+                    value="{{TextAreaValue}}" />
+                </view>   
+
+            <view class="dialog-button-wrapper">
+                <view class="dialog-button" bindtap="evaluteReply">
+                    提交
+                </view> 
+            </view>      
+        </view>
+
     </view>
 </view>

@@ -35,6 +35,27 @@ Page({
     cc: 1,
     cabNumList: [], //柜子列表，如果柜子列表为空，就不显示‘打开柜子页面’
     modalContent: {},
+
+    // 订单未评价个数
+    notReadNumber: 0,
+  },
+  /* 获取待评价信息 */
+  getOrderEvaluateReplyNotRead() {
+    let _this = this;
+    let url = "/userEvaluate/getOrderReplyNotRead?userCode=" + wx.getStorageSync("userCode");
+    let param = {
+      url,
+    };
+    requestModel.request(param, (data) => {
+      if (data.notReadNumber > 0) {
+        wx.showTabBarRedDot({
+          index: 2
+        })
+        _this.setData({
+          notReadNumber: data.notReadNumber
+        });
+      }
+    });
   },
   //跳转到登录页面
   gotoLogin() {
@@ -389,6 +410,7 @@ Page({
         });
       }, true);
     }
+    _this.getOrderEvaluateReplyNotRead()
   },
 
   /**

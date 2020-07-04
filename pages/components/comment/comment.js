@@ -1,3 +1,6 @@
+
+import { base } from '../../../comm/public/request'
+let requestModel = new base()
 Component({
     /* 通信数据 */
     properties: {
@@ -6,10 +9,12 @@ Component({
         }
     },
     data: {
-        comment: {}
+        comment: {},
+        showDialog: false,
+        TextAreaValue: ''
     },
     lifetimes: {
-        ready: function() {
+        ready: function () {
 
             let weekend = {
                 MONDAY: '周一',
@@ -34,8 +39,70 @@ Component({
             })
         },
     },
-    // 以下是旧式的定义方式，可以保持对 <2.2.3 版本基础库的兼容
-    ready: function() {
 
-    },
+    methods: {
+
+
+        // 点击回复
+        handleEvaluateReply() {
+            this.setData({
+                showDialog: true
+            })
+        },
+        bindTextAreaInput(e) {
+            if (e.detail.value) {
+                this.setData({
+                    TextAreaValue: e.detail.value
+                })
+            }
+        },
+        // 
+        handleCloseDialog() {
+            this.setData({
+                showDialog: false
+            })
+        },
+        // 
+        handleDonothing() {
+
+        },
+        // 回复评论
+        evaluteReply() {
+            let _this = this
+            if (_this.data.TextAreaValue) {
+                let param = {
+                    userCode: wx.getStorageSync('userCode'),
+                    orderCode: this.data.comment.orderCode,
+                    replyContent: _this.data.TextAreaValue
+                }
+                let url = '/userEvaluate/orderEvaluateReply'
+                let params = {
+                    data: param,
+                    url,
+                    method: 'post'
+                }
+
+                requestModel.request(params, (data) => {
+                    wx.showToast({
+                        title: '回复完成',
+                        icon: 'success',
+                        duration: 2000
+                    })
+
+                    wx.navigateBack({
+                        url: '/pages/mine/allComment/allComment'
+                    })
+                })
+            } else {
+                wx.showToast({
+                    title: '填写回复内容',
+                    icon: 'none',
+                    duration: 2000
+                })
+            }
+        },
+
+    }
+
+
 })

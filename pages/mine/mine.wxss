@@ -1,10 +1,9 @@
 .offer-item {
-    display: flex;
-    background: #fff;
-    padding: 28rpx 0 22rpx;
-    border-radius: 6rpx;
+  display: flex;
+  background: #fff;
+  padding: 28rpx 0 22rpx;
+  border-radius: 6rpx;
 }
-
 
 /* .mine-wrapper {
     position: fixed;
@@ -15,162 +14,181 @@
 } */
 
 .add-food {
-    margin: 0 30rpx 0;
-    width: 690rpx;
-    display: flex;
-    padding: 28rpx 0;
+  margin: 0 30rpx 0;
+  width: 690rpx;
+  display: flex;
+  padding: 28rpx 0;
 }
 
 .wrapper-top {
-    display: flex;
-    padding: 30rpx 0 30rpx;
-    background: linear-gradient(350deg, rgba(247, 156, 76, 1) 0%, rgba(247, 190, 76, 0.85) 100%);
+  display: flex;
+  padding: 30rpx 0 30rpx;
+  background: linear-gradient(
+    350deg,
+    rgba(247, 156, 76, 1) 0%,
+    rgba(247, 190, 76, 0.85) 100%
+  );
 }
 
 .service-list {
-    display: flex;
-    margin-top: 20rpx;
-    justify-content: space-between;
+  display: flex;
+  margin-top: 20rpx;
+  justify-content: space-between;
 }
 
 .mine-service {
-    font-family: PingFang-SC-Medium;
-    font-size: 32rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 44rpx;
+  font-family: PingFang-SC-Medium;
+  font-size: 32rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 44rpx;
 }
 
 .name {
-    position: relative;
-    font-family: PingFang-SC-Medium;
-    font-size: 36rpx;
-    color: #333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 50rpx;
-    display: flex;
+  position: relative;
+  font-family: PingFang-SC-Medium;
+  font-size: 36rpx;
+  color: #333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 50rpx;
+  display: flex;
 }
 
 .address {
-    font-family: PingFangSC-Regular;
-    font-size: 22rpx;
-    color: #333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 32rpx;
-    width: 266rpx;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  font-family: PingFangSC-Regular;
+  font-size: 22rpx;
+  color: #333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 32rpx;
+  width: 266rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .org {
-    margin: 26rpx 30rpx 0 34rpx;
-    font-family: PingFangSC-Regular;
-    font-size: 24rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: center;
-    background: #FFFFFF;
-    box-shadow: 0 4rpx 8rpx 0 rgba(247, 163, 76, 0.45);
-    border-radius: 40rpx;
-    height: 68rpx;
-    width: 260rpx;
-    line-height: 68rpx;
+  margin: 26rpx 30rpx 0 34rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: center;
+  background: #ffffff;
+  box-shadow: 0 4rpx 8rpx 0 rgba(247, 163, 76, 0.45);
+  border-radius: 40rpx;
+  height: 68rpx;
+  width: 260rpx;
+  line-height: 68rpx;
 }
 
 .offerItem-wrapper {
-    flex: 1;
-    text-align: center;
+  flex: 1;
+  text-align: center;
 }
 
 .offer-num {
-    font-family: PingFang-SC-Regular;
-    font-size: 40rpx;
-    color: #333333;
-    letter-spacing: 0;
-    line-height: 48rpx;
-    font-weight: 600;
-    margin-bottom: 10rpx;
+  font-family: PingFang-SC-Regular;
+  font-size: 40rpx;
+  color: #333333;
+  letter-spacing: 0;
+  line-height: 48rpx;
+  font-weight: 600;
+  margin-bottom: 10rpx;
 }
 
 .offer-title {
-    font-family: PingFang-SC-Regular;
-    font-size: 24rpx;
-    color: #333333;
-    letter-spacing: 0;
-    line-height: 34rpx;
+  font-family: PingFang-SC-Regular;
+  font-size: 24rpx;
+  color: #333333;
+  letter-spacing: 0;
+  line-height: 34rpx;
 }
 
 .add-title {
-    font-family: PingFangSC-Regular;
-    font-size: 30rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 44rpx;
-    margin-left: 10rpx;
-    flex-grow: 1;
+  font-family: PingFangSC-Regular;
+  font-size: 30rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 44rpx;
+  margin-left: 10rpx;
+  flex-grow: 1;
 }
 
 .label-title {
-    font-family: PingFang-SC-Regular;
-    font-size: 26rpx;
-    color: #333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 36rpx;
+  font-family: PingFang-SC-Regular;
+  font-size: 26rpx;
+  color: #333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 36rpx;
+  position: relative;
 }
-
+.label-title-notreply-wrapper {
+  position: absolute;
+  top: -15rpx;
+  right: -15rpx;
+  height: 36rpx;
+  width: 36rpx;
+  line-height: 36rpx;
+  border-radius: 18rpx;
+  background-color: red;
+}
+.label-title-notreply-num {
+  color: white;
+  font-size: 25rpx;
+  text-align: center;
+}
 .org-admin {
-    margin-top: 20rpx;
-    padding: 20rpx 30rpx;
-    background: #fff;
-    display: flex;
-    justify-content: space-between;
+  margin-top: 20rpx;
+  padding: 20rpx 30rpx;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
 }
 
 .org-addfood {
-    width: 314rpx;
-    height: 160rpx;
+  width: 314rpx;
+  height: 160rpx;
 }
 
 .org-addfood-none {
-    position: absolute;
-    width: 314rpx;
-    height: 160rpx;
-    box-sizing: border-box;
-    padding: 38rpx 30rpx 0;
+  position: absolute;
+  width: 314rpx;
+  height: 160rpx;
+  box-sizing: border-box;
+  padding: 38rpx 30rpx 0;
 }
 
 .info-wrapper {
-    background: rgba(245, 245, 245, 1);
-    padding: 20rpx 22rpx 0;
-    box-sizing: border-box;
+  background: rgba(245, 245, 245, 1);
+  padding: 20rpx 22rpx 0;
+  box-sizing: border-box;
 }
 
 .function-wrapper {
-    background: rgba(255, 255, 255, 1);
-    border-radius: 6rpx;
-    padding: 30rpx;
-    margin-top: 20rpx;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 6rpx;
+  padding: 30rpx;
+  margin-top: 20rpx;
 }
 
 .login {
-    height: 120rpx;
-    font-size: 36rpx;
-    font-family: PingFang-SC-Medium;
-    font-weight: 500;
-    color: rgba(51, 51, 51, 1);
-    line-height: 120rpx;
+  height: 120rpx;
+  font-size: 36rpx;
+  font-family: PingFang-SC-Medium;
+  font-weight: 500;
+  color: rgba(51, 51, 51, 1);
+  line-height: 120rpx;
 }
 
 .no-wrapper {
-    background: rgba(255, 255, 255, 0.6);
-    position: absolute;
-    z-index: 200;
-    width: 105rpx;
-    height: 116rpx;
+  background: rgba(255, 255, 255, 0.6);
+  position: absolute;
+  z-index: 200;
+  width: 105rpx;
+  height: 116rpx;
 }

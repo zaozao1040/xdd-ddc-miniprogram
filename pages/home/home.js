@@ -361,6 +361,10 @@ Page({
   onShow: function () {
     // 超力包装 刷新用户info 主要是为了拿到limitStandard
     this.refreshUser()
+
+    // 获取未评价的订单信息
+    this.getOrderEvaluateReplyNotRead()
+
     //已登录状态，直接登录
     requestModel.getUserInfo((userInfo) => {
       this.setData({
@@ -452,6 +456,21 @@ Page({
           //     })
           // }
         }
+      }
+    });
+  },
+  /* 获取待评价信息 */
+  getOrderEvaluateReplyNotRead() {
+    let _this = this;
+    let url = "/userEvaluate/getOrderReplyNotRead?userCode=" + wx.getStorageSync("userCode");
+    let param = {
+      url,
+    };
+    requestModel.request(param, (data) => {
+      if (data.notReadNumber > 0) {
+        wx.showTabBarRedDot({
+          index: 2
+        })
       }
     });
   },

@@ -4,15 +4,21 @@
 
         <view style='padding:20rpx;'>
             <view class='top-wrapper'>全部评价 <text style='color:#F7A64C;'>{{amount}}条</text></view>
-            <view class='wrapper' bindtap='gotoDetail' wx:for='{{list}}' data-ordercode='{{item.orderCode}}' wx:key='index'>
+            <view class='wrapper' bindtap='gotoDetail' wx:for='{{list}}' data-ordercode='{{item.orderCode}}'
+                wx:key='index'>
                 <view class='top'>
                     <image src='{{headImage}}' class='img'></image>
                     <view style='flex-grow:1;'>
                         <view class='name'>{{userName}}</view>
                         <view class='date'>{{item.evaluateTime}}</view>
                     </view>
-                    <image src='/images/order/right.png' style='height:26rpx;width:24rpx;margin:36rpx 30rpx 0 0;'></image>
-
+                    <view style='flex-grow:auto;'>
+                        <view wx:if="{{item.notRead}}" class='huifu-wrapper'>
+                            {{item.notReadNumber}}条回复
+                        </view>
+                        <image src='/images/order/right.png' style='height:26rpx;width:24rpx;margin:36rpx 30rpx 0 0;'>
+                        </image>
+                    </view>
                 </view>
                 <view style='padding:20rpx 30rpx 30rpx; '>
                     <view class='order'>
@@ -25,23 +31,34 @@
                     <view style='padding :30rpx 0 20rpx;border-bottom:1rpx solid #F5F5F5; '>
                         <view class='flex-a'>
                             <view class='title'>服务评价</view>
-                            <image src='/images/order/staryes.png' class='star' wx:for='{{item.orderStar}}' wx:for-index='starIndex' wx:key='starIndex'></image>
-                            <image src='/images/order/starno.png' class='star' wx:for='{{5-item.orderStar}}' wx:for-index='starIndex' wx:key='5-starIndex'></image>
+                            <image src='/images/order/staryes.png' class='star' wx:for='{{item.orderStar}}'
+                                wx:for-index='starIndex' wx:key='starIndex'></image>
+                            <image src='/images/order/starno.png' class='star' wx:for='{{5-item.orderStar}}'
+                                wx:for-index='starIndex' wx:key='5-starIndex'></image>
                         </view>
-                        <view class='flex-a' style='margin-top:10rpx;' wx:if='{{item.orderTag&&item.orderTag.length>0}}'>
-                            <view class='tag' wx:for='{{item.orderTag}}' wx:for-item="tagItem" wx:for-index='tagIndex' wx:key='tagIndex'>{{tagItem}}</view>
+                        <view class='flex-a' style='margin-top:10rpx;'
+                            wx:if='{{item.orderTag&&item.orderTag.length>0}}'>
+                            <view class='tag' wx:for='{{item.orderTag}}' wx:for-item="tagItem" wx:for-index='tagIndex'
+                                wx:key='tagIndex'>{{tagItem}}</view>
                         </view>
                     </view>
                     <view>
                         <view class='flex-a' style='padding-top:20rpx; '>
                             <view class='title'>餐品评价</view>
-                            <image src='/images/order/staryes.png' class='star' wx:for='{{item.orderFoodEvaluate[0].foodStar}}' wx:for-index='starIndex' wx:key='starIndex'></image>
-                            <image src='/images/order/starno.png' class='star' wx:for='{{5-item.orderFoodEvaluate[0].foodStar}}' wx:for-index='starIndex' wx:key='5-starIndex'></image>
+                            <image src='/images/order/staryes.png' class='star'
+                                wx:for='{{item.orderFoodEvaluate[0].foodStar}}' wx:for-index='starIndex'
+                                wx:key='starIndex'></image>
+                            <image src='/images/order/starno.png' class='star'
+                                wx:for='{{5-item.orderFoodEvaluate[0].foodStar}}' wx:for-index='starIndex'
+                                wx:key='5-starIndex'></image>
                         </view>
-                        <view class='flex-a' style='margin-top:10rpx;' wx:if='{{item.orderFoodEvaluate[0].foodTag&&item.orderFoodEvaluate[0].foodTag.length>0}}'>
-                            <view class='tag' wx:for='{{item.orderFoodEvaluate[0].foodTag}}' wx:for-item="tagItem" wx:for-index='tagIndex' wx:key='tagIndex'>{{tagItem}}</view>
+                        <view class='flex-a' style='margin-top:10rpx;'
+                            wx:if='{{item.orderFoodEvaluate[0].foodTag&&item.orderFoodEvaluate[0].foodTag.length>0}}'>
+                            <view class='tag' wx:for='{{item.orderFoodEvaluate[0].foodTag}}' wx:for-item="tagItem"
+                                wx:for-index='tagIndex' wx:key='tagIndex'>{{tagItem}}</view>
                         </view>
-                        <view class='comment' wx:if='{{item.orderFoodEvaluate[0].foodContent}}'>{{item.orderFoodEvaluate[0].foodContent}}</view>
+                        <view class='comment' wx:if='{{item.orderFoodEvaluate[0].foodContent}}'>
+                            {{item.orderFoodEvaluate[0].foodContent}}</view>
                     </view>
                 </view>
             </view>

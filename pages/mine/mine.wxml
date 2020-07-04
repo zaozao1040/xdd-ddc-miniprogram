@@ -40,7 +40,8 @@
                 <view wx:for="{{labelList_no}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex">
                     <view class='no-wrapper'></view>
                     <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
-                        <image src="/images/mine/{{imageList[labelIndex]}}.png" style='width:80rpx;height:80rpx;'></image>
+                        <image src="/images/mine/{{imageList[labelIndex]}}.png" style='width:80rpx;height:80rpx;'>
+                        </image>
                     </view>
                     <view class='label-title'>{{labelItem}}</view>
                 </view>
@@ -59,12 +60,14 @@
 <view wx:else>
     <view class="mine-wrapper" wx:if='{{userInfoReady}}'>
         <view>
-            <view style=' z-index:100;position:absolute; top:20rpx;left:117rpx;' wx:if='{{userInfo.userType=="ORG_ADMIN" &&userInfo.orgAdmin}}'>
+            <view style=' z-index:100;position:absolute; top:20rpx;left:117rpx;'
+                wx:if='{{userInfo.userType=="ORG_ADMIN" &&userInfo.orgAdmin}}'>
                 <image src="/images/mine/crown.png" style=' height:40rpx;width:48rpx;transform:rotate(45deg);'></image>
             </view>
             <view class='wrapper-top'>
                 <view style='margin:0 10rpx 0 30rpx;width:120rpx;height:120rpx;'>
-                    <image wx:if="{{userInfo.headImage}}" style='width:120rpx;height:120rpx;border-radius: 50%;' src="{{userInfo.headImage}}"></image>
+                    <image wx:if="{{userInfo.headImage}}" style='width:120rpx;height:120rpx;border-radius: 50%;'
+                        src="{{userInfo.headImage}}"></image>
                     <image wx:else style='width:120rpx;height:120rpx;' src="/images/mine/huiyuan.png" alt=""></image>
                 </view>
                 <view style='margin-top:20rpx;' catchtap='gotoDetailInfo'>
@@ -72,11 +75,17 @@
                         <view wx:if='{{userInfo.userName}}'>{{userInfo.userName}}</view>
                         <view wx:else>{{userInfo.nickName}}</view>
                         <view>
-                            <view style='width:72rpx;height:36rpx;position:absolute;top:-30rpx; ' wx:if='{{userInfo.organizeTrial}}'>
-                                <image src='/images/msg/trial.png' style='width:72rpx;height:36rpx;position:absolute;'></image>
-                                <view style='width:72rpx;line-height:36rpx;position:absolute;color:#fff;font-size:24rpx;text-align:center;'>试用</view>
+                            <view style='width:72rpx;height:36rpx;position:absolute;top:-30rpx; '
+                                wx:if='{{userInfo.organizeTrial}}'>
+                                <image src='/images/msg/trial.png' style='width:72rpx;height:36rpx;position:absolute;'>
+                                </image>
+                                <view
+                                    style='width:72rpx;line-height:36rpx;position:absolute;color:#fff;font-size:24rpx;text-align:center;'>
+                                    试用</view>
                             </view>
-                            <image src="/images/mine/xiangyoubaise.png" style='padding-left:10rpx;width:48rpx;height:48rpx;position: absolute;top:0;bottom: 0;margin: auto;'></image>
+                            <image src="/images/mine/xiangyoubaise.png"
+                                style='padding-left:10rpx;width:48rpx;height:48rpx;position: absolute;top:0;bottom: 0;margin: auto;'>
+                            </image>
 
                         </view>
                     </view>
@@ -90,7 +99,8 @@
                     </view>
 
                 </view>
-                <view class="org" bindtap="changeRole" wx:if='{{userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN"}}'>
+                <view class="org" bindtap="changeRole"
+                    wx:if='{{userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN"}}'>
                     <text wx:if="{{userInfo.orgAdmin}}">切换为"企业员工"</text>
                     <text wx:elif='{{userInfo.userType=="ORG_ADMIN"}}'>切换为"企业管理员"</text>
                     <text wx:elif='{{userInfo.userType=="ADMIN"}}'>切换为"超级管理员"</text>
@@ -119,7 +129,8 @@
             </view>
             <view wx:if='{{(userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN")&&userInfo.orgAdmin==true}}'>
                 <view class='org-admin'>
-                    <view class='org-addfood' bindtap="gotoAddfoodAdmin" wx:if='{{userInfo.userPermission&&userInfo.userPermission.supplementMeal==true}}'>
+                    <view class='org-addfood' bindtap="gotoAddfoodAdmin"
+                        wx:if='{{userInfo.userPermission&&userInfo.userPermission.supplementMeal==true}}'>
                         <image src="/images/mine/data_meal.png" class='org-addfood'></image>
                     </view>
                     <view class='org-addfood' wx:else>
@@ -129,7 +140,8 @@
                         </view>
                         <image src="/images/mine/data_meal_no.png" class='org-addfood'></image>
                     </view>
-                    <view class='org-addfood' bindtap="gotoCabinetminiProgram" wx:if='{{userInfo.userPermission&&userInfo.userPermission.smartCabinet==true}}'>
+                    <view class='org-addfood' bindtap="gotoCabinetminiProgram"
+                        wx:if='{{userInfo.userPermission&&userInfo.userPermission.smartCabinet==true}}'>
                         <image src="/images/mine/data_cabinet.png" class='org-addfood'></image>
                     </view>
                     <view class='org-addfood' wx:else>
@@ -154,7 +166,14 @@
                         <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
                             <image src="/images/mine/me_comment.png" style='width:80rpx;height:80rpx;'></image>
                         </view>
-                        <view class='label-title'>我的评价</view>
+                        <view class='label-title'>
+                            我的评价
+                            <view wx:if='{{notReadNumber>0}}' class='label-title-notreply-wrapper'>
+                                <view class='label-title-notreply-num'>
+                                    {{notReadNumber}}
+                                </view>
+                            </view>
+                        </view>
                     </view>
                     <view bindtap="gotoSaySomething">
                         <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
@@ -162,7 +181,8 @@
                         </view>
                         <view class='label-title'>我的话题</view>
                     </view>
-                    <view bindtap="gotoEvaluateService" wx:if='{{(userInfo.orgAdmin==true)&&(userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN")}}'>
+                    <view bindtap="gotoEvaluateService"
+                        wx:if='{{(userInfo.orgAdmin==true)&&(userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN")}}'>
                         <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
                             <image src="/images/mine/service.png" style='width:80rpx;height:80rpx;'></image>
                         </view>
@@ -176,7 +196,7 @@
                         <view class='label-title'>推荐有赏</view>
                     </view>
                 </view>
-                <view  wx:if="{{showTakeFoodLabelFlag}}"  class='service-list'>
+                <view wx:if="{{showTakeFoodLabelFlag}}" class='service-list'>
                     <view bindtap="handleGotoTakeFood">
                         <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
                             <image src="/images/mine/me_cab.png" style='width:80rpx;height:80rpx;'></image>
@@ -188,9 +208,11 @@
             <view class='function-wrapper'>
                 <view class='mine-service'>我的服务</view>
                 <view class='service-list'>
-                    <view wx:for="{{labelList}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex" bindtap="handleClickLabel" data-labelindex="{{labelIndex}}">
+                    <view wx:for="{{labelList}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="labelIndex"
+                        bindtap="handleClickLabel" data-labelindex="{{labelIndex}}">
                         <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
-                            <image src="/images/mine/{{imageList[labelIndex]}}.png" style='width:80rpx;height:80rpx;'></image>
+                            <image src="/images/mine/{{imageList[labelIndex]}}.png" style='width:80rpx;height:80rpx;'>
+                            </image>
                         </view>
                         <view class='label-title'>{{labelItem}}</view>
                     </view>
@@ -200,10 +222,13 @@
 
 
         <!--切换弹窗-->
-        <c-custom-modal content='{{modalContent.content}}' wx:if='{{modalContent.show}}' bind:closemodal='closeModal' bind:handleconfirm='changeRoleModal'></c-custom-modal>
+        <c-custom-modal content='{{modalContent.content}}' wx:if='{{modalContent.show}}' bind:closemodal='closeModal'
+            bind:handleconfirm='changeRoleModal'></c-custom-modal>
 
         <c-pop content='企业管理员请走报餐入口' wx:if='{{showPop}}' bind:closemodal='closePop'></c-pop>
     </view>
 </view>
-<c-custom-modal title='是否拨打客服电话?' content='{{servicePhone}}' wx:if='{{showPhoneModal}}' bind:closemodal='closePhoneModal' bind:handleconfirm='handleContact'></c-custom-modal>
-<c-custom-modal title='是否开柜取餐?' content='{{cellInfoDes}}' wx:if='{{showTakeFoodModal}}' bind:closemodal='closeTakeFoodModal' bind:handleconfirm='handleTakeFoodContact'></c-custom-modal>
+<c-custom-modal title='是否拨打客服电话?' content='{{servicePhone}}' wx:if='{{showPhoneModal}}'
+    bind:closemodal='closePhoneModal' bind:handleconfirm='handleContact'></c-custom-modal>
+<c-custom-modal title='是否开柜取餐?' content='{{cellInfoDes}}' wx:if='{{showTakeFoodModal}}'
+    bind:closemodal='closeTakeFoodModal' bind:handleconfirm='handleTakeFoodContact'></c-custom-modal>

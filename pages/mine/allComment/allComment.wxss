@@ -1,134 +1,145 @@
 .top-wrapper {
-    width: 100%;
-    height: 80rpx;
-    background: rgba(255, 255, 255, 1);
-    border-radius: 6rpx;
-    line-height: 80rpx;
-    font-size: 30rpx;
-    font-family: PingFangSC;
-    font-weight: 400;
-    color: rgba(51, 51, 51, 1);
-    padding-left: 20rpx;
-    box-sizing: border-box;
+  width: 100%;
+  height: 80rpx;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 6rpx;
+  line-height: 80rpx;
+  font-size: 30rpx;
+  font-family: PingFangSC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  padding-left: 20rpx;
+  box-sizing: border-box;
 }
 
 .wrapper {
-    margin-top: 20rpx;
-    width: 100%;
-    background: rgba(255, 255, 255, 1);
+  margin-top: 20rpx;
+  width: 100%;
+  background: rgba(255, 255, 255, 1);
 }
 
 .top {
-    border-bottom: 1rpx solid #F5F5F5;
-    display: flex;
+  border-bottom: 1rpx solid #f5f5f5;
+  display: flex;
 }
 
 .img {
-    width: 64rpx;
-    height: 64rpx;
-    flex-grow: 0;
-    flex-shrink: 0;
-    margin: 18rpx 10rpx 18rpx 30rpx;
-    border-radius: 50%;
+  width: 64rpx;
+  height: 64rpx;
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin: 18rpx 10rpx 18rpx 30rpx;
+  border-radius: 50%;
 }
 
 .name {
-    font-size: 28rpx;
-    font-family: PingFangSC;
-    font-weight: 400;
-    color: rgba(51, 51, 51, 1);
-    line-height: 40rpx;
-    margin-top: 16rpx;
+  font-size: 28rpx;
+  font-family: PingFangSC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 40rpx;
+  margin-top: 16rpx;
 }
-
+.huifu-wrapper {
+  display: inline-block;
+  margin-right: 10rpx;
+  background-color: #f79c4c;
+  color: white;
+  font-size: 25rpx;
+  border-radius: 12rpx;
+  padding: auto 10rpx;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+  vertical-align: text-top;
+}
 .date {
-    font-size: 20rpx;
-    font-family: PingFangSC;
-    font-weight: 400;
-    color: rgba(153, 153, 153, 1);
-    line-height: 28rpx;
+  font-size: 20rpx;
+  font-family: PingFangSC;
+  font-weight: 400;
+  color: rgba(153, 153, 153, 1);
+  line-height: 28rpx;
 }
 
 .order {
-    background: rgba(250, 250, 250, 1);
-    border-radius: 6rpx;
-    padding: 20rpx 0 32rpx 20rpx;
+  background: rgba(250, 250, 250, 1);
+  border-radius: 6rpx;
+  padding: 20rpx 0 32rpx 20rpx;
 }
 
 .order-date {
-    font-size: 26rpx;
-    font-family: PingFangSC;
-    font-weight: 400;
-    color: rgba(102, 102, 102, 1);
-    line-height: 36rpx;
-    margin-bottom: 14rpx;
+  font-size: 26rpx;
+  font-family: PingFangSC;
+  font-weight: 400;
+  color: rgba(102, 102, 102, 1);
+  line-height: 36rpx;
+  margin-bottom: 14rpx;
 }
 
 .flex-a {
-    display: flex;
+  display: flex;
 }
 
 .food-name {
-    font-size: 32rpx;
-    font-family: PingFang-SC;
-    font-weight: 500;
-    color: rgba(51, 51, 51, 1);
-    line-height: 44rpx;
+  font-size: 32rpx;
+  font-family: PingFang-SC;
+  font-weight: 500;
+  color: rgba(51, 51, 51, 1);
+  line-height: 44rpx;
 }
 
 .food-count {
-    font-size: 26rpx;
-    font-family: PingFang-SC;
-    font-weight: 400;
-    color: rgba(102, 102, 102, 1);
-    line-height: 44rpx;
-    padding-left: 10rpx;
+  font-size: 26rpx;
+  font-family: PingFang-SC;
+  font-weight: 400;
+  color: rgba(102, 102, 102, 1);
+  line-height: 44rpx;
+  padding-left: 10rpx;
 }
 
 .title {
-    font-size: 30rpx;
-    font-family: PingFang-SC;
-    font-weight: 400;
-    color: rgba(51, 51, 51, 1);
-    line-height: 42rpx;
-    margin-right: 20rpx;
+  font-size: 30rpx;
+  font-family: PingFang-SC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 42rpx;
+  margin-right: 20rpx;
 }
 
 .tag {
-    background: rgba(247, 156, 76, 0.2);
-    border-radius: 20rpx;
-    height: 36rpx;
-    font-size: 20rpx;
-    font-family: PingFangSC;
-    font-weight: 400;
-    color: rgba(247, 156, 76, 1);
-    line-height: 36rpx;
-    padding: 0 30rpx;
-    margin-right: 10rpx;
+  background: rgba(247, 156, 76, 0.2);
+  border-radius: 20rpx;
+  height: 36rpx;
+  font-size: 20rpx;
+  font-family: PingFangSC;
+  font-weight: 400;
+  color: rgba(247, 156, 76, 1);
+  line-height: 36rpx;
+  padding: 0 30rpx;
+  margin-right: 10rpx;
 }
 
 .comment {
-    margin-top: 20rpx;
-    font-size: 30rpx;
-    font-family: PingFangSC;
-    font-weight: 400;
-    color: rgba(51, 51, 51, 1);
-    line-height: 42rpx;
+  margin-top: 20rpx;
+  font-size: 30rpx;
+  font-family: PingFangSC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 42rpx;
 }
 
 .star {
-    width: 32rpx;
-    height: 32rpx;
-    margin-top: 6rpx;
-    margin-right: 6rpx;
+  width: 32rpx;
+  height: 32rpx;
+  margin-top: 6rpx;
+  margin-right: 6rpx;
 }
 
 .nono {
-    font-size: 30rpx;
-    font-family: PingFang-SC;
-    font-weight: 400;
-    color: rgba(153, 153, 153, 1);
-    line-height: 42rpx;
-    text-align: center;
-    margin-bottom: 60rpx;
+  font-size: 30rpx;
+  font-family: PingFang-SC;
+  font-weight: 400;
+  color: rgba(153, 153, 153, 1);
+  line-height: 42rpx;
+  text-align: center;
+  margin-bottom: 60rpx;
 }
