@@ -4,8 +4,8 @@
 
         <view style='padding:20rpx;'>
             <view class='top-wrapper'>全部评价 <text style='color:#F7A64C;'>{{amount}}条</text></view>
-            <view class='wrapper' bindtap='gotoDetail' wx:for='{{list}}' data-ordercode='{{item.orderCode}}'
-                wx:key='index'>
+            <view class='wrapper' data-readstatus='{{item.notRead}}' bindtap='gotoDetail' wx:for='{{list}}'
+                data-ordercode='{{item.orderCode}}' wx:key='index'>
                 <view class='top'>
                     <image src='{{headImage}}' class='img'></image>
                     <view style='flex-grow:1;'>

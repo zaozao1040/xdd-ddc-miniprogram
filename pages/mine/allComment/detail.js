@@ -26,23 +26,9 @@ Page({
                 orderCode: options.orderCode
             })
         })
-        _this.updateOrderReplyRead(options.orderCode)
+
     },
-    // 标记已读
-    updateOrderReplyRead(orderCode) {
-        let param = {
-            userCode: wx.getStorageSync('userCode'),
-            orderCode: orderCode
-        }
-        let url = '/userEvaluate/updateOrderReplyRead'
-        let params = {
-            data: param,
-            url,
-            method: 'post'
-        }
-        requestModel.request(params, () => {
-        })
-    },
+
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
