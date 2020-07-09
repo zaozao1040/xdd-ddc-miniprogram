@@ -89,7 +89,7 @@ Component({
                         duration: 2000
                     })
 
-                    wx.navigateBack({
+                    wx.reLaunch({
                         url: '/pages/mine/allComment/allComment'
                     })
                 })

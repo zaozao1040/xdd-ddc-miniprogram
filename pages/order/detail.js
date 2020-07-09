@@ -8,6 +8,9 @@ Page({
      * 页面的初始数据
      */
     data: {
+        // 是否显示电子凭证
+        qrcodeShow: true,
+
         detailInfo: null,
 
         payStatusMap: {
@@ -211,6 +214,10 @@ Page({
             a = '订单已完成'
         } else {
             a = '订单已取消'
+            this.setData({
+                qrcodeShow: false
+            })
+
         }
         return a
     },

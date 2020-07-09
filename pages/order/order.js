@@ -53,10 +53,10 @@ Page({
         if (e.detail && e.detail.value)
 
             this.setData({
-            selectedDate: e.detail.value,
-            selectedDateFlag: true,
-            showShapeFlag: false
-        })
+                selectedDate: e.detail.value,
+                selectedDateFlag: true,
+                showShapeFlag: false
+            })
         this.getOrderList(true)
     },
     showShape() {
@@ -74,7 +74,7 @@ Page({
 
     },
     /* 跳转订单详情 */
-    handleGotoOrderDetail: function(e) {
+    handleGotoOrderDetail: function (e) {
         this.setData({
             showShapeFlag: false
         })
@@ -89,9 +89,9 @@ Page({
 
         if (!getWxUserInfo) {
             wx.navigateTo({
-                    url: '/pages/login/authority/authority',
-                })
-                //无 userCode，则到登录页面
+                url: '/pages/login/authority/authority',
+            })
+            //无 userCode，则到登录页面
         } else {
             wx.navigateTo({
                 url: '/pages/login/selectPhone/selectPhone',
@@ -107,7 +107,7 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function(options) {
+    onLoad: function (options) {
         console.log('08-30', options)
         if (options.content) {
             let content = options.content
@@ -125,7 +125,7 @@ Page({
         })
     },
     /* 手动点击触发下一页 */
-    gotoNextPage: function() {
+    gotoNextPage: function () {
         if (this.data.hasMoreDataFlag) {
             this.getOrderList(false)
         }
@@ -133,9 +133,9 @@ Page({
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function() {
+    onShow: function () {
         let _this = this
-            //这写在onShow里可以吗？？
+        //这写在onShow里可以吗？？
 
         let now = new Date()
         let end = new Date(now.getTime() + 7 * 24 * 3600 * 1000)
@@ -168,14 +168,14 @@ Page({
         }
 
     },
-    onHide: function() {},
+    onHide: function () { },
     //点击这个订单的tab标签，即触发这个钩子
     onTabItemTap(item) {
         this.setData({
             showRatingsFlag: false,
         })
     },
-    changeItemStatusActiveFlag: function(e) {
+    changeItemStatusActiveFlag: function (e) {
         this.setData({
             showShapeFlag: false
         })
@@ -206,10 +206,10 @@ Page({
 
         this.getOrderList(true)
     },
-    initOrder: function() {
+    initOrder: function () {
         let _this = this
         wx.getSystemInfo({
-            success: function(res) {
+            success: function (res) {
                 _this.setData({
                     windowHeight: res.windowHeight
                 })
@@ -218,7 +218,7 @@ Page({
         const query = wx.createSelectorQuery()
         query.select('.c_scrollPosition_forCalculate').boundingClientRect()
         query.selectViewport().scrollOffset()
-        query.exec(function(res) {
+        query.exec(function (res) {
             _this.setData({
                 scrollTop: res[0].top // #the-id节点的上边界坐标
             })
@@ -325,7 +325,7 @@ Page({
         this.getOrderList(true)
     },
     //选择筛选日期
-    bindChangeDate: function(e) {
+    bindChangeDate: function (e) {
         const val = e.detail.value
         this.setData({
             year: this.data.years[val[0]],
@@ -334,7 +334,7 @@ Page({
         })
     },
     /* 获取订单列表 */
-    getOrderList: function(fromBegin) {
+    getOrderList: function (fromBegin) {
         let _this = this
         _this.setData({
             getalready: false
@@ -375,6 +375,10 @@ Page({
         })
         let page = _this.data.page
         let limit = _this.data.limit
+        // let param = {
+        //     url: '/order/getOrderList?userCode=USER556128517025169408' + '&page=' + page + '&limit=' + limit + '&type=' + _this.data.itemStatusActiveFlag +
+        //         (mealDate ? '&mealDate=' + mealDate : '')
+        // }
         let param = {
             url: '/order/getOrderList?userCode=' + _this.data.userCode + '&page=' + page + '&limit=' + limit + '&type=' + _this.data.itemStatusActiveFlag +
                 (mealDate ? '&mealDate=' + mealDate : '')
@@ -512,7 +516,7 @@ Page({
             payType: 'WECHAT_PAY'
         })
     },
-    radioChange: function() {
+    radioChange: function () {
         //可使用余额小于_this.data.realMoney
         if (this.data.canUseBalance < this.data.payPrice) { //如果用户余额少于用户需要支付的价格，不允许用余额,也就是禁止打开switch
             this.setData({
@@ -525,7 +529,7 @@ Page({
         }
     },
     /* 去付款的对话框的确定 */
-    buttonClickYes: function() {
+    buttonClickYes: function () {
 
         if (this.data.payType == 'WECHAT_PAY' || this.data.payType == 'BALANCE_MIX_WECHAT_PAY') {
             this.payNowByWx()
@@ -538,14 +542,14 @@ Page({
         })
     },
     /* 去付款的对话框的取消 */
-    buttonClickNo: function() {
+    buttonClickNo: function () {
 
         this.setData({
             showPayTypeFlag: false
         })
     },
     /* 去付款 */
-    handleSecondpayOrder: function(e) {
+    handleSecondpayOrder: function (e) {
         this.setData({
             showShapeFlag: false
         })
@@ -614,7 +618,7 @@ Page({
 
     },
     /* 去付款-微信支付 */
-    payNowByWx: function() {
+    payNowByWx: function () {
         let _this = this
         if (!_this.data.canClick) {
             return
@@ -623,7 +627,7 @@ Page({
         if (_this.data.timer) {
             clearTimeout(_this.data.timer)
         }
-        _this.data.timer = setTimeout(function() {
+        _this.data.timer = setTimeout(function () {
             _this.data.canClick = true
         }, 2000)
 
@@ -644,7 +648,7 @@ Page({
         }
         requestModel.request(params, resdata => {
             let data = resdata.payData
-                // 如果需要支付。选择微信支付哪还有不要支付的5/18
+            // 如果需要支付。选择微信支付哪还有不要支付的5/18
             if (resdata.needPay) {
                 if (data.timeStamp) {
                     wx.requestPayment({
@@ -653,7 +657,7 @@ Page({
                         'package': data.packageValue,
                         'signType': data.signType,
                         'paySign': data.paySign,
-                        success: function(e) {
+                        success: function (e) {
 
                             wx.showToast({
                                 title: '成功支付订单',
@@ -665,14 +669,14 @@ Page({
                             }, 1000)
 
                         },
-                        fail: function(e) {
+                        fail: function (e) {
                             wx.showToast({
                                 title: '已取消支付',
                                 image: '/images/msg/success.png',
                                 duration: 1000
                             })
                         },
-                        complete: function() {
+                        complete: function () {
                             wx.hideLoading()
                         }
                     })
@@ -681,7 +685,7 @@ Page({
         })
     },
     /* 去付款-余额支付 */
-    payNowByBalance: function() {
+    payNowByBalance: function () {
         let _this = this
         if (!_this.data.canClick) {
             return
@@ -690,7 +694,7 @@ Page({
         if (_this.data.timer) {
             clearTimeout(_this.data.timer)
         }
-        _this.data.timer = setTimeout(function() {
+        _this.data.timer = setTimeout(function () {
             _this.data.canClick = true
         }, 2000)
 
@@ -722,9 +726,9 @@ Page({
     closeModal() {
         if (this.data.takeorderModalShow) {
             this.setData({
-                    takeorderModalShow: false
-                })
-                //取餐后为啥要只刷第一页的啊
+                takeorderModalShow: false
+            })
+            //取餐后为啥要只刷第一页的啊
 
         }
         wx.showTabBar()
@@ -748,7 +752,7 @@ Page({
         })
     },
     /* 去取餐 */
-    handleTakeOrder: function(e) {
+    handleTakeOrder: function (e) {
         this.setData({
             showShapeFlag: false
         })
@@ -763,7 +767,7 @@ Page({
             ordercode,
             pickagain
         } = e.currentTarget.dataset
-            //就调用接口加载柜子号 
+        //就调用接口加载柜子号 
         let param = {
             url: '/order/orderPickPre?userCode=' + _this.data.userCode + '&orderCode=' + ordercode
         }
@@ -786,13 +790,13 @@ Page({
         if (_this.data.timer) {
             clearTimeout(_this.data.timer)
         }
-        _this.data.timer = setTimeout(function() {
+        _this.data.timer = setTimeout(function () {
             _this.data.canClick = true
         }, 2000)
     },
 
     /* 去评价 */
-    handleEvaluateOrder: function(e) {
+    handleEvaluateOrder: function (e) {
         this.setData({
             showShapeFlag: false
         })
@@ -803,7 +807,7 @@ Page({
 
 
     //用于解决小程序的遮罩层滚动穿透
-    preventTouchMove: function() {
+    preventTouchMove: function () {
 
     }
 

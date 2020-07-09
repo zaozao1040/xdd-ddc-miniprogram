@@ -1,7 +1,8 @@
 <view class="wrapper" wx:if='{{getdataalready}}'>
     <scroll-view scroll-y style="height:{{ windowHeight }}px" bindscroll="handleMostOuterScroll">
         <view class='header-status'>{{detailInfo.orderStatusDes}}</view>
-        <view class="header-dianzipingzheng" data-orderCode="{{detailInfo.orderCode}}" bindtap="handleGotoQrcode" >
+        <view wx:if="{{qrcodeShow}}" class="header-dianzipingzheng" data-orderCode="{{detailInfo.orderCode}}"
+            bindtap="handleGotoQrcode">
             <text style="margin-top: 6rpx; color: #F79C4C; font-size: 30rpx;" class="iconfont icon-hetong1"></text>
             <text style='color:#F79C4C;margin-left:10rpx;'>电子凭证</text>
         </view>
@@ -21,7 +22,8 @@
 
                     </view>
                     <view class="cart-menuItem-mealtype">
-                        <text style="margin-right:10rpx;">{{detailInfo.mealTypeDes}}</text><text>x{{item.foodQuantity}}</text>
+                        <text
+                            style="margin-right:10rpx;">{{detailInfo.mealTypeDes}}</text><text>x{{item.foodQuantity}}</text>
                     </view>
                 </view>
             </view>
@@ -95,7 +97,9 @@
             <view class="order-info-one">
                 <view class="left-label flex-a">
                     <view>订单编号</view>
-                    <view style='font-size:24rpx;margin-left:10rpx;line-height:36rpx;border-radius:6rpx;color:#F79C4C;border:1rpx solid #F79C4C;padding:0 6rpx;' bindtap='handleCopy'>复制</view>
+                    <view
+                        style='font-size:24rpx;margin-left:10rpx;line-height:36rpx;border-radius:6rpx;color:#F79C4C;border:1rpx solid #F79C4C;padding:0 6rpx;'
+                        bindtap='handleCopy'>复制</view>
                 </view>
                 <view class="right-content">{{detailInfo.orderCode}}</view>
             </view>
@@ -123,7 +127,9 @@
 
             <view class="left-label" style='color:#666;margin-left:10rpx;'>联系客服</view>
         </view>
-        <view wx:if='{{windowHeight>wrapperHeight}}' style='height:{{windowHeight-wrapperHeight}}px;background:#f5f5f5;'></view>
-        <c-custom-modal title='是否拨打客服电话?' content='{{servicePhone}}' wx:if='{{showPhoneModal}}' bind:closemodal='closePhoneModal' bind:handleconfirm='handleContact'></c-custom-modal>
+        <view wx:if='{{windowHeight>wrapperHeight}}'
+            style='height:{{windowHeight-wrapperHeight}}px;background:#f5f5f5;'></view>
+        <c-custom-modal title='是否拨打客服电话?' content='{{servicePhone}}' wx:if='{{showPhoneModal}}'
+            bind:closemodal='closePhoneModal' bind:handleconfirm='handleContact'></c-custom-modal>
     </scroll-view>
 </view>
