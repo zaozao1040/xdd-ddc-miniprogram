@@ -51,10 +51,15 @@ Page({
         wx.showTabBarRedDot({
           index: 2
         })
-        _this.setData({
-          notReadNumber: data.notReadNumber
-        });
+
+      } else {
+        wx.hideTabBarRedDot({
+          index: 2
+        })
       }
+      _this.setData({
+        notReadNumber: data.notReadNumber
+      });
     });
   },
   //跳转到登录页面
