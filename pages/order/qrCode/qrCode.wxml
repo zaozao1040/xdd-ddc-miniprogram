@@ -30,5 +30,5 @@
     已取餐
 </view>
 <view wx:elif="{{pickStatus===0}}" class="weidao">
-    未到取餐时间
+    不可取餐
 </view>
