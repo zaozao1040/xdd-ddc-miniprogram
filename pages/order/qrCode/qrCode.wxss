@@ -59,3 +59,26 @@
   flex-shrink: 0;
   text-align: center;
 }
+.button {
+  line-height: 100rpx;
+  font-size: 36rpx;
+  color: #fff;
+  text-align: center;
+  background-image: linear-gradient(270deg, #f79c4c 0%, #f79c4c 99%);
+  border-radius: 57rpx;
+  font-family: PingFang-SC-Medium;
+  letter-spacing: 0;
+  margin: 50rpx 100rpx;
+}
+.yiqucan {
+  text-align: center;
+  margin: 100rpx;
+  font-size: 50rpx;
+  color: red;
+}
+.weidao {
+  text-align: center;
+  margin: 100rpx;
+  font-size: 50rpx;
+  color: rgb(189, 189, 189);
+}
