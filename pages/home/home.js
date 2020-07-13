@@ -604,7 +604,7 @@ Page({
     //宁夏直接跳转电子凭证
     let organizeCode = wx.getStorageSync("userInfo").userInfo.organizeCode
     let ningxiaOrgCode = getApp().globalData.ningxiaOrgnaizeCode
-    if (organizeCode !== ningxiaOrgCode) {
+    if (organizeCode === ningxiaOrgCode) {
       wx.navigateTo({
         url: '/pages/order/qrCode/qrCode?orderCode=' + e.currentTarget.dataset.ordercode
       })
