@@ -16,7 +16,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userInfo: wx.getStorageSync("userInfo").userInfo,
+    userInfo: {},
     detailInfo: {},
 
     code_w: code_w,
@@ -39,15 +39,16 @@ Page({
   // },
 
   onLoad: function (options) {
+    console.log('www',this.data.userInfo)
     let _this = this
     requestModel.getUserCode(userCode => {
       let param = {
         url: '/order/getOrderDetail?userCode=' + userCode + '&orderCode=' + options.orderCode
       }
       requestModel.request(param, data => {
-        console.log('asdfasdfasdfa', data)
         _this.setData({
           detailInfo: data,
+          userInfo:wx.getStorageSync("userInfo").userInfo
         }, () => {
           this.getOrderPickStatus()
           this.makeQrcode(data)
