@@ -1,0 +1,34 @@
+<view class="title">
+
+</view>
+<canvas class='canvas' style="margin:auto;width:{{code_w}}px; height:{{code_w}}px;" canvas-id='canvas'
+    bindlongtap='save'></canvas>
+<view class="date">
+    {{detailInfo.mealDate}} {{detailInfo.mealTypeDes}}
+</view>
+<view class="food-wrapper">
+    <view class="foodItem" wx:for="{{detailInfo.orderFoodList}}" wx:for-index="foodListIndex"
+        wx:for-item="foodListItem">
+        <view class="foodName">
+            {{foodListItem.foodName}}
+        </view>
+        <view class="foodQuantity">
+            x {{foodListItem.foodQuantity}}份
+        </view>
+    </view>
+</view>
+<view class="user">
+    {{userInfo.userName}}({{userInfo.phoneNumber}})
+</view>
+<view class="organize">
+    {{userInfo.organizeName}}
+</view>
+<view wx:if="{{pickStatus===1}}" class="button" bindtap="updateOrderStatus">
+    取餐
+</view>
+<view wx:elif="{{pickStatus===2}}" class="yiqucan">
+    已取餐
+</view>
+<view wx:elif="{{pickStatus===0}}" class="weidao">
+    不可取餐
+</view>

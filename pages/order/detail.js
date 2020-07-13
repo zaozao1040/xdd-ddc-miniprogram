@@ -256,7 +256,7 @@ Page({
     },
     handleGotoQrcode(e) {
         wx.navigateTo({
-            url: './qrCode/qrCode?orderCode=' + e.currentTarget.dataset.orderCode
+            url: './qrCode/qrCode?orderCode=' + e.currentTarget.dataset.ordercode
         })
     },
     /**

@@ -26,38 +26,17 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  // onLoad: function (options) {
-  //   var pages = getCurrentPages();
-  //   var prevPage = pages[pages.length - 2];  //上一个页面
-  //   var detailInfo = prevPage.data.detailInfo
-  //   this.setData({
-  //     detailInfo: detailInfo,
-  //   }, () => {
-  //     this.makeQrcode(detailInfo.orderCode)
-  //   });
-
-  // },
-
   onLoad: function (options) {
-    let _this = this
-    requestModel.getUserCode(userCode => {
-      let param = {
-        url: '/order/getOrderDetail?userCode=' + userCode + '&orderCode=' + options.orderCode
-      }
-      requestModel.request(param, data => {
-        console.log('asdfasdfasdfa', data)
-        _this.setData({
-          detailInfo: data,
-        }, () => {
-          this.getOrderPickStatus()
-          this.makeQrcode(data)
+    var pages = getCurrentPages();
+    var prevPage = pages[pages.length - 2];  //上一个页面
+    var detailInfo = prevPage.data.detailInfo
+    this.setData({
+      detailInfo: detailInfo,
+    }, () => {
+      this.makeQrcode(detailInfo.orderCode)
+    });
 
-        });
-      })
-    })
   },
-
-
 
   // 获取订单取餐状态
   getOrderPickStatus: function () {
@@ -89,14 +68,28 @@ Page({
       url: '/order/updatePickStatus',
       method: 'post'
     }
-    requestModel.request(params, (result) => {
-      wx.showToast({
-        title: '取餐成功',
-        duration: 3000
-      })
-      _this.getOrderPickStatus()
-    })
+    wx.showModal({
+      title: "是否取餐",
+      content: "请打餐时出示",
+      success: function (res) {
+        if (res.confirm) {
+          requestModel.request(params, (result) => {
+            wx.showToast({
+              title: '取餐成功',
+              duration: 3000
+            })
+            _this.getOrderPickStatus()
+          })
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+
+      },
+    });
+
   },
+
+
 
   makeQrcode: function (text) {
     qrcode = new QRCode('canvas', {
@@ -117,7 +110,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // this.getOrderPickStatus()
+    this.getOrderPickStatus()
   },
 
   /**
