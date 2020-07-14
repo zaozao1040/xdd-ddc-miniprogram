@@ -1,8 +1,7 @@
 <view class="title">
 
 </view>
-<canvas class='canvas' style="margin:auto;width:{{code_w}}px; height:{{code_w}}px;" canvas-id='canvas'
-    bindlongtap='save'></canvas>
+<canvas class='canvas' style="margin:auto;width:{{code_w}}px; height:{{code_w}}px;" canvas-id='canvas'></canvas>
 <view class="date">
     {{detailInfo.mealDate}} {{detailInfo.mealTypeDes}}
 </view>

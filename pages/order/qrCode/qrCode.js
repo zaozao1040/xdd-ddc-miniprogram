@@ -28,7 +28,6 @@ Page({
    */
 
   onLoad: function (options) {
-    console.log('www',this.data.userInfo)
     let _this = this
     requestModel.getUserCode(userCode => {
       let param = {
@@ -37,7 +36,7 @@ Page({
       requestModel.request(param, data => {
         _this.setData({
           detailInfo: data,
-          userInfo:wx.getStorageSync("userInfo").userInfo
+          userInfo: wx.getStorageSync("userInfo").userInfo
         }, () => {
           this.getOrderPickStatus()
           this.makeQrcode(data.orderCode)
