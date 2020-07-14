@@ -26,17 +26,6 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  // onLoad: function (options) {
-  //   var pages = getCurrentPages();
-  //   var prevPage = pages[pages.length - 2];  //上一个页面
-  //   var detailInfo = prevPage.data.detailInfo
-  //   this.setData({
-  //     detailInfo: detailInfo,
-  //   }, () => {
-  //     this.makeQrcode(detailInfo.orderCode)
-  //   });
-
-  // },
 
   onLoad: function (options) {
     let _this = this
@@ -45,19 +34,24 @@ Page({
         url: '/order/getOrderDetail?userCode=' + userCode + '&orderCode=' + options.orderCode
       }
       requestModel.request(param, data => {
-        console.log('asdfasdfasdfa', data)
         _this.setData({
           detailInfo: data,
         }, () => {
           this.getOrderPickStatus()
-          this.makeQrcode(data)
+          this.makeQrcode(data.orderCode)
 
         });
       })
     })
   },
 
-
+  makeQrcode: function (text) {
+    qrcode = new QRCode('canvas', {
+      text: text,
+      width: code_w,
+      height: code_w,
+    });
+  },
 
   // 获取订单取餐状态
   getOrderPickStatus: function () {
@@ -98,14 +92,7 @@ Page({
     })
   },
 
-  makeQrcode: function (text) {
-    qrcode = new QRCode('canvas', {
-      text: text,
-      width: code_w,
-      height: code_w,
-    });
-    qrcode.makeCode()
-  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
