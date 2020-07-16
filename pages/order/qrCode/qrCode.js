@@ -20,7 +20,8 @@ Page({
     detailInfo: {},
 
     code_w: code_w,
-    pickStatus: -1
+    pickStatus: -1,
+    ningxiaOrgFlag: false
   },
 
   /**
@@ -29,6 +30,14 @@ Page({
 
   onLoad: function (options) {
     let _this = this
+    let tmp_ningxiaOrgFlag = this.checkNingxia()
+    if (tmp_ningxiaOrgFlag) {
+      console.log('ning')
+      _this.setData({
+        ningxiaOrgFlag: tmp_ningxiaOrgFlag
+      });
+    }
+
     requestModel.getUserCode(userCode => {
       let param = {
         url: '/order/getOrderDetail?userCode=' + userCode + '&orderCode=' + options.orderCode
@@ -45,7 +54,16 @@ Page({
       })
     })
   },
-
+  // 判断是否是宁夏
+  checkNingxia: function () {
+    let organizeCode = wx.getStorageSync("userInfo").userInfo.organizeCode
+    let ningxiaOrgCode = getApp().globalData.ningxiaOrgnaizeCode
+    if (organizeCode === ningxiaOrgCode) {
+      return true
+    } else {
+      return false
+    }
+  },
   makeQrcode: function (text) {
     qrcode = new QRCode('canvas', {
       text: text,

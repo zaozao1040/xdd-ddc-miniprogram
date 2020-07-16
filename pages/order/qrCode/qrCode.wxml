@@ -22,12 +22,14 @@
 <view class="organize">
     {{userInfo.organizeName}}
 </view>
-<view wx:if="{{pickStatus===1}}" class="button" bindtap="updateOrderStatus">
-    取餐
-</view>
-<view wx:elif="{{pickStatus===2}}" class="yiqucan">
-    已取餐
-</view>
-<view wx:elif="{{pickStatus===0}}" class="weidao">
-    不可取餐
-</view>
+<block wx:if="{{ningxiaOrgFlag}}">
+    <view wx:if="{{pickStatus===1}}" class="button" bindtap="updateOrderStatus">
+        取餐
+    </view>
+    <view wx:elif="{{pickStatus===2}}" class="yiqucan">
+        已取餐
+    </view>
+    <view wx:elif="{{pickStatus===0}}" class="weidao">
+        不可取餐
+    </view>
+</block>
