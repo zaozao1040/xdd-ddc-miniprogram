@@ -20,7 +20,7 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function(options) {
+    onLoad: function (options) {
 
     },
 
@@ -33,12 +33,12 @@ Page({
 
             let { userName, userType, userStatus, organizeName } = userInfo
             _this.setData({
-                    userName: userName,
-                    userType: userType,
-                    userStatus: userStatus,
-                    organizeName: organizeName
-                })
-                // 企业用户
+                userName: userName,
+                userType: userType,
+                userStatus: userStatus,
+                organizeName: organizeName
+            })
+            // 企业用户
             if (userType == 'B_USER') {
                 if (userStatus == 'NORMAL') {
                     _this.setData({
@@ -72,12 +72,11 @@ Page({
                     canBinding: true, //可绑定
                     bindChecking: false //审核中
                 })
-                console.log('bindChecking', _this.data.bindChecking)
-                console.log('canBinding', _this.data.canBinding)
+
                 let param = {
-                        url: '/organize/getOrganizeList?userCode=' + _this.data.userCode
-                    }
-                    //请求企业列表
+                    url: '/organize/organizeSimpleList?userCode=' + _this.data.userCode
+                }
+                //请求企业列表
                 requestModel.request(param, (data) => {
                     _this.setData({
                         organizeList: data
@@ -94,7 +93,7 @@ Page({
                     bindChecking: false //审核中
                 })
                 _this.initAddress()
-                    //企业管理员
+                //企业管理员
             } else if (userType == 'ORG_ADMIN') {
                 _this.setData({
                     bindAlready: true, //已经绑定
@@ -115,7 +114,7 @@ Page({
         })
         this.initAddress()
     },
-    onShow: function() {
+    onShow: function () {
         let _this = this
         requestModel.getUserCode(userCode => {
             _this.getBindStatus()
@@ -126,13 +125,13 @@ Page({
 
     },
     /* 页面隐藏后回收定时器指针 */
-    onHide: function() {},
-    initAddress: function() {
+    onHide: function () { },
+    initAddress: function () {
         let _this = this;
         const query = wx.createSelectorQuery()
         query.select('.c_scrollPosition_forCalculate').boundingClientRect()
         query.selectViewport().scrollOffset()
-        query.exec(function(res) {
+        query.exec(function (res) {
             _this.setData({
                 scrollTop: res[0].top // #the-id节点的上边界坐标
             })
@@ -140,7 +139,7 @@ Page({
         const query_1 = wx.createSelectorQuery()
         query_1.select('.c_buttonPosition_forCalculate').boundingClientRect()
         query_1.selectViewport().scrollOffset()
-        query_1.exec(function(res) {
+        query_1.exec(function (res) {
             _this.setData({
                 buttonTop: res[0].top // #the-id节点的上边界坐标
             })
@@ -148,7 +147,7 @@ Page({
         console.log('bindChecking', _this.data.bindChecking)
         console.log('canBinding', _this.data.canBinding)
     },
-    selectOrganize: function(e) {
+    selectOrganize: function (e) {
         console.log('aaa')
         this.setData({
             organize: e.currentTarget.dataset.organizename,
@@ -165,22 +164,22 @@ Page({
         })
 
     },
-    nameInput: function(e) {
+    nameInput: function (e) {
         this.setData({
             userName: e.detail.value
         });
     },
-    usernumberInput: function(e) {
+    usernumberInput: function (e) {
         this.setData({
             usernumber: e.detail.value
         });
     },
-    organizeInput: function(e) {
+    organizeInput: function (e) {
         this.setData({
             organize: e.detail.value
         });
     },
-    searchInput: function(e) {
+    searchInput: function (e) {
         let _this = this
         _this.handleSearchOrganizes(e.detail.value)
     },
@@ -191,9 +190,9 @@ Page({
         if (_this.data.userType == 'ADMIN') {
             let urlp = encodeURI('userCode=' + _this.data.userCode + '&organizeName=' + organizeName)
             let param = {
-                    url: '/organize/getOrganizeList?' + urlp
-                }
-                //请求企业列表
+                url: '/organize/getOrganizeList?' + urlp
+            }
+            //请求企业列表
             requestModel.request(param, (data) => {
                 _this.setData({
                     employeeNumber: false,
@@ -239,7 +238,7 @@ Page({
         }
     },
     /* button的绑定企业 */
-    changeOrganize: function() {
+    changeOrganize: function () {
         let _this = this
         if (!_this.data.userName) {
             wx.showToast({
