@@ -1,0 +1,63 @@
+<view>
+    <view class="bg-wrapper">
+        <view class="img-wrapper">
+            <image src="/images/login/logo.png" mode="widthFix" style="width:100%;width:254rpx;height: 102rpx;"></image>
+        </view>
+        <view class="title">新一代工作餐</view>
+        <view wx:if='{{agreeAuthority&&!showInfoFlag}}'>
+            <button class="button" open-type="getPhoneNumber" bindgetphonenumber="handleGetPhoneNumber">微信快捷登录</button>
+            <view class='button-a' bindtap='changeValidateType'>验证码登录</view>
+            <view class='button-a' style='margin-top:40rpx;' bindtap='changeValidateTypeUserPw'>用户名密码登录</view>
+        </view>
+        <view wx:else>
+            <button class="button" style='background:#DDDDDD;' bindtap='showAuthorityInfo'>微信快捷登录</button>
+            <view class='button-a' style='color:#CCCCCC;' bindtap='showAuthorityInfo'>验证码登录</view>
+            <view class='button-a' style='color:#CCCCCC;margin-top:40rpx;' bindtap='showAuthorityInfo'>用户名密码登录</view>
+        </view>
+
+    </view>
+
+
+    <image class='checked-b' wx:if='{{agreeAuthority}}' bindtap='changeAuthority' src='/images/login/checked.png'>
+    </image>
+    <view class='unchecked-b' wx:else bindtap='changeAuthority'></view>
+    <view class='agree-des-b' bindtap='changeAuthority'>
+        登录代表您已同意<text style='color:#F79C4C;' catchtap='showProtocal'>点点餐用户协议</text><text style='color:#F79C4C;'
+            catchtap='showPrivacy'>、隐私政策</text>
+    </view>
+
+
+    <!--弹框-->
+    <view class="modulebox-background-wrapper" wx:if='{{showInfoFlag}}'>
+        <view class='bind-login-warpper'>
+            <view class='bind-login-title'>登录前请勾选用户协议</view>
+            <view class='flex-a'>
+                <image class='checked' wx:if='{{agreeAuthority}}' bindtap='changeAuthority'
+                    src='/images/login/checked.png'></image>
+                <view class='unchecked-init' wx:elif='{{initAuthority}}' bindtap='changeAuthority'></view>
+                <view class='unchecked' wx:else bindtap='changeAuthority'></view>
+                <view class='agree-des' bindtap='changeAuthority'>您已阅读并同意<text style='color:#F79C4C;'
+                        catchtap='showProtocal'>点点餐用户协议</text><text style='color:#F79C4C;'
+                        catchtap='showPrivacy'>、隐私政策</text></view>
+            </view>
+
+            <view class='bind-display'>
+                <view class='bind-login-left' bindtap='cancelLogin'>暂不登录</view>
+                <view class='bind-login-right' wx:if='{{agreeAuthority}}' bindtap='gotoLogin'>去登录</view>
+                <view class='bind-login-right' wx:else bindtap='gotoLoginWithoutAuthor'>去登录</view>
+            </view>
+        </view>
+    </view>
+    <!--弹框-->
+    <view class="modulebox-background-wrapper" wx:if='{{bindOrganizeFlag}}'>
+        <view class='bind-organize-warpper'>
+            <view class='bind-organize-title'>提示</view>
+            <view class='bind-organize-content'>是否绑定企业?</view>
+
+            <view class='bind-display'>
+                <view class='bind-organize-left' bindtap='cancelBind'>直接登录</view>
+                <view class='bind-organize-right' bindtap='gotoBind'>去绑定</view>
+            </view>
+        </view>
+    </view>
+</view>

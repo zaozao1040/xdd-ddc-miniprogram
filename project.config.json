@@ -19,7 +19,7 @@
 			"disablePlugins": [],
 			"outputPath": ""
 		},
-		"useCompilerModule": true,
+		"useCompilerModule": false,
 		"userConfirmedUseCompilerModuleSwitch": false
 	},
 	"compileType": "miniprogram",
@@ -172,6 +172,13 @@
 					"id": -1,
 					"name": "pages/food/food",
 					"pathName": "pages/food/food",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/login/selectPhone/selectPhone",
+					"pathName": "pages/login/selectPhone/selectPhone",
 					"scene": null
 				}
 			]

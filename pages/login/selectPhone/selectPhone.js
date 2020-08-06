@@ -1,3 +1,4 @@
+var t = require("../../../comm/script/helper")
 import { base } from '../../../comm/public/request'
 let requestModel = new base()
 Page({
@@ -6,17 +7,143 @@ Page({
      * 页面的初始数据
      */
     data: {
-        showChooseOrganizeFlag: false, //显示开关
+        phone: '',
+        code: '',
+        firstCode: true,
+        waitTime: -1,
+        bindShow: false,
+        loginType: 'shouji',
+        name: '',
+        password: '',
+        agreeAuthority: true,
 
-        bindOrganizeFlag: false, //绑定企业弹框
-        agreeAuthority: false
+
+
     },
-    showAuthorityInfo() {
+    phoneInput: function (e) {
+        this.setData({
+            phone: e.detail.value
+        });
+    },
+    nameInput: function (e) {
+        this.setData({
+            name: e.detail.value
+        });
+    },
+    pwdInput: function (e) {
+        this.setData({
+            password: e.detail.value
+        });
+    },
+    codeInput: function (e) {
+        this.setData({
+            code: e.detail.value
+        });
+    },
+    changeLoginType(e) {
         let _this = this
         _this.setData({
-            showInfoFlag: true,
-            initAuthority: true
+            loginType: e.currentTarget.dataset.type
         })
+    },
+    sendCode: function () {
+        let _this = this
+        if (t._validCellPhone(_this.data.phone)) {
+            //获取短信验证码
+            let param = {
+                url: '/login/smsCode?phoneNumber=' + _this.data.phone + '&smsType=1'
+            }
+            requestModel.request(param, () => {
+
+                wx.showToast({
+                    title: '发送成功',
+                    image: '/images/msg/success.png',
+                    duration: 2000
+                })
+                _this.setData({
+                    firstCode: false
+                })
+                let countdown = 60
+                for (var i = 60; i >= 0; i--) {
+                    setTimeout(function () {
+                        _this.setData({
+                            waitTime: countdown
+                        })
+                        countdown--
+                    }, 1000 * i)
+                }
+
+            })
+        } else {
+            wx.showToast({
+                title: "手机必须11位数字",
+                image: '/images/msg/error.png',
+                duration: 2000
+            })
+        }
+    },
+    loginByPhone: function () {
+        let _this = this
+        if (t._validCellPhone(_this.data.phone)) {
+            if (_this.data.code == '') {
+                wx.showToast({
+                    title: "请输入验证码",
+                    image: '/images/msg/error.png',
+                    duration: 2000
+                })
+            } else {
+                wx.login({
+                    success: function (res) {
+                        if (res.code) {
+                            let { avatarUrl, nickName, gender } = wx.getStorageSync('getWxUserInfo')
+                            let param = {
+                                smsCode: _this.data.code, //短信验证码
+                                phoneNumber: _this.data.phone,
+                                encryptedData: {
+                                    code: res.code
+                                },
+                                userInfo: {
+                                    headImage: avatarUrl,
+                                    nickName: nickName,
+                                    sex: gender
+                                }
+                            }
+                            let params = {
+                                data: param,
+                                url: '/login/phoneCodeLogin',
+                                method: 'post'
+                            }
+
+                            requestModel.request(params, (data) => {
+                                wx.setStorageSync('userCode', data.userCode)
+                                if (data.newUser == true) { //新用户 弹出是否绑定企业的模态框 TODO 5/14
+                                    wx.reLaunch({
+                                        url: '/pages/mine/organize/organize',
+                                    })
+                                } else { //老用户 直接进入home页面
+                                    wx.switchTab({
+                                        url: '/pages/home/home',
+                                    })
+                                    wx.showToast({
+                                        title: '登录成功',
+                                        image: '/images/msg/success.png',
+                                        duration: 1000
+                                    })
+                                }
+                            })
+
+                        }
+                    }
+                })
+
+            }
+        } else {
+            wx.showToast({
+                title: "手机必须11位数字",
+                image: '/images/msg/error.png',
+                duration: 2000
+            })
+        }
     },
     changeAuthority() {
         let _this = this
@@ -24,27 +151,15 @@ Page({
             agreeAuthority: !_this.data.agreeAuthority
         })
     },
-    cancelLogin() {
-        this.setData({
-            agreeAuthority: false,
-            showInfoFlag: false
-        })
-    },
-    gotoLogin() {
-        this.setData({
-            agreeAuthority: true,
-            showInfoFlag: false
-        })
-    },
-    gotoLoginWithoutAuthor() {
-        this.setData({
-            initAuthority: false
-        })
-    },
+
+
+
+
+
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function(options) {
+    onLoad: function (options) {
 
     },
     showProtocal() {
@@ -62,50 +177,32 @@ Page({
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function() {
+    onReady: function () {
 
     },
-    //新用户 - 选择绑定（代表是企业用户），赋值缓存后跳转到登录页面
-    gotoBind() {
-        this.setData({
-            bindOrganizeFlag: false
-        })
 
-        wx.redirectTo({
-            url: '/pages/login/login',
-        })
-    },
-    //新用户 - 选择不绑定（代表是普通用户），赋值缓存后直接跳转到home页
-    cancelBind() {
-        this.setData({
-            bindOrganizeFlag: false
-        })
-        wx.switchTab({
-            url: '/pages/home/home',
-        })
-    },
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function() {
-        let _this = this
-            //已登录状态，则直接弹出模态框去选择是否绑定企业 
-        if (wx.getStorageSync('userCode')) {
+    onShow: function () {
+        // let _this = this
+        // //已登录状态，则直接弹出模态框去选择是否绑定企业 
+        // if (wx.getStorageSync('userCode')) {
 
-            _this.setData({
-                bindOrganizeFlag: true
-            })
-        }
+        //     _this.setData({
+        //         bindOrganizeFlag: true
+        //     })
+        // }
 
-        wx.checkSession({
-            success() {
-                wx.login()
-            },
-            fail() {
-                console.log('####### session_key 已经失效')
-                wx.login()
-            }
-        })
+        // wx.checkSession({
+        //     success() {
+        //         wx.login()
+        //     },
+        //     fail() {
+        //         console.log('####### session_key 已经失效')
+        //         wx.login()
+        //     }
+        // })
 
     },
     handleGetPhoneNumber(e) {
@@ -113,7 +210,7 @@ Page({
         if (e.detail.iv) { //这个字段存在 代表用户选择了“授权”
             wx.showLoading()
             wx.login({ //调用微信login接口，获取code，然后根据code获取是否是新用户
-                success: function(res) {
+                success: function (res) {
                     if (res.code) {
                         let wxCode = res.code
                         let { avatarUrl, nickName, gender } = wx.getStorageSync('getWxUserInfo')
@@ -138,8 +235,8 @@ Page({
                         requestModel.request(params, (data) => {
                             wx.setStorageSync('userCode', data.userCode)
                             if (data.newUser == true) { //新用户 弹出是否绑定企业的模态框 TODO 5/14
-                                _this.setData({
-                                    bindOrganizeFlag: true
+                                wx.reLaunch({
+                                    url: '/pages/mine/organize/organize',
                                 })
                             } else { //老用户 直接进入home页面
                                 wx.switchTab({
@@ -156,13 +253,13 @@ Page({
 
                     wx.hideLoading()
                 },
-                fail: function() {
+                fail: function () {
                     wx.hideLoading()
-                        // wx.showToast({
-                        //     title: '手机号失败了',
-                        //     image: ' /images/msg/success.png',
-                        //     duration: 2000
-                        // })
+                    // wx.showToast({
+                    //     title: '手机号失败了',
+                    //     image: ' /images/msg/success.png',
+                    //     duration: 2000
+                    // })
                 }
             })
         } else {
