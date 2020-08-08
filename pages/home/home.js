@@ -8,8 +8,11 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // 页面预加载
+    preLoading_request: true,
+    preLoading_force: true,
+
     //超力包装需求，每日只可使用一次餐标
-    //limitStandard: wx.getStorageSync('userInfo').userInfo.limitStandard,// ------ 日餐标限制，为true代表每天只能使用一次餐标，为false代表每餐可用一次餐标
     limitStandard: false,
 
     swiperDefaultIndex: 0,
@@ -175,7 +178,7 @@ Page({
     requestModel.request(param, (data) => {
       this.setData({
         imagesList: data,
-        preLoad1: true,
+        preLoading_request: false, //轮播图接口来作为控制首页展示的充分条件之一
       });
     });
   },
@@ -314,15 +317,12 @@ Page({
 
   onLoad: function (options) {
     let _this = this;
+    setTimeout(function () { // 2秒后强制展示首页
+      _this.setData({
+        preLoading_force: false,
+      });
+    }, 2000);
 
-
-    //limitStandard: wx.getStorageSync('userInfo').userInfo.limitStandard,
-    // if(wx.getStorageSync('userInfo').userInfo.limitStandard==false){
-    //   console.log('hahhah')
-    //   _this.setData({
-    //     limitStandard: true
-    //   });
-    // }
     wx.getSystemInfo({
       success: function (res) {
         _this.setData({
@@ -333,42 +333,31 @@ Page({
     _this.initHome();
     _this.getNotice();
 
-    setTimeout(function () {
-      _this.setData({
-        showHomePage: true,
-      });
-    }, 2000);
-
+    // 这个逻辑是  订单页 当没有订单时，引导用户跳转到首页的开始点餐
     if (options.fromorder) {
       _this.handleGotoMenu();
     }
   },
-  refreshUser: function () {
-    requestModel.getUserInfo((userInfo) => {
 
-      let limitStandard = false
-      if (userInfo) {
-        limitStandard = userInfo.limitStandard
-      }
-      this.setData({
-        limitStandard: limitStandard,
-      });
-    }, true);
-  },
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // 超力包装 刷新用户info 主要是为了拿到limitStandard
-    this.refreshUser()
 
-    // 获取未评价的订单信息
+    // 获取未评价的订单的未读信息
     this.getOrderEvaluateReplyNotRead()
 
     //已登录状态，直接登录
     requestModel.getUserInfo((userInfo) => {
+      // 超力包装 刷新用户info 主要是为了拿到limitStandard
+      let limitStandard = false
+      if (userInfo) {
+        limitStandard = userInfo.limitStandard
+      }
+
       this.setData({
         userInfo: userInfo,
+        limitStandard: limitStandard,
       });
       wx.showTabBar();
       let { userStatus, canTakeDiscount } = userInfo;
@@ -441,20 +430,7 @@ Page({
             showedNoticeData: window_noticeData,
             showOneNotice: true,
           });
-          // let windowNoticeStorage = wx.getStorageSync("windowNoticeCodeList")
 
-          // let windowNoticeCodeList = '' //本次公告的code
-          // window_noticeData.forEach(item => {
-          //     windowNoticeCodeList += item.noticeCode
-          // })
-
-          // //设置为当天第一次打开或者公告更新时在首页跳出
-          // if (windowNoticeStorage != (windowNoticeCodeList + (new Date()).toLocaleDateString())) {
-          //     wx.setStorageSync("windowNoticeCodeList", windowNoticeCodeList + (new Date()).toLocaleDateString())
-          //     _this.setData({
-          //         showWindowNotice: true
-          //     })
-          // }
         }
       }
     });

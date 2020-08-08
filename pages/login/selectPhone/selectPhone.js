@@ -17,7 +17,7 @@ Page({
         password: '',
         agreeAuthority: true,
 
-
+        wxCode: ''
 
     },
     phoneInput: function (e) {
@@ -118,7 +118,7 @@ Page({
                                 wx.setStorageSync('userCode', data.userCode)
                                 if (data.newUser == true) { //新用户 弹出是否绑定企业的模态框 TODO 5/14
                                     wx.reLaunch({
-                                        url: '/pages/mine/organize/organize',
+                                        url: '/pages/login/login',
                                     })
                                 } else { //老用户 直接进入home页面
                                     wx.switchTab({
@@ -185,83 +185,82 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        // let _this = this
-        // //已登录状态，则直接弹出模态框去选择是否绑定企业 
-        // if (wx.getStorageSync('userCode')) {
+        let _this = this
+        wx.login({ //提前登录 保存wxcode
+            success: function (res) {
+                if (res.code) {
+                    _this.setData({
+                        wxCode: res.code
+                    });
+                }
+            },
+            fail: function () { }
+        })
+    },
+    wechatLogin(AllParams) {
 
-        //     _this.setData({
-        //         bindOrganizeFlag: true
-        //     })
-        // }
-
-        // wx.checkSession({
-        //     success() {
-        //         wx.login()
-        //     },
-        //     fail() {
-        //         console.log('####### session_key 已经失效')
-        //         wx.login()
-        //     }
-        // })
-
+        let params = {
+            data: AllParams,
+            url: '/login/wechatLogin',
+            method: 'post'
+        }
+        requestModel.request(params, (data) => {
+            wx.setStorageSync('userCode', data.userCode)
+            if (data.newUser == true) { //新用户 弹出是否绑定企业的模态框 TODO 5/14
+                wx.reLaunch({
+                    url: '/pages/login/login',
+                })
+            } else { //老用户 直接进入home页面
+                wx.switchTab({
+                    url: '/pages/home/home',
+                })
+                wx.showToast({
+                    title: '登录成功',
+                    image: '/images/msg/success.png',
+                    duration: 1000
+                })
+            }
+        })
     },
     handleGetPhoneNumber(e) {
         var _this = this
         if (e.detail.iv) { //这个字段存在 代表用户选择了“授权”
             wx.showLoading()
-            wx.login({ //调用微信login接口，获取code，然后根据code获取是否是新用户
-                success: function (res) {
-                    if (res.code) {
-                        let wxCode = res.code
-                        let { avatarUrl, nickName, gender } = wx.getStorageSync('getWxUserInfo')
-                        let param = {
-                            encryptedData: {
-                                encryptedData: e.detail.encryptedData,
-                                iv: e.detail.iv,
-                                code: wxCode //微信code
-                            },
-                            userInfo: {
-                                headImage: avatarUrl,
-                                nickName: nickName,
-                                sex: gender
-                            }
-                        }
-
-                        let params = {
-                            data: param,
-                            url: '/login/wechatLogin',
-                            method: 'post'
-                        }
-                        requestModel.request(params, (data) => {
-                            wx.setStorageSync('userCode', data.userCode)
-                            if (data.newUser == true) { //新用户 弹出是否绑定企业的模态框 TODO 5/14
-                                wx.reLaunch({
-                                    url: '/pages/mine/organize/organize',
-                                })
-                            } else { //老用户 直接进入home页面
-                                wx.switchTab({
-                                    url: '/pages/home/home',
-                                })
-                                wx.showToast({
-                                    title: '登录成功',
-                                    image: '/images/msg/success.png',
-                                    duration: 1000
-                                })
-                            }
-                        })
-                    }
-
-                    wx.hideLoading()
+            let { avatarUrl, nickName, gender } = wx.getStorageSync('getWxUserInfo')
+            let tmp_AllParams = {
+                encryptedData: {
+                    encryptedData: e.detail.encryptedData,
+                    iv: e.detail.iv,
+                    code: undefined
                 },
-                fail: function () {
-                    wx.hideLoading()
-                    // wx.showToast({
-                    //     title: '手机号失败了',
-                    //     image: ' /images/msg/success.png',
-                    //     duration: 2000
-                    // })
+                userInfo: {
+                    headImage: avatarUrl,
+                    nickName: nickName,
+                    sex: gender
+                }
+            }
+            wx.checkSession({
+                success: () => {
+                    console.log("checkSession有效");
+                    tmp_AllParams.encryptedData.code = _this.data.wxCode
+                    _this.wechatLogin(tmp_AllParams)
+                },
+                fail: () => {
+                    console.log("checkSession无效");
+                    wx.login({
+                        success: function (res) {
+                            if (res.code) {
+                                tmp_AllParams.encryptedData.code = res.code
+                                _this.wechatLogin(tmp_AllParams)
+                            }
+                        },
+                        fail: function () {
+                        }
+                    })
                 }
             })
+
+
         } else {
             wx.showToast({
                 title: '已取消登录',
@@ -270,6 +269,7 @@ Page({
             })
         }
     },
+
     // 修改验证方式-手机号验证码
     changeValidateType() {
         wx.navigateTo({ url: '../phone/phone' })

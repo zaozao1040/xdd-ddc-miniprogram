@@ -1,12 +1,19 @@
 <view>
-    <view class="home-container" bindtap="closeNotice" wx:if='{{preLoad1||showHomePage}}'>
+    <view wx:if='{{preLoading_request&&preLoading_force}}' style='width:100%;height:{{windowHeight}}px;'>
+        <image src='/images/home/pre_loading.png' style='width:100%;height:{{windowHeight}}px;'></image>
+    </view>
+    <view wx:else class="home-container" bindtap="closeNotice">
 
         <!-- 轮播图 autoplay="true"3.0-->
-        <swiper autoplay class="h-v2-swiper-item" circular="true" duration="300" indicatorActiveColor="#fff" indicatorColor="rgba(255,255,255,0.50)" indicatorDots interval="5000" bindchange="onSwiperChange">
-            <block wx:for="{{imagesList.bannerImage}}" wx:for-index="swiperListIndex" wx:for-item="swiperListItem" wx:key="swiperListIndex">
+        <swiper autoplay class="h-v2-swiper-item" circular="true" duration="300" indicatorActiveColor="#fff"
+            indicatorColor="rgba(255,255,255,0.50)" indicatorDots interval="5000" bindchange="onSwiperChange">
+            <block wx:for="{{imagesList.bannerImage}}" wx:for-index="swiperListIndex" wx:for-item="swiperListItem"
+                wx:key="swiperListIndex">
                 <swiper-item bindtap="navigateTo">
-                    <navigator url="/pages/home/link?extendUrl={{swiperListItem.url}}" style="width: 100%;height: 100%;border-radius: 8rpx;">
-                        <image src="{{swiperListItem.image}}" style="width: 100%;height: 100%;border-radius: 8rpx;"></image>
+                    <navigator url="/pages/home/link?extendUrl={{swiperListItem.url}}"
+                        style="width: 100%;height: 100%;border-radius: 8rpx;">
+                        <image src="{{swiperListItem.image}}" style="width: 100%;height: 100%;border-radius: 8rpx;">
+                        </image>
                     </navigator>
                 </swiper-item>
             </block>
@@ -32,7 +39,8 @@
             <view>
                 <image src='/images/home/announcement_pic.png' class='modulebox-image'></image>
             </view>
-            <swiper class="modulebox-wrapper-notice" circular="true" duration="500" autoplay="true" indicator-dots indicator-color='rgba(247,156,76,0.30)' indicator-active-color='#F79C4C'>
+            <swiper class="modulebox-wrapper-notice" circular="true" duration="500" autoplay="true" indicator-dots
+                indicator-color='rgba(247,156,76,0.30)' indicator-active-color='#F79C4C'>
                 <block wx:for="{{showedNoticeData}}" wx:key="{{index}}">
                     <swiper-item>
 
@@ -56,7 +64,8 @@
             <view class="h-v3-1" catchtap="handleGotoMenu">
                 <text class='iconfont icon-canting'></text> 开始点餐
             </view>
-            <view style="position:absolute;top:{{hasNotice?460:328}}rpx;height:100rpx;width:600rpx;margin-left:46rpx;z-index:-1;">
+            <view
+                style="position:absolute;top:{{hasNotice?460:328}}rpx;height:100rpx;width:600rpx;margin-left:46rpx;z-index:-1;">
                 <image src="/images/home/home_projection.png" style="height:100rpx;width:600rpx;"></image>
             </view>
         </view>
@@ -95,7 +104,8 @@
                 <view class='takefood-title'>今日餐品</view>
                 <view>
                     <swiper current="{{swiperDefaultIndex}}" next-margin='24rpx' style='width: 100%; height: 212rpx;'>
-                        <block wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem" wx:key="homeOrderIndex">
+                        <block wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem"
+                            wx:key="homeOrderIndex">
                             <swiper-item>
                                 <view class="takefood-food">
                                     <view class='takefood-img-wrapper'>
@@ -104,7 +114,8 @@
                                     <view style='flex-grow: 1;'>
                                         <view class='flexdisplay'>
                                             <view class='takefood-cabinet'>
-                                                <view class='flexdisplay' style="line-height:50rpx;" wx:if='{{homeOrderItem.cabinet&&homeOrderItem.cabinet.length>0}}'>
+                                                <view class='flexdisplay' style="line-height:50rpx;"
+                                                    wx:if='{{homeOrderItem.cabinet&&homeOrderItem.cabinet.length>0}}'>
                                                     <view class="takefood-cabinet-title">柜号</view>
                                                     <view class="takefood-cabinet-number">
                                                         {{homeOrderItem.cabinet[0].cabinetNumber}}-{{homeOrderItem.cabinet[0].cellNumber}}
@@ -113,25 +124,34 @@
                                                 <view style="line-height:50rpx;" wx:else>
                                                     <view class="takefood-cabinet-title">没绑柜</view>
                                                 </view>
-                                                <view class='flexdisplay' style="line-height: 40rpx;margin:4rpx 0 8rpx;">
-                                                    <view class="takefood-mealType">{{homeOrderItem.mealTypeShow}}</view>
-                                                    <view class='flexdisplay' wx:if='{{homeOrderItem.foodName.length<9}}'>
-                                                        <view class="takefood-foodname" wx:if='{{homeOrderItem.foodQuantity>1}}'>
+                                                <view class='flexdisplay'
+                                                    style="line-height: 40rpx;margin:4rpx 0 8rpx;">
+                                                    <view class="takefood-mealType">{{homeOrderItem.mealTypeShow}}
+                                                    </view>
+                                                    <view class='flexdisplay'
+                                                        wx:if='{{homeOrderItem.foodName.length<9}}'>
+                                                        <view class="takefood-foodname"
+                                                            wx:if='{{homeOrderItem.foodQuantity>1}}'>
                                                             {{homeOrderItem.foodName}}x{{homeOrderItem.foodQuantity}}
                                                         </view>
-                                                        <view class="takefood-foodname" wx:else>{{homeOrderItem.foodName}}
+                                                        <view class="takefood-foodname" wx:else>
+                                                            {{homeOrderItem.foodName}}
                                                         </view>
                                                     </view>
                                                     <view class='flexdisplay' wx:else>
                                                         <view class="takefood-foodname"> {{homeOrderItem.foodName}}
                                                         </view>
-                                                        <view wx:if="{{homeOrderItem.foodQuantity>1}}" class='takefood-foodcount'>
+                                                        <view wx:if="{{homeOrderItem.foodQuantity>1}}"
+                                                            class='takefood-foodcount'>
                                                             x{{homeOrderItem.foodQuantity}}</view>
                                                     </view>
                                                 </view>
-                                                <view class='takefood-time'>取餐时间: {{homeOrderItem.takeMealTimeDes}}</view>
+                                                <view class='takefood-time'>取餐时间: {{homeOrderItem.takeMealTimeDes}}
+                                                </view>
                                             </view>
-                                            <view class="takefood-button" bindtap="handleTakeOrder" data-ordercode="{{homeOrderItem.orderCode}}" data-pickagain="{{homeOrderItem.pickAgain}}">取餐</view>
+                                            <view class="takefood-button" bindtap="handleTakeOrder"
+                                                data-ordercode="{{homeOrderItem.orderCode}}"
+                                                data-pickagain="{{homeOrderItem.pickAgain}}">取餐</view>
                                         </view>
                                     </view>
                                 </view>
@@ -143,18 +163,23 @@
         </view>
 
         <!--取餐需要验证-->
-        <view class='{{takeorderModalShow?"take-wrapper in":"take-wrapper  out"}}' style='display:{{takeorderModalShowInit?"none":"block"}}'>
-            <image src='/images/order/takeorder.png' style='width:140rpx;height:140rpx;position:absolute;right:304rpx;top:-70rpx;'></image>
+        <view class='{{takeorderModalShow?"take-wrapper in":"take-wrapper  out"}}'
+            style='display:{{takeorderModalShowInit?"none":"block"}}'>
+            <image src='/images/order/takeorder.png'
+                style='width:140rpx;height:140rpx;position:absolute;right:304rpx;top:-70rpx;'></image>
             <view class='take-title'>取餐提示</view>
             <view class='take-des'>请到柜子旁取餐，取餐后请尽快用餐，太晚吃饭对胃不好哦～</view>
-            <image src='/images/home/filter_close.png' style='width:88rpx;height:88rpx;position:absolute;right:10rpx;top:10rpx;' catchtap='closeModal'></image>
+            <image src='/images/home/filter_close.png'
+                style='width:88rpx;height:88rpx;position:absolute;right:10rpx;top:10rpx;' catchtap='closeModal'></image>
             <scroll-view scroll-y style='height:318rpx;'>
                 <view style=' padding:1rpx 60rpx;'>
                     <view wx:for='{{takeorderData}}'>
                         <view class='flex-b' style='margin-top:30rpx;'>
                             <view class='take-name'>{{item.foodName}}</view>
-                            <view class='take-cabinet flexdisplay' wx:if='{{item.cabinet&&item.cabinet.length>0}}' style='flex-wrap: wrap;'>
-                                <view wx:for='{{item.cabinet}}' wx:for-item='oneCabinet' wx:for-index='cabinetIndex' wx:key='{{cabinetIndex}}' class='flexdisplay'>
+                            <view class='take-cabinet flexdisplay' wx:if='{{item.cabinet&&item.cabinet.length>0}}'
+                                style='flex-wrap: wrap;'>
+                                <view wx:for='{{item.cabinet}}' wx:for-item='oneCabinet' wx:for-index='cabinetIndex'
+                                    wx:key='{{cabinetIndex}}' class='flexdisplay'>
                                     <view>{{oneCabinet.cabinetNumber+'-'+oneCabinet.cellNumber}}</view>
                                     <view wx:if='{{cabinetIndex<item.cabinet.length-1}}'>,</view>
                                 </view>
@@ -176,7 +201,8 @@
                 <view class='takefood-title'>订单评价</view>
                 <view>
                     <swiper style='width: 100%; height: 172rpx;'>
-                        <block wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderItem.orderCode">
+                        <block wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem"
+                            wx:key="orderItem.orderCode">
                             <swiper-item>
                                 <view class="order-remark-img">
                                     <image class="order-remark-img" src="/images/home/present.png"></image>
@@ -184,18 +210,26 @@
                                 <view class="order-remark-img-title">有礼</view>
                                 <view class="takefood-food" style='width:690rpx;'>
                                     <view class='takefood-img-wrapper'>
-                                        <image class="takefood-img" src="{{orderItem.orderFoodList[0].foodImage}}"></image>
+                                        <image class="takefood-img" src="{{orderItem.orderFoodList[0].foodImage}}">
+                                        </image>
                                     </view>
                                     <view class='takefood-cabinet' style='margin-top:34rpx;'>
                                         <view class='order-remark'>您有15积分待领取</view>
-                                        <view class='order-remark-title' wx:if='{{orderItem.foodQuantity>1&&orderItem.orderFoodList[0].foodName.length>9}}'>
-                                            <view class="takefood-foodname">{{orderItem.orderFoodList[0].foodName}}</view>
+                                        <view class='order-remark-title'
+                                            wx:if='{{orderItem.foodQuantity>1&&orderItem.orderFoodList[0].foodName.length>9}}'>
+                                            <view class="takefood-foodname">{{orderItem.orderFoodList[0].foodName}}
+                                            </view>
                                             <view class="order-remark-title"> 等{{orderItem.foodQuantity}}件</view>
                                         </view>
-                                        <view wx:elif='{{orderItem.foodQuantity>1}}' class="order-remark-title">{{orderItem.orderFoodList[0].foodName}} 等{{orderItem.foodQuantity}}件</view>
-                                        <view wx:else class="takefood-foodname" style='width: 300rpx;'>{{orderItem.orderFoodList[0].foodName}}</view>
+                                        <view wx:elif='{{orderItem.foodQuantity>1}}' class="order-remark-title">
+                                            {{orderItem.orderFoodList[0].foodName}} 等{{orderItem.foodQuantity}}件</view>
+                                        <view wx:else class="takefood-foodname" style='width: 300rpx;'>
+                                            {{orderItem.orderFoodList[0].foodName}}</view>
                                     </view>
-                                    <view class="takefood-button" style='width:140rpx;' catchtap="handleEvaluateOrder" data-ordercode="{{orderItem.orderCode}}" data-orderfoodlist="{{orderItem.orderFoodList}}" data-foods="{{orderItem.orderFoodList}}">点击领取</view>
+                                    <view class="takefood-button" style='width:140rpx;' catchtap="handleEvaluateOrder"
+                                        data-ordercode="{{orderItem.orderCode}}"
+                                        data-orderfoodlist="{{orderItem.orderFoodList}}"
+                                        data-foods="{{orderItem.orderFoodList}}">点击领取</view>
                                 </view>
                             </swiper-item>
                         </block>
@@ -226,7 +260,8 @@
         </view>
         <!-- 活动3.0 -->
         <view class="promotion-wrapper">
-            <view class="promotionItem" wx:for="{{imagesList.centerImage}}" wx:for-index="promotionListIndex" wx:for-item="promotionListItem" wx:key="promotionListIndex">
+            <view class="promotionItem" wx:for="{{imagesList.centerImage}}" wx:for-index="promotionListIndex"
+                wx:for-item="promotionListItem" wx:key="promotionListIndex">
                 <navigator url="/pages/home/link?extendUrl={{promotionListItem.url}}">
                     <image class="promotion-img" src="{{promotionListItem.image}}" />
                 </navigator>
@@ -285,11 +320,15 @@
 
         <view class="mask" wx:if="{{showMenuSelect||takeorderModalShow}}" catchtouchmove="preventTouchMove"></view>
 
-        <view style="position:fixed;bottom:0;width:100%; z-index:1001;background:#fff;" wx:if="{{showMenuSelect}}" catchtouchmove="preventTouchMove">
+        <view style="position:fixed;bottom:0;width:100%; z-index:1001;background:#fff;" wx:if="{{showMenuSelect}}"
+            catchtouchmove="preventTouchMove">
             <view class='flexdisplay'>
-                <view style='width:72rpx;height:36rpx;position:absolute;left:204rpx;top:20rpx;' wx:if="{{userInfo.organizeTrial}}">
+                <view style='width:72rpx;height:36rpx;position:absolute;left:204rpx;top:20rpx;'
+                    wx:if="{{userInfo.organizeTrial}}">
                     <image src='/images/msg/trial.png' style='width:72rpx;height:36rpx;position:absolute;'></image>
-                    <view style='width:72rpx;line-height:36rpx;position:absolute;color:#fff;font-size:24rpx;text-align:center;'>试用</view>
+                    <view
+                        style='width:72rpx;line-height:36rpx;position:absolute;color:#fff;font-size:24rpx;text-align:center;'>
+                        试用</view>
                 </view>
                 <view class="appointment-title">
                     选择预约
@@ -307,7 +346,8 @@
                         <view class="appointment-choice-right-checked">预约今天 今天元气满满哦</view>
                     </block>
                     <block wx:else>
-                        <image src='/images/home/filter_unchecked.png' style="height:88rpx;width:88rpx;" catchtap='handleSelectToday'></image>
+                        <image src='/images/home/filter_unchecked.png' style="height:88rpx;width:88rpx;"
+                            catchtap='handleSelectToday'></image>
                         <view class="appointment-choice-right" catchtap='handleSelectToday'>预约今天 今天元气满满哦</view>
                     </block>
                 </view>
@@ -317,7 +357,8 @@
                         <view class="appointment-choice-right-checked">预约明天 明天也要吃好呀</view>
                     </block>
                     <block wx:else>
-                        <image src='/images/home/filter_unchecked.png' style="height:88rpx;width:88rpx;" catchtap='handleSelectTomorrow'></image>
+                        <image src='/images/home/filter_unchecked.png' style="height:88rpx;width:88rpx;"
+                            catchtap='handleSelectTomorrow'></image>
                         <view class="appointment-choice-right" catchtap='handleSelectTomorrow'>预约明天 明天也要吃好呀</view>
                     </block>
                 </view>
@@ -335,11 +376,15 @@
             <view class='appointment-choice-foodtype-title' wx:if="{{appointmention!='week'}}">
                 选择时餐
             </view>
-            <view class="appointment-choice-foodtype-list" style="margin-bottom:30rpx;border-bottom: 1rpx solid #EBEBEB;" wx:if="{{appointmention!='week'}}">
+            <view class="appointment-choice-foodtype-list"
+                style="margin-bottom:30rpx;border-bottom: 1rpx solid #EBEBEB;" wx:if="{{appointmention!='week'}}">
                 <block wx:for="{{twoDaysMealName}}" wx:key="{{index}}">
                     <block wx:if='{{oneDayInfo[item+"Status"]==true}}'>
-                        <view style="position:absolute;width:750rpx;height:142rpx;background:rgba(255,255,255,0.6);z-index:1001;" wx:if='{{!oneDayInfo[item+"OrderStatus"]}}'>
-                            <image src='/images/home/filter_end.png ' style="position:absolute; right:110rpx;  top:12rpx;width:120rpx;height:115rpx;"></image>
+                        <view
+                            style="position:absolute;width:750rpx;height:142rpx;background:rgba(255,255,255,0.6);z-index:1001;"
+                            wx:if='{{!oneDayInfo[item+"OrderStatus"]}}'>
+                            <image src='/images/home/filter_end.png '
+                                style="position:absolute; right:110rpx;  top:12rpx;width:120rpx;height:115rpx;"></image>
                         </view>
                         <view class='appointment-choice-foodtype' data-mealtype='{{item}}' catchtap="startOrderMenu">
                             <image src='/images/home/filter_{{item}}.png' style="height:120rpx;width:120rpx;"></image>
@@ -350,7 +395,8 @@
                                     <view style="margin-left:10rpx;">{{oneDayInfo[item+"DeadlineDesc"]}}</view>
                                 </view>
                             </view>
-                            <image src='/images/home/filter_more.png' style="height:88rpx;width:88rpx; margin-top: 16rpx;">
+                            <image src='/images/home/filter_more.png'
+                                style="height:88rpx;width:88rpx; margin-top: 16rpx;">
                             </image>
                         </view>
 
@@ -360,7 +406,4 @@
         </view>
     </view>
 
-    <view style='width:100%;height:{{windowHeight}}px;' wx:else>
-        <image src='/images/home/pre_loading.png' style='width:100%;height:{{windowHeight}}px;'></image>
-    </view>
 </view>

@@ -205,6 +205,7 @@ class base {
     }
     // 获取用户信息
     getUserInfo(sCallback, pullDown) {
+        console.log('e')
         let { userInfo, time } = wx.getStorageSync('userInfo')
         let duration = undefined
 

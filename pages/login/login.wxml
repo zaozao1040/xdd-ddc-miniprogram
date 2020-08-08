@@ -6,16 +6,20 @@
     <view class="section-2">您想要的员工餐都在这里</view>
     <view class="section-3">
 
-        <input bindinput="nameInput" value="{{name}}" class="section-3-2" placeholder="请输入真实姓名" type="string"></input>
+        <input bindinput="nameInput" value="{{name}}" class="section-3-2" placeholder="请填写真实姓名" type="string"></input>
     </view>
     <view class="section-3" catchtap="showAddress">
-        <image wx:if="{{organize}}" src="/images/mine/selected.png" style='width:52rpx;height:52rpx;position: absolute;top:18rpx;right:22rpx;'></image>
-        <image wx:else src="/images/mine/xiangyou.png" style='width:34rpx;height:34rpx;position: absolute;top:24rpx;right:22rpx;'></image>
-        <input bindinput="organizeInput" value="{{organize}}" placeholder="请选择企业" data-organizecode="{{organizeCode}}" class="section-3-2" type="string" disabled></input>
+        <image wx:if="{{organize}}" src="/images/mine/selected.png"
+            style='width:52rpx;height:52rpx;position: absolute;top:18rpx;right:22rpx;'></image>
+        <image wx:else src="/images/mine/xiangyou.png"
+            style='width:34rpx;height:34rpx;position: absolute;top:24rpx;right:22rpx;'></image>
+        <input bindinput="organizeInput" value="{{organize}}" placeholder="请选择企业" data-organizecode="{{organizeCode}}"
+            class="section-3-2" type="string" disabled></input>
     </view>
     <view class="section-3" wx:if="{{employeeNumber}}">
 
-        <input bindinput="usernumberInput" value="{{usernumber}}" class="section-3-2" placeholder="请输入企业工号" type="string"></input>
+        <input bindinput="usernumberInput" value="{{usernumber}}" class="section-3-2" placeholder="请输入企业工号"
+            type="string"></input>
     </view>
 
     <button loading="{{loading}}" class="section-4" bindtap="bindOrganize">绑定并登录</button>
@@ -27,13 +31,16 @@
         <view class='organize-select'>
             <view class='grow'>
                 <input bindinput="searchInput" class="inputSearch" maxlength="11" placeholder="搜索企业名称"></input>
-                <image src="/images/login/search.png" style='width:24rpx;height:24rpx;position: absolute;top:18rpx;left:40rpx;'></image>
+                <image src="/images/login/search.png"
+                    style='width:24rpx;height:24rpx;position: absolute;top:18rpx;left:40rpx;'></image>
             </view>
             <view class="inputSearch-back" bindtap='closeAddress'>返回</view>
         </view>
 
         <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;" class="c_scrollPosition_forCalculate">
-            <view class="organizeItem-wrapper" wx:for="{{organizeList}}" wx:for-index="organizeIndex" wx:for-item="organizeItem" wx:key="organizeIndex" catchtap="selectOrganize" data-employeenumber="{{organizeItem.employeeNumber}}" data-organizename="{{organizeItem.organizeName}}"
+            <view class="organizeItem-wrapper" wx:for="{{organizeList}}" wx:for-index="organizeIndex"
+                wx:for-item="organizeItem" wx:key="organizeIndex" catchtap="selectOrganize"
+                data-employeenumber="{{organizeItem.employeeNumber}}" data-organizename="{{organizeItem.organizeName}}"
                 data-organizecode="{{organizeItem.organizeCode}}">
                 <view class="organizeItem-left">
                     <view class="organizeName">
