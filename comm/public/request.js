@@ -163,7 +163,10 @@ class base {
                     if (!flag) {
                         wx.hideLoading()
                     }
-                    if (code == 2004) {
+                    console.log('xxx', code)
+                    if (code == 2003) {  //调用接口时没有传userCode
+                        console.log('xxxxx')
+                    } else if (code == 2004) {
                         //清除所有缓存，并跳到首页。
                         //清除所有缓存咋写的2019-05-19
 
@@ -172,26 +175,28 @@ class base {
                         wx.reLaunch({
                             url: '/pages/home/home',
                         })
-                    }
-                    let content = this.a[code]
-                    if (!content) {
-                        content = '请求失败'
-                    }
-                    if (content.length > 6) {
-                        wx.showModal({
-                            title: '提示',
-                            content: content,
-                            showCancel: false,
-                        })
                     } else {
-                        wx.showToast({
-                            title: content,
-                            image: '/images/msg/error.png',
-                            duration: 2000
-                        })
+                        let content = this.a[code]
+                        if (!content) {
+                            content = '请求失败'
+                        }
+                        if (content.length > 6) {
+                            wx.showModal({
+                                title: '提示',
+                                content: content,
+                                showCancel: false,
+                            })
+                        } else {
+                            wx.showToast({
+                                title: content,
+                                image: '/images/msg/error.png',
+                                duration: 2000
+                            })
+                        }
+                        //失败的回调
+                        eCallback && eCallback();
                     }
-                    //失败的回调
-                    eCallback && eCallback();
+
                 }
 
             },
@@ -205,7 +210,6 @@ class base {
     }
     // 获取用户信息
     getUserInfo(sCallback, pullDown) {
-        console.log('e')
         let { userInfo, time } = wx.getStorageSync('userInfo')
         let duration = undefined
 
