@@ -52,14 +52,11 @@ Page({
     /* 页面隐藏后回收定时器指针 */
     onHide: function () { },
 
-
-
     clearOrganize: function () {
         this.setData({
             organize: '',
             organizeSelectedFlag: false
         });
-
     },
     selectOrganize: function (e) {
         this.setData({
@@ -70,7 +67,7 @@ Page({
             showButtonFlag: true,
             organizeSelectedFlag: true
         });
-
+        this.data.organizeCode = e.currentTarget.dataset.organizecode //加了一层保护
     },
     nameInput: function (e) {
         this.setData({
@@ -95,21 +92,17 @@ Page({
                 let param = {
                     url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
                 }
-
                 //请求企业列表
                 requestModel.request(param, (data) => {
                     _this.setData({
                         employeeNumber: false,
                         organizeList: data,
-                        organizeSelected: false,
-                        organizeCode: ''
                     })
                     if (data.length == 0) {
                         _this.setData({
                             organizeListNoResult: true //查到企业列表无结果，则相应视图
                         })
                     } else {
-                        console.log('xxxxxx')
                         _this.setData({
                             organizeListNoResult: false
                         })
@@ -138,9 +131,6 @@ Page({
                     }
                 })
             })
-
-
-
         }
     },
 
@@ -153,19 +143,19 @@ Page({
     /* 绑定企业 */
     bindOrganize: function () { //点击注册，先获取个人信息，这个是微信小程序的坑，只能通过这个button来实现
         let _this = this
-        if (!_this.data.userName) {
+        if (_this.data.userName == '') {
             wx.showToast({
                 title: "请输入姓名",
                 image: '/images/msg/error.png',
                 duration: 2000
             })
-        } else if (!_this.data.organizeCode) {
+        } else if (_this.data.organizeCode == '') {
             wx.showToast({
                 title: "请选择企业",
                 image: '/images/msg/error.png',
                 duration: 2000
             })
-        } else if (_this.data.employeeNumber == true && !_this.data.usernumber) {
+        } else if (_this.data.employeeNumber == true && _this.data.usernumber == '') {
             wx.showToast({
                 title: "请输入工号",
                 image: '/images/msg/error.png',
