@@ -51,24 +51,7 @@ Page({
     },
     /* 页面隐藏后回收定时器指针 */
     onHide: function () { },
-    initRegister: function () {
-        let _this = this;
-        wx.getSystemInfo({
-            success: function (res) {
-                _this.setData({
-                    windowHeight: res.windowHeight
-                })
-            }
-        })
-        const query = wx.createSelectorQuery()
-        query.select('.c_scrollPosition_forCalculate').boundingClientRect()
-        query.selectViewport().scrollOffset()
-        query.exec(function (res) {
-            _this.setData({
-                scrollTop: res[0].top // #the-id节点的上边界坐标
-            })
-        })
-    },
+
 
 
     clearOrganize: function () {
@@ -82,11 +65,11 @@ Page({
         this.setData({
             organize: e.currentTarget.dataset.organizename,
             employeeNumber: e.currentTarget.dataset.employeenumber,
+            organizeCode: e.currentTarget.dataset.organizecode,
             showAddressFlag: false,
             showButtonFlag: true,
             organizeSelectedFlag: true
         });
-        this.data.organizeCode = e.currentTarget.dataset.organizecode
 
     },
     nameInput: function (e) {
@@ -163,7 +146,6 @@ Page({
 
     // 下方显示企业列表
     showAddress: function () {
-        this.initRegister()
         this.setData({
             showAddressFlag: true
         });
@@ -177,7 +159,7 @@ Page({
                 image: '/images/msg/error.png',
                 duration: 2000
             })
-        } else if (!_this.data.organize || !_this.data.organizeCode) {
+        } else if (!_this.data.organizeCode) {
             wx.showToast({
                 title: "请选择企业",
                 image: '/images/msg/error.png',
@@ -197,6 +179,7 @@ Page({
                     organizeCode: _this.data.organizeCode,
                     userOrganizeCode: _this.data.employeeNumber ? _this.data.usernumber : null
                 }
+
                 let params = {
                     data: param,
                     url: '/user/bindOrganize',

@@ -160,8 +160,8 @@
 }
 .img-wrapper {
   margin: auto;
-  width: 180rpx;
-  height: 130rpx;
+  width: 150rpx;
+  height: 100rpx;
   background-color: white;
 }
 .img-wrapper::after {
