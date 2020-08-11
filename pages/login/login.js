@@ -7,9 +7,12 @@ Page({
         timer: null,
         canClick: true,
         //
+        showAddressFlag: false,
+        showButtonFlag: false,
+        organizeSelectedFlag: false,//企业已选中
+        //
         windowHeight: 0,
         loading: false,
-        showAddressFlag: false,
         showGobackFlag: false,
         location: {},
         organizeList: [],
@@ -31,7 +34,7 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function(options) {
+    onLoad: function (options) {
         let _this = this
         requestModel.getUserInfo(userInfo => {
             _this.setData({
@@ -47,11 +50,11 @@ Page({
         }
     },
     /* 页面隐藏后回收定时器指针 */
-    onHide: function() {},
-    initRegister: function() {
+    onHide: function () { },
+    initRegister: function () {
         let _this = this;
         wx.getSystemInfo({
-            success: function(res) {
+            success: function (res) {
                 _this.setData({
                     windowHeight: res.windowHeight
                 })
@@ -60,53 +63,48 @@ Page({
         const query = wx.createSelectorQuery()
         query.select('.c_scrollPosition_forCalculate').boundingClientRect()
         query.selectViewport().scrollOffset()
-        query.exec(function(res) {
+        query.exec(function (res) {
             _this.setData({
                 scrollTop: res[0].top // #the-id节点的上边界坐标
             })
         })
     },
-    showAddress: function() {
 
+
+    clearOrganize: function () {
         this.setData({
-            showAddressFlag: true
-        })
-        this.initRegister()
-    },
-    closeAddress() {
-        this.setData({
-            showAddressFlag: false
-        })
-    },
-    changeShowAddressFlag: function() {
-        this.setData({
-            showAddressFlag: !this.data.showAddressFlag
+            organize: '',
+            organizeSelectedFlag: false
         });
+
     },
-    selectOrganize: function(e) {
+    selectOrganize: function (e) {
         this.setData({
             organize: e.currentTarget.dataset.organizename,
-            employeeNumber: e.currentTarget.dataset.employeenumber
+            employeeNumber: e.currentTarget.dataset.employeenumber,
+            showAddressFlag: false,
+            showButtonFlag: true,
+            organizeSelectedFlag: true
         });
         this.data.organizeCode = e.currentTarget.dataset.organizecode
-        this.changeShowAddressFlag()
+
     },
-    nameInput: function(e) {
+    nameInput: function (e) {
         this.setData({
             userName: e.detail.value
         });
     },
-    usernumberInput: function(e) {
+    usernumberInput: function (e) {
         this.setData({
             usernumber: e.detail.value
         });
     },
-    organizeInput: function(e) {
+    organizeInput: function (e) {
         this.setData({
             organize: e.detail.value
         });
     },
-    searchInput: function(e) {
+    searchInput: function (e) {
         let _this = this
         if (_this.data.userType == 'VISITOR' && e.detail.value.length >= 2) {
             requestModel.getUserCode(userCode => {
@@ -128,6 +126,7 @@ Page({
                             organizeListNoResult: true //查到企业列表无结果，则相应视图
                         })
                     } else {
+                        console.log('xxxxxx')
                         _this.setData({
                             organizeListNoResult: false
                         })
@@ -137,9 +136,9 @@ Page({
         } else if (_this.data.userType == 'ADMIN') {
             requestModel.getUserCode(userCode => {
                 let param = {
-                        url: '/organize/getOrganizeList?userCode=' + userCode + '&organizeName=' + e.detail.value
-                    }
-                    //请求企业列表
+                    url: '/organize/getOrganizeList?userCode=' + userCode + '&organizeName=' + e.detail.value
+                }
+                //请求企业列表
                 requestModel.request(param, (data) => {
                     _this.setData({
                         organizeList: data,
@@ -162,9 +161,15 @@ Page({
         }
     },
 
-
+    // 下方显示企业列表
+    showAddress: function () {
+        this.initRegister()
+        this.setData({
+            showAddressFlag: true
+        });
+    },
     /* 绑定企业 */
-    bindOrganize: function() { //点击注册，先获取个人信息，这个是微信小程序的坑，只能通过这个button来实现
+    bindOrganize: function () { //点击注册，先获取个人信息，这个是微信小程序的坑，只能通过这个button来实现
         let _this = this
         if (!_this.data.userName) {
             wx.showToast({
@@ -199,7 +204,7 @@ Page({
                 }
 
                 requestModel.request(params, () => {
-                    requestModel.getUserInfo(() => {}, true)
+                    requestModel.getUserInfo(() => { }, true)
                     wx.reLaunch({ //销毁所有页面后跳转到首页，销毁页面是为了防止个人用户登录后再次换绑企业可以点击订单导航，而导航栏应该隐藏才对
                         url: '/pages/home/home',
                     })
