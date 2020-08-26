@@ -1,0 +1,83 @@
+/* 弹出层 限制时间段取餐 */
+.takeMealLimit-bg-wrapper {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 99;
+  background: rgba(13, 21, 31, 0.5);
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.takeMealLimit-wrapper {
+  margin: 40rpx;
+  padding: 20rpx;
+  background: white;
+}
+.takeMealLimit-title {
+  font-size: 40rpx;
+  color: #222;
+  height: 60rpx;
+  line-height: 80rpx;
+}
+.takeMealLimit-des {
+  font-size: 30rpx;
+  color: #999;
+  height: 80rpx;
+  line-height: 60rpx;
+}
+.takeMealLimit-content-wrapper {
+}
+.takeMealLimit-content-item {
+  display: flex;
+  border-bottom: 1rpx solid #eee;
+  margin-bottom: 20rpx;
+}
+.takeMealLimit-content-item:last-child {
+  border-bottom: none;
+}
+.takeMealLimit-content-left {
+  margin: 10rpx 40rpx;
+}
+.takeMealLimit-content-right {
+  flex: auto;
+}
+.takeMealLimit-content-right-item {
+  border: 1rpx solid #ccc;
+  border-radius: 10rpx;
+  margin-bottom: 20rpx;
+  padding: 10rpx 20rpx;
+}
+.takeMealLimit-content-right-title {
+  color: #999;
+}
+.takeMealLimit-content-right-time {
+  color: #222;
+}
+.button-canClick {
+  background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
+  border-radius: 3px;
+  font-family: PingFang-SC-Medium;
+  font-size: 32rpx;
+  color: #ffffff;
+  letter-spacing: 0;
+  text-align: center;
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+.button-cannotClick {
+  background: #ddd;
+  border-radius: 3px;
+  font-family: PingFang-SC-Medium;
+  font-size: 32rpx;
+  color: #ffffff;
+  letter-spacing: 0;
+  text-align: center;
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+}

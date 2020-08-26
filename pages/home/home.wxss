@@ -1,793 +1,812 @@
 /* pages/home/home.wxss */
 
 .notice-title {
-    font-family: PingFang-SC-Medium;
-    font-size: 36rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 52rpx;
+  font-family: PingFang-SC-Medium;
+  font-size: 36rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 52rpx;
 }
 
 .notice-button {
-    font-family: PingFang-SC-Regular;
-    font-size: 26rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: center;
-    background: #FFFFFF;
-    border: 1rpx solid #E6E6E6;
-    border-radius: 26rpx;
-    height: 48rpx;
-    width: 148rpx;
-    line-height: 48rpx;
+  font-family: PingFang-SC-Regular;
+  font-size: 26rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: center;
+  background: #ffffff;
+  border: 1rpx solid #e6e6e6;
+  border-radius: 26rpx;
+  height: 48rpx;
+  width: 148rpx;
+  line-height: 48rpx;
 }
 
 .notice-detail {
-    font-family: PingFang-SC-Regular;
-    font-size: 28rpx;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 40rpx;
-    height: 40rpx;
+  font-family: PingFang-SC-Regular;
+  font-size: 28rpx;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 40rpx;
+  height: 40rpx;
 }
-
 
 /* -------首页取餐 */
 
 .takefood-title {
-    font-family: PingFang-SC-Medium;
-    font-size: 36rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    margin-left: 6rpx;
-    margin-bottom: 20rpx;
-    line-height: 50rpx;
+  font-family: PingFang-SC-Medium;
+  font-size: 36rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  margin-left: 6rpx;
+  margin-bottom: 20rpx;
+  line-height: 50rpx;
 }
 
 .takefood-food {
-    background: #FFFFFF;
-    border: 1rpx solid #EBEBEB;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.08);
-    border-radius: 4px;
-    width: 690rpx;
-    height: 168rpx;
-    display: flex;
-    margin-right: 12rpx;
+  background: #ffffff;
+  border: 1rpx solid #ebebeb;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  width: 690rpx;
+  height: 168rpx;
+  display: flex;
+  margin-right: 12rpx;
 }
 
 .takefood-img {
-    width: 120rpx;
-    height: 120rpx;
-    border-radius: 8rpx;
-    margin: 24rpx 20rpx 24rpx 24rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 8rpx;
+  margin: 24rpx 20rpx 24rpx 24rpx;
 }
 
 .takefood-img-wrapper {
-    flex-shrink: 0;
+  flex-shrink: 0;
 }
 
 .takefood-cabinet {
-    margin-top: 18rpx;
-    flex-grow: 1;
+  margin-top: 18rpx;
+  flex-grow: 1;
 }
 
 .takefood-cabinet-number {
-    font-family: PingFang-SC-Medium;
-    font-size: 36rpx;
-    color: #F79C4C;
-    letter-spacing: 0;
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 270rpx;
+  font-family: PingFang-SC-Medium;
+  font-size: 36rpx;
+  color: #f79c4c;
+  letter-spacing: 0;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 270rpx;
 }
 
 .takefood-cabinet-title {
-    font-family: PingFang-SC-Regular;
-    font-size: 24rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    margin-right: 20rpx;
-    white-space: nowrap;
+  font-family: PingFang-SC-Regular;
+  font-size: 24rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  margin-right: 20rpx;
+  white-space: nowrap;
 }
 
 .takefood-button {
-    background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
-    border-radius: 34rpx;
-    width: 120rpx;
-    height: 68rpx;
-    line-height: 68rpx;
-    font-family: PingFang-SC-Medium;
-    font-size: 26rpx;
-    color: #FFFFFF;
-    letter-spacing: 0;
-    text-align: center;
-    float: right;
-    margin: 50rpx 24rpx 0 0;
-    flex-shrink: 0;
+  background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
+  border-radius: 34rpx;
+  width: 120rpx;
+  height: 68rpx;
+  line-height: 68rpx;
+  font-family: PingFang-SC-Medium;
+  font-size: 26rpx;
+  color: #ffffff;
+  letter-spacing: 0;
+  text-align: center;
+  float: right;
+  margin: 50rpx 24rpx 0 0;
+  flex-shrink: 0;
 }
 
 .takefood-mealType {
-    /* width: 56rpx; */
-    font-family: PingFang-SC-Medium;
-    font-size: 28rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    margin-right: 20rpx;
-    white-space: nowrap;
+  /* width: 56rpx; */
+  font-family: PingFang-SC-Medium;
+  font-size: 28rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  margin-right: 20rpx;
+  white-space: nowrap;
 }
 
 .takefood-foodname {
-    width: 272rpx;
-    font-family: PingFang-SC-Medium;
-    font-size: 28rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+  width: 272rpx;
+  font-family: PingFang-SC-Medium;
+  font-size: 28rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .takefood-foodcount {
-    font-family: PingFang-SC-Medium;
-    font-size: 28rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
+  font-family: PingFang-SC-Medium;
+  font-size: 28rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
 }
 
 .takefood-time {
-    font-family: PingFang-SC-Regular;
-    font-size: 24rpx;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 34rpx;
+  font-family: PingFang-SC-Regular;
+  font-size: 24rpx;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 34rpx;
 }
 
 .prompt {
-    font-family: PingFangSC-Regular;
-    font-size: 26rpx;
-    padding: 10rpx 0;
-    line-height: 36rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 26rpx;
+  padding: 10rpx 0;
+  line-height: 36rpx;
 }
 
 .prompt-title {
-    color: #666666;
+  color: #666666;
 }
 
 .prompt-des {
-    color: #999999;
+  color: #999999;
 }
 
 .appointment-remind {
-    font-family: PingFangSC-Regular;
-    font-size: 28rpx;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: left;
-    margin-top: 66rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 28rpx;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: left;
+  margin-top: 66rpx;
 }
 
 .appointment-title {
-    font-family: PingFang-SC-Medium;
-    font-size: 36rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 50rpx;
-    margin-top: 60rpx;
-    margin-left: 60rpx;
-    margin-bottom: 20rpx;
+  font-family: PingFang-SC-Medium;
+  font-size: 36rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 50rpx;
+  margin-top: 60rpx;
+  margin-left: 60rpx;
+  margin-bottom: 20rpx;
 }
 
 .appointment-choice-list {
-    margin-left: 60rpx;
-    margin-bottom: 80rpx;
+  margin-left: 60rpx;
+  margin-bottom: 80rpx;
 }
 
 .appointment-choice-right {
-    font-family: PingFang-SC-Regular;
-    font-size: 30rpx;
-    color: #AAAAAA;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 88rpx;
-    margin-left: 10rpx;
+  font-family: PingFang-SC-Regular;
+  font-size: 30rpx;
+  color: #aaaaaa;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 88rpx;
+  margin-left: 10rpx;
 }
 
 .appointment-choice-right-checked {
-    font-family: PingFang-SC-Regular;
-    font-size: 30rpx;
-    color: #F2994A;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 88rpx;
-    margin-left: 10rpx;
+  font-family: PingFang-SC-Regular;
+  font-size: 30rpx;
+  color: #f2994a;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 88rpx;
+  margin-left: 10rpx;
 }
 
 .appointment-choice-foodtype-title {
-    font-family: PingFang-SC-Medium;
-    font-size: 36rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    padding-left: 60rpx;
-    padding-bottom: 20rpx;
-    line-height: 50rpx;
+  font-family: PingFang-SC-Medium;
+  font-size: 36rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  padding-left: 60rpx;
+  padding-bottom: 20rpx;
+  line-height: 50rpx;
 }
 
 .appointment-choice-foodtype {
-    padding: 9rpx 10rpx 10rpx 60rpx;
-    display: flex;
-    border-top: 1rpx solid #EBEBEB;
+  padding: 9rpx 10rpx 10rpx 60rpx;
+  display: flex;
+  border-top: 1rpx solid #ebebeb;
 }
 
 .appointment-choice-foodtype-name {
-    font-family: PingFang-SC-Medium;
-    font-size: 32rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    line-height: 44rpx;
-    margin-top: 14rpx;
+  font-family: PingFang-SC-Medium;
+  font-size: 32rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 44rpx;
+  margin-top: 14rpx;
 }
 
 .appointment-choice-foodtype-deadline {
-    font-family: PingFang-SC-Regular;
-    font-size: 28rpx;
-    color: #AAAAAA;
-    letter-spacing: 0;
-    text-align: left;
-    margin-top: 10rpx;
-    line-height: 40rpx;
-    display: flex;
+  font-family: PingFang-SC-Regular;
+  font-size: 28rpx;
+  color: #aaaaaa;
+  letter-spacing: 0;
+  text-align: left;
+  margin-top: 10rpx;
+  line-height: 40rpx;
+  display: flex;
 }
 
 .mask {
-    z-index: 100;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 ::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    color: transparent;
+  width: 0;
+  height: 0;
+  color: transparent;
 }
-
 
 /*zll*/
 
 .home-container {
-    /* width: 690rpx;
+  /* width: 690rpx;
     margin: 0 auto; */
-    width: 100%;
-    padding-top: 20rpx;
+  width: 100%;
+  padding-top: 20rpx;
 }
 
 .h-v2-swiper-item {
-    width: 690rpx;
-    height: 230rpx;
-    border-radius: 8rpx;
-    margin: 0 30rpx 42rpx;
+  width: 690rpx;
+  height: 230rpx;
+  border-radius: 8rpx;
+  margin: 0 30rpx 42rpx;
 }
 
 .h-v3 {
-    margin: 0 30rpx 50rpx;
+  margin: 0 30rpx 50rpx;
 }
 
 .h-v3-1 {
-    line-height: 100rpx;
-    font-size: 36rpx;
-    color: #fff;
-    text-align: center;
-    background-image: linear-gradient(270deg, #F79C4C 0%, #F79C4C 99%);
-    border-radius: 57rpx;
-    font-family: PingFang-SC-Medium;
-    letter-spacing: 0;
-    width: 100%;
+  line-height: 100rpx;
+  font-size: 36rpx;
+  color: #fff;
+  text-align: center;
+  background-image: linear-gradient(270deg, #f79c4c 0%, #f79c4c 99%);
+  border-radius: 57rpx;
+  font-family: PingFang-SC-Medium;
+  letter-spacing: 0;
+  width: 100%;
 }
 
 .promotion-wrapper {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 30rpx;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30rpx;
 }
 
 .promotion-item {
-    width: 340rpx;
-    height: 200rpx;
+  width: 340rpx;
+  height: 200rpx;
 }
 
 .promotion-img {
-    width: 340rpx;
-    height: 200rpx;
-    border-radius: 8rpx;
+  width: 340rpx;
+  height: 200rpx;
+  border-radius: 8rpx;
 }
-
 
 /* 新人大礼 */
 
 .newuser-wrapper {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 99;
-    background: rgba(13, 21, 31, 0.5);
-    margin: auto;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 99;
+  background: rgba(13, 21, 31, 0.5);
+  margin: auto;
 }
 
 .img-wrapper {
-    margin: auto;
-    height: 648rpx;
-    width: 520rpx;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  margin: auto;
+  height: 648rpx;
+  width: 520rpx;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .image-dali {
-    width: 520rpx;
-    height: 560rpx;
+  width: 520rpx;
+  height: 560rpx;
 }
 
 .button-dali {
-    position: absolute;
-    bottom: 52rpx;
-    z-index: 1002;
-    background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
-    border-radius: 40rpx;
-    font-family: PingFangSC;
-    font-size: 30rpx;
-    color: #FFFFFF;
-    letter-spacing: 0;
-    text-align: center;
-    height: 80rpx;
-    line-height: 80rpx;
-    width: 320rpx;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
+  position: absolute;
+  bottom: 52rpx;
+  z-index: 1002;
+  background-image: linear-gradient(270deg, #f79c4c 0%, #f7cd4e 99%);
+  border-radius: 40rpx;
+  font-family: PingFangSC;
+  font-size: 30rpx;
+  color: #ffffff;
+  letter-spacing: 0;
+  text-align: center;
+  height: 80rpx;
+  line-height: 80rpx;
+  width: 320rpx;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
 }
 
 .icon-wrapper {
-    text-align: right;
+  text-align: right;
 }
 
 .newuser-wrapper-2 {
-    margin: 10rpx 30rpx;
-    height: 262rpx;
-    width: 690rpx;
+  margin: 10rpx 30rpx;
+  height: 262rpx;
+  width: 690rpx;
 }
 
 .newuserimg {
-    height: 262rpx;
-    width: 690rpx;
-    border-radius: 8rpx;
+  height: 262rpx;
+  width: 690rpx;
+  border-radius: 8rpx;
 }
-
 
 /* 三个标签 */
 
 .label-wrapper {
-    display: flex;
-    margin: 0 50rpx 60rpx;
-    justify-content: space-between;
+  display: flex;
+  margin: 0 50rpx 60rpx;
+  justify-content: space-between;
 }
 
 .label-des {
-    font-family: PingFang-SC-Regular;
-    font-size: 28rpx;
-    color: #555555;
-    letter-spacing: 0;
-    line-height: 40rpx;
+  font-family: PingFang-SC-Regular;
+  font-size: 28rpx;
+  color: #555555;
+  letter-spacing: 0;
+  line-height: 40rpx;
 }
 
+/* 限制时间段不允许使用小程序 弹出 */
+
+.timeLimit-wrapper {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 99;
+  background: white;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.timeLimit-title {
+  margin: auto;
+  font-size: 34rpx;
+  text-align: center;
+  height: 70rpx;
+}
 
 /* 用户授权框 弹出 */
 
 .modulebox-background-wrapper {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 99;
-    background: rgba(13, 21, 31, 0.5);
-    margin: auto;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 99;
+  background: rgba(13, 21, 31, 0.5);
+  margin: auto;
 }
 
 .modulebox-wrapper {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    height: 400rpx;
-    width: 60%;
-    padding: 20rpx;
-    background: #fff;
-    border-radius: 10rpx;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 400rpx;
+  width: 60%;
+  padding: 20rpx;
+  background: #fff;
+  border-radius: 10rpx;
 }
 
 .modulebox-wrapper-organize {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    height: 540rpx;
-    width: 70%;
-    padding: 20rpx;
-    background: #fff;
-    border-radius: 10rpx;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 540rpx;
+  width: 70%;
+  padding: 20rpx;
+  background: #fff;
+  border-radius: 10rpx;
 }
 
 .modulebox-wrapper-notice {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    height: 630rpx;
-    width: 510rpx;
-    border-radius: 16rpx;
-    background: #fff;
-    padding: 0 60rpx;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 630rpx;
+  width: 510rpx;
+  border-radius: 16rpx;
+  background: #fff;
+  padding: 0 60rpx;
 }
 
 .modulebox-image {
-    width: 320rpx;
-    height: 320rpx;
-    position: fixed;
-    top: 134rpx;
-    left: 0;
-    right: 0;
-    margin: auto;
-    z-index: 100;
+  width: 320rpx;
+  height: 320rpx;
+  position: fixed;
+  top: 134rpx;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 100;
 }
 
 .modulebox-notice-title {
-    font-family: PingFang-SC-Medium;
-    font-size: 34rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: center;
-    margin-bottom: 30rpx;
-    margin-top: 232rpx;
+  font-family: PingFang-SC-Medium;
+  font-size: 34rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: center;
+  margin-bottom: 30rpx;
+  margin-top: 232rpx;
 }
 
 .modulebox-notice-content {
-    font-family: PingFang-SC-Regular;
-    font-size: 28rpx;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: center;
-    line-height: 40rpx;
-    margin-top: 10rpx;
-    z-index: 101;
+  font-family: PingFang-SC-Regular;
+  font-size: 28rpx;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 40rpx;
+  margin-top: 10rpx;
+  z-index: 101;
 }
 
 .bind-title {
-    font-family: PingFangSC-Regular;
-    font-size: 40rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: center;
-    margin-bottom: 20rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 40rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: center;
+  margin-bottom: 20rpx;
 }
 
 .bind-des {
-    font-family: PingFangSC-Regular;
-    font-size: 30rpx;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: center;
-    margin-bottom: 60rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 30rpx;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: center;
+  margin-bottom: 60rpx;
 }
 
 .modulebox-img-wrapper {
-    padding: 60rpx 50rpx;
-    box-sizing: border-box;
-    width: 100%;
-    height: 200rpx;
+  padding: 60rpx 50rpx;
+  box-sizing: border-box;
+  width: 100%;
+  height: 200rpx;
 }
 
 .modulebox-img {
-    width: 100%;
+  width: 100%;
 }
 
 .modulebox-des {
-    text-align: center;
-    margin-top: 30rpx;
-    font-family: PingFangSC-Regular;
-    font-size: 34rpx;
-    color: #1A1A1A;
-    letter-spacing: 0;
-    text-align: center;
+  text-align: center;
+  margin-top: 30rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 34rpx;
+  color: #1a1a1a;
+  letter-spacing: 0;
+  text-align: center;
 }
 
 .modulebox-button-no {
-    position: absolute;
-    bottom: 40rpx;
-    left: 40rpx;
-    right: 40rpx;
-    height: 80rpx;
-    line-height: 80rpx;
-    text-align: center;
-    background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
-    border-radius: 50rpx;
-    font-family: PingFangSC-Regular;
-    font-size: 34rpx;
-    color: #FFFFFF;
-    letter-spacing: 0;
+  position: absolute;
+  bottom: 40rpx;
+  left: 40rpx;
+  right: 40rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  background-image: linear-gradient(270deg, #f79c4c 0%, #f7cd4e 99%);
+  border-radius: 50rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 34rpx;
+  color: #ffffff;
+  letter-spacing: 0;
 }
-
 
 /* 轮播图两种样式 */
 
 .flexdisplay {
-    display: flex;
+  display: flex;
 }
 
 .notice-item {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .appointment-choice-grow {
-    margin-left: 30rpx;
-    width: 150rpx;
-    flex-grow: 1;
+  margin-left: 30rpx;
+  width: 150rpx;
+  flex-grow: 1;
 }
 
 .bind-organize-warpper {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    height: 328rpx;
-    width: 520rpx;
-    padding-bottom: 0;
-    background: #fff;
-    border-radius: 8rpx;
-    z-index: 1001;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 328rpx;
+  width: 520rpx;
+  padding-bottom: 0;
+  background: #fff;
+  border-radius: 8rpx;
+  z-index: 1001;
 }
 
 .bind-organize-title {
-    font-size: 34rpx;
-    font-family: PingFang-SC-Medium;
-    font-weight: 500;
-    color: rgba(0, 0, 0, 1);
-    line-height: 48rpx;
-    padding: 40rpx 0 20rpx;
-    text-align: center;
+  font-size: 34rpx;
+  font-family: PingFang-SC-Medium;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 1);
+  line-height: 48rpx;
+  padding: 40rpx 0 20rpx;
+  text-align: center;
 }
 
 .bind-organize-content {
-    font-size: 30rpx;
-    font-family: PingFangSC-Regular;
-    font-weight: 400;
-    color: rgba(133, 133, 133, 1);
-    line-height: 42rpx;
-    padding: 0 40rpx;
-    text-align: center;
+  font-size: 30rpx;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: rgba(133, 133, 133, 1);
+  line-height: 42rpx;
+  padding: 0 40rpx;
+  text-align: center;
 }
 
 .bind-display {
-    display: flex;
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    height: 100rpx;
-    border-top: 1rpx solid #E5E5E5;
+  display: flex;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  height: 100rpx;
+  border-top: 1rpx solid #e5e5e5;
 }
 
 .bind-organize-left {
-    width: 50%;
-    font-size: 32rpx;
-    font-family: PingFangSC-Regular;
-    font-weight: 400;
-    color: rgba(153, 153, 153, 1);
-    line-height: 100rpx;
-    height: 100rpx;
-    text-align: center;
-    background: #fff;
-    border-bottom-left-radius: 8rpx;
+  width: 50%;
+  font-size: 32rpx;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: rgba(153, 153, 153, 1);
+  line-height: 100rpx;
+  height: 100rpx;
+  text-align: center;
+  background: #fff;
+  border-bottom-left-radius: 8rpx;
 }
 
 .bind-organize-right {
-    background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);
-    width: 50%;
-    font-size: 32rpx;
-    font-family: PingFangSC-Regular;
-    font-weight: 400;
-    color: #FFFFFF;
-    line-height: 100rpx;
-    height: 100rpx;
-    border-bottom-right-radius: 8rpx;
-    text-align: center;
+  background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
+  width: 50%;
+  font-size: 32rpx;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 100rpx;
+  height: 100rpx;
+  border-bottom-right-radius: 8rpx;
+  text-align: center;
 }
 
 .order-remark {
-    font-size: 28rpx;
-    font-family: PingFang-SC-Medium;
-    font-weight: 500;
-    color: rgba(247, 156, 76, 1);
-    line-height: 40rpx;
-    margin-bottom: 20rpx;
+  font-size: 28rpx;
+  font-family: PingFang-SC-Medium;
+  font-weight: 500;
+  color: rgba(247, 156, 76, 1);
+  line-height: 40rpx;
+  margin-bottom: 20rpx;
 }
 
 .order-remark-title {
-    font-size: 28rpx;
-    font-family: PingFang-SC-Medium;
-    font-weight: 500;
-    color: rgba(51, 51, 51, 1);
-    line-height: 40rpx;
-    margin-top: 20rpx;
+  font-size: 28rpx;
+  font-family: PingFang-SC-Medium;
+  font-weight: 500;
+  color: rgba(51, 51, 51, 1);
+  line-height: 40rpx;
+  margin-top: 20rpx;
 }
 
 .order-remark-img {
-    width: 64rpx;
-    height: 52rpx;
-    position: absolute;
-    z-index: 100;
+  width: 64rpx;
+  height: 52rpx;
+  position: absolute;
+  z-index: 100;
 }
 
 .order-remark-img-title {
-    position: absolute;
-    z-index: 101;
-    font-size: 22rpx;
-    font-family: PingFang-SC-Medium;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 1);
-    line-height: 38rpx;
-    width: 64rpx;
-    text-align: center;
+  position: absolute;
+  z-index: 101;
+  font-size: 22rpx;
+  font-family: PingFang-SC-Medium;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+  line-height: 38rpx;
+  width: 64rpx;
+  text-align: center;
 }
 
 .dialog-button {
-    position: absolute;
-    bottom: 24rpx;
-    text-align: center;
-    width: 100%;
-    font-family: PingFang-SC-Medium;
-    font-size: 36rpx;
-    color: #F79C4C;
-    padding-top: 24rpx;
-    border-top: 1rpx solid #E5E5E5;
+  position: absolute;
+  bottom: 24rpx;
+  text-align: center;
+  width: 100%;
+  font-family: PingFang-SC-Medium;
+  font-size: 36rpx;
+  color: #f79c4c;
+  padding-top: 24rpx;
+  border-top: 1rpx solid #e5e5e5;
 }
-
 
 /*取餐*/
 
 .take-wrapper {
-    z-index: 1000;
-    background: #fff;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-    padding: 32rpx 0 30rpx;
-    border-radius: 28rpx 28rpx 0px 0px;
-    box-sizing: border-box;
-    -webkit-animation-duration: 500ms;
-    -moz-animation-duration: 500ms;
-    -o-animation-duration: 500ms;
-    animation-duration: 500ms;
+  z-index: 1000;
+  background: #fff;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  padding: 32rpx 0 30rpx;
+  border-radius: 28rpx 28rpx 0px 0px;
+  box-sizing: border-box;
+  -webkit-animation-duration: 500ms;
+  -moz-animation-duration: 500ms;
+  -o-animation-duration: 500ms;
+  animation-duration: 500ms;
 }
 
 .in {
-    animation-name: show;
-    animation-duration: 0.3s;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
+  animation-name: show;
+  animation-duration: 0.3s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
 }
 
 .out {
-    animation-name: fade;
-    animation-duration: 0.3s;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
+  animation-name: fade;
+  animation-duration: 0.3s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
 }
 
 @keyframes show {
-    from {
-        transform: translate(0, 120%);
-    }
-    to {
-        transform: translate(0, 0);
-    }
+  from {
+    transform: translate(0, 120%);
+  }
+  to {
+    transform: translate(0, 0);
+  }
 }
 
 @keyframes fade {
-    from {
-        transform: translate(0, 0);
-    }
-    to {
-        transform: translate(0, 120%);
-    }
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(0, 120%);
+  }
 }
 
 .take-title {
-    font-size: 34rpx;
-    font-family: PingFangSC;
-    font-weight: 500;
-    color: rgba(51, 51, 51, 1);
-    line-height: 48rpx;
-    padding-left: 60rpx;
+  font-size: 34rpx;
+  font-family: PingFangSC;
+  font-weight: 500;
+  color: rgba(51, 51, 51, 1);
+  line-height: 48rpx;
+  padding-left: 60rpx;
 }
 
 .take-des {
-    font-size: 24rpx;
-    font-family: PingFang-SC;
-    font-weight: 400;
-    color: rgba(153, 153, 153, 1);
-    line-height: 34rpx;
-    padding-left: 60rpx;
-    padding-bottom: 30rpx;
-    border-bottom: 1rpx solid #F4F4F4;
+  font-size: 24rpx;
+  font-family: PingFang-SC;
+  font-weight: 400;
+  color: rgba(153, 153, 153, 1);
+  line-height: 34rpx;
+  padding-left: 60rpx;
+  padding-bottom: 30rpx;
+  border-bottom: 1rpx solid #f4f4f4;
 }
 
 .take-name {
-    font-size: 30rpx;
-    font-family: PingFangSC;
-    font-weight: 400;
-    color: rgba(51, 51, 51, 1);
-    line-height: 42rpx;
+  font-size: 30rpx;
+  font-family: PingFangSC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 42rpx;
 }
 
 .take-cabinet {
-    font-size: 30rpx;
-    font-family: PingFang-SC;
-    font-weight: 500;
-    color: rgba(51, 51, 51, 1);
-    line-height: 42rpx;
+  font-size: 30rpx;
+  font-family: PingFang-SC;
+  font-weight: 500;
+  color: rgba(51, 51, 51, 1);
+  line-height: 42rpx;
 }
 
 .take-remind {
-    font-size: 24rpx;
-    font-family: PingFang-SC;
-    font-weight: 400;
-    color: rgba(247, 158, 75, 1);
-    line-height: 34rpx;
+  font-size: 24rpx;
+  font-family: PingFang-SC;
+  font-weight: 400;
+  color: rgba(247, 158, 75, 1);
+  line-height: 34rpx;
 }
 
 .take-button {
-    width: 630rpx;
-    height: 96rpx;
-    background: linear-gradient(270deg, rgba(247, 156, 76, 1) 0%, rgba(247, 205, 78, 1) 100%);
-    border-radius: 50rpx;
-    margin: 30rpx auto 0;
-    font-size: 34rpx;
-    font-family: PingFangSC;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 1);
-    line-height: 96rpx;
-    text-align: center;
+  width: 630rpx;
+  height: 96rpx;
+  background: linear-gradient(
+    270deg,
+    rgba(247, 156, 76, 1) 0%,
+    rgba(247, 205, 78, 1) 100%
+  );
+  border-radius: 50rpx;
+  margin: 30rpx auto 0;
+  font-size: 34rpx;
+  font-family: PingFangSC;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 1);
+  line-height: 96rpx;
+  text-align: center;
 }
 
 .flex-b {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }

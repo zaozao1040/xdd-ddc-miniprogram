@@ -179,6 +179,13 @@
 					"id": -1,
 					"name": "pages/login/selectPhone/selectPhone",
 					"pathName": "pages/login/selectPhone/selectPhone",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/menu/today/confirm/confirm",
+					"pathName": "pages/menu/today/confirm/confirm",
 					"scene": null
 				}
 			]

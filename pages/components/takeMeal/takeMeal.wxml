@@ -1,0 +1,84 @@
+<view wx:if="{{takeMealLimitFlag}}" class="takeMealLimit-bg-wrapper">
+    <view class="takeMealLimit-wrapper">
+        <view class="takeMealLimit-title">
+            设置取餐时段
+        </view>
+        <view class="takeMealLimit-des">
+            建议取餐时避开高峰时段,可提升就餐体验
+        </view>
+        <view class="takeMealLimit-content-wrapper">
+            <view wx:if="{{takeMealLimitLists.BREAKFAST.length>0}}" class="takeMealLimit-content-item">
+                <view class="takeMealLimit-content-left">
+                    早餐
+                </view>
+                <view class="takeMealLimit-content-right">
+                    <view class="takeMealLimit-content-right-item" wx:for="{{takeMealLimitLists.BREAKFAST}}"
+                        wx:for-index="index" wx:for-item="item" wx:key="index">
+                        <view class="takeMealLimit-content-right-title">
+                            公司规定用餐时段
+                        </view>
+                        <view class="takeMealLimit-content-right-time">
+                            {{item.startTime}}~{{item.endTime}}
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view wx:if="{{takeMealLimitLists.LAUNCH.length>0}}" class="takeMealLimit-content-item">
+                <view class="takeMealLimit-content-left">
+                    午餐
+                </view>
+                <view class="takeMealLimit-content-right">
+                    <view class="takeMealLimit-content-right-item" wx:for="{{takeMealLimitLists.LAUNCH}}"
+                        wx:for-index="index" wx:for-item="item" wx:key="index">
+                        <view class="takeMealLimit-content-right-title">
+                            公司规定用餐时段
+                        </view>
+                        <view class="takeMealLimit-content-right-time">
+                            {{item.startTime}}~{{item.endTime}}
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view wx:if="{{takeMealLimitLists.DINNER.length>0}}" class="takeMealLimit-content-item">
+                <view class="takeMealLimit-content-left">
+                    晚餐
+                </view>
+                <view class="takeMealLimit-content-right">
+                    <view class="takeMealLimit-content-right-item" wx:for="{{takeMealLimitLists.DINNER}}"
+                        wx:for-index="index" wx:for-item="item" wx:key="index">
+                        <view class="takeMealLimit-content-right-title">
+                            公司规定用餐时段
+                        </view>
+                        <view class="takeMealLimit-content-right-time">
+                            {{item.startTime}}~{{item.endTime}}
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view wx:if="{{takeMealLimitLists.NIGHT.length>0}}" class="takeMealLimit-content-item">
+                <view class="takeMealLimit-content-left">
+                    夜宵
+                </view>
+                <view class="takeMealLimit-content-right">
+                    <view class="takeMealLimit-content-right-item" wx:for="{{takeMealLimitLists.NIGHT}}"
+                        wx:for-index="index" wx:for-item="item" wx:key="index">
+                        <view class="takeMealLimit-content-right-title">
+                            公司规定用餐时段
+                        </view>
+                        <view class="takeMealLimit-content-right-time">
+                            {{item.startTime}}~{{item.endTime}}
+                        </view>
+                    </view>
+                </view>
+            </view>
+
+        </view>
+        <view wx:if="{{canClickConfirm.total}}" class="button-canClick" bindtap="handleConfirm">
+            确定
+        </view>
+        <view wx:else class="button" class="button-cannotClick" bindtap="handleConfirm">
+            确定
+        </view>
+    </view>
+
+</view>

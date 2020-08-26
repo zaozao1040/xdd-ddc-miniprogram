@@ -83,6 +83,9 @@ Page({
     orgAdminMealFlag: false, //企业管理员，点餐提示弹窗
     windowHeight: 500,
     takeorderModalShowInit: true,
+
+    // 时间限制
+    timeLimitFlag: false,
   },
   // 选择今天
   handleSelectToday() {
@@ -98,6 +101,7 @@ Page({
     });
   },
   handleSelectWeek() {
+
     this.setData({
       appointmention: "week",
     });
@@ -112,6 +116,7 @@ Page({
     }, 1000);
   },
   startOrderMenu(e) {
+
     let tmp_appointmention = this.data.appointmention;
     let tmp_mealtype = e.currentTarget.dataset.mealtype;
     wx.navigateTo({
@@ -306,17 +311,21 @@ Page({
   },
   // 关闭选择预约弹框
   closeMenuSelect() {
+
     wx.showTabBar();
     this.setData({
       showMenuSelect: false,
     });
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
+
+
+
 
   onLoad: function (options) {
     let _this = this;
+
+    this.getTimeLimit()
+
     setTimeout(function () { // 2秒后强制展示首页
       _this.setData({
         preLoading_force: false,
@@ -359,7 +368,11 @@ Page({
         userInfo: userInfo,
         limitStandard: limitStandard,
       });
-      wx.showTabBar();
+
+      if (this.data.timeLimitFlag === false) {
+        wx.showTabBar();
+      }
+
       let { userStatus, canTakeDiscount } = userInfo;
       if (userStatus == "NO_CHECK") {
         //企业用户的'审核中'状态
@@ -388,6 +401,25 @@ Page({
       /* 获取首页取餐信息 */
     }, true);
   },
+
+  /* 获取企业点餐时段限制 */
+  getTimeLimit() {
+    let _this = this;
+    let url = "/home/isTimeLimit?userCode=" + wx.getStorageSync("userCode");
+    let param = {
+      url,
+    };
+
+    requestModel.request(param, (data) => {
+      if (data === true) {
+        wx.hideTabBar();
+        _this.setData({
+          timeLimitFlag: false,
+        })
+      }
+    });
+  },
+
   //没绑定企业的用户弹出去绑定弹窗
   gotoBindOrganize() {
     wx.navigateTo({
@@ -564,7 +596,6 @@ Page({
             }
           }
         });
-        console.log("homeOrderList", tmp_homeOrderList);
         _this.setData({
           homeOrderList: tmp_homeOrderList,
           swiperDefaultIndex: 0,
@@ -723,6 +754,7 @@ Page({
           image: "/images/msg/success.png",
           duration: 2000,
         });
+
         wx.showTabBar();
         _this.initHome();
       } else if (userInfo.userStatus == "NO_CHECK") {
