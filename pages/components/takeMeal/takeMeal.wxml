@@ -1,84 +1,64 @@
 <view wx:if="{{takeMealLimitFlag}}" class="takeMealLimit-bg-wrapper">
     <view class="takeMealLimit-wrapper">
-        <view class="takeMealLimit-title">
-            设置取餐时段
-        </view>
-        <view class="takeMealLimit-des">
-            建议取餐时避开高峰时段,可提升就餐体验
-        </view>
+        <view class="takeMealLimit-title">设置取餐时段</view>
+        <view class="takeMealLimit-des">建议取餐时避开高峰时段,可提升就餐体验</view>
         <view class="takeMealLimit-content-wrapper">
             <view wx:if="{{takeMealLimitLists.BREAKFAST.length>0}}" class="takeMealLimit-content-item">
-                <view class="takeMealLimit-content-left">
-                    早餐
-                </view>
+                <view class="takeMealLimit-content-left">早餐</view>
                 <view class="takeMealLimit-content-right">
-                    <view class="takeMealLimit-content-right-item" wx:for="{{takeMealLimitLists.BREAKFAST}}"
-                        wx:for-index="index" wx:for-item="item" wx:key="index">
-                        <view class="takeMealLimit-content-right-title">
+                    <view class="takeMealLimit-content-right-item {{breakfastActiveQueue==item.queue?'takeMealLimit-content-right-item-active':''}}" wx:for="{{takeMealLimitLists.BREAKFAST}}" wx:for-index="index" wx:for-item="item" wx:key="index" data-type="breakfast" data-queue="{{item.queue}}" data-starttime="{{item.startTime}}" data-endtime="{{item.endTime}}" bindtap="clickItem">
+                        <view class="takeMealLimit-content-right-title {{breakfastActiveQueue==item.queue?'takeMealLimit-content-right-title-active':''}}">
                             公司规定用餐时段
                         </view>
-                        <view class="takeMealLimit-content-right-time">
+                        <view class="takeMealLimit-content-right-time {{breakfastActiveQueue==item.queue?'takeMealLimit-content-right-time-active':''}}">
                             {{item.startTime}}~{{item.endTime}}
                         </view>
                     </view>
                 </view>
             </view>
-            <view wx:if="{{takeMealLimitLists.LAUNCH.length>0}}" class="takeMealLimit-content-item">
-                <view class="takeMealLimit-content-left">
-                    午餐
-                </view>
+            <view wx:if="{{takeMealLimitLists.LUNCH.length>0}}" class="takeMealLimit-content-item">
+                <view class="takeMealLimit-content-left">午餐</view>
                 <view class="takeMealLimit-content-right">
-                    <view class="takeMealLimit-content-right-item" wx:for="{{takeMealLimitLists.LAUNCH}}"
-                        wx:for-index="index" wx:for-item="item" wx:key="index">
-                        <view class="takeMealLimit-content-right-title">
+                    <view class="takeMealLimit-content-right-item {{lunchActiveQueue==item.queue?'takeMealLimit-content-right-item-active':''}}" wx:for="{{takeMealLimitLists.LUNCH}}" wx:for-index="index" wx:for-item="item" wx:key="index" data-type="lunch" data-queue="{{item.queue}}" data-starttime="{{item.startTime}}" data-endtime="{{item.endTime}}" bindtap="clickItem">
+                        <view class="takeMealLimit-content-right-title {{lunchActiveQueue==item.queue?'takeMealLimit-content-right-title-active':''}}">
                             公司规定用餐时段
                         </view>
-                        <view class="takeMealLimit-content-right-time">
+                        <view class="takeMealLimit-content-right-time {{lunchActiveQueue==item.queue?'takeMealLimit-content-right-time-active':''}}">
                             {{item.startTime}}~{{item.endTime}}
                         </view>
                     </view>
                 </view>
             </view>
             <view wx:if="{{takeMealLimitLists.DINNER.length>0}}" class="takeMealLimit-content-item">
-                <view class="takeMealLimit-content-left">
-                    晚餐
-                </view>
+                <view class="takeMealLimit-content-left">晚餐</view>
                 <view class="takeMealLimit-content-right">
-                    <view class="takeMealLimit-content-right-item" wx:for="{{takeMealLimitLists.DINNER}}"
-                        wx:for-index="index" wx:for-item="item" wx:key="index">
-                        <view class="takeMealLimit-content-right-title">
+                    <view class="takeMealLimit-content-right-item {{dinnerActiveQueue==item.queue?'takeMealLimit-content-right-item-active':''}}" wx:for="{{takeMealLimitLists.DINNER}}" wx:for-index="index" wx:for-item="item" wx:key="index" data-type="dinner" data-queue="{{item.queue}}" data-starttime="{{item.startTime}}" data-endtime="{{item.endTime}}" bindtap="clickItem">
+                        <view class="takeMealLimit-content-right-title {{dinnerActiveQueue==item.queue?'takeMealLimit-content-right-title-active':''}}">
                             公司规定用餐时段
                         </view>
-                        <view class="takeMealLimit-content-right-time">
+                        <view class="takeMealLimit-content-right-time {{dinnerActiveQueue==item.queue?'takeMealLimit-content-right-time-active':''}}">
                             {{item.startTime}}~{{item.endTime}}
                         </view>
                     </view>
                 </view>
             </view>
             <view wx:if="{{takeMealLimitLists.NIGHT.length>0}}" class="takeMealLimit-content-item">
-                <view class="takeMealLimit-content-left">
-                    夜宵
-                </view>
+                <view class="takeMealLimit-content-left">夜宵</view>
                 <view class="takeMealLimit-content-right">
-                    <view class="takeMealLimit-content-right-item" wx:for="{{takeMealLimitLists.NIGHT}}"
-                        wx:for-index="index" wx:for-item="item" wx:key="index">
-                        <view class="takeMealLimit-content-right-title">
+                    <view class="takeMealLimit-content-right-item {{nightActiveQueue==item.queue?'takeMealLimit-content-right-item-active':''}}" wx:for="{{takeMealLimitLists.NIGHT}}" wx:for-index="index" wx:for-item="item" wx:key="index" data-type="night" data-queue="{{item.queue}}" data-starttime="{{item.startTime}}" data-endtime="{{item.endTime}}" bindtap="clickItem">
+                        <view class="takeMealLimit-content-right-title {{nightActiveQueue==item.queue?'takeMealLimit-content-right-title-active':''}}">
                             公司规定用餐时段
                         </view>
-                        <view class="takeMealLimit-content-right-time">
+                        <view class="takeMealLimit-content-right-time {{nightActiveQueue==item.queue?'takeMealLimit-content-right-time-active':''}}">
                             {{item.startTime}}~{{item.endTime}}
                         </view>
                     </view>
                 </view>
             </view>
-
         </view>
-        <view wx:if="{{canClickConfirm.total}}" class="button-canClick" bindtap="handleConfirm">
+        <view wx:if="{{selectedConfirmFlag}}" class="button-canClick" bindtap="handleConfirm">
             确定
         </view>
-        <view wx:else class="button" class="button-cannotClick" bindtap="handleConfirm">
-            确定
-        </view>
+        <view wx:else class="button" class="button-cannotClick" bindtap="handleConfirm">确定</view>
     </view>
-
 </view>

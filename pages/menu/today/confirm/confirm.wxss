@@ -133,7 +133,7 @@
 
 .cart-day-wrapper {
   background: #fff;
-  margin: 0 16rpx 16rpx;
+  margin: 16rpx 16rpx;
   padding: 0 30rpx;
 }
 
@@ -496,4 +496,25 @@
   height: 100rpx;
   border-bottom-right-radius: 8rpx;
   text-align: center;
+}
+
+/* 取餐时段设置 */
+.takeMealLimit-wrapper {
+  background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
+  display: flex;
+  height: 60rpx;
+  justify-content: center;
+  color: white;
+}
+.takeMealLimit-font {
+  line-height: 60rpx;
+}
+.takeMealLimit-icon {
+  margin: 15rpx 0 0 20rpx;
+  width: 30rpx;
+  height: 30rpx;
+}
+.takeMealLimit-image {
+  height: 100%;
+  width: 100%;
 }

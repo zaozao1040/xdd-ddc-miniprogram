@@ -52,8 +52,11 @@ Page({
         generateOrderNow: false, //防止狂点去付款
 
         // 取餐时段限制的开关
+        takeMealLimitTitleDes: '',
         takeMealLimitFlag: false,
-        takeMealLimitLists: []
+        takeMealLimitLists: [],
+        takeMealLimitMealTypes: [],//传递给子组件
+        takeMealLimitArr: [],//保存子组件传递过来的选中的时段数据结构
     },
 
     initAddress: function () {
@@ -178,6 +181,9 @@ Page({
     getTakeMealLimit(selectedFoods) {
         let _this = this
         let mealTypes = _this.getMealTypesList(selectedFoods)
+        _this.setData({
+            takeMealLimitMealTypes: mealTypes
+        })
         let param = {
             data: {
                 userCode: wx.getStorageSync("userCode"),
@@ -452,6 +458,29 @@ Page({
 
 
             /**** 拼接这个庞大的参数 ****/
+            // 若该企业是开启了 分时段取餐 功能的，也就是takeMealLimitFlag为true，那么需要组装请求参数
+            let tmp_takeMealLimitObj = {}
+            if (_this.data.takeMealLimitFlag) {
+                _this.data.takeMealLimitArr.map((item, index) => {
+                    if (item.mealType == 1) {
+                        tmp_takeMealLimitObj.breakfastMealType = 1
+                        tmp_takeMealLimitObj.breakfastQueue = item.queue
+                    }
+                    if (item.mealType == 2) {
+                        tmp_takeMealLimitObj.lunchMealType = 2
+                        tmp_takeMealLimitObj.lunchQueue = item.queue
+                    }
+                    if (item.mealType == 3) {
+                        tmp_takeMealLimitObj.dinnerMealType = 3
+                        tmp_takeMealLimitObj.dinnerQueue = item.queue
+                    }
+                    if (item.mealType == 4) {
+                        tmp_takeMealLimitObj.nightMealType = 4
+                        tmp_takeMealLimitObj.nightQueue = item.queue
+                    }
+                })
+            }
+
             let tmp_userDiscountCode = null
             if (_this.data.adviceDiscountObj) {
                 tmp_userDiscountCode = _this.data.adviceDiscountObj.userDiscountCode
@@ -467,19 +496,11 @@ Page({
                 orderPayMoney: _this.data.realMoney, //自费的总价格
                 appendMealFlag: _this.data.orderType == 'add' ? true : false,
                 order: []
-
             }
-
-
-
             _this.data.selectedFoods = wx.getStorageSync('sevenSelectedFoods')
-
             for (let i = 0; i < _this.data.selectedFoods.length; i++) {
-
                 let tmp_selectedFoods = _this.data.selectedFoods[i]
                 if (tmp_selectedFoods.count > 0) {
-
-
                     _this.data.mealEnglistLabel.forEach(mealType => {
                         if (tmp_selectedFoods[mealType] && tmp_selectedFoods[mealType].selectedFoods.length > 0) { //选了这个餐时的菜
 
@@ -496,6 +517,25 @@ Page({
                                     foodQuantity: onefood.foodCount,
                                     markDetail: onefood.remarkList
                                 }
+
+                                if (_this.data.takeMealLimitFlag) {
+                                    if (mealType.toUpperCase() == 'BREAKFAST') {
+                                        foods_item.mealType = 1
+                                        foods_item.queue = tmp_takeMealLimitObj.breakfastQueue
+                                    } else if (mealType.toUpperCase() == 'LUNCH') {
+                                        foods_item.mealType = 2
+                                        foods_item.queue = tmp_takeMealLimitObj.lunchQueue
+                                    } else if (mealType.toUpperCase() == 'DINNER') {
+                                        foods_item.mealType = 3
+                                        foods_item.queue = tmp_takeMealLimitObj.dinnerQueue
+                                    } else if (mealType.toUpperCase() == 'NIGHT') {
+                                        foods_item.mealType = 4
+                                        foods_item.queue = tmp_takeMealLimitObj.nightQueue
+                                    }
+
+                                }
+
+
                                 order_item.foods.push(foods_item)
                             })
 
@@ -594,5 +634,23 @@ Page({
         wx.navigateTo({
             url: '/pages/menu/remark/remark'
         })
-    }
+    },
+    // 取餐时段设置
+    showTakeMealLimit() {
+        this.setData({
+            takeMealLimitFlag: true
+        })
+    },
+    // 取餐时段设置 - 监听子组件确定时间段设置
+    handleTakeMealLimitConfirm(e) {
+        console.log('handleTakeMealLimitConfirm', e.detail)
+        let des = ''
+        e.detail.map((item, index) => {
+            des = des + item.des + ' '
+        })
+        this.setData({
+            takeMealLimitTitleDes: des,
+            takeMealLimitArr: e.detail
+        })
+    },
 })

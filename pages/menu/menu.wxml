@@ -115,7 +115,7 @@
                                                         wx:if='{{foodItem.foodLabels&&foodItem.foodLabels.length>0}}'>
                                                         <!-- <view class="food-label-item">{{ menutypeItem.typeName }}</view> -->
                                                         <view class="food-label-item" wx:for="{{foodItem.foodLabels}}"
-                                                            wx:key="{{ index }}">{{ item }}</view>
+                                                            wx:key="index">{{ item }}</view>
                                                     </view>
                                                     <view wx:if="{{foodItem.canMeal==false}}"
                                                         style="font-size:20rpx;line-height: 28rpx;color:#ce8307;margin-top:10rpx;">
@@ -443,7 +443,7 @@
                         <block wx:for="{{timeInfo}}" wx:for-item="dayItem" wx:for-index="dayIndex" wx:key="dayIndex">
                             <view wx:if="{{selectedFoodsIndex[dayIndex].count>0}}">
                                 <view class="chart-date">{{dayItem.label}}({{dayItem.mealDateShow}})</view>
-                                <view wx:for="{{ mealEnglistLabel }}" wx:key="{{ index }}">
+                                <view wx:for="{{ mealEnglistLabel }}" wx:key="index">
                                     <view wx:for="{{ selectedFoodsIndex[dayIndex][item].selectedFoods }}"
                                         wx:for-item="onefood" wx:for-index="selectedFoodIndex"
                                         wx:key="selectedFoodIndex">

@@ -1,68 +1,8 @@
 <view class="wrapper">
-    <!-- 弹出层 填写钱包支付提示 -->
+    <!-- 弹出层 分时段取餐 -->
     <c-takeMeal wx:if="{{takeMealLimitFlag}}" takeMealLimitFlag='{{takeMealLimitFlag}}'
-        takeMealLimitLists='{{takeMealLimitLists}}'></c-takeMeal>
-
-    <!-- 弹出层  限制时间段取餐的列表 
-    <view wx:if="{{takeMealLimitFlag}}" class="takeMealLimit-bg-wrapper">
-        <view class="takeMealLimit-wrapper">
-            <view class="takeMealLimit-title">
-                公司规定取餐时段
-            </view>
-            <view class="takeMealLimit-des">
-                建议取餐时避开高峰时段,可提升就餐体验
-            </view>
-            <view class="takeMealLimit-content-wrapper">
-                <view wx:if="{{takeMealLimitBreakfastList.length>0}}" class="takeMealLimit-content-item">
-                    <view class="takeMealLimit-content-left">
-                        早餐
-                    </view>
-                    <view class="takeMealLimit-content-right">
-                        <view wx:for="{{takeMealLimitBreakfastList}}" wx:for-index="index" wx:for-item="item"
-                            wx:key="index">
-                            {{item.startTime}}~{{item.endTime}}
-                        </view>
-                    </view>
-                </view>
-                <view wx:if="{{takeMealLimitLunchList.length>0}}" class="takeMealLimit-content-item">
-                    <view class="takeMealLimit-content-left">
-                        午餐
-                    </view>
-                    <view class="takeMealLimit-content-right">
-                        <view wx:for="{{takeMealLimitLunchList}}" wx:for-index="index" wx:for-item="item"
-                            wx:key="index">
-                            {{item.startTime}}~{{item.endTime}}
-                        </view>
-                    </view>
-                </view>
-                <view wx:if="{{takeMealLimitDinnerList.length>0}}" class="takeMealLimit-content-item">
-                    <view class="takeMealLimit-content-left">
-                        晚餐
-                    </view>
-                    <view class="takeMealLimit-content-right">
-                        <view wx:for="{{takeMealLimitDinnerList}}" wx:for-index="index" wx:for-item="item"
-                            wx:key="index">
-                            {{item.startTime}}~{{item.endTime}}
-                        </view>
-                    </view>
-                </view>
-                <view wx:if="{{takeMealLimitNightList.length>0}}" class="takeMealLimit-content-item">
-                    <view class="takeMealLimit-content-left">
-                        夜宵
-                    </view>
-                    <view class="takeMealLimit-content-right">
-                        <view wx:for="{{takeMealLimitNightList}}" wx:for-index="index" wx:for-item="item"
-                            wx:key="index">
-                            {{item.startTime}}~{{item.endTime}}
-                        </view>
-                    </view>
-                </view>
-
-            </view>
-
-        </view>
-    </view>
--->
+        takeMealLimitLists='{{takeMealLimitLists}}' takeMealLimitMealTypes='{{takeMealLimitMealTypes}}'
+        bind:handleTakeMealLimitConfirm='handleTakeMealLimitConfirm'></c-takeMeal>
 
     <!-- 弹出层 选择优惠券 -->
     <block wx:if="{{showSelectDiscountFlag}}">
@@ -142,23 +82,35 @@
             <text class='iconfont icon-icon_on_the_right' style="font-size:40rpx;color:#fff;"></text>
         </view>
     </view>
+    <!-- 分时段取餐设置 -->
+    <view wx:if="{{takeMealLimitFlag}}" class="takeMealLimit-wrapper" bindtap="showTakeMealLimit">
+        <view class="takeMealLimit-font" wx:if="{{takeMealLimitTitleDes==''}}">
+            取餐时段设置
+        </view>
+        <view class="takeMealLimit-font" wx:else>
+            {{takeMealLimitTitleDes}}
+        </view>
+        <view class="takeMealLimit-icon">
+            <image class="takeMealLimit-image" src='/images/menu/edit.png'></image>
+        </view>
+
+    </view>
     <!-- 已选菜单 -->
     <scroll-view scroll-y style="height:{{buttonTop-addressBottom}}px;">
         <view style="background: #F5F5F5;border-radius: 6rpx;">
 
             <view class="cart-day-wrapper">
-                <view wx:for="{{selectedFoods}}" wx:for-item='oneday' wx:for-index='onedayindex'
-                    wx:key='{{onedayindex}}'>
+                <view wx:for="{{selectedFoods}}" wx:for-item='oneday' wx:for-index='onedayindex' wx:key="onedayindex">
 
                     <view wx:if="{{oneday.count>0}}">
-                        <view wx:for="{{mealEnglistLabel}}" wx:key="{{index}}">
+                        <view wx:for="{{mealEnglistLabel}}" wx:key="index">
                             <view wx:if='{{oneday[item]&&oneday[item].selectedFoods.length>0}}'>
                                 <view class="cart-day-title">{{oneday.appointment}}({{oneday.mealDateShow}})
                                     {{oneday[item].name}}</view>
 
                                 <view class="cart-menuItem" wx:for="{{oneday[item].selectedFoods}}"
                                     wx:for-item="foodtypeinfoItem" wx:for-index="foodtypeinfoIndex"
-                                    wx:key="{{foodtypeinfoIndex}}">
+                                    wx:key="foodtypeinfoIndex">
                                     <view class="cart-menuItem-left">
                                         <image class="cart-menuItem-img" src="{{foodtypeinfoItem.image}}"></image>
                                     </view>

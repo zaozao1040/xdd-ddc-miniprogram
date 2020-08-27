@@ -51,11 +51,20 @@
   margin-bottom: 20rpx;
   padding: 10rpx 20rpx;
 }
+.takeMealLimit-content-right-item-active {
+  background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
+}
 .takeMealLimit-content-right-title {
   color: #999;
 }
+.takeMealLimit-content-right-title-active {
+  color: white;
+}
 .takeMealLimit-content-right-time {
   color: #222;
+}
+.takeMealLimit-content-right-time-active {
+  color: white;
 }
 .button-canClick {
   background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
