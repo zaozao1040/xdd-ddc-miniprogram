@@ -16,8 +16,8 @@
         </view>
     </view>
 </view>
-<view wx:if="{{userInfo.startTime}}" class="qucan">
-    取餐时间: {{userInfo.startTime}}~{{userInfo.endTime}}
+<view wx:if="{{detailInfo.startTime}}" class="qucan">
+    取餐时间: {{detailInfo.startTime}}~{{detailInfo.endTime}}
 </view>
 <view class="user">
     {{userInfo.userName}}({{userInfo.phoneNumber}})
