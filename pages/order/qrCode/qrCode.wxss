@@ -50,6 +50,15 @@
   flex-shrink: 0;
   text-align: center;
 }
+.qucan {
+  font-size: 28rpx;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: #222;
+  line-height: 60rpx;
+  flex-shrink: 0;
+  text-align: center;
+}
 .organize {
   font-size: 28rpx;
   font-family: PingFangSC-Regular;

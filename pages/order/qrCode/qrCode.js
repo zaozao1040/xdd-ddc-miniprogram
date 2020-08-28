@@ -32,7 +32,6 @@ Page({
     let _this = this
     let tmp_ningxiaOrgFlag = this.checkNingxia()
     if (tmp_ningxiaOrgFlag) {
-      console.log('ning')
       _this.setData({
         ningxiaOrgFlag: tmp_ningxiaOrgFlag
       });
