@@ -84,7 +84,7 @@ Page({
     windowHeight: 500,
     takeorderModalShowInit: true,
 
-    // 时间限制
+    // 时间限制开关
     timeLimitFlag: false,
   },
   // 选择今天
@@ -414,7 +414,7 @@ Page({
       if (data === true) {
         wx.hideTabBar();
         _this.setData({
-          timeLimitFlag: false,
+          timeLimitFlag: true,
         })
       }
     });
