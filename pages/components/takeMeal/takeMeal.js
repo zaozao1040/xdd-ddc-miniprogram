@@ -35,7 +35,6 @@ Component({
     nightStartTime: null,
     nightEndTime: null,
     selectedConfirmDes: null
-
   },
 
   /**
@@ -44,17 +43,19 @@ Component({
   methods: {
 
     updateSelectedConfirmFlag() {
+      console.log(this.data.takeMealLimitMealTypes, '77777', this.data.breakfastActiveQueue,
+        this.data.lunchActiveQueue, this.data.dinnerActiveQueue, this.data.nightActiveQueue)
       let tmpFlag = true //默认为true 命中下面四个if中任一个都会设置为false
-      if ((this.data.takeMealLimitMealTypes.indexOf(1) !== -1) && (this.data.breakfastActiveQueue == -1)) {
+      if ((this.data.takeMealLimitLists.BREAKFAST.length > 0) && (this.data.breakfastActiveQueue == -1)) {
         tmpFlag = false
       }
-      else if ((this.data.takeMealLimitMealTypes.indexOf(2) !== -1) && (this.data.lunchActiveQueue == -1)) {
+      else if ((this.data.takeMealLimitLists.LUNCH.length > 0) && (this.data.lunchActiveQueue == -1)) {
         tmpFlag = false
       }
-      else if ((this.data.takeMealLimitMealTypes.indexOf(3) !== -1) && (this.data.dinnerActiveQueue == -1)) {
+      else if ((this.data.takeMealLimitLists.DINNER.length > 0) && (this.data.dinnerActiveQueue == -1)) {
         tmpFlag = false
       }
-      else if ((this.data.takeMealLimitMealTypes.indexOf(4) !== -1) && (this.data.nightActiveQueue == -1)) {
+      else if ((this.data.takeMealLimitLists.NIGHT.length > 0) && (this.data.nightActiveQueue == -1)) {
         tmpFlag = false
       }
       this.setData({
