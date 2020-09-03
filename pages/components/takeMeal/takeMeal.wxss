@@ -13,10 +13,16 @@
   justify-content: center;
 }
 .takeMealLimit-wrapper {
+  position: relative;
+  height: 80%;
+  width: auto;
   margin: 40rpx;
   padding: 20rpx;
   background: white;
 }
+/* .scroll-view-wrapper{
+
+} */
 .takeMealLimit-title {
   font-size: 40rpx;
   color: #222;
@@ -67,6 +73,10 @@
   color: white;
 }
 .button-canClick {
+  position: absolute;
+  bottom: 20rpx;
+  left: 20rpx;
+  right: 20rpx;
   background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
   border-radius: 3px;
   font-family: PingFang-SC-Medium;
@@ -74,11 +84,14 @@
   color: #ffffff;
   letter-spacing: 0;
   text-align: center;
-  width: 100%;
   height: 80rpx;
   line-height: 80rpx;
 }
 .button-cannotClick {
+  position: absolute;
+  bottom: 20rpx;
+  left: 20rpx;
+  right: 20rpx;
   background: #ddd;
   border-radius: 3px;
   font-family: PingFang-SC-Medium;
@@ -86,7 +99,6 @@
   color: #ffffff;
   letter-spacing: 0;
   text-align: center;
-  width: 100%;
   height: 80rpx;
   line-height: 80rpx;
 }
