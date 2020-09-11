@@ -21,7 +21,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    windowHeight: 0,
+
     //
     selectedConfirmFlag: false,
     breakfastActiveQueue: -1,
@@ -170,36 +170,5 @@ Component({
       // 在组件实例被从页面节点树移除时执行
     },
   },
-  ready: function () {
-    // 在组件在视图层布局完成后执行	
-    wx.getSystemInfo({
-      success: function (res) {
-        _this.setData({
-          windowHeight: res.windowHeight
-        })
-        console.log('res.windowHeight', res.windowHeight)
-      }
-    })
-    let _this = this;
-    const query = wx.createSelectorQuery()
-    query.select('.c_scrollPosition_takeMealLimit').boundingClientRect()
-    query.selectViewport().scrollOffset()
-    query.exec(function (res) {
-      console.log('%%%%%%%', res)
-      // _this.setData({
-      //     scrollTop: res[0].top // #the-id节点的上边界坐标
-      // })
-    })
-    // const query_1 = wx.createSelectorQuery()
-    // query_1.select('.c_buttonPosition_forCalculate').boundingClientRect()
-    // query_1.selectViewport().scrollOffset()
-    // query_1.exec(function (res) {
-    //     _this.setData({
-    //         buttonTop: res[0].top // #the-id节点的上边界坐标
-    //     })
-    // })
-    // console.log('bindChecking', _this.data.bindChecking)
-    // console.log('canBinding', _this.data.canBinding)
 
-  },
 })
