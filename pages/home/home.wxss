@@ -417,6 +417,12 @@
   height: 70rpx;
 }
 
+.timeLimit-list-item {
+  font-size: 42rpx;
+  text-align: center;
+  height: 70rpx;
+  line-height: 70rpx;
+}
 /* 用户授权框 弹出 */
 
 .modulebox-background-wrapper {

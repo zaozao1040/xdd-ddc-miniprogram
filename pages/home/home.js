@@ -86,6 +86,7 @@ Page({
 
     // 时间限制开关
     timeLimitFlag: false,
+    timeLimitList: []
   },
   // 选择今天
   handleSelectToday() {
@@ -411,10 +412,11 @@ Page({
     };
 
     requestModel.request(param, (data) => {
-      if (data === true) {
+      if (data.status === true) {
         wx.hideTabBar();
         _this.setData({
           timeLimitFlag: true,
+          timeLimitList: data.limitList
         })
       }
     });
