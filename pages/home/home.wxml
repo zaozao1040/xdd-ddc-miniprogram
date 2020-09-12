@@ -275,8 +275,8 @@
         <!-- --------------------------------------- 下面是各种弹出层 --------------------------------------- -->
 
         <!-- 限制时间段不允许使用小程序 弹出 -->
-        <view class="timeLimit-wrapper" wx:if="{{timeLimitFlag}}">
-            <view>
+        <view class="timeLimit-wrapper-bg" wx:if="{{timeLimitFlag}}">
+            <view class="timeLimit-wrapper">
                 <view class="timeLimit-title">
                     按照合作方要求
                 </view>

@@ -396,16 +396,27 @@
 }
 
 /* 限制时间段不允许使用小程序 弹出 */
-
-.timeLimit-wrapper {
+.timeLimit-wrapper-bg {
   position: fixed;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
   z-index: 99;
-  background: white;
+  background: rgba(13, 21, 31, 0.5);
   margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.timeLimit-wrapper {
+  position: absolute;
+  left: 60rpx;
+  right: 60rpx;
+  padding: 100rpx 0;
+  border-radius: 10rpx;
+  z-index: 99;
+  background: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
