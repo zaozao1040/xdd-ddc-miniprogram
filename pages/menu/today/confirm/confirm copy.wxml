@@ -135,7 +135,7 @@
                                     <view class='cart-discount-organize'>企业抵扣</view>
                                     <view class='cart-discount-organize-money'>-￥{{oneday[item].deductionMoney}}</view>
                                 </view>
-                                <!-- <view class='pay-item-last'>
+                                <view class='pay-item-last'>
                                     <view class='pay-title' style='padding:30rpx 0;'>优惠券</view>
                                     <view class='flex-a'>
                                         <view style='padding:30rpx 0;'>
@@ -147,26 +147,6 @@
                                                 <view class="pay-discount-money" wx:if="{{!useDiscountFlag}}">
                                                     {{discountList.length}}张可用
                                                 </view>
-                                            </view>
-                                            <view wx:else class='pay-no-discount'>暂无可用</view>
-                                        </view>
-                                        <view wx:if="{{adviceDiscountObj}}" bindtap="handleChangeSelectDiscountFlag">
-                                            <image src='/images/menu/right.png'
-                                                style="height:22rpx;width:12rpx; margin:42rpx 0 0 20rpx;"></image>
-                                        </view>
-                                        <view wx:else>
-                                            <image src='/images/menu/right.png'
-                                                style="height:22rpx;width:12rpx; margin:42rpx 0 0 20rpx;"></image>
-                                        </view>
-                                    </view>
-                                </view> -->
-                                <view class='pay-item-last'>
-                                    <view class='pay-title' style='padding:30rpx 0;'>优惠券</view>
-                                    <view class='flex-a'>
-                                        <view style='padding:30rpx 0;'>
-                                            <view wx:if="{{oneday[item].discountNum&&oneday[item].discountNum!==0}}"
-                                                class="pay-discount-money" bindtap="handleChangeSelectDiscountFlag">
-                                                {{oneday[item].discountNum}}张可用
                                             </view>
                                             <view wx:else class='pay-no-discount'>暂无可用</view>
                                         </view>
