@@ -1,0 +1,80 @@
+<view>
+
+    <view class="discountItem-wrapper" wx:for="{{discountList}}" wx:for-index="discountIndex" wx:for-item="discountItem" wx:key="discountIndex" bindtap="handleClickDiscount" data-usetype="{{useType}}">
+        <!-- <view class="type">折扣券</view> -->
+        <view style="display:flex;">
+            <view class=" {{useType=='EXPIRED'||useType=='USED'?'rect_expire':'rect'}}">
+                <view class="border" wx:if="{{useType=='EXPIRED' ||useType=='USED' }}">
+                    <view class="top"></view>
+                    <view class="expire_circle"></view>
+                    <view class="middle"></view>
+                    <view class="expire_circle"></view>
+                    <view class="middle"></view>
+                    <view class="expire_circle"></view>
+                    <view class="middle"></view>
+                    <view class="expire_circle"></view>
+                    <view class="middle"></view>
+                    <view class="expire_circle"></view>
+                    <view class="middle"></view>
+                    <view class="expire_circle"></view>
+                    <view class="middle"></view>
+                    <view class="expire_circle"></view>
+                    <view class="top"></view>
+                </view>
+                <view class="border" wx:else>
+                    <view class="top"></view>
+                    <view class="circle"></view>
+                    <view class="middle"></view>
+                    <view class="circle"></view>
+                    <view class="middle"></view>
+                    <view class="circle"></view>
+                    <view class="middle"></view>
+                    <view class="circle"></view>
+                    <view class="middle"></view>
+                    <view class="circle"></view>
+                    <view class="middle"></view>
+                    <view class="circle"></view>
+                    <view class="middle"></view>
+                    <view class="circle"></view>
+                    <view class="top"></view>
+                </view>
+                <view class="right-price">
+                    <view class='money' wx:if="{{discountItem.discountType=='REDUCTION'}}">
+                        <text class='label'>¥</text>
+                        <text class='number'>{{discountItem.discountPrice}}</text>
+                    </view>
+                    <view class='money' wx:else>
+                        <text class='number'> {{10*discountItem.discountPrice}}</text>
+                        <text class='label'>折</text>
+                    </view>
+
+                    <text class="condition">满{{discountItem.discountStandardPrice}}元可用</text>
+
+                </view>
+            </view>
+            <view class="content">
+                <view style="font-size:30rpx;color:{{useType=='EXPIRED'||useType=='USED'?'#bfbfbf':'black'}};padding:20rpx 0 20rpx;font-weight:800;">{{discountItem.discountName}}</view>
+                <view style="border-bottom:1px solid  #d9d9d9;display:flex;justify-content:space-between;padding-bottom:12rpx;">
+
+                    <view style="font-size:22rpx; color:#bfbfbf;padding-top:14rpx;">{{discountItem.startTimeDes}} - {{discountItem.endTimeDes}}</view>
+
+                    <view class="right" wx:if="{{useType==100}}" bindtap="handleSelectDiscount" data-advicediscountobj="{{discountItem}}">
+                        <image wx:if="{{discountItem.userDiscountCode==adviceDiscountObj.userDiscountCode}}" src="/images/mine/gouxuan.png" class="gouxuan-img"></image>
+                        <image wx:else src="/images/mine/weigouxuan.png" class="gouxuan-img"></image>
+
+                    </view>
+
+                    <navigator url="/pages/menu/menu" wx:if="{{useType=='USEABLE'}}">
+                        <view style="right: 20rpx;top: 40rpx;color:#e79b37;  position: absolute;">
+                            <text style=" border:1rpx solid #e79b37;font-size:22rpx;border-radius:20rpx;padding:4rpx 6rpx;">去使用</text>
+                        </view>
+                    </navigator>
+                    <image wx:elif="{{useType=='USED'}}" src="/images/mine/yishiyong.png" mode="widthFix" class="img"></image>
+                    <image wx:elif="{{useType=='EXPIRED'}}" src="/images/mine/guoqi.png" mode="widthFix" class="img"></image>
+                </view>
+
+                <view style="font-size:24rpx;padding-top:6rpx;color:{{useType=='EXPIRED'||useType=='USED'?'#bfbfbf':'rgb(112,112,112)'}};">{{discountItem.organizeName}}</view>
+            </view>
+        </view>
+    </view>
+</view>

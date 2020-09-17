@@ -186,6 +186,13 @@
 					"id": -1,
 					"name": "pages/menu/today/confirm/confirm",
 					"pathName": "pages/menu/today/confirm/confirm",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/menu/today/discount/discount",
+					"pathName": "pages/menu/today/discount/discount",
 					"scene": null
 				}
 			]

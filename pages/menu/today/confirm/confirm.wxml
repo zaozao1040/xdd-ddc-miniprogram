@@ -4,26 +4,6 @@
         takeMealLimitLists='{{takeMealLimitLists}}' takeMealLimitMealTypes='{{takeMealLimitMealTypes}}'
         bind:handleTakeMealLimitConfirm='handleTakeMealLimitConfirm'></c-takeMeal>
 
-    <!-- 弹出层 选择优惠券 -->
-    <block wx:if="{{showSelectDiscountFlag}}">
-        <scroll-view class="discountBg-wrapper" scroll-y style="height: {{windowHeight}}px;">
-            <view class="discountBg-headder">
-                <view class="">
-                    请选择优惠券
-                </view>
-                <view class="discountBg-headder-right" bindtap="handleNotUseDiscount">
-                    <text style="font-size:30rpx;color:#222;">不使用优惠券</text>
-                    <image src="/images/mine/weigouxuan.png" wx:if="{{useDiscountFlag}}"
-                        class="discountBg-headder-right-img"></image>
-                    <image src="/images/mine/gouxuan.png" wx:else class="discountBg-headder-right-img"></image>
-                </view>
-            </view>
-            <view class="discountBg-content">
-                <c-discount discountList="{{discountList}}" useType="100" adviceDiscountObj="{{adviceDiscountObj}}"
-                    bind:changeselectdiscountflag="onChangeSelectDiscountFlag"></c-discount>
-            </view>
-        </scroll-view>
-    </block>
     <!-- 弹出层 填写取餐人 送餐地址 -->
     <view class="modulebox-background-wrapper" wx:if="{{showSelectFlag}}">
         <view class="modulebox-wrapper">
@@ -135,42 +115,28 @@
                                     <view class='cart-discount-organize'>企业抵扣</view>
                                     <view class='cart-discount-organize-money'>-￥{{oneday[item].deductionMoney}}</view>
                                 </view>
-                                <!-- <view class='pay-item-last'>
-                                    <view class='pay-title' style='padding:30rpx 0;'>优惠券</view>
-                                    <view class='flex-a'>
-                                        <view style='padding:30rpx 0;'>
-                                            <view wx:if="{{adviceDiscountObj}}"
-                                                bindtap="handleChangeSelectDiscountFlag">
-                                                <view class='pay-discount-money'
-                                                    wx:if="{{adviceDiscountObj&&adviceDiscountObj.discountPrice!=0}}">
-                                                    -￥{{discountMoney}}</view>
-                                                <view class="pay-discount-money" wx:if="{{!useDiscountFlag}}">
-                                                    {{discountList.length}}张可用
-                                                </view>
-                                            </view>
-                                            <view wx:else class='pay-no-discount'>暂无可用</view>
-                                        </view>
-                                        <view wx:if="{{adviceDiscountObj}}" bindtap="handleChangeSelectDiscountFlag">
-                                            <image src='/images/menu/right.png'
-                                                style="height:22rpx;width:12rpx; margin:42rpx 0 0 20rpx;"></image>
-                                        </view>
-                                        <view wx:else>
-                                            <image src='/images/menu/right.png'
-                                                style="height:22rpx;width:12rpx; margin:42rpx 0 0 20rpx;"></image>
-                                        </view>
-                                    </view>
-                                </view> -->
                                 <view class='pay-item-last'>
                                     <view class='pay-title' style='padding:30rpx 0;'>优惠券</view>
                                     <view class='flex-a'>
                                         <view style='padding:30rpx 0;'>
-                                            <view wx:if="{{oneday[item].discountNum&&oneday[item].discountNum!==0}}"
-                                                class="pay-discount-money" bindtap="handleChangeSelectDiscountFlag">
-                                                {{oneday[item].discountNum}}张可用
-                                            </view>
-                                            <view wx:else class='pay-no-discount'>暂无可用</view>
+                                            <block wx:if="{{oneday[item].discountSelectedFlag}}">
+                                                <view class="pay-discount-money" data-mealdate="{{oneday.mealDate}}"
+                                                    data-mealtypename="{{oneday[item].name}}"
+                                                    bindtap="handleGotoDiscount">
+                                                    -￥{{oneday[item].discountSelectedInfo.discountMoney}}
+                                                </view>
+                                            </block>
+                                            <block wx:else>
+                                                <view wx:if="{{oneday[item].discountNum&&oneday[item].discountNum!==0}}"
+                                                    class="pay-discount-money" data-mealdate="{{oneday.mealDate}}"
+                                                    data-mealtypename="{{oneday[item].name}}"
+                                                    bindtap="handleGotoDiscount">
+                                                    {{oneday[item].discountNum}}张可用
+                                                </view>
+                                                <view wx:else class='pay-no-discount'>暂无可用</view>
+                                            </block>
                                         </view>
-                                        <view wx:if="{{adviceDiscountObj}}" bindtap="handleChangeSelectDiscountFlag">
+                                        <view wx:if="{{adviceDiscountObj}}" bindtap="handleGotoDiscount">
                                             <image src='/images/menu/right.png'
                                                 style="height:22rpx;width:12rpx; margin:42rpx 0 0 20rpx;"></image>
                                         </view>

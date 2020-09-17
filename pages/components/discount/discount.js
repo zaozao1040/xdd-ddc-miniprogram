@@ -15,23 +15,11 @@ Component({
   data: {
   },
   methods: {
-    handleSelectDiscount: function (e) {
-      /*       this.setData({
-              adviceDiscountObj:e.currentTarget.dataset.advicediscountobj
-            })    */
-      this.triggerEvent('changeselectdiscountflag', e.currentTarget.dataset.advicediscountobj)
-    },
     /* 点击优惠券触发的事件 */
     handleClickDiscount: function (e) {
-      console.log(e.currentTarget.dataset)
+      this.triggerEvent('changeselectdiscount', e.currentTarget.dataset.item)
     }
 
   },
-  /* 生命周期 */
-  pageLifetimes: {
-    show() {
-      console.log('3333', this.data.useType)
-    }
-  }
 
 })
