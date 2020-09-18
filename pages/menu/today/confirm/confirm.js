@@ -52,6 +52,7 @@ Page({
         orderParamList: [],
         // 优惠券相关
         currentDiscountSelectedInfo: {},//当前选中的优惠券信息
+        selectedDiscountCodeList: [],//当前所有选中的优惠券列表
         discountList: [], //优惠券列表
         discountPage: 1, // 分页 设置加载的第几次，默认是第一次
         discountLimit: 10, // 分页 每页条数
@@ -154,7 +155,7 @@ Page({
         // 计算公共参数
         this.getOrderParamList()
         // 刷新每个餐别的优惠券几张可用
-        this.refreshYouhuiquan()
+        this.refreshDiscountNum()
     },
 
     getOrderVerificationString() {
@@ -349,7 +350,7 @@ Page({
     /**
      * 刷新每个餐别的优惠券几张可用
      */
-    refreshYouhuiquan() {
+    refreshDiscountNum() {
         let _this = this
         let tmp_orderParamList = _this.data.orderParamList
         let param = {
@@ -388,7 +389,53 @@ Page({
 
         });
     },
+    /**
+     * 刷新当前已经选择了的优惠券code列表
+     */
+    refreshSelectedDiscountCodeList() {
+        let _this = this
+        _this.data.selectedDiscountCodeList.push(_this.data.currentDiscountSelectedInfo.userDiscountCode)
+        const set = new Set(_this.data.selectedDiscountCodeList)
+        _this.data.selectedDiscountCodeList = [...set]
 
+        console.log('4444', _this.data.selectedDiscountCodeList)
+
+    },
+    /**
+     * 选择了优惠券后，重新计算selectedFoods数据结构
+     */
+    refreshSelectedDiscountInfo: function () {
+        let _this = this
+        let publicParam = getApp().globalData.publicParam
+
+
+        console.log('********', getApp().globalData.publicParam)
+        console.log('（（（（（（', _this.data.selectedFoods)
+        let tmp_selectedFoods = _this.data.selectedFoods
+        let tmp_length = _this.data.selectedFoods.length
+        for (let i = 0; i < tmp_length; i++) {
+            let tmp_selectedFoodsItem = tmp_selectedFoods[i]
+            if (tmp_selectedFoodsItem.mealDate == publicParam.mealDate) {
+                _this.data.mealEnglistLabel.forEach(mealType => {
+                    if (mealType.toUpperCase() == publicParam.mealType) { //选了这个餐时的菜
+                        tmp_selectedFoodsItem[mealType].discountSelectedFlag = true
+                        tmp_selectedFoodsItem[mealType].discountSelectedInfo = _this.data.currentDiscountSelectedInfo
+                    }
+                })
+            }
+        }
+        _this.setData({
+            selectedFoods: tmp_selectedFoods
+        })
+    },
+
+    /**
+     * 选择了优惠券后，重新计算selectedFoods数据结构
+     */
+    refreshDiscountNumAndSelectedInfo: function () {
+        let _this = this
+
+    },
     /* 跳转优惠券页面 */
     handleGotoDiscount: function (e) {
         let tmp_foods = []
@@ -412,8 +459,10 @@ Page({
             userCode: wx.getStorageSync("userCode"),
             mealDate: mealdate,
             mealType: tmp_mealType,
-            foods: tmp_foods
+            foods: tmp_foods,
+            userDiscountCodeList: this.data.selectedDiscountCodeList
         }
+        console.log('777777', getApp().globalData.publicParam)
         wx.navigateTo({
             url: '/pages/menu/today/discount/discount',
         })
@@ -550,33 +599,7 @@ Page({
         }
         _this.data.orderParamList = tmp_orderParamList //赋给本页公共变量
     },
-    /**
-     * 选择了优惠券后，重新计算selectedFoods数据结构
-     */
-    getSelectedFoodsParam: function () {
-        let _this = this
-        let publicParam = getApp().globalData.publicParam
 
-
-        console.log('********', getApp().globalData.publicParam)
-        console.log('（（（（（（', _this.data.selectedFoods)
-        let tmp_selectedFoods = _this.data.selectedFoods
-        let tmp_length = _this.data.selectedFoods.length
-        for (let i = 0; i < tmp_length; i++) {
-            let tmp_selectedFoodsItem = tmp_selectedFoods[i]
-            if (tmp_selectedFoodsItem.mealDate == publicParam.mealDate) {
-                _this.data.mealEnglistLabel.forEach(mealType => {
-                    if (mealType.toUpperCase() == publicParam.mealType) { //选了这个餐时的菜
-                        tmp_selectedFoodsItem[mealType].discountSelectedFlag = true
-                        tmp_selectedFoodsItem[mealType].discountSelectedInfo = _this.data.currentDiscountSelectedInfo
-                    }
-                })
-            }
-        }
-        _this.setData({
-            selectedFoods: tmp_selectedFoods
-        })
-    },
     /**
      * 付款 提交菜单
      */
@@ -636,53 +659,6 @@ Page({
                 appendMealFlag: _this.data.orderType == 'add' ? true : false,
                 order: []
             }
-            // _this.data.selectedFoods = wx.getStorageSync('sevenSelectedFoods')
-            // for (let i = 0; i < _this.data.selectedFoods.length; i++) {
-            //     let tmp_selectedFoods = _this.data.selectedFoods[i]
-            //     if (tmp_selectedFoods.count > 0) {
-            //         _this.data.mealEnglistLabel.forEach(mealType => {
-            //             if (tmp_selectedFoods[mealType] && tmp_selectedFoods[mealType].selectedFoods.length > 0) { //选了这个餐时的菜
-
-            //                 let order_item = {
-            //                     mealDate: tmp_selectedFoods.mealDate,
-            //                     mealType: mealType.toUpperCase(),
-            //                     foods: [],
-            //                     integralNumber: 0
-            //                 }
-
-            //                 tmp_selectedFoods[mealType].selectedFoods.forEach(onefood => {
-            //                     let foods_item = {
-            //                         foodCode: onefood.foodCode,
-            //                         foodQuantity: onefood.foodCount,
-            //                         markDetail: onefood.remarkList
-            //                     }
-
-            //                     if (_this.data.takeMealLimitFlag) {
-            //                         if (mealType.toUpperCase() == 'BREAKFAST') {
-            //                             foods_item.mealType = 1
-            //                             foods_item.queue = tmp_takeMealLimitObj.breakfastQueue
-            //                         } else if (mealType.toUpperCase() == 'LUNCH') {
-            //                             foods_item.mealType = 2
-            //                             foods_item.queue = tmp_takeMealLimitObj.lunchQueue
-            //                         } else if (mealType.toUpperCase() == 'DINNER') {
-            //                             foods_item.mealType = 3
-            //                             foods_item.queue = tmp_takeMealLimitObj.dinnerQueue
-            //                         } else if (mealType.toUpperCase() == 'NIGHT') {
-            //                             foods_item.mealType = 4
-            //                             foods_item.queue = tmp_takeMealLimitObj.nightQueue
-            //                         }
-
-            //                     }
-
-
-            //                     order_item.foods.push(foods_item)
-            //                 })
-
-            //                 tmp_param.order.push(order_item)
-            //             }
-            //         })
-            //     }
-            // }
 
             tmp_param.order = _this.data.orderParamList
 

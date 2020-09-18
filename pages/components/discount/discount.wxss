@@ -22,32 +22,62 @@
   right: 30rpx;
 }
 
-.circle {
-  width: 8rpx;
-  height: 14rpx;
-  background: rgb(243, 243, 243);
-  border: 1rpx solid #e79b37;
-  border-radius: 0 100% 100% 0/0 50% 50% 0;
-  border-left: none;
-}
-
 .rect {
-  width: 210rpx;
-  background: #e79b37;
-  border-radius: 18rpx 0 0 18rpx /18rpx 0 0 18rpx;
+  position: relative;
+  width: 180rpx;
+  background: #fff;
+  border-radius: 9rpx 0 0 9rpx /9rpx 0 0 9rpx;
   display: flex;
+  border-right: 3px dotted #eee;
 }
 
-.top {
-  width: 8rpx;
-  height: 14rpx;
+.yuan1 {
+  position: absolute;
+  right: -15rpx;
+  top: -15rpx;
+  width: 30rpx;
+  height: 30rpx;
+  background-color: #eee;
+  border-radius: 15rpx;
 }
-
-.middle {
-  width: 8rpx;
-  height: 6rpx;
+.yuan2 {
+  position: absolute;
+  right: -15rpx;
+  bottom: -15rpx;
+  width: 30rpx;
+  height: 30rpx;
+  background-color: #eee;
+  border-radius: 15rpx;
 }
-
+.yuan3 {
+  position: absolute;
+  left: -15rpx;
+  top: -15rpx;
+  width: 30rpx;
+  height: 30rpx;
+  background-color: #eee;
+  border-radius: 15rpx;
+}
+.yuan4 {
+  position: absolute;
+  left: -15rpx;
+  bottom: -15rpx;
+  width: 30rpx;
+  height: 30rpx;
+  background-color: #eee;
+  border-radius: 15rpx;
+}
+.xuanzhong-wrapper {
+  position: absolute;
+  right: 40rpx;
+  bottom: 70rpx;
+  width: 50rpx;
+  height: 50rpx;
+}
+.xuanzhong-img {
+  width: 100%;
+  height: 100%;
+}
 .right-price {
   flex-grow: 1;
   color: white;
@@ -57,21 +87,25 @@
 
 .label {
   font-size: 32rpx;
+  color: red;
 }
 
 .number {
   font-size: 70rpx;
   font-weight: 500;
+  color: red;
   /* margin-left: -5px; */
 }
 
 .content {
+  position: relative;
   flex: auto;
   position: relative;
   background: rgb(255, 255, 255);
   padding-left: 20rpx;
   border-radius: 0 12rpx 12rpx 0;
 }
+
 .content-name {
   margin-top: 10rpx;
   font-size: 35rpx;
@@ -92,4 +126,35 @@
 .content-time {
   font-size: 25rpx;
   color: #999;
+  margin-bottom: 10rpx;
+}
+.button-canClick {
+  position: absolute;
+  bottom: 20rpx;
+  left: 20rpx;
+  right: 20rpx;
+  background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
+  border-radius: 3px;
+  font-family: PingFang-SC-Medium;
+  font-size: 32rpx;
+  color: #ffffff;
+  letter-spacing: 0;
+  text-align: center;
+  height: 80rpx;
+  line-height: 80rpx;
+}
+.button-cannotClick {
+  position: absolute;
+  bottom: 20rpx;
+  left: 20rpx;
+  right: 20rpx;
+  background: #ddd;
+  border-radius: 3px;
+  font-family: PingFang-SC-Medium;
+  font-size: 32rpx;
+  color: #ffffff;
+  letter-spacing: 0;
+  text-align: center;
+  height: 80rpx;
+  line-height: 80rpx;
 }

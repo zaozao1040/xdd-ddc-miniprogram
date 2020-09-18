@@ -25,6 +25,7 @@ Page({
     //   limitUserType: null,
     //   startTime: "2020-09-09",
     //   userDiscountCode: "userDIS756144931382231040",
+    //   selected: false,
     // }, {
     //   discountCode: "DIS756113103208316928",
     //   discountDesc: "五一劳动节",
@@ -39,7 +40,24 @@ Page({
     //   limitTotalPrice: null,
     //   limitUserType: null,
     //   startTime: "2020-09-09",
-    //   userDiscountCode: "userDIS756144931382231040",
+    //   userDiscountCode: "userDIS756144931382231030",
+    //   selected: false,
+    // }, {
+    //   discountCode: "DIS756113103208316928",
+    //   discountDesc: "五一劳动节",
+    //   discountMoney: 3,
+    //   discountStatus: "NOT_USE",
+    //   discountType: "ALL_FOOD_TYPE",
+    //   discountTypeDesc: "全品类3元券",
+    //   endTime: "2020-09-30",
+    //   hasLimit: false,
+    //   limitMealTypeList: [],
+    //   limitPayPrice: null,
+    //   limitTotalPrice: null,
+    //   limitUserType: null,
+    //   startTime: "2020-09-09",
+    //   userDiscountCode: "userDIS756144931382231020",
+    //   selected: false,
     // }]
   },
 
@@ -61,19 +79,8 @@ Page({
   /* 获取优惠券列表 */
   getDiscountList() {
     let _this = this
-    getApp().globalData.publicArr
     let param = {
       data: getApp().globalData.publicParam,
-      // data: {
-      //   mealDate: "2020-09-18",
-      //   mealType: "LUNCH",
-      //   userCode: "USER532153350376914957",
-      //   foods: {
-      //     foodCode: "FOOD532153300896841728",
-      //     foodQuantity: 1,
-      //     markDetail: undefined,
-      //   }
-      // },
       url: '/userDiscount/discountOrderDetail',
       method: 'post'
     }
@@ -87,7 +94,6 @@ Page({
 
   /* 监听子组件：选择优惠券触发事件 */
   onChangeSelectDiscount: function (e) {
-    console.log('eeee', e.detail)
     let pages = getCurrentPages(); //获取当前页面js里面的pages里的所有信息。
 
     let prevPage = pages[pages.length - 2];
@@ -95,10 +101,11 @@ Page({
     prevPage.setData({
       currentDiscountSelectedInfo: e.detail,　// 设置需要传递的参数
     }, function () {
-      prevPage.getSelectedFoodsParam() // setData完成后再调用
+      prevPage.refreshSelectedDiscountInfo()
+      prevPage.refreshSelectedDiscountCodeList() // setData完成后再调用  
     })
 
-    //  prevPage.getSelectedFoodsParam() // setData完成后再调用
+
     wx.navigateBack({
       delta: 1, // 回退前 delta(默认为1) 页面
     })

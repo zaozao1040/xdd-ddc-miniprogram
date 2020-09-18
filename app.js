@@ -24,6 +24,7 @@ App({
 
     // 公共临时变量（数组）
     publicArr: [],
+    publicParam: {}
   },
 
   /**
