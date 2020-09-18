@@ -117,7 +117,8 @@
                                 </view>
                                 <view class='pay-item-last' data-mealdate="{{oneday.mealDate}}"
                                     data-mealtypename="{{oneday[item].name}}"
-                                    data-discountnum="{{oneday[item].discountNum}}" bindtap="handleGotoDiscount">
+                                    data-discountselectedinfo="{{oneday[item].discountSelectedInfo}}"
+                                    bindtap="handleGotoDiscount">
                                     <view class='pay-title' style='padding:30rpx 0;'>优惠券</view>
                                     <view class='flex-a'>
                                         <view style='padding:30rpx 0;'>

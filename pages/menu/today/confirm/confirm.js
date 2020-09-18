@@ -475,15 +475,16 @@ Page({
     /* 跳转优惠券页面 */
     handleGotoDiscount: function (e) {
         let tmp_foods = []
-        let { mealdate, mealtypename, discountnum } = e.currentTarget.dataset
-        if (discountnum == 0) {
-            wx.showToast({
-                title: '暂无可用优惠券',
-                image: '/images/msg/error.png',
-                duration: 2000
-            })
-            return
-        }
+        let { mealdate, mealtypename, discountselectedinfo } = e.currentTarget.dataset
+        console.log('3e33', discountselectedinfo)
+        // if (discountnum == 0) {
+        //     wx.showToast({
+        //         title: '暂无可用优惠券',
+        //         image: '/images/msg/error.png',
+        //         duration: 2000
+        //     })
+        //     return
+        // }
         let tmp_mealType = ''
         if (mealtypename == '早餐') {
             tmp_mealType = 'BREAKFAST'
@@ -504,8 +505,10 @@ Page({
             mealDate: mealdate,
             mealType: tmp_mealType,
             foods: tmp_foods,
-            userDiscountCodeList: this.data.selectedDiscountCodeList
+            userDiscountCodeList: this.data.selectedDiscountCodeList,
+            discountSelectedInfo: discountselectedinfo //餐别下的已经选中的优惠券信息 这个不作为“优惠券详情列表请求的参数”
         }
+
         wx.navigateTo({
             url: '/pages/menu/today/discount/discount',
         })

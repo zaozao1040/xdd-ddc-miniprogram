@@ -10,6 +10,7 @@ Page({
   data: {
 
     discountList: [],//可用的优惠券列表
+    discountSelectedInfo: {},//confirm页面中，点击某个餐别，该餐别已经选中的优惠券信息
     // discountList: [{
     //   discountCode: "DIS756113103208316928",
     //   discountDesc: "五一劳动节",
@@ -73,7 +74,11 @@ Page({
    */
   onShow: function () {
     let _this = this
+    _this.setData({
+      discountSelectedInfo: getApp().globalData.publicParam.discountSelectedInfo
+    })
     _this.getDiscountList()
+
   },
 
   /* 获取优惠券列表 */

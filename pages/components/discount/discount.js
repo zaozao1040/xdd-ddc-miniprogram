@@ -6,10 +6,10 @@ Component({
       type: String,
       value: 0
     },
-    // adviceDiscountObj: {
-    //   type: Object,
-    //   value: {}
-    // }
+    discountSelectedInfo: {
+      type: Object,
+      value: {}
+    }
   },
   /* 私有数据 */
   data: {

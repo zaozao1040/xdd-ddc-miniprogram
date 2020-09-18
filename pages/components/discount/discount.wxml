@@ -3,50 +3,54 @@
         <view class="discountItem-wrapper" wx:for="{{discountList}}" wx:for-index="discountIndex"
             wx:for-item="discountItem" wx:key="discountIndex" bindtap="handleClickDiscount"
             data-item="{{discountItem}}">
-            <view class="rect">
-                <view class="right-price">
-                    <view class='money'>
-                        <text class='label'>¥</text>
-                        <text class='number'>{{discountItem.discountMoney}}</text>
+            <block
+                wx:if="{{discountItem.selected==false || discountItem.selected==true && discountSelectedInfo.userDiscountCode==discountItem.userDiscountCode}}">
+                <view class="rect">
+                    <view class="right-price">
+                        <view class='money'>
+                            <text class='label'>¥</text>
+                            <text class='number'>{{discountItem.discountMoney}}</text>
+                        </view>
+                    </view>
+                    <view class="yuan1"></view>
+                    <view class="yuan2"></view>
+                </view>
+                <view class="content">
+                    <view class="content-name">{{discountItem.discountDesc}}</view>
+                    <view class="content-type">{{discountItem.discountTypeDesc}}</view>
+                    <view wx:if="{{discountItem.hasLimit}}">
+                        <block wx:if="{{discountItem.limitPayPrice}}">
+                            <text class="content-desc">现金满{{discountItem.limitPayPrice}}元可用</text>
+                        </block>
+                        <block wx:if="{{discountItem.limitTotalPrice}}">
+                            <text class="content-desc">订单满{{discountItem.limitTotalPrice}}元可用</text>
+                        </block>
+                        <block wx:if="{{discountItem.limitUserType=='NEW_USER'}}">
+                            <text class="content-desc">新用户</text>
+                        </block>
+                        <block wx:if="{{discountItem.limitUserType=='OLD_USER'}}">
+                            <text class="content-desc">老用户</text>
+                        </block>
+                    </view>
+                    <view wx:else>
+                        <text class="content-desc">无限制</text>
+                    </view>
+                    <view class="content-time">有效期: {{discountItem.startTime}} ~ {{discountItem.endTime}}</view>
+                    <view class="yuan3"></view>
+                    <view class="yuan4"></view>
+                    <view class="xuanzhong-wrapper">
+                        <image wx:if="{{discountItem.userDiscountCode==currentDiscountSelectedInfo.userDiscountCode}}"
+                            src="/images/discount/xuanzhong.png" class="xuanzhong-img"></image>
+                        <image wx:else src="/images/discount/weixuanzhong.png" class="xuanzhong-img"></image>
                     </view>
                 </view>
-                <view class="yuan1"></view>
-                <view class="yuan2"></view>
-            </view>
-            <view class="content">
-                <view class="content-name">{{discountItem.discountDesc}}</view>
-                <view class="content-type">{{discountItem.discountTypeDesc}}</view>
-                <view wx:if="{{discountItem.hasLimit}}">
-                    <block wx:if="{{discountItem.limitPayPrice}}">
-                        <text class="content-desc">现金满{{discountItem.limitPayPrice}}元可用</text>
-                    </block>
-                    <block wx:if="{{discountItem.limitTotalPrice}}">
-                        <text class="content-desc">订单满{{discountItem.limitTotalPrice}}元可用</text>
-                    </block>
-                    <block wx:if="{{discountItem.limitUserType=='NEW_USER'}}">
-                        <text class="content-desc">新用户</text>
-                    </block>
-                    <block wx:if="{{discountItem.limitUserType=='OLD_USER'}}">
-                        <text class="content-desc">老用户</text>
-                    </block>
-                </view>
-                <view wx:else>
-                    <text class="content-desc">无限制</text>
-                </view>
-                <view class="content-time">有效期: {{discountItem.startTime}} ~ {{discountItem.endTime}}</view>
-                <view class="yuan3"></view>
-                <view class="yuan4"></view>
-                <view class="xuanzhong-wrapper">
-                    <image wx:if="{{discountItem.userDiscountCode==currentDiscountSelectedInfo.userDiscountCode}}"
-                        src="/images/discount/xuanzhong.png" class="xuanzhong-img"></image>
-                    <image wx:else src="/images/discount/weixuanzhong.png" class="xuanzhong-img"></image>
-                </view>
-            </view>
+            </block>
+
+
         </view>
     </scroll-view>
     <view wx:if="{{currentDiscountSelectedInfo.userDiscountCode}}" class="button-canClick" bindtap="handleConfirm">
         确定
     </view>
-    <view wx:else class="button" class="button-cannotClick">确定</view>
-
+    <view wx:else class="button" class="button-canClick" bindtap="handleConfirm">不使用优惠券</view>
 </view>
