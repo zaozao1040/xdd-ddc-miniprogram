@@ -2,7 +2,7 @@
     <scroll-view class="discountBg-wrapper" scroll-y style="height: {{windowHeight-100}}px;">
         <view class="discountBg-content">
             <c-discount discountList="{{discountList}}" discountSelectedInfo="{{discountSelectedInfo}}"
-                bind:changeselectdiscount="onChangeSelectDiscount">
+                bind:changeselectdiscount="onChangeSelectDiscount" bind:removeselectdiscount="onRemoveselectdiscount">
             </c-discount>
         </view>
     </scroll-view>

@@ -47,7 +47,12 @@ Component({
       }
     },
     handleConfirm: function () {
+      console.log('this.data.currentDiscountSelectedInfo', this.data.currentDiscountSelectedInfo)
       this.triggerEvent('changeselectdiscount', this.data.currentDiscountSelectedInfo)
+    },
+    handleRemove: function () {
+      console.log('xxxxx', this.data.discountSelectedInfo)
+      this.triggerEvent('removeselectdiscount', this.data.discountSelectedInfo)
     }
 
   },

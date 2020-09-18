@@ -97,7 +97,7 @@ Page({
     });
   },
 
-  /* 监听子组件：选择优惠券触发事件 */
+  /* 监听子组件：选择一张优惠券触发事件 */
   onChangeSelectDiscount: function (e) {
     let pages = getCurrentPages(); //获取当前页面js里面的pages里的所有信息。
 
@@ -107,7 +107,27 @@ Page({
       currentDiscountSelectedInfo: e.detail,　// 设置需要传递的参数
     }, function () {
       // setData完成后再调用 
-      prevPage.refreshSelectedDiscountCodeList()  // 先刷新已选中的优惠券code的列表
+      prevPage.refreshSelectedDiscountCodeList('add')  // 先刷新已选中的优惠券code的列表
+      prevPage.refreshYouhuiquanInfo() // 再刷新整个confirm页面（优惠券可用数量 + 已选择优惠券抵扣情况 的展示）
+    })
+
+
+    wx.navigateBack({
+      delta: 1, // 回退前 delta(默认为1) 页面
+    })
+
+  },
+  /* 监听子组件：选择不使用优惠券触发事件 */
+  onRemoveselectdiscount: function (e) {
+    let pages = getCurrentPages(); //获取当前页面js里面的pages里的所有信息。
+
+    let prevPage = pages[pages.length - 2];
+
+    prevPage.setData({
+      currentDiscountSelectedInfo: e.detail,　// 设置需要传递的参数
+    }, function () {
+      // setData完成后再调用 
+      prevPage.refreshSelectedDiscountCodeList('del')  // 先刷新已选中的优惠券code的列表
       prevPage.refreshYouhuiquanInfo() // 再刷新整个confirm页面（优惠券可用数量 + 已选择优惠券抵扣情况 的展示）
     })
 

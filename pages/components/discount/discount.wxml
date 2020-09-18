@@ -52,5 +52,5 @@
     <view wx:if="{{currentDiscountSelectedInfo.userDiscountCode}}" class="button-canClick" bindtap="handleConfirm">
         确定
     </view>
-    <view wx:else class="button" class="button-canClick" bindtap="handleConfirm">不使用优惠券</view>
+    <view wx:else class="button" class="button-canClick" bindtap="handleRemove">不使用优惠券</view>
 </view>

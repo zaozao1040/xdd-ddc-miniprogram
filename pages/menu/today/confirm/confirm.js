@@ -365,11 +365,16 @@ Page({
     /**
      * 刷新当前已经选择了的优惠券code列表
      */
-    refreshSelectedDiscountCodeList() {
+    refreshSelectedDiscountCodeList(type) {
         let _this = this
-        _this.data.selectedDiscountCodeList.push(_this.data.currentDiscountSelectedInfo.userDiscountCode)
-        const set = new Set(_this.data.selectedDiscountCodeList)
-        _this.data.selectedDiscountCodeList = [...set]
+        if (type == 'add') {
+            _this.data.selectedDiscountCodeList.push(_this.data.currentDiscountSelectedInfo.userDiscountCode)
+            const set = new Set(_this.data.selectedDiscountCodeList)
+            _this.data.selectedDiscountCodeList = [...set]
+        } else if (type == 'del') {
+            console.log('dddddddd', _this.data.currentDiscountSelectedInfo)
+        }
+
     },
     /**
      * 选择了优惠券后，重新计算selectedFoods数据结构，含：1）几张可用 2）单餐别抵扣多少钱 3）总价格抵扣
@@ -476,7 +481,6 @@ Page({
     handleGotoDiscount: function (e) {
         let tmp_foods = []
         let { mealdate, mealtypename, discountselectedinfo } = e.currentTarget.dataset
-        console.log('3e33', discountselectedinfo)
         // if (discountnum == 0) {
         //     wx.showToast({
         //         title: '暂无可用优惠券',
