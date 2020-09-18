@@ -34,25 +34,16 @@ Component({
     },
     /* 点击优惠券触发的事件 */
     handleClickDiscount: function (e) {
-      if (e.currentTarget.dataset.item.selected) {
-        wx.showToast({
-          title: '其他餐时已占用',
-          image: '/images/msg/error.png',
-          duration: 2000
+      let { userDiscountCode } = e.currentTarget.dataset.item
+      if (userDiscountCode === this.data.currentDiscountSelectedInfo.userDiscountCode) {
+        // 如果点击是同一个，则置空
+        this.setData({
+          currentDiscountSelectedInfo: {}
         })
       } else {
-        let { userDiscountCode } = e.currentTarget.dataset.item
-        if (userDiscountCode === this.data.currentDiscountSelectedInfo.userDiscountCode) {
-          // 如果点击是同一个，则置空
-          this.setData({
-            currentDiscountSelectedInfo: {}
-          })
-        } else {
-          this.setData({
-            currentDiscountSelectedInfo: e.currentTarget.dataset.item
-          })
-        }
-
+        this.setData({
+          currentDiscountSelectedInfo: e.currentTarget.dataset.item
+        })
       }
     },
     handleConfirm: function () {

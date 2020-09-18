@@ -101,8 +101,9 @@ Page({
     prevPage.setData({
       currentDiscountSelectedInfo: e.detail,　// 设置需要传递的参数
     }, function () {
-      prevPage.refreshSelectedDiscountInfo()
-      prevPage.refreshSelectedDiscountCodeList() // setData完成后再调用  
+      // setData完成后再调用 
+      prevPage.refreshSelectedDiscountCodeList()  // 先刷新已选中的优惠券code的列表
+      prevPage.refreshYouhuiquanInfo() // 再刷新整个confirm页面（优惠券可用数量 + 已选择优惠券抵扣情况 的展示）
     })
 
 
