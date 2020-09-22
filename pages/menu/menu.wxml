@@ -97,7 +97,7 @@
                                             data-dayindex="{{dayIndex}}" data-foodcode="{{ foodItem.foodCode }}"
                                             data-typename='{{menutypeItem.typeName }}' class="food-wrapper"
                                             wx:for="{{ menutypeItem.foodList }}" wx:for-item="foodItem"
-                                            wx:for-index="foodIndex" wx:key="foodIndex">
+                                            wx:for-index="foodIndex" wx:key="foodCode">
                                             <view wx:if="{{foodItem.sellAllOut }}" class="img-wrapper-stock"></view>
                                             <view class="img-wrapper">
                                                 <image wx:if="{{ foodItem.foodQuota &&foodItem.foodQuota.quotaNum  }}"

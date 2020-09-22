@@ -10,7 +10,7 @@ Page({
   data: {
 
     discountList: [],//可用的优惠券列表
-    discountSelectedInfo: {},//confirm页面中，点击某个餐别，该餐别已经选中的优惠券信息
+    oldSelectedDiscountInfo: {},//confirm页面中，点击某个餐别，该餐别已经选中的优惠券信息
     // discountList: [{
     //   discountCode: "DIS756113103208316928",
     //   discountDesc: "五一劳动节",
@@ -75,7 +75,7 @@ Page({
   onShow: function () {
     let _this = this
     _this.setData({
-      discountSelectedInfo: getApp().globalData.publicParam.discountSelectedInfo
+      oldSelectedDiscountInfo: getApp().globalData.publicParam.oldSelectedDiscountInfo
     })
     _this.getDiscountList()
 
@@ -104,11 +104,11 @@ Page({
     let prevPage = pages[pages.length - 2];
 
     prevPage.setData({
-      currentDiscountSelectedInfo: e.detail,　// 设置需要传递的参数
+      newSelectedDiscountInfo: e.detail,　// 设置需要传递的参数
     }, function () {
       // setData完成后再调用 
       prevPage.refreshSelectedDiscountCodeList('add')  // 先刷新已选中的优惠券code的列表
-      prevPage.refreshYouhuiquanInfo() // 再刷新整个confirm页面（优惠券可用数量 + 已选择优惠券抵扣情况 的展示）
+      prevPage.refreshYouhuiquanInfo('add') // 再刷新整个confirm页面（优惠券可用数量 + 已选择优惠券抵扣情况 的展示）
     })
 
 
@@ -118,17 +118,17 @@ Page({
 
   },
   /* 监听子组件：选择不使用优惠券触发事件 */
-  onRemoveselectdiscount: function (e) {
+  onRemoveSelectDiscount: function () {
     let pages = getCurrentPages(); //获取当前页面js里面的pages里的所有信息。
 
     let prevPage = pages[pages.length - 2];
 
     prevPage.setData({
-      currentDiscountSelectedInfo: e.detail,　// 设置需要传递的参数
+      newSelectedDiscountInfo: {},　// 设置需要传递的参数 , 直接置空
     }, function () {
       // setData完成后再调用 
       prevPage.refreshSelectedDiscountCodeList('del')  // 先刷新已选中的优惠券code的列表
-      prevPage.refreshYouhuiquanInfo() // 再刷新整个confirm页面（优惠券可用数量 + 已选择优惠券抵扣情况 的展示）
+      prevPage.refreshYouhuiquanInfo('del') // 再刷新整个confirm页面（优惠券可用数量 + 已选择优惠券抵扣情况 的展示）
     })
 
 

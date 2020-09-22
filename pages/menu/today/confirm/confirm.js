@@ -51,10 +51,12 @@ Page({
         // 公共计算参数 和优惠券计算相关
         orderParamList: [],
         // 优惠券相关
-        currentDiscountSelectedInfo: {},//当前选中的优惠券信息
+        newSelectedDiscountInfo: {},//当前选中的优惠券信息
         selectedDiscountCodeList: [],//当前所有选中的优惠券列表
         discountList: [], //优惠券列表
         selectedDiscountTotalMoney: 0, //已选中的优惠券的总抵扣
+        discountMoneyList: [],
+
 
     },
 
@@ -351,8 +353,8 @@ Page({
                     if (tmp_selectedFoods[i].mealDate === item.mealDate) {
                         let tmp = tmp_selectedFoods[i][item.mealType.toLowerCase()]
                         tmp.discountNum = item.discountNum
-                        tmp.discountSelectedFlag = false //选中状态
-                        tmp.discountSelectedInfo = {} //选中的优惠券的详情
+                        tmp.oldSelectedDiscountFlag = false //选中状态
+                        tmp.oldSelectedDiscountInfo = {} //选中的优惠券的详情
                         i = tmp_selectedFoodsLength //跳出循环
                     }
                 }
@@ -367,20 +369,41 @@ Page({
      */
     refreshSelectedDiscountCodeList(type) {
         let _this = this
+        let tmp_userDiscountCode = getApp().globalData.publicParam.oldSelectedDiscountInfo.userDiscountCode
+        let tmp_newUserDiscountCode = _this.data.newSelectedDiscountInfo.userDiscountCode
         if (type == 'add') {
-            _this.data.selectedDiscountCodeList.push(_this.data.currentDiscountSelectedInfo.userDiscountCode)
+            // 如果该天该餐别本来就是已经使用过优惠券的情况（而现在又要设置新的优惠券，就要把原来的优惠券从userDiscountCodeList中剔除）
+            console.log('ttttttt', _this.data.newSelectedDiscountInfo, getApp().globalData.publicParam)
+
+            if (tmp_userDiscountCode !== tmp_newUserDiscountCode) { //1.如果原来使用的优惠券和现在新选择优惠券不是同一张，则要把原来优惠券剔除
+                let tmp_index = _this.data.selectedDiscountCodeList.indexOf(tmp_userDiscountCode)
+                if (tmp_index != -1) {
+                    _this.data.selectedDiscountCodeList.splice(tmp_index, 1)
+                }
+
+            }
+            _this.data.selectedDiscountCodeList.push(tmp_newUserDiscountCode)
+
+            // 2.去重
             const set = new Set(_this.data.selectedDiscountCodeList)
             _this.data.selectedDiscountCodeList = [...set]
+            console.log('77777999999', _this.data.selectedDiscountCodeList)
+
         } else if (type == 'del') {
-            console.log('dddddddd', _this.data.currentDiscountSelectedInfo)
+            console.log('dddddddd', _this.data.selectedDiscountCodeList, _this.data.newSelectedDiscountInfo)
+            let tmp_index = _this.data.selectedDiscountCodeList.indexOf(tmp_userDiscountCode)
+            if (tmp_index != -1) {
+                _this.data.selectedDiscountCodeList.splice(tmp_index, 1)
+            }
         }
 
     },
     /**
      * 选择了优惠券后，重新计算selectedFoods数据结构，含：1）几张可用 2）单餐别抵扣多少钱 3）总价格抵扣
      */
-    refreshYouhuiquanInfo: function () {
+    refreshYouhuiquanInfo: function (type) {
         let _this = this
+
         let tmp_orderParamList = _this.data.orderParamList
         let param = {
             data: {
@@ -400,75 +423,62 @@ Page({
             let tmp_selectedFoods = _this.data.selectedFoods
             let tmp_selectedFoodsLength = _this.data.selectedFoods.length
             // 开始处理
+            // 1 处理每个餐别的有几张优惠券可用 
             tmp_youhuiquanList.map((item, index) => {
                 for (let i = 0; i < tmp_selectedFoodsLength; i++) {
                     let tmp_selectedFoodsItem = tmp_selectedFoods[i]
-                    // 1 处理每个餐别的有几张优惠券可用
                     if (tmp_selectedFoodsItem.mealDate === item.mealDate) {
                         let tmp = tmp_selectedFoodsItem[item.mealType.toLowerCase()]
                         tmp.discountNum = item.discountNum
                     }
-                    // 2 处理每个餐别的优惠券扣减多少钱
-                    if (tmp_selectedFoodsItem.mealDate == publicParam.mealDate) {
-                        _this.data.mealEnglistLabel.forEach(mealType => {
-                            if (mealType.toUpperCase() == publicParam.mealType) { //选了这个餐时的菜
-                                tmp_selectedFoodsItem[mealType].discountSelectedFlag = true
-                                tmp_selectedFoodsItem[mealType].discountSelectedInfo = _this.data.currentDiscountSelectedInfo
-                            }
-                        })
-                    }
                 }
             })
+            // 2 处理每个餐别是否已经使用优惠券，以及优惠券扣减多少钱
+            tmp_youhuiquanList.map((item, index) => {
+                if (item.mealDate == publicParam.mealDate && item.mealType == publicParam.mealType) { //命中 日期+餐别
+                    for (let i = 0; i < tmp_selectedFoodsLength; i++) {
+                        let tmp_selectedFoodsItem = tmp_selectedFoods[i]
+                        if (tmp_selectedFoodsItem.mealDate == publicParam.mealDate) {
+                            _this.data.mealEnglistLabel.forEach(mealType => {
+                                if (mealType.toUpperCase() == publicParam.mealType) { //选了这个餐时的菜
+                                    console.log(')))))))', item.mealDate, publicParam, publicParam.mealType, i)
+                                    if (type == 'add') {
+                                        tmp_selectedFoodsItem[mealType].oldSelectedDiscountFlag = true
+                                        tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo = _this.data.newSelectedDiscountInfo
+                                        _this.data.discountMoneyList[index] = tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo.discountMoney
+                                        // console.log('aaaa', tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo)
+                                    } else if (type == 'del') {
+                                        tmp_selectedFoodsItem[mealType].oldSelectedDiscountFlag = false
+                                        tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo = {}
+                                        _this.data.discountMoneyList[index] = 0
+                                        // console.log('bbb', tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo)
+                                    }
+                                }
+                            })
+                        }
+                    }
+                }
+
+            })
             // 3 处理总抵扣
+
+            _this.data.discountMoneyList.filter(item => { if (item) { return true } }) //去除数组中可能存在的empty元素，把0也同时去掉了
+            console.log('discountMoneyList:', _this.data.discountMoneyList)
+
+            let tmp_discountMoneyTotal = 0
+            _this.data.discountMoneyList.map(item => {
+                tmp_discountMoneyTotal = tmp_discountMoneyTotal + item
+            })
+            let tmp_realMoney = _this.data.realMoney - tmp_discountMoneyTotal > 0 ? _this.data.realMoney - tmp_discountMoneyTotal : 0
+            console.log('tmp_realMoney:', tmp_realMoney)
             _this.setData({
-                selectedFoods: tmp_selectedFoods
+                selectedFoods: tmp_selectedFoods,
+                realMoney: tmp_realMoney
             })
         });
-        // setTimeout(() => {
-        //     let publicParam = getApp().globalData.publicParam
-        //     let tmp_selectedFoods = _this.data.selectedFoods
-        //     let tmp_selectedFoodsLength = _this.data.selectedFoods.length
-        //     for (let i = 0; i < tmp_selectedFoodsLength; i++) {
-        //         let tmp_selectedFoodsItem = tmp_selectedFoods[i]
-        //         if (tmp_selectedFoodsItem.mealDate == publicParam.mealDate) {
-        //             _this.data.mealEnglistLabel.forEach(mealType => {
-        //                 if (mealType.toUpperCase() == publicParam.mealType) { //选了这个餐时的菜
-        //                     tmp_selectedFoodsItem[mealType].discountSelectedFlag = true
-        //                     tmp_selectedFoodsItem[mealType].discountSelectedInfo = _this.data.currentDiscountSelectedInfo
-        //                 }
-        //             })
-        //         }
-        //     }
-        //     _this.setData({
-        //         selectedFoods: tmp_selectedFoods
-        //     })
-        // }, 2000)
+
 
     },
-    // refreshYouhuiquanInfo: function () {
-    //     let _this = this
-    //     let publicParam = getApp().globalData.publicParam
-
-
-    //     console.log('********', getApp().globalData.publicParam)
-    //     console.log('（（（（（（', _this.data.selectedFoods)
-    //     let tmp_selectedFoods = _this.data.selectedFoods
-    //     let tmp_length = _this.data.selectedFoods.length
-    //     for (let i = 0; i < tmp_length; i++) {
-    //         let tmp_selectedFoodsItem = tmp_selectedFoods[i]
-    //         if (tmp_selectedFoodsItem.mealDate == publicParam.mealDate) {
-    //             _this.data.mealEnglistLabel.forEach(mealType => {
-    //                 if (mealType.toUpperCase() == publicParam.mealType) { //选了这个餐时的菜
-    //                     tmp_selectedFoodsItem[mealType].discountSelectedFlag = true
-    //                     tmp_selectedFoodsItem[mealType].discountSelectedInfo = _this.data.currentDiscountSelectedInfo
-    //                 }
-    //             })
-    //         }
-    //     }
-    //     _this.setData({
-    //         selectedFoods: tmp_selectedFoods
-    //     })
-    // },
 
     /**
      * 选择了优惠券后，重新计算selectedFoods数据结构
@@ -480,15 +490,8 @@ Page({
     /* 跳转优惠券页面 */
     handleGotoDiscount: function (e) {
         let tmp_foods = []
-        let { mealdate, mealtypename, discountselectedinfo } = e.currentTarget.dataset
-        // if (discountnum == 0) {
-        //     wx.showToast({
-        //         title: '暂无可用优惠券',
-        //         image: '/images/msg/error.png',
-        //         duration: 2000
-        //     })
-        //     return
-        // }
+        let { mealdate, mealtypename, oldselecteddiscountinfo } = e.currentTarget.dataset
+
         let tmp_mealType = ''
         if (mealtypename == '早餐') {
             tmp_mealType = 'BREAKFAST'
@@ -510,7 +513,7 @@ Page({
             mealType: tmp_mealType,
             foods: tmp_foods,
             userDiscountCodeList: this.data.selectedDiscountCodeList,
-            discountSelectedInfo: discountselectedinfo //餐别下的已经选中的优惠券信息 这个不作为“优惠券详情列表请求的参数”
+            oldSelectedDiscountInfo: oldselecteddiscountinfo //餐别下的已经选中的优惠券信息 这个不作为“优惠券详情列表请求的参数”
         }
 
         wx.navigateTo({

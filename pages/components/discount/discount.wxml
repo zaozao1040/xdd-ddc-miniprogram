@@ -4,7 +4,7 @@
             wx:for-item="discountItem" wx:key="discountIndex" bindtap="handleClickDiscount"
             data-item="{{discountItem}}">
             <block
-                wx:if="{{discountItem.selected==false || discountItem.selected==true && discountSelectedInfo.userDiscountCode==discountItem.userDiscountCode}}">
+                wx:if="{{discountItem.selected==false || discountItem.selected==true && oldSelectedDiscountInfo.userDiscountCode==discountItem.userDiscountCode}}">
                 <view class="rect">
                     <view class="right-price">
                         <view class='money'>
@@ -39,7 +39,7 @@
                     <view class="yuan3"></view>
                     <view class="yuan4"></view>
                     <view class="xuanzhong-wrapper">
-                        <image wx:if="{{discountItem.userDiscountCode==currentDiscountSelectedInfo.userDiscountCode}}"
+                        <image wx:if="{{discountItem.userDiscountCode==newSelectedDiscountInfo.userDiscountCode}}"
                             src="/images/discount/xuanzhong.png" class="xuanzhong-img"></image>
                         <image wx:else src="/images/discount/weixuanzhong.png" class="xuanzhong-img"></image>
                     </view>
@@ -49,7 +49,7 @@
 
         </view>
     </scroll-view>
-    <view wx:if="{{currentDiscountSelectedInfo.userDiscountCode}}" class="button-canClick" bindtap="handleConfirm">
+    <view wx:if="{{newSelectedDiscountInfo.userDiscountCode}}" class="button-canClick" bindtap="handleConfirm">
         确定
     </view>
     <view wx:else class="button" class="button-canClick" bindtap="handleRemove">不使用优惠券</view>

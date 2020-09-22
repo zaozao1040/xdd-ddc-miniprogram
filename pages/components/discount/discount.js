@@ -6,7 +6,7 @@ Component({
       type: String,
       value: 0
     },
-    discountSelectedInfo: {
+    oldSelectedDiscountInfo: {
       type: Object,
       value: {}
     }
@@ -14,7 +14,7 @@ Component({
   /* 私有数据 */
   data: {
     windowHeight: 0,
-    currentDiscountSelectedInfo: {}
+    newSelectedDiscountInfo: {}
   },
   lifetimes: {
     ready: function () {
@@ -35,24 +35,23 @@ Component({
     /* 点击优惠券触发的事件 */
     handleClickDiscount: function (e) {
       let { userDiscountCode } = e.currentTarget.dataset.item
-      if (userDiscountCode === this.data.currentDiscountSelectedInfo.userDiscountCode) {
+      if (userDiscountCode === this.data.newSelectedDiscountInfo.userDiscountCode) {
         // 如果点击是同一个，则置空
         this.setData({
-          currentDiscountSelectedInfo: {}
+          newSelectedDiscountInfo: {}
         })
       } else {
         this.setData({
-          currentDiscountSelectedInfo: e.currentTarget.dataset.item
+          newSelectedDiscountInfo: e.currentTarget.dataset.item
         })
       }
     },
     handleConfirm: function () {
-      console.log('this.data.currentDiscountSelectedInfo', this.data.currentDiscountSelectedInfo)
-      this.triggerEvent('changeselectdiscount', this.data.currentDiscountSelectedInfo)
+      console.log('this.data.newSelectedDiscountInfo', this.data.newSelectedDiscountInfo)
+      this.triggerEvent('changeselectdiscount', this.data.newSelectedDiscountInfo)
     },
     handleRemove: function () {
-      console.log('xxxxx', this.data.discountSelectedInfo)
-      this.triggerEvent('removeselectdiscount', this.data.discountSelectedInfo)
+      this.triggerEvent('removeselectdiscount')
     }
 
   },

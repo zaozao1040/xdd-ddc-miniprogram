@@ -117,14 +117,14 @@
                                 </view>
                                 <view class='pay-item-last' data-mealdate="{{oneday.mealDate}}"
                                     data-mealtypename="{{oneday[item].name}}"
-                                    data-discountselectedinfo="{{oneday[item].discountSelectedInfo}}"
+                                    data-oldselecteddiscountinfo="{{oneday[item].oldSelectedDiscountInfo}}"
                                     bindtap="handleGotoDiscount">
                                     <view class='pay-title' style='padding:30rpx 0;'>优惠券</view>
                                     <view class='flex-a'>
                                         <view style='padding:30rpx 0;'>
-                                            <block wx:if="{{oneday[item].discountSelectedFlag}}">
+                                            <block wx:if="{{oneday[item].oldSelectedDiscountFlag}}">
                                                 <view class="pay-discount-money">
-                                                    -￥{{oneday[item].discountSelectedInfo.discountMoney}}
+                                                    -￥{{oneday[item].oldSelectedDiscountInfo.discountMoney}}
                                                 </view>
                                             </block>
                                             <block wx:else>
