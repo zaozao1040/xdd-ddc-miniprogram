@@ -470,10 +470,12 @@ Page({
                 tmp_discountMoneyTotal = tmp_discountMoneyTotal + item
             })
             let tmp_realMoney = _this.data.realMoney - tmp_discountMoneyTotal > 0 ? _this.data.realMoney - tmp_discountMoneyTotal : 0
-            console.log('tmp_realMoney:', tmp_realMoney)
+            let tmp_totalDeduction = parseFloat(_this.data.totalDeduction) + parseFloat(tmp_discountMoneyTotal)
+            console.log('tmp_realMoney:', tmp_realMoney, _this.data.totalDeduction, tmp_discountMoneyTotal)
             _this.setData({
                 selectedFoods: tmp_selectedFoods,
-                realMoney: tmp_realMoney
+                realMoney: tmp_realMoney,
+                totalDeduction: tmp_totalDeduction
             })
         });
 
