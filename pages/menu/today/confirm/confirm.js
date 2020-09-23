@@ -55,8 +55,11 @@ Page({
         selectedDiscountCodeList: [],//当前所有选中的优惠券列表
         discountList: [], //优惠券列表
         selectedDiscountTotalMoney: 0, //已选中的优惠券的总抵扣
+        //
         discountMoneyList: [],
-
+        totalYouhuiMoney: 0,//优惠总额（餐标抵扣总额+优惠券抵扣总额）
+        // 
+        selectedMealTypeDataList: [],//只包含选中的餐别下的所有参数，组成的列表
 
     },
 
@@ -136,7 +139,7 @@ Page({
             totalMoney: options.totalMoney,
             totalMoneyRealDeduction: options.totalMoneyRealDeduction,
             realMoney: parseFloat(options.realMoney),
-            realMoney_save: options.realMoney,
+            realMoney_save: parseFloat(options.realMoney),
             totalDeduction: options.totalMoneyRealDeduction,
             orderType: options.orderType,
             cantMealTotalMoney: options.cantMealTotalMoney //不可使用餐标的总额
@@ -445,13 +448,32 @@ Page({
                                     if (type == 'add') {
                                         tmp_selectedFoodsItem[mealType].oldSelectedDiscountFlag = true
                                         tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo = _this.data.newSelectedDiscountInfo
-                                        _this.data.discountMoneyList[index] = tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo.discountMoney
+                                        let tmp_DiscountMoney = tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo.discountMoney
+                                        let tmp_payMoney = tmp_selectedFoodsItem[mealType].payMoney
+                                        let tmp_chazhi = parseFloat(tmp_payMoney) - parseFloat(tmp_DiscountMoney)
+                                        _this.data.selectedMealTypeDataList[index] = {
+                                            payMoneyIncludeYouhuiquan: tmp_chazhi > 0 ? tmp_chazhi : 0,
+                                            deductionMoney: tmp_selectedFoodsItem[mealType].deductionMoney,
+                                            payMoney: tmp_selectedFoodsItem[mealType].payMoney,
+                                            youhuiquanDikou: tmp_chazhi > 0 ? tmp_DiscountMoney : tmp_payMoney, //优惠券实际优惠,取两个数中的小者
+
+                                        }
+                                        //_this.data.discountMoneyList[index] = tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo.discountMoney
                                         // console.log('aaaa', tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo)
+                                        console.log('add该餐别：', tmp_selectedFoodsItem[mealType], _this.data.selectedMealTypeDataList)
                                     } else if (type == 'del') {
                                         tmp_selectedFoodsItem[mealType].oldSelectedDiscountFlag = false
                                         tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo = {}
-                                        _this.data.discountMoneyList[index] = 0
+                                        let tmp = tmp_selectedFoodsItem[mealType].payMoney
+                                        _this.data.selectedMealTypeDataList[index] = {
+                                            payMoneyIncludeYouhuiquan: tmp,
+                                            deductionMoney: tmp_selectedFoodsItem[mealType].deductionMoney,
+                                            payMoney: tmp,
+                                            youhuiquanDikou: 0, //优惠券实际优惠
+                                        }
+                                        //_this.data.discountMoneyList[index] = 0
                                         // console.log('bbb', tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo)
+                                        console.log('del该餐别：', tmp_selectedFoodsItem[mealType], _this.data.selectedMealTypeDataList)
                                     }
                                 }
                             })
@@ -460,23 +482,49 @@ Page({
                 }
 
             })
-            // 3 处理总抵扣
+            // 3 处理应付总金额 + 总优惠
+            let tmp_payMoneyIncludeYouhuiquan = 0
+            let tmp_zongyouhui = 0
 
-            _this.data.discountMoneyList.filter(item => { if (item) { return true } }) //去除数组中可能存在的empty元素，把0也同时去掉了
-            console.log('discountMoneyList:', _this.data.discountMoneyList)
+            _this.data.selectedMealTypeDataList.map((item, index) => {
+                tmp_payMoneyIncludeYouhuiquan = parseFloat(tmp_payMoneyIncludeYouhuiquan) + parseFloat(item.payMoneyIncludeYouhuiquan)//这个payMoneyIncludeYouhuiquan就是每一餐别应付金额
+                tmp_zongyouhui = parseFloat(tmp_zongyouhui) + parseFloat(item.deductionMoney) + parseFloat(item.youhuiquanDikou)//总优惠 = 额度实际总优惠 + 优惠券实际总优惠
 
-            let tmp_discountMoneyTotal = 0
-            _this.data.discountMoneyList.map(item => {
-                tmp_discountMoneyTotal = tmp_discountMoneyTotal + item
             })
-            let tmp_realMoney = _this.data.realMoney - tmp_discountMoneyTotal > 0 ? _this.data.realMoney - tmp_discountMoneyTotal : 0
-            let tmp_totalDeduction = parseFloat(_this.data.totalDeduction) + parseFloat(tmp_discountMoneyTotal)
-            console.log('tmp_realMoney:', tmp_realMoney, _this.data.totalDeduction, tmp_discountMoneyTotal)
+
+
+
+            // let tmp_realMoney = parseFloat(_this.data.realMoney_save) - parseFloat(tmp_zongdikou)
+            // console.log('tmp_zongdikou', _this.data.realMoney_save, tmp_zongdikou, tmp_realMoney)
             _this.setData({
                 selectedFoods: tmp_selectedFoods,
-                realMoney: tmp_realMoney,
-                totalDeduction: tmp_totalDeduction
+                realMoney: tmp_payMoneyIncludeYouhuiquan,
+                totalDeduction: tmp_zongyouhui,
             })
+            console.log('selectedMealTypeDataList', _this.data.selectedMealTypeDataList, _this.data.realMoney)
+            // _this.data.discountMoneyList.filter(item => { if (item) { return true } }) //去除数组中可能存在的empty元素，把0也同时去掉了
+            // console.log('discountMoneyList:', _this.data.discountMoneyList)
+
+            // let tmp_discountMoneyTotal = 0
+            // _this.data.discountMoneyList.map(item => {
+            //     tmp_discountMoneyTotal = tmp_discountMoneyTotal + item
+            // })
+            // console.log('realMoney_save:', _this.data.realMoney_save)
+            // //_this.data.realMoney_save = _this.data.realMoney
+            // let tmp_realMoney = _this.data.realMoney_save - tmp_discountMoneyTotal > 0 ? _this.data.realMoney_save - tmp_discountMoneyTotal : 0
+            // _this.setData({
+            //     selectedFoods: tmp_selectedFoods,
+            //     realMoney: tmp_realMoney,
+            // })
+
+            // let tmp_realMoney = _this.data.realMoney - tmp_discountMoneyTotal > 0 ? _this.data.realMoney - tmp_discountMoneyTotal : 0
+            // let tmp_totalYouhuiMoney = parseFloat(_this.data.totalDeduction) + parseFloat(tmp_discountMoneyTotal)
+            // console.log('tmp_realMoney:', tmp_realMoney, _this.data.totalDeduction, tmp_discountMoneyTotal)
+            // _this.setData({
+            //     selectedFoods: tmp_selectedFoods,
+            //     realMoney: tmp_realMoney,
+            //     totalYouhuiMoney: tmp_totalYouhuiMoney
+            // })
         });
 
 
