@@ -53,13 +53,9 @@ Page({
         // 优惠券相关
         newSelectedDiscountInfo: {},//当前选中的优惠券信息
         selectedDiscountCodeList: [],//当前所有选中的优惠券列表
-        discountList: [], //优惠券列表
-        selectedDiscountTotalMoney: 0, //已选中的优惠券的总抵扣
-        //
-        discountMoneyList: [],
-        totalYouhuiMoney: 0,//优惠总额（餐标抵扣总额+优惠券抵扣总额）
-        // 
-        selectedMealTypeDataList: [],//只包含选中的餐别下的所有参数，组成的列表
+
+
+
 
     },
 
@@ -444,36 +440,19 @@ Page({
                         if (tmp_selectedFoodsItem.mealDate == publicParam.mealDate) {
                             _this.data.mealEnglistLabel.forEach(mealType => {
                                 if (mealType.toUpperCase() == publicParam.mealType) { //选了这个餐时的菜
-                                    console.log(')))))))', item.mealDate, publicParam, publicParam.mealType, i)
                                     if (type == 'add') {
                                         tmp_selectedFoodsItem[mealType].oldSelectedDiscountFlag = true
                                         tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo = _this.data.newSelectedDiscountInfo
                                         let tmp_DiscountMoney = tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo.discountMoney
                                         let tmp_payMoney = tmp_selectedFoodsItem[mealType].payMoney
-                                        let tmp_chazhi = parseFloat(tmp_payMoney) - parseFloat(tmp_DiscountMoney)
-                                        _this.data.selectedMealTypeDataList[index] = {
-                                            payMoneyIncludeYouhuiquan: tmp_chazhi > 0 ? tmp_chazhi : 0,
-                                            deductionMoney: tmp_selectedFoodsItem[mealType].deductionMoney,
-                                            payMoney: tmp_selectedFoodsItem[mealType].payMoney,
-                                            youhuiquanDikou: tmp_chazhi > 0 ? tmp_DiscountMoney : tmp_payMoney, //优惠券实际优惠,取两个数中的小者
-
-                                        }
-                                        //_this.data.discountMoneyList[index] = tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo.discountMoney
-                                        // console.log('aaaa', tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo)
-                                        console.log('add该餐别：', tmp_selectedFoodsItem[mealType], _this.data.selectedMealTypeDataList)
+                                        let tmp_chazhi = parseFloat(parseFloat(tmp_payMoney) - parseFloat(tmp_DiscountMoney)).toFixed(2)
+                                        tmp_selectedFoodsItem[mealType].payMoneyIncludeYouhuiquan = tmp_chazhi > 0 ? tmp_chazhi : 0
+                                        tmp_selectedFoodsItem[mealType].youhuiquanDikou = tmp_chazhi > 0 ? tmp_DiscountMoney : tmp_payMoney//优惠券实际优惠,取两个数中的小者
                                     } else if (type == 'del') {
                                         tmp_selectedFoodsItem[mealType].oldSelectedDiscountFlag = false
                                         tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo = {}
-                                        let tmp = tmp_selectedFoodsItem[mealType].payMoney
-                                        _this.data.selectedMealTypeDataList[index] = {
-                                            payMoneyIncludeYouhuiquan: tmp,
-                                            deductionMoney: tmp_selectedFoodsItem[mealType].deductionMoney,
-                                            payMoney: tmp,
-                                            youhuiquanDikou: 0, //优惠券实际优惠
-                                        }
-                                        //_this.data.discountMoneyList[index] = 0
-                                        // console.log('bbb', tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo)
-                                        console.log('del该餐别：', tmp_selectedFoodsItem[mealType], _this.data.selectedMealTypeDataList)
+                                        tmp_selectedFoodsItem[mealType].payMoneyIncludeYouhuiquan = tmp_selectedFoodsItem[mealType].payMoney
+                                        tmp_selectedFoodsItem[mealType].youhuiquanDikou = 0 //优惠券实际优惠
                                     }
                                 }
                             })
@@ -485,46 +464,27 @@ Page({
             // 3 处理应付总金额 + 总优惠
             let tmp_payMoneyIncludeYouhuiquan = 0
             let tmp_zongyouhui = 0
+            for (let i = 0; i < tmp_selectedFoodsLength; i++) {
+                let tmp_selectedFoodsItem = tmp_selectedFoods[i]
+                if (tmp_selectedFoodsItem.count > 0) {
+                    _this.data.mealEnglistLabel.forEach(mealType => {
+                        if (tmp_selectedFoodsItem.hasOwnProperty(mealType)) {
+                            if (tmp_selectedFoodsItem[mealType].selectedFoods.length > 0) {
+                                //这个payMoneyIncludeYouhuiquan就是每一餐别应付金额 但是要考虑这种情况：当payMoneyIncludeYouhuiquan为undefined时，是因为该餐别有餐但是没有选择优惠券，这时要取值 payMoney
+                                tmp_payMoneyIncludeYouhuiquan = parseFloat(parseFloat(tmp_payMoneyIncludeYouhuiquan) + parseFloat(tmp_selectedFoodsItem[mealType].payMoneyIncludeYouhuiquan || tmp_selectedFoodsItem[mealType].payMoney)).toFixed(2)
+                                //同理 youhuiquanDikou为undefined时，也是因为没有选择优惠券造成的，这时需要取0
+                                tmp_zongyouhui = parseFloat(parseFloat(tmp_zongyouhui) + parseFloat(tmp_selectedFoodsItem[mealType].deductionMoney) + parseFloat(tmp_selectedFoodsItem[mealType].youhuiquanDikou || 0)).toFixed(2)//总优惠 = 额度实际总优惠 + 优惠券实际总优惠
+                            }
+                        }
+                    })
 
-            _this.data.selectedMealTypeDataList.map((item, index) => {
-                tmp_payMoneyIncludeYouhuiquan = parseFloat(tmp_payMoneyIncludeYouhuiquan) + parseFloat(item.payMoneyIncludeYouhuiquan)//这个payMoneyIncludeYouhuiquan就是每一餐别应付金额
-                tmp_zongyouhui = parseFloat(tmp_zongyouhui) + parseFloat(item.deductionMoney) + parseFloat(item.youhuiquanDikou)//总优惠 = 额度实际总优惠 + 优惠券实际总优惠
-
-            })
-
-
-
-            // let tmp_realMoney = parseFloat(_this.data.realMoney_save) - parseFloat(tmp_zongdikou)
-            // console.log('tmp_zongdikou', _this.data.realMoney_save, tmp_zongdikou, tmp_realMoney)
+                }
+            }
             _this.setData({
                 selectedFoods: tmp_selectedFoods,
                 realMoney: tmp_payMoneyIncludeYouhuiquan,
                 totalDeduction: tmp_zongyouhui,
             })
-            console.log('selectedMealTypeDataList', _this.data.selectedMealTypeDataList, _this.data.realMoney)
-            // _this.data.discountMoneyList.filter(item => { if (item) { return true } }) //去除数组中可能存在的empty元素，把0也同时去掉了
-            // console.log('discountMoneyList:', _this.data.discountMoneyList)
-
-            // let tmp_discountMoneyTotal = 0
-            // _this.data.discountMoneyList.map(item => {
-            //     tmp_discountMoneyTotal = tmp_discountMoneyTotal + item
-            // })
-            // console.log('realMoney_save:', _this.data.realMoney_save)
-            // //_this.data.realMoney_save = _this.data.realMoney
-            // let tmp_realMoney = _this.data.realMoney_save - tmp_discountMoneyTotal > 0 ? _this.data.realMoney_save - tmp_discountMoneyTotal : 0
-            // _this.setData({
-            //     selectedFoods: tmp_selectedFoods,
-            //     realMoney: tmp_realMoney,
-            // })
-
-            // let tmp_realMoney = _this.data.realMoney - tmp_discountMoneyTotal > 0 ? _this.data.realMoney - tmp_discountMoneyTotal : 0
-            // let tmp_totalYouhuiMoney = parseFloat(_this.data.totalDeduction) + parseFloat(tmp_discountMoneyTotal)
-            // console.log('tmp_realMoney:', tmp_realMoney, _this.data.totalDeduction, tmp_discountMoneyTotal)
-            // _this.setData({
-            //     selectedFoods: tmp_selectedFoods,
-            //     realMoney: tmp_realMoney,
-            //     totalYouhuiMoney: tmp_totalYouhuiMoney
-            // })
         });
 
 
