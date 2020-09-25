@@ -169,11 +169,6 @@
                                     style='width:28rpx;height:28rpx;padding:6rpx 8rpx 0;'></image>
                                 <view class='pay-balance'>{{canUseBalance}})</view>
                             </block>
-                            <!-- <block wx:else>
-                                <view class='pay-balance'>钱包支付(钱包余额</view>
-                                <image src='/images/menu/diancanbi.png' style='width:28rpx;height:28rpx;padding:6rpx 8rpx 0;'></image>
-                                <view class='pay-balance'>{{allBalance}})</view>
-                            </block> -->
                         </view>
                         <!--余额钱包亮时，点余额钱包变为微信支付-->
                         <!--余额钱包不亮时，点余额钱包判断可为余额支付还是余额+微信支付-->
