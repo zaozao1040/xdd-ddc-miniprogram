@@ -389,7 +389,7 @@ Page({
     refreshYouhuiquanInfo: function (type) {
         let _this = this
         wx.showLoading({
-            title: '正在加载2',
+            title: '正在加载',
             mask: true
         })
 
@@ -438,6 +438,7 @@ Page({
                                         let tmp_chazhi = parseFloat(parseFloat(tmp_payMoney) - parseFloat(tmp_DiscountMoney)).toFixed(2)
                                         tmp_selectedFoodsItem[mealType].payMoneyIncludeYouhuiquan = tmp_chazhi > 0 ? tmp_chazhi : 0
                                         tmp_selectedFoodsItem[mealType].youhuiquanDikou = tmp_chazhi > 0 ? tmp_DiscountMoney : tmp_payMoney//优惠券实际优惠,取两个数中的小者
+                                        console.log('add', tmp_selectedFoodsItem[mealType])
                                     } else if (type == 'del') {
                                         tmp_selectedFoodsItem[mealType].oldSelectedDiscountFlag = false
                                         tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo = {}
