@@ -12,16 +12,15 @@ class base {
             header: {
                 'content-type': 'application/json'
             },
-            success: function(res) { 
+            success: function (res) {
                 params.sCallback && params.sCallback(res.data);
             },
-            fail: function(err) {
+            fail: function (err) {
                 //console.log(err)
                 //that._processError(err);
             }
         });
     }
-
 
     requestWithCatch(params, cacheTime) {
         var that = this
@@ -37,7 +36,7 @@ class base {
                 'content-type': 'application/json',
                 'cache-control': 'max-age=300' //缓存五分钟
             },
-            success: function(res) {
+            success: function (res) {
                 if (res.data.code == 1001) {
                     //清除缓存，同时：
                     //销毁所有页面后跳转到首页，销毁页面是为了防止个人用户登录后再次换绑企业可以点击订单导航，而导航栏应该隐藏才对
@@ -48,7 +47,7 @@ class base {
                 }
                 params.sCallback && params.sCallback(res.data);
             },
-            fail: function(err) {
+            fail: function (err) {
                 //console.log(err)
                 //that._processError(err);
             }

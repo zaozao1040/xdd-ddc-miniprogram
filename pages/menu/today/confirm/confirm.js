@@ -240,84 +240,77 @@ Page({
 
             _this.refreshUserFinance()
         })
-        //从后端获取优惠券信息
-
     },
     refreshUserFinance() {
         let _this = this
-        requestModel.getUserCode(userCode => {
-            let param = {
-                url: '/user/getUserFinance?userCode=' + userCode
-            }
-            requestModel.request(param, data => {
-                // 返回接口中的字段含义如下：
-                // allBalance: 1.2  个人点餐币+赠送点餐币+企业点餐币（如果该企业没有开通企业钱包，则等于个人点餐币+赠送点餐币）
-                // balance: 1.2                                    个人点餐币
-                // organizeBalance: 0                              企业点餐币
-                // presentBalance: 0                               赠送点餐币
-                // totalBalance: 1.2                               个人点餐币+赠送点餐币
-                // totalPresentBalance: 0                          等于赠送点餐币
+        let param = {
+            url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
+        }
+        requestModel.request(param, data => {
+            // 返回接口中的字段含义如下：
+            // allBalance: 1.2  个人点餐币+赠送点餐币+企业点餐币（如果该企业没有开通企业钱包，则等于个人点餐币+赠送点餐币）
+            // balance: 1.2                                    个人点餐币
+            // organizeBalance: 0                              企业点餐币
+            // presentBalance: 0                               赠送点餐币
+            // totalBalance: 1.2                               个人点餐币+赠送点餐币
+            // totalPresentBalance: 0                          等于赠送点餐币
 
-                // discount: 0                                     与本需求无关 无效
-                // integral: 116                                   与本需求无关 积分
-                // thisMonthClearOrganizeBlance: 0                 与本需求无关 本月清零的企业点餐币（如果该企业没有开通企业钱包，则等于0）
+            // discount: 0                                     与本需求无关 无效
+            // integral: 116                                   与本需求无关 积分
+            // thisMonthClearOrganizeBlance: 0                 与本需求无关 本月清零的企业点餐币（如果该企业没有开通企业钱包，则等于0）
+            _this.setData({
+                totalBalance: data.totalBalance
+            })
+            let canUseBalance = data.allBalance
+            _this.data.balancePayMoney = data.allBalance
+
+            if (!_this.data.realMoney) { //等于0则是标准支付 
                 _this.setData({
-                    totalBalance: data.totalBalance
+                    payType: 'STANDARD_PAY',
+                    canUseBalance: canUseBalance
                 })
-                let canUseBalance = data.allBalance
-                _this.data.balancePayMoney = data.allBalance
 
-                if (!_this.data.realMoney) { //等于0则是标准支付 
+            } else {
+                /**
+                 * 逻辑整理：
+                 * allowUserOrganizePayNoCanMeal  允许企业点餐币支付非餐标餐品
+                 * realMoney  最后需要支付的现金
+                 * cantMealTotalMoney  总-不可使用餐标
+                 * canMealTotalMoney   总-可使用餐标
+                 */
+                // 下面的逻辑中，有两个 realMoney 的地方换成了 realMoney_save -- 记录
+                let allowUserOrganizePayNoCanMeal = wx.getStorageSync("userInfo").userInfo.allowUserOrganizePayNoCanMeal
+                if (!allowUserOrganizePayNoCanMeal) {
+
+                    let canMealTotalMoney = parseFloat(_this.data.realMoney_save - _this.data.cantMealTotalMoney).toFixed(2)
+                    let organizePayBalance = data.organizeBalance < canMealTotalMoney ? data.organizeBalance : canMealTotalMoney
+                    organizePayBalance = parseFloat(organizePayBalance)
+                    let remainMoney = _this.data.realMoney_save - organizePayBalance
+                    let personPayBalance = data.totalBalance < remainMoney ? data.totalBalance : remainMoney
+                    let personBalance = data.totalBalance
+                    let organizeBalance = data.totalBalance < remainMoney ? organizePayBalance : data.organizeBalance
+                    canUseBalance = parseFloat((parseFloat(organizeBalance) + parseFloat(personBalance)).toFixed(2)) //【邱宁修改】
+                    _this.data.balancePayMoney = parseFloat(organizePayBalance.toFixed(2)) + parseFloat(personPayBalance.toFixed(2))
+                }
+                if (canUseBalance == 0) {
                     _this.setData({
-                        payType: 'STANDARD_PAY',
-                        canUseBalance: canUseBalance
+                        payType: 'WECHAT_PAY'
                     })
-
-                } else {
-                    /**
-                     * 逻辑整理：
-                     * allowUserOrganizePayNoCanMeal  允许企业点餐币支付非餐标餐品
-                     * realMoney  最后需要支付的现金
-                     * cantMealTotalMoney  总-不可使用餐标
-                     * canMealTotalMoney   总-可使用餐标
-                     * 
-                     * 
-                     */
-                    // 下面的逻辑中，有两个 realMoney 的地方换成了 realMoney_save -- 记录
-                    let allowUserOrganizePayNoCanMeal = wx.getStorageSync("userInfo").userInfo.allowUserOrganizePayNoCanMeal
-                    if (!allowUserOrganizePayNoCanMeal) {
-
-                        let canMealTotalMoney = parseFloat(_this.data.realMoney_save - _this.data.cantMealTotalMoney).toFixed(2)
-                        let organizePayBalance = data.organizeBalance < canMealTotalMoney ? data.organizeBalance : canMealTotalMoney
-                        organizePayBalance = parseFloat(organizePayBalance)
-                        let remainMoney = _this.data.realMoney_save - organizePayBalance
-                        let personPayBalance = data.totalBalance < remainMoney ? data.totalBalance : remainMoney
-                        let personBalance = data.totalBalance
-                        let organizeBalance = data.totalBalance < remainMoney ? organizePayBalance : data.organizeBalance
-                        //canUseBalance = parseFloat(organizeBalance.toFixed(2)) + parseFloat(personBalance.toFixed(2))
-                        canUseBalance = parseFloat((parseFloat(organizeBalance) + parseFloat(personBalance)).toFixed(2)) //【邱宁修改】
-                        _this.data.balancePayMoney = parseFloat(organizePayBalance.toFixed(2)) + parseFloat(personPayBalance.toFixed(2))
-                    }
-                    if (canUseBalance == 0) {
-                        _this.setData({
-                            payType: 'WECHAT_PAY'
-                        })
-                    } else if (canUseBalance >= _this.data.realMoney) {
-                        _this.setData({
-                            payType: 'BALANCE_PAY'
-                        })
-                    } else {
-                        _this.setData({
-                            payType: 'BALANCE_MIX_WECHAT_PAY'
-                        })
-                    }
+                } else if (canUseBalance >= _this.data.realMoney) {
                     _this.setData({
-                        canUseBalance,
-                        balanceDes: allowUserOrganizePayNoCanMeal ? '个人钱包' : '钱包余额'
+                        payType: 'BALANCE_PAY'
+                    })
+                } else {
+                    _this.setData({
+                        payType: 'BALANCE_MIX_WECHAT_PAY'
                     })
                 }
-            })
-        })
+                _this.setData({
+                    canUseBalance,
+                    balanceDes: allowUserOrganizePayNoCanMeal ? '个人钱包' : '钱包余额'
+                })
+            }
+        }, true)
 
     },
     /* 页面隐藏后回收定时器指针 */
@@ -360,7 +353,7 @@ Page({
             _this.setData({
                 selectedFoods: tmp_selectedFoods
             })
-        });
+        }, true);
     },
     /**
      * 刷新当前已经选择了的优惠券code列表
@@ -394,6 +387,9 @@ Page({
      */
     refreshYouhuiquanInfo: function (type) {
         let _this = this
+        wx.showLoading({
+            title: '正在加载'
+        })
 
         let tmp_orderParamList = _this.data.orderParamList
         let param = {
@@ -488,7 +484,7 @@ Page({
                 realMoney: tmp_payMoneyIncludeYouhuiquan,
                 totalDeduction: tmp_zongyouhui,
             })
-        });
+        }, true);
 
 
     },
