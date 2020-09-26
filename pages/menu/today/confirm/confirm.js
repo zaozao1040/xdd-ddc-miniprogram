@@ -72,7 +72,6 @@ Page({
         query_1.select('.c_buttonPosition_forCalculate').boundingClientRect()
         query_1.selectViewport().scrollOffset()
         query_1.exec(function (res) {
-            console.log('c_buttonPosition_forCalculate', res)
             _this.setData({
                 buttonTop: res[0].top // #the-id节点的上边界坐标
             })
@@ -82,7 +81,6 @@ Page({
         query_2.select('.c_buttonPosition_forCalculate_top').boundingClientRect()
         query_2.selectViewport().scrollOffset()
         query_2.exec(function (res) {
-            console.log('c_buttonPosition_forCalculate_top', res)
             _this.setData({
                 addressBottom: res[0].bottom // #the-id节点的上边界坐标
             })
@@ -285,7 +283,6 @@ Page({
                      * 
                      * 
                      */
-                    console.log('rrrrrrrrrrr', _this.data.realMoney, _this.data.realMoney_save)
                     // 下面的逻辑中，有两个 realMoney 的地方换成了 realMoney_save -- 记录
                     let allowUserOrganizePayNoCanMeal = wx.getStorageSync("userInfo").userInfo.allowUserOrganizePayNoCanMeal
                     if (!allowUserOrganizePayNoCanMeal) {
@@ -374,30 +371,23 @@ Page({
         let tmp_newUserDiscountCode = _this.data.newSelectedDiscountInfo.userDiscountCode
         if (type == 'add') {
             // 如果该天该餐别本来就是已经使用过优惠券的情况（而现在又要设置新的优惠券，就要把原来的优惠券从userDiscountCodeList中剔除）
-            console.log('ttttttt', _this.data.newSelectedDiscountInfo, getApp().globalData.publicParam)
-
             if (tmp_userDiscountCode !== tmp_newUserDiscountCode) { //1.如果原来使用的优惠券和现在新选择优惠券不是同一张，则要把原来优惠券剔除
                 let tmp_index = _this.data.selectedDiscountCodeList.indexOf(tmp_userDiscountCode)
                 if (tmp_index != -1) {
                     _this.data.selectedDiscountCodeList.splice(tmp_index, 1)
                 }
-
             }
             _this.data.selectedDiscountCodeList.push(tmp_newUserDiscountCode)
 
             // 2.去重
             const set = new Set(_this.data.selectedDiscountCodeList)
             _this.data.selectedDiscountCodeList = [...set]
-            console.log('77777999999', _this.data.selectedDiscountCodeList)
-
         } else if (type == 'del') {
-            console.log('dddddddd', _this.data.selectedDiscountCodeList, _this.data.newSelectedDiscountInfo)
             let tmp_index = _this.data.selectedDiscountCodeList.indexOf(tmp_userDiscountCode)
             if (tmp_index != -1) {
                 _this.data.selectedDiscountCodeList.splice(tmp_index, 1)
             }
         }
-
     },
     /**
      * 选择了优惠券后，重新计算selectedFoods数据结构，含：1）几张可用 2）单餐别抵扣多少钱 3）总价格抵扣
@@ -620,12 +610,15 @@ Page({
         }
     },
     /**
-     * 付款 以及 查询可用优惠券数量 这两个请求时 的参数一部分，封装这个逻辑
+     * 付款 
+     * 以及 查询可用优惠券数量 
+     * 以及 确认下单时调用/order/generateOrder产生订单的请求参数 
+     * 这三个请求时 的参数一部分，封装这个逻辑
      */
     getOrderParamList: function () {
         let _this = this
         let tmp_orderParamList = []
-        _this.data.selectedFoods = wx.getStorageSync('sevenSelectedFoods')
+        //   _this.data.selectedFoods = wx.getStorageSync('sevenSelectedFoods')
         let tmp_length = _this.data.selectedFoods.length
         for (let i = 0; i < tmp_length; i++) {
             let tmp_selectedFoodsItem = _this.data.selectedFoods[i]
@@ -636,10 +629,10 @@ Page({
                         let order_item = {
                             mealDate: tmp_selectedFoodsItem.mealDate,
                             mealType: mealType.toUpperCase(),
+                            userDiscountCode: tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo ? tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo.userDiscountCode : null,
                             foods: [],
                             integralNumber: 0
                         }
-
                         tmp_selectedFoodsItem[mealType].selectedFoods.forEach(onefood => {
                             let foods_item = {
                                 foodCode: onefood.foodCode,
@@ -729,7 +722,7 @@ Page({
                 appendMealFlag: _this.data.orderType == 'add' ? true : false,
                 order: []
             }
-
+            _this.getOrderParamList() //要重新计算一下这个orderParamList，因为加入了优惠券
             tmp_param.order = _this.data.orderParamList
 
             let param = tmp_param
@@ -739,7 +732,7 @@ Page({
 
             if (param.payType == 'BALANCE_MIX_WECHAT_PAY') {
                 param.balancePayMoney = _this.data.balancePayMoney
-                param.thirdPayMoney = parseFloat(_this.data.realMoney.toFixed(2)) - parseFloat(_this.data.balancePayMoney.toFixed(2)).toFixed(2)
+                param.thirdPayMoney = parseFloat(parseFloat(_this.data.realMoney) - parseFloat(_this.data.balancePayMoney)).toFixed(2)
             }
             let params = {
                 data: param,
@@ -830,7 +823,6 @@ Page({
     },
     // 取餐时段设置 - 监听子组件确定时间段设置
     handleTakeMealLimitConfirm(e) {
-        console.log('handleTakeMealLimitConfirm', e.detail)
         let des = ''
         e.detail.map((item, index) => {
             des = des + item.des + ' '
