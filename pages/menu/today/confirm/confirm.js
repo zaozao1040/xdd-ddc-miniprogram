@@ -247,6 +247,7 @@ Page({
             url: '/user/getUserFinance?userCode=' + wx.getStorageSync('userCode')
         }
         requestModel.request(param, data => {
+            wx.hideLoading()
             // 返回接口中的字段含义如下：
             // allBalance: 1.2  个人点餐币+赠送点餐币+企业点餐币（如果该企业没有开通企业钱包，则等于个人点餐币+赠送点餐币）
             // balance: 1.2                                    个人点餐币
@@ -388,7 +389,8 @@ Page({
     refreshYouhuiquanInfo: function (type) {
         let _this = this
         wx.showLoading({
-            title: '正在加载'
+            title: '正在加载2',
+            mask: true
         })
 
         let tmp_orderParamList = _this.data.orderParamList

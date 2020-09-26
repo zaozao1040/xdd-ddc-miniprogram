@@ -193,6 +193,13 @@
 					"id": -1,
 					"name": "pages/menu/today/discount/discount",
 					"pathName": "pages/menu/today/discount/discount",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/discount/discount",
+					"pathName": "pages/mine/discount/discount",
 					"scene": null
 				}
 			]

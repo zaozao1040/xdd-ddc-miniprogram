@@ -38,33 +38,33 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function(options) {
+    onLoad: function (options) {
 
     },
 
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow: function() {
+    onShow: function () {
 
-        // this.initDiscount()
-        // this.getDiscountList()
-        // this.setData({
-        //     page: 1,
-        //     limit: 20,
-        //     discountList: [] //列表必须清空，否则分页会无限叠加
-        // })
+        this.initDiscount()
+        this.getDiscountList()
+        this.setData({
+            page: 1,
+            limit: 20,
+            discountList: [] //列表必须清空，否则分页会无限叠加
+        })
     },
     /* 页面隐藏后回收定时器指针 */
-    onHide: function() {
+    onHide: function () {
         if (this.data.timer) {
             clearTimeout(this.data.timer)
         }
     },
-    initDiscount: function() {
+    initDiscount: function () {
         let _this = this
         wx.getSystemInfo({
-            success: function(res) {
+            success: function (res) {
                 _this.setData({
                     windowHeight: res.windowHeight
                 })
@@ -73,7 +73,7 @@ Page({
         const query = wx.createSelectorQuery()
         query.select('.c_scrollPosition_forCalculate').boundingClientRect()
         query.selectViewport().scrollOffset()
-        query.exec(function(res) {
+        query.exec(function (res) {
             _this.setData({
                 scrollTop: res[0].top // #the-id节点的上边界坐标
             })
@@ -81,7 +81,7 @@ Page({
 
     },
     /* 手动点击触发下一页 */
-    gotoNextPage: function() {
+    gotoNextPage: function () {
         if (this.data.hasMoreDataFlag) {
             this.getDiscountList()
             wx.showLoading({
@@ -94,40 +94,41 @@ Page({
             })
         }
     },
-    changeItemStatusActiveFlag: function(e) {
+    changeItemStatusActiveFlag: function (e) {
         this.setData({
-                itemStatusActiveFlag: e.currentTarget.dataset.flag,
+            itemStatusActiveFlag: e.currentTarget.dataset.flag,
 
-            })
-            // let _this = this
-            // if (!_this.data.canClick) {
-            //     return
-            // }
-            // _this.data.canClick = false
-            // if (_this.data.timer) {
-            //     clearTimeout(_this.data.timer)
-            // }
-            // _this.data.timer = setTimeout(function() {
-            //     _this.data.canClick = true
-            // }, 500)
-            // let tmp_useType = 99
-            // if (e.currentTarget.dataset.flag == 'weishiyong') {
-            //     tmp_useType = 'USEABLE'
-            // } else if (e.currentTarget.dataset.flag == 'yishiyong') {
-            //     tmp_useType = 'USED'
-            // } else if (e.currentTarget.dataset.flag == 'yiguoqi') {
-            //     tmp_useType = 'EXPIRED'
-            // }
-            // _this.setData({
-            //     itemStatusActiveFlag: e.currentTarget.dataset.flag,
-            //     discountListNoResult: false,
-            //     discountList: [],
-            //     useType: tmp_useType,
-            // })
-            // _this.getDiscountList()
+        })
+        _this.getDiscountList()
+        // let _this = this
+        // if (!_this.data.canClick) {
+        //     return
+        // }
+        // _this.data.canClick = false
+        // if (_this.data.timer) {
+        //     clearTimeout(_this.data.timer)
+        // }
+        // _this.data.timer = setTimeout(function() {
+        //     _this.data.canClick = true
+        // }, 500)
+        // let tmp_useType = 99
+        // if (e.currentTarget.dataset.flag == 'weishiyong') {
+        //     tmp_useType = 'USEABLE'
+        // } else if (e.currentTarget.dataset.flag == 'yishiyong') {
+        //     tmp_useType = 'USED'
+        // } else if (e.currentTarget.dataset.flag == 'yiguoqi') {
+        //     tmp_useType = 'EXPIRED'
+        // }
+        // _this.setData({
+        //     itemStatusActiveFlag: e.currentTarget.dataset.flag,
+        //     discountListNoResult: false,
+        //     discountList: [],
+        //     useType: tmp_useType,
+        // })
+        // _this.getDiscountList()
     },
     /* 获取优惠券列表 */
-    getDiscountList: function() {
+    getDiscountList: function () {
         let _this = this
         if (!_this.data.listCanGet) {
             return
@@ -157,11 +158,11 @@ Page({
                 let tmp_discountList = res.data.discounts
                 if (tmp_discountList.length > 0) {
                     tmp_discountList.forEach(element => {
-                            element.discountTypeDes = _this.data.discountTypeMap[element.discountType]
-                            element.endTimeDes = element.endTime
-                            element.startTimeDes = element.startTime
-                        })
-                        //下面开始分页
+                        element.discountTypeDes = _this.data.discountTypeMap[element.discountType]
+                        element.endTimeDes = element.endTime
+                        element.startTimeDes = element.startTime
+                    })
+                    //下面开始分页
                     if (tmp_discountList.length < _this.data.limit) {
                         if (tmp_discountList.length === 0) {
                             wx.showToast({
