@@ -43,7 +43,7 @@
                             <text class="content-desc">订单满{{discountItem.limitTotalPrice}}元可用</text>
                         </block>
                         <block wx:if="{{discountItem.limitUserType=='NEW_USER'}}">
-                            <text class="content-desc">新用户</text>
+                            <text class="content-desc">新用户可用</text>
                         </block>
                         <block wx:if="{{discountItem.limitUserType=='OLD_USER'}}">
                             <text class="content-desc">老用户</text>

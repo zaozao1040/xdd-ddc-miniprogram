@@ -164,6 +164,7 @@
 .content-desc {
   font-size: 25rpx;
   color: #666;
+  margin-right: 5rpx;
 }
 .content-time {
   font-size: 25rpx;
