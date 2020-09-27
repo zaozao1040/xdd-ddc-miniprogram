@@ -15,6 +15,7 @@
             <view class="{{itemStatusActiveFlag=='INVALID'?'header-item-border-active':'header-item-border'}}">
             </view>
         </view>
+
     </view>
     <scroll-view scroll-y style="height: {{windowHeight - 60}}px;">
         <view class="discountList-wrapper">
