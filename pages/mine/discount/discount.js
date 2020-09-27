@@ -145,7 +145,6 @@ Page({
             title: '加载中',
         })
         discountModel.getDiscountList(param, (res) => {
-            console.log('收到响应(优惠券列表):', res)
             wx.hideLoading()
             if (res.code === 0) {
                 //获取已使用，未使用，已过期的个数

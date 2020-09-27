@@ -77,6 +77,7 @@ Page({
     _this.setData({
       oldSelectedDiscountInfo: getApp().globalData.publicParam.oldSelectedDiscountInfo
     })
+
     _this.getDiscountList()
 
   },
@@ -99,6 +100,9 @@ Page({
 
   /* 监听子组件：选择一张优惠券触发事件 */
   onChangeSelectDiscount: function (e) {
+    console.log('33333', {
+      newSelectedDiscountInfo: e.detail,　// 设置需要传递的参数
+    })
     let pages = getCurrentPages(); //获取当前页面js里面的pages里的所有信息。
 
     let prevPage = pages[pages.length - 2];

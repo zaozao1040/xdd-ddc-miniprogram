@@ -18,6 +18,11 @@ Component({
   },
   lifetimes: {
     ready: function () {
+      if (this.data.oldSelectedDiscountInfo.userDiscountCode) {
+        this.setData({
+          newSelectedDiscountInfo: JSON.parse(JSON.stringify(this.data.oldSelectedDiscountInfo))
+        })
+      }
       this.initPage()
     },
   },
@@ -47,7 +52,6 @@ Component({
       }
     },
     handleConfirm: function () {
-      console.log('this.data.newSelectedDiscountInfo', this.data.newSelectedDiscountInfo)
       this.triggerEvent('changeselectdiscount', this.data.newSelectedDiscountInfo)
     },
     handleRemove: function () {

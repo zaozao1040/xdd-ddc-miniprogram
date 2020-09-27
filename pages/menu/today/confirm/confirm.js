@@ -363,6 +363,7 @@ Page({
         let _this = this
         let tmp_userDiscountCode = getApp().globalData.publicParam.oldSelectedDiscountInfo.userDiscountCode
         let tmp_newUserDiscountCode = _this.data.newSelectedDiscountInfo.userDiscountCode
+
         if (type == 'add') {
             // 如果该天该餐别本来就是已经使用过优惠券的情况（而现在又要设置新的优惠券，就要把原来的优惠券从userDiscountCodeList中剔除）
             if (tmp_userDiscountCode !== tmp_newUserDiscountCode) { //1.如果原来使用的优惠券和现在新选择优惠券不是同一张，则要把原来优惠券剔除
@@ -438,7 +439,6 @@ Page({
                                         let tmp_chazhi = parseFloat(parseFloat(tmp_payMoney) - parseFloat(tmp_DiscountMoney)).toFixed(2)
                                         tmp_selectedFoodsItem[mealType].payMoneyIncludeYouhuiquan = tmp_chazhi > 0 ? tmp_chazhi : 0
                                         tmp_selectedFoodsItem[mealType].youhuiquanDikou = tmp_chazhi > 0 ? tmp_DiscountMoney : tmp_payMoney//优惠券实际优惠,取两个数中的小者
-                                        console.log('add', tmp_selectedFoodsItem[mealType])
                                     } else if (type == 'del') {
                                         tmp_selectedFoodsItem[mealType].oldSelectedDiscountFlag = false
                                         tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo = {}
