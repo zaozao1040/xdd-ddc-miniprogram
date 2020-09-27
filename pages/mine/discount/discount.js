@@ -8,15 +8,12 @@ Page({
      * 页面的初始数据
      */
     data: {
-        //点击
-        timer: null,
         //
         windowHeight: 0,
         //分页
         page: 1, // 设置加载的第几次，默认是第一次
         limit: 20, // 每页条数
         hasMoreDataFlag: true, //是否还有更多数据  默认还有
-        useType: 'USEABLE', //'USEABLE'表示未使用(去除过期的)，1表示已使用，2表示过期 3全部
         //标题
         itemStatusActiveFlag: 'NOT_USE', // (未使用,已使用,已过期,已作废) NOT_USE/USED/OUT_OF_DATE/CANCELED  
         //
@@ -45,12 +42,7 @@ Page({
             discountList: [] //列表必须清空，否则分页会无限叠加
         })
     },
-    /* 页面隐藏后回收定时器指针 */
-    onHide: function () {
-        if (this.data.timer) {
-            clearTimeout(this.data.timer)
-        }
-    },
+
     initDiscount: function () {
         let _this = this
         wx.getSystemInfo({
