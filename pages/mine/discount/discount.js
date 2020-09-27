@@ -78,6 +78,8 @@ Page({
     changeItemStatusActiveFlag: function (e) {
         this.setData({
             itemStatusActiveFlag: e.currentTarget.dataset.flag,
+            page: 1,
+            limit: 20,
         }, () => {
             this.getDiscountList()
         })
@@ -110,12 +112,13 @@ Page({
             if (tmp_discountList.length > 0) {
                 if (page == 1) {
                     _this.setData({
-                        discountList: tmp_discountList
-
+                        discountList: tmp_discountList,
+                        discountListNoResult: false
                     })
                 } else {
                     _this.setData({
-                        discountList: _this.data.discountList.concat(tmp_discountList)
+                        discountList: _this.data.discountList.concat(tmp_discountList),
+                        discountListNoResult: false
                     })
                 }
                 //下面开始分页
@@ -127,16 +130,14 @@ Page({
                 } else {
                     _this.setData({
                         hasMoreDataFlag: true,
-                        page: page + 1
                     })
                 }
             } else {
                 _this.setData({
+                    discountList: [],
                     discountListNoResult: true
                 })
             }
-
-
         })
     },
 })

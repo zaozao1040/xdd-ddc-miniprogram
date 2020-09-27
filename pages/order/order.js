@@ -375,10 +375,7 @@ Page({
         })
         let page = _this.data.page
         let limit = _this.data.limit
-        // let param = {
-        //     url: '/order/getOrderList?userCode=USER556128517025169408' + '&page=' + page + '&limit=' + limit + '&type=' + _this.data.itemStatusActiveFlag +
-        //         (mealDate ? '&mealDate=' + mealDate : '')
-        // }
+
         let param = {
             url: '/order/getOrderList?userCode=' + _this.data.userCode + '&page=' + page + '&limit=' + limit + '&type=' + _this.data.itemStatusActiveFlag +
                 (mealDate ? '&mealDate=' + mealDate : '')

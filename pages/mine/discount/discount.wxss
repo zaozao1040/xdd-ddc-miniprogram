@@ -140,6 +140,7 @@
 }
 
 .content {
+  padding-left: 40rpx;
   position: relative;
   flex: auto;
   position: relative;
