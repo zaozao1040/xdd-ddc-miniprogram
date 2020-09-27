@@ -391,21 +391,6 @@ Page({
                     element.mealTypeDes = _this.data.mealTypeMap[element.mealType] //类型
                     element.orderStatusDes = _this.getOrderStatus(element) //订单状态  
 
-                    //  //取餐时间
-                    //  if (element.pickStatus == 1 && element.status == 2 && element.orderFoodList && element.orderFoodList[0].takeMealStartTime) { //待取餐
-
-                    //      // 取餐时间
-                    //      let start = (element.orderFoodList[0].takeMealStartTime.split(' '))[1].split(':') //时 分 秒
-
-                    //      let end = (element.orderFoodList[0].takeMealEndTime.split(' '))[1].split(':')
-
-                    //      //取餐时间顶多是到明天吗？不管了，就是明天
-                    //      let s = '今天' + start[0] + '点' + (start[1] != '00' ? (start[1] + '分') : '')
-                    //      let endHours = end[0] == '00' ? 24 : end[0]
-                    //      let e = endHours < start[0] ? ('明天' + endHours + '点') : (endHours + '点') + (end[1] != '00' ? (end[1] + '分') : '')
-                    //      element.takeMealTimeDes = s + '到' + e
-
-                    //  } else {
                     let a = element.mealDate.split('-')
 
                     element.takeMealTimeDes = a[1] + '月' + a[2] + '日'
