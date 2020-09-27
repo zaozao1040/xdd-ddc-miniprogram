@@ -20,10 +20,10 @@
                     <view class="content-type">{{discountItem.discountTypeDesc}}</view>
                     <view wx:if="{{discountItem.hasLimit}}">
                         <block wx:if="{{discountItem.limitPayPrice}}">
-                            <text class="content-desc">现金满{{discountItem.limitPayPrice}}元可用</text>
+                            <text class="content-desc">现金满{{discountItem.limitPayPrice}}元</text>
                         </block>
                         <block wx:if="{{discountItem.limitTotalPrice}}">
-                            <text class="content-desc">订单满{{discountItem.limitTotalPrice}}元可用</text>
+                            <text class="content-desc">订单满{{discountItem.limitTotalPrice}}元</text>
                         </block>
                         <block wx:if="{{discountItem.limitUserType=='NEW_USER'}}">
                             <text class="content-desc">新用户</text>

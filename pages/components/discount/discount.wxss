@@ -122,6 +122,7 @@
 .content-desc {
   font-size: 25rpx;
   color: #666;
+  margin-right: 20rpx;
 }
 .content-time {
   font-size: 25rpx;
