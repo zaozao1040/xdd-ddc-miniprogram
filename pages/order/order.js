@@ -108,7 +108,6 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        console.log('08-30', options)
         if (options.content) {
             let content = options.content
 
@@ -147,7 +146,6 @@ Page({
             endDatePicker: end,
         })
 
-        console.log('endDatePicker', _this.data.endDatePicker)
         if (_this.data.itemStatusActiveFlag == 1) {
             this.setData({
                 todayInit: true
@@ -437,17 +435,7 @@ Page({
     },
     /* 取消订单 */
     handleCancelOrder(e) {
-        // let _this = this
 
-        // let param = {
-        //     url: '/order/cancelOrderPre?userCode=' + _this.data.userCode + '&orderCode=' + e.currentTarget.dataset.ordercode
-        // }
-        // requestModel.request(param, (data) => {
-        //     this.setData({
-        //         showAnotherOrderInfo: data
-        //     })
-        //     console.log('showAnotherOrderInfo', data)
-        // })
         this.setData({
             cancelOrderCode: e.currentTarget.dataset.ordercode,
             cancelFlag: true,
@@ -525,7 +513,6 @@ Page({
     },
     /* 去付款的对话框的取消 */
     buttonClickNo: function () {
-
         this.setData({
             showPayTypeFlag: false
         })

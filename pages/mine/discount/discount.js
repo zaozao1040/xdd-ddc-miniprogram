@@ -14,7 +14,7 @@ Page({
         windowHeight: 0,
         //分页
         page: 1, // 设置加载的第几次，默认是第一次
-        limit: 10, // 每页条数
+        limit: 20, // 每页条数
         hasMoreDataFlag: true, //是否还有更多数据  默认还有
         useType: 'USEABLE', //'USEABLE'表示未使用(去除过期的)，1表示已使用，2表示过期 3全部
         //标题
@@ -132,6 +132,7 @@ Page({
                         hasMoreDataFlag: true,
                     })
                 }
+                console.log('hasMoreDataFlag', _this.data.page, _this.data.limit, page * limit >= res.amount, _this.data.hasMoreDataFlag)
             } else {
                 _this.setData({
                     discountList: [],
