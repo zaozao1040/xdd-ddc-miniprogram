@@ -187,24 +187,10 @@ Page({
             });
         }, true);
 
-        // 获取是否限制时间点餐
-        _this.getXianzhishijian()
+
     },
-    // 获取是否限制了时间
-    getXianzhishijian() {
-        let _this = this;
-        let param = {
-            url: "/organizeUserOrderDeadline/queryByUserCode",
-            method: "post",
-            data: {
-                userCode: wx.getStorageSync("userCode"),
-                mealDates: ["2020-09-07", "2020-09-22", "2020-09-26"]
-            },
-        };
-        requestModel.request(param, (data) => {
-            console.log('55', data)
-        });
-    },
+
+
     // 点击日期(e)
     changeActiveDay(e) {
         if (this.data.getTimeDataByResponseNow) {
@@ -1806,6 +1792,8 @@ Page({
     },
     goToMenuCommit() {
         let _this = this;
+
+
         //也弄两秒内不可重复点击
         if (_this.data.commitNow) {
             return;
@@ -1844,18 +1832,61 @@ Page({
                     );
                 }
                 wx.setStorageSync("sevenSelectedFoods", _this.data.selectedFoodsIndex);
-                wx.navigateTo({
-                    url:
-                        "/pages/menu/today/confirm/confirm?totalMoney=" +
-                        _this.data.totalMoney +
-                        "&totalMoneyRealDeduction=" +
-                        _this.data.totalMoneyRealDeduction +
-                        "&realMoney=" +
-                        _this.data.realTotalMoney +
-                        "&orderType=seven" +
-                        "&cantMealTotalMoney=" +
-                        _this.data.cantMealTotalMoney,
-                });
+
+                let tmp_dateParamList = [] //当前选择了餐品的天是哪些天
+                let tmp_length = _this.data.selectedFoodsIndex.length
+                for (let i = 0; i < tmp_length; i++) {
+                    let tmp_selectedFoodsItem = _this.data.selectedFoodsIndex[i]
+                    if (tmp_selectedFoodsItem.count > 0) {
+                        tmp_dateParamList.push(tmp_selectedFoodsItem.mealDate)
+                    }
+                }
+                if (tmp_dateParamList.length > 0) {
+                    let param = {
+                        url: "/organizeUserOrderDeadline/queryByUserCode",
+                        method: "post",
+                        data: {
+                            userCode: wx.getStorageSync("userCode"),
+                            mealDates: tmp_dateParamList
+                        },
+                    };
+                    requestModel.request(param, (data) => {
+                        if (data.isLimit) {
+                            wx.showModal({
+                                title: "提示",
+                                content: "选择的日期超出限制，请修改日期或联系公司管理人员",
+                                confirmText: "我知道了",
+                                showCancel: false,
+                            });
+                        } else {  //false代表没有被限制，允许点餐（绝大多数用户都是这种情况）
+                            wx.navigateTo({
+                                url:
+                                    "/pages/menu/today/confirm/confirm?totalMoney=" +
+                                    _this.data.totalMoney +
+                                    "&totalMoneyRealDeduction=" +
+                                    _this.data.totalMoneyRealDeduction +
+                                    "&realMoney=" +
+                                    _this.data.realTotalMoney +
+                                    "&orderType=seven" +
+                                    "&cantMealTotalMoney=" +
+                                    _this.data.cantMealTotalMoney,
+                            });
+                        }
+                    }, true);
+                } else {
+                    wx.navigateTo({
+                        url:
+                            "/pages/menu/today/confirm/confirm?totalMoney=" +
+                            _this.data.totalMoney +
+                            "&totalMoneyRealDeduction=" +
+                            _this.data.totalMoneyRealDeduction +
+                            "&realMoney=" +
+                            _this.data.realTotalMoney +
+                            "&orderType=seven" +
+                            "&cantMealTotalMoney=" +
+                            _this.data.cantMealTotalMoney,
+                    });
+                }
             }
         }
     },
