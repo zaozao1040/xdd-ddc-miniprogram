@@ -3,37 +3,21 @@ import { base } from "../../comm/public/request";
 let requestModel = new base();
 Page({
     data: {
+        //限制日期
+        xianzhiriqi: false,
+
         //超力包装需求，每日只可使用一次餐标
-        //limitStandard: wx.getStorageSync('userInfo').userInfo.limitStandard ,// ------ 日餐标限制，为true代表每天只能使用一次餐标，为false代表每餐可用一次餐标
         limitStandard: false,
 
         // 因为是一天的订餐，所以下面的七个都是对象，格式都是{LUNCH:{},DINNER:{}}或者{LUNCH:[],DINNER:[]}
-        // allMenuData: [{ limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }], // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
         allMenuData: [...Array(14)].map(() => { return { limitStandard_used: false } }), // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
-        // allMenuDataCopy: [{ limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }, { limitStandard_used: false }], //初始化为allMenuData，在清空购物车时，赋值给allMenuData
         allMenuDataCopy: [...Array(14)].map(() => { return { limitStandard_used: false } }), // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
 
         activeDayIndex: 0, //当前被点击的日期的index
 
-        // selectedFoodsIndex: [
-        //     { count: 0 },
-        //     { count: 0 },
-        //     { count: 0 },
-        //     { count: 0 },
-        //     { count: 0 },
-        //     { count: 0 },
-        //     { count: 0 },
-        // ], //选择的食物的 menutypeIndex和foodIndex ，以及选中的食物，选中的餐品的个数
+        //选择的食物的 menutypeIndex和foodIndex ，以及选中的食物，选中的餐品的个数
         selectedFoodsIndex: [...Array(14)].map(() => { return { count: 0 } }),
-        // selectedFoodsIndexCopy: [
-        //     { count: 0 },
-        //     { count: 0 },
-        //     { count: 0 },
-        //     { count: 0 },
-        //     { count: 0 },
-        //     { count: 0 },
-        //     { count: 0 },
-        // ], //用于清空购物车copy的
+        //用于清空购物车copy的
         selectedFoodsIndexCopy: [...Array(14)].map(() => { return { count: 0 } }),
         //menuCountList: [{}, {}, {}, {}, {}, {}, {}], //每个category点了几个菜
         menuCountList: [...Array(14)].map(() => { return {} }),
@@ -202,6 +186,24 @@ Page({
                 organizeTrial: userInfo.organizeTrial,
             });
         }, true);
+
+        // 获取是否限制时间点餐
+        _this.getXianzhishijian()
+    },
+    // 获取是否限制了时间
+    getXianzhishijian() {
+        let _this = this;
+        let param = {
+            url: "/organizeUserOrderDeadline/queryByUserCode",
+            method: "post",
+            data: {
+                userCode: wx.getStorageSync("userCode"),
+                mealDates: ["2020-09-07", "2020-09-22", "2020-09-26"]
+            },
+        };
+        requestModel.request(param, (data) => {
+            console.log('55', data)
+        });
     },
     // 点击日期(e)
     changeActiveDay(e) {
