@@ -1254,50 +1254,33 @@ Page({
 
                 wx.setStorageSync('todaySelectedFoods', _this.data.selectedFoodsIndex)
 
-                let tmp_dateParamList = [] //当前选择了餐品的天是哪些天
-                let tmp_length = _this.data.selectedFoodsIndex.length
-                for (let i = 0; i < tmp_length; i++) {
-                    let tmp_selectedFoodsItem = _this.data.selectedFoodsIndex[i]
-                    if (tmp_selectedFoodsItem.count > 0) {
-                        tmp_dateParamList.push(tmp_selectedFoodsItem.mealDate)
+                let param = {
+                    url: "/organizeUserOrderDeadline/queryByUserCode",
+                    method: "post",
+                    data: {
+                        userCode: wx.getStorageSync("userCode"),
+                        mealDates: [_this.data.mealDate]
+                    },
+                };
+                requestModel.request(param, (data) => {
+                    if (data.isLimit) {
+                        wx.showModal({
+                            title: "提示",
+                            content: "选择的日期超出限制，请修改日期或联系公司管理人员",
+                            confirmText: "我知道了",
+                            showCancel: false,
+                        });
+                    } else {  //false代表没有被限制，允许点餐（绝大多数用户都是这种情况）
+                        wx.navigateTo({
+                            url: '/pages/menu/today/confirm/confirm?totalMoney=' +
+                                _this.data.totalMoney + '&totalMoneyRealDeduction=' +
+                                _this.data.totalMoneyRealDeduction + '&realMoney=' + _this.data.realTotalMoney + '&orderType=one' +
+                                '&cantMealTotalMoney=' + _this.data.cantMealTotalMoney
+
+                        })
                     }
-                }
-                if (tmp_dateParamList.length > 0) {
-                    let param = {
-                        url: "/organizeUserOrderDeadline/queryByUserCode",
-                        method: "post",
-                        data: {
-                            userCode: wx.getStorageSync("userCode"),
-                            mealDates: tmp_dateParamList
-                        },
-                    };
-                    requestModel.request(param, (data) => {
-                        if (data.isLimit) {
-                            wx.showModal({
-                                title: "提示",
-                                content: "选择的日期超出限制，请修改日期或联系公司管理人员",
-                                confirmText: "我知道了",
-                                showCancel: false,
-                            });
-                        } else {  //false代表没有被限制，允许点餐（绝大多数用户都是这种情况）
-                            wx.navigateTo({
-                                url: '/pages/menu/today/confirm/confirm?totalMoney=' +
-                                    _this.data.totalMoney + '&totalMoneyRealDeduction=' +
-                                    _this.data.totalMoneyRealDeduction + '&realMoney=' + _this.data.realTotalMoney + '&orderType=one' +
-                                    '&cantMealTotalMoney=' + _this.data.cantMealTotalMoney
+                }, true);
 
-                            })
-                        }
-                    }, true);
-                } else {
-                    wx.navigateTo({
-                        url: '/pages/menu/today/confirm/confirm?totalMoney=' +
-                            _this.data.totalMoney + '&totalMoneyRealDeduction=' +
-                            _this.data.totalMoneyRealDeduction + '&realMoney=' + _this.data.realTotalMoney + '&orderType=one' +
-                            '&cantMealTotalMoney=' + _this.data.cantMealTotalMoney
-
-                    })
-                }
 
             }
         }
