@@ -161,6 +161,11 @@
   border: 1rpx solid #666;
   border-radius: 5rpx;
 }
+.content-mealtype {
+  font-size: 25rpx;
+  color: #666;
+  margin-left: 20rpx;
+}
 .content-desc {
   font-size: 25rpx;
   color: #666;

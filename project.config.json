@@ -200,6 +200,13 @@
 					"id": -1,
 					"name": "pages/mine/discount/discount",
 					"pathName": "pages/mine/discount/discount",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/mine/discount/discount",
+					"pathName": "pages/mine/discount/discount",
 					"scene": null
 				}
 			]

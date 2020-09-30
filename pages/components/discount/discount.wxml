@@ -17,7 +17,10 @@
                 </view>
                 <view class="content">
                     <view class="content-name">{{discountItem.discountDesc}}</view>
-                    <view class="content-type">{{discountItem.discountTypeDesc}}</view>
+                    <view style="display: flex;">
+                        <view class="content-type">{{discountItem.discountTypeDesc}}</view>
+                        <view class="content-type">{{discountItem.limitMealTypeDes}}</view>
+                    </view>
                     <view wx:if="{{discountItem.hasLimit}}">
                         <block wx:if="{{discountItem.limitPayPrice}}">
                             <text class="content-desc">现金满{{discountItem.limitPayPrice}}元</text>
