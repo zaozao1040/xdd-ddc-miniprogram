@@ -19,7 +19,7 @@
                     <view class="content-name">{{discountItem.discountDesc}}</view>
                     <view style="display: flex;">
                         <view class="content-type">{{discountItem.discountTypeDesc}}</view>
-                        <view class="content-type">{{discountItem.limitMealTypeDes}}</view>
+                        <view class="content-mealtype">{{discountItem.limitMealTypeDes}}</view>
                     </view>
                     <view wx:if="{{discountItem.hasLimit}}">
                         <block wx:if="{{discountItem.limitPayPrice}}">
