@@ -640,6 +640,25 @@ Page({
                             }
 
                             if (_this.data.takeMealLimitFlag) {
+                                let tmp_takeMealLimitObj = {}
+                                _this.data.takeMealLimitArr.map((item, index) => {
+                                    if (item.mealType == 1) {
+                                        tmp_takeMealLimitObj.breakfastMealType = 1
+                                        tmp_takeMealLimitObj.breakfastQueue = item.queue
+                                    }
+                                    if (item.mealType == 2) {
+                                        tmp_takeMealLimitObj.lunchMealType = 2
+                                        tmp_takeMealLimitObj.lunchQueue = item.queue
+                                    }
+                                    if (item.mealType == 3) {
+                                        tmp_takeMealLimitObj.dinnerMealType = 3
+                                        tmp_takeMealLimitObj.dinnerQueue = item.queue
+                                    }
+                                    if (item.mealType == 4) {
+                                        tmp_takeMealLimitObj.nightMealType = 4
+                                        tmp_takeMealLimitObj.nightQueue = item.queue
+                                    }
+                                })
                                 if (mealType.toUpperCase() == 'BREAKFAST') {
                                     foods_item.mealType = 1
                                     foods_item.queue = tmp_takeMealLimitObj.breakfastQueue
