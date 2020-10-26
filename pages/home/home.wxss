@@ -429,10 +429,10 @@
 }
 
 .timeLimit-list-item {
-  font-size: 42rpx;
+  font-size: 26rpx;
   text-align: center;
-  height: 70rpx;
-  line-height: 70rpx;
+  height: 40rpx;
+  line-height: 40rpx;
 }
 /* 用户授权框 弹出 */
 
