@@ -283,10 +283,10 @@
                 <view class="timeLimit-title">
                     以下时段<span style="color:red;">无法订餐</span>，敬请谅解
                 </view>
-                <view class="timeLimit-list-item" wx:for="{{timeLimitList}}" wx:for-index="timeLimitListIndex"
+                <!-- <view class="timeLimit-list-item" wx:for="{{timeLimitList}}" wx:for-index="timeLimitListIndex"
                     wx:for-item="timeLimitListItem" wx:key="timeLimitListIndex">
                     {{timeLimitListItem.startTime}} ~ {{timeLimitListItem.endTime}}
-                </view>
+                </view> -->
             </view>
         </view>
         <!-- 审核状态框 弹出2.6.1 -->
