@@ -1,9 +1,9 @@
 <view wx:if='{{!userCode}}'>
-    <view class='wrapper-top'>
+    <view class='wrapper-top' bindtap='gotoLogin'>
         <view style='margin:0 20rpx 0 30rpx;width:120rpx;height:120rpx;'>
             <image style='width:120rpx;height:120rpx;' src="/images/mine/huiyuan.png" alt=""></image>
         </view>
-        <view class='login' bindtap='gotoLogin'>登录/注册</view>
+        <view class='login'>登录/注册</view>
     </view>
     <view class='info-wrapper' style='height:{{windowHeight-infoTop}}px;'>
 

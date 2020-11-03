@@ -189,14 +189,8 @@ Page({
     });
   },
   handleGotoMenu: function () {
-    //前端没有getWxUserInfo信息，则弹出用户授权
-    let getWxUserInfo = wx.getStorageSync("getWxUserInfo");
-    if (!getWxUserInfo) {
-      wx.navigateTo({
-        url: "/pages/login/authority/authority",
-      });
-      //无 userCode，则到登录页面
-    } else if (!wx.getStorageSync("userCode")) {
+    //前端没有userCode信息，则先跳转到登录页
+    if (!wx.getStorageSync("userCode")) {
       wx.navigateTo({
         url: "/pages/login/selectPhone/selectPhone",
       });

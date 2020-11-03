@@ -38,7 +38,6 @@
     "pages/components/popUp/popUp",
     "pages/components/customModal/customModal",
     "pages/login/phone/phone",
-    "pages/login/authority/authority",
     "pages/mine/complaint/say",
     "pages/mine/complaint/words/words",
     "pages/mine/allComment/allComment",
@@ -93,8 +92,6 @@
       }
     ]
   },
-  "navigateToMiniProgramAppIdList": [
-    "wx8492039f6e368de0"
-  ],
+  "navigateToMiniProgramAppIdList": ["wx8492039f6e368de0"],
   "sitemapLocation": "sitemap.json"
 }
