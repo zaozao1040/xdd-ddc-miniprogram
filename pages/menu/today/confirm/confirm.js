@@ -53,9 +53,6 @@ Page({
         newSelectedDiscountInfo: {},//当前选中的优惠券信息
         selectedDiscountCodeList: [],//当前所有选中的优惠券列表
 
-
-
-
     },
 
     initAddress: function () {
