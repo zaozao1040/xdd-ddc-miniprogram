@@ -86,7 +86,12 @@ Page({
 
     // 时间限制开关
     timeLimitFlag: false,
-    timeLimitList: []
+    timeLimitList: [],
+
+    // 餐品推荐
+    tuijianHeight: 0,
+    tuijianOneHeight: 0,
+    canpintuijianList: [],
   },
   // 选择今天
   handleSelectToday() {
@@ -313,9 +318,6 @@ Page({
     });
   },
 
-
-
-
   onLoad: function (options) {
     let _this = this;
 
@@ -336,6 +338,7 @@ Page({
     });
     _this.initHome();
     _this.getNotice();
+    _this.getCanpintuijianList();
 
     // 这个逻辑是  订单页 当没有订单时，引导用户跳转到首页的开始点餐
     if (options.fromorder) {
@@ -786,6 +789,84 @@ Page({
       success(res) {
         // 打开成功
       },
+    });
+  },
+
+
+  // 计算餐品推荐每个餐品的展示颜色背景
+  getCanpintuijianColors(pages) {
+    pages.map((page, pageIndex) => {
+      page.map((item, index) => {
+        if (index < 4) {
+          item.color = '#FFF9EC'
+        } else if (index >= 4 && index < 8) {
+          item.color = '#F3F3FF'
+        } else if (index >= 8) {
+          item.color = '#FFE7E4'
+        }
+      })
+    })
+  },
+
+  /* 获取餐品推荐 */
+  getCanpintuijianList() {
+    let _this = this;
+    let url = "/promoteFoodType/promoteFoodTypeList?userCode=" + wx.getStorageSync("userCode");
+    let param = {
+      url,
+    };
+
+    requestModel.request(param, (data) => {
+      if (data && data.amount > 0) {
+        let pages = []
+        let tmp_list = data.list.slice()
+
+        tmp_list.forEach((item, index) => {
+          const pageNum = Math.floor(index / 12)
+          if (!pages[pageNum]) {
+            pages[pageNum] = []
+          }
+          pages[pageNum].push(item)
+        })
+        _this.getCanpintuijianColors(pages)
+        _this.setData({
+          canpintuijianList: pages,
+        });
+
+        // 计算轮播图高度
+        wx.getSystemInfo({
+          success(res) {
+            let swiperWidth = res.windowWidth - 20
+            let oneWidth = swiperWidth / 4
+            let oneHeight = oneWidth - 20 + 50 - 20
+            let tmp_lenght = tmp_list.length
+            let tmp_onBottomHeight = 0
+            let tmp_height = 0
+            if (tmp_lenght > 0 && tmp_lenght <= 4) {
+              tmp_height = oneHeight + tmp_onBottomHeight
+            } else if (tmp_lenght > 4 && tmp_lenght <= 8) {
+              tmp_height = (oneHeight + tmp_onBottomHeight) * 2
+            } else if (tmp_lenght > 8) {
+              tmp_height = (oneHeight + tmp_onBottomHeight) * 3
+            }
+            _this.setData({
+              tuijianHeight: tmp_height,
+              tuijianOneHeight: oneHeight,
+            });
+          }
+        })
+
+      }
+    });
+  },
+
+  // 根据餐品类别进入点餐
+  handleGotoMenuByCanpin: function (e) {
+    let { tuijianitem } = e.currentTarget.dataset
+
+    //前端没有userCode信息，则先跳转到登录页
+    wx.navigateTo({
+      url: "/pages/menu/menu?typeId=" + tuijianitem.typeId,
     });
   },
 });

@@ -73,8 +73,8 @@ Page({
         boxActiveFlagFirst: true,
         cantMealTotalMoney: 0, //不可使用餐标的总的钱
     },
-    //处理七天日期
-    handleSevenDays() {
+    //获取排查日期
+    getDays(canpintuijianParams) {
         requestModel.getUserCode((userCode) => {
             let url = "/meal/getMealDateAndType?userCode=" + userCode;
             let param = {
@@ -119,34 +119,55 @@ Page({
                         }
                     }
                 });
-
                 this.setData({
                     timeInfo: data,
                     getSevenDaysInfoAlready: true,
                     getdataalready: true,
                 });
-                for (let i = 0; i < this.data.mealEnglistLabel.length; i++) {
-                    //5/15 今天一定有可定的餐时吗？即：该公司预定了这个餐时
-                    let meal = this.data.mealEnglistLabel[i];
-                    if (data[this.data.activeDayIndex].mealTypeOrder[meal + "Status"]) {
-                        this.setData({
-                            mealTypeItem: meal,
-                        });
-                        if (!this.data.allMenuData[this.data.activeDayIndex][meal]) {
-                            //表示今天第一个餐时可点餐
-
-                            this.getTimeDataByResponse();
+                if (canpintuijianParams) {
+                    data.forEach((item, index) => {
+                        if (item.mealDate == canpintuijianParams.mealDate) {
+                            this.setData({
+                                activeDayIndex: index,
+                                mealTypeItem: canpintuijianParams.mealType.toLowerCase()
+                            }, () => {
+                                this.getTimeDataByResponse(canpintuijianParams); // 代表需要定位到餐品推荐分类
+                            })
                         }
-                        break;
+                    });
+                } else {
+                    for (let i = 0; i < this.data.mealEnglistLabel.length; i++) {
+                        //5/15 今天一定有可定的餐时吗？即：该公司预定了这个餐时
+                        let meal = this.data.mealEnglistLabel[i];
+                        if (data[this.data.activeDayIndex].mealTypeOrder[meal + "Status"]) {
+                            this.setData({
+                                mealTypeItem: meal,
+                            });
+                            if (!this.data.allMenuData[this.data.activeDayIndex][meal]) { //表示今天第一个餐时可点餐
+                                this.getTimeDataByResponse();
+                            }
+                            break;
+                        }
                     }
                 }
             });
         });
     },
-    onLoad: function () {
 
-        this.handleSevenDays();
-        // 首先处理七天日期
+    // 获取餐品推荐信息(如果是餐品推荐跳转过来的话 )
+    getCanpinInfo(typeId) {
+        let _this = this;
+        let url = "/promoteFoodType/foodTypeAndDate?userCode=" + wx.getStorageSync("userCode") + '&typeId=' + typeId;
+        let param = {
+            url,
+        };
+        requestModel.request(param, (data) => {
+            this.getDays(data);
+        });
+    },
+
+
+    onLoad: function (option) {
         let _this = this;
         wx.getSystemInfo({
             success: function (res) {
@@ -166,26 +187,34 @@ Page({
                 });
             }
         });
-        requestModel.getUserInfo((userInfo) => {
-            let { userType, orgAdmin } = userInfo;
-            if (userType == "ORG_ADMIN" && orgAdmin == true) {
-                _this.setData({
-                    orgAdmin: true,
-                });
-            } else {
-                _this.setData({
-                    orgAdmin: false,
-                });
-                if (userType == "VISITOR") {
+        if (option.typeId) {
+
+            _this.getCanpinInfo(option.typeId)
+        } else {
+            // 首先获取已排餐的日期列表
+            this.getDays();
+
+            requestModel.getUserInfo((userInfo) => {
+                let { userType, orgAdmin } = userInfo;
+                if (userType == "ORG_ADMIN" && orgAdmin == true) {
                     _this.setData({
-                        notShowPrice: true,
+                        orgAdmin: true,
                     });
+                } else {
+                    _this.setData({
+                        orgAdmin: false,
+                    });
+                    if (userType == "VISITOR") {
+                        _this.setData({
+                            notShowPrice: true,
+                        });
+                    }
                 }
-            }
-            _this.setData({
-                organizeTrial: userInfo.organizeTrial,
-            });
-        }, true);
+                _this.setData({
+                    organizeTrial: userInfo.organizeTrial,
+                });
+            }, true);
+        }
 
 
     },
@@ -247,8 +276,20 @@ Page({
             this.getTimeDataByResponse();
         }
     },
+    // 根据推荐餐品的id，获取推荐餐品在左侧餐品分类菜单中的index
+    getCanpinMenuTypeIndex: function (typeId, foodList) {
+        let tmp_index = 0
+        let tmp_length = foodList.length
+        for (let i = 0; i < tmp_length; i++) {
+            if (foodList[i].typeId == typeId) {
+                tmp_index = i
+                i = tmp_length
+            }
+        }
+        return tmp_index
+    },
     /* 获取餐品menu信息 */
-    getTimeDataByResponse: function () {
+    getTimeDataByResponse: function (canpintuijianParams) {
         //正在后台请求菜单
         this.setData({
             getTimeDataByResponseNow: true,
@@ -269,6 +310,14 @@ Page({
             requestModel.request(
                 param,
                 (resData) => {
+                    if (canpintuijianParams) {
+                        let tmp_menuTypeIndex = _this.getCanpinMenuTypeIndex(canpintuijianParams.typeId, resData.foodList)
+                        _this.setData({
+                            menutypeActiveFlag: tmp_menuTypeIndex,
+                            scrollToView: "order" + tmp_menuTypeIndex,
+                            scrollLintenFlag: false, //默认不要触发滚动事件
+                        });
+                    }
                     //获取加餐所有信息
 
                     resData.totalMoney = 0; //给每天的每个餐时一个点餐的总的金额
@@ -280,13 +329,6 @@ Page({
                     // 给每一个餐品添加一个foodTotalOriginalPrice
                     let tmp_menuCountList = [];
                     let tmp_menuCountListCopy = [];
-
-                    //5/31开始
-                    //先将本餐所有的餐的id和index对应出来
-                    // typeId对menuTypeIndex
-                    // foodCode对foodIndex
-
-                    /* typeIdFoodCode={13:{menuTypeIndex:0, foodCodeIndex:{code:foodIndex}} }*/
                     let typeIdFoodCode = {};
                     resData.foodList.forEach((item, menuTypeIndex) => {
                         let a = {};
@@ -512,11 +554,12 @@ Page({
     },
     /* 滚动事件监听 */
     handleScroll: function (e) {
+        console.log('$$$$$$$ 4 $$$$$$$ ', e);
+
         let _this = this;
         if (this.data.scrollLintenFlag) {
             //允许触发滚动事件，才执行滚动事件
             let scrollY = e.detail.scrollTop;
-
             let listHeightLength = _this.data.listHeight.length;
             for (let i = 0; i < listHeightLength; i++) {
                 let height1 = _this.data.listHeight[i];
@@ -550,6 +593,8 @@ Page({
     },
 
     handleChangeMenutypeActive: function (e) {
+        console.log('@@@@@@@ 2 @@@@@@@ 12123', e);
+
         let _this = this;
         _this.setData({
             menutypeActiveFlag: e.currentTarget.dataset.menutypeindex,

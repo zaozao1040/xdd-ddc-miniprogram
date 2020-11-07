@@ -1,5 +1,48 @@
 /* pages/home/home.wxss */
 
+/* 餐品推荐 */
+.canpintuijian-wrapper {
+  margin: 0 25rpx 25rpx 25rpx;
+}
+.canpintuijian-page-item {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.canpintuijian-item {
+  flex: 0 0 25%;
+}
+.canpintuijian-item-content-wrapper {
+  padding: 10rpx;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+}
+.canpintuijian-item-content {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+.canpintuijian-item-content-title {
+  text-align: center;
+  height: 50rpx;
+  line-height: 50rpx;
+  font-family: PingFangSC-Medium;
+  font-size: 28rpx;
+  color: #222222;
+}
+.canpintuijian-item-content-imagewrapper {
+  flex: 1;
+  padding: 10rpx 30rpx 20rpx 30rpx;
+}
+.canpintuijian-item-content-imagewrapper-image {
+  height: 100%;
+  width: 100%;
+}
+
+/*  */
 .notice-title {
   font-family: PingFang-SC-Medium;
   font-size: 36rpx;
@@ -292,7 +335,7 @@
   color: #fff;
   text-align: center;
   background-image: linear-gradient(270deg, #f79c4c 0%, #f79c4c 99%);
-  border-radius: 57rpx;
+  border-radius: 10rpx;
   font-family: PingFang-SC-Medium;
   letter-spacing: 0;
   width: 100%;

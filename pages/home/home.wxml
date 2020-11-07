@@ -6,7 +6,8 @@
 
         <!-- 轮播图 autoplay="true"3.0-->
         <swiper autoplay class="h-v2-swiper-item" circular="true" duration="300" indicatorActiveColor="#fff"
-            indicatorColor="rgba(255,255,255,0.50)" indicatorDots interval="5000" bindchange="onSwiperChange">
+            indicatorColor="rgba(255,255,255)" indicatorActiveColor="#f79c4c" indicatorDots interval="5000"
+            bindchange="onSwiperChange">
             <block wx:for="{{imagesList.bannerImage}}" wx:for-index="swiperListIndex" wx:for-item="swiperListItem"
                 wx:key="swiperListIndex">
                 <swiper-item bindtap="navigateTo">
@@ -62,13 +63,41 @@
         <!-- 开始点餐 3.0-->
         <view class="h-v3">
             <view class="h-v3-1" catchtap="handleGotoMenu">
-                <text class='iconfont icon-canting'></text> 开始点餐
+                开始点餐
             </view>
             <view
                 style="position:absolute;top:{{hasNotice?460:328}}rpx;height:100rpx;width:600rpx;margin-left:46rpx;z-index:-1;">
                 <image src="/images/home/home_projection.png" style="height:100rpx;width:600rpx;"></image>
             </view>
         </view>
+        <!-- 餐品类别推荐 -->
+        <swiper style='height:{{tuijianHeight}}px' autoplay class="canpintuijian-wrapper" circular="true" duration="300"
+            indicatorActiveColor="#fff" indicatorColor="rgba(255,255,255)" indicatorActiveColor="#f79c4c" indicatorDots
+            interval="4000">
+            <!-- 循环页 -->
+            <block wx:for="{{canpintuijianList}}" wx:for-index="pageIndex" wx:for-item="pageItem" wx:key="pageIndex">
+                <swiper-item class="canpintuijian-page-item">
+                    <view style='height:{{tuijianOneHeight}}px;width:{{tuijianOneHeight}}px;' class="canpintuijian-item"
+                        wx:for="{{pageItem}}" wx:for-index="canpintuijianListIndex" wx:for-item="canpintuijianListItem"
+                        wx:key="canpintuijianListIndex">
+                        <view bindtap="handleGotoMenuByCanpin" data-tuijianitem="{{canpintuijianListItem}}"
+                            class="canpintuijian-item-content-wrapper">
+                            <view style='background-color:{{canpintuijianListItem.color}};'
+                                class="canpintuijian-item-content">
+                                <view class="canpintuijian-item-content-title">
+                                    {{canpintuijianListItem.typeName}}
+                                </view>
+                                <view class="canpintuijian-item-content-imagewrapper">
+                                    <image class="canpintuijian-item-content-imagewrapper-image"
+                                        src="{{canpintuijianListItem.typePicture}}"></image>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </swiper-item>
+            </block>
+        </swiper>
+
         <!-- 3个图标 3.0 -->
         <view class="label-wrapper">
             <view style="width:112rpx;text-align: center; " bindtap="gotoMiniProgram" wx:if='{{userInfo.shop}}'>
