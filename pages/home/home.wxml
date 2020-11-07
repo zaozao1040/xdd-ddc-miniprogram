@@ -70,8 +70,8 @@
                 <image src="/images/home/home_projection.png" style="height:100rpx;width:600rpx;"></image>
             </view>
         </view>
-        <!-- 餐品类别推荐 -->
-        <swiper style='height:{{tuijianHeight}}px' autoplay class="canpintuijian-wrapper" circular="true" duration="300"
+        <!-- 餐品类别推荐 autoplay-->
+        <swiper style='height:{{tuijianHeight}}px' class="canpintuijian-wrapper" circular="true" duration="300"
             indicatorActiveColor="#fff" indicatorColor="rgba(255,255,255)" indicatorActiveColor="#f79c4c" indicatorDots
             interval="4000">
             <!-- 循环页 -->
@@ -94,6 +94,7 @@
                             </view>
                         </view>
                     </view>
+
                 </swiper-item>
             </block>
         </swiper>

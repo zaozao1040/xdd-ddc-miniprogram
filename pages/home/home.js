@@ -832,6 +832,7 @@ Page({
         _this.setData({
           canpintuijianList: pages,
         });
+        console.log('####### 3 #####fasd## ', pages);
 
         // 计算轮播图高度
         wx.getSystemInfo({
