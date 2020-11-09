@@ -277,16 +277,15 @@ Page({
         }
     },
     // 根据推荐餐品的id，获取推荐餐品在左侧餐品分类菜单中的index
-    getCanpinMenuTypeIndex: function (typeId, foodList) {
+    getCanpinMenuTypeIndex: function (typeId, foodList, foodCustomizeListLength) {
         let tmp_index = 0
         let tmp_length = foodList.length
-        for (let i = 0; i < tmp_length; i++) {
+        for (let i = foodCustomizeListLength; i < tmp_length; i++) {
             if (foodList[i].typeId == typeId) {
-                tmp_index = i
+                tmp_index = i + foodCustomizeListLength
                 i = tmp_length
             }
         }
-        console.log('77777777', tmp_index, foodList)
         return tmp_index
     },
     /* 获取餐品menu信息 */
@@ -311,7 +310,14 @@ Page({
             requestModel.request(
                 param,
                 (resData) => {
-
+                    if (canpintuijianParams) {
+                        let tmp_menuTypeIndex = _this.getCanpinMenuTypeIndex(canpintuijianParams.typeId, resData.foodList, resData.foodCustomizeList.length)
+                        _this.setData({
+                            menutypeActiveFlag: tmp_menuTypeIndex,
+                            scrollToView: "order" + tmp_menuTypeIndex,
+                            scrollLintenFlag: false, //默认不要触发滚动事件
+                        });
+                    }
                     //获取加餐所有信息
 
                     resData.totalMoney = 0; //给每天的每个餐时一个点餐的总的金额
@@ -441,20 +447,8 @@ Page({
                     } else {
                         resData.foodCustomizeListLength = 0;
                     }
-
+                    console.log('ssssss2222', resData.foodList)
                     //5/31截止
-                    /**
-                     * 餐品推荐跳转过来 ，这里必需放在resData.foodList = resData.foodCustomizeList.concat 之后
-                     */
-                    if (canpintuijianParams) {
-                        let tmp_menuTypeIndex = _this.getCanpinMenuTypeIndex(canpintuijianParams.typeId, resData.foodList)
-                        _this.setData({
-                            menutypeActiveFlag: tmp_menuTypeIndex,
-                            scrollToView: "order" + tmp_menuTypeIndex,
-                            scrollLintenFlag: false, //默认不要触发滚动事件
-                        });
-                    }
-
 
                     //可以不用setData，因为都是0不需要显示
                     _this.data.menuCountList[activeDayIndex][
