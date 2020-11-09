@@ -286,6 +286,7 @@ Page({
                 i = tmp_length
             }
         }
+
         return tmp_index
     },
     /* 获取餐品menu信息 */
@@ -310,14 +311,7 @@ Page({
             requestModel.request(
                 param,
                 (resData) => {
-                    if (canpintuijianParams) {
-                        let tmp_menuTypeIndex = _this.getCanpinMenuTypeIndex(canpintuijianParams.typeId, resData.foodList)
-                        _this.setData({
-                            menutypeActiveFlag: tmp_menuTypeIndex,
-                            scrollToView: "order" + tmp_menuTypeIndex,
-                            scrollLintenFlag: false, //默认不要触发滚动事件
-                        });
-                    }
+
                     //获取加餐所有信息
 
                     resData.totalMoney = 0; //给每天的每个餐时一个点餐的总的金额
@@ -449,6 +443,18 @@ Page({
                     }
 
                     //5/31截止
+                    /**
+                     * 餐品推荐跳转过来 ，这里必需放在resData.foodList = resData.foodCustomizeList.concat 之后
+                     */
+                    if (canpintuijianParams) {
+                        let tmp_menuTypeIndex = _this.getCanpinMenuTypeIndex(canpintuijianParams.typeId, resData.foodList)
+                        _this.setData({
+                            menutypeActiveFlag: tmp_menuTypeIndex,
+                            scrollToView: "order" + tmp_menuTypeIndex,
+                            scrollLintenFlag: false, //默认不要触发滚动事件
+                        });
+                    }
+
 
                     //可以不用setData，因为都是0不需要显示
                     _this.data.menuCountList[activeDayIndex][
