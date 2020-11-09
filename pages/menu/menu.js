@@ -286,7 +286,7 @@ Page({
                 i = tmp_length
             }
         }
-
+        console.log('77777777', tmp_index, foodList)
         return tmp_index
     },
     /* 获取餐品menu信息 */
