@@ -204,7 +204,26 @@
             <scroll-view scroll-y style='height:318rpx;'>
                 <view style=' padding:1rpx 60rpx;'>
                     <view wx:for='{{takeorderData}}'>
-                        <view class='flex-b' style='margin-top:30rpx;'>
+                        <!-- 取餐优化 重写样式和数据结构 -->
+                        <view class="take-plus-wrapper">
+                            <view class="take-plus-left-wrapper">
+                                <view class="take-plus-left-name">
+                                    {{item.foodName}}
+                                </view>
+                                <view class="take-plus-left-cabinet">
+                                    {{item.cabinetNumber+'-'+item.cellNumber}}
+                                </view>
+                                <view class="take-plus-left-prompt">
+                                    {{item.prompt}}
+                                </view>
+                            </view>
+                            <view class="take-plus-right-wrapper">
+                                <view class="take-plus-right-button" data-item="{{item}}" catchtap='takeFoodOrderPlus'>
+                                    取餐
+                                </view>
+                            </view>
+                        </view>
+                        <!-- <view class='flex-b' style='margin-top:30rpx;'>
                             <view class='take-name'>{{item.foodName}}</view>
                             <view class='take-cabinet flexdisplay' wx:if='{{item.cabinet&&item.cabinet.length>0}}'
                                 style='flex-wrap: wrap;'>
@@ -216,13 +235,13 @@
                             </view>
                             <view class='take-cabinet' wx:elif='{{item.boxNumber}}'>{{item.boxNumber}}</view>
                         </view>
-                        <view class='take-remind' wx:if='{{item.prompt}}'>{{item.prompt}}</view>
+                        <view class='take-remind' wx:if='{{item.prompt}}'>{{item.prompt}}</view> -->
                     </view>
 
                 </view>
             </scroll-view>
-            <view class='take-button' wx:if='{{takeOrderPickagain}}' catchtap='takeFoodOrder'> 再次取餐</view>
-            <view class='take-button' wx:else catchtap='takeFoodOrder'> 取餐</view>
+            <!-- <view class='take-button' wx:if='{{takeOrderPickagain}}' catchtap='takeFoodOrder'> 再次取餐</view>
+            <view class='take-button' wx:else catchtap='takeFoodOrder'> 取餐</view> -->
         </view>
 
         <!-- 首页提示评价3.1-->

@@ -666,7 +666,7 @@ Page({
     }
     wx.showTabBar();
   },
-  //取餐
+  //取餐 下面有取餐优化接口，此接口暂时用不到了
   takeFoodOrder() {
     let _this = this;
     let ordercode = _this.data.takeOrderCode;
@@ -690,7 +690,40 @@ Page({
       wx.showTabBar();
     });
   },
+  //取餐 优化
+  takeFoodOrderPlus(e) {
+    let _this = this;
+    console.log('======= e ======= ', e.currentTarget.dataset.item, _this.data.takeOrderCode);
 
+    let ordercode = _this.data.takeOrderCode;
+    let pickagain = _this.data.takeOrderPickagain;
+    let { cellNumber, cabinetNumber, cellId } = e.currentTarget.dataset.item
+    let param = {
+      url:
+        "/order/orderPick?userCode=" +
+        wx.getStorageSync("userCode") +
+        "&orderCode=" +
+        ordercode +
+        "&cabinetNumber=" +
+        cabinetNumber +
+        "&cellNumber=" +
+        cellNumber +
+        "&cellId=" +
+        cellId +
+        "&again=" +
+        pickagain,
+    };
+
+    requestModel.request(param, () => {
+      _this.setData({
+        takeorderModalShow: false,
+        takeOrderCode: null,
+      });
+      _this.getTakeMealInfo();
+      _this.getOrderList();
+      wx.showTabBar();
+    });
+  },
   closeDali: function () {
     this.setData({
       showDaliFlag: false,

@@ -875,3 +875,45 @@
   display: flex;
   justify-content: space-between;
 }
+
+/* 取餐优化 重写样式和数据结构 */
+.take-plus-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 10rpx 0;
+  border-bottom: 1px solid #eee;
+}
+.take-plus-left-wrapper {
+}
+.take-plus-left-name {
+  height: 50rpx;
+  line-height: 50rpx;
+}
+.take-plus-left-cabinet {
+  height: 30rpx;
+  line-height: 20rpx;
+}
+.take-plus-left-prompt {
+  font-size: 24rpx;
+  font-family: PingFang-SC;
+  font-weight: 400;
+  color: rgba(247, 158, 75, 1);
+  line-height: 34rpx;
+}
+.take-plus-right-wrapper {
+}
+.take-plus-right-button {
+  background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
+  border-radius: 34rpx;
+  width: 120rpx;
+  height: 68rpx;
+  line-height: 68rpx;
+  font-family: PingFang-SC-Medium;
+  font-size: 26rpx;
+  color: #ffffff;
+  letter-spacing: 0;
+  text-align: center;
+  float: right;
+  margin-top: 10rpx;
+  flex-shrink: 0;
+}
