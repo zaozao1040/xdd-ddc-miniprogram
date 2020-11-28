@@ -210,8 +210,11 @@
                                 <view class="take-plus-left-name">
                                     {{item.foodName}}
                                 </view>
-                                <view class="take-plus-left-cabinet">
+                                <view class="take-plus-left-cabinet" wx:if="{{item.cabinetNumber}}">
                                     {{item.cabinetNumber+'-'+item.cellNumber}}
+                                </view>
+                                <view style="font-size: 25rpx;color:#999;" class="take-plus-left-cabinet" wx:else>
+                                    首次已取餐
                                 </view>
                                 <view class="take-plus-left-prompt">
                                     {{item.prompt}}
