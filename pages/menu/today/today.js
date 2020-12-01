@@ -2,6 +2,9 @@ import { base } from '../../../comm/public/request'
 let requestModel = new base()
 Page({
     data: {
+        // 限制员工在具体日期的具体餐别点餐
+        userTimeAndMealTypeLimit: false,
+
         // 因为是一天的订餐，所以下面的七个都是对象，格式都是{LUNCH:{},DINNER:{}}或者{LUNCH:[],DINNER:[]}
         allMenuData: {}, // 返回的所有数据 //添加了每道菜 加入购物车的个数(foodCount)的餐品列表，foods应该是MenuData里的foods，即只包括类别和相应的菜
         allMenuDataCopy: {}, //初始化为allMenuData，在清空购物车时，赋值给allMenuData
@@ -203,7 +206,15 @@ Page({
 
             }
             requestModel.request(param, resData => { //获取加餐所有信息
-
+                if (resData.limit === true) {
+                    _this.setData({
+                        userTimeAndMealTypeLimit: true
+                    });
+                } else {
+                    _this.setData({
+                        userTimeAndMealTypeLimit: false
+                    });
+                }
                 //这是浅拷贝吧，不是深拷贝吧，所以这样和直接使用res的差别是什么？？
                 resData.totalMoney = 0 //给每天的每个餐时一个点餐的总的金额
                 resData.totalMoney_back = 0 //给每天的每个餐时一个总的返的

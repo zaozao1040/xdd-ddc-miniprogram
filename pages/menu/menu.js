@@ -3,6 +3,8 @@ import { base } from "../../comm/public/request";
 let requestModel = new base();
 Page({
     data: {
+        // 限制员工在具体日期的具体餐别点餐
+        userTimeAndMealTypeLimit: false,
         //限制日期
         xianzhiriqi: false,
 
@@ -310,6 +312,16 @@ Page({
             requestModel.request(
                 param,
                 (resData) => {
+                    if (resData.limit === true) {
+                        _this.setData({
+                            userTimeAndMealTypeLimit: true
+                        });
+                    } else {
+                        _this.setData({
+                            userTimeAndMealTypeLimit: false
+                        });
+                    }
+
                     if (canpintuijianParams) {
                         let tmp_menuTypeIndex = _this.getCanpinMenuTypeIndex(canpintuijianParams.typeId, resData.foodList, resData.foodCustomizeList.length)
                         _this.setData({
