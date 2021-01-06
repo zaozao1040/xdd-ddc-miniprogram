@@ -2,9 +2,9 @@ const mtjwxsdk = require("./utils/mtj-wx-sdk.js");
 App({
   globalData: {
     // baseUrl: "https://wx.api.91dcan.cn", //线上真实数据，发a布使用！！！！！！！！！！
- //  baseUrl: "http://10.168.1.153:9082", //曹功德
+    //  baseUrl: "http://10.168.1.153:9082", //曹功德
     //  baseUrl: "http://10.168.1.215:9082", //赵家兴
-     baseUrl: "http://10.168.1.197:9082", //李凤
+    baseUrl: "http://10.168.1.197:9082", //李凤
     // baseUrl: "http://10.168.1.204:9082", //韩信信 志康
     // baseUrl: "https://wx.api.uat.91dcan.cn", //测试库  服务器1
     //   baseUrl: "http://5z2map.natappfree.cc", //net穿越
@@ -25,7 +25,7 @@ App({
     // 公共临时变量（数组）
     publicArr: [],
     publicParam: {},
-    // 
+    //
   },
 
   /**
@@ -36,9 +36,7 @@ App({
       family: "PingFang-SC-Medium",
       source:
         'url("https://oss.91dcan.cn/miniprogram/fonts/PingFangMedium.ttf")',
-      success: function () {
-
-      },
+      success: function () {},
     });
     if (wx.canIUse("getUpdateManager")) {
       const updateManager = wx.getUpdateManager();
@@ -81,12 +79,12 @@ App({
   /**
    * 当小程序从前台进入后台，会触发 onHide
    */
-  onHide: function () { },
+  onHide: function () {},
 
   /**
    * 当小程序发生脚本错误，或者 api 调用失败时，会触发 onError 并带上错误信息
    */
-  onError: function (msg) { },
+  onError: function (msg) {},
   /**
    * 强制更新
    */
