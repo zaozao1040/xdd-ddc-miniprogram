@@ -135,8 +135,20 @@ Page({
 
     // 计算公共参数
     this.getOrderParamList();
-    // 刷新每个餐别的优惠券几张可用
-    this.refreshDiscountNumFirst();
+
+    // 这里需要判断是否有补餐信息传递过来
+    console.log(
+      "=======  options.appendMealFlag======= ",
+      options.appendMealFlag
+    );
+
+    if (options.appendMealFlag == "ok") {
+      // 刷新每个餐别的优惠券几张可用
+      this.refreshDiscountNumFirst(true);
+    } else {
+      // 刷新每个餐别的优惠券几张可用
+      this.refreshDiscountNumFirst(false);
+    }
   },
 
   getOrderVerificationString() {
@@ -343,7 +355,7 @@ Page({
   /**
    * 首次（从点餐页进来这个页面时调用）刷新每个餐别的优惠券几张可用
    */
-  refreshDiscountNumFirst() {
+  refreshDiscountNumFirst(appendMealFlag) {
     let _this = this;
     let tmp_orderParamList = _this.data.orderParamList;
     let param = {
@@ -351,6 +363,7 @@ Page({
         userCode: wx.getStorageSync("userCode"),
         order: tmp_orderParamList,
         userDiscountCodeList: _this.data.selectedDiscountCodeList,
+        appendMealFlag: appendMealFlag ? true : undefined,
       },
       url: "/userDiscount/discountOrder",
       method: "post",

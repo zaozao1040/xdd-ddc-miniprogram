@@ -1010,7 +1010,8 @@ Page({
             this.data.totalMoneyRealDeduction +
             "&realMoney=" +
             this.data.realTotalMoney +
-            "&orderType=add",
+            "&orderType=add" +
+            "&appendMealFlag=ok", //appendMealFlag=ok 邱宁新增 1月5日 告诉后端这个是补餐
         });
       }
     }
