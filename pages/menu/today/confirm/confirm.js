@@ -353,7 +353,7 @@ Page({
   },
 
   /**
-   * 首次（从点餐页进来这个页面时调用）刷新每个餐别的优惠券几张可用
+   * 首次（从点餐页进来这个页面时调用） 刷新每个餐别的优惠券几张可用
    */
   refreshDiscountNumFirst(appendMealFlag) {
     let _this = this;
