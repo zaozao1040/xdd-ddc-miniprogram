@@ -27,7 +27,7 @@
                                     <view wx:if='{{foodtypeinfoItem.remarkList}}'>
                                         <view wx:for="{{foodtypeinfoItem.remarkList}}" wx:for-item='oneRemark' wx:for-index='remarkIndex' wx:key='{{remarkIndex}}'>
                                             <view class='flex-1' style='margin-top:20rpx;'>
-                                                <input bindinput='inputRemarkName' data-dayindex='{{onedayindex}}' data-menuitem='{{item}}' data-foodindex='{{foodtypeinfoIndex}}' data-remarkindex='{{remarkIndex}}' maxlength="3" placeholder="备注(限三字)" value="{{oneRemark.mark}}" class='remark-name' placeholder-class='remark-name-default'
+                                                <input bindinput='inputRemarkName' data-dayindex='{{onedayindex}}' data-menuitem='{{item}}' data-foodindex='{{foodtypeinfoIndex}}' data-remarkindex='{{remarkIndex}}' maxlength="3" placeholder="备注1(限三字)" value="{{oneRemark.mark}}" class='remark-name' placeholder-class='remark-name-default'
                                                 />
 
                                                 <view class='remark-count-group'>

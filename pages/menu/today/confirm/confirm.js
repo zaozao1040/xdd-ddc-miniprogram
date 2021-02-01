@@ -708,7 +708,7 @@ Page({
   getOrderParamList: function () {
     let _this = this;
     let tmp_orderParamList = [];
-    //   _this.data.selectedFoods = wx.getStorageSync('sevenSelectedFoods')
+    _this.data.selectedFoods = wx.getStorageSync("sevenSelectedFoods"); //2021-02-1 qiuning修改，这里给放开了，原来被注释掉
     let tmp_length = _this.data.selectedFoods.length;
     for (let i = 0; i < tmp_length; i++) {
       let tmp_selectedFoodsItem = _this.data.selectedFoods[i];
@@ -731,6 +731,7 @@ Page({
               foods: [],
               integralNumber: 0,
             };
+
             tmp_selectedFoodsItem[mealType].selectedFoods.forEach((onefood) => {
               let foods_item = {
                 foodCode: onefood.foodCode,
@@ -777,6 +778,7 @@ Page({
             });
 
             tmp_orderParamList.push(order_item);
+            console.log("@@@@@@@ 2 @@@@@@@ ", tmp_orderParamList);
           }
         });
       }
@@ -834,6 +836,10 @@ Page({
         appendMealFlag: _this.data.orderType == "add" ? true : false,
         order: [],
       };
+      console.log(
+        "======= _this.data.selectedFoods2222 ======= ",
+        _this.data.selectedFoods
+      );
       _this.getOrderParamList(); //要重新计算一下这个orderParamList，因为加入了优惠券
       tmp_param.order = _this.data.orderParamList;
 
