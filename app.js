@@ -1,7 +1,7 @@
 const mtjwxsdk = require("./utils/mtj-wx-sdk.js");
 App({
   globalData: {
-    //  baseUrl: "https://wx.api.91dcan.cn", //线上真实数据，发a布使用！！！！！！！！！！
+    // baseUrl: "https://wx.api.91dcan.cn", //线上真实数据，发a布使用！！！！！！！！！！
     baseUrl: "http://10.168.1.153:9082", //曹功德
     //  baseUrl: "http://10.168.1.215:9082", //赵家兴
     //  baseUrl: "http://10.168.1.197:9082", //李凤
@@ -13,12 +13,13 @@ App({
     // baseUrlFlyingCarpet: "http://10.168.1.215:9084", //赵家兴
 
     ningxiaOrgnaizeCode: "ORG717398064662446080", // 宁夏的orgnaizeCode,线上真实数据，发布使用！！！！！！！！！！
-    // ymkdOrgnaizeCodeList: [
-    //   "ORG578644919455973376",
-    //   "ORG750349351406141440",
-    //   "ORG803565354977722368",
-    // ], // 药明康德的orgnaizeCode列表,线上真实数据，发布使用！！！！！！！！！！
-    ymkdOrgnaizeCodeList: ["ORG530051032172986376"], // 药明康德的orgnaizeCode列表,线上真实数据，发布使用！！！！！！！！！！
+    ymkdOrgnaizeCodeList: [
+      "ORG578644919455973376",
+      "ORG750349351406141440",
+      "ORG803565354977722368",
+      "ORG530051032172986376",
+    ], // 药明康德的orgnaizeCode列表,线上真实数据，发布使用！！！！！！！！！！
+    // ymkdOrgnaizeCodeList: ["ORG530051032172986376"], // 药明康德的orgnaizeCode列表,线上真实数据，发布使用！！！！！！！！！！
     // -------------------  下面的配置不需改变  -------------------
     userInfo: null,
     selectedFoods: [],
