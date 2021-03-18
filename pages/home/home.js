@@ -192,43 +192,48 @@ Page({
     });
   },
   handleGotoMenu: function () {
-    // 针对 药明康德 企业，要先判断是否开启了“先评价后点餐”的个性化设置
-    let ymkdOrgnaizeCodeList = getApp().globalData.ymkdOrgnaizeCodeList;
-    let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
-    let organizeCode = tmp_userInfo ? tmp_userInfo.organizeCode : "";
-    // let organizeCode = wx.getStorageSync("userInfo").userInfo.organizeCode;
-    let userCode = wx.getStorageSync("userInfo").userInfo.userCode;
-    if (ymkdOrgnaizeCodeList.indexOf(organizeCode) != -1) {
-      let param = {
-        url: "/organize/getOrderNeedEvaluate?userCode=" + userCode,
-      };
-      requestModel.request(param, (data) => {
-        if (data.status === true) {
-          //不需要 先评价后点餐
-          wx.showModal({
-            title: "先评价后点餐",
-            content: "必需先评价上一餐,才可继续点餐",
-            confirmText: "去评价",
-            success(res) {
-              if (res.confirm) {
-                console.log("用户点击确定");
-                wx.navigateTo({
-                  url:
-                    "/pages/order/comment/comment?orderCode=" + data.orderCode,
-                });
-              } else if (res.cancel) {
-                console.log("用户点击取消");
-              }
-            },
-          });
-        } else if (data.status === false) {
-          this.gotoMenu();
-        } else {
-          this.gotoMenu();
-        }
-      });
-    } else {
+    if (wx.getStorageSync("userInfo")) {
       this.gotoMenu();
+    } else {
+      // 针对 药明康德 企业，要先判断是否开启了“先评价后点餐”的个性化设置
+      let ymkdOrgnaizeCodeList = getApp().globalData.ymkdOrgnaizeCodeList;
+      let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
+      let organizeCode = tmp_userInfo ? tmp_userInfo.organizeCode : "";
+      // let organizeCode = wx.getStorageSync("userInfo").userInfo.organizeCode;
+      let userCode = wx.getStorageSync("userInfo").userInfo.userCode;
+      if (ymkdOrgnaizeCodeList.indexOf(organizeCode) != -1) {
+        let param = {
+          url: "/organize/getOrderNeedEvaluate?userCode=" + userCode,
+        };
+        requestModel.request(param, (data) => {
+          if (data.status === true) {
+            //不需要 先评价后点餐
+            wx.showModal({
+              title: "先评价后点餐",
+              content: "必需先评价上一餐,才可继续点餐",
+              confirmText: "去评价",
+              success(res) {
+                if (res.confirm) {
+                  console.log("用户点击确定");
+                  wx.navigateTo({
+                    url:
+                      "/pages/order/comment/comment?orderCode=" +
+                      data.orderCode,
+                  });
+                } else if (res.cancel) {
+                  console.log("用户点击取消");
+                }
+              },
+            });
+          } else if (data.status === false) {
+            this.gotoMenu();
+          } else {
+            this.gotoMenu();
+          }
+        });
+      } else {
+        this.gotoMenu();
+      }
     }
   },
   gotoMenu: function () {
