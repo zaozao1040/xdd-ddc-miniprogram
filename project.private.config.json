@@ -1,47 +1,5 @@
 {
-  "description": "项目配置文件",
-  "packOptions": {
-    "ignore": []
-  },
-  "setting": {
-    "urlCheck": false,
-    "es6": true,
-    "postcss": true,
-    "minified": true,
-    "newFeature": true,
-    "coverView": true,
-    "autoAudits": false,
-    "checkInvalidKey": true,
-    "checkSiteMap": true,
-    "uploadWithSourceMap": true,
-    "useMultiFrameRuntime": true,
-    "useApiHook": true,
-    "babelSetting": {
-      "ignore": [],
-      "disablePlugins": [],
-      "outputPath": ""
-    },
-    "bundle": false,
-    "useIsolateContext": true,
-    "useCompilerModule": true,
-    "userConfirmedUseCompilerModuleSwitch": false,
-    "userConfirmedBundleSwitch": false,
-    "packNpmManually": false,
-    "packNpmRelationList": [],
-    "minifyWXSS": true,
-    "useApiHostProcess": true
-  },
-  "compileType": "miniprogram",
-  "libVersion": "2.10.4",
-  "appid": "wx47b750121e8288c1",
-  "projectname": "___diancan",
-  "cloudfunctionTemplateRoot": "",
-  "debugOptions": {
-    "hidedInDevtools": []
-  },
-  "scripts": {},
-  "simulatorType": "wechat",
-  "simulatorPluginLibVersion": {},
+  "setting": {},
   "condition": {
     "plugin": {
       "list": []
@@ -217,6 +175,18 @@
         {
           "name": "pages/menu/menu",
           "pathName": "pages/menu/menu",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/menu/menu",
+          "pathName": "pages/menu/menu",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/menu/today/today",
+          "pathName": "pages/menu/today/today",
           "query": "",
           "scene": null
         },

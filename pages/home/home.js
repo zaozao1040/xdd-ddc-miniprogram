@@ -107,7 +107,6 @@ Page({
     });
   },
   handleSelectWeek() {
-
     this.setData({
       appointmention: "week",
     });
@@ -122,7 +121,6 @@ Page({
     }, 1000);
   },
   startOrderMenu(e) {
-
     let tmp_appointmention = this.data.appointmention;
     let tmp_mealtype = e.currentTarget.dataset.mealtype;
     wx.navigateTo({
@@ -194,7 +192,52 @@ Page({
     });
   },
   handleGotoMenu: function () {
-    //前端没有userCode信息，则先跳转到登录页
+    if (!wx.getStorageSync("userInfo")) {
+      this.gotoMenu();
+    } else {
+      // 针对 药明康德 企业，要先判断是否开启了“先评价后点餐”的个性化设置
+      let ymkdOrgnaizeCodeList = getApp().globalData.ymkdOrgnaizeCodeList;
+      let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
+      let organizeCode = tmp_userInfo ? tmp_userInfo.organizeCode : "";
+      // let organizeCode = wx.getStorageSync("userInfo").userInfo.organizeCode;
+      let userCode = wx.getStorageSync("userInfo").userInfo.userCode;
+      if (ymkdOrgnaizeCodeList.indexOf(organizeCode) != -1) {
+        let param = {
+          url: "/organize/getOrderNeedEvaluate?userCode=" + userCode,
+        };
+        requestModel.request(param, (data) => {
+          if (data.status === true) {
+            //不需要 先评价后点餐
+            wx.showModal({
+              title: "先评价后点餐",
+              content: "必需先评价上一餐,才可继续点餐",
+              confirmText: "去评价",
+              success(res) {
+                if (res.confirm) {
+                  console.log("用户点击确定");
+                  wx.navigateTo({
+                    url:
+                      "/pages/order/comment/comment?orderCode=" +
+                      data.orderCode,
+                  });
+                } else if (res.cancel) {
+                  console.log("用户点击取消");
+                }
+              },
+            });
+          } else if (data.status === false) {
+            this.gotoMenu();
+          } else {
+            this.gotoMenu();
+          }
+        });
+      } else {
+        this.gotoMenu();
+      }
+    }
+  },
+  gotoMenu: function () {
+    // 前端没有userCode信息，则先跳转到登录页
     if (!wx.getStorageSync("userCode")) {
       wx.navigateTo({
         url: "/pages/login/selectPhone/selectPhone",
@@ -228,12 +271,12 @@ Page({
             orgAdminNoMealFlag: true,
           });
         } else {
-          if (_this.data.limitStandard === true) { //超力包装情况直接跳到 预约多天的menu
-            _this.handleSelectWeek()
+          if (_this.data.limitStandard === true) {
+            //超力包装情况直接跳到 预约多天的menu
+            _this.handleSelectWeek();
           } else {
             _this.openSelectMealTime();
           }
-
         }
       }, true);
     }
@@ -311,7 +354,6 @@ Page({
   },
   // 关闭选择预约弹框
   closeMenuSelect() {
-
     wx.showTabBar();
     this.setData({
       showMenuSelect: false,
@@ -321,9 +363,10 @@ Page({
   onLoad: function (options) {
     let _this = this;
 
-    this.getTimeLimit()
+    this.getTimeLimit();
 
-    setTimeout(function () { // 2秒后强制展示首页
+    setTimeout(function () {
+      // 2秒后强制展示首页
       _this.setData({
         preLoading_force: false,
       });
@@ -350,16 +393,15 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
     // 获取未评价的订单的未读信息
-    this.getOrderEvaluateReplyNotRead()
+    this.getOrderEvaluateReplyNotRead();
 
     //已登录状态，直接登录
     requestModel.getUserInfo((userInfo) => {
       // 超力包装 刷新用户info 主要是为了拿到limitStandard
-      let limitStandard = false
+      let limitStandard = false;
       if (userInfo) {
-        limitStandard = userInfo.limitStandard
+        limitStandard = userInfo.limitStandard;
       }
 
       this.setData({
@@ -413,8 +455,8 @@ Page({
         wx.hideTabBar();
         _this.setData({
           timeLimitFlag: true,
-          timeLimitList: data.limitList
-        })
+          timeLimitList: data.limitList,
+        });
       }
     });
   },
@@ -461,7 +503,6 @@ Page({
             showedNoticeData: window_noticeData,
             showOneNotice: true,
           });
-
         }
       }
     });
@@ -469,15 +510,17 @@ Page({
   /* 获取待评价信息 */
   getOrderEvaluateReplyNotRead() {
     let _this = this;
-    let url = "/userEvaluate/getOrderReplyNotRead?userCode=" + wx.getStorageSync("userCode");
+    let url =
+      "/userEvaluate/getOrderReplyNotRead?userCode=" +
+      wx.getStorageSync("userCode");
     let param = {
       url,
     };
     requestModel.request(param, (data) => {
       if (data.notReadNumber > 0) {
         wx.showTabBarRedDot({
-          index: 2
-        })
+          index: 2,
+        });
       }
     });
   },
@@ -608,12 +651,14 @@ Page({
   /* 去取餐 */
   handleTakeOrder: function (e) {
     //宁夏直接跳转电子凭证
-    let organizeCode = wx.getStorageSync("userInfo").userInfo.organizeCode
-    let ningxiaOrgCode = getApp().globalData.ningxiaOrgnaizeCode
+    let organizeCode = wx.getStorageSync("userInfo").userInfo.organizeCode;
+    let ningxiaOrgCode = getApp().globalData.ningxiaOrgnaizeCode;
     if (organizeCode === ningxiaOrgCode) {
       wx.navigateTo({
-        url: '/pages/order/qrCode/qrCode?orderCode=' + e.currentTarget.dataset.ordercode
-      })
+        url:
+          "/pages/order/qrCode/qrCode?orderCode=" +
+          e.currentTarget.dataset.ordercode,
+      });
       return;
     }
 
@@ -693,11 +738,15 @@ Page({
   //取餐 优化
   takeFoodOrderPlus(e) {
     let _this = this;
-    console.log('======= e ======= ', e.currentTarget.dataset.item, _this.data.takeOrderCode);
+    console.log(
+      "======= e ======= ",
+      e.currentTarget.dataset.item,
+      _this.data.takeOrderCode
+    );
 
     let ordercode = _this.data.takeOrderCode;
     let pickagain = _this.data.takeOrderPickagain;
-    let { cellNumber, cabinetNumber, cellId } = e.currentTarget.dataset.item
+    let { cellNumber, cabinetNumber, cellId } = e.currentTarget.dataset.item;
     let param = {
       url:
         "/order/orderPick?userCode=" +
@@ -809,7 +858,7 @@ Page({
   },
 
   //用于解决小程序的遮罩层滚动穿透
-  preventTouchMove: function () { },
+  preventTouchMove: function () {},
   //跳到小店
   gotoMiniProgram() {
     wx.navigateToMiniProgram({
@@ -825,78 +874,78 @@ Page({
     });
   },
 
-
   // 计算餐品推荐每个餐品的展示颜色背景
   getCanpintuijianColors(pages) {
     pages.map((page, pageIndex) => {
       page.map((item, index) => {
         if (index < 4) {
-          item.color = '#FFF9EC'
+          item.color = "#FFF9EC";
         } else if (index >= 4 && index < 8) {
-          item.color = '#F3F3FF'
+          item.color = "#F3F3FF";
         } else if (index >= 8) {
-          item.color = '#FFE7E4'
+          item.color = "#FFE7E4";
         }
-      })
-    })
+      });
+    });
   },
 
   /* 获取餐品推荐 */
   getCanpintuijianList() {
     let _this = this;
-    let url = "/promoteFoodType/promoteFoodTypeList?userCode=" + wx.getStorageSync("userCode");
+    let url =
+      "/promoteFoodType/promoteFoodTypeList?userCode=" +
+      wx.getStorageSync("userCode");
     let param = {
       url,
     };
 
     requestModel.request(param, (data) => {
       if (data && data.amount > 0) {
-        let pages = []
-        let tmp_list = data.list.slice()
+        let pages = [];
+        let tmp_list = data.list.slice();
 
         tmp_list.forEach((item, index) => {
-          const pageNum = Math.floor(index / 12)
+          const pageNum = Math.floor(index / 12);
           if (!pages[pageNum]) {
-            pages[pageNum] = []
+            pages[pageNum] = [];
           }
-          pages[pageNum].push(item)
-        })
-        _this.getCanpintuijianColors(pages)
+          pages[pageNum].push(item);
+        });
+        _this.getCanpintuijianColors(pages);
         _this.setData({
           canpintuijianList: pages,
         });
-        console.log('####### 3 #####fasd## ', pages);
+        console.log("####### 3 #####fasd## ", pages);
 
         // 计算轮播图高度
         wx.getSystemInfo({
           success(res) {
-            let swiperWidth = res.windowWidth - 20
-            let oneWidth = swiperWidth / 4
-            let oneHeight = oneWidth - 20 + 50 - 20
-            let tmp_lenght = tmp_list.length
-            let tmp_onBottomHeight = 0
-            let tmp_height = 0
+            let swiperWidth = res.windowWidth - 20;
+            let oneWidth = swiperWidth / 4;
+            let oneHeight = oneWidth - 20 + 50 - 20;
+            let tmp_lenght = tmp_list.length;
+            let tmp_onBottomHeight = 0;
+            let tmp_height = 0;
             if (tmp_lenght > 0 && tmp_lenght <= 4) {
-              tmp_height = oneHeight + tmp_onBottomHeight
+              tmp_height = oneHeight + tmp_onBottomHeight;
             } else if (tmp_lenght > 4 && tmp_lenght <= 8) {
-              tmp_height = (oneHeight + tmp_onBottomHeight) * 2
+              tmp_height = (oneHeight + tmp_onBottomHeight) * 2;
             } else if (tmp_lenght > 8) {
-              tmp_height = (oneHeight + tmp_onBottomHeight) * 3
+              tmp_height = (oneHeight + tmp_onBottomHeight) * 3;
             }
             _this.setData({
               tuijianHeight: tmp_height,
               tuijianOneHeight: oneHeight,
             });
-          }
-        })
-
+          },
+        });
       }
     });
   },
 
   // 根据餐品类别进入点餐
   handleGotoMenuByCanpin: function (e) {
-    let { tuijianitem } = e.currentTarget.dataset
+    let { tuijianitem } = e.currentTarget.dataset;
 
     //前端没有userCode信息，则先跳转到登录页
     wx.navigateTo({

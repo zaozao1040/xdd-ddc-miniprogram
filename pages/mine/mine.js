@@ -42,23 +42,24 @@ Page({
   /* 获取待评价信息 */
   getOrderEvaluateReplyNotRead() {
     let _this = this;
-    let url = "/userEvaluate/getOrderReplyNotRead?userCode=" + wx.getStorageSync("userCode");
+    let url =
+      "/userEvaluate/getOrderReplyNotRead?userCode=" +
+      wx.getStorageSync("userCode");
     let param = {
       url,
     };
     requestModel.request(param, (data) => {
       if (data.notReadNumber > 0) {
         wx.showTabBarRedDot({
-          index: 2
-        })
-
+          index: 2,
+        });
       } else {
         wx.hideTabBarRedDot({
-          index: 2
-        })
+          index: 2,
+        });
       }
       _this.setData({
-        notReadNumber: data.notReadNumber
+        notReadNumber: data.notReadNumber,
       });
     });
   },
@@ -141,7 +142,7 @@ Page({
     }
   },
   handleGotoTakeFood: function () {
-    let _this = this
+    let _this = this;
     //开柜取餐
     _this.setData({
       showTakeFoodModal: true,
@@ -161,14 +162,14 @@ Page({
           icon: "none",
         });
       } else {
-        let tmp_cellInfoDes = result.data.data.cabinetSort + ' - ' + result.data.data.cellShowSort
+        let tmp_cellInfoDes =
+          result.data.data.cabinetSort + " - " + result.data.data.cellShowSort;
         _this.setData({
           cellInfo: result.data.data,
           cellInfoDes: tmp_cellInfoDes,
         });
       }
     });
-
   },
   closePhoneModal() {
     this.setData({
@@ -292,7 +293,9 @@ Page({
   },
   // 柜子页面
   gotoCabinetminiProgram() {
-    if (this.data.userInfo.organizeCode == getApp().globalData.ningxiaOrgnaizeCode) {
+    if (
+      this.data.userInfo.organizeCode == getApp().globalData.ningxiaOrgnaizeCode
+    ) {
       wx.navigateTo({
         url: "/pages/mine/cabningxia/cabningxia",
       });
@@ -301,7 +304,6 @@ Page({
         url: "/pages/mine/cab/index",
       });
     }
-
   },
   gotoAddfoodAdmin() {
     wx.navigateTo({
@@ -339,7 +341,7 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () { },
+  onReady: function () {},
 
   /**
    * 生命周期函数--监听页面显示
@@ -352,9 +354,10 @@ Page({
     });
     if (userCode) {
       requestModel.getUserInfo((userInfo) => {
-        if (userInfo.organizeCode == getApp().globalData.ningxiaOrgnaizeCode) {//【宁夏】临时方案
+        if (userInfo.organizeCode == getApp().globalData.ningxiaOrgnaizeCode) {
+          //【宁夏】临时方案
           _this.setData({
-            showTakeFoodLabelFlag: true
+            showTakeFoodLabelFlag: true,
           });
         }
         _this.setData({
@@ -406,18 +409,18 @@ Page({
         });
       }, true);
     }
-    _this.getOrderEvaluateReplyNotRead()
+    _this.getOrderEvaluateReplyNotRead();
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () { },
+  onHide: function () {},
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () { },
+  onUnload: function () {},
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
@@ -463,10 +466,10 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () { },
+  onReachBottom: function () {},
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () { },
+  onShareAppMessage: function () {},
 });

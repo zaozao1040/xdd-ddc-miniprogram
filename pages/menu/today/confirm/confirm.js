@@ -372,7 +372,7 @@ Page({
       param,
       (data) => {
         let tmp_youhuiquanList = data;
-        let tmp_selectedFoods = _this.data.selectedFoods;
+        let tmp_selectedFoods = wx.getStorageSync("sevenSelectedFoods"); // wx.getStorageSync("sevenSelectedFoods")  _this.data.selectedFoods
         let tmp_selectedFoodsLength = tmp_selectedFoods.length;
         tmp_youhuiquanList.map((item, index) => {
           for (let i = 0; i < tmp_selectedFoodsLength; i++) {
@@ -388,6 +388,7 @@ Page({
         _this.setData({
           selectedFoods: tmp_selectedFoods,
         });
+        wx.setStorageSync("sevenSelectedFoods", tmp_selectedFoods); // 3-29 邱宁增加
       },
       true
     );
@@ -447,6 +448,7 @@ Page({
       url: "/userDiscount/discountOrder",
       method: "post",
     };
+
     requestModel.request(
       param,
       (data) => {
@@ -455,8 +457,9 @@ Page({
         // 2
         let publicParam = getApp().globalData.publicParam;
         // 1 和 2 公用
-        let tmp_selectedFoods = _this.data.selectedFoods;
-        let tmp_selectedFoodsLength = _this.data.selectedFoods.length;
+        let tmp_selectedFoods = wx.getStorageSync("sevenSelectedFoods"); // wx.getStorageSync("sevenSelectedFoods")  _this.data.selectedFoods
+        let tmp_selectedFoodsLength = wx.getStorageSync("sevenSelectedFoods")
+          .length;
         // 开始处理
         // 1 处理每个餐别的有几张优惠券可用
         tmp_youhuiquanList.map((item, index) => {
@@ -574,6 +577,7 @@ Page({
           realMoney: tmp_payMoneyIncludeYouhuiquan,
           totalDeduction: tmp_zongyouhui,
         });
+        wx.setStorageSync("sevenSelectedFoods", tmp_selectedFoods); // 3-29 邱宁增加
       },
       true
     );
@@ -708,10 +712,11 @@ Page({
   getOrderParamList: function () {
     let _this = this;
     let tmp_orderParamList = [];
-    //   _this.data.selectedFoods = wx.getStorageSync('sevenSelectedFoods')
-    let tmp_length = _this.data.selectedFoods.length;
+
+    _this.data.selectedFoods = wx.getStorageSync("sevenSelectedFoods"); //2021-02-1 qiuning修改，这里给放开了，原来被注释掉
+    let tmp_length = wx.getStorageSync("sevenSelectedFoods").length; // wx.getStorageSync("sevenSelectedFoods")  _this.data.selectedFoods
     for (let i = 0; i < tmp_length; i++) {
-      let tmp_selectedFoodsItem = _this.data.selectedFoods[i];
+      let tmp_selectedFoodsItem = wx.getStorageSync("sevenSelectedFoods")[i]; // wx.getStorageSync("sevenSelectedFoods")  _this.data.selectedFoods
       if (tmp_selectedFoodsItem.count > 0) {
         _this.data.mealEnglistLabel.forEach((mealType) => {
           if (
@@ -731,6 +736,7 @@ Page({
               foods: [],
               integralNumber: 0,
             };
+
             tmp_selectedFoodsItem[mealType].selectedFoods.forEach((onefood) => {
               let foods_item = {
                 foodCode: onefood.foodCode,
@@ -834,6 +840,10 @@ Page({
         appendMealFlag: _this.data.orderType == "add" ? true : false,
         order: [],
       };
+      console.log(
+        "======= _this.data.selectedFoods2222 ======= ",
+        _this.data.selectedFoods
+      );
       _this.getOrderParamList(); //要重新计算一下这个orderParamList，因为加入了优惠券
       tmp_param.order = _this.data.orderParamList;
 
