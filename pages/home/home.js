@@ -192,7 +192,7 @@ Page({
     });
   },
   handleGotoMenu: function () {
-    if (wx.getStorageSync("userInfo")) {
+    if (!wx.getStorageSync("userInfo")) {
       this.gotoMenu();
     } else {
       // 针对 药明康德 企业，要先判断是否开启了“先评价后点餐”的个性化设置
