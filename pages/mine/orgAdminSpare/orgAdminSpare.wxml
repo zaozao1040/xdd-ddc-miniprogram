@@ -1,0 +1,38 @@
+<view wx:if="{{ spareInfo.timeStatus ==false}}">
+  <view style="background:rgb(245,245,245);padding:20rpx 0;">
+    <view style="margin:0 20rpx 20rpx;background:#FFF; padding:40rpx;border-radius: 12rpx; ">
+        <view style="font-family: PingFang-SC-Medium;font-size: 30rpx; color: #333333; letter-spacing: 0;text-align: left;line-height:42rpx;">
+          <view>
+          {{spareInfo.mealDate}} {{spareInfo.mealTypeDes}}          
+          </view>
+          <view>
+            可用总库存:{{spareInfo.spareNum}}  价格:<text style="color:#fa3534">{{spareInfo.spareNum}}</text>    
+            <text wx:if="{{ spareInfo.userCanStandardPrice}}">
+              餐标:{{spareInfo.standardPrice}}
+            </text>      
+            </view>
+        </view>
+
+        <view class='value-number-wrapper'>
+            <view class='value-number-left'>数量</view>
+            <view class="value-number">
+                <view style='line-height: 80rpx;border-right: 1rpx solid #EBEBEB;color:#666666;width:80rpx;flex-shrink:0;' bindtap='minus'>-</view>
+                <input style='height:80rpx;line-height: 80rpx;' value="{{value}}" focus type="number" bindinput='inputAddfoodNumber' />
+                <view style='line-height: 80rpx;border-left: 1rpx solid #EBEBEB;color:#666666;width:80rpx;flex-shrink:0;' bindtap='add'>+</view>
+            </view>
+        </view>
+        <view bindtap='increaseFood' style="background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);margin-top:52rpx;width:630rpx;font-family: PingFang-SC-Medium;font-size: 18px;color: #FFFFFF;letter-spacing: 0; text-align: center;line-height:100rpx;border-radius:50rpx;">
+            去支付</view>
+    </view>
+    <view style="margin:0 20rpx;background:#fff;border-radius: 8rpx;">
+        <view class='one-line'>
+            <view style='font-size: 36rpx;color: #333333;'>已申请数</view>
+            <view style='font-size: 34rpx; color: rgb(80,185,66);'>{{quantity}}</view>
+        </view>
+    </view>
+  </view>
+</view>
+<view wx:else class="no">
+  <image class="image" mode="aspectFit" src="/images/mine/nospare.png"></image>
+  <view class="no-label">~该时间段没有备用餐~</view>
+</view>

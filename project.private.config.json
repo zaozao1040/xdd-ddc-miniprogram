@@ -193,6 +193,12 @@
         {
           "name": "pages/menu/menu",
           "pathName": "pages/menu/menu",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/mine",
+          "pathName": "pages/mine/mine",
           "scene": null
         }
       ]

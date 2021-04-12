@@ -305,6 +305,12 @@ Page({
       });
     }
   },
+  // 备用餐页面
+  gotoSpareminiProgram() {
+    wx.navigateTo({
+      url: "/pages/mine/orgAdminSpare/orgAdminSpare",
+    });
+  },
   gotoAddfoodAdmin() {
     wx.navigateTo({
       url: "/pages/mine/orgAdminAddfood/orgAdminAddfood",

@@ -126,6 +126,7 @@
   text-align: left;
   line-height: 36rpx;
   position: relative;
+  text-align: center;
 }
 .label-title-notreply-wrapper {
   position: absolute;
@@ -142,17 +143,20 @@
   font-size: 25rpx;
   text-align: center;
 }
-.org-admin {
+.org-admin-img {
   margin-top: 20rpx;
-  padding: 20rpx 30rpx;
+  padding: 20rpx 0;
   background: #fff;
   display: flex;
-  justify-content: space-between;
 }
-
 .org-addfood {
-  width: 314rpx;
-  height: 160rpx;
+  flex: 1;
+  height: 120rpx;
+  margin: 0 10rpx;
+}
+.org-addfood-img {
+  width: 100%;
+  height: 100%;
 }
 
 .org-addfood-none {

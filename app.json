@@ -47,7 +47,8 @@
     "pages/login/userPw/userPw",
     "pages/order/qrCode/qrCode",
     "pages/mine/cabningxia/cabningxia",
-    "pages/menu/today/discount/discount"
+    "pages/menu/today/discount/discount",
+    "pages/mine/orgAdminSpare/orgAdminSpare"
   ],
   "permission": {
     "scope.userLocation": {
