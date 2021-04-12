@@ -7,6 +7,19 @@ Page({
   data: {
     userInfo: {},
     spareInfo: {},
+
+    //送餐地址
+    organizeAddressList: [],
+    currentAddressIndex: 0,
+    deliveryAddressCode: "",
+    address: "",
+
+    orderPayMoney: 0,
+    spareNum: 1,
+
+    balance: 0,
+    canUseBalance: false,
+    payType: "WECHAT_PAY",
   },
 
   /**
@@ -57,6 +70,8 @@ Page({
   loadData() {
     let _this = this;
     _this.getSpareMealSet();
+    _this.getOrganizeAddressList();
+    _this.getUserFinance();
   },
   //获取设置
   getSpareMealSet() {
@@ -80,9 +95,83 @@ Page({
       } else if (res.mealType == "NIGHT") {
         res.mealTypeDes = "夜宵";
       }
+      // res.sparePrice = 7;
+      let tmp_orderPayMoney = 0;
+      let all = parseFloat(_this.spareNum * res.sparePrice).toFixed(2);
+      tmp_orderPayMoney =
+        all > res.standardPrice
+          ? parseFloat(parseFloat(all) - parseFloat(res.standardPrice)).toFixed(
+              2
+            )
+          : 0;
       _this.setData({
         spareInfo: res,
+        orderPayMoney: tmp_orderPayMoney,
       });
     });
+  },
+  getOrganizeAddressList() {
+    let _this = this;
+    let param = {
+      url:
+        "/organize/listOrganizeDeliveryAddress?userCode=" +
+        wx.getStorageSync("userCode"),
+    };
+
+    requestModel.request(param, (data) => {
+      if (data instanceof Array && data.length > 0) {
+        // _this.getAddfoodData(data[0].deliveryAddressCode);
+        _this.setData({
+          organizeAddressList: data,
+          deliveryAddressCode: data[0].deliveryAddressCode,
+          address: data[0].address,
+        });
+      }
+    });
+  },
+  clickPay() {
+    let _this = this;
+    let params = {
+      data: {
+        organizeCode: _this.data.userInfo.organizeCode,
+        userCode: wx.getStorageSync("userCode"),
+        deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
+        mealDate: _this.spareInfo.mealDate,
+        mealType: _this.spareInfo.mealType,
+        userName: _this.data.userInfo.userName,
+        addressCode: _this.deliveryAddressCode,
+        orderPayMoney: 10,
+        spareNum: 1,
+        orgAdmin: false,
+        payType: _this.data.payType,
+      },
+      url: "/order/generateSpareOrder",
+      method: "post",
+    };
+    requestModel.request(params, (data) => {
+      if (data instanceof Array && data.length > 0) {
+        // _this.getAddfoodData(data[0].deliveryAddressCode);
+        _this.setData({
+          organizeAddressList: data,
+          deliveryAddressCode: data[0].deliveryAddressCode,
+          address: data[0].address,
+        });
+      }
+    });
+  },
+  getUserFinance() {
+    let _this = this;
+    let param = {
+      url: "/user/getUserFinance?userCode=" + wx.getStorageSync("userCode"),
+    };
+    requestModel.request(
+      param,
+      (data) => {
+        _this.setData({
+          balance: data.balance,
+        });
+      },
+      true
+    );
   },
 });
