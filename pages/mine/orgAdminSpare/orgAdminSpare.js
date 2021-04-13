@@ -14,12 +14,13 @@ Page({
     deliveryAddressCode: "",
     address: "",
 
-    orderPayMoney: 0,
-    spareNum: 1,
-
+    //
     balance: 0,
     canUseBalance: false,
-    payType: "WECHAT_PAY",
+    payType: "init",
+    orderPayMoney: 0,
+    spareNum: 1,
+    standardPriceDikou: 0,
   },
 
   /**
@@ -69,9 +70,9 @@ Page({
   onReachBottom: function () {},
   loadData() {
     let _this = this;
-    _this.getSpareMealSet();
-    _this.getOrganizeAddressList();
     _this.getUserFinance();
+
+    _this.getOrganizeAddressList();
   },
   //获取设置
   getSpareMealSet() {
@@ -95,20 +96,92 @@ Page({
       } else if (res.mealType == "NIGHT") {
         res.mealTypeDes = "夜宵";
       }
-      // res.sparePrice = 7;
-      let tmp_orderPayMoney = 0;
-      let all = parseFloat(_this.spareNum * res.sparePrice).toFixed(2);
-      tmp_orderPayMoney =
-        all > res.standardPrice
-          ? parseFloat(parseFloat(all) - parseFloat(res.standardPrice)).toFixed(
-              2
-            )
-          : 0;
-      _this.setData({
-        spareInfo: res,
-        orderPayMoney: tmp_orderPayMoney,
-      });
+      _this.setData(
+        {
+          spareInfo: res,
+        },
+        () => {
+          _this.jisuan("init");
+        }
+      );
     });
+  },
+  jisuan(payType) {
+    let _this = this;
+    // _this.data.spareInfo.sparePrice = 1; //测试用
+    let standardPriceDikou = _this.data.spareInfo.userCanStandardPrice
+      ? _this.data.spareInfo.standardPrice
+      : 0; //餐标抵扣 允许用餐标则正常抵扣，不允许则抵扣0
+
+    let tmp_orderPayMoney = parseFloat(
+      _this.data.spareNum * _this.data.spareInfo.sparePrice - standardPriceDikou
+    ).toFixed(2); // 实际需要付款的价格 用来和余额比较大小
+    let tmp_canUseBalance = _this.data.canUseBalance;
+    let tmp_payType = payType;
+
+    if (payType == "init") {
+      if (tmp_orderPayMoney > _this.data.balance) {
+        tmp_payType = "WECHAT_PAY";
+        tmp_canUseBalance = false;
+      } else {
+        tmp_payType = "BALANCE_PAY";
+        tmp_canUseBalance = true;
+        tmp_orderPayMoney = parseFloat(
+          _this.data.balance - tmp_orderPayMoney
+        ).toFixed(2);
+      }
+    } else if (payType == "WECHAT_PAY") {
+    } else if (payType == "BALANCE_PAY") {
+      tmp_orderPayMoney = parseFloat(
+        _this.data.balance - tmp_orderPayMoney
+      ).toFixed(2);
+    }
+    if (tmp_orderPayMoney < 0) {
+      // 余额不足时要自动切换成微信支付
+      _this.handleChangeWechatPayFlag();
+    } else {
+      _this.setData({
+        orderPayMoney: tmp_orderPayMoney,
+        payType: tmp_payType,
+        canUseBalance: tmp_canUseBalance,
+      });
+    }
+  },
+  minus() {
+    let _this = this;
+    if (_this.data.spareNum > 1) {
+      _this.setData(
+        {
+          spareNum: _this.data.spareNum - 1,
+        },
+        () => {
+          _this.jisuan(_this.data.spareInfo.payType);
+        }
+      );
+    } else {
+      wx.showToast({
+        title: "至少一份",
+        icon: "none",
+      });
+    }
+  },
+  add() {
+    let _this = this;
+    if (_this.data.spareNum < _this.data.spareInfo.spareNum) {
+      _this.setData(
+        {
+          spareNum: _this.data.spareNum + 1,
+        },
+        () => {
+          _this.jisuan(_this.data.payType);
+        }
+      );
+    } else {
+      wx.showToast({
+        title: "不能超过库存上限",
+        icon: "none",
+      });
+    }
   },
   getOrganizeAddressList() {
     let _this = this;
@@ -129,15 +202,44 @@ Page({
       }
     });
   },
+  handleChangeWechatPayFlag() {
+    let _this = this;
+    _this.setData(
+      {
+        payType: "WECHAT_PAY",
+      },
+      () => {
+        _this.jisuan("WECHAT_PAY");
+      }
+    );
+  },
+  handleChangeBalancePayFlag() {
+    let _this = this;
+    _this.setData(
+      {
+        payType: "BALANCE_PAY",
+      },
+      () => {
+        _this.jisuan("BALANCE_PAY");
+      }
+    );
+  },
   clickPay() {
     let _this = this;
+    if (_this.data.orderPayMoney < 0) {
+      wx.showToast({
+        title: "余额不足",
+        icon: "none",
+      });
+      return;
+    }
     let params = {
       data: {
         organizeCode: _this.data.userInfo.organizeCode,
         userCode: wx.getStorageSync("userCode"),
         deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
-        mealDate: _this.spareInfo.mealDate,
-        mealType: _this.spareInfo.mealType,
+        mealDate: _this.data.spareInfo.mealDate,
+        mealType: _this.data.spareInfo.mealType,
         userName: _this.data.userInfo.userName,
         addressCode: _this.deliveryAddressCode,
         orderPayMoney: 10,
@@ -167,9 +269,14 @@ Page({
     requestModel.request(
       param,
       (data) => {
-        _this.setData({
-          balance: data.balance,
-        });
+        _this.setData(
+          {
+            balance: data.balance,
+          },
+          () => {
+            _this.getSpareMealSet();
+          }
+        );
       },
       true
     );

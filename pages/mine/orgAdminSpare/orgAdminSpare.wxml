@@ -5,12 +5,20 @@
           <view>
           {{spareInfo.mealDate}} {{spareInfo.mealTypeDes}}          
           </view>
-          <view>
-            可用总库存:{{spareInfo.spareNum}}  价格:<text style="color:#fa3534">{{spareInfo.spareNum}}</text>    
-            <text wx:if="{{ spareInfo.userCanStandardPrice}}">
-              餐标:{{spareInfo.standardPrice}}
-            </text>      
+          <view >
+            <view>
+              可用总库存:{{spareInfo.spareNum}}  
             </view>
+            <view >
+              单价:<text style="color:#fa3534"> ￥{{spareInfo.sparePrice}}</text>    
+            </view>
+            <view  wx:if="{{ spareInfo.userCanStandardPrice}}">
+              餐标抵扣: -￥{{spareInfo.standardPrice}}
+            </view>     
+            <view wx:else >
+              不可使用餐标
+            </view>      
+          </view>
         </view>
         <view class="org-address-wrapper">
             <scroll-view class="org-scroll-view" scroll-x>
@@ -31,6 +39,7 @@
             </view>
         </view>
     </view>
+
     <view style='margin:0 16rpx;'>
         <view style='background:#fff;padding:0 30rpx;border-radius:6rpx;'>
             <view class='pay-item-last' style='border-bottom: 1rpx solid #F2F2F2;'>
