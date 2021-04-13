@@ -154,7 +154,7 @@ Page({
           spareNum: _this.data.spareNum - 1,
         },
         () => {
-          _this.jisuan(_this.data.spareInfo.payType);
+          _this.jisuan(_this.data.payType);
         }
       );
     } else {
