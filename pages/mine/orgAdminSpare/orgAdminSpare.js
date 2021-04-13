@@ -71,7 +71,6 @@ Page({
   loadData() {
     let _this = this;
     _this.getUserFinance();
-
     _this.getOrganizeAddressList();
   },
   //获取设置
@@ -242,23 +241,22 @@ Page({
         mealType: _this.data.spareInfo.mealType,
         userName: _this.data.userInfo.userName,
         addressCode: _this.deliveryAddressCode,
-        orderPayMoney: 10,
-        spareNum: 1,
-        orgAdmin: false,
+        orderPayMoney: _this.data.spareInfo.orderPayMoney,
+        spareNum: _this.data.spareNum,
+        orgAdmin: true,
         payType: _this.data.payType,
       },
       url: "/order/generateSpareOrder",
       method: "post",
     };
     requestModel.request(params, (data) => {
-      if (data instanceof Array && data.length > 0) {
-        // _this.getAddfoodData(data[0].deliveryAddressCode);
-        _this.setData({
-          organizeAddressList: data,
-          deliveryAddressCode: data[0].deliveryAddressCode,
-          address: data[0].address,
-        });
-      }
+      console.log("@@@@@@@ 2 @@@@@@@ ", data);
+
+      // _this.setData({
+      //   organizeAddressList: data,
+      //   deliveryAddressCode: data[0].deliveryAddressCode,
+      //   address: data[0].address,
+      // });
     });
   },
   getUserFinance() {
