@@ -5,7 +5,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    orgadmin: false, //是否是管理员
     userInfo: {},
     spareInfo: {},
 
@@ -25,6 +24,10 @@ Page({
 
     // 企业管理员 流程简单多
     orderPayMoneyOrgadmin: 0,
+
+    orgadmin: false, //是否是企业管理员
+    showQbWx: true, //展示钱包支付和微信支付
+    showQy: true, //展示企业支付
   },
 
   /**
@@ -102,8 +105,20 @@ Page({
       } else if (res.mealType == "NIGHT") {
         res.mealTypeDes = "夜宵";
       }
+      let tmp_showQbWx = _this.data.showQbWx; // 默认都是true展示
+      let tmp_showQy = _this.data.showQy; // 默认都是true展示
+      if (res.userCanStandardPrice && _this.data.orgadmin == "yes") {
+        // 如果既是企业管理员又可用餐标 则不展示QbWx
+        tmp_showQbWx = false;
+      }
+      if (_this.data.orgadmin == "no") {
+        // 如果是普通用户
+        tmp_showQy = false;
+      }
       _this.setData(
         {
+          showQbWx: tmp_showQbWx,
+          showQy: tmp_showQy,
           spareInfo: res,
         },
         () => {
@@ -125,24 +140,29 @@ Page({
     let tmp_canUseBalance = _this.data.canUseBalance;
     let tmp_payType = payType;
 
+    let tmp_orderPayMoney_forJisuan = 0;
     if (payType == "init") {
-      if (tmp_orderPayMoney > _this.data.balance) {
+      if (_this.data.orgadmin == "yes") {
+        tmp_payType = "STANDARD_PAY";
+      } else if (tmp_orderPayMoney > _this.data.balance) {
         tmp_payType = "WECHAT_PAY";
         tmp_canUseBalance = false;
       } else {
         tmp_payType = "BALANCE_PAY";
         tmp_canUseBalance = true;
-        tmp_orderPayMoney = parseFloat(
+        tmp_orderPayMoney_forJisuan = parseFloat(
           _this.data.balance - tmp_orderPayMoney
         ).toFixed(2);
       }
     } else if (payType == "WECHAT_PAY") {
     } else if (payType == "BALANCE_PAY") {
-      tmp_orderPayMoney = parseFloat(
+      tmp_orderPayMoney_forJisuan = parseFloat(
         _this.data.balance - tmp_orderPayMoney
       ).toFixed(2);
     }
-    if (tmp_orderPayMoney < 0) {
+    console.log("@@@@@@@ 2tmp_orderPayMoney @@@@@@@ ", tmp_orderPayMoney);
+
+    if (tmp_orderPayMoney_forJisuan < 0) {
       // 余额不足时要自动切换成微信支付
       _this.handleChangeWechatPayFlag();
     } else {
@@ -254,7 +274,7 @@ Page({
         mealDate: _this.data.spareInfo.mealDate,
         mealType: _this.data.spareInfo.mealType,
         userName: _this.data.userInfo.userName,
-        orderPayMoney: _this.data.spareInfo.orderPayMoney,
+        orderPayMoney: _this.data.orderPayMoney,
         spareNum: _this.data.spareNum,
         orgAdmin: false,
         payType: _this.data.payType,
@@ -309,7 +329,7 @@ Page({
               mealType: _this.data.spareInfo.mealType,
               userName: _this.data.userInfo.userName,
               addressCode: _this.deliveryAddressCode,
-              orderPayMoney: _this.data.spareInfo.orderPayMoney,
+              orderPayMoney: _this.data.orderPayMoney,
               spareNum: _this.data.spareNum,
               orgAdmin: true,
               payType: _this.data.payType,
