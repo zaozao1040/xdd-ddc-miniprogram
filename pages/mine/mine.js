@@ -306,9 +306,12 @@ Page({
     }
   },
   // 备用餐页面
-  gotoSpareminiProgram() {
+  gotoSpareminiProgram(e) {
+    let { orgadmin } = e.currentTarget.dataset;
+    console.log("@@@@@@@ 2orgadmin @@@@@@@ ", orgadmin);
+
     wx.navigateTo({
-      url: "/pages/mine/orgAdminSpare/orgAdminSpare",
+      url: "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" + orgadmin,
     });
   },
   gotoAddfoodAdmin() {

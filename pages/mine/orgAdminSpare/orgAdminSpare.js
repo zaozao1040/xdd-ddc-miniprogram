@@ -5,6 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    orgadmin: false, //是否是管理员
     userInfo: {},
     spareInfo: {},
 
@@ -21,17 +22,23 @@ Page({
     orderPayMoney: 0,
     spareNum: 1,
     standardPriceDikou: 0,
+
+    // 企业管理员 流程简单多
+    orderPayMoneyOrgadmin: 0,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log("@@@@@@@ 2 @@@@@@@ ", options.orgadmin);
+
     let _this = this;
     let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
     _this.setData(
       {
         userInfo: tmp_userInfo,
+        orgadmin: options.orgadmin,
       },
       () => {
         _this.loadData();
@@ -145,6 +152,13 @@ Page({
         canUseBalance: tmp_canUseBalance,
       });
     }
+    // 处理一下管理员的
+    let tmp_orderPayMoneyOrgadmin = parseFloat(
+      _this.data.spareNum * _this.data.spareInfo.sparePrice
+    ).toFixed(2);
+    _this.setData({
+      orderPayMoneyOrgadmin: tmp_orderPayMoneyOrgadmin,
+    });
   },
   minus() {
     let _this = this;
@@ -240,10 +254,9 @@ Page({
         mealDate: _this.data.spareInfo.mealDate,
         mealType: _this.data.spareInfo.mealType,
         userName: _this.data.userInfo.userName,
-        addressCode: _this.deliveryAddressCode,
         orderPayMoney: _this.data.spareInfo.orderPayMoney,
         spareNum: _this.data.spareNum,
-        orgAdmin: true,
+        orgAdmin: false,
         payType: _this.data.payType,
       },
       url: "/order/generateSpareOrder",
@@ -278,5 +291,43 @@ Page({
       },
       true
     );
+  },
+  // 企业管理员下单
+  clickPayOrgadmin() {
+    let _this = this;
+    wx.showModal({
+      title: "确认",
+      content: "备用餐 x" + _this.data.spareNum + "份",
+      success: function (res) {
+        if (res.confirm) {
+          let params = {
+            data: {
+              organizeCode: _this.data.userInfo.organizeCode,
+              userCode: wx.getStorageSync("userCode"),
+              deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
+              mealDate: _this.data.spareInfo.mealDate,
+              mealType: _this.data.spareInfo.mealType,
+              userName: _this.data.userInfo.userName,
+              addressCode: _this.deliveryAddressCode,
+              orderPayMoney: _this.data.spareInfo.orderPayMoney,
+              spareNum: _this.data.spareNum,
+              orgAdmin: true,
+              payType: _this.data.payType,
+            },
+            url: "/order/generateSpareOrder",
+            method: "post",
+          };
+          requestModel.request(params, (data) => {
+            console.log("@@@@@@@ 2 @@@@@@@ ", data);
+
+            // _this.setData({
+            //   organizeAddressList: data,
+            //   deliveryAddressCode: data[0].deliveryAddressCode,
+            //   address: data[0].address,
+            // });
+          });
+        }
+      },
+    });
   },
 });

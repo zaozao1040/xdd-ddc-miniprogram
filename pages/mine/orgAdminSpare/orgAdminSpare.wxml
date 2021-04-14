@@ -12,12 +12,15 @@
             <view >
               单价:<text style="color:#fa3534"> ￥{{spareInfo.sparePrice}}</text>    
             </view>
-            <view  wx:if="{{ spareInfo.userCanStandardPrice}}">
-              餐标抵扣: -￥{{spareInfo.standardPrice}}
-            </view>     
-            <view wx:else >
-              不可使用餐标
-            </view>      
+            <view  wx:if="{{ orgadmin == 'no'}}">
+              <view  wx:if="{{ spareInfo.userCanStandardPrice}}">
+                餐标抵扣: -￥{{spareInfo.standardPrice}}
+              </view>     
+              <view wx:else >
+                不可使用餐标
+              </view>             
+            </view>
+     
           </view>
         </view>
         <view class="org-address-wrapper">
@@ -40,7 +43,7 @@
         </view>
     </view>
 
-    <view style='margin:0 16rpx;'>
+    <view wx:if="{{ orgadmin == 'no'}}" style='margin:0 16rpx;'>
         <view style='background:#fff;padding:0 30rpx;border-radius:6rpx;'>
             <view class='pay-item-last' style='border-bottom: 1rpx solid #F2F2F2;'>
                 <view class='pay-title' style='line-height:98rpx;'>支付方式</view>
@@ -90,15 +93,29 @@
         </view>
     </view>
   </view>
-  <view class="pay-bottom-wrapper">
-      <view class='pay-bottom-money'>
-          <view
-              style='width:158rpx;text-align:center;font-family: PingFang-SC-Medium; font-size: 40rpx; color: #FFFFFF;letter-spacing: 0;line-height:40rpx;'>
-              ￥{{orderPayMoney}}
-          </view>
-      </view>
-      <view class='pay-button' bindtap="clickPay">确认支付</view>
-  </view>
+  <block  wx:if="{{ orgadmin == 'yes' }}">
+    <view class="pay-bottom-wrapper">
+        <view class='pay-bottom-money'>
+            <view
+                style='width:158rpx;text-align:center;font-family: PingFang-SC-Medium; font-size: 40rpx; color: #FFFFFF;letter-spacing: 0;line-height:40rpx;'>
+                ￥{{orderPayMoneyOrgadmin}}
+            </view>
+        </view>
+        <view class='pay-button' bindtap="clickPayOrgadmin">确定</view>
+    </view>
+  </block>
+  <block  wx:if="{{ orgadmin == 'no' }}">
+    <view class="pay-bottom-wrapper">
+        <view class='pay-bottom-money'>
+            <view
+                style='width:158rpx;text-align:center;font-family: PingFang-SC-Medium; font-size: 40rpx; color: #FFFFFF;letter-spacing: 0;line-height:40rpx;'>
+                ￥{{orderPayMoney}}
+            </view>
+        </view>
+        <view class='pay-button' bindtap="clickPay">确认支付</view>
+    </view>  
+  </block>
+
 </view>
 <view wx:else class="no">
   <image class="image" mode="aspectFit" src="/images/mine/nospare.png"></image>
