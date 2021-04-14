@@ -114,18 +114,6 @@
         </view>
     </view>
   </view>
-  <block  wx:if="{{ orgadmin == 'yes' }}">
-    <view class="pay-bottom-wrapper">
-        <view class='pay-bottom-money'>
-            <view
-                style='width:158rpx;text-align:center;font-family: PingFang-SC-Medium; font-size: 40rpx; color: #FFFFFF;letter-spacing: 0;line-height:40rpx;'>
-                ￥{{orderPayMoneyOrgadmin}}
-            </view>
-        </view>
-        <view class='pay-button' bindtap="clickPayOrgadmin">确定</view>
-    </view>
-  </block>
-  <block  wx:if="{{ orgadmin == 'no' }}">
     <view class="pay-bottom-wrapper">
         <view class='pay-bottom-money'>
             <view
@@ -135,7 +123,6 @@
         </view>
         <view class='pay-button' bindtap="clickPay">确认支付</view>
     </view>  
-  </block>
 
 </view>
 <view wx:else class="no">

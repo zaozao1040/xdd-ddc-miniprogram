@@ -840,10 +840,7 @@ Page({
         appendMealFlag: _this.data.orderType == "add" ? true : false,
         order: [],
       };
-      console.log(
-        "======= _this.data.selectedFoods2222 ======= ",
-        _this.data.selectedFoods
-      );
+
       _this.getOrderParamList(); //要重新计算一下这个orderParamList，因为加入了优惠券
       tmp_param.order = _this.data.orderParamList;
 

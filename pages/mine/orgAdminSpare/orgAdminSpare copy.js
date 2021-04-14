@@ -16,11 +16,14 @@ Page({
 
     //
     balance: 0,
-    canUseBalance: true, // 这里为了简化 就不做灰色处理了 一直都是true
+    canUseBalance: false,
     payType: "init",
     orderPayMoney: 0,
     spareNum: 1,
     standardPriceDikou: 0,
+
+    // 企业管理员 流程简单多
+    orderPayMoneyOrgadmin: 0,
 
     orgadmin: false, //是否是企业管理员
     showQbWx: true, //展示钱包支付和微信支付
@@ -31,6 +34,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log("@@@@@@@ 2 @@@@@@@ ", options.orgadmin);
+
     let _this = this;
     let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
     _this.setData(
@@ -100,61 +105,35 @@ Page({
       } else if (res.mealType == "NIGHT") {
         res.mealTypeDes = "夜宵";
       }
+      let tmp_showQbWx = _this.data.showQbWx; // 默认都是true展示
+      let tmp_showQy = _this.data.showQy; // 默认都是true展示
+
+      if (_this.data.orgadmin == "yes") {
+        if (res.userCanStandardPrice == true) {
+          tmp_showQbWx = false;
+          tmp_showQy = true;
+        } else if (res.userCanStandardPrice == false) {
+          tmp_showQbWx = true;
+          tmp_showQy = false;
+        }
+      } else if (_this.data.orgadmin == "no") {
+        tmp_showQbWx = true;
+        tmp_showQy = false;
+      }
 
       _this.setData(
         {
+          showQbWx: tmp_showQbWx,
+          showQy: tmp_showQy,
           spareInfo: res,
         },
         () => {
-          if (res.spareNum == 0) {
-            wx.showModal({
-              title: "库存不足",
-              showCancel: false,
-              confirmText: "返回",
-              success: function (res) {
-                wx.reLaunch({
-                  url: "/pages/mine/mine",
-                });
-              },
-            });
-          } else {
-            if (_this.data.orgadmin == "yes") {
-              if (res.standardPrice == 0) {
-                //餐标为0 则等同于普通员工 需要根据res.userCanStandardPrice来判断本次支付是否可用餐标
-                _this.putong();
-              } else {
-                //餐标大于0 则用标准支付 无论多少钱支付金额都为0
-                _this.setData({
-                  showQbWx: false,
-                  showQy: true,
-                  orderPayMoney: 0,
-                  payType: "STANDARD_PAY",
-                });
-              }
-            } else if (_this.data.orgadmin == "no") {
-              _this.putong();
-            }
-          }
+          _this.jisuan("init");
         }
       );
     });
   },
-  // 普通员工处理 （管理员有一个场景和这里一致 ，所以封装一下）
-  putong() {
-    let _this = this;
-    _this.setData(
-      {
-        showQbWx: true,
-        showQy: false,
-        payType: "WECHAT_PAY",
-      },
-      () => {
-        _this.putongjisuan("WECHAT_PAY");
-      }
-    );
-  },
-  // 计算金额 参数：支付方式 是否可用餐标 餐标金额
-  putongjisuan(payType) {
+  jisuan(payType) {
     let _this = this;
     // _this.data.spareInfo.sparePrice = 1; //测试用
     let standardPriceDikou = _this.data.spareInfo.userCanStandardPrice
@@ -164,20 +143,52 @@ Page({
     let tmp_orderPayMoney = parseFloat(
       _this.data.spareNum * _this.data.spareInfo.sparePrice - standardPriceDikou
     ).toFixed(2); // 实际需要付款的价格 用来和余额比较大小
+    let tmp_canUseBalance = _this.data.canUseBalance;
+    let tmp_payType = payType;
 
-    if (payType == "WECHAT_PAY") {
+    let tmp_orderPayMoney_forJisuan = 0;
+    if (payType == "init") {
+      if (_this.data.orgadmin == "yes") {
+        if (_this.data.spareInfo.userCanStandardPrice == true) {
+          tmp_payType = "STANDARD_PAY";
+        } else if (_this.data.spareInfo.userCanStandardPrice == false) {
+          tmp_payType = "WECHAT_PAY";
+        }
+      } else if (tmp_orderPayMoney > _this.data.balance) {
+        tmp_payType = "WECHAT_PAY";
+        tmp_canUseBalance = false;
+      } else {
+        tmp_payType = "BALANCE_PAY";
+        tmp_canUseBalance = true;
+        tmp_orderPayMoney_forJisuan = parseFloat(
+          _this.data.balance - tmp_orderPayMoney
+        ).toFixed(2);
+      }
+    } else if (payType == "WECHAT_PAY") {
+    } else if (payType == "BALANCE_PAY") {
+      tmp_orderPayMoney_forJisuan = parseFloat(
+        _this.data.balance - tmp_orderPayMoney
+      ).toFixed(2);
+    }
+
+    if (tmp_orderPayMoney_forJisuan < 0) {
+      // 余额不足时要自动切换成微信支付
+      _this.handleChangeWechatPayFlag();
+    } else {
       _this.setData({
         orderPayMoney: tmp_orderPayMoney,
-      });
-    } else if (payType == "BALANCE_PAY") {
-      _this.setData({
-        orderPayMoney: parseFloat(
-          _this.data.balance - tmp_orderPayMoney
-        ).toFixed(2),
+        payType: tmp_payType,
+        canUseBalance: tmp_canUseBalance,
       });
     }
+    // 处理一下管理员的
+    let tmp_orderPayMoneyOrgadmin = parseFloat(
+      _this.data.spareNum * _this.data.spareInfo.sparePrice
+    ).toFixed(2);
+    _this.setData({
+      orderPayMoneyOrgadmin: tmp_orderPayMoneyOrgadmin,
+    });
   },
-
   minus() {
     let _this = this;
     if (_this.data.spareNum > 1) {
@@ -186,7 +197,7 @@ Page({
           spareNum: _this.data.spareNum - 1,
         },
         () => {
-          _this.putongjisuan(_this.data.payType);
+          _this.jisuan(_this.data.payType);
         }
       );
     } else {
@@ -204,7 +215,7 @@ Page({
           spareNum: _this.data.spareNum + 1,
         },
         () => {
-          _this.putongjisuan(_this.data.payType);
+          _this.jisuan(_this.data.payType);
         }
       );
     } else {
@@ -240,7 +251,7 @@ Page({
         payType: "WECHAT_PAY",
       },
       () => {
-        _this.putongjisuan("WECHAT_PAY");
+        _this.jisuan("WECHAT_PAY");
       }
     );
   },
@@ -251,111 +262,43 @@ Page({
         payType: "BALANCE_PAY",
       },
       () => {
-        _this.putongjisuan("BALANCE_PAY");
+        _this.jisuan("BALANCE_PAY");
       }
     );
   },
   clickPay() {
     let _this = this;
-    wx.showModal({
-      title: "确认",
-      content: "备用餐 x" + _this.data.spareNum + " 份",
-      success: function (res) {
-        if (res.confirm) {
-          if (_this.data.orderPayMoney < 0) {
-            wx.showToast({
-              title: "余额不足",
-              icon: "none",
-            });
-            return;
-          }
-          let tmp_orgAdmin = null;
-          if (_this.data.orgadmin == "yes") {
-            tmp_orgAdmin = true;
-          }
-          if (_this.data.orgadmin == "no") {
-            tmp_orgAdmin = false;
-          }
-          let params = {
-            data: {
-              organizeCode: _this.data.userInfo.organizeCode,
-              userCode: wx.getStorageSync("userCode"),
-              deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
-              mealDate: _this.data.spareInfo.mealDate,
-              mealType: _this.data.spareInfo.mealType,
-              userName: _this.data.userInfo.userName,
-              orderPayMoney: _this.data.orderPayMoney,
-              spareNum: _this.data.spareNum,
-              orgAdmin: tmp_orgAdmin,
-              payType: _this.data.payType,
-            },
-            url: "/order/generateSpareOrder",
-            method: "post",
-          };
-          wx.showLoading();
-          requestModel.request(params, (data) => {
-            console.log("@@@@@@@ 2 @@@@@@@ ", _this.data.payType, data);
-
-            if (_this.data.payType == "WECHAT_PAY") {
-              //微信支付
-              if (data.payData) {
-                wx.requestPayment({
-                  timeStamp: data.payData.timeStamp.toString(),
-                  nonceStr: data.payData.nonceStr,
-                  package: data.payData.packageValue,
-                  signType: data.payData.signType,
-                  paySign: data.payData.paySign,
-                  success: function (e) {
-                    wx.showToast({
-                      title: "订单已生成",
-                      icon: "success",
-                      duration: 2000,
-                    });
-                    setTimeout(function () {
-                      wx.reLaunch({
-                        url: "/pages/mine/mine",
-                      });
-                    }, 2000);
-                    wx.hideLoading();
-                  },
-                  fail: function (e) {
-                    wx.showToast({
-                      title: "已取消操作",
-                      icon: "none",
-                      duration: 2000,
-                    });
-                    wx.hideLoading();
-                  },
-                });
-              } else {
-                wx.showToast({
-                  title: "订单已生成",
-                  icon: "success",
-                  duration: 2000,
-                });
-                setTimeout(function () {
-                  wx.reLaunch({
-                    url: "/pages/mine/mine",
-                  });
-                }, 2000);
-              }
-            } else {
-              wx.showToast({
-                title: "订单已生成",
-                icon: "success",
-                duration: 2000,
-              });
-              setTimeout(function () {
-                wx.reLaunch({
-                  url: "/pages/mine/mine",
-                });
-              }, 2000);
-            }
-
-            wx.hideLoading();
-          });
-        }
+    if (_this.data.orderPayMoney < 0) {
+      wx.showToast({
+        title: "余额不足",
+        icon: "none",
+      });
+      return;
+    }
+    let params = {
+      data: {
+        organizeCode: _this.data.userInfo.organizeCode,
+        userCode: wx.getStorageSync("userCode"),
+        deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
+        mealDate: _this.data.spareInfo.mealDate,
+        mealType: _this.data.spareInfo.mealType,
+        userName: _this.data.userInfo.userName,
+        orderPayMoney: _this.data.orderPayMoney,
+        spareNum: _this.data.spareNum,
+        orgAdmin: false,
+        payType: _this.data.payType,
       },
+      url: "/order/generateSpareOrder",
+      method: "post",
+    };
+    requestModel.request(params, (data) => {
+      console.log("@@@@@@@ 2 @@@@@@@ ", data);
+
+      // _this.setData({
+      //   organizeAddressList: data,
+      //   deliveryAddressCode: data[0].deliveryAddressCode,
+      //   address: data[0].address,
+      // });
     });
   },
   getUserFinance() {
