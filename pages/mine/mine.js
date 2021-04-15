@@ -307,13 +307,42 @@ Page({
   },
   // 备用餐页面
   gotoSpareminiProgram(e) {
-    let { orgadmin } = e.currentTarget.dataset;
-    console.log("@@@@@@@ 2orgadmin @@@@@@@ ", orgadmin);
-
-    wx.navigateTo({
-      url: "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" + orgadmin,
+    let _this = this;
+    let params = {
+      data: {
+        organizeCode: _this.data.userInfo.organizeCode,
+        userCode: _this.data.userCode,
+      },
+      url:
+        "/spare/getSpareOrder?userCode" +
+        _this.data.userCode +
+        "organzieCode=" +
+        _this.data.userInfo.organizeCode,
+      method: "get",
+    };
+    wx.showLoading();
+    requestModel.request(params, (res) => {
+      let { orgadmin } = e.currentTarget.dataset;
+      if (res.length == 0) {
+        wx.navigateTo({
+          url: "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" + orgadmin,
+        });
+      } else {
+        wx.showModal({
+          title: "已申请备用餐" + res.length + "份",
+          content: "是否继续申请?",
+          confirmText: "继续申请",
+          success: function (res) {
+            wx.navigateTo({
+              url:
+                "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" + orgadmin,
+            });
+          },
+        });
+      }
     });
   },
+
   gotoAddfoodAdmin() {
     wx.navigateTo({
       url: "/pages/mine/orgAdminAddfood/orgAdminAddfood",
