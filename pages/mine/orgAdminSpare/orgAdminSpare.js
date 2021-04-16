@@ -174,14 +174,33 @@ Page({
   minus() {
     let _this = this;
     if (_this.data.spareNum > 1) {
-      _this.setData(
-        {
-          spareNum: _this.data.spareNum - 1,
-        },
-        () => {
-          _this.renderOrderPayMoney();
-        }
-      );
+      if (_this.data.payType == "STANDARD_PAY") {
+        _this.setData(
+          {
+            spareNum: _this.data.spareNum - 1,
+          },
+          () => {
+            if (_this.data.spareInfo.standardPrice == 0) {
+              //餐标为0 则等同于普通员工 需要根据res.userCanStandardPrice来判断本次支付是否可用餐标
+              _this.putong();
+            } else {
+              //餐标大于0 则用标准支付 无论多少钱支付金额都为0
+              _this.setData({
+                orderPayMoney: 0,
+              });
+            }
+          }
+        );
+      } else {
+        _this.setData(
+          {
+            spareNum: _this.data.spareNum - 1,
+          },
+          () => {
+            _this.renderOrderPayMoney();
+          }
+        );
+      }
     } else {
       wx.showToast({
         title: "至少一份",
@@ -192,7 +211,24 @@ Page({
   add() {
     let _this = this;
     if (_this.data.spareNum < _this.data.spareInfo.spareNum) {
-      if (_this.data.payType == "BALANCE_PAY") {
+      if (_this.data.payType == "STANDARD_PAY") {
+        _this.setData(
+          {
+            spareNum: _this.data.spareNum + 1,
+          },
+          () => {
+            if (_this.data.spareInfo.standardPrice == 0) {
+              //餐标为0 则等同于普通员工 需要根据res.userCanStandardPrice来判断本次支付是否可用餐标
+              _this.putong();
+            } else {
+              //餐标大于0 则用标准支付 无论多少钱支付金额都为0
+              _this.setData({
+                orderPayMoney: 0,
+              });
+            }
+          }
+        );
+      } else if (_this.data.payType == "BALANCE_PAY") {
         let standardPriceDikou = _this.data.spareInfo.userCanStandardPrice
           ? _this.data.spareInfo.standardPrice
           : 0; //餐标抵扣 允许用餐标则正常抵扣，不允许则抵扣0
@@ -203,7 +239,6 @@ Page({
         ).toFixed(2); // 实际需要付款的价格 用来和余额比较大小
         let tmp_orderPayMoney =
           tmp_tmp_orderPayMoney > 0 ? tmp_tmp_orderPayMoney : 0;
-        console.log("@@@@@@@ 2 @@@@@@@ ", tmp_orderPayMoney);
 
         if (tmp_orderPayMoney > _this.data.balance) {
           wx.showToast({
