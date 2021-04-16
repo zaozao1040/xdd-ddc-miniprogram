@@ -149,33 +149,26 @@ Page({
         payType: "WECHAT_PAY",
       },
       () => {
-        _this.putongjisuan("WECHAT_PAY");
+        _this.renderOrderPayMoney();
       }
     );
   },
   // 计算金额 参数：支付方式 是否可用餐标 餐标金额
-  putongjisuan(payType) {
+  renderOrderPayMoney() {
     let _this = this;
     // _this.data.spareInfo.sparePrice = 1; //测试用
     let standardPriceDikou = _this.data.spareInfo.userCanStandardPrice
       ? _this.data.spareInfo.standardPrice
       : 0; //餐标抵扣 允许用餐标则正常抵扣，不允许则抵扣0
 
-    let tmp_orderPayMoney = parseFloat(
+    let tmp_tmp_orderPayMoney = parseFloat(
       _this.data.spareNum * _this.data.spareInfo.sparePrice - standardPriceDikou
     ).toFixed(2); // 实际需要付款的价格 用来和余额比较大小
-
-    if (payType == "WECHAT_PAY") {
-      _this.setData({
-        orderPayMoney: tmp_orderPayMoney,
-      });
-    } else if (payType == "BALANCE_PAY") {
-      _this.setData({
-        orderPayMoney: parseFloat(
-          _this.data.balance - tmp_orderPayMoney
-        ).toFixed(2),
-      });
-    }
+    let tmp_orderPayMoney =
+      tmp_tmp_orderPayMoney > 0 ? tmp_tmp_orderPayMoney : 0;
+    _this.setData({
+      orderPayMoney: tmp_orderPayMoney,
+    });
   },
 
   minus() {
@@ -186,7 +179,7 @@ Page({
           spareNum: _this.data.spareNum - 1,
         },
         () => {
-          _this.putongjisuan(_this.data.payType);
+          _this.renderOrderPayMoney();
         }
       );
     } else {
@@ -199,14 +192,44 @@ Page({
   add() {
     let _this = this;
     if (_this.data.spareNum < _this.data.spareInfo.spareNum) {
-      _this.setData(
-        {
-          spareNum: _this.data.spareNum + 1,
-        },
-        () => {
-          _this.putongjisuan(_this.data.payType);
+      if (_this.data.payType == "BALANCE_PAY") {
+        let standardPriceDikou = _this.data.spareInfo.userCanStandardPrice
+          ? _this.data.spareInfo.standardPrice
+          : 0; //餐标抵扣 允许用餐标则正常抵扣，不允许则抵扣0
+
+        let tmp_tmp_orderPayMoney = parseFloat(
+          (_this.data.spareNum + 1) * _this.data.spareInfo.sparePrice -
+            standardPriceDikou
+        ).toFixed(2); // 实际需要付款的价格 用来和余额比较大小
+        let tmp_orderPayMoney =
+          tmp_tmp_orderPayMoney > 0 ? tmp_tmp_orderPayMoney : 0;
+        console.log("@@@@@@@ 2 @@@@@@@ ", tmp_orderPayMoney);
+
+        if (tmp_orderPayMoney > _this.data.balance) {
+          wx.showToast({
+            title: "余额不足",
+            icon: "none",
+          });
+        } else {
+          _this.setData(
+            {
+              spareNum: _this.data.spareNum + 1,
+            },
+            () => {
+              _this.renderOrderPayMoney();
+            }
+          );
         }
-      );
+      } else if (_this.data.payType == "WECHAT_PAY") {
+        _this.setData(
+          {
+            spareNum: _this.data.spareNum + 1,
+          },
+          () => {
+            _this.renderOrderPayMoney();
+          }
+        );
+      }
     } else {
       wx.showToast({
         title: "不能超过库存上限",
@@ -240,20 +263,27 @@ Page({
         payType: "WECHAT_PAY",
       },
       () => {
-        _this.putongjisuan("WECHAT_PAY");
+        _this.renderOrderPayMoney();
       }
     );
   },
   handleChangeBalancePayFlag() {
     let _this = this;
-    _this.setData(
-      {
-        payType: "BALANCE_PAY",
-      },
-      () => {
-        _this.putongjisuan("BALANCE_PAY");
-      }
-    );
+    if (_this.data.orderPayMoney > _this.data.balance) {
+      wx.showToast({
+        title: "余额不足",
+        icon: "none",
+      });
+    } else {
+      _this.setData(
+        {
+          payType: "BALANCE_PAY",
+        },
+        () => {
+          _this.renderOrderPayMoney();
+        }
+      );
+    }
   },
   clickPay() {
     let _this = this;
