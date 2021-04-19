@@ -16,7 +16,7 @@
                     catchtap='handleGotoSpare'>去申请</view>
             </view>
         </view>
-        <scroll-view wx:else class="c_scrollPosition_forCalculate" scroll-y style="height: {{windowHeight - scrollTop}}px;background:#F5F5F5;" >
+        <scroll-view wx:else class="c_scrollPosition_forCalculate" scroll-y style="height: {{windowHeight - scrollTop - 50}}px;background:#F5F5F5;" >
             <view style='height:{{windowHeight - scrollTop}}px; padding:20rpx;'>
 
                 <view wx:if='{{orderList.length==0}}'>
@@ -71,9 +71,6 @@
                                         style='width:68rpx;height:32rpx;margin-left:10rpx;margin-top:13rpx;'></image>
                                   </view>
                                 </view>
-
-
-
                                 <view class='order-button'>
                                     <view wx:if="{{orderItem.isPay== false}}" class='see-detail'
                                         style='margin-left:16rpx;' catchtap="handleCancelOrder"

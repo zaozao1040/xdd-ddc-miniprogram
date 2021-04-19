@@ -223,6 +223,12 @@
         {
           "name": "pages/mine/orgAdminSpare/orgAdminSpare",
           "pathName": "pages/mine/orgAdminSpare/orgAdminSpare",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/mine",
+          "pathName": "pages/mine/mine",
           "scene": null
         }
       ]

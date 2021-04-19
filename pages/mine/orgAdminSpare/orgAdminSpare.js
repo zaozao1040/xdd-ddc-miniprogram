@@ -75,6 +75,7 @@ Page({
   onLoad: function (options) {
     let _this = this;
     let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
+
     _this.setData(
       {
         userInfo: tmp_userInfo,
@@ -82,7 +83,7 @@ Page({
       },
       () => {
         _this.initOrder();
-        _this.getOrderList();
+
         _this.getSpareMealSet();
       }
     );
@@ -91,7 +92,9 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {},
+  onShow: function () {
+    this.getOrderList();
+  },
   //获取设置
   getSpareMealSet() {
     let _this = this;

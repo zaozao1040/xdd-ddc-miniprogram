@@ -362,8 +362,6 @@ Page({
           };
           wx.showLoading();
           requestModel.request(params, (data) => {
-            console.log("@@@@@@@ 2 @@@@@@@ ", _this.data.payType, data);
-
             if (_this.data.payType == "WECHAT_PAY") {
               //微信支付
               if (data.payData) {
@@ -382,7 +380,7 @@ Page({
                     setTimeout(function () {
                       wx.reLaunch({
                         url:
-                          "/pages/mine/orgAdminSpare/addSpare/addSpare?orgadmin=" +
+                          "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
                           _this.data.orgadmin,
                       });
                     }, 2000);
@@ -406,7 +404,7 @@ Page({
                 setTimeout(function () {
                   wx.reLaunch({
                     url:
-                      "/pages/mine/orgAdminSpare/addSpare/addSpare?orgadmin=" +
+                      "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
                       _this.data.orgadmin,
                   });
                 }, 2000);
@@ -420,7 +418,7 @@ Page({
               setTimeout(function () {
                 wx.reLaunch({
                   url:
-                    "/pages/mine/orgAdminSpare/addSpare/addSpare?orgadmin=" +
+                    "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
                     _this.data.orgadmin,
                 });
               }, 2000);
