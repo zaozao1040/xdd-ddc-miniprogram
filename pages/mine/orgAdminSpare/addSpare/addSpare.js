@@ -381,7 +381,9 @@ Page({
                     });
                     setTimeout(function () {
                       wx.reLaunch({
-                        url: "/pages/mine/mine",
+                        url:
+                          "/pages/mine/orgAdminSpare/addSpare/addSpare?orgadmin=" +
+                          _this.data.orgadmin,
                       });
                     }, 2000);
                     wx.hideLoading();
@@ -403,7 +405,9 @@ Page({
                 });
                 setTimeout(function () {
                   wx.reLaunch({
-                    url: "/pages/mine/mine",
+                    url:
+                      "/pages/mine/orgAdminSpare/addSpare/addSpare?orgadmin=" +
+                      _this.data.orgadmin,
                   });
                 }, 2000);
               }
@@ -415,7 +419,9 @@ Page({
               });
               setTimeout(function () {
                 wx.reLaunch({
-                  url: "/pages/mine/mine",
+                  url:
+                    "/pages/mine/orgAdminSpare/addSpare/addSpare?orgadmin=" +
+                    _this.data.orgadmin,
                 });
               }, 2000);
             }

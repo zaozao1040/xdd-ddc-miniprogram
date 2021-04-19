@@ -194,21 +194,23 @@ Page({
     };
     requestModel.request(param, (res) => {
       _this.setData({
-        orderList: res.list,
+        orderList: res,
         loadingData: false,
       });
     });
   },
   /* 取消订单 */
   handleCancelOrder(e) {
+    let orderCode = e.target.dataset.ordercode;
     let _this = this;
     let param = {
-      userCode: _this.data.userCode,
-      orderCode: _this.data.cancelOrderCode,
+      userCode: _this.data.userInfo.userCode,
+      orderCode: orderCode,
+      manger: true,
     };
     let params = {
       data: param,
-      url: "/order/cancelOrder",
+      url: "/spare/cancelSpareOrder",
       method: "post",
     };
     requestModel.request(params, () => {

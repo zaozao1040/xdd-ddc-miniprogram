@@ -29,6 +29,42 @@
 
 /********** 内容 **********/
 
+.one-order {
+  box-shadow: 0 0 20rpx 0 rgba(0, 0, 0, 0.08);
+  border-radius: 12rpx;
+  background: #ffffff;
+  margin-bottom: 20rpx;
+  padding: 0 30rpx 30rpx;
+  position: relative;
+}
+
+.order-image {
+  height: 88rpx;
+  width: 88rpx;
+  flex-shrink: 0;
+}
+
+.one-order-top {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1rpx solid #f2f2f2;
+}
+
+.order-cabinet-num-group {
+  display: flex;
+}
+
+.food-take {
+  display: flex;
+  justify-content: space-between;
+  padding: 21rpx 0 40rpx;
+}
+
+.order-button {
+  display: flex;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
 .order-item {
   margin-bottom: 25rpx;
   box-shadow: 0rpx 5rpx 8rpx #ccc;
@@ -285,6 +321,7 @@
 
 .flex-a {
   display: flex;
+  justify-content: space-between;
 }
 
 .flex-b {
@@ -594,4 +631,18 @@
   left: 0;
   z-index: 300;
   display: flex;
+}
+.shenqing {
+  position: fixed;
+  left: 20rpx;
+  right: 20rpx;
+  bottom: 20rpx;
+  line-height: 100rpx;
+  font-size: 36rpx;
+  color: #fff;
+  text-align: center;
+  background-image: linear-gradient(270deg, #f79c4c 0%, #f79c4c 99%);
+  border-radius: 10rpx;
+  font-family: PingFang-SC-Medium;
+  letter-spacing: 0;
 }

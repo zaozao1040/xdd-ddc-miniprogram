@@ -50,7 +50,10 @@
           餐标抵扣
         </view>
         <view class="item-right">
-          <text style="color:#fa3534">- ￥{{spareInfo.standardPrice}}</text>  
+          <view wx:if="{{spareInfo.userCanStandardPrice&&spareInfo.standardPrice>0}}" style="color:#fa3534">- ￥{{spareInfo.standardPrice}}</view>
+          <view wx:elif="{{spareInfo.userCanStandardPrice==false&&spareInfo.standardPrice>0}}">
+            餐标已使用
+          </view> 
         </view>        
       </view>
   </view>

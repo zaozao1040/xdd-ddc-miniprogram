@@ -34,58 +34,52 @@
                             data-ordercode="{{orderItem.orderCode}}">
                             <view class='m-s'>
                                 <view class='manager' wx:if='{{orderItem.orgOrder}}'>管理员</view>
-                                <view class='supplementary' wx:if='{{orderItem.supplementtaryMeal==1}}'>补餐</view>
                             </view>
 
                             <view class='one-order-top'>
-                                <view class='top-date'>{{orderItem.takeMealTimeDes}}{{orderItem.mealTypeDes}}</view>
+                                <view class='top-date'>申请时间: {{orderItem.orderTime}}</view>
                                 <view class='flex-a'>
                                     <view class='top-date'
                                         style='color:{{orderItem.orderStatusDes.differentColor?"#F79C4C":"#666666"}};'>
-                                        {{orderItem.orderStatusDes.label}}</view>
-                                    <image style='margin-left:10rpx;margin-top:30rpx;height:24rpx;width:24rpx;'
-                                        src='/images/order/right.png'></image>
+                                        {{orderItem.statusDesc}}</view>
 
                                 </view>
                             </view>
                             <view class='flex-b' style='margin:32rpx 0 20rpx;'>
                                 <view class='flex-a'>
-                                    <!--名称可能会溢出，需要指定最长的width-->
-                                    <view class='food-name'>{{orderItem.orderFoodList[0].foodName}}</view>
-                                    <view class='food-count' wx:if='{{orderItem.foodQuantity>1}}'>
-                                        等{{orderItem.foodQuantity}}件餐品</view>
+                                    <view class='food-name'>备用餐</view>
+                                    <view class='food-count'>
+                                         x {{orderItem.foodNum}}</view>
                                 </view>
-                                <view class="food-name" wx:if='{{orderItem.cabinet&&orderItem.cabinet.length>0}}'>
-                                    <text style='font-size:26rpx;'>柜号 </text><text
-                                        style='color:#F79C4C;'>{{orderItem.cabinet[0].cabinetNumber}}-{{orderItem.cabinet[0].cellNumber}}</text>
-                                </view>
-
                             </view>
-
                             <view class='flex-a'>
-                                <view class='food-money'>实付：￥<text
-                                        style='font-weight:500;position:relative; left:-4rpx;;'>{{orderItem.payPrice}}</text>
-                                </view>
-                                <view wx:if="{{orderItem.standardPrice}}">
+                                <view wx:if="{{orderItem.isPay}}" style="display:flex;">
+                                  <view class='food-money'>实付：<text
+                                          style='font-weight:500;position:relative; left:-4rpx;color:#F56C6C;'>￥{{orderItem.payPrice}}</text>
+                                  </view>
+                                  <view wx:if="{{orderItem.standardPrice}}" style="display:flex;">
                                     <image src='/images/order/standard.png'
                                         style='width:68rpx;height:32rpx;margin-left:10rpx;margin-top:13rpx;'></image>
+                                  </view>
                                 </view>
-                                <view class='take-time'>
-                                    <view
-                                        wx:if='{{orderItem.takeMealEndTime&&!(orderItem.status== 2 &&orderItem.evaluateStatus  == 1)}}'>
-                                        截止时间:{{orderItem.takeMealEndTime}}</view>
+                                <view wx:else>
+                                  <view class='food-money'><text
+                                          style='font-weight:500;position:relative; left:-4rpx;;'>未付款</text>
+                                  </view>
+                                  <view wx:if="{{orderItem.standardPrice}}">
+                                    <image src='/images/order/standard.png'
+                                        style='width:68rpx;height:32rpx;margin-left:10rpx;margin-top:13rpx;'></image>
+                                  </view>
                                 </view>
+
+
+
                                 <view class='order-button'>
-                                    <block wx:if="{{!orderItem.expiredFlag}}">
-                                        <view wx:if="{{orderItem.status== 1}}" class='see-detail'
-                                            style='margin-left:16rpx;' catchtap="handleCancelOrder"
-                                            data-standardprice="{{orderItem.standardPrice}}"
-                                            data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
-                                            data-payprice="{{orderItem.payPrice}}"
-                                            data-paystatus="{{orderItem.payStatus}}">
-                                            取消订单
-                                        </view>
-                                    </block>
+                                    <view wx:if="{{orderItem.isPay== false}}" class='see-detail'
+                                        style='margin-left:16rpx;' catchtap="handleCancelOrder"
+                                        data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}">
+                                        取消订单
+                                    </view>
                                 </view>
                             </view>
                         </view>
@@ -95,9 +89,14 @@
                     style="margin-top:60rpx;font-family: PingFang-SC-Regular; font-size: 26rpx; color: #666666; letter-spacing: 0; text-align: center;">
                     正在加载数据...
                 </view>
-                <!-- <view wx:elif='{{!hasMoreDataFlag}}' class="hasMore-wrapper" style="margin-top:60rpx;font-family: PingFang-SC-Regular; font-size: 26rpx; color: #666666; letter-spacing: 0; text-align: center;">
-                    没有更多了..
-                </view> -->
+                <view class="shenqing" catchtap="handleGotoSpare">
+                  <block wx:if="{{orderList.length==0}}">
+                    去申请
+                  </block>
+                  <block wx:else>
+                    继续申请
+                  </block>
+                </view>
             </view>
         </scroll-view>
     </view>

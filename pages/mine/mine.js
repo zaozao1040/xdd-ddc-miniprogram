@@ -307,20 +307,6 @@ Page({
   },
   // 备用餐页面
   gotoSpareminiProgram(e) {
-    let _this = this;
-    let params = {
-      data: {
-        organizeCode: _this.data.userInfo.organizeCode,
-        userCode: _this.data.userCode,
-      },
-      url:
-        "/spare/getSpareOrder?userCode" +
-        _this.data.userCode +
-        "organzieCode=" +
-        _this.data.userInfo.organizeCode,
-      method: "get",
-    };
-    wx.showLoading();
     requestModel.request(params, (res) => {
       let { orgadmin } = e.currentTarget.dataset;
       if (res.length == 0) {
