@@ -307,25 +307,9 @@ Page({
   },
   // 备用餐页面
   gotoSpareminiProgram(e) {
-    requestModel.request(params, (res) => {
-      let { orgadmin } = e.currentTarget.dataset;
-      if (res.length == 0) {
-        wx.navigateTo({
-          url: "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" + orgadmin,
-        });
-      } else {
-        wx.showModal({
-          title: "已申请备用餐" + res.length + "份",
-          content: "是否继续申请?",
-          confirmText: "继续申请",
-          success: function (res) {
-            wx.navigateTo({
-              url:
-                "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" + orgadmin,
-            });
-          },
-        });
-      }
+    let { orgadmin } = e.currentTarget.dataset;
+    wx.navigateTo({
+      url: "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" + orgadmin,
     });
   },
 
