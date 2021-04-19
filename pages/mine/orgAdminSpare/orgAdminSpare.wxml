@@ -1,131 +1,104 @@
-<view wx:if="{{ spareInfo.timeStatus }}">
-  <view style="background:rgb(245,245,245);padding:20rpx 0;">
-    <view style="margin:0 20rpx 20rpx;background:#FFF; padding:40rpx;border-radius: 12rpx; ">
-        <view style="font-family: PingFang-SC-Medium;font-size: 30rpx; color: #333333; letter-spacing: 0;text-align: left;line-height:42rpx;">
-          <view>
-          {{spareInfo.mealDate}} {{spareInfo.mealTypeDes}}          
-          </view>
-          <view >
-            <view>
-              可用总库存:{{spareInfo.spareNum}}  
-            </view>
-            <view >
-              单价:<text style="color:#fa3534"> ￥{{spareInfo.sparePrice}}</text>    
-            </view>
-            <view  wx:if="{{ orgadmin == 'no'}}">
-              <view  wx:if="{{ spareInfo.userCanStandardPrice}}">
-                餐标抵扣: -￥{{spareInfo.standardPrice}}
-              </view>     
-              <view wx:else >
-                不可使用餐标
-              </view>             
-            </view>
-     
-          </view>
+<view>
+    <view>
+        <!-- 标题 -->
+        <view class="header-wrapper">
+          <view class="header-item-active">{{spareInfo.mealDate}} {{spareInfo.mealTypeDes}}  </view>
         </view>
-        <view class="org-address-wrapper">
-            <scroll-view class="org-scroll-view" scroll-x>
-                <view class="org-address-item {{index==currentAddressIndex?'org-address-item-active':''}}" wx:for="{{organizeAddressList}}" wx:for-index="index" wx:for-item="item" wx:key="index" data-index="{{index}}" data-item="{{item}}" bindtap="handleClickAddress">
-                    地址{{index+1}}
-                </view>
-            </scroll-view>
-            <view class="org-address-des">
-                <text class="error-icon iconfont icon-dizhi"></text>{{address}}
+        <view wx:if="{{orderList.length==0}}" class='c_scrollPosition_forCalculate'
+            style="font-size:30rpx;background:#F5F5F5;height:{{windowHeight-scrollTop}}px;">
+            <view style='padding:200rpx 0  0 256rpx;width:240rpx;height:240rpx;'>
+                <image src="/images/order/noorder.png" style="width:240rpx;height:240rpx;"></image>
             </view>
-        </view>
-        <view class='value-number-wrapper'>
-            <view class='value-number-left'>数量</view>
-            <view class="value-number">
-                <view style='line-height: 80rpx;border-right: 1rpx solid #EBEBEB;color:#666666;width:80rpx;flex-shrink:0;' bindtap='minus'>-</view>
-                <input style='height:80rpx;line-height: 80rpx;' value="{{spareNum}}" focus type="number" bindinput='inputAddfoodNumber' />
-                <view style='line-height: 80rpx;border-left: 1rpx solid #EBEBEB;color:#666666;width:80rpx;flex-shrink:0;' bindtap='add'>+</view>
-            </view>
-        </view>
-    </view>
-
-    <view style='margin:0 16rpx;'>
-        <view style='background:#fff;padding:0 30rpx;border-radius:6rpx;'>
-            <view class='pay-item-last' style='border-bottom: 1rpx solid #F2F2F2;'>
-                <view class='pay-title' style='line-height:98rpx;'>支付方式</view>
-            </view>
-            <block wx:if="{{ showQbWx }}">
-              <view class='pay-item-last' style='padding-bottom:26rpx;border-bottom: 1rpx solid #F2F2F2;'>
-                  <view wx:if='{{!canUseBalance}}'
-                      style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:90;'>
-                  </view>
-                  <view class='flex-a' style="margin-top:32rpx;">
-                      <view style='padding-top:2rpx;margin-right:10rpx;width:40rpx;height:40rpx;'>
-                          <image src="/images/menu/wallet.png" style="width:40rpx;height:40rpx;">
-                          </image>
-                      </view>
-                      <block>
-                          <view class='pay-balance'>钱包支付(钱包余额)</view>
-                          <image src='/images/menu/diancanbi.png'
-                              style='width:28rpx;height:28rpx;padding:6rpx 8rpx 0;'></image>
-                          <view class='pay-balance'>{{balance}})</view>
-                      </block>
-                  </view>
-                  <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
-                      <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;"
-                          bindtap="handleChangeWechatPayFlag"
-                          wx:if="{{payType=='BALANCE_PAY' ||payType=='BALANCE_MIX_WECHAT_PAY'}}">
-                      </image>
-                      <image src="/images/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:else
-                          bindtap="handleChangeBalancePayFlag">
-                      </image>
-                  </view>
-              </view>
-              <view class='pay-item-last' style='padding-bottom:26rpx;'>
-                  <view class='flex-a'>
-                      <image src="/images/menu/order_wechatpay.png"
-                          style="padding-top:34rpx;width:40rpx;height:40rpx;">
-                      </image>
-                      <view class='pay-wechat'>微信支付</view>
-                  </view>
-                  <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
-                      <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;"
-                          wx:if="{{payType=='WECHAT_PAY'||payType=='BALANCE_MIX_WECHAT_PAY'}}">
-                      </image>
-                      <image src="/images/menu/uncheck.png" catchtap="handleChangeWechatPayFlag"
-                          style="width:44rpx;height:44rpx;" wx:else></image>
-
-                  </view>
-              </view>
-            </block>
-            <block wx:if="{{ showQy }}">
-              <view class='pay-item-last' style='padding-bottom:26rpx;'>
-                  <view class='flex-a'>
-                      <image src="/images/menu/order_wechatpay.png"
-                          style="padding-top:34rpx;width:40rpx;height:40rpx;">
-                      </image>
-                      <view class='pay-wechat'>企业支付</view>
-                  </view>
-                  <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
-                      <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;"
-                          wx:if="{{payType=='STANDARD_PAY'}}">
-                      </image>
-                      <image src="/images/menu/uncheck.png" catchtap="handleChangeWechatPayFlag"
-                          style="width:44rpx;height:44rpx;" wx:else></image>
-
-                  </view>
-              </view>
-            </block>
-
-        </view>
-    </view>
-  </view>
-    <view class="pay-bottom-wrapper">
-        <view class='pay-bottom-money'>
             <view
-                style='width:158rpx;text-align:center;font-family: PingFang-SC-Medium; font-size: 40rpx; color: #FFFFFF;letter-spacing: 0;line-height:40rpx;'>
-                ￥{{orderPayMoney}}
+                style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
+                <view wx:if='{{itemStatusActiveFlag==0}}'>暂无备用餐订单，快去点餐吧～</view>
+                <view   style='margin-top:60rpx;' class='button-login'
+                    catchtap='handleGotoSpare'>去申请</view>
             </view>
         </view>
-        <view class='pay-button' bindtap="clickPay">确认支付</view>
-    </view>  
+        <scroll-view wx:else class="c_scrollPosition_forCalculate" scroll-y style="height: {{windowHeight - scrollTop}}px;background:#F5F5F5;" >
+            <view style='height:{{windowHeight - scrollTop}}px; padding:20rpx;'>
 
-</view>
-<view wx:else class="no">
-  <image class="image" mode="aspectFit" src="/images/mine/nospare.png"></image>
-  <view class="no-label">~该时间段没有备用餐~</view>
+                <view wx:if='{{orderList.length==0}}'>
+                    <view style='padding:200rpx 0  0 256rpx;width:240rpx;height:240rpx;'>
+                        <image src="/images/order/noorder.png" style="width:240rpx;height:240rpx;"></image>
+                    </view>
+                    <view
+                        style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
+                        <view wx:if='{{itemStatusActiveFlag==1}}'>没有待取餐的订单哦～</view>
+                    </view>
+                </view>
+                <view wx:else>
+                    <view wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
+                        <view class='one-order' catchtap="handleGotoOrderDetail"
+                            data-ordercode="{{orderItem.orderCode}}">
+                            <view class='m-s'>
+                                <view class='manager' wx:if='{{orderItem.orgOrder}}'>管理员</view>
+                                <view class='supplementary' wx:if='{{orderItem.supplementtaryMeal==1}}'>补餐</view>
+                            </view>
+
+                            <view class='one-order-top'>
+                                <view class='top-date'>{{orderItem.takeMealTimeDes}}{{orderItem.mealTypeDes}}</view>
+                                <view class='flex-a'>
+                                    <view class='top-date'
+                                        style='color:{{orderItem.orderStatusDes.differentColor?"#F79C4C":"#666666"}};'>
+                                        {{orderItem.orderStatusDes.label}}</view>
+                                    <image style='margin-left:10rpx;margin-top:30rpx;height:24rpx;width:24rpx;'
+                                        src='/images/order/right.png'></image>
+
+                                </view>
+                            </view>
+                            <view class='flex-b' style='margin:32rpx 0 20rpx;'>
+                                <view class='flex-a'>
+                                    <!--名称可能会溢出，需要指定最长的width-->
+                                    <view class='food-name'>{{orderItem.orderFoodList[0].foodName}}</view>
+                                    <view class='food-count' wx:if='{{orderItem.foodQuantity>1}}'>
+                                        等{{orderItem.foodQuantity}}件餐品</view>
+                                </view>
+                                <view class="food-name" wx:if='{{orderItem.cabinet&&orderItem.cabinet.length>0}}'>
+                                    <text style='font-size:26rpx;'>柜号 </text><text
+                                        style='color:#F79C4C;'>{{orderItem.cabinet[0].cabinetNumber}}-{{orderItem.cabinet[0].cellNumber}}</text>
+                                </view>
+
+                            </view>
+
+                            <view class='flex-a'>
+                                <view class='food-money'>实付：￥<text
+                                        style='font-weight:500;position:relative; left:-4rpx;;'>{{orderItem.payPrice}}</text>
+                                </view>
+                                <view wx:if="{{orderItem.standardPrice}}">
+                                    <image src='/images/order/standard.png'
+                                        style='width:68rpx;height:32rpx;margin-left:10rpx;margin-top:13rpx;'></image>
+                                </view>
+                                <view class='take-time'>
+                                    <view
+                                        wx:if='{{orderItem.takeMealEndTime&&!(orderItem.status== 2 &&orderItem.evaluateStatus  == 1)}}'>
+                                        截止时间:{{orderItem.takeMealEndTime}}</view>
+                                </view>
+                                <view class='order-button'>
+                                    <block wx:if="{{!orderItem.expiredFlag}}">
+                                        <view wx:if="{{orderItem.status== 1}}" class='see-detail'
+                                            style='margin-left:16rpx;' catchtap="handleCancelOrder"
+                                            data-standardprice="{{orderItem.standardPrice}}"
+                                            data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}"
+                                            data-payprice="{{orderItem.payPrice}}"
+                                            data-paystatus="{{orderItem.payStatus}}">
+                                            取消订单
+                                        </view>
+                                    </block>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <view wx:if='{{loadingData}}' class="hasMore-wrapper"
+                    style="margin-top:60rpx;font-family: PingFang-SC-Regular; font-size: 26rpx; color: #666666; letter-spacing: 0; text-align: center;">
+                    正在加载数据...
+                </view>
+                <!-- <view wx:elif='{{!hasMoreDataFlag}}' class="hasMore-wrapper" style="margin-top:60rpx;font-family: PingFang-SC-Regular; font-size: 26rpx; color: #666666; letter-spacing: 0; text-align: center;">
+                    没有更多了..
+                </view> -->
+            </view>
+        </scroll-view>
+    </view>
 </view>

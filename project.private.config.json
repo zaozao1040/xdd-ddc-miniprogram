@@ -199,6 +199,24 @@
         {
           "name": "pages/mine/mine",
           "pathName": "pages/mine/mine",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/orgAdminSpare/orgAdminSpare",
+          "pathName": "pages/mine/orgAdminSpare/orgAdminSpare",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/orgAdminSpare/orgAdminSpare",
+          "pathName": "pages/mine/orgAdminSpare/orgAdminSpare",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/orgAdminSpare/addSpare/addSpare",
+          "pathName": "pages/mine/orgAdminSpare/addSpare/addSpare",
           "scene": null
         }
       ]
