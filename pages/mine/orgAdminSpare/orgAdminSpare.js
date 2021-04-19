@@ -53,13 +53,6 @@ Page({
     this.getOrderList();
   },
 
-  /* 跳转订单详情 */
-  handleGotoOrderDetail: function (e) {
-    wx.navigateTo({
-      url: "/pages/order/detail?orderCode=" + e.currentTarget.dataset.ordercode,
-    });
-  },
-
   //跳转到点餐页面
   handleGotoSpare() {
     let _this = this;
