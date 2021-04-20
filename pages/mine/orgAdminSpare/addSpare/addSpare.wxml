@@ -54,6 +54,9 @@
           <view wx:elif="{{spareInfo.userCanStandardPrice==false&&spareInfo.standardPrice>0}}">
             餐标已使用
           </view> 
+          <view wx:else>
+            0
+          </view> 
         </view>        
       </view>
   </view>

@@ -79,7 +79,7 @@ Page({
   onReachBottom: function () {},
   loadData() {
     let _this = this;
-    _this.getUserFinance();
+    _this.getUserPayBalance();
     _this.getOrganizeAddressList();
   },
   //获取设置
@@ -392,6 +392,13 @@ Page({
                       icon: "none",
                       duration: 2000,
                     });
+                    setTimeout(function () {
+                      wx.reLaunch({
+                        url:
+                          "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
+                          _this.data.orgadmin,
+                      });
+                    }, 2000);
                     wx.hideLoading();
                   },
                 });
@@ -435,17 +442,17 @@ Page({
       url: "/pages/mine/address/address?frontPageFlag=spare",
     });
   },
-  getUserFinance() {
+  getUserPayBalance() {
     let _this = this;
     let param = {
-      url: "/user/getUserFinance?userCode=" + wx.getStorageSync("userCode"),
+      url: "/user/getUserPayBalance?userCode=" + wx.getStorageSync("userCode"),
     };
     requestModel.request(
       param,
       (data) => {
         _this.setData(
           {
-            balance: data.balance,
+            balance: data,
           },
           () => {
             _this.getSpareMealSet();
