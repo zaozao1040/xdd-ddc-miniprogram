@@ -377,6 +377,7 @@ Page({
                       icon: "success",
                       duration: 2000,
                     });
+                    wx.hideLoading();
                     setTimeout(function () {
                       wx.reLaunch({
                         url:
@@ -384,14 +385,15 @@ Page({
                           _this.data.orgadmin,
                       });
                     }, 2000);
-                    wx.hideLoading();
                   },
                   fail: function (e) {
                     wx.showToast({
-                      title: "已取消操作",
+                      title: "订单未支付",
                       icon: "none",
                       duration: 2000,
                     });
+
+                    wx.hideLoading();
                     setTimeout(function () {
                       wx.reLaunch({
                         url:
@@ -399,7 +401,6 @@ Page({
                           _this.data.orgadmin,
                       });
                     }, 2000);
-                    wx.hideLoading();
                   },
                 });
               } else {
@@ -408,6 +409,7 @@ Page({
                   icon: "success",
                   duration: 2000,
                 });
+                wx.hideLoading();
                 setTimeout(function () {
                   wx.reLaunch({
                     url:
@@ -422,6 +424,7 @@ Page({
                 icon: "success",
                 duration: 2000,
               });
+              wx.hideLoading();
               setTimeout(function () {
                 wx.reLaunch({
                   url:
@@ -430,7 +433,6 @@ Page({
                 });
               }, 2000);
             }
-            wx.hideLoading();
           });
         }
       },
