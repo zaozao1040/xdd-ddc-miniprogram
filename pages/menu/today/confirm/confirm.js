@@ -137,10 +137,6 @@ Page({
     this.getOrderParamList();
 
     // 这里需要判断是否有补餐信息传递过来
-    console.log(
-      "=======  options.appendMealFlag======= ",
-      options.appendMealFlag
-    );
 
     if (options.appendMealFlag == "ok") {
       // 刷新每个餐别的优惠券几张可用
@@ -149,6 +145,26 @@ Page({
       // 刷新每个餐别的优惠券几张可用
       this.refreshDiscountNumFirst(false);
     }
+  },
+  // 药明康德的奇葩弹窗需求
+  getYaomingNotice() {
+    let param = {
+      url:
+        "/order/getNotice?userCode=" +
+        wx.getStorageSync("userCode") +
+        "&deliveryAddressCode=" +
+        wx.getStorageSync("userInfo").userInfo.deliveryAddressCode,
+    };
+    requestModel.request(param, (data) => {
+      if (data) {
+        wx.showModal({
+          title: "提示",
+          content: "您本次消费金额将在下下个月的餐卡中扣除",
+          showCancel: false,
+          confirmText: "我知道了",
+        });
+      }
+    });
   },
 
   getOrderVerificationString() {
@@ -331,10 +347,14 @@ Page({
             _this.setData({
               payType: "BALANCE_PAY",
             });
+            // 药明康德的奇葩弹窗需求
+            _this.getYaomingNotice();
           } else {
             _this.setData({
               payType: "BALANCE_MIX_WECHAT_PAY",
             });
+            // 药明康德的奇葩弹窗需求
+            _this.getYaomingNotice();
           }
           _this.setData({
             canUseBalance,
@@ -928,16 +948,22 @@ Page({
   },
   //余额钱包不亮时，点余额钱包判断可为余额支付还是余额+微信支付
   handleChangeBalancePayFlag: function () {
+    // 药明康德的奇葩弹窗需求
+    this.getYaomingNotice();
     //可使用余额小于_this.data.realMoney
     if (this.data.canUseBalance < this.data.realMoney) {
       //如果用户余额少于用户需要支付的价格，不允许用余额,也就是禁止打开switch
       this.setData({
         payType: "BALANCE_MIX_WECHAT_PAY",
       });
+      // 药明康德的奇葩弹窗需求
+      this.getYaomingNotice();
     } else {
       this.setData({
         payType: "BALANCE_PAY",
       });
+      // 药明康德的奇葩弹窗需求
+      this.getYaomingNotice();
     }
   },
   /* 余额钱包亮时，点余额钱包变为微信支付,微信支付不亮时，点微信支付变为微信支付 */

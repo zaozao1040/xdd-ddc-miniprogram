@@ -229,6 +229,12 @@
         {
           "name": "pages/mine/mine",
           "pathName": "pages/mine/mine",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/menu/menu",
+          "pathName": "pages/menu/menu",
           "scene": null
         }
       ]
