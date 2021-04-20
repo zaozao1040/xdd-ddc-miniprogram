@@ -151,9 +151,11 @@
                         </view>
                         <image src="/images/mine/data_cabinet_no.png" class='org-addfood-img'></image>
                     </view>
+                    <!-- 
                     <view class='org-addfood' data-orgadmin="yes" bindtap="gotoSpareminiProgram">
                         <image src="/images/mine/data_spare.png" class='org-addfood-img'></image>
                     </view>
+                    -->
                 </view>
             </view>
             <view class='function-wrapper'>
@@ -198,14 +200,23 @@
                         </view>
                         <view class='label-title'>推荐有赏</view>
                     </view>
+
                 </view>
-                <view class='service-list'>
+                <view wx:if="{{showTakeFoodLabelFlag}}" class='service-list'>
+                    <view bindtap="handleGotoTakeFood">
+                        <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
+                            <image src="/images/mine/me_cab.png" style='width:80rpx;height:80rpx;'></image>
+                        </view>
+                        <view class='label-title'>开柜取餐</view>
+                    </view>
+                    <!-- 
                     <view data-orgadmin="no" bindtap="gotoSpareminiProgram" wx:if='{{userInfo.orgAdmin==false}}'>
                         <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
                             <image src="/images/mine/me_spare.png" style='width:80rpx;height:80rpx;'></image>
                         </view>
                         <view class='label-title'>备用餐</view>
                     </view>
+                     -->
                 </view>
             </view>
             <view class='function-wrapper'>
