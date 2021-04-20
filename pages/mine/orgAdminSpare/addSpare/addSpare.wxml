@@ -45,7 +45,7 @@
           </view>        
         </view>      
       </view>
-      <view class="item">
+      <view class="item" wx:if="{{orgadmin=='no'}}">
         <view class="item-left">
           餐标抵扣
         </view>
