@@ -45,7 +45,7 @@
           </view>        
         </view>      
       </view>
-      <view class="item">
+      <view class="item" wx:if="{{orgadmin=='no'}}">
         <view class="item-left">
           餐标抵扣
         </view>
@@ -53,6 +53,9 @@
           <view wx:if="{{spareInfo.userCanStandardPrice&&spareInfo.standardPrice>0}}" style="color:#fa3534">- ￥{{spareInfo.standardPrice}}</view>
           <view wx:elif="{{spareInfo.userCanStandardPrice==false&&spareInfo.standardPrice>0}}">
             餐标已使用
+          </view> 
+          <view wx:else>
+            0
           </view> 
         </view>        
       </view>

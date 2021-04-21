@@ -79,7 +79,7 @@ Page({
   onReachBottom: function () {},
   loadData() {
     let _this = this;
-    _this.getUserFinance();
+    _this.getUserPayBalance();
     _this.getOrganizeAddressList();
   },
   //获取设置
@@ -377,6 +377,7 @@ Page({
                       icon: "success",
                       duration: 2000,
                     });
+                    wx.hideLoading();
                     setTimeout(function () {
                       wx.reLaunch({
                         url:
@@ -384,15 +385,22 @@ Page({
                           _this.data.orgadmin,
                       });
                     }, 2000);
-                    wx.hideLoading();
                   },
                   fail: function (e) {
                     wx.showToast({
-                      title: "已取消操作",
+                      title: "订单未支付",
                       icon: "none",
                       duration: 2000,
                     });
+
                     wx.hideLoading();
+                    setTimeout(function () {
+                      wx.reLaunch({
+                        url:
+                          "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
+                          _this.data.orgadmin,
+                      });
+                    }, 2000);
                   },
                 });
               } else {
@@ -401,6 +409,7 @@ Page({
                   icon: "success",
                   duration: 2000,
                 });
+                wx.hideLoading();
                 setTimeout(function () {
                   wx.reLaunch({
                     url:
@@ -415,6 +424,7 @@ Page({
                 icon: "success",
                 duration: 2000,
               });
+              wx.hideLoading();
               setTimeout(function () {
                 wx.reLaunch({
                   url:
@@ -423,8 +433,6 @@ Page({
                 });
               }, 2000);
             }
-
-            wx.hideLoading();
           });
         }
       },
@@ -435,17 +443,17 @@ Page({
       url: "/pages/mine/address/address?frontPageFlag=spare",
     });
   },
-  getUserFinance() {
+  getUserPayBalance() {
     let _this = this;
     let param = {
-      url: "/user/getUserFinance?userCode=" + wx.getStorageSync("userCode"),
+      url: "/user/getUserPayBalance?userCode=" + wx.getStorageSync("userCode"),
     };
     requestModel.request(
       param,
       (data) => {
         _this.setData(
           {
-            balance: data.balance,
+            balance: data,
           },
           () => {
             _this.getSpareMealSet();
