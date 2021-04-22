@@ -344,34 +344,74 @@ Page({
           if (_this.data.orgadmin == "no") {
             tmp_orgAdmin = false;
           }
-          let params = {
-            data: {
-              organizeCode: _this.data.userInfo.organizeCode,
-              userCode: wx.getStorageSync("userCode"),
-              deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
-              mealDate: _this.data.spareInfo.mealDate,
-              mealType: _this.data.spareInfo.mealType,
-              userName: _this.data.userInfo.userName,
-              orderPayMoney: _this.data.orderPayMoney,
-              spareNum: _this.data.spareNum,
-              orgAdmin: tmp_orgAdmin,
-              payType: _this.data.payType,
+          requestModel.request(
+            {
+              url:
+                "/order/getOrderVerificationString?userCode=" +
+                wx.getStorageSync("userCode"),
             },
-            url: "/order/generateSpareOrder",
-            method: "post",
-          };
-          wx.showLoading();
-          requestModel.request(params, (data) => {
-            if (_this.data.payType == "WECHAT_PAY") {
-              //微信支付
-              if (data.payData) {
-                wx.requestPayment({
-                  timeStamp: data.payData.timeStamp.toString(),
-                  nonceStr: data.payData.nonceStr,
-                  package: data.payData.packageValue,
-                  signType: data.payData.signType,
-                  paySign: data.payData.paySign,
-                  success: function (e) {
+            (respVer) => {
+              let params = {
+                data: {
+                  verificationString: respVer,
+                  organizeCode: _this.data.userInfo.organizeCode,
+                  userCode: wx.getStorageSync("userCode"),
+                  deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
+                  mealDate: _this.data.spareInfo.mealDate,
+                  mealType: _this.data.spareInfo.mealType,
+                  userName: _this.data.userInfo.userName,
+                  orderPayMoney: _this.data.orderPayMoney,
+                  spareNum: _this.data.spareNum,
+                  orgAdmin: tmp_orgAdmin,
+                  payType: _this.data.payType,
+                },
+                url: "/order/generateSpareOrder",
+                method: "post",
+              };
+              wx.showLoading();
+              requestModel.request(params, (data) => {
+                if (_this.data.payType == "WECHAT_PAY") {
+                  //微信支付
+                  if (data.payData) {
+                    wx.requestPayment({
+                      timeStamp: data.payData.timeStamp.toString(),
+                      nonceStr: data.payData.nonceStr,
+                      package: data.payData.packageValue,
+                      signType: data.payData.signType,
+                      paySign: data.payData.paySign,
+                      success: function (e) {
+                        wx.showToast({
+                          title: "订单已生成",
+                          icon: "success",
+                          duration: 2000,
+                        });
+                        wx.hideLoading();
+                        setTimeout(function () {
+                          wx.reLaunch({
+                            url:
+                              "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
+                              _this.data.orgadmin,
+                          });
+                        }, 2000);
+                      },
+                      fail: function (e) {
+                        wx.showToast({
+                          title: "订单未支付",
+                          icon: "none",
+                          duration: 2000,
+                        });
+
+                        wx.hideLoading();
+                        setTimeout(function () {
+                          wx.reLaunch({
+                            url:
+                              "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
+                              _this.data.orgadmin,
+                          });
+                        }, 2000);
+                      },
+                    });
+                  } else {
                     wx.showToast({
                       title: "订单已生成",
                       icon: "success",
@@ -385,55 +425,26 @@ Page({
                           _this.data.orgadmin,
                       });
                     }, 2000);
-                  },
-                  fail: function (e) {
-                    wx.showToast({
-                      title: "订单未支付",
-                      icon: "none",
-                      duration: 2000,
-                    });
-
-                    wx.hideLoading();
-                    setTimeout(function () {
-                      wx.reLaunch({
-                        url:
-                          "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
-                          _this.data.orgadmin,
-                      });
-                    }, 2000);
-                  },
-                });
-              } else {
-                wx.showToast({
-                  title: "订单已生成",
-                  icon: "success",
-                  duration: 2000,
-                });
-                wx.hideLoading();
-                setTimeout(function () {
-                  wx.reLaunch({
-                    url:
-                      "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
-                      _this.data.orgadmin,
+                  }
+                } else {
+                  wx.showToast({
+                    title: "订单已生成",
+                    icon: "success",
+                    duration: 2000,
                   });
-                }, 2000);
-              }
-            } else {
-              wx.showToast({
-                title: "订单已生成",
-                icon: "success",
-                duration: 2000,
+                  wx.hideLoading();
+                  setTimeout(function () {
+                    wx.reLaunch({
+                      url:
+                        "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
+                        _this.data.orgadmin,
+                    });
+                  }, 2000);
+                }
               });
-              wx.hideLoading();
-              setTimeout(function () {
-                wx.reLaunch({
-                  url:
-                    "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
-                    _this.data.orgadmin,
-                });
-              }, 2000);
-            }
-          });
+            },
+            true
+          );
         }
       },
     });
