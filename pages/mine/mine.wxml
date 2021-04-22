@@ -200,8 +200,8 @@
                     </view>
 
                 </view>
-                <view wx:if="{{showTakeFoodLabelFlag}}" class='service-list'>
-                    <view bindtap="handleGotoTakeFood">
+                <view class='service-list'>
+                    <view bindtap="handleGotoTakeFood" wx:if="{{showTakeFoodLabelFlag}}">
                         <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
                             <image src="/images/mine/me_cab.png" style='width:80rpx;height:80rpx;'></image>
                         </view>
