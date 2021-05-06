@@ -1,5 +1,5 @@
 <view>
-    <view>
+    <view wx:if="{{ spareInfo.timeStatus }}">
         <!-- 标题 -->
         <view class="header-wrapper">
           <view class="header-item-active">{{spareInfo.mealDate}} {{spareInfo.mealTypeDes}}  </view>
@@ -87,5 +87,14 @@
                 </view>
             </view>
         </scroll-view>
+    </view>
+    <view wx:else>
+      <view style='padding:200rpx 0  0 256rpx;width:240rpx;height:240rpx;'>
+          <image src="/images/order/noorder.png" style="width:240rpx;height:240rpx;"></image>
+      </view>
+      <view
+          style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
+          <view >当前时间不允许</view>
+      </view>
     </view>
 </view>
