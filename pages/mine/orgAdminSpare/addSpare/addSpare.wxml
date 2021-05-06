@@ -50,7 +50,7 @@
           库存
         </view>
         <view class="item-right">
-          {{spareInfo.spareNum}}
+          剩余:{{spareInfo.spareNum}} / 总数:{{spareInfo.spareNumTotal}}
         </view>      
       </view>
       <view class="item" wx:if="{{orgadmin=='no'}}">
