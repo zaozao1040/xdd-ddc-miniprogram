@@ -12,6 +12,7 @@
             <view
                 style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
                 <view >库存剩余: {{spareInfo.spareNum}}</view>
+                <view >库存总数: {{spareInfo.spareNumTotal}}</view>
                 <view   style='margin-top:60rpx;' class='button-login'
                     catchtap='handleGotoSpare'>去申请</view>
             </view>

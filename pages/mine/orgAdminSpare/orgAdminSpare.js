@@ -84,7 +84,6 @@ Page({
       },
       () => {
         _this.initOrder();
-
         _this.getSpareMealSet();
       }
     );
