@@ -31,7 +31,7 @@ Page({
     windowHeight: 0,
     scrollTop: 0,
     //
-    itemStatusActiveFlag: 0, //0：全部订单，1：今日待取，2：待评价
+
     orderList: [],
     mealTypeMap: {
       BREAKFAST: "早餐",
@@ -56,11 +56,19 @@ Page({
   //跳转到点餐页面
   handleGotoSpare() {
     let _this = this;
-    wx.navigateTo({
-      url:
-        "/pages/mine/orgAdminSpare/addSpare/addSpare?orgadmin=" +
-        _this.data.orgadmin,
-    });
+    if (_this.data.spareInfo.spareNum == 0) {
+      wx.showToast({
+        title: "库存为0",
+        image: "/images/msg/error.png",
+        duration: 2000,
+      });
+    } else {
+      wx.navigateTo({
+        url:
+          "/pages/mine/orgAdminSpare/addSpare/addSpare?orgadmin=" +
+          _this.data.orgadmin,
+      });
+    }
   },
   /**
    * 生命周期函数--监听页面加载

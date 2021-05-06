@@ -634,9 +634,9 @@
 }
 .shenqing {
   position: fixed;
-  left: 20rpx;
-  right: 20rpx;
-  bottom: 20rpx;
+  left: 30rpx;
+  right: 30rpx;
+  bottom: 60rpx;
   line-height: 100rpx;
   font-size: 36rpx;
   color: #fff;
