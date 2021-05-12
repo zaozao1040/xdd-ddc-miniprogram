@@ -307,10 +307,18 @@ Page({
   },
   // 备用餐页面
   gotoSpareminiProgram(e) {
-    let { orgadmin } = e.currentTarget.dataset;
-    wx.navigateTo({
-      url: "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" + orgadmin,
-    });
+    let { orgadmin, organizecode } = e.currentTarget.dataset;
+
+    // 如果是NGO 代表外来人员身份想要申请备用餐
+    if (organizecode == "ORGVISTORE530053156613128193") {
+      wx.navigateTo({
+        url: "/pages/mine/orgAndaddress/orgAndaddress?frontPageFlag=spare",
+      });
+    } else {
+      wx.navigateTo({
+        url: "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" + orgadmin,
+      });
+    }
   },
 
   gotoAddfoodAdmin() {

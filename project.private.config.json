@@ -241,6 +241,12 @@
         {
           "name": "pages/mine/mine",
           "pathName": "pages/mine/mine",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/orgAndaddress/orgAndaddress",
+          "pathName": "pages/mine/orgAndaddress/orgAndaddress",
           "scene": null
         }
       ]
