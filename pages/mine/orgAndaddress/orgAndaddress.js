@@ -236,18 +236,33 @@ Page({
         duration: 2000,
       });
     } else {
-      let tmp_userInfo = wx.getStorageSync("userInfo");
+      let param = {
+        userCode: _this.data.userCode,
+        deliveryAddressCode: _this.data.deliveryAddressCode,
+        organizeCode: _this.data.organizeCode,
+      };
 
-      tmp_userInfo.userInfo.userName = _this.data.userName;
-      tmp_userInfo.userInfo.organizeCode = _this.data.organizeCode;
-      tmp_userInfo.userInfo.organizeName = _this.data.organize;
-      tmp_userInfo.userInfo.deliveryAddressCode =
-        _this.data.deliveryAddressCode;
-      tmp_userInfo.userInfo.deliveryAddress = _this.data.deliveryAddressName;
+      let params = {
+        data: param,
+        url: "/user/updateDeliveryAddress",
+        method: "post",
+      };
 
-      wx.setStorageSync("userInfo", tmp_userInfo);
-      wx.navigateTo({
-        url: "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=no",
+      requestModel.request(params, () => {
+        // 刷新
+        requestModel.getUserInfo(() => {}, true);
+
+        _this.data.timer = setTimeout(function () {
+          wx.navigateBack({
+            delta: 1, // 回退前 delta(默认为1) 页面
+          });
+
+          wx.showToast({
+            title: "地址选择成功",
+            image: "/images/msg/success.png",
+            duration: 2000,
+          });
+        }, 2000);
       });
     }
   },

@@ -24,7 +24,8 @@ Page({
     });
     this.data.addressCode = userInfo.deliveryAddressCode;
     this.data.userCode = userInfo.userCode;
-    this.data.organizeCode = userInfo.organizeCode;
+    let tmp_selectOrganizeInfo = wx.getStorageSync("selectOrganizeInfo");
+    this.data.organizeCode = tmp_selectOrganizeInfo.organizeCode;
   },
 
   /**

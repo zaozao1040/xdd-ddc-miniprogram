@@ -98,9 +98,10 @@ Page({
   //获取设置
   getSpareMealSet() {
     let _this = this;
+    let tmp_selectOrganizeInfo = wx.getStorageSync("selectOrganizeInfo");
     let params = {
       data: {
-        organizeCode: _this.data.userInfo.organizeCode,
+        organizeCode: tmp_selectOrganizeInfo.organizeCode,
         userCode: wx.getStorageSync("userCode"),
         deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
       },
