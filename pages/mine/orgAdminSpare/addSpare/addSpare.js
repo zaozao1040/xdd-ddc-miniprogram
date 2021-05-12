@@ -451,7 +451,7 @@ Page({
   },
   handleChangeAddress() {
     wx.navigateTo({
-      url: "/pages/mine/address/address?frontPageFlag=spare",
+      url: "/pages/mine/orgAdminSpare/address/address",
     });
   },
   getUserPayBalance() {

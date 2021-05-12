@@ -236,12 +236,6 @@ Page({
         duration: 2000,
       });
     } else {
-      console.log(
-        "@@@@@@@ 2 @@@@@@@ ",
-        _this.data.userName,
-        _this.data.organizeCode,
-        _this.data.deliveryAddressCode
-      );
       let tmp_userInfo = wx.getStorageSync("userInfo");
 
       tmp_userInfo.userInfo.userName = _this.data.userName;

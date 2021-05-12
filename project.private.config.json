@@ -247,6 +247,12 @@
         {
           "name": "pages/mine/orgAndaddress/orgAndaddress",
           "pathName": "pages/mine/orgAndaddress/orgAndaddress",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/orgAdminSpare/addSpare/addSpare",
+          "pathName": "pages/mine/orgAdminSpare/addSpare/addSpare",
           "scene": null
         }
       ]

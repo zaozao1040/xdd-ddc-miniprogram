@@ -76,7 +76,6 @@ Page({
   onLoad: function (options) {
     let _this = this;
     let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
-    console.log("=======  ======= ");
 
     _this.setData(
       {

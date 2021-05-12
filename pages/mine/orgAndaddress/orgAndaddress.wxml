@@ -3,7 +3,6 @@
       <view class="section-3-1 ">
           <image src="/images/mine/organize_name.png" style='width:48rpx;height:48rpx;'></image>
       </view>
-
       <input bindinput="nameInput" value="{{userName}}" class="section-3-2" placeholder="请输入真实姓名" type="string"></input>
   </view>
   <view class="section-3" style="margin-bottom: 5rpx;" bindtap="clickOrganize">
@@ -18,8 +17,7 @@
           <image src="/images/mine/dizhi.png" style='width:48rpx;height:48rpx;'></image>
       </view>
       <image src="/images/mine/xiala.png" style='width:34rpx;height:34rpx;position: absolute;top:24rpx;right:22rpx;'></image>
-      
-      <input readonly  value="{{deliveryAddressName}}" class="section-3-2" placeholder="请选择企业地址" type="string"></input>
+      <input disabled  value="{{deliveryAddressName}}" class="section-3-2" placeholder="请选择企业地址" type="string"></input>
   </view>
   <!-- 企业选择 -->
   <view class="search-wrapper" wx:if="{{showOrganize}}">
