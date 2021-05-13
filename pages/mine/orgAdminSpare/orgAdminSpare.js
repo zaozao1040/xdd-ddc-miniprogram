@@ -83,7 +83,6 @@ Page({
         orgadmin: options.orgadmin,
       },
       () => {
-        _this.initOrder();
         _this.getSpareMealSet();
       }
     );
@@ -98,16 +97,18 @@ Page({
   //获取设置
   getSpareMealSet() {
     let _this = this;
-    let tmp_selectOrganizeInfo = wx.getStorageSync("selectOrganizeInfo");
     let params = {
       data: {
-        organizeCode: tmp_selectOrganizeInfo.organizeCode,
         userCode: wx.getStorageSync("userCode"),
         deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
       },
       url: "/spare/getSpareMealSet",
       method: "post",
     };
+    let tmp_selectOrganizeInfo = wx.getStorageSync("selectOrganizeInfo"); //处理外来人员情况 需要传选择的organizeCode
+    if (tmp_selectOrganizeInfo) {
+      params.data.organizeCode = tmp_selectOrganizeInfo.organizeCode;
+    }
     requestModel.request(params, (res) => {
       if (res.mealType == "BREAKFAST") {
         res.mealTypeDes = "早餐";
@@ -119,9 +120,16 @@ Page({
         res.mealTypeDes = "夜宵";
       }
 
-      _this.setData({
-        spareInfo: res,
-      });
+      _this.setData(
+        {
+          spareInfo: res,
+        },
+        () => {
+          if (res.timeStatus) {
+            _this.initOrder();
+          }
+        }
+      );
     });
   },
   initOrder: function () {
