@@ -5,11 +5,10 @@ Page({
     scrollTop: 0,
     buttonTop: 0,
     location: {},
-    organizeList: [],
-    organize: "",
-
     userName: "",
 
+    organizeList: [],
+    organize: "",
     organizeCode: "",
     search: "",
     organizeListNoResult: false,
@@ -20,7 +19,7 @@ Page({
     deliveryAddressName: "",
 
     // 决定下面列表显示哪个
-    showOrganize: true,
+    showOrganize: false,
     showDelivery: false,
   },
 
@@ -36,13 +35,33 @@ Page({
           userName: userName || nickName,
           userType: userType,
           userStatus: userStatus,
-          organizeName: organizeName,
         },
         () => {
           _this.initAddress();
         }
       );
     });
+    let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
+    let tmp_selectOrganizeInfo = wx.getStorageSync("selectOrganizeInfo");
+    if (tmp_selectOrganizeInfo.organizeCode) {
+      _this.setData({
+        organizeCode: tmp_selectOrganizeInfo.organizeCode,
+        organize: tmp_selectOrganizeInfo.organizeName,
+      });
+    }
+    if (tmp_userInfo.deliveryAddressCode) {
+      _this.setData({
+        deliveryAddressCode: tmp_userInfo.deliveryAddressCode,
+        deliveryAddressName: tmp_userInfo.deliveryAddress,
+      });
+
+      console.log(
+        "####### 3 ####### ",
+        _this.data.deliveryAddressName,
+        _this.data.deliveryAddressCode
+      );
+    }
+    this.getOrganizeDeliveryAddress(tmp_selectOrganizeInfo.organizeCode);
   },
 
   onShow: function () {},
@@ -251,16 +270,18 @@ Page({
       requestModel.request(params, () => {
         // 刷新
         requestModel.getUserInfo(() => {}, true);
-
+        wx.showToast({
+          title: "地址选择成功",
+          image: "/images/msg/success.png",
+          duration: 2000,
+        });
+        wx.setStorageSync("selectOrganizeInfo", {
+          organizeCode: _this.data.organizeCode,
+          organizeName: _this.data.organize,
+        });
         _this.data.timer = setTimeout(function () {
-          wx.navigateBack({
-            delta: 1, // 回退前 delta(默认为1) 页面
-          });
-
-          wx.showToast({
-            title: "地址选择成功",
-            image: "/images/msg/success.png",
-            duration: 2000,
+          wx.navigateTo({
+            url: "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=no",
           });
         }, 2000);
       });

@@ -352,10 +352,19 @@ Page({
                 wx.getStorageSync("userCode"),
             },
             (respVer) => {
+              let tmp_organizeCode = _this.data.userInfo.organizeCode;
+              if (
+                // 外来人员 情况
+                _this.data.userInfo.organizeCode ==
+                "ORGVISTORE530053156613128193"
+              ) {
+                tmp_organizeCode =
+                  wx.getStorageSync("selectOrganizeInfo").organizeCode;
+              }
               let params = {
                 data: {
                   verificationString: respVer,
-                  organizeCode: _this.data.userInfo.organizeCode,
+                  organizeCode: tmp_organizeCode,
                   userCode: wx.getStorageSync("userCode"),
                   deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
                   mealDate: _this.data.spareInfo.mealDate,
