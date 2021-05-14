@@ -43,25 +43,19 @@ Page({
     });
     let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
     let tmp_selectOrganizeInfo = wx.getStorageSync("selectOrganizeInfo");
-    if (tmp_selectOrganizeInfo.organizeCode) {
+    if (tmp_selectOrganizeInfo && tmp_selectOrganizeInfo.organizeCode) {
       _this.setData({
         organizeCode: tmp_selectOrganizeInfo.organizeCode,
         organize: tmp_selectOrganizeInfo.organizeName,
       });
+      this.getOrganizeDeliveryAddress(tmp_selectOrganizeInfo.organizeCode);
     }
     if (tmp_userInfo.deliveryAddressCode) {
       _this.setData({
         deliveryAddressCode: tmp_userInfo.deliveryAddressCode,
         deliveryAddressName: tmp_userInfo.deliveryAddress,
       });
-
-      console.log(
-        "####### 3 ####### ",
-        _this.data.deliveryAddressName,
-        _this.data.deliveryAddressCode
-      );
     }
-    this.getOrganizeDeliveryAddress(tmp_selectOrganizeInfo.organizeCode);
   },
 
   onShow: function () {},
