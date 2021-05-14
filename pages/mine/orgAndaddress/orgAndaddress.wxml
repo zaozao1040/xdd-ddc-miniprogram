@@ -19,44 +19,47 @@
       <image src="/images/mine/xiala.png" style='width:34rpx;height:34rpx;position: absolute;top:24rpx;right:22rpx;'></image>
       <input disabled  value="{{deliveryAddressName}}" class="section-3-2" placeholder="请选择企业地址" type="string"></input>
   </view>
-  <!-- 企业选择 -->
-  <view class="search-wrapper" wx:if="{{showOrganize}}">
-      <scroll-view scroll-y style="height: {{buttonTop - scrollTop}}px;" class="c_scrollPosition_forCalculate">
-          <view class="organizeItem-wrapper" wx:for="{{organizeList}}" wx:for-index="organizeIndex" wx:for-item="organizeItem" wx:key="organizeIndex" catchtap="selectOrganize" data-organizecode="{{organizeItem.organizeCode}}" data-organizename="{{organizeItem.organizeName}}"
-              data-organizecode="{{organizeItem.organizeCode}}">
-              <view class="organizeItem-left">
-                  <view class="organizeName">
-                      {{organizeItem.organizeName}}
-                  </view>
-                  <view class="organizeAddress">
-                      {{organizeItem.organizeAddress}}
-                  </view>
-              </view>
-              <view class="organizeItem-right" wx:if="{{organizeItem.distance}}">
-                  {{organizeItem.distance/1000}}公里
-              </view>
-          </view>
-          <view wx:if="{{organizeListNoResult}}" class="noResult">
-              未查询到企业
-          </view>
-      </scroll-view>
+  <view class="c_scrollPosition_forCalculate">
+    <!-- 企业选择 -->
+    <view class="search-wrapper" wx:if="{{showOrganize}}">
+        <scroll-view scroll-y style="height: {{buttonTop - scrollTop}}px;" >
+            <view class="organizeItem-wrapper" wx:for="{{organizeList}}" wx:for-index="organizeIndex" wx:for-item="organizeItem" wx:key="organizeIndex" catchtap="selectOrganize" data-organizecode="{{organizeItem.organizeCode}}" data-organizename="{{organizeItem.organizeName}}"
+                data-organizecode="{{organizeItem.organizeCode}}">
+                <view class="organizeItem-left">
+                    <view class="organizeName">
+                        {{organizeItem.organizeName}}
+                    </view>
+                    <view class="organizeAddress">
+                        {{organizeItem.organizeAddress}}
+                    </view>
+                </view>
+                <view class="organizeItem-right" wx:if="{{organizeItem.distance}}">
+                    {{organizeItem.distance/1000}}公里
+                </view>
+            </view>
+            <view wx:if="{{organizeListNoResult}}" class="noResult">
+                未查询到企业
+            </view>
+        </scroll-view>
+    </view>
+    <!-- 企业地址选择 -->
+    <view class="search-wrapper" wx:if="{{showDelivery}}">
+        <scroll-view scroll-y style="height: {{buttonTop - scrollTop}}px;">
+            <view class="organizeItem-wrapper" wx:for="{{deliveryAddressList}}" wx:for-index="deliveryAddressIndex" wx:for-item="deliveryAddressItem" wx:key="deliveryAddressIndex" catchtap="selectOrganizeAddress" data-code="{{deliveryAddressItem.deliveryAddressCode}}" data-name="{{deliveryAddressItem.address}}"
+                data-organizecode="{{deliveryAddressItem.organizeCode}}">
+                <view class="organizeItem-left">
+                    <view class="organizeName">
+                        {{deliveryAddressItem.address}}
+                    </view>
+                </view>
+            </view>
+            <view wx:if="{{organizeListNoResult}}" class="noResult">
+                企业未查询到地址信息
+            </view>
+        </scroll-view>
+    </view>  
   </view>
-  <!-- 企业地址选择 -->
-  <view class="search-wrapper" wx:if="{{showDelivery}}">
-      <scroll-view scroll-y style="height: {{buttonTop - scrollTop}}px;" class="c_scrollPosition_forCalculate">
-          <view class="organizeItem-wrapper" wx:for="{{deliveryAddressList}}" wx:for-index="deliveryAddressIndex" wx:for-item="deliveryAddressItem" wx:key="deliveryAddressIndex" catchtap="selectOrganizeAddress" data-code="{{deliveryAddressItem.deliveryAddressCode}}" data-name="{{deliveryAddressItem.address}}"
-              data-organizecode="{{deliveryAddressItem.organizeCode}}">
-              <view class="organizeItem-left">
-                  <view class="organizeName">
-                      {{deliveryAddressItem.address}}
-                  </view>
-              </view>
-          </view>
-          <view wx:if="{{organizeListNoResult}}" class="noResult">
-              企业未查询到地址信息
-          </view>
-      </scroll-view>
-  </view>
+
   <view class="c_buttonPosition_forCalculate">
       <button loading="{{loading}}" class="button" catchtap="commit">确 定</button>
   </view>

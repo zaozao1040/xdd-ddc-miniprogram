@@ -96,6 +96,8 @@ Page({
   },
   //获取设置
   getSpareMealSet() {
+    console.log("@@@@@@@ 2 @@@@@@@ ");
+
     let _this = this;
     let params = {
       data: {
@@ -108,7 +110,7 @@ Page({
     let tmp_selectOrganizeInfo = wx.getStorageSync("selectOrganizeInfo"); //处理外来人员情况 需要传选择的organizeCode
     if (
       tmp_selectOrganizeInfo &&
-      _this.data.userInfo.organizecode == "ORGVISTORE530053156613128193"
+      _this.data.userInfo.organizeCode == "ORGVISTORE530053156613128193"
     ) {
       params.data.organizeCode = tmp_selectOrganizeInfo.organizeCode;
     }
