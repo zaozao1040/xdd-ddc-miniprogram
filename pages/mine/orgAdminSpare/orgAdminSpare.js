@@ -218,7 +218,7 @@ Page({
     let param = {
       userCode: _this.data.userInfo.userCode,
       orderCode: orderCode,
-      manger: true,
+      manger: false,
     };
     let params = {
       data: param,
@@ -232,8 +232,8 @@ Page({
       });
       setTimeout(() => {
         //先刷新列表，后面等志康有空了再只刷新这一个订单的信息5/18
-
         _this.getOrderList();
+        _this.getSpareMealSet();
       }, 1000);
     });
   },
