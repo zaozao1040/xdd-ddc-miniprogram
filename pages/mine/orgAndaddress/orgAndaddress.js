@@ -41,6 +41,7 @@ Page({
         }
       );
     });
+
     let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
     let tmp_selectOrganizeInfo = wx.getStorageSync("selectOrganizeInfo");
     if (tmp_selectOrganizeInfo && tmp_selectOrganizeInfo.organizeCode) {
@@ -219,6 +220,11 @@ Page({
             organizeListNoResult: false,
           });
         }
+        console.log(
+          "$$$$$$$ 4 $$$$$$$ ",
+          _this.data.showOrganize,
+          _this.data.organizeList
+        );
       });
     }
   },

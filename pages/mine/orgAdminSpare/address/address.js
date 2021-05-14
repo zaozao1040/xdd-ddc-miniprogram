@@ -16,27 +16,32 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    let _this = this;
-    let { userInfo } = wx.getStorageSync("userInfo");
-    _this.setData({
-      addressDes: userInfo.deliveryAddress,
-    });
-    this.data.addressCode = userInfo.deliveryAddressCode;
-    this.data.userCode = userInfo.userCode;
-    let tmp_selectOrganizeInfo = wx.getStorageSync("selectOrganizeInfo");
-    this.data.organizeCode = tmp_selectOrganizeInfo.organizeCode;
-  },
+  onLoad: function (options) {},
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
     let _this = this;
+    let tmp_organizeCode = "";
+    let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
+    let tmp_selectOrganizeInfo = wx.getStorageSync("selectOrganizeInfo");
+
+    if (tmp_userInfo.organizeCode == "ORGVISTORE530053156613128193") {
+      // 外来人员情况
+      tmp_organizeCode = tmp_selectOrganizeInfo.organizeCode;
+    } else {
+      tmp_organizeCode = tmp_userInfo.organizeCode;
+    }
+    _this.setData({
+      addressDes: tmp_userInfo.deliveryAddress,
+      addressCode: tmp_userInfo.deliveryAddressCode,
+      userCode: tmp_userInfo.userCode,
+      organizeCode: tmp_organizeCode,
+    });
     let param = {
       url:
-        "/organize/getAddressByOrganizeCode?organizeCode=" +
-        _this.data.organizeCode,
+        "/organize/getAddressByOrganizeCode?organizeCode=" + tmp_organizeCode,
     };
 
     requestModel.request(param, (data) => {
