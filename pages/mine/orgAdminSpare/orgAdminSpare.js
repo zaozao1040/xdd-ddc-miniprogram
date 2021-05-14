@@ -106,7 +106,10 @@ Page({
       method: "post",
     };
     let tmp_selectOrganizeInfo = wx.getStorageSync("selectOrganizeInfo"); //处理外来人员情况 需要传选择的organizeCode
-    if (tmp_selectOrganizeInfo) {
+    if (
+      tmp_selectOrganizeInfo &&
+      _this.data.userInfo.organizecode == "ORGVISTORE530053156613128193"
+    ) {
       params.data.organizeCode = tmp_selectOrganizeInfo.organizeCode;
     }
     requestModel.request(params, (res) => {

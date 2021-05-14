@@ -308,9 +308,12 @@ Page({
   // 备用餐页面
   gotoSpareminiProgram(e) {
     let { orgadmin, organizecode } = e.currentTarget.dataset;
-
+    let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
     // 如果是NGO 代表外来人员身份想要申请备用餐 每次都强制跳转到需要填写企业和企业地址
-    if (organizecode == "ORGVISTORE530053156613128193") {
+    if (
+      organizecode == "ORGVISTORE530053156613128193" ||
+      !tmp_userInfo.deliveryAddressCode
+    ) {
       wx.navigateTo({
         url: "/pages/mine/orgAndaddress/orgAndaddress?frontPageFlag=spare",
       });
