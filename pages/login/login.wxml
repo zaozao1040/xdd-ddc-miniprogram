@@ -47,4 +47,5 @@
     <block wx:if="{{showButtonFlag}}">
         <button loading="{{loading}}" class="section-4" bindtap="bindOrganize">绑定并登录</button>
     </block>
+    <button  class="section-5" bindtap="nobindOrganize">暂不绑定</button>
 </view>

@@ -636,7 +636,7 @@
   position: fixed;
   left: 30rpx;
   right: 30rpx;
-  bottom: 60rpx;
+  bottom: 30rpx;
   line-height: 100rpx;
   font-size: 36rpx;
   color: #fff;

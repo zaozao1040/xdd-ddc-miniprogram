@@ -79,18 +79,17 @@
                       style="margin-top:60rpx;font-family: PingFang-SC-Regular; font-size: 26rpx; color: #666666; letter-spacing: 0; text-align: center;">
                       正在加载数据...
                   </view>
-                  <view class="shenqing" catchtap="handleGotoSpare">
-                    <block wx:if="{{orderList.length==0}}">
-                      去申请
-                    </block>
-                    <block wx:else>
-                      继续申请
-                    </block>
-                  </view>
               </view>
           </scroll-view>        
         </view>
-
+        <view class="shenqing" catchtap="handleGotoSpare">
+        <block wx:if="{{orderList.length==0}}">
+          去申请
+        </block>
+        <block wx:else>
+          继续申请
+        </block>
+        </view>
     </view>
     <view wx:else>
       <view style='padding:200rpx 0  0 256rpx;width:240rpx;height:240rpx;'>

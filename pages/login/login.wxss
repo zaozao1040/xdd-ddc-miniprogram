@@ -62,6 +62,18 @@
 .section-4::after {
   border: none;
 }
+.section-5 {
+  font-family: PingFangSC-Regular;
+  margin: 10rpx 62rpx;
+  height: 96rpx;
+  text-align: center;
+  border-radius: 50rpx;
+  line-height: 96rpx;
+  color: #666;
+  font-size: 34rpx;
+  background-image: white;
+  border: 1rpx solid #ccc;
+}
 
 .button-fanhui {
   font-family: PingFangSC-Regular;
