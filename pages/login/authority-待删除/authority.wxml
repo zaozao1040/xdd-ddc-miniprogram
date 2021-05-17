@@ -1,8 +1,0 @@
-<view>
-    <view class="image-wrapper">
-        <image src="/images/login/logo.png" style="width: 254rpx; height: 102rpx;"></image>
-    </view>
-    <view class="title">新一代工作餐</view>
-    <view class='des'>申请获取你的公开信息（昵称、头像等）</view>
-    <button class="button" open-type="getUserInfo" bindgetuserinfo="getWxUserInfo">微信授权</button>
-</view>

@@ -133,9 +133,10 @@
   line-height: 96rpx;
 }
 .gouxuan-wrapper {
+  position: fixed;
+  bottom: 60rpx;
   display: flex;
-  margin-top: 40rpx;
-  margin-bottom: 100rpx;
+  justify-content: center;
 }
 .agree-des-b {
   margin-left: 10rpx;
@@ -159,8 +160,8 @@
   height: 36rpx;
 }
 .img-wrapper {
-  margin: auto;
-  width: 150rpx;
+  margin: 160rpx auto;
+  width: 250rpx;
   height: 100rpx;
   background-color: white;
 }
@@ -175,4 +176,11 @@
   color: #999;
   line-height: 40rpx;
   text-align: center;
+}
+.other-des {
+  height: 120rpx;
+  line-height: 120rpx;
+  text-align: center;
+  color: #f2994a;
+  font-size: 30rpx;
 }

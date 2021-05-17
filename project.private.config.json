@@ -259,6 +259,12 @@
         {
           "name": "pages/mine/mine",
           "pathName": "pages/mine/mine",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/login/selectPhone/selectPhone",
+          "pathName": "pages/login/selectPhone/selectPhone",
           "scene": null
         }
       ]
