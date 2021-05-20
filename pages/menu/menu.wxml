@@ -24,8 +24,7 @@
             <view style="height: {{ windowHeight - 2 }}px; " class="menu-wrapper c_scrollPosition_forCalculate">
               <!-- 左边餐品分类 -->
               <scroll-view class="menu-left" scroll-y style="height: {{ windowHeight - 2 }}px;">
-                <view class=" {{ activeFoodType == foodTypeIndex ? 'left-item-active' : 'left-item'}}" data-menutypeindex="{{ foodTypeIndex }}" bindtap="handleChangeMenutypeActive" wx:for="{{ foodTypeList }}" wx:for-item="foodTypeItem"
-                  wx:for-index="foodTypeIndex" wx:key="foodTypeIndex">
+                <view wx:for="{{ foodTypeList }}" wx:for-item="foodTypeItem" wx:for-index="foodTypeIndex" wx:key="foodTypeIndex" class=" {{ activeFoodType == foodTypeIndex ? 'left-item-active' : 'left-item'}}" data-menutypeindex="{{ foodTypeIndex }}" bindtap="handleChangeMenutypeActive" >
                   <view style="height:30rpx;">
                     <view wx:if="{{ menuCountList[activeMealDate][mealTypeItem][ foodTypeIndex ]> 0 }}" class="menu-count">
                       {{ menuCountList[activeMealDate][mealTypeItem][foodTypeIndex] }}</view>
@@ -44,27 +43,24 @@
               <view class="menu-right">
                 <scroll-view class="menu-right-item-wrapper" scroll-y bindscroll="handleScroll" style="height: {{ windowHeight - 2 }}px;" scroll-into-view="{{ scrollToView }}">
                   <view style='height:20rpx;'></view>
-                  <view class="c_foodPosition_forCalculate right-item" wx:for="{{ allMenuData[activeMealDate][mealTypeItem].foodList}}" wx:for-item="foodTypeItem" wx:key="index">
+                  <view class="c_foodPosition_forCalculate right-item" wx:for="{{ foodTypeList}}" wx:for-item="foodTypeItem" wx:for-index="foodTypeIndex" wx:key="foodTypeIndex">
                     <!--不能在这判断暂无，因为menuCountList是按顺序的，不是按id的-->
                     <view class='menu-wrapper' style='padding:10rpx 0 30rpx;'>
-                      <view id="order{{ index }}" class="right-item-text">
+                      <view id="order{{ foodTypeIndex }}" class="right-item-text">
                         {{foodTypeItem.typeName }}
                       </view>
                       <view wx:if='{{foodTypeItem.typeDesc}}' class='right-item-text-desc'>
                         {{foodTypeItem.typeDesc}}</view>
                     </view>
-
                     <!-- 单个食物 -->
-                    <view id="{{ foodItem.foodCode }}" bindtap="handleGotoFoodDetail" data-selectedfoodindex="{{selectedFoodIndex}}" data-menutypeindex="{{ onefood.menuItemIndex }}" data-mealtypeitem="{{item}}" data-foodindex="{{ onefood.foodIndex }}" data-dayindex="{{dayIndex}}"
-                      data-foodcode="{{ foodItem.foodCode }}" data-typename='{{foodTypeItem.typeName }}' class="food-wrapper" wx:for="{{ foodTypeItem.foodList }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodCode">
+                    <view id="{{ foodItem.foodCode }}" wx:for="{{ foodTypeItem.foodList }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="{{ foodItem.foodCode }}" bindtap="handleGotoFoodDetail" data-selectedfoodindex="{{selectedFoodIndex}}" data-menutypeindex="{{ onefood.menuItemIndex }}" data-mealtypeitem="{{item}}" data-foodindex="{{ onefood.foodIndex }}" data-dayindex="{{dayIndex}}"
+                      data-foodcode="{{ foodItem.foodCode }}" data-typename='{{foodTypeItem.typeName }}' class="food-wrapper">
                       <view wx:if="{{foodItem.sellAllOut }}" class="img-wrapper-stock"></view>
                       <view class="img-wrapper">
                         <image wx:if="{{ foodItem.foodQuota &&foodItem.foodQuota.quotaNum  }}" class='food-img-res' src="/images/menu/order_purchase.png">
                         </image>
-
                         <image class="food-img" lazy-load src="{{foodItem.image}}"></image>
                       </view>
-
                       <view class="food-info-wrapper">
                         <view>
                           <view class="food-name">

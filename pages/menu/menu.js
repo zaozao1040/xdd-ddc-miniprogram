@@ -98,7 +98,7 @@ Page({
     activeMealType: "",
     //
     menu: {}, //多天菜单数据，已对象存储，key值为日期 2020-09-10
-    //  
+    //
     activeFoodType: 0, //当前被点击的餐品类别
   },
   //获取排查日期
