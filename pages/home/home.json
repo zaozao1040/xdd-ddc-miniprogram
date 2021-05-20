@@ -1,6 +1,8 @@
 {
-  "navigationBarTitleText": "点点餐",
   "usingComponents": {
     "c-discountPromotion": "../components/discountPromotion/discountPromotion"
-  }
+  },
+  "navigationBarBackgroundColor": "#f2994a",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "点点餐"
 }

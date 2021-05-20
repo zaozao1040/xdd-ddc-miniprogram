@@ -1,0 +1,67 @@
+<scroll-view scroll-y style="background: #F5F5F5;height:{{windowHeight}}px;">
+    <view id='c_warpper_calculation' style=' padding:16rpx 20rpx 0;'>
+        <view wx:for="{{selectedFoods}}" wx:for-item='oneday' wx:for-index='onedayindex' wx:key='{{onedayindex}}'>
+            <view wx:if="{{oneday.count>0}}">
+                <view wx:for="{{mealEnglistLabel}}" wx:key="{{index}}">
+                    <view wx:if='{{oneday[item]&&oneday[item].selectedFoods.length>0}}'>
+
+                        <view class='remark-day-wrapper'>
+                            <view class="cart-day-title">
+                                {{oneday.appointment}}({{oneday.mealDateShow}}) {{oneday[item].name}}
+                            </view>
+                            <view wx:for="{{oneday[item].selectedFoods}}" wx:for-item="foodtypeinfoItem" wx:for-index="foodtypeinfoIndex" wx:key="{{foodtypeinfoIndex}}">
+                                <view>
+                                    <view class='cart-menuItem'>
+                                        <view class='flex-1'>
+                                            <image class="cart-menuItem-img" src="{{foodtypeinfoItem.image}}"></image>
+                                            <view class='cart-menuItem-name'>{{foodtypeinfoItem.foodName}}</view>
+                                        </view>
+                                        <view class="cart-menuItem-count">
+                                            x{{foodtypeinfoItem.foodCount}}
+                                        </view>
+                                    </view>
+                                    <view class='remark-menuItem'>
+                                        <view class='remark-menuItem-left'>餐品备注</view>
+                                        <view class='remark-menuItem-button' bindtap='addRemark' data-dayindex='{{onedayindex}}' data-menuitem='{{item}}' data-foodindex='{{foodtypeinfoIndex}}'>添加</view>
+                                    </view>
+                                    <view wx:if='{{foodtypeinfoItem.remarkList}}'>
+                                        <view wx:for="{{foodtypeinfoItem.remarkList}}" wx:for-item='oneRemark' wx:for-index='remarkIndex' wx:key='{{remarkIndex}}'>
+                                            <view class='flex-1' style='margin-top:20rpx;'>
+                                                <input bindinput='inputRemarkName' data-dayindex='{{onedayindex}}' data-menuitem='{{item}}' data-foodindex='{{foodtypeinfoIndex}}' data-remarkindex='{{remarkIndex}}' maxlength="3" placeholder="备注1(限三字)" value="{{oneRemark.mark}}" class='remark-name' placeholder-class='remark-name-default'
+                                                />
+
+                                                <view class='remark-count-group'>
+                                                    <image style='margin-top:18rpx;width:44rpx;height:44rpx;' src='/images/menu/minus.png' bindtap='minus' data-dayindex='{{onedayindex}}' data-menuitem='{{item}}' data-foodindex='{{foodtypeinfoIndex}}' data-remarkindex='{{remarkIndex}}'></image>
+                                                    <input bindinput='inputRemarkCount' data-dayindex='{{onedayindex}}' data-menuitem='{{item}}' data-foodindex='{{foodtypeinfoIndex}}' data-remarkindex='{{remarkIndex}}' type='number' maxlength="10" placeholder="数量" value="{{oneRemark.quantity}}" class='remark-count'
+                                                        placeholder-class='remark-count-default' />
+                                                    <image style='margin-top:18rpx;width:44rpx;height:44rpx;' src='/images/menu/add.png' bindtap='add' data-dayindex='{{onedayindex}}' data-menuitem='{{item}}' data-foodindex='{{foodtypeinfoIndex}}' data-remarkindex='{{remarkIndex}}'></image>
+                                                </view>
+                                                <view class='flex-1' bindtap='deleteOneRemark' data-dayindex='{{onedayindex}}' data-menuitem='{{item}}' data-foodindex='{{foodtypeinfoIndex}}' data-remarkindex='{{remarkIndex}}'>
+                                                    <image style='margin-top:18rpx;width:44rpx;height:44rpx;' src='/images/menu/delete.png'></image>
+                                                    <view class='remark-delete'>删除</view>
+                                                </view>
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <view wx:if='{{windowHeight<scrollHeight}}' style='height:200rpx;'></view>
+        <view wx:elif='{{windowHeight>scrollHeight+100}}' style='height:0;'></view>
+        <view wx:else style='height:{{100-windowHeight+scrollHeight}}px;'></view>
+    </view>
+    <view class='circle' bindtap='clearAllRemark'>清空</view>
+    <view class='button' bindtap='saveAllRemark'>保存</view>
+    <c-pop content='{{popContent.content}}' wx:if='{{popContent.show}}' bind:closemodal='closeModal'></c-pop>
+    <!--删除一条备注-->
+    <c-custom-modal content='{{modalContent.content}}' wx:if='{{modalIndex==1}}' params='{{modalContent.eventParam}}' bind:closemodal='closeModalModal' bind:handleconfirm='deleteOneRemarkForModal'></c-custom-modal>
+    <!--清空所有备注-->
+    <c-custom-modal content='{{modalContent.content}}' wx:if='{{modalIndex==2}}' bind:closemodal='closeModalModal' bind:handleconfirm='clearAllRemarkForModal'></c-custom-modal>
+    <!--删除未完成备注-->
+    <c-custom-modal content='{{modalContent.content}}' cancel='{{modalContent.cancel}}' confirm='{{modalContent.confirm}}' wx:if='{{modalIndex==3}}' bind:closemodal='closeModalModal' bind:handleconfirm='deleteUncompleteRemark'></c-custom-modal>
+</scroll-view>

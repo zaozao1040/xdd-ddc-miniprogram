@@ -23,7 +23,7 @@ Page({
     showCheckFlag: false, //显示审核状态框标志 默认不显示
     registered: false,
 
-    imagesList: [],
+    imagesList: {},
     //
     homeOrderList: [], //首页取餐列表
     orderStatusMap: {
@@ -65,11 +65,7 @@ Page({
     hasWindowNotice: false, //默认没有window公告
     showWindowNotice: false, //默认不显示window公告
     windowNoticeData: null, // window公告数据
-    showMenuSelect: false,
-    appointmention: "today", //预约今天:today 预约明天：tomorrow 预约多天：week
 
-    twoDaysName: ["today", "tomorrow"],
-    twoDaysMealName: ["breakfast", "lunch", "dinner", "night"],
     mealTypeMapSmall: {
       breakfast: "早餐",
       lunch: "午餐",
@@ -77,8 +73,6 @@ Page({
       night: "夜宵",
     },
 
-    twoDaysInfo: [],
-    oneDayInfo: {},
     orgAdminNoMealFlag: false, //企业管理员，无点餐权限弹窗
     orgAdminMealFlag: false, //企业管理员，点餐提示弹窗
     windowHeight: 500,
@@ -93,50 +87,11 @@ Page({
     tuijianOneHeight: 0,
     canpintuijianList: [],
   },
-  // 选择今天
-  handleSelectToday() {
-    this.setData({
-      appointmention: "today",
-      oneDayInfo: this.data.twoDaysInfo[0].mealTypeOrder,
-    });
-  },
-  handleSelectTomorrow() {
-    this.setData({
-      appointmention: "tomorrow",
-      oneDayInfo: this.data.twoDaysInfo[1].mealTypeOrder,
-    });
-  },
+
   handleSelectWeek() {
-    this.setData({
-      appointmention: "week",
-    });
     wx.navigateTo({
       url: "/pages/menu/menu",
     });
-    setTimeout(() => {
-      this.setData({
-        showMenuSelect: false,
-      });
-      wx.showTabBar();
-    }, 1000);
-  },
-  startOrderMenu(e) {
-    let tmp_appointmention = this.data.appointmention;
-    let tmp_mealtype = e.currentTarget.dataset.mealtype;
-    wx.navigateTo({
-      url:
-        "/pages/menu/today/today?appointment=" +
-        tmp_appointmention +
-        "&mealtype=" +
-        tmp_mealtype,
-    });
-
-    setTimeout(() => {
-      this.setData({
-        showMenuSelect: false,
-      });
-      wx.showTabBar(); //咋感觉这个没执行呢 5/8
-    }, 1000);
   },
   //监听轮播图切换图片，获取图片的下标
   onSwiperChange: function (e) {
@@ -145,40 +100,6 @@ Page({
     });
   },
 
-  handleGotoLabel: function (e) {
-    let _this = this;
-
-    let flag = e.currentTarget.dataset.type;
-    let url = "";
-    if (flag == "qianbao") {
-      url = "/pages/mine/wallet/wallet";
-    } else if (flag == "youhuiquan") {
-      url = "/pages/mine/discount/discount";
-    } else if (flag == "jifen") {
-      url = "/pages/mine/integral/integral";
-    }
-    if (wx.getStorageSync("userCode")) {
-      requestModel.getUserInfo((userInfo) => {
-        if (userInfo.userStatus == "NO_CHECK") {
-          wx.showToast({
-            title: "审核中,请继续尝试",
-            icon: "none",
-            duration: 2000,
-          });
-        } else {
-          wx.navigateTo({
-            url: url,
-          });
-        }
-      }, true);
-    } else {
-      wx.showToast({
-        title: "请先登录",
-        icon: "none",
-        duration: 2000,
-      });
-    }
-  },
   //获取首页图片
   initHome: function () {
     let param = {
@@ -271,12 +192,7 @@ Page({
             orgAdminNoMealFlag: true,
           });
         } else {
-          if (_this.data.limitStandard === true) {
-            //超力包装情况直接跳到 预约多天的menu
-            _this.handleSelectWeek();
-          } else {
-            _this.openSelectMealTime();
-          }
+          _this.handleSelectWeek();
         }
       }, true);
     }
@@ -288,77 +204,9 @@ Page({
       orgAdminMealFlag: false,
     });
   },
-  openSelectMealTime: function () {
-    let _this = this;
-    let param = {
-      url:
-        "/meal/getPreMealDateAndType?userCode=" + wx.getStorageSync("userCode"),
-    };
-    requestModel.request(param, (data) => {
-      // 处理日期
-      let dayInfo = ["今天", "明天", "后天"]; //最多也就是后天吧
-      let durationInfo = ["凌晨", "上午", "下午", "晚上"];
 
-      // 今天的开始时间 如2019-05-15 00:00:00
-      let todayBegin = new Date(
-        new Date().toLocaleDateString() + " 00:00:00"
-      ).getTime();
-
-      for (let x = 0; x < data.length; x++) {
-        let one = data[x].mealTypeOrder;
-        for (let i = 0; i < _this.data.twoDaysMealName.length; i++) {
-          let meal = _this.data.twoDaysMealName[i]; //餐时
-
-          //如果志康把时间描述传给我了，就直接用，没有再重新计算
-          if (!one[meal + "DeadlineDesc"]) {
-            if (one[meal + "EndTime"]) {
-              let deadDate = new Date(one[meal + "EndTime"]); //截止时间
-              // 判断是哪天
-              let day = parseInt(
-                (deadDate.getTime() - todayBegin) / (1000 * 60 * 60 * 24)
-              );
-              let hour = deadDate.getHours();
-              let duration = parseInt(hour / 6);
-              let duration_hour = hour > 12 ? hour - 12 : hour;
-
-              let minutes = deadDate.getMinutes();
-              if (minutes == 0) {
-                one[meal + "DeadlineDesc"] =
-                  dayInfo[day] + durationInfo[duration] + duration_hour + "点";
-              } else {
-                one[meal + "DeadlineDesc"] =
-                  dayInfo[day] +
-                  durationInfo[duration] +
-                  duration_hour +
-                  "点" +
-                  minutes +
-                  "分";
-              }
-            } else {
-              one[meal + "DeadlineDesc"] = "已截止订餐";
-            }
-          }
-        }
-        data[x].mealTypeOrder = one;
-      }
-      wx.setStorageSync("twoDaysInfo", data);
-      _this.setData({
-        twoDaysInfo: data,
-        showMenuSelect: true,
-        appointmention: "today",
-        oneDayInfo: data[0].mealTypeOrder,
-        orgAdminMealFlag: false,
-      });
-      wx.hideTabBar();
-    });
-  },
   // 关闭选择预约弹框
-  closeMenuSelect() {
-    wx.showTabBar();
-    this.setData({
-      showMenuSelect: false,
-    });
-  },
+  closeMenuSelect() {},
 
   onLoad: function (options) {
     let _this = this;
@@ -859,20 +707,6 @@ Page({
 
   //用于解决小程序的遮罩层滚动穿透
   preventTouchMove: function () {},
-  //跳到小店
-  gotoMiniProgram() {
-    wx.navigateToMiniProgram({
-      appId: "wx8492039f6e368de0",
-      path: "pages/home/home?userCode=" + wx.getStorageSync("userCode"),
-      extraData: {
-        userCode: wx.getStorageSync("userCode"),
-      },
-      envVersion: "develop",
-      success(res) {
-        // 打开成功
-      },
-    });
-  },
 
   // 计算餐品推荐每个餐品的展示颜色背景
   getCanpintuijianColors(pages) {
