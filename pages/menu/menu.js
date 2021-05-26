@@ -552,7 +552,15 @@ Page({
   clickAddOneFood(e) {
     let _this = this;
     let item = e.currentTarget.dataset.fooditem;
-    _this.addOneFood(item, true);
+    let mealDate = e.currentTarget.dataset.mealdate;
+    let mealType = e.currentTarget.dataset.mealtype;
+    console.log("@@@@@@@ 2 @@@@@@@ ", item);
+    let tmp_item = {
+      ...item,
+      mealDate: mealDate,
+      mealType: mealType,
+    };
+    _this.addOneFood(tmp_item, true);
   },
   // 购物车 点击减号，将餐品减一
   clickMinusOneFood(e) {
@@ -565,7 +573,14 @@ Page({
   clickCart(e) {
     let _this = this;
     let { item } = e.currentTarget.dataset;
-    _this.addOneFood(item, false);
+    console.log("@@@@@@@ 2 @@@@@@@ ", item);
+    let tmp_item = {
+      ...item,
+      mealDate: _this.data.activeMealDate,
+      mealType: _this.data.activeMealType,
+    };
+
+    _this.addOneFood(tmp_item, false);
   },
   addOneFood(item, refreshCartList) {
     let _this = this;
@@ -578,8 +593,8 @@ Page({
         foodName: item.foodName,
         foodPrice: item.foodPrice,
         foodQuantity: 1,
-        mealDate: _this.data.activeMealDate,
-        mealType: _this.data.activeMealType,
+        mealDate: item.mealDate,
+        mealType: item.mealType,
       },
     };
     request(param, (resData) => {

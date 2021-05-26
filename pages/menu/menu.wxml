@@ -182,7 +182,7 @@
                                 <view wx:if="{{ foodItem.foodQuantity > 0 }}" class="chart-num">
                                   {{ foodItem.foodQuantity}}
                                 </view>
-                                <image src="/images/menu/order_add.png" style="width:40rpx;height:40rpx;" data-fooditem="{{foodItem}}" catchtap="clickAddOneFood">
+                                <image src="/images/menu/order_add.png" style="width:40rpx;height:40rpx;" data-fooditem="{{foodItem}}" data-mealdate='{{mealTypeItem.mealDate}}' data-mealtype='{{mealTypeItem.mealType}}' catchtap="clickAddOneFood">
                                 </image>
                               </view>
                             </view>
