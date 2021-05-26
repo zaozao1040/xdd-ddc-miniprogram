@@ -279,6 +279,12 @@
           "pathName": "pages/menu/menu",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/menu/cart/cart",
+          "pathName": "pages/menu/cart/cart",
+          "query": "",
+          "scene": null
         }
       ]
     }
