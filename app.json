@@ -51,7 +51,8 @@
     "pages/mine/orgAdminSpare/orgAdminSpare",
     "pages/mine/orgAdminSpare/addSpare/addSpare",
     "pages/mine/orgAndaddress/orgAndaddress",
-    "pages/mine/orgAdminSpare/address/address"
+    "pages/mine/orgAdminSpare/address/address",
+    "pages/menu/preOrder/preOrder"
   ],
   "permission": {
     "scope.userLocation": {
@@ -96,6 +97,8 @@
       }
     ]
   },
-  "navigateToMiniProgramAppIdList": ["wx8492039f6e368de0"],
+  "navigateToMiniProgramAppIdList": [
+    "wx8492039f6e368de0"
+  ],
   "sitemapLocation": "sitemap.json"
 }

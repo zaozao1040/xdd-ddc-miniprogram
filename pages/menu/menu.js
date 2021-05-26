@@ -1,6 +1,7 @@
 import { base } from "../../comm/public/request";
 import config from "../../comm_plus/config/config.js";
 import { request } from "../../comm_plus/public/request.js";
+import jiuaiDebounce from "../../comm_plus/jiuai-debounce/jiuai-debounce.js";
 
 let requestModel = new base();
 Page({
@@ -675,6 +676,62 @@ Page({
           duration: 2000,
         });
       }
+    });
+  },
+  // 奥美凯企业的个性化，限制员工日期和餐别进行点餐，狗日的奥美凯
+  doLimit() {
+    let _this = this;
+    let tmp_dateParamList = []; //当前选择了餐品的天是哪些天
+    _this.data.cartList.forEach((item) => {
+      tmp_dateParamList.push(item.mealDate);
+    });
+    console.log("=======  ======= ", tmp_dateParamList);
+
+    let param = {
+      url: "/organizeUserOrderDeadline/queryByUserCode",
+      method: "post",
+      data: {
+        userCode: _this.data.userInfo.userCode,
+        mealDates: tmp_dateParamList,
+      },
+    };
+    requestModel.request(
+      param,
+      (data) => {
+        if (data.isLimit) {
+          wx.showModal({
+            title: "提示",
+            content: "选择的日期超出限制，请修改日期或联系公司管理人员",
+            confirmText: "我知道了",
+            showCancel: false,
+          });
+        } else {
+          //false代表没有被限制，允许点餐（绝大多数用户都是这种情况）
+          wx.navigateTo({
+            url: "/pages/menu/preOrder/preOrder",
+          });
+        }
+      },
+      true
+    );
+  },
+  goToPreOrder() {
+    let _this = this;
+    jiuaiDebounce.canDoFunction({
+      type: "jieliu",
+      immediate: true,
+      key: "key_goToPreOrder",
+      time: 1000,
+      success: () => {
+        if (!_this.data.personalConfig.xxx) {
+          // 奥美凯企业的个性化，限制员工日期和餐别进行点餐，狗日的奥美凯
+          _this.doLimit();
+        } else {
+          wx.navigateTo({
+            url: "/pages/menu/preOrder/preOrder",
+          });
+        }
+      },
     });
   },
   /**
@@ -1352,152 +1409,12 @@ Page({
     });
   },
 
-  //点的餐不可低于最低下单金额
-  verifyMealLabel() {
-    let flag = true;
-    for (let i = 0; i < this.data.allMenuData.length; i++) {
-      let item = this.data.allMenuData[i];
-
-      for (let meal in item) {
-        // 是这么判断的吗？ 5/6
-        //1.餐标可用 2.当天当餐点餐了，用总价判断点餐没是否不妥？3.不能低于餐标 4.抵扣金额小于企业餐标 5/6
-        //都改为不可低于最低下单金额了 7/25
-        let { totalMoney, mealType } = item[meal];
-
-        if (totalMoney > 0 && totalMoney < mealType.lowestStandard) {
-          let t_title =
-            this.data.timeInfo[i].label + " " + this.data.mealTypeSmall[meal];
-          let t_content =
-            "未达最低下单金额(¥" +
-            mealType.lowestStandard +
-            ")" +
-            ",请继续选餐";
-          this.setData({
-            activeDayIndex: i,
-            mealTypeItem: meal,
-            notUpToStandardPrice: true,
-            notUpToStandardPriceTitle: t_title,
-            notUpToStandardPriceContent: t_content,
-          });
-          flag = false;
-          break;
-        }
-      }
-      if (!flag) {
-        break;
-      }
-    }
-    return flag;
-  },
   closeModal() {
     this.setData({
       notUpToStandardPrice: false,
     });
   },
-  goToMenuCommit() {
-    let _this = this;
 
-    //也弄两秒内不可重复点击
-    if (_this.data.commitNow) {
-      return;
-    }
-    _this.data.commitNow = true;
-    setTimeout(() => {
-      _this.data.commitNow = false;
-    }, 2000);
-
-    if (_this.data.totalCount > 0) {
-      let flag = _this.verifyMealLabel();
-
-      if (flag) {
-        _this.getSelectedFoods(); //不需要执行多次吧。好像需要的哦。
-
-        //我用的变量是不是过于多了，timeInfo,selectedFoodsIndex是不是可以直接放在allMenuData里？
-        //TODO--5/6
-        for (let i = 0; i < _this.data.timeInfo.length; i++) {
-          _this.data.selectedFoodsIndex[i].appointment =
-            _this.data.timeInfo[i].label;
-          _this.data.selectedFoodsIndex[i].mealDate =
-            _this.data.timeInfo[i].mealDate;
-          let onededuction = 0;
-          for (let j = 0; j < _this.data.mealEnglistLabel.length; j++) {
-            // 应该只要有，就会有这天这餐的抵扣了吧--5/6
-            if (
-              _this.data.selectedFoodsIndex[i][_this.data.mealEnglistLabel[j]]
-            ) {
-              onededuction +=
-                _this.data.selectedFoodsIndex[i][_this.data.mealEnglistLabel[j]]
-                  .deductionMoney;
-            }
-          }
-          _this.data.selectedFoodsIndex[i].deductionMoney = parseFloat(
-            onededuction.toFixed(2)
-          );
-        }
-        wx.setStorageSync("sevenSelectedFoods", _this.data.selectedFoodsIndex);
-
-        let tmp_dateParamList = []; //当前选择了餐品的天是哪些天
-        let tmp_length = _this.data.selectedFoodsIndex.length;
-        for (let i = 0; i < tmp_length; i++) {
-          let tmp_selectedFoodsItem = _this.data.selectedFoodsIndex[i];
-          if (tmp_selectedFoodsItem.count > 0) {
-            tmp_dateParamList.push(tmp_selectedFoodsItem.mealDate);
-          }
-        }
-        if (tmp_dateParamList.length > 0) {
-          let param = {
-            url: "/organizeUserOrderDeadline/queryByUserCode",
-            method: "post",
-            data: {
-              userCode: wx.getStorageSync("userCode"),
-              mealDates: tmp_dateParamList,
-            },
-          };
-          requestModel.request(
-            param,
-            (data) => {
-              if (data.isLimit) {
-                wx.showModal({
-                  title: "提示",
-                  content: "选择的日期超出限制，请修改日期或联系公司管理人员",
-                  confirmText: "我知道了",
-                  showCancel: false,
-                });
-              } else {
-                //false代表没有被限制，允许点餐（绝大多数用户都是这种情况）
-                wx.navigateTo({
-                  url:
-                    "/pages/menu/today/confirm/confirm?totalMoney=" +
-                    _this.data.totalMoney +
-                    "&totalMoneyRealDeduction=" +
-                    _this.data.totalMoneyRealDeduction +
-                    "&realMoney=" +
-                    _this.data.realTotalMoney +
-                    "&orderType=seven" +
-                    "&cantMealTotalMoney=" +
-                    _this.data.cantMealTotalMoney,
-                });
-              }
-            },
-            true
-          );
-        } else {
-          wx.navigateTo({
-            url:
-              "/pages/menu/today/confirm/confirm?totalMoney=" +
-              _this.data.totalMoney +
-              "&totalMoneyRealDeduction=" +
-              _this.data.totalMoneyRealDeduction +
-              "&realMoney=" +
-              _this.data.realTotalMoney +
-              "&orderType=seven" +
-              "&cantMealTotalMoney=" +
-              _this.data.cantMealTotalMoney,
-          });
-        }
-      }
-    }
-  },
   refreshUser: function () {
     requestModel.getUserInfo((userInfo) => {
       let limitStandard = false;

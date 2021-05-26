@@ -139,7 +139,7 @@
               <view wx:if="{{showCartFlag}}" class="footer-wrapper-top-show-cart">
                 <view class="mask" catchtap="closeCart" catchtouchmove="preventTouchMove"></view>
                 <view class="{{ showCartFlag ? 'cart-wrp in' : 'cart-wrp out' }}" style="display:{{boxActiveFlagFirst?'none':'block'}};" catchtouchmove="preventTouchMove">
-                  <view class="chart-top">企业总抵扣: ￥{{totalMoneyRealDeduction}}</view>
+                  <view class="chart-top">企业总抵扣: ￥{{payInfo.organizeDeductionPrice}}</view>
                   <view class="chart-top-2">
                     <view style="font-family: PingFang-SC-Regular; font-size: 11px; color: #999999; letter-spacing: 0; text-align: left;">
                       已选餐品
@@ -223,7 +223,7 @@
                   </view>
                 </view>
                 <image src="/images/menu/order_shop.png" bindtap="clickCartImg" class="shop-image"></image>
-                <view class="footer-right" bindtap="goToMenuCommit" style="background:{{ payInfo.cartFoodNumber == 0 ? '#9d9d9d' : '' }}">
+                <view class="footer-right" bindtap="goToPreOrder">
                   去结算
                 </view>                    
               </view>
