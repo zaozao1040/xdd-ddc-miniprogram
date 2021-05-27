@@ -116,121 +116,7 @@
                 </scroll-view>
               </view>
             </view>
-            <!-- 购物车未激活状态 -->
-            <view wx:if="{{ payInfo.cartFoodNumber == 0}}" class="footer-wrapper-inactive">
-              <view class="footer-wrapper-top" style="background: #dddddd;">
-                <view wx:if="{{orgAdmin}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
-                  您当前是管理员
-                </view>
-                <view wx:elif="{{!activeInfoExtra.mealSet.userCanStandardPrice}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
-                  当前餐标已被使用
-                </view> 
-              </view>
-              <view class="footer-wrapper-bottom">
-                <image src="/images/menu/order_closeshop.png" class="shop-image"></image>
-                <view class="footer-right" style="background:#9d9d9d">
-                  去结算
-                </view>                    
-              </view>
-            </view>
-            <!-- 购物车激活状态 -->
-            <view wx:else bindtap="handleClickBox" class="footer-wrapper">
-              <!------ 购物车餐品的列表 ------>
-              <view wx:if="{{showCartFlag}}" class="footer-wrapper-top-show-cart">
-                <view class="mask" catchtap="closeCart" catchtouchmove="preventTouchMove"></view>
-                <view class="{{ showCartFlag ? 'cart-wrp in' : 'cart-wrp out' }}" style="display:{{boxActiveFlagFirst?'none':'block'}};" catchtouchmove="preventTouchMove">
-                  <view class="chart-top">企业总抵扣: ￥{{payInfo.organizeDeductionPrice}}</view>
-                  <view class="chart-top-2">
-                    <view style="font-family: PingFang-SC-Regular; font-size: 11px; color: #999999; letter-spacing: 0; text-align: left;">
-                      已选餐品
-                    </view>
-                    <view bindtap="clearFoods" style="font-family: PingFang-SC-Regular; font-size: 11px; color: #666666; letter-spacing: 0; text-align: left;">
-                      <text class="iconfont icon-trash_fill"></text> 清空
-                    </view>
-                  </view>
-
-                  <scroll-view scroll-y style="height: {{ cartHeight }}px;">
-                    <view class="cart_scrollPosition_forCalculate">
-                      <block wx:for="{{cartList}}" wx:for-item="cartItem" wx:for-index="cartIndex" wx:key="cartIndex">  
-                        <view class="chart-date">{{cartItem.mealDateDes}}({{cartItem.mealDate}})</view>
-                        <view wx:for="{{ cartItem.mealTypeList }}" wx:for-item="mealTypeItem" wx:for-index="mealTypeIndex" wx:key="mealTypeIndex">
-                          <view wx:for="{{ mealTypeItem.foods }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex">
-                            <view class='chart-item' wx:if="{{foodItem.foodQuantity>0}}">
-                              <view class="chart-food-name-price">
-                                <view class="chart-mealtype">{{ mealTypeItem.mealType }}</view>
-                                <view style="text-overflow: ellipsis; white-space: nowrap;">
-                                  <view>{{ foodItem.foodName }}</view>
-                                </view>
-                                <!--价格  -->
-                                <view style="display: flex;align-items: center;">
-                                  <text style="position:relative;left:6rpx;">￥</text>{{ foodItem.foodPrice }}
-                                  <text wx:if="{{foodItem.foodOriginalPrice&&foodItem.foodOriginalPrice>foodItem.foodPrice}}" style="margin-left:6rpx;text-decoration:line-through;font-size: 25rpx;">￥{{ foodItem.foodOriginalPrice }}</text>
-                                </view>
-                              </view>
-
-                              <!--原价-->
-                              <view class="chart-food-originalprice" wx:if="{{ foodItem.foodTotalPrice < foodItem.foodTotalOriginalPrice}}">
-                                ￥
-                                <text style="position:relative;right:6rpx;">{{foodItem.foodTotalOriginalPrice}}</text>
-                              </view>
-                              <view class="chart-food-originalprice" wx:else> </view>
-
-                              <!-- ***************  + - 添加、减掉餐品的小控件(购物车中) *************** -->
-                              <view class="chart-num-control">
-                                <image src="/images/menu/order_less.png" style="width:40rpx;height:40rpx;" wx:if="{{ foodItem.foodQuantity > 0 }}" data-fooditem="{{foodItem}}" catchtap="clickMinusOneFood">
-                                </image>
-                                <view wx:if="{{ foodItem.foodQuantity > 0 }}" class="chart-num">
-                                  {{ foodItem.foodQuantity}}
-                                </view>
-                                <image src="/images/menu/order_add.png" style="width:40rpx;height:40rpx;" data-fooditem="{{foodItem}}" data-mealdate='{{mealTypeItem.mealDate}}' data-mealtype='{{mealTypeItem.mealType}}' catchtap="clickAddOneFood">
-                                </image>
-                              </view>
-                            </view>
-                          </view>
-                        </view>
-                      </block>
-                      <view style="height:350rpx;background:#FFFFFF;"></view>
-
-                    </view>
-                  </scroll-view>
-                </view>
-                <view class="modulebox-background-wrapper" wx:if='{{notUpToStandardPrice}}'>
-                  <view class='warpper'>
-                    <view class='title'>{{notUpToStandardPriceTitle}}</view>
-                    <view class='content'>{{notUpToStandardPriceContent}}</view>
-                    <view class='dialog-button' bindtap='closeModal'>知道了</view>
-                  </view>
-                </view>
-              </view>
-              <view wx:else class="footer-wrapper-top">
-                <view wx:if="{{orgAdmin}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
-                  您当前是管理员
-                </view>
-                <view wx:elif="{{!activeInfoExtra.mealSet.userCanStandardPrice}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
-                  当前餐标已被使用
-                </view> 
-                <view wx:else style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
-                  企业单餐抵扣：￥{{activeInfoExtra.mealType.standardPrice}}
-                </view> 
-              </view>
-              <view class="footer-wrapper-bottom">
-                <view wx:if="{{ payInfo.totalMoney > 0 }}" class='flex-a'>
-                  <view style="line-height:100rpx;bottom:0;position:relative;left:160rpx;font-family: PingFang-SC-Medium; font-size: 20px; color: #FFFFFF; letter-spacing: 0; text-align: left;">
-                    ￥{{ payInfo.orderPayPrice }}
-                  </view>
-                  <view style="text-decoration: line-through; position:relative; left:180rpx;line-height:100rpx;bottom:0;position:relative;font-family: PingFang-SC-Regular; font-size: 12px;color: rgba(255,255,255,0.40); letter-spacing: 0; text-align: left;">
-                    ￥{{ payInfo.totalMoney }}
-                  </view>
-                </view>
-                <image src="/images/menu/order_shop.png" bindtap="clickCartImg" class="shop-image"></image>
-                <view class="footer-right" bindtap="goToPreOrder">
-                  去结算
-                </view>                    
-              </view>
-            </view>
           </view>
-
-
           <!-- 尚未排餐 -->
           <block wx:elif='{{activeInfoExtra.mealType.orderStatus && allMenuData[activeMealDate][mealTypeItem].foodList.length== 0}}'>
             <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
@@ -251,8 +137,120 @@
           </block>
         </block>
       </view>
-
     </scroll-view>
+    <!------ 下面是购物车 ------>
+    <!-- 购物车未激活状态 -->
+    <view wx:if="{{ payInfo.cartFoodNumber == 0}}" class="footer-wrapper-inactive">
+      <view class="footer-wrapper-top" style="background: #dddddd;">
+        <view wx:if="{{orgAdmin}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
+          您当前是管理员
+        </view>
+        <view wx:elif="{{!activeInfoExtra.mealSet.userCanStandardPrice}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
+          当前餐标已被使用
+        </view> 
+      </view>
+      <view class="footer-wrapper-bottom">
+        <image src="/images/menu/order_closeshop.png" class="shop-image"></image>
+        <view class="footer-right" style="background:#9d9d9d">
+          去结算
+        </view>                    
+      </view>
+    </view>
+    <!-- 购物车激活状态 -->
+    <view wx:else bindtap="handleClickBox" class="footer-wrapper">
+      <!------ 购物车餐品的列表 ------>
+      <view wx:if="{{showCartFlag}}" class="footer-wrapper-top-show-cart">
+        <view class="mask" catchtap="closeCart" catchtouchmove="preventTouchMove"></view>
+        <view class="{{ showCartFlag ? 'cart-wrp in' : 'cart-wrp out' }}" style="display:{{boxActiveFlagFirst?'none':'block'}};" catchtouchmove="preventTouchMove">
+          <view class="chart-top">企业总抵扣: ￥{{payInfo.organizeDeductionPrice}}</view>
+          <view class="chart-top-2">
+            <view style="font-family: PingFang-SC-Regular; font-size: 11px; color: #999999; letter-spacing: 0; text-align: left;">
+              已选餐品
+            </view>
+            <view bindtap="clearFoods" style="font-family: PingFang-SC-Regular; font-size: 11px; color: #666666; letter-spacing: 0; text-align: left;">
+              <text class="iconfont icon-trash_fill"></text> 清空
+            </view>
+          </view>
+
+          <scroll-view scroll-y style="height: {{ cartHeight }}px;">
+            <view class="cart_scrollPosition_forCalculate">
+              <block wx:for="{{cartList}}" wx:for-item="cartItem" wx:for-index="cartIndex" wx:key="cartIndex">  
+                <view class="chart-date">{{cartItem.mealDateDes}}({{cartItem.mealDate}})</view>
+                <view wx:for="{{ cartItem.mealTypeList }}" wx:for-item="mealTypeItem" wx:for-index="mealTypeIndex" wx:key="mealTypeIndex">
+                  <view wx:for="{{ mealTypeItem.foods }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex">
+                    <view class='chart-item' wx:if="{{foodItem.foodQuantity>0}}">
+                      <view class="chart-food-name-price">
+                        <view class="chart-mealtype">{{ mealTypeItem.mealTypeDes }}</view>
+                        <view style="text-overflow: ellipsis; white-space: nowrap;">
+                          <view>{{ foodItem.foodName }}</view>
+                        </view>
+                        <!--价格  -->
+                        <view style="display: flex;align-items: center;">
+                          <text style="position:relative;left:6rpx;">￥</text>{{ foodItem.foodPrice }}
+                          <text wx:if="{{foodItem.foodOriginalPrice&&foodItem.foodOriginalPrice>foodItem.foodPrice}}" style="margin-left:6rpx;text-decoration:line-through;font-size: 25rpx;">￥{{ foodItem.foodOriginalPrice }}</text>
+                        </view>
+                      </view>
+
+                      <!--原价-->
+                      <view class="chart-food-originalprice" wx:if="{{ foodItem.foodTotalPrice < foodItem.foodTotalOriginalPrice}}">
+                        ￥
+                        <text style="position:relative;right:6rpx;">{{foodItem.foodTotalOriginalPrice}}</text>
+                      </view>
+                      <view class="chart-food-originalprice" wx:else> </view>
+
+                      <!-- ***************  + - 添加、减掉餐品的小控件(购物车中) *************** -->
+                      <view class="chart-num-control">
+                        <image src="/images/menu/order_less.png" style="width:40rpx;height:40rpx;" wx:if="{{ foodItem.foodQuantity > 0 }}" data-fooditem="{{foodItem}}" data-mealdate='{{mealTypeItem.mealDate}}' data-mealtype='{{mealTypeItem.mealType}}' catchtap="clickMinusOneFood">
+                        </image>
+                        <view wx:if="{{ foodItem.foodQuantity > 0 }}" class="chart-num">
+                          {{ foodItem.foodQuantity}}
+                        </view>
+                        <image src="/images/menu/order_add.png" style="width:40rpx;height:40rpx;" data-fooditem="{{foodItem}}" data-mealdate='{{mealTypeItem.mealDate}}' data-mealtype='{{mealTypeItem.mealType}}' catchtap="clickAddOneFood">
+                        </image>
+                      </view>
+                    </view>
+                  </view>
+                </view>
+              </block>
+              <view style="height:350rpx;background:#FFFFFF;"></view>
+
+            </view>
+          </scroll-view>
+        </view>
+        <view class="modulebox-background-wrapper" wx:if='{{notUpToStandardPrice}}'>
+          <view class='warpper'>
+            <view class='title'>{{notUpToStandardPriceTitle}}</view>
+            <view class='content'>{{notUpToStandardPriceContent}}</view>
+            <view class='dialog-button' bindtap='closeModal'>知道了</view>
+          </view>
+        </view>
+      </view>
+      <view wx:else class="footer-wrapper-top">
+        <view wx:if="{{orgAdmin}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
+          您当前是管理员
+        </view>
+        <view wx:elif="{{!activeInfoExtra.mealSet.userCanStandardPrice}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
+          当前餐标已被使用
+        </view> 
+        <view wx:else style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
+          企业单餐抵扣：￥{{activeInfoExtra.mealType.standardPrice}}
+        </view> 
+      </view>
+      <view class="footer-wrapper-bottom">
+        <view wx:if="{{ payInfo.totalMoney > 0 }}" class='flex-a'>
+          <view style="line-height:100rpx;bottom:0;position:relative;left:160rpx;font-family: PingFang-SC-Medium; font-size: 20px; color: #FFFFFF; letter-spacing: 0; text-align: left;">
+            ￥{{ payInfo.orderPayPrice }}
+          </view>
+          <view style="text-decoration: line-through; position:relative; left:180rpx;line-height:100rpx;bottom:0;position:relative;font-family: PingFang-SC-Regular; font-size: 12px;color: rgba(255,255,255,0.40); letter-spacing: 0; text-align: left;">
+            ￥{{ payInfo.totalMoney }}
+          </view>
+        </view>
+        <image src="/images/menu/order_shop.png" bindtap="clickCartImg" class="shop-image"></image>
+        <view class="footer-right" bindtap="goToPreOrder">
+          去结算
+        </view>                    
+      </view>
+    </view>
   </view>
 </view>
 

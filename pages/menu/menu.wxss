@@ -275,6 +275,7 @@
   text-align: center;
   line-height: 120rpx;
   padding: 0 20rpx 0 30rpx;
+  white-space: nowrap;
 }
 
 .chart-food-name-price {

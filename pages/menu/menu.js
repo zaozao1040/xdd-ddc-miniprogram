@@ -555,19 +555,25 @@ Page({
     let item = e.currentTarget.dataset.fooditem;
     let mealDate = e.currentTarget.dataset.mealdate;
     let mealType = e.currentTarget.dataset.mealtype;
-    console.log("@@@@@@@ 2 @@@@@@@ ", item);
     let tmp_item = {
       ...item,
       mealDate: mealDate,
       mealType: mealType,
     };
-    _this.addOneFood(tmp_item, true);
+    _this.addOneFood(tmp_item);
   },
   // 购物车 点击减号，将餐品减一
   clickMinusOneFood(e) {
     let _this = this;
     let item = e.currentTarget.dataset.fooditem;
-    _this.minusOneFood(item);
+    let mealDate = e.currentTarget.dataset.mealdate;
+    let mealType = e.currentTarget.dataset.mealtype;
+    let tmp_item = {
+      ...item,
+      mealDate: mealDate,
+      mealType: mealType,
+    };
+    _this.minusOneFood(tmp_item);
   },
 
   // 点击购物车icon，将餐品加1
@@ -581,9 +587,9 @@ Page({
       mealType: _this.data.activeMealType,
     };
 
-    _this.addOneFood(tmp_item, false);
+    _this.addOneFood(tmp_item);
   },
-  addOneFood(item, refreshCartList) {
+  addOneFood(item) {
     let _this = this;
     let param = {
       url: config.baseUrlPlus + "/v3/cart/addCart",
@@ -605,9 +611,8 @@ Page({
           duration: 2000,
         });
         _this.getPayInfo();
-        if (refreshCartList) {
-          _this.getCartList();
-        }
+
+        _this.getCartList();
       } else {
         wx.showToast({
           title: resData.data.msg,
@@ -628,8 +633,8 @@ Page({
         foodName: item.foodName,
         foodPrice: item.foodPrice,
         foodQuantity: 1,
-        mealDate: _this.data.activeMealDate,
-        mealType: _this.data.activeMealType,
+        mealDate: item.mealDate,
+        mealType: item.mealType,
       },
     };
     request(param, (resData) => {
