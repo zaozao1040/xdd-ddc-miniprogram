@@ -739,6 +739,14 @@ Page({
       },
     });
   },
+  // 点击左边的餐品分类
+  clickFoodType: function (e) {
+    let _this = this;
+    _this.setData({
+      activeFoodType: e.currentTarget.dataset.foodtypeindex,
+      scrollToView: "order" + e.currentTarget.dataset.foodtypeindex,
+    });
+  },
   /**
    * ******************************
    */
@@ -971,14 +979,6 @@ Page({
           });
         }
       );
-    });
-  },
-
-  clickFoodType: function (e) {
-    let _this = this;
-    _this.setData({
-      activeFoodType: e.currentTarget.dataset.foodtypeindex,
-      scrollToView: "order" + e.currentTarget.dataset.foodtypeindex,
     });
   },
 
