@@ -327,8 +327,12 @@ Page({
       if (tmp_menu.hasOwnProperty(_this.data.activeMealDate) == false) {
         tmp_menu[_this.data.activeMealDate] = {};
       }
-      tmp_menu[_this.data.activeMealDate][_this.data.activeMealType] =
-        resData.foodTypeList;
+      tmp_menu[_this.data.activeMealDate][_this.data.activeMealType] = {
+        foodTypeList: resData.foodTypeList,
+        mealSet: resData.mealSet,
+        mealType: resData.mealType,
+      };
+
       _this.setData(
         {
           foodTypeList: resData.foodTypeList,
@@ -458,10 +462,20 @@ Page({
         },
         () => {
           // 如果点击的天和餐别已经有数据了 则不处理
+          let tmp_mealTypeList = _this.data.menu[item.mealDate];
           if (
-            _this.data.menu[item.mealDate] &&
-            _this.data.menu[item.mealDate][_this.data.activeMealType]
+            tmp_mealTypeList &&
+            tmp_mealTypeList[_this.data.activeMealType] &&
+            tmp_mealTypeList[_this.data.activeMealType].foodTypeList
           ) {
+            _this.setData({
+              foodTypeList:
+                tmp_mealTypeList[_this.data.activeMealType].foodTypeList,
+              activeInfoExtra: {
+                mealSet: tmp_mealTypeList[_this.data.activeMealType].mealSet,
+                mealType: tmp_mealTypeList[_this.data.activeMealType].mealType,
+              },
+            });
             return;
           } else {
             _this.getFoodTypeList();
@@ -484,10 +498,19 @@ Page({
         },
         () => {
           // 如果点击的天和餐别已经有数据了 则不处理
+          let tmp_mealTypeList = _this.data.menu[_this.data.activeMealDate];
           if (
-            _this.data.menu[_this.data.activeMealDate] &&
-            _this.data.menu[_this.data.activeMealDate][item.value]
+            tmp_mealTypeList &&
+            tmp_mealTypeList[item.value] &&
+            tmp_mealTypeList[item.value].foodTypeList
           ) {
+            _this.setData({
+              foodTypeList: tmp_mealTypeList[item.value].foodTypeList,
+              activeInfoExtra: {
+                mealSet: tmp_mealTypeList[item.value].mealSet,
+                mealType: tmp_mealTypeList[item.value].mealType,
+              },
+            });
             return;
           } else {
             _this.getFoodTypeList();
@@ -602,6 +625,7 @@ Page({
         foodQuantity: 1,
         mealDate: item.mealDate,
         mealType: item.mealType,
+        image: item.image,
       },
     };
     request(param, (resData) => {

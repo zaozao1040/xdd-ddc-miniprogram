@@ -76,73 +76,64 @@
       <view style="background: #F5F5F5;border-radius: 6rpx;">
 
           <view class="cart-day-wrapper">
-              <view wx:for="{{selectedFoods}}" wx:for-item='oneday' wx:for-index='onedayindex' wx:key="onedayindex">
-
-                  <view wx:if="{{oneday.count>0}}">
-                      <view wx:for="{{mealEnglistLabel}}" wx:key="index">
-                          <view wx:if='{{oneday[item]&&oneday[item].selectedFoods.length>0}}'>
-                              <view class="cart-day-title">{{oneday.appointment}}({{oneday.mealDateShow}})
-                                  {{oneday[item].name}}</view>
-
-                              <view class="cart-menuItem" wx:for="{{oneday[item].selectedFoods}}"
-                                  wx:for-item="foodtypeinfoItem" wx:for-index="foodtypeinfoIndex"
-                                  wx:key="foodtypeinfoIndex">
-                                  <view class="cart-menuItem-left">
-                                      <image class="cart-menuItem-img" src="{{foodtypeinfoItem.image}}"></image>
-                                  </view>
-                                  <view class='flex-1'>
-                                      <view class='cart-menuItem-name'>
-                                          <view class="cart-menuItemDes">{{foodtypeinfoItem.foodName}}</view>
-                                          <view class='flex-a'>
-                                              <view class="cart-menuItem-originmoney"
-                                                  wx:if="{{foodtypeinfoItem.foodTotalOriginalPrice>foodtypeinfoItem.foodTotalPrice}}">
-                                                  ¥{{foodtypeinfoItem.foodTotalOriginalPrice}}</view>
-                                              <view class="cart-menuItem-money">¥{{foodtypeinfoItem.foodTotalPrice}}
-                                              </view>
-                                          </view>
-                                      </view>
-                                      <view class="cart-menuItem-mealtype">
-                                          <text
-                                              style="margin-right:10rpx;">{{oneday[item].name}}</text><text>x{{foodtypeinfoItem.foodCount}}</text>
-                                      </view>
+              <block wx:for="{{preOrderList}}" wx:for-item='mealDateItem' wx:for-index='mealDateIndex' wx:key="mealDateIndex">
+                <view  wx:for="{{mealDateItem.mealTypeList}}" wx:for-item='mealTypeItem' wx:for-index='mealTypeIndex' wx:key="mealTypeIndex">
+                  <view class="cart-day-title">
+                    {{mealDateItem.mealDateDes}}({{mealDateItem.mealDate}}){{mealTypeItem.mealTypeDes}}
+                  </view>
+                  <view class="cart-menuItem" wx:for="{{mealTypeItem.foods}}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex">
+                      <view class="cart-menuItem-left">
+                          <image class="cart-menuItem-img" src="{{foodItem.image}}"></image>
+                      </view>
+                      <view class='flex-1'>
+                          <view class='cart-menuItem-name'>
+                              <view class="cart-menuItemDes">{{foodItem.foodName}}</view>
+                              <view class='flex-a'>
+                                  <view class="cart-menuItem-originmoney"
+                                      wx:if="{{foodItem.foodOriginalPrice>foodItem.foodPrice}}">
+                                      ¥{{foodItem.foodOriginalPrice}}</view>
+                                  <view class="cart-menuItem-money">¥{{foodItem.foodPrice}}
                                   </view>
                               </view>
-
-                              <view class='cart-organize-deduction'>
-                                  <view class='cart-discount-organize'>企业抵扣</view>
-                                  <view class='cart-discount-organize-money'>-￥{{oneday[item].deductionMoney}}</view>
-                              </view>
-                              <view class='pay-item-last' data-mealdate="{{oneday.mealDate}}"
-                                  data-mealtypename="{{oneday[item].name}}"
-                                  data-oldselecteddiscountinfo="{{oneday[item].oldSelectedDiscountInfo}}"
-                                  bindtap="handleGotoDiscount">
-                                  <view class='pay-title' style='padding:30rpx 0;'>优惠券</view>
-                                  <view class='flex-a'>
-                                      <view style='padding:30rpx 0;'>
-                                          <block wx:if="{{oneday[item].oldSelectedDiscountFlag}}">
-                                              <view class="pay-discount-money">
-                                                  -￥{{oneday[item].oldSelectedDiscountInfo.discountMoney}}
-                                              </view>
-                                          </block>
-                                          <block wx:else>
-                                              <view wx:if="{{oneday[item].discountNum&&oneday[item].discountNum!==0}}"
-                                                  class="pay-discount-money">
-                                                  {{oneday[item].discountNum}}张可用
-                                              </view>
-                                              <view wx:else class='pay-no-discount'>暂无可用</view>
-                                          </block>
-                                      </view>
-                                      <view>
-                                          <image src='/images/menu/right.png'
-                                              style="height:22rpx;width:12rpx; margin:42rpx 0 0 20rpx;"></image>
-                                      </view>
-                                  </view>
-
-                              </view>
+                          </view>
+                          <view class="cart-menuItem-mealtype">
+                              <text>x{{foodItem.foodQuantity}}</text>
                           </view>
                       </view>
                   </view>
-              </view>
+                  <view class='cart-organize-deduction'>
+                      <view class='cart-discount-organize'>企业抵扣</view>
+                      <view class='cart-discount-organize-money'>-￥{{mealTypeItem.organizeDeductionPrice}}</view>
+                  </view>
+                  <view class='pay-item-last' data-mealdate="{{mealDateItem.mealDate}}"
+                      data-mealtypename="{{mealDateItem[item].name}}"
+                      data-oldselecteddiscountinfo="{{mealDateItem[item].oldSelectedDiscountInfo}}"
+                      bindtap="handleGotoDiscount">
+                      <view class='pay-title' style='padding:30rpx 0;'>优惠券</view>
+                      <view class='flex-a'>
+                          <view style='padding:30rpx 0;'>
+                              <block wx:if="{{mealDateItem[item].oldSelectedDiscountFlag}}">
+                                  <view class="pay-discount-money">
+                                      -￥{{mealDateItem[item].oldSelectedDiscountInfo.discountMoney}}
+                                  </view>
+                              </block>
+                              <block wx:else>
+                                  <view wx:if="{{mealDateItem[item].discountNum&&mealDateItem[item].discountNum!==0}}"
+                                      class="pay-discount-money">
+                                      {{mealDateItem[item].discountNum}}张可用
+                                  </view>
+                                  <view wx:else class='pay-no-discount'>暂无可用</view>
+                              </block>
+                          </view>
+                          <view>
+                              <image src='/images/menu/right.png'
+                                  style="height:22rpx;width:12rpx; margin:42rpx 0 0 20rpx;"></image>
+                          </view>
+                      </view>
+
+                  </view>
+                </view>
+              </block>
           </view>
 
           <view style='margin:0 16rpx;'>

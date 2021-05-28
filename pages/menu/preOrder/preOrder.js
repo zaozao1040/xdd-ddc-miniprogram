@@ -55,13 +55,14 @@ Page({
      *
      */
 
-    preOrderInfo: {},
+    preOrderList: [],
     userInfo: {},
     personalConfig: {},
     reqData: {
       userCode: null,
       couponList: [],
     },
+    payInfo: {},
   },
   onLoad: function (options) {
     this.loadData();
@@ -122,6 +123,7 @@ Page({
   loadData: function () {
     this.getUserInfo();
     this.initAddress();
+    this.getPayInfo();
     this.getPersonalConfig();
     this.getPreOrderInfo();
   },
@@ -141,7 +143,21 @@ Page({
       }, true);
     }
   },
-
+  getPayInfo: function () {
+    let _this = this;
+    let param = {
+      url: "/v3/cart/getNeedPayAmount?userCode=" + _this.data.userInfo.userCode,
+    };
+    requestModel.request(
+      param,
+      (resData) => {
+        _this.setData({
+          payInfo: resData,
+        });
+      },
+      true
+    );
+  },
   getPersonalConfig: function () {
     let _this = this;
     let param = {
@@ -156,7 +172,7 @@ Page({
   getPreOrderInfo: function () {
     let _this = this;
     let param = {
-      url: config.baseUrlPlus + "/v3/cart/addCart",
+      url: config.baseUrlPlus + "/v3/cart/previewOrder",
       method: "post",
       data: {
         ..._this.data.reqData,
@@ -166,8 +182,9 @@ Page({
     request(param, (resData) => {
       if (resData.data.code === 200) {
         _this.setData({
-          preOrderInfo: resData.data.data,
+          preOrderList: resData.data.data,
         });
+        console.log("@@@@@@@ 2 preOrderList@@@@@@@ ", resData.data.data);
       } else {
         wx.showToast({
           title: resData.data.msg,
@@ -181,7 +198,7 @@ Page({
       param,
       (resData) => {
         _this.setData({
-          preOrderInfo: resData,
+          preOrderList: resData,
         });
       },
       true
