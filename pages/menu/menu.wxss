@@ -187,17 +187,23 @@
   background: #f7f8f8;
   height: 92rpx;
   width: 160rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .left-item-active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: #ffffff;
   height: 92rpx;
   width: 160rpx;
   line-height: 92rpx;
   text-align: center;
   font-family: PingFang-SC-Regular;
-  font-size: 12px;
-  color: #666666;
+  font-size: 15px;
+  color: #f79c4c;
   letter-spacing: 0;
 }
 
@@ -585,7 +591,7 @@
 }
 .mealType-invalid-bg {
   z-index: 10;
-  background-color: rgb(202 202 202 / 0.8);
+  background-color: rgb(255 255 255 / 0.8);
   position: absolute;
   top: 0;
   bottom: 0;
@@ -593,7 +599,7 @@
   right: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   font-size: 30rpx;
   color: #f56c6c;
 }

@@ -28,7 +28,7 @@
       </view>
   </view>
   <!-- 弹出层 填写钱包支付提示 -->
-  <c-custom-modal content='使用钱包支付' title='支付提示' money='￥{{realMoney}}' wx:if='{{balanceConfirmFlag}}'
+  <c-custom-modal content='使用钱包支付' title='支付提示' money='￥{{payInfo.orderPayPrice}}' wx:if='{{balanceConfirmFlag}}'
       bind:closemodal='closeBalanceConfirmFlag' bind:handleconfirm='handleCommitPay'></c-custom-modal>
 
   <!-- 默认地址 -->
@@ -88,12 +88,9 @@
                       <view class='flex-1'>
                           <view class='cart-menuItem-name'>
                               <view class="cart-menuItemDes">{{foodItem.foodName}}</view>
-                              <view class='flex-a'>
-                                  <view class="cart-menuItem-originmoney"
-                                      wx:if="{{foodItem.foodOriginalPrice>foodItem.foodPrice}}">
-                                      ¥{{foodItem.foodOriginalPrice}}</view>
-                                  <view class="cart-menuItem-money">¥{{foodItem.foodPrice}}
-                                  </view>
+                              <view class='flex-b'>
+                                <view class="cart-menuItem-money">¥{{foodItem.foodPrice}}</view>
+                                <view class="cart-menuItem-money-fen">/ 份</view>
                               </view>
                           </view>
                           <view class="cart-menuItem-mealtype">
@@ -135,8 +132,7 @@
                 </view>
               </block>
           </view>
-
-          <view style='margin:0 16rpx;'>
+          <view style='margin:16rpx;'>
               <view style='background:#fff;padding:0 30rpx;border-radius:6rpx;'>
                   <view class='pay-item-last' style='border-bottom: 1rpx solid #F2F2F2;'>
                       <view class='pay-title' style='line-height:98rpx;'>支付方式</view>
@@ -189,8 +185,7 @@
                   </view>
               </view>
           </view>
-          <view style='margin:16rpx 16rpx 0;' wx:if='{{orgAdmin}}'>
-
+          <view style='margin:16rpx;' wx:if='{{orgAdmin}}'>
               <view class='remark-manage'>
                   <view class='pay-title' style='padding:30rpx 0;'>订单备注</view>
                   <view class='flex-a' bindtap='gotoRemark'>
@@ -198,7 +193,6 @@
                       <image src='/images/menu/right.png' style="height:22rpx;width:12rpx; margin:42rpx 0 0 20rpx;">
                       </image>
                   </view>
-
               </view>
           </view>
       </view>
@@ -208,11 +202,11 @@
       <view class='pay-bottom-money'>
           <view
               style='width:158rpx;text-align:center;font-family: PingFang-SC-Medium; font-size: 40rpx; color: #FFFFFF;letter-spacing: 0;border-right:1rpx solid rgba(255,255,255,0.40);line-height:40rpx;'>
-              ￥{{realMoney}}
+              ￥{{payInfo.orderPayPrice}}
           </view>
           <view
               style='padding-left:10rpx;font-family: PingFang-SC-Regular; font-size: 14px;color: rgba(255,255,255,0.40); letter-spacing: 0; text-align: left;'>
-              已优惠￥{{totalDeduction}}
+              已优惠￥{{payInfo.totalOrganizeDeductionPrice}}
           </view>
       </view>
       <view class='pay-button' bindtap="handleCommitPayCheck">确认支付</view>

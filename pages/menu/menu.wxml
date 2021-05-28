@@ -179,7 +179,7 @@
                 <view class="mealType-wrp" wx:for="{{ cartItem.mealTypeList }}" wx:for-item="mealTypeItem" wx:for-index="mealTypeIndex" wx:key="mealTypeIndex">
                   <!-- 失效餐品的蒙层 -->
                   <view wx:if="{{mealTypeItem.effective==false}}" class="mealType-invalid-bg">
-                    订单已失效 不计入金额结算
+                    <image src='/images/menu/yishixiao.png' style='width:80rpx;height:70rpx;margin-right:60rpx;'></image>
                   </view>
                   <view wx:for="{{ mealTypeItem.foods }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex">
                     <view class='chart-item' >

@@ -123,7 +123,6 @@ Page({
   loadData: function () {
     this.getUserInfo();
     this.initAddress();
-    this.getPayInfo();
     this.getPersonalConfig();
     this.getPreOrderInfo();
   },
@@ -142,21 +141,6 @@ Page({
         });
       }, true);
     }
-  },
-  getPayInfo: function () {
-    let _this = this;
-    let param = {
-      url: "/v3/cart/getNeedPayAmount?userCode=" + _this.data.userInfo.userCode,
-    };
-    requestModel.request(
-      param,
-      (resData) => {
-        _this.setData({
-          payInfo: resData,
-        });
-      },
-      true
-    );
   },
   getPersonalConfig: function () {
     let _this = this;
@@ -182,9 +166,14 @@ Page({
     request(param, (resData) => {
       if (resData.data.code === 200) {
         _this.setData({
-          preOrderList: resData.data.data,
+          preOrderList: resData.data.data.cartResDtoList,
+          payInfo: {
+            orderPayPrice: resData.data.data.orderPayPrice,
+            totalOrganizeDeductionPrice:
+              resData.data.data.totalOrganizeDeductionPrice,
+            totalMoney: resData.data.data.totalMoney,
+          },
         });
-        console.log("@@@@@@@ 2 preOrderList@@@@@@@ ", resData.data.data);
       } else {
         wx.showToast({
           title: resData.data.msg,

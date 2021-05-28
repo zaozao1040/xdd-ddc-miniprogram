@@ -1,24 +1,28 @@
-// pages/menu/remark/remark.js
+import { base } from "../../../comm/public/request";
+import config from "../../../comm_plus/config/config.js";
+import { request } from "../../../comm_plus/public/request.js";
+import jiuaiDebounce from "../../../comm_plus/jiuai-debounce/jiuai-debounce.js";
+let requestModel = new base();
 Page({
   /**
    * 页面的初始数据
    */
   data: {
-    selectedFoods: [],
     mealEnglistLabel: ["breakfast", "lunch", "dinner", "night"],
     popContent: {},
     modalContent: {},
     modalIndex: 0, //1:删除一条，2：删除全部，3：删除未完成的
+    /**
+     *
+     */
+
+    preOrderList: [],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let selectedFoods = wx.getStorageSync("sevenSelectedFoods");
-    this.setData({
-      selectedFoods: selectedFoods,
-    });
     let _this = this;
     wx.getSystemInfo({
       success: function (res) {
@@ -28,6 +32,41 @@ Page({
       },
     });
     _this.getScrollHeight();
+    _this.getPreOrderInfo();
+  },
+  getPreOrderInfo: function () {
+    let _this = this;
+    let param = {
+      url: config.baseUrlPlus + "/v3/cart/previewOrder",
+      method: "post",
+      data: {
+        ..._this.data.reqData,
+        userCode: wx.getStorageSync("userInfo").userInfo.userCode,
+      },
+    };
+    request(param, (resData) => {
+      if (resData.data.code === 200) {
+        _this.setData({
+          preOrderList: resData.data.data.cartResDtoList,
+        });
+      } else {
+        wx.showToast({
+          title: resData.data.msg,
+          image: "/images/msg/error.png",
+          duration: 2000,
+        });
+      }
+    });
+
+    requestModel.request(
+      param,
+      (resData) => {
+        _this.setData({
+          preOrderList: resData,
+        });
+      },
+      true
+    );
   },
   getScrollHeight() {
     let _this = this;
@@ -55,14 +94,13 @@ Page({
   addRemark(e) {
     //添加备注
     let { dayindex, menuitem, foodindex } = e.currentTarget.dataset;
-    let onefood = this.data.selectedFoods[dayindex][menuitem].selectedFoods[
-      foodindex
-    ];
+    let onefood =
+      this.data.preOrderList[dayindex][menuitem].preOrderList[foodindex];
     if (!onefood.remarkList || onefood.remarkList.length == 0) {
       onefood.remarkList = [{ mark: "", quantity: onefood.foodCount }];
       onefood.remarkCountTotal = onefood.foodCount;
       this.setData({
-        selectedFoods: this.data.selectedFoods,
+        preOrderList: this.data.preOrderList,
       });
       this.getScrollHeight();
     } else if (onefood.remarkCountTotal < onefood.foodCount) {
@@ -74,7 +112,7 @@ Page({
         });
         onefood.remarkCountTotal = onefood.foodCount;
         this.setData({
-          selectedFoods: this.data.selectedFoods,
+          preOrderList: this.data.preOrderList,
         });
         this.getScrollHeight();
       } else {
@@ -97,17 +135,13 @@ Page({
   inputRemarkName(e) {
     //添加备注name
     let value = e.detail.value;
-    let {
-      dayindex,
-      menuitem,
-      foodindex,
-      remarkindex,
-    } = e.currentTarget.dataset;
-    this.data.selectedFoods[dayindex][menuitem].selectedFoods[
+    let { dayindex, menuitem, foodindex, remarkindex } =
+      e.currentTarget.dataset;
+    this.data.preOrderList[dayindex][menuitem].preOrderList[
       foodindex
     ].remarkList[remarkindex].mark = value;
     this.setData({
-      selectedFoods: this.data.selectedFoods,
+      preOrderList: this.data.preOrderList,
     });
   },
   inputRemarkCount(e) {
@@ -116,15 +150,10 @@ Page({
     if (value != "") {
       value = parseInt(value);
     }
-    let {
-      dayindex,
-      menuitem,
-      foodindex,
-      remarkindex,
-    } = e.currentTarget.dataset;
-    let onefood = this.data.selectedFoods[dayindex][menuitem].selectedFoods[
-      foodindex
-    ];
+    let { dayindex, menuitem, foodindex, remarkindex } =
+      e.currentTarget.dataset;
+    let onefood =
+      this.data.preOrderList[dayindex][menuitem].preOrderList[foodindex];
     let oldcount = onefood.remarkList[remarkindex].quantity;
     //如果之前的餐品的数量不为空，那么计算现在的和是不是超过个餐品的数目
 
@@ -167,20 +196,15 @@ Page({
       }
     }
     this.setData({
-      selectedFoods: this.data.selectedFoods,
+      preOrderList: this.data.preOrderList,
     });
   },
   minus(e) {
     //添加备注
-    let {
-      dayindex,
-      menuitem,
-      foodindex,
-      remarkindex,
-    } = e.currentTarget.dataset;
-    let onefood = this.data.selectedFoods[dayindex][menuitem].selectedFoods[
-      foodindex
-    ];
+    let { dayindex, menuitem, foodindex, remarkindex } =
+      e.currentTarget.dataset;
+    let onefood =
+      this.data.preOrderList[dayindex][menuitem].preOrderList[foodindex];
 
     if (onefood.remarkList[remarkindex].quantity > 1) {
       onefood.remarkList[remarkindex].quantity--;
@@ -197,20 +221,16 @@ Page({
       });
     }
     this.setData({
-      selectedFoods: this.data.selectedFoods,
+      preOrderList: this.data.preOrderList,
     });
   },
   add(e) {
     let _this = this;
     //添加备注
-    let {
-      dayindex,
-      menuitem,
-      foodindex,
-      remarkindex,
-    } = e.currentTarget.dataset;
+    let { dayindex, menuitem, foodindex, remarkindex } =
+      e.currentTarget.dataset;
     let onefood =
-      _this.data.selectedFoods[dayindex][menuitem].selectedFoods[foodindex];
+      _this.data.preOrderList[dayindex][menuitem].preOrderList[foodindex];
     if (onefood.remarkCountTotal == onefood.foodCount) {
       _this.data.popContent.show = true;
       _this.data.popContent.content =
@@ -223,27 +243,22 @@ Page({
       onefood.remarkCountTotal++;
 
       _this.setData({
-        selectedFoods: _this.data.selectedFoods,
+        preOrderList: _this.data.preOrderList,
       });
     }
   },
   deleteOneRemark(e) {
     //删除一条备注
-    let {
-      dayindex,
-      menuitem,
-      foodindex,
-      remarkindex,
-    } = e.currentTarget.dataset;
-    let onefood = this.data.selectedFoods[dayindex][menuitem].selectedFoods[
-      foodindex
-    ];
+    let { dayindex, menuitem, foodindex, remarkindex } =
+      e.currentTarget.dataset;
+    let onefood =
+      this.data.preOrderList[dayindex][menuitem].preOrderList[foodindex];
     let oldcount = onefood.remarkList[remarkindex].quantity;
     onefood.remarkList.splice(remarkindex, 1);
     onefood.remarkCountTotal -= oldcount;
 
     this.setData({
-      selectedFoods: this.data.selectedFoods,
+      preOrderList: this.data.preOrderList,
     });
     this.getScrollHeight();
   },
@@ -251,15 +266,14 @@ Page({
     //删除一条备注
 
     let { dayindex, menuitem, foodindex, remarkindex } = e.detail;
-    let onefood = this.data.selectedFoods[dayindex][menuitem].selectedFoods[
-      foodindex
-    ];
+    let onefood =
+      this.data.preOrderList[dayindex][menuitem].preOrderList[foodindex];
     let oldcount = onefood.remarkList[remarkindex].quantity;
     onefood.remarkList.splice(remarkindex, 1);
     onefood.remarkCountTotal -= oldcount;
 
     this.setData({
-      selectedFoods: this.data.selectedFoods,
+      preOrderList: this.data.preOrderList,
       modalIndex: 0,
     });
     this.getScrollHeight();
@@ -276,17 +290,17 @@ Page({
   },
   clearAllRemarkForModal() {
     let _this = this;
-    for (let i = 0; i < _this.data.selectedFoods.length; i++) {
-      let tmp_selectedFoods = _this.data.selectedFoods[i];
+    for (let i = 0; i < _this.data.preOrderList.length; i++) {
+      let tmp_selectedFoods = _this.data.preOrderList[i];
       if (tmp_selectedFoods.count > 0) {
         _this.data.mealEnglistLabel.forEach((mealType) => {
           if (
             tmp_selectedFoods[mealType] &&
-            tmp_selectedFoods[mealType].selectedFoods.length > 0
+            tmp_selectedFoods[mealType].preOrderList.length > 0
           ) {
             //选了这个餐时的菜
 
-            tmp_selectedFoods[mealType].selectedFoods.forEach((onefood) => {
+            tmp_selectedFoods[mealType].preOrderList.forEach((onefood) => {
               onefood.remarkCountTotal = 0;
               onefood.remarkList = [];
             });
@@ -296,7 +310,7 @@ Page({
     }
 
     _this.setData({
-      selectedFoods: _this.data.selectedFoods,
+      preOrderList: _this.data.preOrderList,
       modalIndex: 0, //关闭弹窗
     });
     _this.getScrollHeight();
@@ -304,17 +318,17 @@ Page({
   saveAllRemark() {
     let complete = true;
     let _this = this;
-    for (let i = 0; i < _this.data.selectedFoods.length; i++) {
-      let tmp_selectedFoods = _this.data.selectedFoods[i];
+    for (let i = 0; i < _this.data.preOrderList.length; i++) {
+      let tmp_selectedFoods = _this.data.preOrderList[i];
       if (tmp_selectedFoods.count > 0) {
         _this.data.mealEnglistLabel.forEach((mealType) => {
           if (
             tmp_selectedFoods[mealType] &&
-            tmp_selectedFoods[mealType].selectedFoods.length > 0
+            tmp_selectedFoods[mealType].preOrderList.length > 0
           ) {
             //选了这个餐时的菜
 
-            tmp_selectedFoods[mealType].selectedFoods.forEach((onefood) => {
+            tmp_selectedFoods[mealType].preOrderList.forEach((onefood) => {
               if (onefood.remarkList && onefood.remarkList.length > 0) {
                 //判断最后一个备注是否完整
                 let lastRemark =
@@ -340,7 +354,7 @@ Page({
         modalIndex: 3,
       });
     } else {
-      wx.setStorageSync("sevenSelectedFoods", _this.data.selectedFoods);
+      wx.setStorageSync("sevenSelectedFoods", _this.data.preOrderList);
 
       wx.showToast({
         title: "保存成功",
@@ -351,17 +365,17 @@ Page({
   },
   deleteUncompleteRemark() {
     let _this = this;
-    for (let i = 0; i < _this.data.selectedFoods.length; i++) {
-      let tmp_selectedFoods = _this.data.selectedFoods[i];
+    for (let i = 0; i < _this.data.preOrderList.length; i++) {
+      let tmp_selectedFoods = _this.data.preOrderList[i];
       if (tmp_selectedFoods.count > 0) {
         _this.data.mealEnglistLabel.forEach((mealType) => {
           if (
             tmp_selectedFoods[mealType] &&
-            tmp_selectedFoods[mealType].selectedFoods.length > 0
+            tmp_selectedFoods[mealType].preOrderList.length > 0
           ) {
             //选了这个餐时的菜
 
-            tmp_selectedFoods[mealType].selectedFoods.forEach((onefood) => {
+            tmp_selectedFoods[mealType].preOrderList.forEach((onefood) => {
               if (onefood.remarkList && onefood.remarkList.length > 0) {
                 //判断最后一个备注是否完整
                 let lastRemark =
@@ -376,7 +390,7 @@ Page({
       }
     }
     _this.setData({
-      selectedFoods: _this.data.selectedFoods,
+      preOrderList: _this.data.preOrderList,
       modalIndex: 0,
     });
     _this.getScrollHeight();
