@@ -14,10 +14,8 @@ Page({
     /**
      *
      */
-    showDialog: false,
+
     preOrderList: [],
-    mark: null,
-    quantity: 1,
   },
 
   /**
@@ -92,23 +90,50 @@ Page({
       popContent: _this.data.popContent,
     });
   },
-  closeDialog() {
-    this.setData({
-      showDialog: false,
-    });
-  },
-  donothing() {
-    console.log("阻止事件冒泡");
-  },
   addRemark(e) {
     let _this = this;
-    _this.setData({
-      showDialog: true,
-    });
     //添加备注
-    let { mealDate, mealtype, fooditem } = e.currentTarget.dataset;
-    console.log("@@@@@@@ 2 @@@@@@@ ", mealDate, mealtype, fooditem);
+    let { mealdateindex, menuitem, foodindex } = e.currentTarget.dataset;
+    console.log("@@@@@@@ 2 @@@@@@@ ", mealdateindex, menuitem, foodindex);
     console.log("@@@@@@@ preOrderList @@@@@@@ ", _this.data.preOrderList);
+
+    let onefood =
+      this.data.preOrderList[mealdateindex][menuitem].preOrderList[foodindex];
+    if (!onefood.remarkList || onefood.remarkList.length == 0) {
+      onefood.remarkList = [{ mark: "", quantity: onefood.foodCount }];
+      onefood.remarkCountTotal = onefood.foodCount;
+      this.setData({
+        preOrderList: this.data.preOrderList,
+      });
+      this.getScrollHeight();
+    } else if (onefood.remarkCountTotal < onefood.foodCount) {
+      let lastRemark = onefood.remarkList[onefood.remarkList.length - 1];
+      if (lastRemark.mark.trim() && lastRemark.quantity) {
+        onefood.remarkList.push({
+          mark: "",
+          quantity: onefood.foodCount - onefood.remarkCountTotal,
+        });
+        onefood.remarkCountTotal = onefood.foodCount;
+        this.setData({
+          preOrderList: this.data.preOrderList,
+        });
+        this.getScrollHeight();
+      } else {
+        wx.showToast({
+          title: "补全备注再添加",
+          image: "/images/msg/error.png",
+          duration: 2000,
+        });
+      }
+    } else {
+      let _this = this;
+      _this.data.popContent.show = true;
+      _this.data.popContent.content =
+        "备注餐品的总数量已经等于点的餐品的数量，不可再添加备注";
+      _this.setData({
+        popContent: _this.data.popContent,
+      });
+    }
   },
   inputRemarkName(e) {
     //添加备注name
@@ -177,22 +202,51 @@ Page({
       preOrderList: this.data.preOrderList,
     });
   },
+  minus(e) {
+    //添加备注
+    let { mealdateindex, menuitem, foodindex, remarkindex } =
+      e.currentTarget.dataset;
+    let onefood =
+      this.data.preOrderList[mealdateindex][menuitem].preOrderList[foodindex];
 
-  add() {
+    if (onefood.remarkList[remarkindex].quantity > 1) {
+      onefood.remarkList[remarkindex].quantity--;
+      onefood.remarkCountTotal--;
+    } else {
+      let _this = this;
+
+      let a = {};
+      a.content = "您确定删除这条备注吗？";
+      a.eventParam = e.currentTarget.dataset;
+      _this.setData({
+        modalContent: a,
+        modalIndex: 1,
+      });
+    }
     this.setData({
-      quantity: this.data.quantity + 1,
+      preOrderList: this.data.preOrderList,
     });
   },
-  minus() {
-    if (this.data.quantity == 1) {
-      wx.showToast({
-        title: "至少1份",
-        image: "/images/msg/error.png",
-        duration: 2000,
+  add(e) {
+    let _this = this;
+    //添加备注
+    let { mealdateindex, menuitem, foodindex, remarkindex } =
+      e.currentTarget.dataset;
+    let onefood =
+      _this.data.preOrderList[mealdateindex][menuitem].preOrderList[foodindex];
+    if (onefood.remarkCountTotal == onefood.foodCount) {
+      _this.data.popContent.show = true;
+      _this.data.popContent.content =
+        "备注餐品的总数量已经等于点的餐品的数量！";
+      _this.setData({
+        popContent: _this.data.popContent,
       });
     } else {
-      this.setData({
-        quantity: this.data.quantity - 1,
+      onefood.remarkList[remarkindex].quantity++;
+      onefood.remarkCountTotal++;
+
+      _this.setData({
+        preOrderList: _this.data.preOrderList,
       });
     }
   },
