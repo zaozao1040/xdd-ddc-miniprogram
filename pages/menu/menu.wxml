@@ -176,9 +176,13 @@
             <view class="cart_scrollPosition_forCalculate">
               <block wx:for="{{cartList}}" wx:for-item="cartItem" wx:for-index="cartIndex" wx:key="cartIndex">  
                 <view class="chart-date">{{cartItem.mealDateDes}}({{cartItem.mealDate}})</view>
-                <view wx:for="{{ cartItem.mealTypeList }}" wx:for-item="mealTypeItem" wx:for-index="mealTypeIndex" wx:key="mealTypeIndex">
+                <view class="mealType-wrp" wx:for="{{ cartItem.mealTypeList }}" wx:for-item="mealTypeItem" wx:for-index="mealTypeIndex" wx:key="mealTypeIndex">
+                  <!-- 失效餐品的蒙层 -->
+                  <view wx:if="{{mealTypeItem.effective==false}}" class="mealType-invalid-bg">
+                    订单已失效 不计入金额结算
+                  </view>
                   <view wx:for="{{ mealTypeItem.foods }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex">
-                    <view class='chart-item' wx:if="{{foodItem.foodQuantity>0}}">
+                    <view class='chart-item' >
                       <view class="chart-food-name-price">
                         <view class="chart-mealtype">{{ mealTypeItem.mealTypeDes }}</view>
                         <view style="text-overflow: ellipsis; white-space: nowrap;">
