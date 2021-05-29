@@ -18,15 +18,31 @@
                       </view>
                       <view class='remark-menuItem'>
                           <view class='remark-menuItem-left'>餐品备注</view>
-                          <view class='remark-menuItem-button' bindtap='addRemark' data-mealdate='{{mealDateItem.mealDate}}' data-mealtype='{{mealTypeItem.mealTypeDes}}' data-fooditem='{{foodItem}}'>添加</view>
+                          <view class='remark-menuItem-button' bindtap='clickAdd' data-mealdate='{{mealDateItem.mealDate}}' data-mealtype='{{mealTypeItem.mealType}}' data-fooditem='{{foodItem}}'>添加</view>
                       </view>
-
+                      <block wx:if='{{foodItem.markDetail.length>0}}'>
+                          <view class='remark-wrp' wx:for="{{foodItem.markDetail}}" wx:for-item='markItem' wx:for-index='markIndex' wx:key='{{markIndex}}'>
+                              <view class='remark-item'>
+                                <view class='remark-left'>
+                                  <view class='remark-left-item'>
+                                    {{markItem.quantity}} 份
+                                  </view>
+                                  <view class='remark-left-item'>
+                                    {{markItem.mark}}
+                                  </view>
+                                </view>
+                                <view class='mark-right' bindtap='clickDel' data-markitem='{{markItem}}'  data-fooditem='{{foodItem}}' data-mealdate='{{mealDateItem.mealDate}}' data-mealtype='{{mealTypeItem.mealType}}'>
+                                    <view class='remark-delete'>删除</view>
+                                </view>
+                              </view>
+                          </view>
+                      </block>
                   </view>
               </view>
           </view>
         </view>
     </view>
-    <view class="dialog-wrp-bg" wx:if="{{showDialog}}"  bindtap="closeDialog">
+    <view class="dialog-wrp-bg" wx:if="{{showDialogAdd}}"  bindtap="closeDialogAdd">
       <view class="dialog-wrp"  catchtap="donothing">
         <view class="title">
           添加备注
@@ -46,8 +62,8 @@
             </view>
             <view class="right">
                 <view class='remark-count-group'>
-                    <image style='margin-top:18rpx;width:44rpx;height:44rpx;' src='/images/menu/minus.png' bindtap='minus' data-mealdateindex='{{mealDateIndex}}' data-menuitem='{{item}}' data-foodindex='{{foodIndex}}' data-remarkindex='{{remarkIndex}}'></image>
-                    <input readonly bindinput='inputRemarkCount' data-mealdateindex='{{mealDateIndex}}' type='number' maxlength="10" placeholder="数量" value="{{quantity}}" class='remark-count'
+                    <image style='margin-top:18rpx;width:44rpx;height:44rpx;' src='/images/menu/minus.png' bindtap='minus'></image>
+                    <input readonly bindinput='inputRemarkCount' type='number' maxlength="10" placeholder="数量" value="{{quantity}}" class='remark-count'
                         placeholder-class='remark-count-default' />
                     <image style='margin-top:18rpx;width:44rpx;height:44rpx;' src='/images/menu/add.png' bindtap='add'></image>
                 </view>
@@ -55,10 +71,10 @@
           </view>
         </view> 
         <view class="btn-wrp">
-          <view class="cancel" bindtap="closeDialog">
+          <view class="cancel" bindtap="closeDialogAdd">
             取消
           </view>
-          <view class="confirm">
+          <view class="confirm" bindtap="confirmAdd">
             确定
           </view>
         </view>     

@@ -14,10 +14,13 @@ Page({
     /**
      *
      */
-    showDialog: false,
+    showDialogAdd: false,
     preOrderList: [],
     mark: null,
     quantity: 1,
+    currentMealDate: null,
+    currentMealType: null,
+    currentFoodCode: null,
   },
 
   /**
@@ -80,101 +83,62 @@ Page({
       });
     });
   },
-  closeModalModal() {
+
+  closeDialogAdd() {
     this.setData({
-      modalIndex: 0,
-    });
-  },
-  closeModal() {
-    let _this = this;
-    _this.data.popContent.show = false;
-    _this.setData({
-      popContent: _this.data.popContent,
-    });
-  },
-  closeDialog() {
-    this.setData({
-      showDialog: false,
+      showDialogAdd: false,
     });
   },
   donothing() {
     console.log("阻止事件冒泡");
   },
-  addRemark(e) {
+  clickAdd(e) {
     let _this = this;
-    _this.setData({
-      showDialog: true,
-    });
+
     //添加备注
-    let { mealDate, mealtype, fooditem } = e.currentTarget.dataset;
-    console.log("@@@@@@@ 2 @@@@@@@ ", mealDate, mealtype, fooditem);
-    console.log("@@@@@@@ preOrderList @@@@@@@ ", _this.data.preOrderList);
+    let { mealdate, mealtype, fooditem } = e.currentTarget.dataset;
+    _this.setData({
+      showDialogAdd: true,
+      currentMealDate: mealdate,
+      currentMealType: mealtype,
+      currentFoodCode: fooditem.foodCode,
+    });
+  },
+  clickDel(e) {
+    let _this = this;
+
+    //添加备注
+    let { mealdate, mealtype, fooditem, markitem } = e.currentTarget.dataset;
+    _this.setData({
+      currentMealDate: mealdate,
+      currentMealType: mealtype,
+      currentFoodCode: fooditem.foodCode,
+      currentMarkDetail: {
+        mark: markitem.mark,
+        quantity: markitem.quantity,
+      },
+    });
+    wx.showModal({
+      title: "确定删除?",
+      content: "",
+      success(res) {
+        if (res.confirm) {
+          console.log("用户点击确定");
+          _this.confirmDel();
+        } else if (res.cancel) {
+          console.log("用户点击取消");
+        }
+      },
+    });
   },
   inputRemarkName(e) {
-    //添加备注name
-    let value = e.detail.value;
-    let { mealdateindex, menuitem, foodindex, remarkindex } =
-      e.currentTarget.dataset;
-    this.data.preOrderList[mealdateindex][menuitem].preOrderList[
-      foodindex
-    ].remarkList[remarkindex].mark = value;
     this.setData({
-      preOrderList: this.data.preOrderList,
+      mark: e.detail.value,
     });
   },
   inputRemarkCount(e) {
-    //添加备注count
-    let value = e.detail.value;
-    if (value != "") {
-      value = parseInt(value);
-    }
-    let { mealdateindex, menuitem, foodindex, remarkindex } =
-      e.currentTarget.dataset;
-    let onefood =
-      this.data.preOrderList[mealdateindex][menuitem].preOrderList[foodindex];
-    let oldcount = onefood.remarkList[remarkindex].quantity;
-    //如果之前的餐品的数量不为空，那么计算现在的和是不是超过个餐品的数目
-
-    if (value == "") {
-      onefood.remarkList[remarkindex].quantity = value;
-      if (oldcount) {
-        onefood.remarkCountTotal = onefood.remarkCountTotal - oldcount;
-      }
-    } else {
-      if (oldcount) {
-        if (onefood.remarkCountTotal - oldcount + value > onefood.foodCount) {
-          onefood.remarkList[remarkindex].quantity = oldcount;
-
-          let tmp_pop = {};
-          tmp_pop.content = "备注餐品的总数量不能超过点的餐品的数量";
-          tmp_pop.show = true;
-          this.setData({
-            popContent: tmp_pop,
-          });
-        } else {
-          onefood.remarkList[remarkindex].quantity = value;
-          onefood.remarkCountTotal =
-            onefood.remarkCountTotal - oldcount + value;
-        }
-      } else {
-        if (onefood.remarkCountTotal + value > onefood.foodCount) {
-          onefood.remarkList[remarkindex].quantity = "";
-
-          let _this = this;
-          _this.data.popContent.show = true;
-          _this.data.popContent.content =
-            "备注餐品的总数量不能超过点的餐品的数量";
-          _this.setData({
-            popContent: _this.data.popContent,
-          });
-        } else {
-          onefood.remarkList[remarkindex].quantity = value;
-          onefood.remarkCountTotal = onefood.remarkCountTotal + value;
-        }
-      }
-    }
     this.setData({
-      preOrderList: this.data.preOrderList,
+      quantity: e.detail.value,
     });
   },
 
@@ -196,153 +160,101 @@ Page({
       });
     }
   },
-  deleteOneRemark(e) {
-    //删除一条备注
-    let { mealdateindex, menuitem, foodindex, remarkindex } =
-      e.currentTarget.dataset;
-    let onefood =
-      this.data.preOrderList[mealdateindex][menuitem].preOrderList[foodindex];
-    let oldcount = onefood.remarkList[remarkindex].quantity;
-    onefood.remarkList.splice(remarkindex, 1);
-    onefood.remarkCountTotal -= oldcount;
 
-    this.setData({
-      preOrderList: this.data.preOrderList,
-    });
-    this.getScrollHeight();
-  },
-  deleteOneRemarkForModal(e) {
-    //删除一条备注
-
-    let { mealdateindex, menuitem, foodindex, remarkindex } = e.detail;
-    let onefood =
-      this.data.preOrderList[mealdateindex][menuitem].preOrderList[foodindex];
-    let oldcount = onefood.remarkList[remarkindex].quantity;
-    onefood.remarkList.splice(remarkindex, 1);
-    onefood.remarkCountTotal -= oldcount;
-
-    this.setData({
-      preOrderList: this.data.preOrderList,
-      modalIndex: 0,
-    });
-    this.getScrollHeight();
-  },
-  //清空所有备注
-  clearAllRemark() {
+  confirmAdd() {
     let _this = this;
-
-    _this.data.modalContent.content = "您确定清空所有备注吗？";
-    _this.setData({
-      modalContent: _this.data.modalContent,
-      modalIndex: 2,
-    });
-  },
-  clearAllRemarkForModal() {
-    let _this = this;
-    for (let i = 0; i < _this.data.preOrderList.length; i++) {
-      let tmp_selectedFoods = _this.data.preOrderList[i];
-      if (tmp_selectedFoods.count > 0) {
-        _this.data.mealEnglistLabel.forEach((mealType) => {
-          if (
-            tmp_selectedFoods[mealType] &&
-            tmp_selectedFoods[mealType].preOrderList.length > 0
-          ) {
-            //选了这个餐时的菜
-
-            tmp_selectedFoods[mealType].preOrderList.forEach((onefood) => {
-              onefood.remarkCountTotal = 0;
-              onefood.remarkList = [];
-            });
-          }
-        });
-      }
-    }
-
-    _this.setData({
-      preOrderList: _this.data.preOrderList,
-      modalIndex: 0, //关闭弹窗
-    });
-    _this.getScrollHeight();
-  },
-  saveAllRemark() {
-    let complete = true;
-    let _this = this;
-    for (let i = 0; i < _this.data.preOrderList.length; i++) {
-      let tmp_selectedFoods = _this.data.preOrderList[i];
-      if (tmp_selectedFoods.count > 0) {
-        _this.data.mealEnglistLabel.forEach((mealType) => {
-          if (
-            tmp_selectedFoods[mealType] &&
-            tmp_selectedFoods[mealType].preOrderList.length > 0
-          ) {
-            //选了这个餐时的菜
-
-            tmp_selectedFoods[mealType].preOrderList.forEach((onefood) => {
-              if (onefood.remarkList && onefood.remarkList.length > 0) {
-                //判断最后一个备注是否完整
-                let lastRemark =
-                  onefood.remarkList[onefood.remarkList.length - 1];
-                if (!lastRemark.mark || !lastRemark.quantity) {
-                  console.log("lastRemark--quantity", lastRemark.quantity);
-                  complete = false;
-                }
-              }
-            });
-          }
-        });
-      }
-    }
-    //如果有的备注没有填
-    if (!complete) {
-      let a = {};
-      a.content = "有未完成的备注，是否删除未完成的备注？";
-      a.confirm = "确定删除";
-      a.cancel = "一会再弄";
-      _this.setData({
-        modalContent: a,
-        modalIndex: 3,
-      });
-    } else {
-      wx.setStorageSync("sevenSelectedFoods", _this.data.preOrderList);
-
+    if (!_this.data.quantity) {
       wx.showToast({
-        title: "保存成功",
-        icon: "success",
+        title: "数量必填",
+        image: "/images/msg/error.png",
+        duration: 2000,
       });
-      wx.navigateBack({ url: "/pages/menu/today/confirm/confirm" });
+      return;
+    } else if (_this.data.quantity < 1) {
+      wx.showToast({
+        title: "数量至少1份",
+        image: "/images/msg/error.png",
+        duration: 2000,
+      });
+      return;
+    } else if (!_this.data.mark) {
+      wx.showToast({
+        title: "内容必填",
+        image: "/images/msg/error.png",
+        duration: 2000,
+      });
+      return;
     }
-  },
-  deleteUncompleteRemark() {
-    let _this = this;
-    for (let i = 0; i < _this.data.preOrderList.length; i++) {
-      let tmp_selectedFoods = _this.data.preOrderList[i];
-      if (tmp_selectedFoods.count > 0) {
-        _this.data.mealEnglistLabel.forEach((mealType) => {
-          if (
-            tmp_selectedFoods[mealType] &&
-            tmp_selectedFoods[mealType].preOrderList.length > 0
-          ) {
-            //选了这个餐时的菜
-
-            tmp_selectedFoods[mealType].preOrderList.forEach((onefood) => {
-              if (onefood.remarkList && onefood.remarkList.length > 0) {
-                //判断最后一个备注是否完整
-                let lastRemark =
-                  onefood.remarkList[onefood.remarkList.length - 1];
-                if (!lastRemark.mark || !lastRemark.quantity) {
-                  onefood.remarkList.splice(onefood.remarkList.length - 1, 1);
-                }
-              }
-            });
-          }
+    let param = {
+      url: config.baseUrlPlus + "/v3/cart/addFoodMarkDetail",
+      method: "post",
+      data: {
+        userCode: wx.getStorageSync("userInfo").userInfo.userCode,
+        foodCode: _this.data.currentFoodCode,
+        mealDate: _this.data.currentMealDate,
+        mealType: _this.data.currentMealType,
+        markDetail: {
+          mark: _this.data.mark,
+          quantity: _this.data.quantity,
+        },
+      },
+    };
+    wx.showLoading();
+    request(param, (resData) => {
+      if (resData.data.code === 200) {
+        wx.showToast({
+          title: "添加成功",
+          duration: 2000,
+        });
+        _this.closeDialogAdd();
+        _this.getPreOrderInfo();
+      } else if (resData.data.code == 401) {
+        wx.showToast({
+          title: "超出数量",
+          image: "/images/msg/error.png",
+          duration: 2000,
+        });
+      } else {
+        wx.showToast({
+          title: resData.data.msg,
+          image: "/images/msg/error.png",
+          duration: 2000,
         });
       }
-    }
-    _this.setData({
-      preOrderList: _this.data.preOrderList,
-      modalIndex: 0,
+      wx.hideLoading();
     });
-    _this.getScrollHeight();
+  },
+  confirmDel() {
+    let _this = this;
+    let param = {
+      url: config.baseUrlPlus + "/v3/cart/deleteFoodMarkDetail",
+      method: "post",
+      data: {
+        userCode: wx.getStorageSync("userInfo").userInfo.userCode,
+        foodCode: _this.data.currentFoodCode,
+        mealDate: _this.data.currentMealDate,
+        mealType: _this.data.currentMealType,
+        markDetail: _this.data.currentMarkDetail,
+      },
+    };
+    wx.showLoading();
+    request(param, (resData) => {
+      if (resData.data.code === 200) {
+        wx.showToast({
+          title: "删除成功",
+          duration: 2000,
+        });
+        _this.closeDialogAdd();
+        _this.getPreOrderInfo();
+      } else {
+        wx.showToast({
+          title: resData.data.msg,
+          image: "/images/msg/error.png",
+          duration: 2000,
+        });
+      }
+      wx.hideLoading();
+    });
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
