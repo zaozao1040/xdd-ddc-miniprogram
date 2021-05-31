@@ -146,21 +146,19 @@
                               <image src="/images/menu/wallet.png" style="width:40rpx;height:40rpx;">
                               </image>
                           </view>
-                          <!--allowUserOrganizePayNoCanMeal为true，就是个人钱包，否则就是钱包余额-->
                           <block>
-                              <view class='pay-balance'>钱包支付({{balanceDes}})</view>
-                              <image src='/images/menu/diancanbi.png'
-                                  style='width:28rpx;height:28rpx;padding:6rpx 8rpx 0;'></image>
-                              <view class='pay-balance'>{{canUseBalance}})</view>
+                              <view class='pay-balance'>余额支付</view>
+                              <view class='pay-balance' style="margin-left: 30rpx;font-size: 25rpx;display: flex;align-items: center;">
+                                <image src='/images/menu/diancanbi.png'
+                                  style='width:20rpx;height:20rpx;'></image>
+                                当前剩余{{financeInfo.allBalance}}
+                              </view>
                           </block>
                       </view>
-                      <!--余额钱包亮时，点余额钱包变为微信支付-->
-                      <!--余额钱包不亮时，点余额钱包判断可为余额支付还是余额+微信支付-->
-                      <!--微信支付不亮时，点微信支付变为微信支付-->
                       <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
                           <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;"
                               bindtap="handleChangeWechatPayFlag"
-                              wx:if="{{payType=='BALANCE_PAY' ||payType=='BALANCE_MIX_WECHAT_PAY'}}">
+                              wx:if="{{payInfo.payType=='BALANCE_PAY'||payInfo.payType=='BALANCE_MIX_WECHAT_PAY'}}">
                           </image>
                           <image src="/images/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:else
                               bindtap="handleChangeBalancePayFlag">
@@ -168,6 +166,9 @@
                       </view>
                   </view>
                   <view class='pay-item-last' style='padding-bottom:26rpx;'>
+                      <view wx:if='{{!canUseWx}}'
+                          style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:90;'>
+                      </view>
                       <view class='flex-a'>
                           <image src="/images/menu/order_wechatpay.png"
                               style="padding-top:34rpx;width:40rpx;height:40rpx;">
@@ -176,13 +177,32 @@
                       </view>
                       <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
                           <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;"
-                              wx:if="{{payType=='WECHAT_PAY'||payType=='BALANCE_MIX_WECHAT_PAY'}}">
+                              wx:if="{{payInfo.payType=='WECHAT_PAY'||payInfo.payType=='BALANCE_MIX_WECHAT_PAY'}}">
                           </image>
                           <image src="/images/menu/uncheck.png" catchtap="handleChangeWechatPayFlag"
                               style="width:44rpx;height:44rpx;" wx:else></image>
 
                       </view>
                   </view>
+
+                  <view class='pay-item-last' style='padding-bottom:26rpx;'>
+                    <view wx:if='{{!canUseStandard}}'
+                        style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:90;'>
+                    </view>
+                    <view class='flex-a'>
+                        <image src="/images/menu/order_wechatpay.png"
+                            style="padding-top:34rpx;width:40rpx;height:40rpx;">
+                        </image>
+                        <view class='pay-wechat'>餐标支付</view>
+                    </view>
+                    <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
+                        <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;"
+                            wx:if="{{payInfo.payType=='STANDARD_PAY'}}">
+                        </image>
+                        <image src="/images/menu/uncheck.png"
+                            style="width:44rpx;height:44rpx;" wx:else></image>
+                    </view>
+                </view>
               </view>
           </view>
           <view style='margin:16rpx;' wx:if='{{orgAdmin}}'>
@@ -209,6 +229,6 @@
               已优惠￥{{payInfo.totalOrganizeDeductionPrice}}
           </view>
       </view>
-      <view class='pay-button' bindtap="handleCommitPayCheck">确认支付</view>
+      <view class='pay-button' bindtap="confirmPay">确认支付</view>
   </view>
 </view>

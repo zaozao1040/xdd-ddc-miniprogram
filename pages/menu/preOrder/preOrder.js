@@ -18,18 +18,11 @@ Page({
     loading: false,
     timer: null,
     canClick: true,
-    //这四个记录缓存的值
-    address: "",
-    userName: "",
-    phoneNumber: "",
 
     selectedFoods: [],
     totalMoney: 0,
     totalMoneyRealDeduction: 0, //额度总金额
     totalDeduction: 0, //优惠的总价格，企业额度和优惠券优惠
-
-    realMoney: 0, //实际总价格，也就是自费价格
-    realMoney_save: 0, //实际总价格，也就是自费价格(从menu传过来的，不含减去优惠券的价格--保存下来用于选择不同优惠券)
 
     mapMenutype: ["早餐", "午餐", "晚餐", "夜宵"],
     mapMenutypeIconName: ["zaocan1", "wucan", "canting", "xiaoye-"],
@@ -57,12 +50,27 @@ Page({
 
     preOrderList: [],
     userInfo: {},
+    address: "",
+    userName: "",
+    phoneNumber: "",
     personalConfig: {},
     reqData: {
       userCode: null,
       couponList: [],
     },
-    payInfo: {},
+    canUseBalance: false,
+    canUseStandard: false,
+    canUseWx: false,
+    payInfo: {
+      orderPayPrice: null,
+      totalOrganizeDeductionPrice: null,
+      totalMoney: null,
+      payType: null,
+    },
+    financeInfo: {},
+    // 下面两个字段为了不破坏旧的混合支付逻辑
+    realMoney: 0, //实际总价格，也就是自费价格
+    realMoney_save: 0, //实际总价格，也就是自费价格(从menu传过来的，不含减去优惠券的价格--保存下来用于选择不同优惠券)
   },
   onLoad: function (options) {
     this.loadData();
@@ -136,9 +144,21 @@ Page({
       });
     } else {
       requestModel.getUserInfo((userInfo) => {
-        _this.setData({
-          userInfo: userInfo,
-        });
+        _this.setData(
+          {
+            userInfo: userInfo,
+            address: userInfo.deliveryAddress,
+            userName: userInfo.userName,
+            phoneNumber: userInfo.phoneNumber,
+          },
+          () => {
+            if (!_this.data.userName || !userInfo.deliveryAddress) {
+              _this.setData({
+                showSelectFlag: true,
+              });
+            }
+          }
+        );
       }, true);
     }
   },
@@ -165,15 +185,23 @@ Page({
     };
     request(param, (resData) => {
       if (resData.data.code === 200) {
-        _this.setData({
-          preOrderList: resData.data.data.cartResDtoList,
-          payInfo: {
-            orderPayPrice: resData.data.data.orderPayPrice,
-            totalOrganizeDeductionPrice:
-              resData.data.data.totalOrganizeDeductionPrice,
-            totalMoney: resData.data.data.totalMoney,
+        _this.setData(
+          {
+            preOrderList: resData.data.data.cartResDtoList,
+            payInfo: {
+              orderPayPrice: resData.data.data.orderPayPrice,
+              totalOrganizeDeductionPrice:
+                resData.data.data.totalOrganizeDeductionPrice,
+              totalMoney: resData.data.data.totalMoney,
+              payType: resData.data.data.payType,
+            },
+            realMoney: resData.data.data.orderPayPrice,
+            realMoney_save: resData.data.data.orderPayPrice,
           },
-        });
+          () => {
+            _this.refreshUserFinance();
+          }
+        );
       } else {
         wx.showToast({
           title: resData.data.msg,
@@ -182,16 +210,71 @@ Page({
         });
       }
     });
-
+  },
+  refreshUserFinance() {
+    let _this = this;
+    let param = {
+      url: "/user/getUserFinance?userCode=" + _this.data.userInfo.userCode,
+    };
     requestModel.request(
       param,
-      (resData) => {
-        _this.setData({
-          preOrderList: resData,
-        });
+      (data) => {
+        wx.hideLoading();
+        // 返回接口中的字段含义如下：
+        // allBalance: 1.2  个人点餐币+赠送点餐币+企业点餐币（如果该企业没有开通企业钱包，则等于个人点餐币+赠送点餐币）
+        // balance: 1.2                                    个人点餐币
+        // organizeBalance: 0                              企业点餐币
+        // presentBalance: 0                               赠送点餐币
+        // totalBalance: 1.2                               个人点餐币+赠送点餐币
+        // totalPresentBalance: 0                          等于赠送点餐币
+
+        // discount: 0                                     与本需求无关 无效
+        // integral: 116                                   与本需求无关 积分
+        // thisMonthClearOrganizeBlance: 0                 与本需求无关 本月清零的企业点餐币（如果该企业没有开通企业钱包，则等于0）
+        _this.setData(
+          {
+            financeInfo: data,
+          },
+          () => {
+            _this.refreshPayTypeInfo();
+          }
+        );
       },
       true
     );
+  },
+  refreshPayTypeInfo() {
+    let _this = this;
+    let tmp_payType = _this.data.payInfo.payType;
+    if (tmp_payType == "BALANCE_PAY") {
+      _this.setData({
+        canUseStandard: false,
+        canUseBalance: true,
+        canUseWx: true,
+        payType: tmp_payType,
+      });
+    } else if (tmp_payType == "BALANCE_MIX_WECHAT_PAY") {
+      _this.setData({
+        canUseStandard: true,
+        canUseBalance: true,
+        canUseWx: true,
+        payType: tmp_payType,
+      });
+    } else if (tmp_payType == "WECHAT_PAY") {
+      _this.setData({
+        canUseStandard: false,
+        canUseBalance: false,
+        canUseWx: true,
+        payType: tmp_payType,
+      });
+    } else if (tmp_payType == "STANDARD_PAY") {
+      _this.setData({
+        canUseStandard: false,
+        canUseBalance: false,
+        canUseWx: false,
+        payType: tmp_payType,
+      });
+    }
   },
   initAddress: function () {
     let _this = this;
@@ -291,134 +374,7 @@ Page({
     });
     return mealTypes;
   },
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-    let _this = this;
-    requestModel.getUserInfo((userInfo) => {
-      let { userType, orgAdmin } = userInfo;
-      if (userType == "ORG_ADMIN" && orgAdmin == true) {
-        _this.setData({
-          orgAdmin: true,
-        });
-      } else {
-        _this.setData({
-          orgAdmin: false,
-        });
-      }
-      _this.setData({
-        address: userInfo.deliveryAddress,
-        userName: userInfo.userName,
-        phoneNumber: userInfo.phoneNumber,
-        userInfo: userInfo,
-      });
 
-      if (!_this.data.userName || !userInfo.deliveryAddress) {
-        _this.setData({
-          showSelectFlag: true,
-        });
-      }
-
-      _this.refreshUserFinance();
-    });
-  },
-  refreshUserFinance() {
-    let _this = this;
-    let param = {
-      url: "/user/getUserFinance?userCode=" + wx.getStorageSync("userCode"),
-    };
-    requestModel.request(
-      param,
-      (data) => {
-        wx.hideLoading();
-        // 返回接口中的字段含义如下：
-        // allBalance: 1.2  个人点餐币+赠送点餐币+企业点餐币（如果该企业没有开通企业钱包，则等于个人点餐币+赠送点餐币）
-        // balance: 1.2                                    个人点餐币
-        // organizeBalance: 0                              企业点餐币
-        // presentBalance: 0                               赠送点餐币
-        // totalBalance: 1.2                               个人点餐币+赠送点餐币
-        // totalPresentBalance: 0                          等于赠送点餐币
-
-        // discount: 0                                     与本需求无关 无效
-        // integral: 116                                   与本需求无关 积分
-        // thisMonthClearOrganizeBlance: 0                 与本需求无关 本月清零的企业点餐币（如果该企业没有开通企业钱包，则等于0）
-        _this.setData({
-          totalBalance: data.totalBalance,
-        });
-        let canUseBalance = data.allBalance;
-        _this.data.balancePayMoney = data.allBalance;
-
-        if (!_this.data.realMoney) {
-          //等于0则是标准支付
-          _this.setData({
-            payType: "STANDARD_PAY",
-            canUseBalance: canUseBalance,
-          });
-        } else {
-          /**
-           * 逻辑整理：
-           * allowUserOrganizePayNoCanMeal  允许企业点餐币支付非餐标餐品
-           * realMoney  最后需要支付的现金
-           * cantMealTotalMoney  总-不可使用餐标
-           * canMealTotalMoney   总-可使用餐标
-           */
-          // 下面的逻辑中，有两个 realMoney 的地方换成了 realMoney_save -- 记录
-          let allowUserOrganizePayNoCanMeal =
-            wx.getStorageSync("userInfo").userInfo
-              .allowUserOrganizePayNoCanMeal;
-          if (!allowUserOrganizePayNoCanMeal) {
-            let canMealTotalMoney = parseFloat(
-              _this.data.realMoney_save - _this.data.cantMealTotalMoney
-            ).toFixed(2);
-            let organizePayBalance =
-              data.organizeBalance < canMealTotalMoney
-                ? data.organizeBalance
-                : canMealTotalMoney;
-            organizePayBalance = parseFloat(organizePayBalance);
-            let remainMoney = _this.data.realMoney_save - organizePayBalance;
-            let personPayBalance =
-              data.totalBalance < remainMoney ? data.totalBalance : remainMoney;
-            let personBalance = data.totalBalance;
-            let organizeBalance =
-              data.totalBalance < remainMoney
-                ? organizePayBalance
-                : data.organizeBalance;
-            canUseBalance = parseFloat(
-              (parseFloat(organizeBalance) + parseFloat(personBalance)).toFixed(
-                2
-              )
-            ); //【邱宁修改】
-            _this.data.balancePayMoney =
-              parseFloat(organizePayBalance.toFixed(2)) +
-              parseFloat(personPayBalance.toFixed(2));
-          }
-          if (canUseBalance == 0) {
-            _this.setData({
-              payType: "WECHAT_PAY",
-            });
-          } else if (canUseBalance >= _this.data.realMoney) {
-            _this.setData({
-              payType: "BALANCE_PAY",
-            });
-            // 药明康德的奇葩弹窗需求
-            _this.getYaomingNotice();
-          } else {
-            _this.setData({
-              payType: "BALANCE_MIX_WECHAT_PAY",
-            });
-            // 药明康德的奇葩弹窗需求
-            _this.getYaomingNotice();
-          }
-          _this.setData({
-            canUseBalance,
-            balanceDes: allowUserOrganizePayNoCanMeal ? "个人钱包" : "钱包余额",
-          });
-        }
-      },
-      true
-    );
-  },
   /* 页面隐藏后回收定时器指针 */
   onHide: function () {
     if (this.data.timer) {
@@ -744,7 +700,7 @@ Page({
     });
   },
   //余额支付的提示
-  handleCommitPayCheck() {
+  confirmPay() {
     if (!this.data.userName) {
       wx.showToast({
         title: "请填写姓名",
