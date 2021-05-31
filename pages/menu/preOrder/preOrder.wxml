@@ -29,7 +29,7 @@
   </view>
   <!-- 弹出层 填写钱包支付提示 -->
   <c-custom-modal content='使用钱包支付' title='支付提示' money='￥{{payInfo.orderPayPrice}}' wx:if='{{balanceConfirmFlag}}'
-      bind:closemodal='closeBalanceConfirmFlag' bind:handleconfirm='handleCommitPay'></c-custom-modal>
+      bind:closemodal='cancelPayBalance' bind:handleconfirm='confirmPayBalance'></c-custom-modal>
 
   <!-- 默认地址 -->
   <view class="address-wrapper c_buttonPosition_forCalculate_top" bindtap="handleChangeSelectFlag">
