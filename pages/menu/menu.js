@@ -89,6 +89,7 @@ Page({
     foodTypeList: {},
     activeInfoExtra: {},
     cartList: [],
+    inValidNum: 0,
     payInfo: {},
     //
     activeMealDate: "",
@@ -106,6 +107,7 @@ Page({
     showPrice: true, //是否显示价格 -- 只有visitor身份不展示
     // 购物车
     showCartFlag: false, //购物车的颜色，false时是灰色，true时有颜色
+    invalidCartOrder: false, //是否存在失效订单
   },
   //获取排查日期
   getDays(canpintuijianParams) {
@@ -403,7 +405,8 @@ Page({
       param,
       (resData) => {
         _this.setData({
-          cartList: resData,
+          cartList: resData.list,
+          cartInvalidNum: resData.inValidNum,
         });
       },
       true
@@ -714,8 +717,6 @@ Page({
     _this.data.cartList.forEach((item) => {
       tmp_dateParamList.push(item.mealDate);
     });
-    console.log("=======  ======= ", tmp_dateParamList);
-
     let param = {
       url: "/organizeUserOrderDeadline/queryByUserCode",
       method: "post",
@@ -752,9 +753,25 @@ Page({
       key: "key_goToPreOrder",
       time: 1000,
       success: () => {
-        if (!_this.data.personalConfig.xxx) {
+        let aomeikaiOrgnaizeCode = getApp().globalData.aomeikaiOrgnaizeCode;
+        if (_this.data.userInfo.organizeCode == aomeikaiOrgnaizeCode) {
           // 奥美凯企业的个性化，限制员工日期和餐别进行点餐，狗日的奥美凯
           _this.doLimit();
+        } else if (_this.data.inValidNum == 0) {
+          wx.showModal({
+            title: "存在失效订单 x " + _this.data.inValidNum,
+            content: "是否清空购物车?",
+            confirmText: "直接下单",
+            cancelText: "清空后下单",
+            success: function (res) {
+              if (res.confirm) {
+                _this.clearCartList();
+                wx.navigateTo({
+                  url: "/pages/menu/preOrder/preOrder",
+                });
+              }
+            },
+          });
         } else {
           wx.navigateTo({
             url: "/pages/menu/preOrder/preOrder",

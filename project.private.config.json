@@ -333,6 +333,12 @@
           "pathName": "pages/menu/preOrder/preOrder",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/menu/menu",
+          "pathName": "pages/menu/menu",
+          "query": "",
+          "scene": null
         }
       ]
     }

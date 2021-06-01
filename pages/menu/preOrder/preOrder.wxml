@@ -181,10 +181,8 @@
                           </image>
                           <image src="/images/menu/uncheck.png" catchtap="handleChangeWechatPayFlag"
                               style="width:44rpx;height:44rpx;" wx:else></image>
-
                       </view>
                   </view>
-
                   <view class='pay-item-last' style='padding-bottom:26rpx;'>
                     <view wx:if='{{!canUseStandard}}'
                         style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:90;'>
@@ -229,6 +227,6 @@
               已优惠￥{{payInfo.totalOrganizeDeductionPrice}}
           </view>
       </view>
-      <view class='pay-button' bindtap="confirmPay">确认支付</view>
+      <view class='pay-button' bindtap="confirmPay">确定支付</view>
   </view>
 </view>

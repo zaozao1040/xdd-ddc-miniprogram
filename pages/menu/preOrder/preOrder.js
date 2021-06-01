@@ -73,54 +73,12 @@ Page({
       preWxPay: null,
       preBalancePay: null,
     },
+    orderType: null, //订单类型 普通订单 或者 补餐订单
   },
   onLoad: function (options) {
-    this.loadData();
-
-    let selectedFoods = [];
-    if (options.orderType == "add") {
-      //补餐
-      let a = wx.getStorageSync("addSelectedFoods");
-      selectedFoods.push(a);
-    } else {
-      selectedFoods = wx.getStorageSync("sevenSelectedFoods");
-    }
-    //初始化，默认都选择不使用积分抵扣
-
-    for (let i = 0; i < selectedFoods.length; i++) {
-      //是否使用积分
-      if (selectedFoods[i].count > 0) {
-        for (let m = 0; m < this.data.mealEnglistLabel.length; m++) {
-          let meal = this.data.mealEnglistLabel[m];
-          if (selectedFoods[i][meal]) {
-            selectedFoods[i][meal].useIntegral = false;
-          }
-        }
-      }
-      //显示的日期
-      if (selectedFoods[i].mealDate) {
-        let a = selectedFoods[i].mealDate.split("-");
-        selectedFoods[i].mealDateShow = a[1] + "/" + a[2];
-      }
-    }
-
-    wx.setStorageSync("sevenSelectedFoods", selectedFoods);
     this.setData({
-      selectedFoods: selectedFoods,
-      totalMoney: options.totalMoney,
-      totalMoneyRealDeduction: options.totalMoneyRealDeduction,
-      realMoney: parseFloat(options.realMoney),
-      realMoney_save: parseFloat(options.realMoney),
-      totalDeduction: options.totalMoneyRealDeduction,
       orderType: options.orderType,
-      cantMealTotalMoney: options.cantMealTotalMoney, //不可使用餐标的总额
     });
-    this.getOrderVerificationString();
-
-    // 计算公共参数
-    this.getOrderParamList();
-
-    // 这里需要判断是否有补餐信息传递过来
 
     if (options.appendMealFlag == "ok") {
       // 刷新每个餐别的优惠券几张可用
@@ -129,6 +87,8 @@ Page({
       // 刷新每个餐别的优惠券几张可用
       this.refreshDiscountNumFirst(false);
     }
+
+    this.loadData();
   },
   loadData: function () {
     this.getUserInfo();
@@ -331,21 +291,6 @@ Page({
     });
   },
 
-  getOrderVerificationString() {
-    let _this = this;
-    requestModel.getUserCode((userCode) => {
-      let param = {
-        url: "/order/getOrderVerificationString?userCode=" + userCode,
-      };
-      requestModel.request(
-        param,
-        (data) => {
-          _this.data.verificationString = data;
-        },
-        true
-      );
-    });
-  },
   // 获取已选中餐品占据了哪些餐别
   getMealTypesList(selectedFoods) {
     let mealTypes = [];
@@ -732,62 +677,12 @@ Page({
       this.doPay();
     }
   },
-  /**
-   * 付款
-   * 以及 查询可用优惠券数量
-   * 以及 确认下单时调用/order/generateOrder产生订单的请求参数
-   * 这三个请求时 的参数一部分，封装这个逻辑
-   */
-  getOrderParamList: function () {
-    let _this = this;
-    let tmp_orderParamList = [];
 
-    _this.data.selectedFoods = wx.getStorageSync("sevenSelectedFoods"); //2021-02-1 qiuning修改，这里给放开了，原来被注释掉
-    let tmp_length = wx.getStorageSync("sevenSelectedFoods").length; // wx.getStorageSync("sevenSelectedFoods")  _this.data.selectedFoods
-    for (let i = 0; i < tmp_length; i++) {
-      let tmp_selectedFoodsItem = wx.getStorageSync("sevenSelectedFoods")[i]; // wx.getStorageSync("sevenSelectedFoods")  _this.data.selectedFoods
-      if (tmp_selectedFoodsItem.count > 0) {
-        _this.data.mealEnglistLabel.forEach((mealType) => {
-          if (
-            tmp_selectedFoodsItem[mealType] &&
-            tmp_selectedFoodsItem[mealType].selectedFoods.length > 0
-          ) {
-            //选了这个餐时的菜
-
-            let order_item = {
-              mealDate: tmp_selectedFoodsItem.mealDate,
-              mealType: mealType.toUpperCase(),
-              userDiscountCode: tmp_selectedFoodsItem[mealType]
-                .oldSelectedDiscountInfo
-                ? tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo
-                    .userDiscountCode
-                : null,
-              foods: [],
-              integralNumber: 0,
-            };
-
-            tmp_selectedFoodsItem[mealType].selectedFoods.forEach((onefood) => {
-              let foods_item = {
-                foodCode: onefood.foodCode,
-                foodQuantity: onefood.foodCount,
-                markDetail: onefood.remarkList,
-              };
-
-              order_item.foods.push(foods_item);
-            });
-
-            tmp_orderParamList.push(order_item);
-          }
-        });
-      }
-    }
-    _this.data.orderParamList = tmp_orderParamList; //赋给本页公共变量
-  },
   confirmPayBalance() {
     this.setData({
       balanceConfirmFlag: false,
     });
-    this.pay();
+    this.doPay();
   },
   cancelPayBalance() {
     this.setData({
@@ -814,6 +709,31 @@ Page({
     });
   },
   /**
+   * 付款 获取下单时必要的订单参数
+   */
+  getOrderListParam: function () {
+    let _this = this;
+    let tmp_orderParamList = [];
+    _this.data.preOrderList.forEach((itemOut) => {
+      itemOut.mealTypeList.forEach((itemIn) => {
+        let tmp_foods = [];
+        itemIn.foods.forEach((itemMini) => {
+          tmp_foods.push({
+            foodCode: itemMini.foodCode,
+            foodQuantity: itemMini.foodQuantity,
+          });
+        });
+        tmp_orderParamList.push({
+          mealType: itemIn.mealType,
+          mealDate: itemOut.mealDate,
+          integralNumber: 0,
+          foods: tmp_foods,
+        });
+      });
+    });
+    return tmp_orderParamList;
+  },
+  /**
    * 付款 提交菜单
    */
   doPay: function () {
@@ -824,59 +744,46 @@ Page({
       key: "key_doPay",
       time: 1000,
       success: () => {
-        requestModel.getUserCode((userCode) => {
-          /**** 拼接这个庞大的参数 ****/
-          // 若该企业是开启了 分时段取餐 功能的，也就是takeMealLimitFlag为true，那么需要组装请求参数
-          let tmp_takeMealLimitObj = {};
-
-          let tmp_param = {
-            verificationString: _this.data.verificationString,
-            userCode: userCode,
-            userName: _this.data.userName,
-            addressCode: _this.data.userInfo.deliveryAddressCode,
-            payType: _this.data.payType, //支付方式
-            orderPayMoney: _this.data.realMoney, //自费的总价格
-            appendMealFlag: _this.data.orderType == "add" ? true : false,
-            order: [],
-          };
-
-          _this.getOrderParamList(); //要重新计算一下这个orderParamList，因为加入了优惠券
-          tmp_param.order = _this.data.orderParamList;
-
-          let param = tmp_param;
-          if (!param.orderPayMoney) {
-            param.payType = "STANDARD_PAY"; //支付方式改为标准支付
-          }
-
-          if (param.payType == "BALANCE_MIX_WECHAT_PAY") {
-            param.balancePayMoney = _this.data.balancePayMoney;
-            param.thirdPayMoney = parseFloat(
-              parseFloat(_this.data.realMoney) -
-                parseFloat(_this.data.balancePayMoney)
-            ).toFixed(2);
-          }
-          let params = {
-            data: param,
-            url: "/order/generateOrder",
+        let param = {
+          url:
+            "/order/getOrderVerificationString?userCode=" +
+            _this.data.userInfo.userCode,
+        };
+        requestModel.request(param, (data) => {
+          let tmp_verificationString = data;
+          let tmp_payType = _this.data.payInfo.payType;
+          let paramPay = {
+            url: config.baseUrlPlus + "/order/generateOrder",
             method: "post",
+            data: {
+              verificationString: tmp_verificationString,
+              userCode: _this.data.userInfo.userCode,
+              userName: _this.data.userName,
+              addressCode: _this.data.userInfo.deliveryAddressCode,
+              payType: tmp_payType, //支付方式
+              orderPayMoney: _this.data.payInfo.orderPayPrice, //自费的总价格
+              appendMealFlag: _this.data.orderType == "add" ? true : false,
+              order: _this.getOrderListParam(),
+            },
           };
-          requestModel.request(
-            params,
-            (resdata) => {
-              let data = resdata.payData;
 
+          console.log("@@@@@@@ paramPay @@@@@@@ ", paramPay);
+
+          request(paramPay, (resData) => {
+            if (resData.data.code === 200) {
+              let data = resData.data.payData;
               if (
                 !data ||
-                param.payType == "BALANCE_PAY" ||
-                param.payType == "STANDARD_PAY"
+                tmp_payType == "BALANCE_PAY" ||
+                tmp_payType == "STANDARD_PAY"
               ) {
                 wx.reLaunch({
                   url: "/pages/order/order?content=" + "订单已生成",
                 });
               } else if (
-                (param.payType == "WECHAT_PAY" ||
-                  param.payType == "BALANCE_MIX_WECHAT_PAY") &&
-                resdata.needPay
+                (tmp_payType == "WECHAT_PAY" ||
+                  tmp_payType == "BALANCE_MIX_WECHAT_PAY") &&
+                resData.data.needPay
               ) {
                 //微信支付
                 wx.showLoading();
@@ -908,12 +815,8 @@ Page({
                   });
                 }
               }
-            },
-            true,
-            () => {
-              _this.getOrderVerificationString();
             }
-          );
+          });
         });
       },
     });
