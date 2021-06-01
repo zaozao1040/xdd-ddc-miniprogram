@@ -6,28 +6,27 @@
       <view>
         {{ content }}
       </view>
-      {{ content }}
       <view style="color: #f79c4c">{{ money }}</view>
     </view>
-    <view class="content" wx:if="{{ content1 }}">
+    <view class="content-bt" wx:if="{{ content1 }}">
       <view>
         {{ content1 }}
       </view>
       <view style="color: #f79c4c">{{ money1 }}</view>
     </view>
-    <view class="content" wx:if="{{ content2 }}">
+    <view class="content-bt" wx:if="{{ content2 }}">
       <view>
         {{ content2 }}
       </view>
       <view style="color: #f79c4c">{{ money2 }}</view>
     </view>
-    <view class="content" wx:if="{{ content3 }}">
+    <view class="content-bt" wx:if="{{ content3 }}">
       <view>
         {{ content3 }}
       </view>
       <view style="color: #f79c4c">{{ money3 }}</view>
     </view>
-    <view class="content" wx:if="{{ content4 }}">
+    <view class="content-bt" wx:if="{{ content4 }}">
       <view>
         {{ content4 }}
       </view>

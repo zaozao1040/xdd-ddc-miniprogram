@@ -7,18 +7,12 @@
   z-index: 10002;
   background: rgba(13, 21, 31, 0.5);
   margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .warpper {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  height: 400rpx;
-  width: 540rpx;
-  padding-bottom: 0;
   background: #fff;
   border-radius: 8rpx;
   z-index: 1001;
@@ -39,23 +33,37 @@
   font-weight: 400;
   color: rgba(133, 133, 133, 1);
   line-height: 42rpx;
+  width: 400rpx;
   text-align: center;
-  padding: 0 80rpx;
+  padding: 0 30rpx;
+  display: flex;
+  justify-content: center;
+  margin: 0 20rpx 50rpx 20rpx;
+}
+.content-bt {
+  font-size: 30rpx;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: rgba(133, 133, 133, 1);
+  line-height: 42rpx;
+  width: 400rpx;
+  text-align: center;
+  padding: 0 30rpx;
   display: flex;
   justify-content: space-between;
+  margin: 0 20rpx 10rpx 20rpx;
 }
 
 .button-display {
   display: flex;
-  position: absolute;
   width: 100%;
-  bottom: 0;
   height: 100rpx;
   border-top: 1rpx solid #e5e5e5;
+  margin-top: 30rpx;
 }
 
 .button-left {
-  width: 50%;
+  flex: 1;
   font-size: 32rpx;
   font-family: PingFangSC-Regular;
   font-weight: 400;
@@ -69,7 +77,7 @@
 
 .button-right {
   background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
-  width: 50%;
+  flex: 1;
   font-size: 32rpx;
   font-family: PingFangSC-Regular;
   font-weight: 400;
