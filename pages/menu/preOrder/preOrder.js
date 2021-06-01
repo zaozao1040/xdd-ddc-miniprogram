@@ -59,13 +59,17 @@ Page({
       couponList: [],
     },
     canUseBalance: false,
+    selectBa: false,
     canUseStandard: false,
+    selectSt: false,
     canUseWx: false,
+    selectWx: false,
     payInfo: {
       orderPayPrice: null,
       totalOrganizeDeductionPrice: null,
       totalMoney: null,
       payType: null,
+      defaultPayType: null, //后台返给的支付方式 默认支付方式
       organizePayPrice: null, // 可支付的 企业点餐币
       presentPayPrice: null, // 可支付的 赠送点餐币
       userPayPrice: null, // 可支付的 个人点餐币
@@ -73,10 +77,6 @@ Page({
     },
     financeInfo: {},
     balanceConfirmFlag: false,
-    prePayInfo: {
-      preWxPay: null,
-      preBalancePay: null,
-    },
     orderType: null, //订单类型 普通订单 或者 补餐订单
   },
   onLoad: function (options) {
@@ -163,6 +163,7 @@ Page({
                 resData.data.data.totalOrganizeDeductionPrice,
               totalMoney: resData.data.data.totalMoney,
               payType: resData.data.data.payType,
+              defaultPayType: resData.data.data.payType, //记录一下这个值
               organizePayPrice: resData.data.data.organizePayPrice, // 可支付的 企业点餐币
               presentPayPrice: resData.data.data.presentPayPrice, // 可支付的 赠送点餐币
               userPayPrice: resData.data.data.userPayPrice, // 可支付的 个人点餐币
@@ -221,29 +222,37 @@ Page({
       _this.setData({
         canUseStandard: false,
         canUseBalance: true,
-        canUseWx: true,
-        payType: tmp_payType,
+        canUseWx: false,
+        selectBa: true,
+        selectSt: false,
+        selectWx: false,
       });
     } else if (tmp_payType == "BALANCE_MIX_WECHAT_PAY") {
       _this.setData({
         canUseStandard: false,
         canUseBalance: true,
         canUseWx: true,
-        payType: tmp_payType,
+        selectBa: true,
+        selectSt: false,
+        selectWx: true,
       });
     } else if (tmp_payType == "WECHAT_PAY") {
       _this.setData({
         canUseStandard: false,
         canUseBalance: false,
         canUseWx: true,
-        payType: tmp_payType,
+        selectBa: false,
+        selectSt: false,
+        selectWx: true,
       });
     } else if (tmp_payType == "STANDARD_PAY") {
       _this.setData({
         canUseStandard: true,
         canUseBalance: false,
         canUseWx: false,
-        payType: tmp_payType,
+        selectBa: false,
+        selectSt: true,
+        selectWx: false,
       });
     }
   },
@@ -666,8 +675,8 @@ Page({
     }
 
     if (
-      (this.data.payType == "BALANCE_PAY" ||
-        this.data.payType == "BALANCE_MIX_WECHAT_PAY") &&
+      (this.data.payInfo.payType == "BALANCE_PAY" ||
+        this.data.payInfo.payType == "BALANCE_MIX_WECHAT_PAY") &&
       this.data.payInfo.orderPayPrice > 0
     ) {
       this.setData({
@@ -831,19 +840,54 @@ Page({
       this.getYaomingNotice();
     }
   },
-  /* 余额钱包亮时，点余额钱包变为微信支付,微信支付不亮时，点微信支付变为微信支付 */
-  changePayType: function (e) {
-    let paytype = e.currentTarget.dataset.paytype;
+  clickWxCheck: function () {
+    let tobe = !this.data.selectWx;
+    let tmp_payType = this.data.payInfo.payType;
+    if (!this.data.selectBa && !tobe) {
+      wx.showToast({
+        title: "至少一种方式",
+        image: "/images/msg/error.png",
+        duration: 2000,
+      });
+      return;
+    } else if (tobe && this.data.selectBa) {
+      tmp_payType = "BALANCE_MIX_WECHAT_PAY";
+    } else if (!tobe && this.data.selectBa) {
+      tmp_payType = "BALANCE_PAY";
+    } else if (tobe && !this.data.selectBa) {
+      tmp_payType = "WECHAT_PAY";
+    }
     this.setData({
+      selectWx: tobe,
       payInfo: {
         ...this.data.payInfo,
-        payType: paytype,
+        payType: tmp_payType,
       },
     });
-
-    console.log("@@@@@@@ 2 @@@@@@@ ", {
-      ...this.data.payInfo,
-      payType: paytype,
+  },
+  clickBaCheck: function () {
+    let tobe = !this.data.selectBa;
+    let tmp_payType = this.data.payInfo.payType;
+    if (!this.data.selectWx && !tobe) {
+      wx.showToast({
+        title: "至少一种方式",
+        image: "/images/msg/error.png",
+        duration: 2000,
+      });
+      return;
+    } else if (tobe && this.data.selectWx) {
+      tmp_payType = "BALANCE_MIX_WECHAT_PAY";
+    } else if (!tobe && this.data.selectWx) {
+      tmp_payType = "BALANCE_PAY";
+    } else if (tobe && !this.data.selectWx) {
+      tmp_payType = "WECHAT_PAY";
+    }
+    this.setData({
+      selectBa: tobe,
+      payInfo: {
+        ...this.data.payInfo,
+        payType: tmp_payType,
+      },
     });
   },
   gotoRemark() {

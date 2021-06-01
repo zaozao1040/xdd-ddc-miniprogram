@@ -160,17 +160,12 @@
                           </block>
                       </view>
                       <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
-                          <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;"
-                          data-paytype="BALANCE_PAY"
-                              bindtap="changePayType"
-                              wx:if="{{payInfo.payType=='BALANCE_PAY'||payInfo.payType=='BALANCE_MIX_WECHAT_PAY'}}">
-                          </image>
-                          <image src="/images/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:else
-                              bindtap="handleChangeBalancePayFlag">
-                          </image>
+                          <!-- 直接用默认选择 - 暂不支持切换支付方式 bindtap="clickBaCheck" -->
+                          <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;" wx:if="{{selectBa}}"></image>
+                          <image src="/images/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:else></image>
                       </view>
                   </view>
-                  <view class='pay-item-last' style='padding-bottom:26rpx;'>
+                  <view class='pay-item-last' style='padding-bottom:26rpx;border-bottom: 1rpx solid #F2F2F2;'>
                       <view wx:if='{{!canUseWx}}'
                           style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:90;'>
                       </view>
@@ -181,12 +176,9 @@
                           <view class='pay-wechat'>微信支付</view>
                       </view>
                       <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
-                          <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;"
-                              wx:if="{{payInfo.payType=='WECHAT_PAY'||payInfo.payType=='BALANCE_MIX_WECHAT_PAY'}}" 
-                              data-paytype="WECHAT_PAY" catchtap="changePayType">
-                          </image>
-                          <image src="/images/menu/uncheck.png" data-paytype="WECHAT_PAY" catchtap="changePayType"
-                              style="width:44rpx;height:44rpx;" wx:else></image>
+                          <!-- 直接用默认选择 - 暂不支持切换支付方式 bindtap="clickWxCheck" -->
+                          <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;" wx:if="{{selectWx}}"></image>
+                          <image src="/images/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:else></image>
                       </view>
                   </view>
                   <view class='pay-item-last' style='padding-bottom:26rpx;'>
@@ -201,7 +193,7 @@
                     </view>
                     <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
                         <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;"
-                            wx:if="{{payInfo.payType=='STANDARD_PAY'}}">
+                            wx:if="{{selectSt}}">
                         </image>
                         <image src="/images/menu/uncheck.png"
                             style="width:44rpx;height:44rpx;" wx:else></image>
