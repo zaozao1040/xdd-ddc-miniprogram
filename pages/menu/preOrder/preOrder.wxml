@@ -28,8 +28,12 @@
       </view>
   </view>
   <!-- 弹出层 填写钱包支付提示 -->
-  <c-custom-modal content='使用钱包支付' title='支付提示' money='￥{{payInfo.orderPayPrice}}' wx:if='{{balanceConfirmFlag}}'
-      bind:closemodal='cancelPayBalance' bind:handleconfirm='confirmPayBalance'></c-custom-modal>
+  <c-custom-modal title='支付提示' wx:if='{{balanceConfirmFlag}}'
+    bind:closemodal='cancelPayBalance' bind:handleconfirm='confirmPayBalance'
+    content1='企业点餐币' money1='￥{{payInfo.organizePayPrice}}' 
+    content2='个人点餐币' money2='￥{{payInfo.userPayPrice}}' 
+    content3='赠送点餐币' money3='￥{{payInfo.presentPayPrice}}' 
+    content4='微信支付' money4='￥{{payInfo.weiXinPayPrice}}'></c-custom-modal>
 
   <!-- 默认地址 -->
   <view class="address-wrapper c_buttonPosition_forCalculate_top" bindtap="handleChangeSelectFlag">
@@ -157,7 +161,8 @@
                       </view>
                       <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
                           <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;"
-                              bindtap="handleChangeWechatPayFlag"
+                          data-paytype="BALANCE_PAY"
+                              bindtap="changePayType"
                               wx:if="{{payInfo.payType=='BALANCE_PAY'||payInfo.payType=='BALANCE_MIX_WECHAT_PAY'}}">
                           </image>
                           <image src="/images/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:else
@@ -177,9 +182,10 @@
                       </view>
                       <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
                           <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;"
-                              wx:if="{{payInfo.payType=='WECHAT_PAY'||payInfo.payType=='BALANCE_MIX_WECHAT_PAY'}}">
+                              wx:if="{{payInfo.payType=='WECHAT_PAY'||payInfo.payType=='BALANCE_MIX_WECHAT_PAY'}}" 
+                              data-paytype="WECHAT_PAY" catchtap="changePayType">
                           </image>
-                          <image src="/images/menu/uncheck.png" catchtap="handleChangeWechatPayFlag"
+                          <image src="/images/menu/uncheck.png" data-paytype="WECHAT_PAY" catchtap="changePayType"
                               style="width:44rpx;height:44rpx;" wx:else></image>
                       </view>
                   </view>
@@ -188,7 +194,7 @@
                         style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:90;'>
                     </view>
                     <view class='flex-a'>
-                        <image src="/images/menu/order_wechatpay.png"
+                        <image src="/images/menu/order_discount.png"
                             style="padding-top:34rpx;width:40rpx;height:40rpx;">
                         </image>
                         <view class='pay-wechat'>餐标支付</view>

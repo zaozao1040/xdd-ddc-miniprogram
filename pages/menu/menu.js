@@ -107,7 +107,7 @@ Page({
     showPrice: true, //是否显示价格 -- 只有visitor身份不展示
     // 购物车
     showCartFlag: false, //购物车的颜色，false时是灰色，true时有颜色
-    invalidCartOrder: false, //是否存在失效订单
+    inValidNumToast: true, //是否提示存在失效订单
   },
   //获取排查日期
   getDays(canpintuijianParams) {
@@ -405,9 +405,28 @@ Page({
       param,
       (resData) => {
         _this.setData({
-          cartList: resData.list,
-          cartInvalidNum: resData.inValidNum,
+          cartList: resData.cartResDtoList,
         });
+        if (resData.inValidNum > 0 && _this.data.inValidNumToast) {
+          setTimeout(() => {
+            wx.showModal({
+              title: "是否清空购物车?",
+              content: "存在失效餐品 x " + resData.inValidNum,
+              confirmText: "是",
+              cancelText: "不清空",
+              success: function (res) {
+                if (res.confirm) {
+                  _this.clearFoods();
+                }
+              },
+              complete: function (res) {
+                _this.setData({
+                  inValidNumToast: false,
+                });
+              },
+            });
+          }, 2000);
+        }
       },
       true
     );
@@ -428,29 +447,7 @@ Page({
       true
     );
   },
-  clearCartList: function () {
-    let _this = this;
-    let param = {
-      url:
-        "/v3/cart/deleteShoppingCart?userCode=" + _this.data.userInfo.userCode,
-    };
 
-    requestModel.request(param, (resData) => {
-      if (resData.code == 200) {
-        wx.showToast({
-          title: "购物车已清空",
-          icon: "none",
-          duration: 2000,
-        });
-      } else {
-        wx.showToast({
-          title: resData.msg,
-          image: "/images/msg/error.png",
-          duration: 2000,
-        });
-      }
-    });
-  },
   // 点击日期(e)
   clickMealDate(e) {
     let _this = this;
@@ -757,21 +754,6 @@ Page({
         if (_this.data.userInfo.organizeCode == aomeikaiOrgnaizeCode) {
           // 奥美凯企业的个性化，限制员工日期和餐别进行点餐，狗日的奥美凯
           _this.doLimit();
-        } else if (_this.data.inValidNum == 0) {
-          wx.showModal({
-            title: "存在失效订单 x " + _this.data.inValidNum,
-            content: "是否清空购物车?",
-            confirmText: "直接下单",
-            cancelText: "清空后下单",
-            success: function (res) {
-              if (res.confirm) {
-                _this.clearCartList();
-                wx.navigateTo({
-                  url: "/pages/menu/preOrder/preOrder",
-                });
-              }
-            },
-          });
         } else {
           wx.navigateTo({
             url: "/pages/menu/preOrder/preOrder",

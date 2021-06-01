@@ -66,6 +66,10 @@ Page({
       totalOrganizeDeductionPrice: null,
       totalMoney: null,
       payType: null,
+      organizePayPrice: null, // 可支付的 企业点餐币
+      presentPayPrice: null, // 可支付的 赠送点餐币
+      userPayPrice: null, // 可支付的 个人点餐币
+      weiXinPayPrice: null, // 需要支付的 微信金额
     },
     financeInfo: {},
     balanceConfirmFlag: false,
@@ -159,9 +163,11 @@ Page({
                 resData.data.data.totalOrganizeDeductionPrice,
               totalMoney: resData.data.data.totalMoney,
               payType: resData.data.data.payType,
+              organizePayPrice: resData.data.data.organizePayPrice, // 可支付的 企业点餐币
+              presentPayPrice: resData.data.data.presentPayPrice, // 可支付的 赠送点餐币
+              userPayPrice: resData.data.data.userPayPrice, // 可支付的 个人点餐币
+              weiXinPayPrice: resData.data.data.weiXinPayPrice, // 需要支付的 微信金额
             },
-            realMoney: resData.data.data.orderPayPrice,
-            realMoney_save: resData.data.data.orderPayPrice,
           },
           () => {
             _this.refreshUserFinance();
@@ -326,11 +332,7 @@ Page({
   },
 
   /* 页面隐藏后回收定时器指针 */
-  onHide: function () {
-    if (this.data.timer) {
-      clearTimeout(this.data.timer);
-    }
-  },
+  onHide: function () {},
 
   /**
    * 首次（从点餐页进来这个页面时调用） 刷新每个餐别的优惠券几张可用
@@ -671,7 +673,6 @@ Page({
       this.setData({
         balanceConfirmFlag: true,
       });
-      this.getPrePayInfo();
     } else {
       //其余支付方式则直接支付
       this.doPay();
@@ -690,24 +691,6 @@ Page({
     });
   },
 
-  getPrePayInfo: function () {
-    let _this = this;
-    let param = {
-      url: config.baseUrlPlus + "/v3/cart/previewPay",
-      method: "post",
-      data: {
-        payType: _this.data.payInfo.payType,
-        userCode: _this.data.userInfo.userCode,
-      },
-    };
-    request(param, (resData) => {
-      if (resData.data.code === 200) {
-        _this.setData({
-          prePayInfo: resData.data.data,
-        });
-      }
-    });
-  },
   /**
    * 付款 获取下单时必要的订单参数
    */
@@ -849,9 +832,18 @@ Page({
     }
   },
   /* 余额钱包亮时，点余额钱包变为微信支付,微信支付不亮时，点微信支付变为微信支付 */
-  handleChangeWechatPayFlag: function () {
+  changePayType: function (e) {
+    let paytype = e.currentTarget.dataset.paytype;
     this.setData({
-      payType: "WECHAT_PAY",
+      payInfo: {
+        ...this.data.payInfo,
+        payType: paytype,
+      },
+    });
+
+    console.log("@@@@@@@ 2 @@@@@@@ ", {
+      ...this.data.payInfo,
+      payType: paytype,
     });
   },
   gotoRemark() {
