@@ -106,22 +106,23 @@
                       <view class='cart-discount-organize'>企业抵扣</view>
                       <view class='cart-discount-organize-money'>-￥{{mealTypeItem.organizeDeductionPrice}}</view>
                   </view>
+                  <!-- 优惠券模块 -->
                   <view class='pay-item-last' data-mealdate="{{mealDateItem.mealDate}}"
-                      data-mealtypename="{{mealDateItem[item].name}}"
-                      data-oldselecteddiscountinfo="{{mealDateItem[item].oldSelectedDiscountInfo}}"
-                      bindtap="handleGotoDiscount">
+                      data-mealtype="{{mealTypeItem.mealType}}"
+                      data-oldselecteddiscountinfo="{{mealDateItem.oldSelectedDiscountInfo}}"
+                      bindtap="clickDiscount">
                       <view class='pay-title' style='padding:30rpx 0;'>优惠券</view>
                       <view class='flex-a'>
                           <view style='padding:30rpx 0;'>
-                              <block wx:if="{{mealDateItem[item].oldSelectedDiscountFlag}}">
+                              <block wx:if="{{mealDateItem.oldSelectedDiscountFlag}}">
                                   <view class="pay-discount-money">
-                                      -￥{{mealDateItem[item].oldSelectedDiscountInfo.discountMoney}}
+                                      -￥{{mealDateItem.oldSelectedDiscountInfo.discountMoney}}
                                   </view>
                               </block>
                               <block wx:else>
-                                  <view wx:if="{{mealDateItem[item].discountNum&&mealDateItem[item].discountNum!==0}}"
+                                  <view wx:if="{{mealDateItem.discountNum!==0}}"
                                       class="pay-discount-money">
-                                      {{mealDateItem[item].discountNum}}张可用
+                                      {{mealDateItem.discountNum}}张可用
                                   </view>
                                   <view wx:else class='pay-no-discount'>暂无可用</view>
                               </block>

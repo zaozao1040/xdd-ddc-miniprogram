@@ -311,8 +311,9 @@ Page({
            * canMealTotalMoney   总-可使用餐标
            */
           // 下面的逻辑中，有两个 realMoney 的地方换成了 realMoney_save -- 记录
-          let allowUserOrganizePayNoCanMeal = wx.getStorageSync("userInfo")
-            .userInfo.allowUserOrganizePayNoCanMeal;
+          let allowUserOrganizePayNoCanMeal =
+            wx.getStorageSync("userInfo").userInfo
+              .allowUserOrganizePayNoCanMeal;
           if (!allowUserOrganizePayNoCanMeal) {
             let canMealTotalMoney = parseFloat(
               _this.data.realMoney_save - _this.data.cantMealTotalMoney
@@ -418,8 +419,8 @@ Page({
    */
   refreshSelectedDiscountCodeList(type) {
     let _this = this;
-    let tmp_userDiscountCode = getApp().globalData.publicParam
-      .oldSelectedDiscountInfo.userDiscountCode;
+    let tmp_userDiscountCode =
+      getApp().globalData.publicParam.oldSelectedDiscountInfo.userDiscountCode;
     let tmp_newUserDiscountCode =
       _this.data.newSelectedDiscountInfo.userDiscountCode;
 
@@ -427,9 +428,8 @@ Page({
       // 如果该天该餐别本来就是已经使用过优惠券的情况（而现在又要设置新的优惠券，就要把原来的优惠券从userDiscountCodeList中剔除）
       if (tmp_userDiscountCode !== tmp_newUserDiscountCode) {
         //1.如果原来使用的优惠券和现在新选择优惠券不是同一张，则要把原来优惠券剔除
-        let tmp_index = _this.data.selectedDiscountCodeList.indexOf(
-          tmp_userDiscountCode
-        );
+        let tmp_index =
+          _this.data.selectedDiscountCodeList.indexOf(tmp_userDiscountCode);
         if (tmp_index != -1) {
           _this.data.selectedDiscountCodeList.splice(tmp_index, 1);
         }
@@ -440,9 +440,8 @@ Page({
       const set = new Set(_this.data.selectedDiscountCodeList);
       _this.data.selectedDiscountCodeList = [...set];
     } else if (type == "del") {
-      let tmp_index = _this.data.selectedDiscountCodeList.indexOf(
-        tmp_userDiscountCode
-      );
+      let tmp_index =
+        _this.data.selectedDiscountCodeList.indexOf(tmp_userDiscountCode);
       if (tmp_index != -1) {
         _this.data.selectedDiscountCodeList.splice(tmp_index, 1);
       }
@@ -478,8 +477,8 @@ Page({
         let publicParam = getApp().globalData.publicParam;
         // 1 和 2 公用
         let tmp_selectedFoods = wx.getStorageSync("sevenSelectedFoods"); // wx.getStorageSync("sevenSelectedFoods")  _this.data.selectedFoods
-        let tmp_selectedFoodsLength = wx.getStorageSync("sevenSelectedFoods")
-          .length;
+        let tmp_selectedFoodsLength =
+          wx.getStorageSync("sevenSelectedFoods").length;
         // 开始处理
         // 1 处理每个餐别的有几张优惠券可用
         tmp_youhuiquanList.map((item, index) => {
@@ -528,9 +527,8 @@ Page({
                       tmp_selectedFoodsItem[
                         mealType
                       ].oldSelectedDiscountFlag = false;
-                      tmp_selectedFoodsItem[
-                        mealType
-                      ].oldSelectedDiscountInfo = {};
+                      tmp_selectedFoodsItem[mealType].oldSelectedDiscountInfo =
+                        {};
                       tmp_selectedFoodsItem[
                         mealType
                       ].payMoneyIncludeYouhuiquan =
@@ -612,11 +610,8 @@ Page({
   /* 跳转优惠券页面 */
   handleGotoDiscount: function (e) {
     let tmp_foods = [];
-    let {
-      mealdate,
-      mealtypename,
-      oldselecteddiscountinfo,
-    } = e.currentTarget.dataset;
+    let { mealdate, mealtypename, oldselecteddiscountinfo } =
+      e.currentTarget.dataset;
 
     let tmp_mealType = "";
     if (mealtypename == "早餐") {
@@ -644,7 +639,7 @@ Page({
     };
 
     wx.navigateTo({
-      url: "/pages/menu/today/discount/discount",
+      url: "/pages/menu/preOrder/discount/discount",
     });
   },
 

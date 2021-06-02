@@ -47,7 +47,7 @@
     "pages/login/userPw/userPw",
     "pages/order/qrCode/qrCode",
     "pages/mine/cabningxia/cabningxia",
-    "pages/menu/today/discount/discount",
+    "pages/menu/preOrder/discount/discount",
     "pages/mine/orgAdminSpare/orgAdminSpare",
     "pages/mine/orgAdminSpare/addSpare/addSpare",
     "pages/mine/orgAndaddress/orgAndaddress",
@@ -97,8 +97,6 @@
       }
     ]
   },
-  "navigateToMiniProgramAppIdList": [
-    "wx8492039f6e368de0"
-  ],
+  "navigateToMiniProgramAppIdList": ["wx8492039f6e368de0"],
   "sitemapLocation": "sitemap.json"
 }

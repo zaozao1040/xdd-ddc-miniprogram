@@ -38,12 +38,6 @@ Page({
     takeMealLimitMealTypes: [], //传递给子组件
     takeMealLimitArr: [], //保存子组件传递过来的选中的时段数据结构
 
-    // 公共计算参数 和优惠券计算相关
-    orderParamList: [],
-    // 优惠券相关
-    newSelectedDiscountInfo: {}, //当前选中的优惠券信息
-    selectedDiscountCodeList: [], //当前所有选中的优惠券列表
-
     /**
      *
      */
@@ -78,6 +72,11 @@ Page({
     financeInfo: {},
     balanceConfirmFlag: false,
     orderType: null, //订单类型 普通订单 或者 补餐订单
+    // 公共计算参数 和优惠券计算相关
+    orderParamList: [],
+    // 优惠券相关
+    newSelectedDiscountInfo: {}, //当前选中的优惠券信息 这个从优惠券列表选中优惠券后，才传递的优惠券信息
+    selectedDiscountCodeList: [], //当前所有选中的优惠券列表
   },
   onLoad: function (options) {
     this.setData({
@@ -348,7 +347,7 @@ Page({
    */
   refreshDiscountNumFirst(appendMealFlag) {
     let _this = this;
-    let tmp_orderParamList = _this.data.orderParamList;
+    let tmp_orderParamList = _this.getOrderListParam();
     let param = {
       data: {
         userCode: wx.getStorageSync("userCode"),
@@ -418,7 +417,7 @@ Page({
     }
   },
   /**
-   * 选择了优惠券后，重新计算selectedFoods数据结构，含：1）几张可用 2）单餐别抵扣多少钱 3）总价格抵扣
+   * 选择了优惠券后，重新往previewOrder中塞内关于优惠券的数据结构，含：1）几张可用 2）单餐别抵扣多少钱 3）总价格抵扣
    */
   refreshYouhuiquanInfo: function (type) {
     let _this = this;
@@ -427,7 +426,7 @@ Page({
       mask: true,
     });
 
-    let tmp_orderParamList = _this.data.orderParamList;
+    let tmp_orderParamList = _this.getOrderListParam();
     let param = {
       data: {
         userCode: wx.getStorageSync("userCode"),
@@ -578,38 +577,31 @@ Page({
     let _this = this;
   },
   /* 跳转优惠券页面 */
-  handleGotoDiscount: function (e) {
+  clickDiscount: function (e) {
+    let _this = this;
     let tmp_foods = [];
-    let { mealdate, mealtypename, oldselecteddiscountinfo } =
+    let { mealdate, mealtype, oldselecteddiscountinfo } =
       e.currentTarget.dataset;
+    let tmp_orderListParam = _this.getOrderListParam();
+    console.log("####### 3 ####### ", tmp_orderListParam);
 
-    let tmp_mealType = "";
-    if (mealtypename == "早餐") {
-      tmp_mealType = "BREAKFAST";
-    } else if (mealtypename == "午餐") {
-      tmp_mealType = "LUNCH";
-    } else if (mealtypename == "晚餐") {
-      tmp_mealType = "DINNER";
-    } else if (mealtypename == "夜宵") {
-      tmp_mealType = "NIGHT";
-    }
-    this.data.orderParamList.map((item, index) => {
-      if (item.mealDate == mealdate && item.mealType == tmp_mealType) {
+    tmp_orderListParam.map((item, index) => {
+      if (item.mealDate == mealdate && item.mealType == mealtype) {
         tmp_foods = item.foods;
       }
     });
     getApp().globalData.publicParam = {
       // 这个是优惠券详情列表请求的参数，这里提前存储好
-      userCode: wx.getStorageSync("userCode"),
+      userCode: _this.data.userInfo.userCode,
       mealDate: mealdate,
-      mealType: tmp_mealType,
+      mealType: mealtype,
       foods: tmp_foods,
-      userDiscountCodeList: this.data.selectedDiscountCodeList,
-      oldSelectedDiscountInfo: oldselecteddiscountinfo, //餐别下的已经选中的优惠券信息 这个不作为“优惠券详情列表请求的参数”
+      userDiscountCodeList: _this.data.selectedDiscountCodeList,
+      oldSelectedDiscountInfo: oldselecteddiscountinfo, //餐别下的已经选中的优惠券信息 这个不作为“优惠券详情列表请求的参数” 仅为存储
     };
 
     wx.navigateTo({
-      url: "/pages/menu/today/discount/discount",
+      url: "/pages/menu/preOrder/discount/discount",
     });
   },
 

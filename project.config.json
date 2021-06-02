@@ -191,8 +191,8 @@
         },
         {
           "id": -1,
-          "name": "pages/menu/today/discount/discount",
-          "pathName": "pages/menu/today/discount/discount",
+          "name": "pages/menu/preOrder/discount/discount",
+          "pathName": "pages/menu/preOrder/discount/discount",
           "query": "",
           "scene": null
         },
