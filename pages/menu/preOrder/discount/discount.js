@@ -97,38 +97,36 @@ Page({
 
   /* 监听子组件：选择一张优惠券触发事件 */
   onChangeSelectDiscount: function (e) {
-    console.log("33333", {
-      newSelectedDiscountInfo: e.detail, // 设置需要传递的参数
-    });
     let _this = this;
     let tmp_publicParam = getApp().globalData.publicParam;
     let param = {
       url: config.baseUrlPlus + "/v3/cart/combineDiscount",
       method: "post",
       data: {
-        userCode: _this.data.userInfo.userCode,
-        mealType: tmp_publicParam.mealDate,
+        userCode: wx.getStorageSync("userInfo").userInfo.userCode,
+        mealType: tmp_publicParam.mealType,
         mealDate: tmp_publicParam.mealDate,
-        discountCode: newSelectedDiscountInfo,
+        discountCode: e.detail.discountCode,
       },
     };
-    console.log("####### 3 ####### ", param);
+    request(param, (resData) => {
+      console.log("@@@@@@@ resData @@@@@@@ ", resData);
 
-    // request(param, (resData) => {
-    //   if (resData.data.code === 200) {
-
-    //   } else {
-    //     wx.showToast({
-    //       title: resData.data.msg,
-    //       image: "/images/msg/error.png",
-    //       duration: 2000,
-    //     });
-    //   }
-    // });
-
-    // wx.navigateBack({
-    //   delta: 1, // 回退前 delta(默认为1) 页面
-    // });
+      if (resData.data.code === 200) {
+        let pages = getCurrentPages(); //获取当前页面js里面的pages里的所有信息。
+        let prevPage = pages[pages.length - 2];
+        prevPage.loadData();
+        wx.navigateBack({
+          delta: 1, // 回退前 delta(默认为1) 页面
+        });
+      } else {
+        wx.showToast({
+          title: resData.data.msg,
+          image: "/images/msg/error.png",
+          duration: 2000,
+        });
+      }
+    });
   },
   /* 监听子组件：选择不使用优惠券触发事件 */
   onRemoveSelectDiscount: function () {

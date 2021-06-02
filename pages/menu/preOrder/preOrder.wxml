@@ -107,24 +107,23 @@
                       <view class='cart-discount-organize-money'>-￥{{mealTypeItem.organizeDeductionPrice}}</view>
                   </view>
                   <!-- 优惠券模块 -->
-                  <view class='pay-item-last' data-mealdate="{{mealDateItem.mealDate}}"
+                  <view class='pay-item-last' data-mealdate="{{mealTypeItem.mealDate}}"
                       data-mealtype="{{mealTypeItem.mealType}}"
-                      data-oldselecteddiscountinfo="{{mealDateItem.oldSelectedDiscountInfo}}"
+                      data-oldselecteddiscountinfo="{{mealTypeItem.oldSelectedDiscountInfo}}"
                       bindtap="clickDiscount">
                       <view class='pay-title' style='padding:30rpx 0;'>优惠券</view>
                       <view class='flex-a'>
                           <view style='padding:30rpx 0;'>
-                              <block wx:if="{{mealDateItem.oldSelectedDiscountFlag}}">
+                              <block wx:if="{{mealTypeItem.combineDiscountInfo.discountCode}}">
                                   <view class="pay-discount-money">
-                                      -￥{{mealDateItem.oldSelectedDiscountInfo.discountMoney}}
+                                      -￥{{mealTypeItem.combineDiscountInfo.discountMoney}}
                                   </view>
                               </block>
                               <block wx:else>
-                                  <view wx:if="{{mealDateItem.discountNum!==0}}"
-                                      class="pay-discount-money">
-                                      {{mealDateItem.discountNum}}张可用
+                                  <view wx:if="{{mealTypeItem.discountNum==0}}" class='pay-no-discount'>暂无可用</view>
+                                  <view wx:else class="pay-discount-money">
+                                      {{mealTypeItem.discountNum}}张可用
                                   </view>
-                                  <view wx:else class='pay-no-discount'>暂无可用</view>
                               </block>
                           </view>
                           <view>

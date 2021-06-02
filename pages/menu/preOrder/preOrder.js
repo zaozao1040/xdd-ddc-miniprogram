@@ -599,6 +599,7 @@ Page({
       userDiscountCodeList: _this.data.selectedDiscountCodeList,
       oldSelectedDiscountInfo: oldselecteddiscountinfo, //餐别下的已经选中的优惠券信息 这个不作为“优惠券详情列表请求的参数” 仅为存储
     };
+    console.log("@@@@@@@ getApp@@@@@@@ ", getApp().globalData.publicParam);
 
     wx.navigateTo({
       url: "/pages/menu/preOrder/discount/discount",
