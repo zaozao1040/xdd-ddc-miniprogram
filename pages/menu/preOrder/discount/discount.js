@@ -11,55 +11,6 @@ Page({
   data: {
     discountList: [], //可用的优惠券列表
     oldSelectedDiscountInfo: {}, //confirm页面中，点击某个餐别，该餐别已经选中的优惠券信息
-    // discountList: [{
-    //   discountCode: "DIS756113103208316928",
-    //   discountDesc: "五一劳动节",
-    //   discountMoney: 3,
-    //   discountStatus: "NOT_USE",
-    //   discountType: "ALL_FOOD_TYPE",
-    //   discountTypeDesc: "全品类3元券",
-    //   endTime: "2020-09-30",
-    //   hasLimit: false,
-    //   limitMealTypeList: [],
-    //   limitPayPrice: null,
-    //   limitTotalPrice: null,
-    //   limitUserType: null,
-    //   startTime: "2020-09-09",
-    //   userDiscountCode: "userDIS756144931382231040",
-    //   selected: false,
-    // }, {
-    //   discountCode: "DIS756113103208316928",
-    //   discountDesc: "五一劳动节",
-    //   discountMoney: 3,
-    //   discountStatus: "NOT_USE",
-    //   discountType: "ALL_FOOD_TYPE",
-    //   discountTypeDesc: "全品类3元券",
-    //   endTime: "2020-09-30",
-    //   hasLimit: false,
-    //   limitMealTypeList: [],
-    //   limitPayPrice: null,
-    //   limitTotalPrice: null,
-    //   limitUserType: null,
-    //   startTime: "2020-09-09",
-    //   userDiscountCode: "userDIS756144931382231030",
-    //   selected: false,
-    // }, {
-    //   discountCode: "DIS756113103208316928",
-    //   discountDesc: "五一劳动节",
-    //   discountMoney: 3,
-    //   discountStatus: "NOT_USE",
-    //   discountType: "ALL_FOOD_TYPE",
-    //   discountTypeDesc: "全品类3元券",
-    //   endTime: "2020-09-30",
-    //   hasLimit: false,
-    //   limitMealTypeList: [],
-    //   limitPayPrice: null,
-    //   limitTotalPrice: null,
-    //   limitUserType: null,
-    //   startTime: "2020-09-09",
-    //   userDiscountCode: "userDIS756144931382231020",
-    //   selected: false,
-    // }]
   },
 
   /**
@@ -98,55 +49,83 @@ Page({
   /* 监听子组件：选择一张优惠券触发事件 */
   onChangeSelectDiscount: function (e) {
     let _this = this;
-    let tmp_publicParam = getApp().globalData.publicParam;
-    let param = {
-      url: config.baseUrlPlus + "/v3/cart/combineDiscount",
-      method: "post",
-      data: {
-        userCode: wx.getStorageSync("userInfo").userInfo.userCode,
-        mealType: tmp_publicParam.mealType,
-        mealDate: tmp_publicParam.mealDate,
-        discountCode: e.detail.discountCode,
-      },
-    };
-    request(param, (resData) => {
-      console.log("@@@@@@@ resData @@@@@@@ ", resData);
+    jiuaiDebounce.canDoFunction({
+      type: "jieliu",
+      immediate: true,
+      key: "key_onChangeSelectDiscount",
+      time: 1000,
+      success: () => {
+        let tmp_publicParam = getApp().globalData.publicParam;
+        let param = {
+          url: config.baseUrlPlus + "/v3/cart/combineDiscount",
+          method: "post",
+          data: {
+            userCode: wx.getStorageSync("userInfo").userInfo.userCode,
+            mealType: tmp_publicParam.mealType,
+            mealDate: tmp_publicParam.mealDate,
+            discountCode: e.detail.discountCode,
+            discountMoney: e.detail.discountMoney,
+          },
+        };
+        request(param, (resData) => {
+          console.log("@@@@@@@ resData @@@@@@@ ", resData);
 
-      if (resData.data.code === 200) {
-        let pages = getCurrentPages(); //获取当前页面js里面的pages里的所有信息。
-        let prevPage = pages[pages.length - 2];
-        prevPage.loadData();
-        wx.navigateBack({
-          delta: 1, // 回退前 delta(默认为1) 页面
+          if (resData.data.code === 200) {
+            let pages = getCurrentPages(); //获取当前页面js里面的pages里的所有信息。
+            let prevPage = pages[pages.length - 2];
+            prevPage.getPreOrderInfo();
+            wx.navigateBack({
+              delta: 1, // 回退前 delta(默认为1) 页面
+            });
+          } else {
+            wx.showToast({
+              title: resData.data.msg,
+              image: "/images/msg/error.png",
+              duration: 2000,
+            });
+          }
         });
-      } else {
-        wx.showToast({
-          title: resData.data.msg,
-          image: "/images/msg/error.png",
-          duration: 2000,
-        });
-      }
+      },
     });
   },
   /* 监听子组件：选择不使用优惠券触发事件 */
   onRemoveSelectDiscount: function () {
-    let pages = getCurrentPages(); //获取当前页面js里面的pages里的所有信息。
-
-    let prevPage = pages[pages.length - 2];
-
-    prevPage.setData(
-      {
-        newSelectedDiscountInfo: {}, // 设置需要传递的参数 , 直接置空
+    let _this = this;
+    jiuaiDebounce.canDoFunction({
+      type: "jieliu",
+      immediate: true,
+      key: "key_onRemoveSelectDiscount",
+      time: 1000,
+      success: () => {
+        let tmp_publicParam = getApp().globalData.publicParam;
+        let param = {
+          url: config.baseUrlPlus + "/v3/cart/combineDiscount",
+          method: "post",
+          data: {
+            userCode: wx.getStorageSync("userInfo").userInfo.userCode,
+            mealType: tmp_publicParam.mealType,
+            mealDate: tmp_publicParam.mealDate,
+            discountCode: null,
+            discountMoney: null,
+          },
+        };
+        request(param, (resData) => {
+          if (resData.data.code === 200) {
+            let pages = getCurrentPages(); //获取当前页面js里面的pages里的所有信息。
+            let prevPage = pages[pages.length - 2];
+            prevPage.getPreOrderInfo();
+            wx.navigateBack({
+              delta: 1, // 回退前 delta(默认为1) 页面
+            });
+          } else {
+            wx.showToast({
+              title: resData.data.msg,
+              image: "/images/msg/error.png",
+              duration: 2000,
+            });
+          }
+        });
       },
-      function () {
-        // setData完成后再调用
-        prevPage.refreshSelectedDiscountCodeList("del"); // 先刷新已选中的优惠券code的列表
-        prevPage.refreshYouhuiquanInfo("del"); // 再刷新整个confirm页面（优惠券可用数量 + 已选择优惠券抵扣情况 的展示）
-      }
-    );
-
-    wx.navigateBack({
-      delta: 1, // 回退前 delta(默认为1) 页面
     });
   },
 });

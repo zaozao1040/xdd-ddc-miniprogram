@@ -48,10 +48,7 @@ Page({
     userName: "",
     phoneNumber: "",
     personalConfig: {},
-    reqData: {
-      userCode: null,
-      couponList: [],
-    },
+
     canUseBalance: false,
     selectBa: false,
     canUseStandard: false,
@@ -147,7 +144,6 @@ Page({
       url: config.baseUrlPlus + "/v3/cart/previewOrder",
       method: "post",
       data: {
-        ..._this.data.reqData,
         userCode: _this.data.userInfo.userCode,
       },
     };
