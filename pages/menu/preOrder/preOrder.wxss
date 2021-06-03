@@ -96,7 +96,6 @@
 .cart-day-wrapper {
   background: #fff;
   margin: 16rpx 16rpx;
-  padding: 0 30rpx;
 }
 
 .pay-balance-money {
@@ -106,6 +105,13 @@
   line-height: 40rpx;
   font-family: HelveticaNeue-Medium;
   color: #ff5035;
+}
+.cart-type {
+  border-bottom: 10rpx solid #f5f5f5;
+  padding: 0 30rpx;
+}
+.cart-type:last-child {
+  border-bottom: none;
 }
 
 .cart-day-title {

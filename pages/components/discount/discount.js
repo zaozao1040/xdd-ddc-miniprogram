@@ -41,21 +41,41 @@ Component({
     /* 点击优惠券触发的事件 */
     handleClickDiscount: function (e) {
       let { userDiscountCode, discountMoney } = e.currentTarget.dataset.item;
-      console.log("@@@@@@@ 2 @@@@@@@ ", userDiscountCode, discountMoney);
+      console.log(
+        "@@@@@@@ this.data.selectedDiscountInfo @@@@@@@ ",
+        userDiscountCode,
+        discountMoney,
+        this.data.selectedDiscountInfo
+      );
       if (
         this.data.selectedDiscountInfo &&
         userDiscountCode === this.data.selectedDiscountInfo.userDiscountCode
       ) {
-        // 如果点击是同一个，则为空对象
+        // 找出那张券是选中的
+        let tmp_discountList = [...this.data.discountList];
+        tmp_discountList.forEach((item) => {
+          item.selected = false;
+        });
         this.setData({
           selectedDiscountInfo: {},
+          discountList: tmp_discountList,
         });
       } else {
+        // 找出那张券是选中的
+        let tmp_discountList = [...this.data.discountList];
+        tmp_discountList.forEach((item) => {
+          if (item.userDiscountCode == userDiscountCode) {
+            item.selected = true;
+          } else {
+            item.selected = false;
+          }
+        });
         this.setData({
           selectedDiscountInfo: {
             userDiscountCode,
             discountMoney,
           },
+          discountList: tmp_discountList,
         });
       }
     },

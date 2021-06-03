@@ -4,7 +4,7 @@
             wx:for-item="discountItem" wx:key="discountIndex" bindtap="handleClickDiscount"
             data-item="{{discountItem}}">
             <block
-                wx:if="{{discountItem.selected==false || discountItem.selected==true && combineDiscountInfo.userDiscountCode==discountItem.userDiscountCode}}">
+                wx:if="{{discountItem.selected==false || discountItem.selected==true && selectedDiscountInfo.userDiscountCode==discountItem.userDiscountCode}}">
                 <view class="rect">
                     <view class="right-price">
                         <view class='money'>

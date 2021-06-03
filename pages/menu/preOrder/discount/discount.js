@@ -10,7 +10,7 @@ Page({
    */
   data: {
     discountList: [], //可用的优惠券列表
-    selectedDiscountInfo: null, //已经选中的优惠券信息
+    selectedDiscountInfo: {}, //已经选中的优惠券信息
   },
 
   /**
@@ -37,7 +37,7 @@ Page({
   getDiscountList() {
     let _this = this;
     let tmp_publicParam = getApp().globalData.publicParam;
-    if (tmp_publicParam.selectedDiscountInfo) {
+    if (tmp_publicParam.selectedDiscountInfo.userDiscountCode) {
       tmp_publicParam.userDiscountCodeList = [
         _this.data.selectedDiscountInfo.userDiscountCode,
       ];

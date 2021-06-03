@@ -157,7 +157,7 @@
       </view>
     </view>
     <!-- 购物车激活状态 -->
-    <view wx:else bindtap="handleClickBox" class="footer-wrapper">
+    <view wx:else bindtap="clickCartBox" class="footer-wrapper">
       <!------ 购物车餐品的列表 ------>
       <view wx:if="{{showCartFlag}}" class="footer-wrapper-top-show-cart">
         <view class="mask" catchtap="closeCart" catchtouchmove="preventTouchMove"></view>

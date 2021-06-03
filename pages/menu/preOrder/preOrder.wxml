@@ -81,7 +81,7 @@
 
           <view class="cart-day-wrapper">
               <block wx:for="{{preOrderList}}" wx:for-item='mealDateItem' wx:for-index='mealDateIndex' wx:key="mealDateIndex">
-                <view  wx:for="{{mealDateItem.mealTypeList}}" wx:for-item='mealTypeItem' wx:for-index='mealTypeIndex' wx:key="mealTypeIndex">
+                <view wx:for="{{mealDateItem.mealTypeList}}" wx:for-item='mealTypeItem' wx:for-index='mealTypeIndex' wx:key="mealTypeIndex" class="cart-type">
                   <view class="cart-day-title">
                     {{mealDateItem.mealDateDes}}({{mealDateItem.mealDate}}){{mealTypeItem.mealTypeDes}}
                   </view>
@@ -114,7 +114,7 @@
                       <view class='pay-title' style='padding:30rpx 0;'>优惠券</view>
                       <view class='flex-a'>
                           <view style='padding:30rpx 0;'>
-                              <block wx:if="{{mealTypeItem.combineDiscountInfo.discountCode}}">
+                              <block wx:if="{{mealTypeItem.combineDiscountInfo.userDiscountCode}}">
                                   <view class="pay-discount-money">
                                       -￥{{mealTypeItem.combineDiscountInfo.discountMoney}}
                                   </view>
