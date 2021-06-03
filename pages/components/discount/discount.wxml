@@ -42,7 +42,7 @@
                     <view class="yuan3"></view>
                     <view class="yuan4"></view>
                     <view class="xuanzhong-wrapper">
-                        <image wx:if="{{discountItem.userDiscountCode==newSelectedDiscountInfo.userDiscountCode}}"
+                        <image wx:if="{{discountItem.userDiscountCode==selectedDiscountInfo.userDiscountCode}}"
                             src="/images/discount/xuanzhong.png" class="xuanzhong-img"></image>
                         <image wx:else src="/images/discount/weixuanzhong.png" class="xuanzhong-img"></image>
                     </view>
@@ -52,7 +52,7 @@
 
         </view>
     </scroll-view>
-    <view wx:if="{{newSelectedDiscountInfo.userDiscountCode}}" class="button-canClick" bindtap="handleConfirm">
+    <view wx:if="{{selectedDiscountInfo.userDiscountCode}}" class="button-canClick" bindtap="handleConfirm">
         确定
     </view>
     <view wx:else class="button" class="button-canClick" bindtap="handleRemove">不使用优惠券</view>

@@ -7,7 +7,7 @@
     <view class="discountBg-content">
       <c-discount
         discountList="{{ discountList }}"
-        combineDiscountInfo="{{ combineDiscountInfo }}"
+        selectedDiscountInfo="{{ selectedDiscountInfo }}"
         bind:changeselectdiscount="onChangeSelectDiscount"
         bind:removeselectdiscount="onRemoveSelectDiscount"
       ></c-discount>

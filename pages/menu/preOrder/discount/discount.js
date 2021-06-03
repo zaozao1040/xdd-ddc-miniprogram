@@ -10,7 +10,7 @@ Page({
    */
   data: {
     discountList: [], //可用的优惠券列表
-    combineDiscountInfo: {}, //confirm页面中，点击某个餐别，该餐别已经选中的优惠券信息
+    selectedDiscountInfo: null, //已经选中的优惠券信息
   },
 
   /**
@@ -23,18 +23,27 @@ Page({
    */
   onShow: function () {
     let _this = this;
-    _this.setData({
-      combineDiscountInfo: getApp().globalData.publicParam.combineDiscountInfo,
-    });
-
+    let tmp_selectedDiscountInfo =
+      getApp().globalData.publicParam.selectedDiscountInfo;
+    if (tmp_selectedDiscountInfo) {
+      _this.setData({
+        selectedDiscountInfo: tmp_selectedDiscountInfo,
+      });
+    }
     _this.getDiscountList();
   },
 
   /* 获取优惠券列表 */
   getDiscountList() {
     let _this = this;
+    let tmp_publicParam = getApp().globalData.publicParam;
+    if (tmp_publicParam.selectedDiscountInfo) {
+      tmp_publicParam.userDiscountCodeList = [
+        _this.data.selectedDiscountInfo.userDiscountCode,
+      ];
+    }
     let param = {
-      data: getApp().globalData.publicParam,
+      data: tmp_publicParam,
       url: "/userDiscount/discountOrderDetail",
       method: "post",
     };
@@ -47,6 +56,8 @@ Page({
 
   /* 监听子组件：选择一张优惠券触发事件 */
   onChangeSelectDiscount: function (e) {
+    console.log("@@@@@@@ 2 答复@@@@@@@ ", e.detail);
+
     let _this = this;
     jiuaiDebounce.canDoFunction({
       type: "jieliu",
@@ -102,7 +113,7 @@ Page({
             userCode: wx.getStorageSync("userInfo").userInfo.userCode,
             mealType: tmp_publicParam.mealType,
             mealDate: tmp_publicParam.mealDate,
-            discountCode: null,
+            userDiscountCode: null,
             discountMoney: null,
           },
         };

@@ -6,7 +6,7 @@ Component({
       type: String,
       value: 0,
     },
-    combineDiscountInfo: {
+    selectedDiscountInfo: {
       type: Object,
       value: {},
     },
@@ -14,7 +14,7 @@ Component({
   /* 私有数据 */
   data: {
     windowHeight: 0,
-    newSelectedDiscountInfo: {},
+    selectedDiscountInfo: {},
   },
   lifetimes: {
     ready: function () {
@@ -22,16 +22,9 @@ Component({
         console.log(
           "####### 3 ####### ",
           this.data.discountList,
-          this.data.combineDiscountInfo
+          this.data.selectedDiscountInfo
         );
       }, 1000);
-
-      // if (this.data.combineDiscountInfo.userDiscountCode) {
-      //   this.setData({
-      //     newSelectedDiscountInfo: JSON.parse(JSON.stringify(this.data.combineDiscountInfo))
-      //   })
-      // }
-      // this.initPage()
     },
   },
   methods: {
@@ -47,27 +40,26 @@ Component({
     },
     /* 点击优惠券触发的事件 */
     handleClickDiscount: function (e) {
-      console.log("@@@@@@@ 2 @@@@@@@ ", e.currentTarget.dataset.item);
-
-      let { userDiscountCode } = e.currentTarget.dataset.item;
+      let { userDiscountCode, discountMoney } = e.currentTarget.dataset.item;
+      console.log("@@@@@@@ 2 @@@@@@@ ", userDiscountCode, discountMoney);
       if (
-        userDiscountCode === this.data.newSelectedDiscountInfo.userDiscountCode
+        userDiscountCode === this.data.selectedDiscountInfo.userDiscountCode
       ) {
-        // 如果点击是同一个，则置空
+        // 如果点击是同一个，则为空对象
         this.setData({
-          newSelectedDiscountInfo: {},
+          selectedDiscountInfo: {},
         });
       } else {
         this.setData({
-          newSelectedDiscountInfo: e.currentTarget.dataset.item,
+          selectedDiscountInfo: {
+            userDiscountCode,
+            discountMoney,
+          },
         });
       }
     },
     handleConfirm: function () {
-      this.triggerEvent(
-        "changeselectdiscount",
-        this.data.newSelectedDiscountInfo
-      );
+      this.triggerEvent("changeselectdiscount", this.data.selectedDiscountInfo);
     },
     handleRemove: function () {
       this.triggerEvent("removeselectdiscount");
