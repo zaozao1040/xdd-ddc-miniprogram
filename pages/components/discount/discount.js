@@ -43,6 +43,7 @@ Component({
       let { userDiscountCode, discountMoney } = e.currentTarget.dataset.item;
       console.log("@@@@@@@ 2 @@@@@@@ ", userDiscountCode, discountMoney);
       if (
+        this.data.selectedDiscountInfo &&
         userDiscountCode === this.data.selectedDiscountInfo.userDiscountCode
       ) {
         // 如果点击是同一个，则为空对象
