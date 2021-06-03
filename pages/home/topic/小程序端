@@ -1,0 +1,58 @@
+小程序端
+  接口1：获取主题餐品列表
+    返回数据：
+      [ --- 最外层是数组，个数不确定
+        [ --- 内层也是数组，个数不是1就是2
+          { --- 最内层是对象，描述关于该餐品的信息
+            foodCode:xxx,
+            foodName:'炒鸡蛋'
+            。。。
+          }
+        ], 
+        [{
+          foodCode:xxx,
+          foodName:'炒鸡蛋'
+          。。。
+        },{
+          foodCode:xxx,
+          foodName:'炒鸡蛋'
+          。。。
+        }]
+      ]
+管理端
+  接口1：根据专题code获取专题餐品列表 /getTopicList
+    返回数据：
+      [ --- 最外层是数组，数组长度不确定
+        [ --- 内层仍然是数组，长度不是1就是2
+          {
+            page: '/pages/foodDetail/foodDetail?foodId=12' --- string类型，代表点击后的跳转链接
+            url: 'http://aliyun.com/an.jpg'
+          }
+        ],
+        [ 
+          {
+            page: '/pages/foodDetail/foodDetail?foodId=12' --- string类型，代表点击后的跳转链接
+            url: 'http://aliyun.com/an.jpg' -- 图片地址
+          },
+          {
+            page: '/pages/foodDetail/foodDetail?foodId=12' --- string类型，代表点击后的跳转链接
+            url: 'http://aliyun.com/an.jpg'
+          }
+        ]
+        。。。
+      ]
+  接口2：设置专题内容列表 /setTopicList
+    请求数据：
+      {
+        topicCode:'xxxx',
+        organizeList:['ORGxxxx','ORGasdfads']
+        topicList: 同上接口1的返回数据
+      }
+      
+  接口3：获取餐品列表 支持根据餐品名查询
+    返回数据：
+      [{ --- 只需三个字段 多了无用
+        foodCode:xxx,
+        foodName:xxx,
+        foodImage:xxxx
+      }]

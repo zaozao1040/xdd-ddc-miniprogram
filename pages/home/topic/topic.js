@@ -40,6 +40,7 @@ Component({
         _this.setData({
           topicList: resData,
         });
+        console.log("@@@@@@@ 2 @@@@@@@ ", _this.data.topicList);
       });
     },
     getTopicFoodList: function () {

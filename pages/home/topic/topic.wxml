@@ -1,3 +1,38 @@
 <view>
-  <view class="discountBg-content">fasdfasdfa</view>
+  <view class="line"></view>
+  <view class="line1">
+    <view class="title">主题推荐区域</view>
+    <view class="more">更多 >></view>
+    <swiper
+      autoplay
+      class="h-v2-swiper-item"
+      circular="true"
+      duration="300"
+      indicatorActiveColor="#fff"
+      indicatorColor="rgba(255,255,255)"
+      indicatorActiveColor="#f79c4c"
+      indicatorDots
+      interval="5000"
+      bindchange="onSwiperChange"
+    >
+      <block
+        wx:for="{{ topicList }}"
+        wx:for-index="swiperListIndex"
+        wx:for-item="swiperListItem"
+        wx:key="swiperListIndex"
+      >
+        <swiper-item bindtap="navigateTo">
+          <navigator
+            url="/pages/home/link?extendUrl={{ swiperListItem.imgUrl }}"
+            style="width: 100%; height: 100%; border-radius: 8rpx"
+          >
+            <image
+              src="{{ swiperListItem.imgUrl }}"
+              style="width: 100%; height: 100%; border-radius: 8rpx"
+            ></image>
+          </navigator>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
 </view>
