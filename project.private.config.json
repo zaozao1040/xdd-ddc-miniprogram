@@ -357,6 +357,12 @@
           "pathName": "pages/menu/preOrder/preOrder",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/menu/preOrder/preOrder",
+          "pathName": "pages/menu/preOrder/preOrder",
+          "query": "",
+          "scene": null
         }
       ]
     }
