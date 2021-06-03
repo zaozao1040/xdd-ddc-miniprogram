@@ -284,7 +284,9 @@ Page({
       mealDate: mealdate,
       mealType: mealtype,
       foods: tmp_foods,
-      userDiscountCode: combinediscountinfo.userDiscountCode, //餐别下的已经选中的优惠券code 这个不作为“优惠券详情列表请求的参数”
+      userDiscountCode: combinediscountinfo
+        ? combinediscountinfo.userDiscountCode
+        : null, //餐别下的已经选中的优惠券code 这个不作为“优惠券详情列表请求的参数”
     };
     wx.navigateTo({
       url: "/pages/menu/preOrder/discount/discount",
