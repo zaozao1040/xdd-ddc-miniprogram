@@ -140,7 +140,7 @@
     </scroll-view>
     <!------ 下面是购物车 ------>
     <!-- 购物车未激活状态 -->
-    <view wx:if="{{ payInfo.cartFoodNumber == 0}}" class="footer-wrapper-inactive">
+    <view wx:if="{{ cartList.length == 0}}" class="footer-wrapper-inactive">
       <view class="footer-wrapper-top" style="background: #dddddd;">
         <view wx:if="{{orgAdmin}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
           您当前是管理员

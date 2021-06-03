@@ -10,7 +10,7 @@ Page({
    */
   data: {
     discountList: [], //可用的优惠券列表
-    oldSelectedDiscountInfo: {}, //confirm页面中，点击某个餐别，该餐别已经选中的优惠券信息
+    combineDiscountInfo: {}, //confirm页面中，点击某个餐别，该餐别已经选中的优惠券信息
   },
 
   /**
@@ -24,8 +24,7 @@ Page({
   onShow: function () {
     let _this = this;
     _this.setData({
-      oldSelectedDiscountInfo:
-        getApp().globalData.publicParam.oldSelectedDiscountInfo,
+      combineDiscountInfo: getApp().globalData.publicParam.combineDiscountInfo,
     });
 
     _this.getDiscountList();
@@ -63,13 +62,11 @@ Page({
             userCode: wx.getStorageSync("userInfo").userInfo.userCode,
             mealType: tmp_publicParam.mealType,
             mealDate: tmp_publicParam.mealDate,
-            discountCode: e.detail.discountCode,
+            userDiscountCode: e.detail.userDiscountCode,
             discountMoney: e.detail.discountMoney,
           },
         };
         request(param, (resData) => {
-          console.log("@@@@@@@ resData @@@@@@@ ", resData);
-
           if (resData.data.code === 200) {
             let pages = getCurrentPages(); //获取当前页面js里面的pages里的所有信息。
             let prevPage = pages[pages.length - 2];

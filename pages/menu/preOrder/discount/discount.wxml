@@ -1,9 +1,16 @@
 <view>
-    <scroll-view class="discountBg-wrapper" scroll-y style="height: {{windowHeight-100}}px;">
-        <view class="discountBg-content">
-            <c-discount discountList="{{discountList}}" oldSelectedDiscountInfo="{{oldSelectedDiscountInfo}}"
-                bind:changeselectdiscount="onChangeSelectDiscount" bind:removeselectdiscount="onRemoveSelectDiscount">
-            </c-discount>
-        </view>
-    </scroll-view>
+  <scroll-view
+    class="discountBg-wrapper"
+    scroll-y
+    style="height: {{ windowHeight - 100 }}px;"
+  >
+    <view class="discountBg-content">
+      <c-discount
+        discountList="{{ discountList }}"
+        combineDiscountInfo="{{ combineDiscountInfo }}"
+        bind:changeselectdiscount="onChangeSelectDiscount"
+        bind:removeselectdiscount="onRemoveSelectDiscount"
+      ></c-discount>
+    </view>
+  </scroll-view>
 </view>

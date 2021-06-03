@@ -6,7 +6,7 @@ Component({
       type: String,
       value: 0,
     },
-    oldSelectedDiscountInfo: {
+    combineDiscountInfo: {
       type: Object,
       value: {},
     },
@@ -18,9 +18,17 @@ Component({
   },
   lifetimes: {
     ready: function () {
-      // if (this.data.oldSelectedDiscountInfo.userDiscountCode) {
+      setTimeout(() => {
+        console.log(
+          "####### 3 ####### ",
+          this.data.discountList,
+          this.data.combineDiscountInfo
+        );
+      }, 1000);
+
+      // if (this.data.combineDiscountInfo.userDiscountCode) {
       //   this.setData({
-      //     newSelectedDiscountInfo: JSON.parse(JSON.stringify(this.data.oldSelectedDiscountInfo))
+      //     newSelectedDiscountInfo: JSON.parse(JSON.stringify(this.data.combineDiscountInfo))
       //   })
       // }
       // this.initPage()
@@ -39,6 +47,8 @@ Component({
     },
     /* 点击优惠券触发的事件 */
     handleClickDiscount: function (e) {
+      console.log("@@@@@@@ 2 @@@@@@@ ", e.currentTarget.dataset.item);
+
       let { userDiscountCode } = e.currentTarget.dataset.item;
       if (
         userDiscountCode === this.data.newSelectedDiscountInfo.userDiscountCode

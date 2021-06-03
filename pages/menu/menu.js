@@ -422,6 +422,7 @@ Page({
               complete: function (res) {
                 _this.setData({
                   inValidNumToast: false,
+                  inValidNum: resData.inValidNum,
                 });
               },
             });
@@ -744,6 +745,31 @@ Page({
   },
   goToPreOrder() {
     let _this = this;
+    console.log(
+      "####### 3 ####### ",
+      _this.data.inValidNum,
+      _this.data.cartList.length
+    );
+
+    if (_this.data.inValidNum > 0 && _this.data.payInfo.cartFoodNumber == 0) {
+      wx.showModal({
+        title: "是否清空购物车?",
+        content: "存在失效餐品 x " + _this.data.inValidNum,
+        confirmText: "是",
+        cancelText: "不清空",
+        success: function (res) {
+          if (res.confirm) {
+            _this.clearFoods();
+          }
+        },
+        complete: function (res) {
+          _this.setData({
+            inValidNumToast: false,
+          });
+        },
+      });
+      return;
+    }
     jiuaiDebounce.canDoFunction({
       type: "jieliu",
       immediate: true,
