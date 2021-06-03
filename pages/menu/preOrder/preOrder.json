@@ -3,7 +3,6 @@
   "navigationBarBackgroundColor": "#ffffff",
   "navigationBarTextStyle": "black",
   "usingComponents": {
-    "c-discount": "../../components/discount/discount",
     "c-custom-modal": "../../components/customModal/customModal"
   }
 }

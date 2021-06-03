@@ -109,7 +109,6 @@
         <!-- 首页提示取餐3.0-->
         <view wx:if="{{homeOrderList.length>0}}">
             <view style="margin-left:30rpx;">
-                <view class='takefood-title'>今日餐品</view>
                 <view>
                     <swiper current="{{swiperDefaultIndex}}" next-margin='24rpx' style='width: 100%; height: 212rpx;'>
                         <block wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem"
@@ -289,7 +288,8 @@
             </view>
         </view>
 
-
+        <!-- 子组件 主题轮播图 -->
+        <c-topic></c-topic>
 
         <!-- --------------------------------------- 下面是各种弹出层 --------------------------------------- -->
 

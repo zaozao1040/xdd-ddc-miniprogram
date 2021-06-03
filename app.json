@@ -24,8 +24,6 @@
     "pages/mine/addfood/addfood",
     "pages/components/discount/discount",
     "pages/components/discountPromotion/discountPromotion",
-    "pages/menu/today/today",
-    "pages/menu/today/confirm/confirm",
     "pages/mine/information/information",
     "pages/mine/orgAdminAddfood/orgAdminAddfood",
     "pages/mine/integral/regular",
@@ -52,7 +50,8 @@
     "pages/mine/orgAdminSpare/addSpare/addSpare",
     "pages/mine/orgAndaddress/orgAndaddress",
     "pages/mine/orgAdminSpare/address/address",
-    "pages/menu/preOrder/preOrder"
+    "pages/menu/preOrder/preOrder",
+    "pages/home/topic/topic"
   ],
   "permission": {
     "scope.userLocation": {
@@ -97,6 +96,8 @@
       }
     ]
   },
-  "navigateToMiniProgramAppIdList": ["wx8492039f6e368de0"],
+  "navigateToMiniProgramAppIdList": [
+    "wx8492039f6e368de0"
+  ],
   "sitemapLocation": "sitemap.json"
 }

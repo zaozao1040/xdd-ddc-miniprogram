@@ -1,6 +1,6 @@
 {
   "usingComponents": {
-    "c-discountPromotion": "../components/discountPromotion/discountPromotion"
+    "c-topic": "./topic/topic"
   },
   "navigationBarBackgroundColor": "#f2994a",
   "navigationBarTextStyle": "white",
