@@ -1,6 +1,6 @@
 {
   "usingComponents": {
-    "c-topic": "./topic/topic"
+    "c-topic": "./components/topic/topic"
   },
   "navigationBarBackgroundColor": "#f2994a",
   "navigationBarTextStyle": "white",

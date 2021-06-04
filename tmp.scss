@@ -1,0 +1,129 @@
+@import "uview-ui/theme.scss";
+@import "~@/css/iconfont.css";
+
+
+
+/**
+** 自定义整体样式
+**/
+// 红色主题
+$base-color: #fa3534;
+$base-color-light: #fef0f0;
+$base-color-dark: #dd6161;
+$base-color-disabled: #fab6b6;
+// $base-color-shadow:1px 2px 3px rgba(0, 0, 0, 0.7);
+$base-color-shadow:1px 2px 3px rgba(219, 63, 96, 0.4);
+$base-color-shadow-plus:0px 5px 9px rgba(141, 141, 141, 0.11);
+$uni-color-money: #dd524d;
+// // 绿色主题
+// $base-color: #19be6b;
+// $base-color-light: #dbf1e1;
+// $base-color-dark: #18b566;
+// $base-color-disabled: #71d5a1;
+// $base-color-shadow:1px 2px 3px rgba(0, 0, 0, 0.7);
+// $base-color-shadow-plus:0px 5px 9px rgba(141, 141, 141, 0.11);
+// $uni-color-money: #dd524d;
+
+
+//
+
+/* 页面左右间距 */
+$page-row-spacing: 30upx;
+$page-color-base: #f7f7f7;
+$page-color-light: #f8f6fc;
+
+
+/* 文字尺寸 */
+$font-sm: 24upx;
+$font-base: 28upx;
+$font-lg: 32upx;
+
+/*文字颜色*/
+$font-color-dark: #303133;
+$font-color-base: #606266;
+$font-color-light: #909399;
+$font-color-disabled: #c0c4cc;
+$font-color-spec: #4399fc;
+/* 边框颜色 */
+$border-color-dark: #dcdfe6;
+$border-color-base: #e4e7ed;
+$border-color-light: #ebeef5;
+/* 图片加载中颜色 */
+$image-bg-color: #eee;
+/* 行为相关颜色 */
+$uni-color-primary: #007aff;
+$uni-color-success: #4cd964;
+$uni-color-warning: #f0ad4e;
+$uni-color-error: #dd524d;
+
+// 下面是uni.scss原生
+/* 颜色变量 */
+
+/* 行为相关颜色 */
+// $uni-color-primary: #007aff;
+// $uni-color-success: #4cd964;
+// $uni-color-warning: #f0ad4e;
+// $uni-color-error: #dd524d;
+
+/* 文字基本颜色 */
+$uni-text-color: #333; //基本色
+$uni-text-color-inverse: #fff; //反色
+$uni-text-color-grey: #999; //辅助灰色，如加载更多的提示信息
+$uni-text-color-placeholder: #808080;
+$uni-text-color-disable: #c0c0c0;
+
+/* 背景颜色 */
+$uni-bg-color: #ffffff;
+$uni-bg-color-grey: #f8f8f8;
+$uni-bg-color-hover: #f1f1f1; //点击状态颜色
+$uni-bg-color-mask: rgba(0, 0, 0, 0.4); //遮罩颜色
+
+/* 边框颜色 */
+$uni-border-color: #c8c7cc;
+
+/* 尺寸变量 */
+
+/* 文字尺寸 */
+$uni-font-size-sm: 24rpx;
+$uni-font-size-base: 28rpx;
+$uni-font-size-lg: 32rpx;
+
+/* 图片尺寸 */
+$uni-img-size-sm: 40rpx;
+$uni-img-size-base: 52rpx;
+$uni-img-size-lg: 80rpx;
+
+/* Border Radius */
+$uni-border-radius-sm: 4rpx;
+$uni-border-radius-base: 6rpx;
+$uni-border-radius-lg: 12rpx;
+$uni-border-radius-circle: 50%;
+
+/* 水平间距 */
+$uni-spacing-row-sm: 10px;
+$uni-spacing-row-base: 20rpx;
+$uni-spacing-row-lg: 30rpx;
+
+/* 垂直间距 */
+$uni-spacing-col-sm: 8rpx;
+$uni-spacing-col-base: 16rpx;
+$uni-spacing-col-lg: 24rpx;
+
+/* 透明度 */
+$uni-opacity-disabled: 0.3; // 组件禁用态的透明度
+
+/* 文章场景相关 */
+$uni-color-title: #2c405a; // 文章标题颜色
+$uni-font-size-title: 40rpx;
+$uni-color-subtitle: #555555; // 二级标题颜色
+$uni-font-size-subtitle: 36rpx;
+$uni-color-paragraph: #3f536e; // 文章段落颜色
+$uni-font-size-paragraph: 30rpx;
+
+// vue的js代码调用
+:export {
+  baseColor: $base-color;
+  baseColorLight: $base-color-light;
+  baseColorDark: $base-color-dark;
+  baseColorDisabled: $base-color-disabled;
+}

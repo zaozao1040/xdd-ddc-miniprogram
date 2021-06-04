@@ -369,6 +369,12 @@
           "pathName": "pages/menu/preOrder/preOrder",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/home/topic/topic",
+          "pathName": "pages/home/topic/topic",
+          "query": "",
+          "scene": null
         }
       ]
     }

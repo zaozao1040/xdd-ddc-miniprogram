@@ -1,6 +1,32 @@
-.h-v2-swiper-item {
-  width: 690rpx;
-  height: 230rpx;
-  border-radius: 8rpx;
-  margin: 0 30rpx 42rpx;
+page {
+  background: #f8f8f8;
+}
+.wrp {
+  margin: 20rpx;
+}
+.item-wrp {
+  background: white;
+  margin-bottom: 20rpx;
+  border-radius: 5rpx;
+  display: flex;
+  padding: 20rpx;
+}
+.left {
+  flex: 0 0 350rpx;
+}
+.right {
+  flex: 1;
+  margin-left: 50rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.title {
+  font-size: 30rpx;
+  color: #222;
+}
+.description {
+  margin-top: 10rpx;
+  font-size: 28rpx;
+  color: #666;
 }

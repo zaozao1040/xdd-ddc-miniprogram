@@ -51,7 +51,8 @@
     "pages/mine/orgAndaddress/orgAndaddress",
     "pages/mine/orgAdminSpare/address/address",
     "pages/menu/preOrder/preOrder",
-    "pages/home/topic/topic"
+    "pages/home/topic/topic",
+    "pages/home/topic/topicDetail/topicDetail"
   ],
   "permission": {
     "scope.userLocation": {
