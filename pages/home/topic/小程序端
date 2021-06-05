@@ -19,41 +19,64 @@
           。。。
         }]
       ]
+
+
 管理端
   接口1：根据专题code获取专题餐品列表 /getTopicList
     返回数据：
-
-      [ --- 最外层是数组，数组长度不确定
-        [ --- 内层仍然是数组，长度不是1就是2
-          {
-            page: '/pages/foodDetail/foodDetail?foodId=12' --- string类型，代表点击后的跳转链接
-            foodCode: 'FOODxxx'
-            foodName: '鸡蛋炒饭'
-            url: 'http://aliyun.com/an.jpg'
-          }
-        ],
-        [ 
-          {
-            page: '/pages/foodDetail/foodDetail?foodId=12' --- string类型，代表点击后的跳转链接
-            url: 'http://aliyun.com/an.jpg' -- 图片地址
-            foodCode: 'FOODxxx'
-            foodName: '鸡蛋炒饭'
-          },
-          {
-            page: '/pages/foodDetail/foodDetail?foodId=12' --- string类型，代表点击后的跳转链接
-            url: 'http://aliyun.com/an.jpg'
-            foodCode: 'FOODxxx'
-            foodName: '鸡蛋炒饭'
-          }
-        ]
-        。。。
+      [
+        {
+          customize:[{
+            foodCode: ""
+            foodName: "",
+            page: "",
+            url: "",
+          },{
+            foodCode: ""
+            foodName: "",
+            page: "",
+            url: "",
+          },{
+            foodCode: ""
+            foodName: "",
+            page: "",
+            url: "",
+          }],
+          isEdit: true,
+          key: "food",
+          name: "一行两个",
+          order: 2,
+        }
       ]
   接口2：设置专题内容列表 /setTopicList
     请求数据：
       {
         topicCode:'xxxx',
         organizeList:['ORGxxxx','ORGasdfads']
-        topicList: 同上接口1的返回数据
+        topicList: [
+          {
+            customize:[{
+              foodCode: ""
+              foodName: "",
+              page: "",
+              url: "",
+            },{
+              foodCode: ""
+              foodName: "",
+              page: "",
+              url: "",
+            },{
+              foodCode: ""
+              foodName: "",
+              page: "",
+              url: "",
+            }],
+            isEdit: true,
+            key: "food",
+            name: "一行两个",
+            order: 2,
+          }
+        ]
       }
       
   接口3：获取餐品列表 支持根据餐品名查询

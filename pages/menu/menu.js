@@ -403,9 +403,17 @@ Page({
     requestModel.request(
       param,
       (resData) => {
-        _this.setData({
-          cartList: resData.cartResDtoList,
-        });
+        if (resData.cartResDtoList.length == 0) {
+          _this.setData({
+            cartList: resData.cartResDtoList,
+            showCartFlag: false,
+          });
+        } else {
+          _this.setData({
+            cartList: resData.cartResDtoList,
+          });
+        }
+
         if (resData.inValidNum > 0 && _this.data.inValidNumToast) {
           setTimeout(() => {
             wx.showModal({

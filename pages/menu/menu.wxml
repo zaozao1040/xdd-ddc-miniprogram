@@ -119,7 +119,7 @@
                               ￥{{ foodItem.foodOriginalPrice }}
                             </view>
                           </view>
-                          <!-- ***************  + - 添加、减掉餐品的小控件(菜单中) *************** -->
+                          <!-- *************** 加入购物车的icon(菜单中) *************** -->
                           <view wx:if="{{foodItem.sellAllOut}}" class="num-control-stock">
                             餐品已售完</view>
                             <view wx:elif="{{!foodItem.canMeal&&orgAdmin}}" class="num-control-stock">限个人账户点餐</view>
@@ -139,25 +139,8 @@
       </view>
     </scroll-view>
     <!------ 下面是购物车 ------>
-    <!-- 购物车未激活状态 -->
-    <view wx:if="{{ cartList.length == 0}}" class="footer-wrapper-inactive">
-      <view class="footer-wrapper-top" style="background: #dddddd;">
-        <view wx:if="{{orgAdmin}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
-          您当前是管理员
-        </view>
-        <view wx:elif="{{!activeInfoExtra.mealSet.userCanStandardPrice}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
-          当前餐标已被使用
-        </view> 
-      </view>
-      <view class="footer-wrapper-bottom">
-        <image src="/images/menu/order_closeshop.png" class="shop-image"></image>
-        <view class="footer-right" style="background:#9d9d9d">
-          去结算
-        </view>                    
-      </view>
-    </view>
     <!-- 购物车激活状态 -->
-    <view wx:else bindtap="clickCartBox" class="footer-wrapper">
+    <view wx:if="{{ cartList.length > 0}}" bindtap="clickCartBox" class="footer-wrapper">
       <!------ 购物车餐品的列表 ------>
       <view wx:if="{{showCartFlag}}" class="footer-wrapper-top-show-cart">
         <view class="mask" catchtap="closeCart" catchtouchmove="preventTouchMove"></view>
@@ -251,6 +234,23 @@
         </view>
         <image src="/images/menu/order_shop.png" bindtap="clickCartImg" class="shop-image"></image>
         <view class="footer-right" bindtap="goToPreOrder">
+          去结算
+        </view>                    
+      </view>
+    </view>
+    <!-- 购物车未激活状态 -->
+    <view wx:else class="footer-wrapper-inactive">
+      <view class="footer-wrapper-top" style="background: #dddddd;">
+        <view wx:if="{{orgAdmin}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
+          您当前是管理员
+        </view>
+        <view wx:elif="{{!activeInfoExtra.mealSet.userCanStandardPrice}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
+          当前餐标已被使用
+        </view> 
+      </view>
+      <view class="footer-wrapper-bottom">
+        <image src="/images/menu/order_closeshop.png" class="shop-image"></image>
+        <view class="footer-right" style="background:#9d9d9d">
           去结算
         </view>                    
       </view>

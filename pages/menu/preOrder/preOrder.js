@@ -404,6 +404,7 @@ Page({
           mealDate: itemOut.mealDate,
           integralNumber: 0,
           foods: tmp_foods,
+          userDiscountCode: itemIn.userDiscountCode,
         });
       });
     });
@@ -491,6 +492,13 @@ Page({
                   });
                 }
               }
+            } else {
+              wx.showModal({
+                title: "提示",
+                content: resData.data.msg,
+                showCancel: false,
+                confirmText: "我知道了",
+              });
             }
           });
         });
