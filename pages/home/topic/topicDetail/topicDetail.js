@@ -10,6 +10,7 @@ Page({
   data: {
     topicDetailInfo: {},
     foodList: [],
+    bgImg: "",
   },
 
   /**
@@ -43,7 +44,8 @@ Page({
     requestModel.request(param, (resData) => {
       if (resData) {
         _this.setData({
-          foodList: resData,
+          foodList: resData.recommendGoodDTOList,
+          bgImg: resData.detailImage,
         });
       }
     });

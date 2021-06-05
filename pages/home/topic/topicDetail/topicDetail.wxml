@@ -1,2 +1,32 @@
-<!--pages/home/topic/topicDetail/topicDetail.wxml-->
-<text>pages/home/topic/topicDetail/topicDetail.wxml</text>
+<view class="wrp">
+  <view wx:if="{{ bgImg }}" class="bg-wrp">
+    <image
+      mode="widthFix"
+      src="{{ bgImg }}"
+      style="width: 100%; height: 100%; border-radius: 8rpx"
+    ></image>
+  </view>
+  <view
+    class="list-wrp"
+    wx:for="{{ foodList }}"
+    wx:for-index="index"
+    wx:for-item="item"
+  >
+    <view class="list-in-wrp">
+      <view
+        class="list-in-item"
+        wx:for="{{ item.customize }}"
+        wx:for-index="indexIn"
+        wx:for-item="itemIn"
+      >
+        <view class="img-wrp">
+          <image
+            mode="widthFix"
+            src="{{ itemIn.url }}"
+            style="width: 100%; height: 100%; border-radius: 8rpx"
+          ></image>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

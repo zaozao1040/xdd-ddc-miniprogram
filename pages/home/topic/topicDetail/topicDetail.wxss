@@ -1,1 +1,17 @@
-/* pages/home/topic/topicDetail/topicDetail.wxss */
+.bg-wrp {
+}
+.list-wrp {
+}
+.list-in-wrp {
+  width: 100%;
+  display: flex;
+}
+.list-in-item {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.img-wrp {
+  width: 50%;
+}

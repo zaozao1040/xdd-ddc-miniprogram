@@ -24,6 +24,9 @@
 管理端
   接口1：根据专题code获取专题餐品列表 /getTopicList
     返回数据：
+    {
+      back
+    }
       [
         {
           customize:[{
@@ -46,6 +49,7 @@
           key: "food",
           name: "一行两个",
           order: 2,
+
         }
       ]
   接口2：设置专题内容列表 /setTopicList
