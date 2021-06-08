@@ -50,4 +50,18 @@ Page({
       }
     });
   },
+  clickImg: function (e) {
+    let item = e.currentTarget.dataset.item;
+    let tmp_page = item.page;
+    wx.navigateTo({
+      url: tmp_page,
+      fail: function (err) {
+        wx.showToast({
+          title: "餐品失效",
+          image: "/images/msg/error.png",
+          duration: 2000,
+        });
+      },
+    });
+  },
 });

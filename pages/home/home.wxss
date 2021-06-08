@@ -85,8 +85,8 @@
 
 .takefood-title {
   font-family: PingFang-SC-Medium;
-  font-size: 36rpx;
-  color: #333333;
+  /* font-size: 36rpx; */
+  color: #222;
   letter-spacing: 0;
   text-align: left;
   margin-left: 6rpx;

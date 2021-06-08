@@ -1258,14 +1258,8 @@ Page({
   handleGotoFoodDetail: function (e) {
     wx.navigateTo({
       url:
-        "/pages/food/food?foodCode=" +
-        e.currentTarget.dataset.foodcode +
-        "&mealDate=" +
-        this.data.timeInfo[this.data.activeDayIndex].mealDate +
-        "&mealType=" +
-        this.data.mealTypeItem +
-        "&typeName=" +
-        e.currentTarget.dataset.typename,
+        "/pages/menu/foodDetail/foodDetail?foodCode=" +
+        e.currentTarget.dataset.foodcode,
     });
   },
   handleBindOrg() {

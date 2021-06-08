@@ -1,32 +1,32 @@
 <view class="wrp">
-  <view wx:if="{{ bgImg }}" class="bg-wrp">
-    <image
-      mode="widthFix"
-      src="{{ bgImg }}"
-      style="width: 100%; height: 100%; border-radius: 8rpx"
-    ></image>
-  </view>
   <view
-    class="list-wrp"
-    wx:for="{{ foodList }}"
-    wx:for-index="index"
-    wx:for-item="item"
+    class="bg-wrp"
   >
-    <view class="list-in-wrp">
+    <view class="bg-content">
       <view
-        class="list-in-item"
-        wx:for="{{ item.customize }}"
-        wx:for-index="indexIn"
-        wx:for-item="itemIn"
+        class="list-wrp"
+        wx:for="{{ foodList }}"
+        wx:for-index="index"
+        wx:for-item="item"
       >
-        <view class="img-wrp">
-          <image
-            mode="widthFix"
-            src="{{ itemIn.url }}"
-            style="width: 100%; height: 100%; border-radius: 8rpx"
-          ></image>
+      <view class="list-in-wrp">
+        <view
+          class="list-in-item"
+          wx:for="{{ item.customize }}"
+          wx:for-index="indexIn"
+          wx:for-item="itemIn"
+        >
+          <view class="img-wrp" data-item="{{itemIn}}" bindtap="clickImg">
+            <image
+              mode="widthFix"
+              src="{{ itemIn.url }}"
+              style="width: 100%; height: 100%; border-radius: 8rpx"
+            ></image>
+          </view>
         </view>
       </view>
     </view>
+    </view>
   </view>
+
 </view>

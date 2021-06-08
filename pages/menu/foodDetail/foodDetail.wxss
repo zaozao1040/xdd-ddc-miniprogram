@@ -1,0 +1,358 @@
+/* 基本信息 */
+
+.basic-info {
+  background: #fff;
+}
+
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 12rpx 140rpx 20rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.header-item {
+  font-family: PingFang-SC-Regular;
+  color: #999;
+  font-size: 30rpx;
+  background: #ffffff;
+  box-shadow: inset 0 0 0 0 #ebebeb;
+  letter-spacing: 0;
+  line-height: 42rpx;
+}
+
+.header-item-active {
+  font-family: PingFang-SC-Medium;
+  font-size: 30rpx;
+  color: #333333;
+  letter-spacing: 0;
+  line-height: 42rpx;
+}
+
+.header-item-border {
+  height: 14rpx;
+}
+
+.header-item-border-active {
+  height: 6rpx;
+  background: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
+  border-radius: 4rpx;
+  width: 60rpx;
+  margin: 8rpx auto 0;
+}
+
+.food-wrapper {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+}
+
+.img-wrapper {
+  width: 100%;
+}
+
+.food-info-wrapper {
+  padding: 30rpx;
+  border-bottom: 16rpx solid #f5f5f5;
+}
+
+.foodName {
+  font-family: PingFang-SC-Medium;
+  font-size: 36rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 50rpx;
+  margin-bottom: 10rpx;
+}
+
+.tag-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10rpx;
+}
+
+.food-stock {
+  font-family: PingFang-SC-Regular;
+  font-size: 20rpx;
+  color: #999;
+  letter-spacing: 0;
+  text-align: left;
+  padding-right: 20rpx;
+}
+
+.foodLimitNum {
+  margin-bottom: 10rpx;
+  display: flex;
+  line-height: 28rxp;
+}
+
+.tag-item {
+  background: #f5f5f5;
+  border-radius: 4rpx;
+  padding: 0 8rpx;
+  height: 28rpx;
+  line-height: 28rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 20rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  margin-right: 10rpx;
+}
+
+.price {
+  position: relative;
+  display: flex;
+  margin-top: 10rpx;
+  padding-bottom: 18rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+/* 加入购物车 */
+.add-to-wrapper {
+  position: absolute;
+  padding: 0 20rpx;
+  right: 0;
+  bottom: 20rpx;
+
+  background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
+  border-radius: 9rpx;
+
+  height: 48rpx;
+  line-height: 48rpx;
+  font-family: PingFang-SC-Medium;
+  font-size: 26rpx;
+  color: #ffffff;
+  letter-spacing: 0;
+  text-align: center;
+}
+.prompt {
+  font-size: 26rpx;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: #666;
+  line-height: 80rpx;
+}
+
+.prompt-wrapper {
+  display: flex;
+  margin-top: 30rpx;
+  background: rgba(247, 156, 76, 0.2);
+  border-radius: 3px;
+  height: 80rpx;
+}
+
+.price-real {
+  font-family: HelveticaNeue-Medium;
+  font-size: 36rpx;
+  color: #ff7800;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 44rpx;
+}
+
+.price-original {
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: left;
+  text-decoration: line-through;
+  margin-top: 6rpx;
+  margin-left: 10rpx;
+}
+
+.foodDes-title {
+  font-size: 28rpx;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: #333333;
+  line-height: 40rpx;
+}
+
+.foodDes {
+  font-size: 26rpx;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: #666;
+  line-height: 40rpx;
+}
+
+/* 每个具体评论 */
+
+.ratings-item {
+  display: flex;
+  padding: 22rpx 30rpx 10rpx;
+}
+
+.left {
+  height: 80rpx;
+  width: 80rpx;
+}
+
+.left-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50rpx;
+}
+
+.right {
+  flex: 1;
+  margin-left: 40rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.line1 {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+
+.user {
+  font-family: PingFangSC-Regular;
+  font-size: 26rpx;
+  color: #666666;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 36rpx;
+}
+
+.time {
+  font-family: PingFangSC-Regular;
+  font-size: 20rpx;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: right;
+  line-height: 28rpx;
+}
+
+.mask {
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.line2 {
+  margin-bottom: 22rpx;
+  display: flex;
+}
+
+.line3 {
+  font-family: PingFangSC-Regular;
+  font-size: 30rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 42rpx;
+  margin-bottom: 10rpx;
+}
+
+.line-reply {
+  margin-top: 10rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 24rpx;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: left;
+  padding-bottom: 20rpx;
+}
+
+.food-content {
+  width: 100%;
+}
+
+.image-list {
+  display: flex;
+  margin-bottom: 10rpx;
+}
+
+.bg {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.5);
+}
+.dialog {
+  background-color: #ffffff;
+  border-radius: 10rpx;
+  border-top-left-radius: 10rpx;
+  border-top-left-radius: 10rpx;
+}
+.dialog-content {
+  padding: 20rpx;
+  padding: 20rpx;
+  display: flex;
+  background-color: #ffffff;
+  border-radius: 10rpx;
+}
+.dialog-left {
+  flex: 1;
+  width: 250rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.dialog-right {
+  flex: 1;
+  width: 250rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.dialog-item {
+  width: 200rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-bottom: 1rpx solid #cccccc;
+  text-align: center;
+  color: #222222;
+}
+.dialog-item-active {
+  width: 200rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-bottom: 1rpx solid #cccccc;
+  text-align: center;
+  color: #ffffff;
+  background: #f79c4c;
+}
+.dialog-item:last-child {
+  border-bottom: none;
+}
+
+.dialog-footer {
+  display: flex;
+  height: 100rpx;
+  font-size: 30rpx;
+  border-bottom-left-radius: 10rpx;
+  border-bottom-left-radius: 10rpx;
+  border-top: 1rpx solid #cccccc;
+}
+.dialog-footer-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: 1rpx solid #cccccc;
+}
+.dialog-footer-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #f79c4c;
+}

@@ -1,6 +1,9 @@
 .bg-wrp {
 }
+.bg-content {
+}
 .list-wrp {
+  width: 100%;
 }
 .list-in-wrp {
   width: 100%;
@@ -13,5 +16,5 @@
   align-items: center;
 }
 .img-wrp {
-  width: 50%;
+  width: 100%;
 }

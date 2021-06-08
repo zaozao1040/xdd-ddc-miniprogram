@@ -51,6 +51,7 @@
     "pages/mine/orgAndaddress/orgAndaddress",
     "pages/mine/orgAdminSpare/address/address",
     "pages/menu/preOrder/preOrder",
+    "pages/menu/foodDetail/foodDetail",
     "pages/home/topic/topic",
     "pages/home/topic/topicDetail/topicDetail"
   ],
@@ -97,8 +98,6 @@
       }
     ]
   },
-  "navigateToMiniProgramAppIdList": [
-    "wx8492039f6e368de0"
-  ],
+  "navigateToMiniProgramAppIdList": ["wx8492039f6e368de0"],
   "sitemapLocation": "sitemap.json"
 }

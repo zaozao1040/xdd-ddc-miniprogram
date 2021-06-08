@@ -65,8 +65,8 @@
                         {{foodTypeItem.typeDesc}}</view>
                     </view>
                     <!-- 单个食物 -->
-                    <view id="{{ foodItem.foodCode }}" wx:for="{{ foodTypeItem.foodList }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex" bindtap="handleGotoFoodDetail" data-selectedfoodindex="{{selectedFoodIndex}}" data-menutypeindex="{{ foodItem.menuItemIndex }}" data-mealtypeitem="{{item}}" data-foodindex="{{ foodItem.foodIndex }}" data-dayindex="{{dayIndex}}"
-                      data-foodcode="{{ foodItem.foodCode }}" data-typename='{{foodTypeItem.typeName }}' class="food-wrapper">
+                    <view id="{{ foodItem.foodCode }}" wx:for="{{ foodTypeItem.foodList }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex" bindtap="handleGotoFoodDetail" 
+                      data-foodcode="{{ foodItem.foodCode }}" class="food-wrapper">
                       <view wx:if="{{foodItem.sellAllOut }}" class="img-wrapper-stock"></view>
                       <view class="img-wrapper">
                         <image wx:if="{{ foodItem.foodQuota &&foodItem.foodQuota.quotaNum  }}" class='food-img-res' src="/images/menu/order_purchase.png">
