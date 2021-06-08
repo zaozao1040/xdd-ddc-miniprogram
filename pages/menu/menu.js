@@ -467,6 +467,7 @@ Page({
       _this.setData(
         {
           activeMealDate: item.mealDate,
+          mealTypeList: _this.data.mealDateList[index].dayMealTypeList,
         },
         () => {
           // 如果点击的天和餐别已经有数据了 则不处理
