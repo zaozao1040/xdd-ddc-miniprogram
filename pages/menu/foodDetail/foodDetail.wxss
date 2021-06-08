@@ -292,29 +292,24 @@
 }
 .dialog-content {
   padding: 20rpx;
-  padding: 20rpx;
   display: flex;
   background-color: #ffffff;
   border-radius: 10rpx;
 }
 .dialog-left {
-  flex: 1;
-  width: 250rpx;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 .dialog-right {
-  flex: 1;
-  width: 250rpx;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 .dialog-item {
-  width: 200rpx;
+  width: 280rpx;
   height: 80rpx;
   line-height: 80rpx;
   border-bottom: 1rpx solid #cccccc;
@@ -322,7 +317,7 @@
   color: #222222;
 }
 .dialog-item-active {
-  width: 200rpx;
+  width: 280rpx;
   height: 80rpx;
   line-height: 80rpx;
   border-bottom: 1rpx solid #cccccc;
