@@ -64,7 +64,7 @@
 
         <!-- 开始点餐 3.0-->
         <view class="h-v3">
-            <view class="h-v3-1" catchtap="handleGotoMenu">
+            <view class="h-v3-1" catchtap="clickStartMeal">
                 开始点餐
             </view>
             <view
@@ -203,25 +203,9 @@
                                 </view>
                             </view>
                         </view>
-                        <!-- <view class='flex-b' style='margin-top:30rpx;'>
-                            <view class='take-name'>{{item.foodName}}</view>
-                            <view class='take-cabinet flexdisplay' wx:if='{{item.cabinet&&item.cabinet.length>0}}'
-                                style='flex-wrap: wrap;'>
-                                <view wx:for='{{item.cabinet}}' wx:for-item='oneCabinet' wx:for-index='cabinetIndex'
-                                    wx:key='{{cabinetIndex}}' class='flexdisplay'>
-                                    <view>{{oneCabinet.cabinetNumber+'-'+oneCabinet.cellNumber}}</view>
-                                    <view wx:if='{{cabinetIndex<item.cabinet.length-1}}'>,</view>
-                                </view>
-                            </view>
-                            <view class='take-cabinet' wx:elif='{{item.boxNumber}}'>{{item.boxNumber}}</view>
-                        </view>
-                        <view class='take-remind' wx:if='{{item.prompt}}'>{{item.prompt}}</view> -->
                     </view>
-
                 </view>
             </scroll-view>
-            <!-- <view class='take-button' wx:if='{{takeOrderPickagain}}' catchtap='takeFoodOrder'> 再次取餐</view>
-            <view class='take-button' wx:else catchtap='takeFoodOrder'> 取餐</view> -->
         </view>
 
         <!-- 首页提示评价3.1-->
@@ -283,7 +267,7 @@
                 <view class='bind-organize-content'>您可在'我的'页面切换为企业用户</view>
                 <view class='bind-display'>
                     <view class='bind-organize-left' bindtap='closeDialog'>暂不</view>
-                    <view class='bind-organize-right' bindtap='handleSelectWeek'>点餐</view>
+                    <view class='bind-organize-right' bindtap='navigateToMenu'>点餐</view>
                 </view>
             </view>
         </view>
@@ -292,22 +276,6 @@
         <c-topic></c-topic>
 
         <!-- --------------------------------------- 下面是各种弹出层 --------------------------------------- -->
-
-        <!-- 限制时间段不允许使用小程序 弹出 -->
-        <view class="timeLimit-wrapper-bg" wx:if="{{timeLimitFlag}}">
-            <view class="timeLimit-wrapper">
-                <view class="timeLimit-title">
-                    按照合作方要求
-                </view>
-                <view class="timeLimit-title">
-                    当前时段<span style="color:red;">无法订餐</span>，敬请谅解
-                </view>
-                <!-- <view class="timeLimit-list-item" wx:for="{{timeLimitList}}" wx:for-index="timeLimitListIndex"
-                    wx:for-item="timeLimitListItem" wx:key="timeLimitListIndex">
-                    {{timeLimitListItem.startTime}} ~ {{timeLimitListItem.endTime}}
-                </view> -->
-            </view>
-        </view>
         <!-- 审核状态框 弹出2.6.1 -->
         <view class="modulebox-background-wrapper" wx:if="{{showCheckFlag}}">
             <view class="modulebox-wrapper-organize">
@@ -321,17 +289,6 @@
             </view>
         </view>
 
-        <!-- 新人大礼 弹出 2.6.1-->
-        <view class="newuser-wrapper" wx:if="{{showDaliFlag}}">
-            <view class="img-wrapper">
-                <view class="icon-wrapper">
-                    <image style='height:88rpx;width:88rpx;' src="/images/home/guanbi.png" catchtap="closeDali"></image>
-
-                </view>
-                <image class="image-dali" src="/images/home/new_user.png"></image>
-                <view class='button-dali' catchtap="getNewUserGift">立即领取</view>
-            </view>
-        </view>
         <!--弹出去绑定企业-->
         <view class="modulebox-background-wrapper" wx:if='{{!showCheckFlag&&showBindOrganizeFlag}}'>
             <view class='bind-organize-warpper'>
@@ -344,9 +301,5 @@
                 </view>
             </view>
         </view>
-        <!-- layer弹出层 （优惠券活动 弹出） 2.6.1 -->
-        <block wx:if="{{showLayerFlag}}">
-            <c-discountPromotion bind:closelayer="onCloseLayer"></c-discountPromotion>
-        </block>
     </view>
 </view>

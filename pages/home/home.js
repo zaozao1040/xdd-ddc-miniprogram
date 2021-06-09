@@ -12,14 +12,10 @@ Page({
     preLoading_request: true,
     preLoading_force: true,
 
-    //超力包装需求，每日只可使用一次餐标
-    limitStandard: false,
-
     swiperDefaultIndex: 0,
     imageWidth: wx.getSystemInfoSync().windowWidth,
     timer: null,
     canClick: true,
-    showDaliFlag: false, //显示新人大礼的标志  默认不显示
     showCheckFlag: false, //显示审核状态框标志 默认不显示
     registered: false,
 
@@ -54,8 +50,6 @@ Page({
     },
 
     //
-    showLayerFlag: false, //弹出层（用于优惠券领取），默认不展示
-    //
     swiperCurrentIndex: 0, //当前轮播图active的index
 
     noticeData: null, //记录公告内容
@@ -78,17 +72,13 @@ Page({
     windowHeight: 500,
     takeorderModalShowInit: true,
 
-    // 时间限制开关
-    timeLimitFlag: false,
-    timeLimitList: [],
-
     // 餐品推荐
     tuijianHeight: 0,
     tuijianOneHeight: 0,
     canpintuijianList: [],
   },
 
-  handleSelectWeek() {
+  navigateToMenu() {
     wx.navigateTo({
       url: "/pages/menu/menu",
     });
@@ -112,7 +102,7 @@ Page({
       });
     });
   },
-  handleGotoMenu: function () {
+  clickStartMeal: function () {
     if (!wx.getStorageSync("userInfo")) {
       this.gotoMenu();
     } else {
@@ -192,7 +182,7 @@ Page({
             orgAdminNoMealFlag: true,
           });
         } else {
-          _this.handleSelectWeek();
+          _this.navigateToMenu();
         }
       }, true);
     }
@@ -205,13 +195,8 @@ Page({
     });
   },
 
-  // 关闭选择预约弹框
-  closeMenuSelect() {},
-
   onLoad: function (options) {
     let _this = this;
-
-    this.getTimeLimit();
 
     setTimeout(function () {
       // 2秒后强制展示首页
@@ -233,7 +218,7 @@ Page({
 
     // 这个逻辑是  订单页 当没有订单时，引导用户跳转到首页的开始点餐
     if (options.fromorder) {
-      _this.handleGotoMenu();
+      _this.clickStartMeal();
     }
   },
 
@@ -246,20 +231,9 @@ Page({
 
     //已登录状态，直接登录
     requestModel.getUserInfo((userInfo) => {
-      // 超力包装 刷新用户info 主要是为了拿到limitStandard
-      let limitStandard = false;
-      if (userInfo) {
-        limitStandard = userInfo.limitStandard;
-      }
-
       this.setData({
         userInfo: userInfo,
-        limitStandard: limitStandard,
       });
-
-      if (this.data.timeLimitFlag === false) {
-        wx.showTabBar();
-      }
 
       let { userStatus, canTakeDiscount } = userInfo;
       if (userStatus == "NO_CHECK") {
@@ -268,12 +242,6 @@ Page({
           showCheckFlag: true,
         });
         wx.hideTabBar();
-      }
-      if (canTakeDiscount == true) {
-        //在登录状态下判断用户类型，企业用户的normal状态显示新人大礼，一般用户的登录状态显示新人大礼
-        this.setData({
-          showDaliFlag: true,
-        });
       }
 
       if (userStatus == "NORMAL") {
@@ -288,25 +256,6 @@ Page({
       }
       /* 获取首页取餐信息 */
     }, true);
-  },
-
-  /* 获取企业点餐时段限制 */
-  getTimeLimit() {
-    let _this = this;
-    let url = "/home/isTimeLimit?userCode=" + wx.getStorageSync("userCode");
-    let param = {
-      url,
-    };
-
-    requestModel.request(param, (data) => {
-      if (data.status === true) {
-        wx.hideTabBar();
-        _this.setData({
-          timeLimitFlag: true,
-          timeLimitList: data.limitList,
-        });
-      }
-    });
   },
 
   //没绑定企业的用户弹出去绑定弹窗
@@ -355,7 +304,7 @@ Page({
       }
     });
   },
-  /* 获取待评价信息 */
+  /* 获取待评价信息 也就是管理员回复用户后 用户小程序的个人中心标签出现红点*/
   getOrderEvaluateReplyNotRead() {
     let _this = this;
     let url =
@@ -405,7 +354,7 @@ Page({
       clearTimeout(this.data.timer);
     }
   },
-  /* 获取订单列表 */
+  /* 获取订单评价列表 */
   getOrderList: function () {
     let _this = this;
 
@@ -559,38 +508,10 @@ Page({
     }
     wx.showTabBar();
   },
-  //取餐 下面有取餐优化接口，此接口暂时用不到了
-  takeFoodOrder() {
-    let _this = this;
-    let ordercode = _this.data.takeOrderCode;
-    let pickagain = _this.data.takeOrderPickagain;
-    let param = {
-      url:
-        "/order/orderPick?userCode=" +
-        wx.getStorageSync("userCode") +
-        "&orderCode=" +
-        ordercode +
-        "&again=" +
-        pickagain,
-    };
-    requestModel.request(param, () => {
-      _this.setData({
-        takeorderModalShow: false,
-        takeOrderCode: null,
-      });
-      _this.getTakeMealInfo();
-      _this.getOrderList();
-      wx.showTabBar();
-    });
-  },
+
   //取餐 优化
   takeFoodOrderPlus(e) {
     let _this = this;
-    console.log(
-      "======= e ======= ",
-      e.currentTarget.dataset.item,
-      _this.data.takeOrderCode
-    );
 
     let ordercode = _this.data.takeOrderCode;
     let pickagain = _this.data.takeOrderPickagain;
@@ -621,55 +542,7 @@ Page({
       wx.showTabBar();
     });
   },
-  closeDali: function () {
-    this.setData({
-      showDaliFlag: false,
-    });
-  },
-  /* 监听子组件：改变弹出层的展示状态 */
-  onCloseLayer: function () {
-    this.setData({
-      showLayerFlag: false,
-    });
-  },
-  /* 领取新人大礼 */
-  getNewUserGift: function () {
-    let _this = this;
-    let param = {
-      userCode: wx.getStorageSync("userCode"),
-    };
-    homeModel.getNewUserGift(param, (res) => {
-      if (res.code === 0) {
-        // 需要修改5/18
-        let tmp_userInfo = userInfo;
-        tmp_userInfo.newUser = false;
-        tmp_userInfo.canTakeDiscount = false;
-        wx.setStorageSync("userInfo", tmp_userInfo);
-        wx.showToast({
-          title: "领取成功",
-          image: "/images/msg/success.png",
-          duration: 2000,
-        });
-        _this.setData({
-          showDaliFlag: false,
-        });
-      } else {
-        wx.showToast({
-          title: res.msg,
-          image: "/images/msg/error.png",
-          duration: 2000,
-        });
-        if (_this.data.timer) {
-          clearTimeout(_this.data.timer);
-        }
-        _this.data.timer = setTimeout(function () {
-          _this.setData({
-            showDaliFlag: false,
-          });
-        }, 2000);
-      }
-    });
-  },
+
   /* 刷新用户状态信息 用于用户注册登录后，此时后台还没有审核该企业用户，当前小程序home页最上面显示button“刷新用户”*/
   handleRefreshUser: function () {
     let _this = this;
