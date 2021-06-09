@@ -5,14 +5,14 @@
   <view wx:else>
     <scroll-view class="wrapper" scroll-y style="height:{{ windowHeight }}px" bindscroll="onScrollOut">
       <view>
-        <scroll-view scroll-x style="overflow:hidden;white-space:nowrap;" scroll-into-view="{{activeDayId}}" id='scrollscroll'>
+        <scroll-view scroll-x style="overflow:hidden;white-space:nowrap;">
           <view wx:for="{{mealDateList}}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap='clickMealDate' id="day{{index}}" data-index='{{index}}' data-item='{{item}}' style='display:inline-block;margin-right:{{index==6?"40rpx":"60rpx"}};padding-left:{{index==0?"40rpx":"0"}}'>
             <view wx:if='{{item.mealDate!=activeMealDate}}' class="inactive-day-date">{{item.mealDateAbbreviation}}</view>
             <view class="{{item.mealDate==activeMealDate?'active-day':'inactive-day'}}">{{item.description}}</view>
             <view class="{{item.mealDate==activeMealDate?'active-day-line':''}}"></view>
           </view>
         </scroll-view>
-        <view class='mealtype-list' id='mealtyleList'>
+        <view class='mealtype-list'>
           <block wx:for="{{ mealTypeList }}" wx:for-item="item"  wx:for-index="index" wx:key="index">
             <view class="{{ item.value == activeMealType ? 'mealtype-active' : 'mealtype-inactive' }}" bindtap="clickMealType"  data-index='{{index}}' data-item='{{item}}'>
               {{ item.label }}</view>
@@ -144,7 +144,7 @@
       <!------ 购物车餐品的列表 ------>
       <view wx:if="{{showCartFlag}}" class="footer-wrapper-top-show-cart">
         <view class="mask" catchtap="closeCart" catchtouchmove="preventTouchMove"></view>
-        <view class="{{ showCartFlag ? 'cart-wrp in' : 'cart-wrp out' }}" style="display:{{boxActiveFlagFirst?'none':'block'}};" catchtouchmove="preventTouchMove">
+        <view class="{{ showCartFlag ? 'cart-wrp in' : 'cart-wrp out' }}" catchtouchmove="preventTouchMove">
           <view class="chart-top">企业总抵扣: ￥{{payInfo.organizeDeductionPrice}}</view>
           <view class="chart-top-2">
             <view style="font-family: PingFang-SC-Regular; font-size: 11px; color: #999999; letter-spacing: 0; text-align: left;">
@@ -154,7 +154,6 @@
               <text class="iconfont icon-trash_fill"></text> 清空
             </view>
           </view>
-
           <scroll-view scroll-y style="height: {{ cartHeight }}px;">
             <view class="cart_scrollPosition_forCalculate">
               <block wx:for="{{cartList}}" wx:for-item="cartItem" wx:for-index="cartIndex" wx:key="cartIndex">  
@@ -204,13 +203,6 @@
             </view>
           </scroll-view>
         </view>
-        <view class="modulebox-background-wrapper" wx:if='{{notUpToStandardPrice}}'>
-          <view class='warpper'>
-            <view class='title'>{{notUpToStandardPriceTitle}}</view>
-            <view class='content'>{{notUpToStandardPriceContent}}</view>
-            <view class='dialog-button' bindtap='closeModal'>知道了</view>
-          </view>
-        </view>
       </view>
       <view wx:else class="footer-wrapper-top">
         <view wx:if="{{orgAdmin}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
@@ -232,8 +224,8 @@
             ￥{{ payInfo.totalMoney }}
           </view>
         </view>
-        <image src="/images/menu/order_shop.png" bindtap="clickCartImg" class="shop-image"></image>
-        <view class="footer-right" bindtap="goToPreOrder">
+        <image src="/images/menu/order_shop.png" class="shop-image"></image>
+        <view class="footer-right" catchtap="goToPreOrder">
           去结算
         </view>                    
       </view>

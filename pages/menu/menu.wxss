@@ -614,63 +614,6 @@
   position: relative;
 }
 
-.modulebox-background-wrapper {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 10002;
-  background: rgba(13, 21, 31, 0.5);
-  margin: auto;
-}
-
-.warpper {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  height: 328rpx;
-  width: 520rpx;
-  padding-bottom: 0;
-  background: #fff;
-  border-radius: 8rpx;
-  z-index: 1001;
-}
-
-.title {
-  font-size: 34rpx;
-  font-family: PingFang-SC-Medium;
-  font-weight: 500;
-  color: rgba(0, 0, 0, 1);
-  line-height: 108rpx;
-  text-align: center;
-}
-
-.content {
-  font-size: 30rpx;
-  font-family: PingFangSC-Regular;
-  font-weight: 400;
-  color: rgba(133, 133, 133, 1);
-  line-height: 42rpx;
-  text-align: center;
-  padding: 0 40rpx;
-}
-
-.dialog-button {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  font-family: PingFang-SC-Medium;
-  font-size: 36rpx;
-  color: #f79c4c;
-  text-align: center;
-  line-height: 100rpx;
-  border-top: 1rpx solid #e5e5e5;
-}
-
 .try-on {
   font-family: PingFang-SC-Regular;
   font-size: 15px;

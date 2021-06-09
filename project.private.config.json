@@ -387,6 +387,12 @@
           "pathName": "pages/menu/foodDetail/foodDetail",
           "query": "userCode=USER532153350376914957&foodCode=FOOD694948192814497792",
           "scene": null
+        },
+        {
+          "name": "pages/menu/menu",
+          "pathName": "pages/menu/menu",
+          "query": "",
+          "scene": null
         }
       ]
     }
