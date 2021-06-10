@@ -44,7 +44,8 @@ Page({
     activeTypeId: null,
     promptInfo: {},
 
-    //
+    // 各种个性化
+    userTimeAndMealTypeLimit: false, //奥美凯
   },
 
   onLoad: function (option) {
@@ -206,6 +207,7 @@ Page({
             mealSet: resData.mealSet,
             mealType: resData.mealType,
           },
+          userTimeAndMealTypeLimit: resData.limit,
           loading: false,
           menu: tmp_menu,
         },
@@ -366,6 +368,8 @@ Page({
                 mealSet: tmp_mealTypeList[_this.data.activeMealType].mealSet,
                 mealType: tmp_mealTypeList[_this.data.activeMealType].mealType,
               },
+              userTimeAndMealTypeLimit:
+                tmp_mealTypeList[_this.data.activeMealType].limit,
             });
             return;
           } else {
@@ -401,6 +405,7 @@ Page({
                 mealSet: tmp_mealTypeList[item.value].mealSet,
                 mealType: tmp_mealTypeList[item.value].mealType,
               },
+              userTimeAndMealTypeLimit: tmp_mealTypeList[item.value].limit,
             });
             return;
           } else {
@@ -660,11 +665,6 @@ Page({
       time: 1000,
       success: () => {
         let aomeikaiOrgnaizeCode = getApp().globalData.aomeikaiOrgnaizeCode;
-        console.log(
-          "@@@@@@@ 奥美凯 @@@@@@@ ",
-          _this.data.userInfo.organizeCode,
-          aomeikaiOrgnaizeCode
-        );
         if (_this.data.userInfo.organizeCode == aomeikaiOrgnaizeCode) {
           // 奥美凯企业的个性化，限制员工日期和餐别进行点餐，狗日的奥美凯
           _this.doLimit();
