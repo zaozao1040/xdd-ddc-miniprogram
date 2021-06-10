@@ -660,6 +660,11 @@ Page({
       time: 1000,
       success: () => {
         let aomeikaiOrgnaizeCode = getApp().globalData.aomeikaiOrgnaizeCode;
+        console.log(
+          "@@@@@@@ 奥美凯 @@@@@@@ ",
+          _this.data.userInfo.organizeCode,
+          aomeikaiOrgnaizeCode
+        );
         if (_this.data.userInfo.organizeCode == aomeikaiOrgnaizeCode) {
           // 奥美凯企业的个性化，限制员工日期和餐别进行点餐，狗日的奥美凯
           _this.doLimit();

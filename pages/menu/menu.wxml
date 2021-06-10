@@ -212,7 +212,7 @@
           当前餐标已被使用
         </view> 
         <view wx:else style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
-          企业单餐抵扣：￥{{activeInfoExtra.mealType.standardPrice}}
+          餐标：￥{{activeInfoExtra.mealType.standardPrice}}
         </view> 
       </view>
       <view class="footer-wrapper-bottom">
