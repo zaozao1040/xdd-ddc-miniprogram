@@ -199,6 +199,7 @@ Page({
         foodTypeList: resData.foodTypeList,
         mealSet: resData.mealSet,
         mealType: resData.mealType,
+        limit: resData.limit,
       };
       _this.setData(
         {
