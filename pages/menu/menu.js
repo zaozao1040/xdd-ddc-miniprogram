@@ -199,7 +199,6 @@ Page({
         mealSet: resData.mealSet,
         mealType: resData.mealType,
       };
-
       _this.setData(
         {
           foodTypeList: resData.foodTypeList,
@@ -214,6 +213,24 @@ Page({
           _this.calculateHeightList();
         }
       );
+
+      if (_this.data.promptInfo.mealDate) {
+        // 推荐餐品类别情况
+        let tmp_activeFoodType = 0;
+        let tmp_length = _this.data.foodTypeList.length;
+        for (let i = 0; i < tmp_length; i++) {
+          if (
+            _this.data.foodTypeList[i].typeId == _this.data.promptInfo.typeId
+          ) {
+            tmp_activeFoodType = i;
+            i = tmp_length;
+          }
+        }
+        _this.setData({
+          activeFoodType: tmp_activeFoodType,
+          scrollToView: "order" + tmp_activeFoodType,
+        });
+      }
     });
   },
   // 计算购物车高度，大于最大高度就滚动
@@ -679,9 +696,7 @@ Page({
       duration: 2000,
     });
   },
-  /**
-   * 下面是餐品推荐相关
-   */
+
   // 获取餐品推荐信息(如果是餐品推荐跳转过来的话)
   getCanpinInfo(typeId) {
     let _this = this;
@@ -703,18 +718,5 @@ Page({
         }
       );
     });
-  },
-
-  // 根据推荐餐品的id，获取推荐餐品在左侧餐品分类菜单中的index
-  getCanpinMenuTypeIndex: function (typeId, foodList, foodCustomizeListLength) {
-    let tmp_index = 0;
-    let tmp_length = foodList.length;
-    for (let i = foodCustomizeListLength; i < tmp_length; i++) {
-      if (foodList[i].typeId == typeId) {
-        tmp_index = i + foodCustomizeListLength;
-        i = tmp_length;
-      }
-    }
-    return tmp_index;
   },
 });
