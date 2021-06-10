@@ -1,0 +1,44 @@
+<!--加入购物车 选择餐别和日期的弹窗 -->
+<view wx:if='{{show}}' catchtap="closeMask" class="bg">
+  <view class="dialog" catchtap="handleDonothing">
+    <view class="dialog-content">
+      <view class="dialog-left">
+        <view
+          class="{{activeLeftItem.mealDate==item.mealDate?'dialog-item-active':'dialog-item'}}"
+          wx:for="{{ mealDateAndTypeList }}"
+          wx:for-index="index"
+          wx:for-item="item"
+          wx:key="index"
+          data-item="{{ item }}"
+          bindtap="clickLeftItem"
+        >
+          {{item.mealDate}}
+        </view>
+      
+      </view>
+      <view class="dialog-right">
+        <view
+          class="{{activeRightItem.value==item.value?'dialog-item-active':'dialog-item'}}"
+          wx:for="{{ rightList }}"
+          wx:for-index="index"
+          wx:for-item="item"
+          wx:key="index"
+          data-item="{{ item }}"
+          bindtap="clickRightItem"
+        >
+          {{item.label}}
+        </view>
+      </view>            
+    </view>
+    <view class="dialog-footer">
+      <view class="dialog-footer-left" bindtap="closeMask">
+        取 消
+      </view>
+      <view class="dialog-footer-right" bindtap="clickConfirm">
+        确 定
+      </view>
+    </view>
+  </view>
+</view>
+
+

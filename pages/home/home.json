@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "c-topic": "./components/topic/topic"
+    "c-topic": "./components/topic/topic",
+    "c-mealDateType": "../components/mealDateType/mealDateType"
   },
   "navigationBarBackgroundColor": "#f2994a",
   "navigationBarTextStyle": "white",

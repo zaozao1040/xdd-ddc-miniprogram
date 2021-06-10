@@ -25,6 +25,13 @@ Page({
     hasContentFlag: false,
     hasImgFlag: false,
     enLargeImageShow: false,
+
+    //
+    mealDateAndTypeList: [],
+    rightList: [],
+    show: false,
+    activeLeftItem: {},
+    activeRightItem: {},
   },
 
   /**
@@ -51,15 +58,92 @@ Page({
 
     this.initRatings();
   },
-
   //加入购物车
   handleAddtoCart() {
-    let tmpData = {
-      foodCode: this.data.foodInfo.foodCode,
-    };
-    this.selectComponent("#mealDateType").show(tmpData);
+    this.getMealDateAndType();
   },
 
+  addOneFood() {
+    let _this = this;
+    let param = {
+      url: config.baseUrlPlus + "/v3/cart/addCart",
+      method: "post",
+      data: {
+        userCode: wx.getStorageSync("userInfo").userInfo.userCode,
+        foodCode: _this.data.foodInfo.foodCode,
+        foodName: _this.data.foodInfo.foodName,
+        foodPrice: _this.data.foodInfo.foodPrice,
+        foodQuantity: 1,
+        mealDate: _this.data.activeLeftItem.mealDate,
+        mealType: _this.data.activeRightItem.value,
+        image: _this.data.foodInfo.image,
+      },
+    };
+    wx.showLoading();
+    request(param, (resData) => {
+      if (resData.data.code === 200) {
+        wx.showToast({
+          title: "添加成功",
+          duration: 2000,
+        });
+        wx.hideLoading();
+        _this.setData({
+          show: false,
+        });
+      } else {
+        wx.showToast({
+          title: resData.data.msg,
+          image: "/images/msg/error.png",
+          duration: 2000,
+        });
+      }
+    });
+  },
+
+  // 获取指定餐品的排餐日期和餐别
+  getMealDateAndType() {
+    let _this = this;
+    let param = {
+      url:
+        config.baseUrlPlus +
+        "/themeRecommend/getCanAddCartMealDateAndMealType?userCode=" +
+        wx.getStorageSync("userCode") +
+        "&foodCode=" +
+        _this.data.foodInfo.foodCode,
+      method: "get",
+    };
+    request(param, (resData) => {
+      if (resData.data.code === 200) {
+        if (resData.data.data && resData.data.data.length > 0) {
+          let tmp_mealTypeList = resData.data.data[0].mealTypeList;
+          _this.setData({
+            mealDateAndTypeList: resData.data.data,
+            rightList: tmp_mealTypeList,
+            show: true,
+            activeLeftItem: resData.data.data[0],
+            activeRightItem: tmp_mealTypeList[0],
+          });
+        } else {
+          wx.showToast({
+            title: "未排餐",
+            image: "/images/msg/error.png",
+            duration: 2000,
+          });
+        }
+      } else {
+        wx.showToast({
+          title: resData.data.msg,
+          image: "/images/msg/error.png",
+          duration: 2000,
+        });
+      }
+    });
+  },
+  closeMask() {
+    this.setData({
+      show: false,
+    });
+  },
   //放大图片
   showImage(e) {
     let { image, imagelist } = e.currentTarget.dataset;
@@ -200,5 +284,23 @@ Page({
     this.setData({
       hasImgFlag: !this.data.hasImgFlag,
     });
+  },
+  clickLeftItem: function (e) {
+    let { item } = e.currentTarget.dataset;
+    console.log("@@@@@@@ 2 @@@@@@@ ", item);
+    this.setData({
+      activeLeftItem: item,
+    });
+  },
+  clickRightItem: function (e) {
+    let { item } = e.currentTarget.dataset;
+    console.log("@@@@@@@ 2 @@@@@@@ ", item);
+    this.setData({
+      activeRightItem: item,
+    });
+  },
+  handleDonothing() {},
+  clickConfirm() {
+    this.addOneFood();
   },
 });
