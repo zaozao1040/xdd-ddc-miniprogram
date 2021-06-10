@@ -20,7 +20,6 @@
         </view>
         <block >
           <!-- 餐别不允许点餐 -->
-          <!-- 限制员工点餐 -->
           <block wx:if='{{userTimeAndMealTypeLimit}}'>
             <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
               <image src="/images/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
