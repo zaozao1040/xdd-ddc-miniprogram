@@ -337,6 +337,24 @@ Page({
           payInfo: resData,
         });
       },
+      true,
+      (resData) => {
+        if (resData.code == 4031) {
+          setTimeout(() => {
+            wx.showModal({
+              title: "需要清空购物车",
+              content: "存在下架餐品",
+              confirmText: "清空",
+              showCancel: false,
+              success: function (res) {
+                if (res.confirm) {
+                  _this.clearFoods();
+                }
+              },
+            });
+          }, 2000);
+        }
+      },
       true
     );
   },
@@ -665,9 +683,10 @@ Page({
       key: "key_goToPreOrder",
       time: 1000,
       success: () => {
-        let aomeikaiOrgnaizeCode = getApp().globalData.aomeikaiOrgnaizeCode;
-        if (_this.data.userInfo.organizeCode == aomeikaiOrgnaizeCode) {
-          // 奥美凯企业的个性化，限制员工日期和餐别进行点餐，狗日的奥美凯
+        let chaolibaozhuangOrgnaizeCode =
+          getApp().globalData.chaolibaozhuangOrgnaizeCode;
+        if (_this.data.userInfo.organizeCode == chaolibaozhuangOrgnaizeCode) {
+          // 超力包装企业的个性化，限制员工日期和餐别进行点餐，狗日的超力
           _this.doLimit();
         } else {
           wx.navigateTo({

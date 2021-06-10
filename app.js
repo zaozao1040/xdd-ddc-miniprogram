@@ -22,6 +22,7 @@ App({
       "ORG530051032172986376",
     ], // 药明康德的orgnaizeCode列表,线上真实数据，发布使用！！！！！！！！！！
     aomeikaiOrgnaizeCode: "ORG619447125926871040", // 奥美凯的orgnaizeCode,线上真实数据，发布使用！！！！！！！！！！
+    chaolibaozhuangOrgnaizeCode: "ORG707884806851133440", // 奥美凯的orgnaizeCode,线上真实数据，发布使用！！！！！！！！！！
     // ymkdOrgnaizeCodeList: ["ORG530051032172986376"], // 药明康德的orgnaizeCode列表,线上真实数据，发布使用！！！！！！！！！！
     // -------------------  下面的配置不需改变  -------------------
     userInfo: null,

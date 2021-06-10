@@ -139,7 +139,7 @@ class base {
   };
   //hasToast表示sCallback回调函数中有没有wx.showToast
   //有的话，就在回调函数中执行wx.hideLoading,有的话hasToast=true
-  request(params, sCallback, flag, eCallback) {
+  request(params, sCallback, flag, eCallback, noTishi) {
     if (!flag) {
       wx.showLoading({
         title: "正在加载",
@@ -180,25 +180,29 @@ class base {
               url: "/pages/home/home",
             });
           } else {
-            let content = this.a[code];
-            if (!content) {
-              content = "请求失败";
-            }
-            if (content.length > 6) {
-              wx.showModal({
-                title: "提示",
-                content: content,
-                showCancel: false,
-              });
+            if (noTishi) {
+              console.log("======= 不提示错误 ======= ");
             } else {
-              wx.showToast({
-                title: content,
-                image: "/images/msg/error.png",
-                duration: 2000,
-              });
+              let content = this.a[code];
+              if (!content) {
+                content = "请求失败";
+              }
+              if (content.length > 6) {
+                wx.showModal({
+                  title: "提示",
+                  content: content,
+                  showCancel: false,
+                });
+              } else {
+                wx.showToast({
+                  title: content,
+                  image: "/images/msg/error.png",
+                  duration: 2000,
+                });
+              }
             }
             //失败的回调
-            eCallback && eCallback();
+            eCallback && eCallback(result.data);
           }
         }
       },
