@@ -39,18 +39,28 @@ Page({
     // 购物车
     showCartFlag: false, //购物车的颜色，false时是灰色，true时有颜色
     inValidNumToast: true, //是否提示存在失效订单
+
+    // 餐品类型推荐
+    activeTypeId: null,
+    promptInfo: {},
+
+    //
   },
 
   onLoad: function (option) {
-    this.loadData();
+    this.loadData(option);
   },
-  loadData: function () {
+  loadData: function (option) {
     this.initData();
     this.getUserInfo();
     this.getPersonalConfig();
-    this.getMealDateAndType();
     this.getCartList();
     this.getPayInfo();
+    if (option.typeId) {
+      this.getCanpinInfo(option.typeId);
+    } else {
+      this.getMealDateAndType();
+    }
   },
   initData: function () {
     let _this = this;
@@ -133,17 +143,37 @@ Page({
           resData[0].dayMealTypeList &&
           resData[0].dayMealTypeList.length > 0
         ) {
-          _this.setData(
-            {
-              activeMealDate: resData[0].mealDate,
-              activeMealType: resData[0].dayMealTypeList[0].value,
-              mealDateList: resData,
-              mealTypeList: resData[0].dayMealTypeList,
-            },
-            () => {
-              _this.getFoodTypeList();
-            }
-          );
+          if (_this.data.promptInfo.mealDate) {
+            // 推荐餐品类别情况
+            let tmp_mealTypeList =
+              resData.find((item) => {
+                return item.mealDate == _this.data.promptInfo.mealDate;
+              }).dayMealTypeList || [];
+            _this.setData(
+              {
+                activeMealDate: _this.data.promptInfo.mealDate,
+                activeMealType: _this.data.promptInfo.mealType,
+                mealDateList: resData,
+                mealTypeList: tmp_mealTypeList,
+              },
+              () => {
+                _this.getFoodTypeList();
+              }
+            );
+          } else {
+            // 一般情况
+            _this.setData(
+              {
+                activeMealDate: resData[0].mealDate,
+                activeMealType: resData[0].dayMealTypeList[0].value,
+                mealDateList: resData,
+                mealTypeList: resData[0].dayMealTypeList,
+              },
+              () => {
+                _this.getFoodTypeList();
+              }
+            );
+          }
         }
       }
     });
@@ -632,23 +662,6 @@ Page({
       scrollToView: "order" + e.currentTarget.dataset.foodtypeindex,
     });
   },
-  /**
-   * ******************************
-   */
-
-  // 根据推荐餐品的id，获取推荐餐品在左侧餐品分类菜单中的index
-  getCanpinMenuTypeIndex: function (typeId, foodList, foodCustomizeListLength) {
-    let tmp_index = 0;
-    let tmp_length = foodList.length;
-    for (let i = foodCustomizeListLength; i < tmp_length; i++) {
-      if (foodList[i].typeId == typeId) {
-        tmp_index = i + foodCustomizeListLength;
-        i = tmp_length;
-      }
-    }
-    return tmp_index;
-  },
-
   //用于解决小程序的遮罩层滚动穿透
   preventTouchMove: function () {},
   /* 餐品详情 */
@@ -665,5 +678,43 @@ Page({
       image: "/images/msg/error.png",
       duration: 2000,
     });
+  },
+  /**
+   * 下面是餐品推荐相关
+   */
+  // 获取餐品推荐信息(如果是餐品推荐跳转过来的话)
+  getCanpinInfo(typeId) {
+    let _this = this;
+    let url =
+      "/promoteFoodType/foodTypeAndDate?userCode=" +
+      _this.data.userInfo.userCode +
+      "&typeId=" +
+      typeId;
+    let param = {
+      url,
+    };
+    requestModel.request(param, (data) => {
+      _this.setData(
+        {
+          promptInfo: data,
+        },
+        () => {
+          _this.getMealDateAndType();
+        }
+      );
+    });
+  },
+
+  // 根据推荐餐品的id，获取推荐餐品在左侧餐品分类菜单中的index
+  getCanpinMenuTypeIndex: function (typeId, foodList, foodCustomizeListLength) {
+    let tmp_index = 0;
+    let tmp_length = foodList.length;
+    for (let i = foodCustomizeListLength; i < tmp_length; i++) {
+      if (foodList[i].typeId == typeId) {
+        tmp_index = i + foodCustomizeListLength;
+        i = tmp_length;
+      }
+    }
+    return tmp_index;
   },
 });
