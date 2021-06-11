@@ -427,7 +427,8 @@ Page({
             });
             return;
           } else {
-            _this.getFoodTypeList();
+            // 否则 需要重新请求餐别列表
+            _this.getMealTypeList(item.mealDate);
           }
         }
       );
