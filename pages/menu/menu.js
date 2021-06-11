@@ -103,40 +103,44 @@ Page({
         "&userCode=" +
         wx.getStorageSync("userInfo").userInfo.userCode,
     };
-    requestModel.request(param, (resData) => {
-      if (_this.data.promptInfo.mealType) {
-        // 推荐餐品类别情况
-        _this.setData(
-          {
-            mealTypeList: resData,
-            activeMealType: _this.data.promptInfo.mealType,
-          },
-          () => {
-            _this.getFoodTypeList();
-          }
-        );
-      } else {
-        // 一般情况
-        let tmp_activeMealType = "";
-        if (resData && resData.length > 0) {
-          tmp_activeMealType = resData[0].value;
+    requestModel.request(
+      param,
+      (resData) => {
+        if (_this.data.promptInfo.mealType) {
+          // 推荐餐品类别情况
           _this.setData(
             {
               mealTypeList: resData,
-              activeMealType: tmp_activeMealType,
+              activeMealType: _this.data.promptInfo.mealType,
             },
             () => {
               _this.getFoodTypeList();
             }
           );
         } else {
-          _this.setData({
-            mealTypeList: resData,
-            activeMealType: tmp_activeMealType,
-          });
+          // 一般情况
+          let tmp_activeMealType = "";
+          if (resData && resData.length > 0) {
+            tmp_activeMealType = resData[0].value;
+            _this.setData(
+              {
+                mealTypeList: resData,
+                activeMealType: tmp_activeMealType,
+              },
+              () => {
+                _this.getFoodTypeList();
+              }
+            );
+          } else {
+            _this.setData({
+              mealTypeList: resData,
+              activeMealType: tmp_activeMealType,
+            });
+          }
         }
-      }
-    });
+      },
+      true
+    );
   },
   loadData: function (option) {
     this.initData();
@@ -231,16 +235,6 @@ Page({
         _this.data.activeMealType,
     };
     requestModel.request(param, (resData) => {
-      let tmp_menu = { ..._this.data.menu };
-      if (tmp_menu.hasOwnProperty(_this.data.activeMealDate) == false) {
-        tmp_menu[_this.data.activeMealDate] = {};
-      }
-      tmp_menu[_this.data.activeMealDate][_this.data.activeMealType] = {
-        foodTypeList: resData.foodTypeList,
-        mealSet: resData.mealSet,
-        mealType: resData.mealType,
-        limit: resData.limit,
-      };
       _this.setData(
         {
           foodTypeList: resData.foodTypeList,
@@ -250,7 +244,6 @@ Page({
           },
           userTimeAndMealTypeLimit: resData.limit,
           loading: false,
-          menu: tmp_menu,
         },
         () => {
           _this.calculateHeightList();
@@ -413,28 +406,7 @@ Page({
           mealTypeList: _this.data.mealDateList[index].dayMealTypeList,
         },
         () => {
-          // 如果点击的天和餐别已经有数据了 则不处理
-          let tmp_mealTypeList = _this.data.menu[item.mealDate];
-          if (
-            tmp_mealTypeList &&
-            tmp_mealTypeList[_this.data.activeMealType] &&
-            tmp_mealTypeList[_this.data.activeMealType].foodTypeList
-          ) {
-            _this.setData({
-              foodTypeList:
-                tmp_mealTypeList[_this.data.activeMealType].foodTypeList,
-              activeInfoExtra: {
-                mealSet: tmp_mealTypeList[_this.data.activeMealType].mealSet,
-                mealType: tmp_mealTypeList[_this.data.activeMealType].mealType,
-              },
-              userTimeAndMealTypeLimit:
-                tmp_mealTypeList[_this.data.activeMealType].limit,
-            });
-            return;
-          } else {
-            // 否则 需要重新请求餐别列表
-            _this.getMealTypeList(item.mealDate);
-          }
+          _this.getMealTypeList(item.mealDate);
         }
       );
     }
@@ -452,25 +424,7 @@ Page({
           activeMealType: item.value,
         },
         () => {
-          // 如果点击的天和餐别已经有数据了 则不处理
-          let tmp_mealTypeList = _this.data.menu[_this.data.activeMealDate];
-          if (
-            tmp_mealTypeList &&
-            tmp_mealTypeList[item.value] &&
-            tmp_mealTypeList[item.value].foodTypeList
-          ) {
-            _this.setData({
-              foodTypeList: tmp_mealTypeList[item.value].foodTypeList,
-              activeInfoExtra: {
-                mealSet: tmp_mealTypeList[item.value].mealSet,
-                mealType: tmp_mealTypeList[item.value].mealType,
-              },
-              userTimeAndMealTypeLimit: tmp_mealTypeList[item.value].limit,
-            });
-            return;
-          } else {
-            _this.getFoodTypeList();
-          }
+          _this.getFoodTypeList();
         }
       );
     }
