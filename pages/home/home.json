@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "c-topic": "./components/topic/topic",
+    "c-tuijian": "./components/tuijian/tuijian",
     "c-mealDateType": "../components/mealDateType/mealDateType"
   },
   "navigationBarBackgroundColor": "#f2994a",

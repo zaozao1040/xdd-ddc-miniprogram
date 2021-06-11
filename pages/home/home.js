@@ -11,7 +11,7 @@ Page({
     // 页面预加载
     preLoading_request: true,
     preLoading_force: true,
-
+    showDiancan: false, //是否展示右下角 点餐 悬浮按钮
     swiperDefaultIndex: 0,
     imageWidth: wx.getSystemInfoSync().windowWidth,
     timer: null,
@@ -89,7 +89,19 @@ Page({
       swiperCurrentIndex: e.detail.current,
     });
   },
-
+  //开始滚动
+  onPageScroll(e) {
+    let old = this.data.showDiancan;
+    if (e.scrollTop > 250 && old == false) {
+      this.setData({
+        showDiancan: true,
+      });
+    } else if (e.scrollTop < 250 && old == true) {
+      this.setData({
+        showDiancan: false,
+      });
+    }
+  },
   //获取首页图片
   initHome: function () {
     let param = {

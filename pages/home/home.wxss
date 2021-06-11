@@ -1,5 +1,7 @@
 /* pages/home/home.wxss */
-
+page {
+  background: #ffffff;
+}
 /* 餐品推荐 */
 .canpintuijian-wrapper {
   margin: 0 25rpx 25rpx 25rpx;
@@ -714,4 +716,17 @@
   background: #f2994a;
   border-bottom-left-radius: 80rpx;
   border-bottom-right-radius: 80rpx;
+}
+
+/* 悬浮按钮 */
+.fd-wrp {
+  position: fixed;
+  right: 30rpx;
+  bottom: 30rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150rpx;
+  height: 150rpx;
+  z-index: 20;
 }

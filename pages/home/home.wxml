@@ -3,9 +3,7 @@
         <image src='/images/home/pre_loading.png' style='width:100%;height:{{windowHeight}}px;'></image>
     </view>
     <view wx:else class="home-container" bindtap="closeNotice">
-        <view class="title-wrp">
-       
-        </view>
+        <view class="title-wrp"></view>
         <!-- 轮播图 autoplay="true"3.0-->
         <swiper autoplay class="h-v2-swiper-item" circular="true" duration="300" indicatorActiveColor="#fff"
             indicatorColor="rgba(255,255,255)" indicatorActiveColor="#f79c4c" indicatorDots interval="5000"
@@ -270,7 +268,13 @@
                     <view class='bind-organize-right' bindtap='navigateToMenu'>点餐</view>
                 </view>
             </view>
+        </view>        
+        <!-- --------------------------------------- 下面是各种 悬浮按钮 --------------------------------------- -->
+        <!-- 点餐 -->
+        <view class="fd-wrp" wx:if="{{showDiancan}}">
+          <image bindtap="clickStartMeal" src="/images/home/diancan.png" style='width:150rpx;height:150rpx;'></image>
         </view>
+        
         <!-- --------------------------------------- 下面是各种 弹出层 --------------------------------------- -->
         <!-- 审核状态框 弹出2.6.1 -->
         <view class="modulebox-background-wrapper" wx:if="{{showCheckFlag}}">
@@ -297,9 +301,13 @@
                 </view>
             </view>
         </view>
+
+
         <!-- --------------------------------------- 下面是各种 子组件 --------------------------------------- -->
         <!-- 子组件 主题轮播图 -->
         <c-topic></c-topic>
+        <!-- 子组件 餐品推荐 -->
+        <c-tuijian></c-tuijian>
         
     </view>
 </view>
