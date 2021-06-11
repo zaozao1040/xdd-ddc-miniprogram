@@ -1,4 +1,5 @@
 import { base } from "../../comm/public/request";
+import moment from "../../comm/public/moment";
 import config from "../../comm_plus/config/config.js";
 import { request } from "../../comm_plus/public/request.js";
 import jiuaiDebounce from "../../comm_plus/jiuai-debounce/jiuai-debounce.js";
@@ -15,7 +16,7 @@ Page({
     userInfo: {},
     orgAdmin: false, //管理员身份
     personalConfig: {},
-    mealDateList: [],
+    mealDateList: [...Array(14)],
     mealTypeList: [],
     foodTypeList: {},
     activeInfoExtra: {},
@@ -51,6 +52,87 @@ Page({
   onLoad: function (option) {
     this.loadData(option);
   },
+  // 前端计算未来14天日期
+  getMealDateList: function () {
+    let _this = this;
+    let mealDateList = [];
+    let weekCn = ["一", "二", "三", "四", "五", "六", "日"];
+    let tmpActiveMealDate = "";
+    for (let i = 0; i < 14; i++) {
+      let tmpDes = "";
+      let tmpDay = moment().subtract(-i, "days");
+      if (i == 0) {
+        tmpDes = "今天";
+        tmpActiveMealDate = tmpDay.format("YYYY-MM-DD");
+      } else if (i == 1) {
+        tmpDes = "明天";
+      } else {
+        tmpDes = "周" + weekCn[tmpDay.format("E") - 1];
+      }
+      mealDateList.push({
+        active: false,
+        description: tmpDes,
+        mealDate: tmpDay.format("YYYY-MM-DD"),
+        mealDateAbbreviation: tmpDay.format("MM/DD"),
+      });
+    }
+
+    if (_this.data.promptInfo.mealDate) {
+      // 推荐餐品类别情况
+      _this.setData({
+        activeMealDate: _this.data.promptInfo.mealDate,
+        mealDateList: mealDateList,
+      });
+      this.getMealTypeList(_this.data.promptInfo.mealDate);
+    } else {
+      // 一般情况
+      this.setData({
+        mealDateList: mealDateList,
+        activeMealDate: tmpActiveMealDate,
+      });
+      this.getMealTypeList(tmpActiveMealDate);
+    }
+  },
+  // 后端根据日期获取餐别列表
+  getMealTypeList: function (mealDate) {
+    let _this = this;
+    let param = {
+      url:
+        "/v3/getMealTypeListByMealDateAndUserCode?mealDate=" +
+        mealDate +
+        "&userCode=" +
+        wx.getStorageSync("userInfo").userInfo.userCode,
+    };
+    requestModel.request(param, (resData) => {
+      if (_this.data.promptInfo.mealType) {
+        // 推荐餐品类别情况
+        _this.setData(
+          {
+            mealTypeList: resData,
+            activeMealType: _this.data.promptInfo.mealType,
+          },
+          () => {
+            _this.getFoodTypeList();
+          }
+        );
+      } else {
+        // 一般情况
+        let tmp_activeMealType = "";
+        if (resData && resData.length > 0) {
+          tmp_activeMealType = resData[0].value;
+        }
+        _this.setData(
+          {
+            mealTypeList: resData,
+            activeMealType: tmp_activeMealType,
+          },
+          () => {
+            _this.getFoodTypeList();
+          }
+        );
+      }
+    });
+  },
   loadData: function (option) {
     this.initData();
     this.getUserInfo();
@@ -60,7 +142,7 @@ Page({
     if (option.typeId) {
       this.getCanpinInfo(option.typeId);
     } else {
-      this.getMealDateAndType();
+      this.getMealDateList();
     }
   },
   initData: function () {
@@ -73,6 +155,7 @@ Page({
       },
     });
   },
+
   getUserInfo: function () {
     let _this = this;
     let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
@@ -130,55 +213,7 @@ Page({
       });
     });
   },
-  getMealDateAndType: function () {
-    let _this = this;
-    let param = {
-      url: "/v3/getMealDateAndType?userCode=" + _this.data.userInfo.userCode,
-    };
-    _this.setData({
-      loading: true,
-    });
-    requestModel.request(param, (resData) => {
-      if (resData && resData.length > 0) {
-        if (
-          resData[0].dayMealTypeList &&
-          resData[0].dayMealTypeList.length > 0
-        ) {
-          if (_this.data.promptInfo.mealDate) {
-            // 推荐餐品类别情况
-            let tmp_mealTypeList =
-              resData.find((item) => {
-                return item.mealDate == _this.data.promptInfo.mealDate;
-              }).dayMealTypeList || [];
-            _this.setData(
-              {
-                activeMealDate: _this.data.promptInfo.mealDate,
-                activeMealType: _this.data.promptInfo.mealType,
-                mealDateList: resData,
-                mealTypeList: tmp_mealTypeList,
-              },
-              () => {
-                _this.getFoodTypeList();
-              }
-            );
-          } else {
-            // 一般情况
-            _this.setData(
-              {
-                activeMealDate: resData[0].mealDate,
-                activeMealType: resData[0].dayMealTypeList[0].value,
-                mealDateList: resData,
-                mealTypeList: resData[0].dayMealTypeList,
-              },
-              () => {
-                _this.getFoodTypeList();
-              }
-            );
-          }
-        }
-      }
-    });
-  },
+
   getFoodTypeList: function () {
     let _this = this;
     let param = {
@@ -739,7 +774,7 @@ Page({
           promptInfo: data,
         },
         () => {
-          _this.getMealDateAndType();
+          _this.getMealDateList();
         }
       );
     });
