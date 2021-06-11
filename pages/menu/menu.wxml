@@ -28,15 +28,6 @@
               根据贵公司要求，当前餐别订餐功能暂不开放，敬请谅解！任何疑问请联系贵公司管理人员。
             </view>
           </block>
-          <!-- 尚未排餐 -->
-          <block wx:elif='{{activeInfoExtra.mealType.orderStatus && foodTypeList.length== 0}}'>
-            <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
-              <image src="/images/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
-            </view>
-            <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
-              努力排餐中，稍后再来哦
-            </view>
-          </block>
           <!-- 已过截止时间 -->
           <block wx:elif='{{activeInfoExtra.mealType.orderStatus == false}}'>
             <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
@@ -44,6 +35,15 @@
             </view>
             <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
               预约时间已截止，下次记得提前预约哦
+            </view>
+          </block>
+          <!-- 尚未排餐 -->
+          <block wx:elif='{{mealTypeList.length== 0||foodTypeList.length== 0}}'>
+            <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
+              <image src="/images/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
+            </view>
+            <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
+              努力排餐中，稍后再来哦
             </view>
           </block>
           <view  wx:else style='border-top:1rpx solid #EBEBEB;' id='menumenu'>

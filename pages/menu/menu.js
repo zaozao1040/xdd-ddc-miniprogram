@@ -120,16 +120,21 @@ Page({
         let tmp_activeMealType = "";
         if (resData && resData.length > 0) {
           tmp_activeMealType = resData[0].value;
-        }
-        _this.setData(
-          {
+          _this.setData(
+            {
+              mealTypeList: resData,
+              activeMealType: tmp_activeMealType,
+            },
+            () => {
+              _this.getFoodTypeList();
+            }
+          );
+        } else {
+          _this.setData({
             mealTypeList: resData,
             activeMealType: tmp_activeMealType,
-          },
-          () => {
-            _this.getFoodTypeList();
-          }
-        );
+          });
+        }
       }
     });
   },
