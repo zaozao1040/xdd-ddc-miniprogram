@@ -2,7 +2,7 @@
   <view wx:if="{{ topicList.length > 0 }}">
     <view class="line"></view>
     <view class="line1">
-      <view class="title">主题推荐区域</view>
+      <view class="title">主题推荐</view>
       <view class="more" bindtap="navigateToTopic">更多 ››</view>
     </view>
     <swiper

@@ -4,7 +4,7 @@
     "c-tuijian": "./components/tuijian/tuijian",
     "c-mealDateType": "../components/mealDateType/mealDateType"
   },
-  "navigationBarBackgroundColor": "#f2994a",
+  "navigationBarBackgroundColor": "#f79c4c",
   "navigationBarTextStyle": "white",
   "navigationBarTitleText": "点点餐"
 }

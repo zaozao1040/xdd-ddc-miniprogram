@@ -532,12 +532,35 @@
   border-bottom-left-radius: 50rpx;
   z-index: 1600;
 }
+.shop-image-wrp {
+  position: absolute;
+  left: 25rpx;
+  top: -30rpx;
+  height: 126rpx;
+  width: 126rpx;
+}
 .shop-image {
   position: absolute;
   left: 25rpx;
   top: -30rpx;
   height: 126rpx;
   width: 126rpx;
+}
+.dot {
+  position: absolute;
+  right: -10rpx;
+  top: -10rpx;
+  height: 34rpx;
+  width: 34rpx;
+  border-radius: 17rpx;
+  background-color: #f56c6c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.dot-num {
+  font-size: 20rpx;
+  color: #ffffff;
 }
 .footer-right {
   background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);

@@ -35,7 +35,7 @@
             {{ item.foodName }}
             </view>
             <view class="food-price">
-            ￥{{ item.foodPrice }}
+            ￥{{ item.foodPrice }}元
             </view>
             <view class="cart-wrp">
               <image src="/images/menu/cart.png" data-item='{{item}}' class="cart-img" catchtap="handleAddtoCart" />
@@ -47,7 +47,7 @@
     </view>
   <!-- --------------------------------------- 下面是各种 子组件 --------------------------------------- -->
   <!-- 子组件 选择日期和餐别 -->
-  <c-mealDateType id='mealDateType' foodInfo='{{foodInfo}}'></c-mealDateType>
+  <c-mealDateType id='mealDateType' foodInfo='{{foodInfo}}' from='home'></c-mealDateType>
   </view>
 
 </view>

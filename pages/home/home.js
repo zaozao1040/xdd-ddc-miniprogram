@@ -115,7 +115,6 @@ Page({
     });
   },
   clickStartMeal: function () {
-    console.log("@@@@@@@ clickStartMeal @@@@@@@ ");
 
     if (!wx.getStorageSync("userInfo")) {
       this.gotoMenu();

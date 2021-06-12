@@ -10,6 +10,10 @@ Component({
       type: Object,
       value: {},
     },
+    from: {
+      type: String,
+      value: "",
+    },
   },
   /* 私有数据 */
   data: {
@@ -116,14 +120,29 @@ Component({
       wx.showLoading();
       request(param, (resData) => {
         if (resData.data.code === 200) {
-          wx.showToast({
-            title: "添加成功",
-            duration: 2000,
-          });
+          //临时改成跳转
           wx.hideLoading();
           _this.setData({
             show: false,
           });
+          wx.navigateTo({
+            url: "/pages/menu/menu",
+          });
+          // wx.showToast({
+          //   title: "添加成功",
+          //   duration: 2000,
+          // });
+          // setTimeout(() => {
+          //   wx.hideLoading();
+          //   _this.setData({
+          //     show: false,
+          //   });
+          //   if (_this.data.from == "home") {
+          //     wx.navigateTo({
+          //       url: "/pages/menu/menu",
+          //     });
+          //   }
+          // }, 2000);
         } else {
           wx.showToast({
             title: resData.data.msg,
