@@ -721,12 +721,12 @@ page {
 /* 悬浮按钮 */
 .fd-wrp {
   position: fixed;
-  right: 30rpx;
-  bottom: 30rpx;
+  right: 60rpx;
+  bottom: 60rpx;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 150rpx;
+  width: 150rpx;
   height: 150rpx;
   z-index: 20;
 }

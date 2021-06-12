@@ -272,7 +272,7 @@
         <!-- --------------------------------------- 下面是各种 悬浮按钮 --------------------------------------- -->
         <!-- 点餐 -->
         <view class="fd-wrp" wx:if="{{showDiancan}}">
-          <image bindtap="clickStartMeal" src="/images/home/diancan.png" style='width:150rpx;height:150rpx;'></image>
+          <image bindtap="clickStartMeal" src="/images/home/diancan.png" style='width:100%;height:100%;'></image>
         </view>
         
         <!-- --------------------------------------- 下面是各种 弹出层 --------------------------------------- -->
