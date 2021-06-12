@@ -53,7 +53,8 @@
     "pages/menu/preOrder/preOrder",
     "pages/menu/foodDetail/foodDetail",
     "pages/home/topic/topic",
-    "pages/home/topic/topicDetail/topicDetail"
+    "pages/home/topic/topicDetail/topicDetail",
+    "pages/login/next"
   ],
   "permission": {
     "scope.userLocation": {
@@ -98,6 +99,8 @@
       }
     ]
   },
-  "navigateToMiniProgramAppIdList": ["wx8492039f6e368de0"],
+  "navigateToMiniProgramAppIdList": [
+    "wx8492039f6e368de0"
+  ],
   "sitemapLocation": "sitemap.json"
 }

@@ -405,6 +405,18 @@
           "pathName": "pages/menu/menu",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/login/login",
+          "pathName": "pages/login/login",
+          "query": "fromfrom=home",
+          "scene": null
+        },
+        {
+          "name": "pages/login/next",
+          "pathName": "pages/login/next",
+          "query": "userName=a",
+          "scene": null
         }
       ]
     }

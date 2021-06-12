@@ -1,0 +1,51 @@
+<view class="login-container">
+    <view class="section-1">
+        <image src="/images/login/logo.png" mode="widthFix" style="width:100%;width:254.4rpx;height: 102.8rpx;">
+        </image>
+    </view>
+    <view class="section-2">您想要的员工餐都在这里</view>
+    <view class="section-3">
+        <input bindinput="nameInput" value="{{name}}" class="section-3-2" placeholder="请填写真实姓名" type="string"></input>
+    </view>
+    <view class="section-3">
+        <image wx:if="{{organizeSelectedFlag}}" bindtap="clearOrganize" src="/images/mine/dacha.png"
+            style='z-index: 1000;width:52rpx;height:52rpx;position: absolute;top:18rpx;right:22rpx;'>
+        </image>
+        <image wx:else src="/images/mine/open.png"
+            style='width:34rpx;height:34rpx;position: absolute;top:24rpx;right:22rpx;'></image>
+        <input bindtap="showAddress" bindinput="searchInput" placeholder="输入企业名称,至少两个字符"
+            data-organizecode="{{organizeCode}}" disabled="{{organizeSelectedFlag}}" class="section-3-2" type="string"
+            value="{{organize}}"></input>
+    </view>
+    <view class="section-3" wx:if="{{employeeNumber}}">
+        <input bindinput="usernumberInput" value="{{usernumber}}" class="section-3-2" placeholder="请输入企业工号"
+            type="string"></input>
+    </view>
+    <block wx:if="{{showAddressFlag}}">
+        <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;" class="c_scrollPosition_forCalculate">
+            <view class="organizeItem-wrapper" wx:for="{{organizeList}}" wx:for-index="organizeIndex"
+                wx:for-item="organizeItem" wx:key="organizeIndex" catchtap="selectOrganize"
+                data-employeenumber="{{organizeItem.employeeNumber}}" data-organizename="{{organizeItem.organizeName}}"
+                data-organizecode="{{organizeItem.organizeCode}}">
+                <view class="organizeItem-left">
+                    <view class="organizeName">
+                        {{organizeItem.organizeNickName}}
+                    </view>
+                    <view class="organizeAddress">
+                        {{organizeItem.organizeAddress}}
+                    </view>
+                </view>
+                <view class="organizeItem-right">
+                    {{organizeItem.locationDistance}}公里
+                </view>
+            </view>
+            <view wx:if="{{organizeListNoResult}}" class="noResult">
+                未查询到企业..
+            </view>
+        </scroll-view>
+    </block>
+    <block wx:if="{{showButtonFlag}}">
+        <button loading="{{loading}}" class="section-4" bindtap="bindOrganize">绑定并登录</button>
+    </block>
+    <button  class="section-5" bindtap="nobindOrganize">暂不绑定</button>
+</view>

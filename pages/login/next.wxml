@@ -1,0 +1,35 @@
+<view class="wrp">
+  <view class="line1">
+    <view class="input-wrp">
+      <input bindinput="organizeNameInput" value="{{organizeName}}" class="org-name" placeholder="请选择企业" type="string"></input>
+    </view>
+    <view class="search-btn" bindtap="search">搜索</view>  
+  </view>
+  <block wx:if="{{showAddressFlag}}">
+    <view class="org-wrp">
+      <block wx:if="{{organizeList.length>0}}">
+        <view class="item" wx:for="{{organizeList}}" 
+          wx:for-index="index" wx:for-item="item" wx:key="index" catchtap="clickOrg" data-item="{{item}}">
+          <view class="name">
+            {{item.organizeName}}
+          </view>
+          <view class="nickname">
+            {{item.organizeNickName}}
+          </view>
+        </view>        
+      </block>
+      <block wx:else>
+        <view class="item">
+          未查询到企业..
+        </view>
+      </block>
+    </view>
+  </block>
+  <block wx:else>
+    <button wx:if="{{ organizeCode }}" class="active-btn" bindtap="bindOrganize">
+      登 录
+    </button>
+    <button wx:else class="inactive-btn" bindtap="bindOrganize">登 录</button>    
+  </block>
+
+</view>
