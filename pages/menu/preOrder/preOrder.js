@@ -20,6 +20,7 @@ Page({
     preOrderList: [],
     userInfo: {},
     address: "",
+    newAddressCode: null, //这里是为了重新选择下单地址后使用的地址
     userName: "",
     phoneNumber: "",
 
@@ -424,7 +425,9 @@ Page({
               verificationString: tmp_verificationString,
               userCode: _this.data.userInfo.userCode,
               userName: _this.data.userName,
-              addressCode: _this.data.userInfo.deliveryAddressCode,
+              addressCode:
+                _this.data.newAddressCode ||
+                _this.data.userInfo.deliveryAddressCode,
               payType: tmp_payType, //支付方式
               orderPayMoney: _this.data.payInfo.orderPayPrice, //自费的总价格
               appendMealFlag: _this.data.orderType == "add" ? true : false,

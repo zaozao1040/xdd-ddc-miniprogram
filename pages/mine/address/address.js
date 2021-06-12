@@ -93,12 +93,23 @@ Page({
       requestModel.request(params, () => {
         // 刷新
         requestModel.getUserInfo(() => {}, true);
-
         _this.data.timer = setTimeout(function () {
           if (_this.data.frontPageFlag == "confirm") {
-            wx.navigateBack({
-              delta: 1, // 回退前 delta(默认为1) 页面
-            });
+            let pages = getCurrentPages();
+
+            let prevPage = pages[pages.length - 2];
+
+            prevPage.setData(
+              {
+                address: _this.data.addressDes, // 地址中文描述 其实就是addressName
+                newAddressCode: _this.data.addressCode, // 地址投柜code 其实就是deliveryAddressCode
+              },
+              function () {
+                wx.navigateBack({
+                  delta: 1, // 回退前 delta(默认为1) 页面
+                });
+              }
+            );
           } else if (_this.data.frontPageFlag == "spare") {
             wx.navigateBack({
               delta: 1, // 回退前 delta(默认为1) 页面
