@@ -11,6 +11,7 @@ Component({
     tuijianList: [],
     labelList: [],
     activeLabelId: -1,
+    foodInfo: {},
   },
   lifetimes: {
     ready: function () {
@@ -22,7 +23,7 @@ Component({
     getLabelList: function () {
       let _this = this;
       let param = {
-        url: "/v3/getFoodLabelTypeList",
+        url: "/v3/getFoodLabelTypeList?typeId=2",
       };
       requestModel.request(param, (resData) => {
         if (resData && resData.length > 0) {
@@ -63,58 +64,22 @@ Component({
         activeLabelId: item.id,
       });
     },
-    // 点击购物车icon，将餐品加1
-    clickCart(e) {
-      let _this = this;
-      let { item } = e.currentTarget.dataset;
-      let tmp_item = {
-        ...item,
-        mealDate: _this.data.activeMealDate,
-        mealType: _this.data.activeMealType,
-      };
 
-      _this.addOneFood(tmp_item);
-    },
-    addOneFood(item) {
-      let _this = this;
-      let param = {
-        url: config.baseUrlPlus + "/v3/cart/addCart",
-        method: "post",
-        data: {
-          userCode: wx.getStorageSync("userInfo").userInfo.userCode,
-          foodCode: item.foodCode,
-          foodName: item.foodName,
-          foodPrice: item.foodPrice,
-          foodQuantity: 1,
-          mealDate: item.mealDate,
-          mealType: item.mealType,
-          image: item.image,
-        },
-      };
-      request(param, (resData) => {
-        if (resData.data.code === 200) {
-          wx.showToast({
-            title: "添加成功",
-            duration: 2000,
-          });
-          _this.getPayInfo();
-
-          _this.getCartList();
-        } else {
-          wx.showToast({
-            title: resData.data.msg,
-            image: "/images/msg/error.png",
-            duration: 2000,
-          });
-        }
-      });
-    },
-    navigateToTopic: function (e) {
+    gotoFoodDetail: function (e) {
+      let foodCode = e.currentTarget.dataset.item.foodCode;
       wx.navigateTo({
-        url:
-          "/pages/menu/foodDetail/foodDetail?foodCode=" +
-          e.currentTarget.dataset.foodcode,
+        url: "/pages/menu/foodDetail/foodDetail?foodCode=" + foodCode,
       });
+    },
+    //加入购物车
+    handleAddtoCart(e) {
+      let tmpData = {
+        foodCode: e.currentTarget.dataset.item.foodCode,
+      };
+      this.setData({
+        foodInfo: e.currentTarget.dataset.item,
+      });
+      this.selectComponent("#mealDateType").show(tmpData);
     },
   },
 });

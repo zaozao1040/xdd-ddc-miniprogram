@@ -19,14 +19,17 @@
         bindtap="addToCart"
       >
         <view class="food-item-inside-wrp">
-          <image
-          mode="aspectFill"
-          class="food-img"
-          data-item="{{ item }}"
-          bindtap="gotoFoodDetail"
-            src="{{ item.image }}"
-            style=" border-radius: 8rpx"
-          ></image>
+          <view class="food-img-wrp">
+            <image
+            mode="aspectFill"
+            class="food-img"
+            data-item="{{ item }}"
+            bindtap="gotoFoodDetail"
+              src="{{ item.image }}"
+              style=" border-radius: 8rpx"
+            ></image>          
+          </view>
+
           <view class="food-content">
             <view class="food-name">
             {{ item.foodName }}
@@ -35,13 +38,16 @@
             ￥{{ item.foodPrice }}
             </view>
             <view class="cart-wrp">
-              <image src="/images/menu/cart.png" data-item='{{item}}' class="cart-img" catchtap="clickCart" />
+              <image src="/images/menu/cart.png" data-item='{{item}}' class="cart-img" catchtap="handleAddtoCart" />
             </view>
           </view>          
         </view>
 
       </view>
     </view>
-
+  <!-- --------------------------------------- 下面是各种 子组件 --------------------------------------- -->
+  <!-- 子组件 选择日期和餐别 -->
+  <c-mealDateType id='mealDateType' foodInfo='{{foodInfo}}'></c-mealDateType>
   </view>
+
 </view>
