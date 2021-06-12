@@ -90,7 +90,6 @@ Page({
         url: "/user/userSetDefaultAddress",
         method: "post",
       };
-
       requestModel.request(params, () => {
         // 刷新
         requestModel.getUserInfo(() => {}, true);
