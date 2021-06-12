@@ -22,7 +22,6 @@ Page({
     address: "",
     userName: "",
     phoneNumber: "",
-    personalConfig: {},
 
     canUseBalance: false,
     selectBa: false,
@@ -58,7 +57,6 @@ Page({
   loadData: function () {
     this.getUserInfo();
     this.initAddress();
-    this.getPersonalConfig();
     this.getPreOrderInfo();
   },
   getUserInfo: function () {
@@ -92,17 +90,7 @@ Page({
       }, true);
     }
   },
-  getPersonalConfig: function () {
-    let _this = this;
-    let param = {
-      url: "/v3/getPersonalConfig?userCode=" + _this.data.userInfo.userCode,
-    };
-    requestModel.request(param, (resData) => {
-      _this.setData({
-        personalConfig: resData,
-      });
-    });
-  },
+
   getPreOrderInfo: function () {
     let _this = this;
     let param = {

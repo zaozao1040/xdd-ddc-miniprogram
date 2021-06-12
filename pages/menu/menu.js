@@ -335,13 +335,13 @@ Page({
         if (resData.inValidNum > 0 && _this.data.inValidNumToast) {
           setTimeout(() => {
             wx.showModal({
-              title: "是否清空购物车?",
+              title: "是否清空失效餐品?",
               content: "存在失效餐品 x " + resData.inValidNum,
               confirmText: "是",
               cancelText: "不清空",
               success: function (res) {
                 if (res.confirm) {
-                  _this.clearFoods();
+                  _this.clearInvalidFoods();
                 }
               },
               complete: function (res) {
@@ -616,6 +616,35 @@ Page({
       }
     });
   },
+  clearInvalidFoods: function () {
+    let _this = this;
+    let param = {
+      url:
+        config.baseUrlPlus +
+        "/v3/cart/clearInvalidationFood?userCode=" +
+        _this.data.userInfo.userCode,
+      method: "post",
+    };
+    request(param, (resData) => {
+      if (resData.data.code === 200) {
+        wx.showToast({
+          title: "已清空",
+          duration: 2000,
+        });
+        _this.getPayInfo();
+        _this.getCartList();
+        _this.setData({
+          showCartFlag: false,
+        });
+      } else {
+        wx.showToast({
+          title: resData.data.msg,
+          image: "/images/msg/error.png",
+          duration: 2000,
+        });
+      }
+    });
+  },
   // 奥美凯企业的个性化，限制员工日期和餐别进行点餐，狗日的奥美凯
   doLimit() {
     let _this = this;
@@ -655,13 +684,13 @@ Page({
     let _this = this;
     if (_this.data.inValidNum > 0 && _this.data.payInfo.cartFoodNumber == 0) {
       wx.showModal({
-        title: "是否清空购物车?",
+        title: "是否清空失效餐品?",
         content: "存在失效餐品 x " + _this.data.inValidNum,
         confirmText: "是",
         cancelText: "不清空",
         success: function (res) {
           if (res.confirm) {
-            _this.clearFoods();
+            _this.clearInvalidFoods();
           }
         },
         complete: function (res) {
