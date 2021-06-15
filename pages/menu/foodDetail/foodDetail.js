@@ -25,15 +25,18 @@ Page({
     hasContentFlag: false,
     hasImgFlag: false,
     enLargeImageShow: false,
+    from: null,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let { foodCode } = options;
+    let { foodCode, from } = options;
+
     this.setData({
       foodCode: foodCode,
+      from: from,
     });
     let url =
       "/v3/getFoodDetail?userCode=" +

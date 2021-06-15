@@ -191,14 +191,12 @@
                         </view>
                         <view class='label-title'>服务评分</view>
                     </view>
-                    <!-- <view style='width:104rpx;height:100rpx;' wx:else></view> -->
-                    <view bindtap="gotoShare">
-                        <view style="margin-left:26rpx;width:64rpx;height:58rpx;margin-top:23rpx;">
-                            <image src="/images/mine/share.png" style='width:42rpx;height:42rpx;'></image>
+                    <view data-organizecode="{{userInfo.organizeCode}}" data-orgadmin="no" bindtap="gotoSpareminiProgram" wx:if='{{userInfo.orgAdmin==false}}'>
+                        <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
+                            <image src="/images/mine/me_spare.png" style='width:80rpx;height:80rpx;'></image>
                         </view>
-                        <view class='label-title'>推荐有赏</view>
+                        <view class='label-title'>备用餐</view>
                     </view>
-
                 </view>
                 <view class='service-list'>
                     <view bindtap="handleGotoTakeFood" wx:if="{{showTakeFoodLabelFlag}}">
@@ -207,12 +205,7 @@
                         </view>
                         <view class='label-title'>开柜取餐</view>
                     </view>
-                    <view data-organizecode="{{userInfo.organizeCode}}" data-orgadmin="no" bindtap="gotoSpareminiProgram" wx:if='{{userInfo.orgAdmin==false}}'>
-                        <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
-                            <image src="/images/mine/me_spare.png" style='width:80rpx;height:80rpx;'></image>
-                        </view>
-                        <view class='label-title'>备用餐</view>
-                    </view>
+
                 </view>
             </view>
             <view class='function-wrapper'>

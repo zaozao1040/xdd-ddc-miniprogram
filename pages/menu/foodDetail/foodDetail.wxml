@@ -19,7 +19,7 @@
           <!-- 基本信息 -->
           <view class="basic-info">
               <view class="img-wrapper" wx:if='{{foodInfo.bannerImage&&foodInfo.bannerImage.length>0}}'>
-                  <image src="{{foodInfo.bannerImage[0]}}" style="width:100%;height:400rpx;"></image>
+                  <image src="{{foodInfo.bannerImage[0]}}" mode="widthFix" style="width:100%;"></image>
               </view>
               <view class="food-info-wrapper">
                   <view class="foodName">

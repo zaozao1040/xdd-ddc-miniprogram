@@ -31,22 +31,25 @@ Component({
   methods: {
     getTopicList: function () {
       let _this = this;
-      let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
-      let param = {
-        url:
-          "/themeRecommend/getOrganizeThemeRecordList?userCode=" +
-          tmp_userInfo.userCode,
-      };
-      requestModel.request(param, (resData) => {
-        let tmp_list = [];
-        for (var i = 0; i < resData.length; i += 2) {
-          tmp_list.push(resData.slice(i, i + 2));
-        }
-        _this.setData({
-          topicList: resData,
-          topicListPlus: tmp_list,
+      let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
+      if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
+        let tmp_userInfo = tmp_tmp_userInfo.userInfo;
+        let param = {
+          url:
+            "/themeRecommend/getOrganizeThemeRecordList?userCode=" +
+            tmp_userInfo.userCode,
+        };
+        requestModel.request(param, (resData) => {
+          let tmp_list = [];
+          for (var i = 0; i < resData.length; i += 2) {
+            tmp_list.push(resData.slice(i, i + 2));
+          }
+          _this.setData({
+            topicList: resData,
+            topicListPlus: tmp_list,
+          });
         });
-      });
+      }
     },
     getTopicFoodList: function () {
       let _this = this;

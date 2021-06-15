@@ -735,7 +735,8 @@ Page({
     wx.navigateTo({
       url:
         "/pages/menu/foodDetail/foodDetail?foodCode=" +
-        e.currentTarget.dataset.foodcode,
+        e.currentTarget.dataset.foodcode +
+        "&from=menu",
     });
   },
   handleBindOrg() {

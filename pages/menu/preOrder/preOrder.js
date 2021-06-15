@@ -439,7 +439,7 @@ Page({
 
           request(paramPay, (resData) => {
             if (resData.data.code === 200) {
-              let data = resData.data.payData;
+              let data = resData.data.data.payData;
               if (
                 !data ||
                 tmp_payType == "BALANCE_PAY" ||
@@ -451,7 +451,7 @@ Page({
               } else if (
                 (tmp_payType == "WECHAT_PAY" ||
                   tmp_payType == "BALANCE_MIX_WECHAT_PAY") &&
-                resData.data.needPay
+                resData.data.data.needPay
               ) {
                 //微信支付
                 wx.showLoading();

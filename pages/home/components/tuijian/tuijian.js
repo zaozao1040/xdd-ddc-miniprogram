@@ -42,19 +42,22 @@ Component({
 
     getfoodList: function (labelId) {
       let _this = this;
-      let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
-      let param = {
-        url:
-          "/v3/getLabelFoodList?userCode=" +
-          tmp_userInfo.userCode +
-          "&labelId=" +
-          labelId,
-      };
-      requestModel.request(param, (resData) => {
-        _this.setData({
-          tuijianList: resData,
+      let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
+      if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
+        let tmp_userInfo = tmp_tmp_userInfo.userInfo;
+        let param = {
+          url:
+            "/v3/getLabelFoodList?userCode=" +
+            tmp_userInfo.userCode +
+            "&labelId=" +
+            labelId,
+        };
+        requestModel.request(param, (resData) => {
+          _this.setData({
+            tuijianList: resData,
+          });
         });
-      });
+      }
     },
     clickLabel: function (e) {
       let _this = this;

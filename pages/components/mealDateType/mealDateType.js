@@ -80,14 +80,12 @@ Component({
     },
     clickLeftItem: function (e) {
       let { item } = e.currentTarget.dataset;
-      console.log("@@@@@@@ 2 @@@@@@@ ", item);
       this.setData({
         activeLeftItem: item,
       });
     },
     clickRightItem: function (e) {
       let { item } = e.currentTarget.dataset;
-      console.log("@@@@@@@ 2 @@@@@@@ ", item);
       this.setData({
         activeRightItem: item,
       });
@@ -125,24 +123,9 @@ Component({
           _this.setData({
             show: false,
           });
-          wx.navigateTo({
+          wx.redirectTo({
             url: "/pages/menu/menu",
           });
-          // wx.showToast({
-          //   title: "添加成功",
-          //   duration: 2000,
-          // });
-          // setTimeout(() => {
-          //   wx.hideLoading();
-          //   _this.setData({
-          //     show: false,
-          //   });
-          //   if (_this.data.from == "home") {
-          //     wx.navigateTo({
-          //       url: "/pages/menu/menu",
-          //     });
-          //   }
-          // }, 2000);
         } else {
           wx.showToast({
             title: resData.data.msg,

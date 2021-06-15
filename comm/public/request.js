@@ -166,10 +166,8 @@ class base {
           if (!flag) {
             wx.hideLoading();
           }
-          console.log("xxx", code);
           if (code == 2003) {
             //调用接口时没有传userCode
-            console.log("xxxxx");
           } else if (code == 2004) {
             //清除所有缓存，并跳到首页。
             //清除所有缓存咋写的2019-05-19

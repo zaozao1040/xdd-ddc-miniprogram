@@ -474,14 +474,6 @@ Page({
     });
   },
 
-  //用于推荐有赏的接口
-  gotoShare() {
-    let extendUrl = "https://share.91dcan.cn/";
-    wx.navigateTo({
-      url: "/pages/home/link?extendUrl=" + extendUrl + "&title=推荐有赏",
-    });
-  },
-
   /**
    * 页面上拉触底事件的处理函数
    */
