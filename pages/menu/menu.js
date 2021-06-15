@@ -513,13 +513,21 @@ Page({
   clickCart(e) {
     let _this = this;
     let { item } = e.currentTarget.dataset;
-    let tmp_item = {
-      ...item,
-      mealDate: _this.data.activeMealDate,
-      mealType: _this.data.activeMealType,
-    };
 
-    _this.addOneFood(tmp_item);
+    if (item.foodQuota && item.foodQuota.surplusNum == 0) {
+      wx.showToast({
+        title: "库存为0",
+        image: "/images/msg/error.png",
+        duration: 2000,
+      });
+    } else {
+      let tmp_item = {
+        ...item,
+        mealDate: _this.data.activeMealDate,
+        mealType: _this.data.activeMealType,
+      };
+      _this.addOneFood(tmp_item);
+    }
   },
   addOneFood(item) {
     let _this = this;
