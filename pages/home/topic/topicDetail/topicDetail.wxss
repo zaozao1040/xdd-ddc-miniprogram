@@ -17,4 +17,5 @@
 }
 .img-wrp {
   width: 100%;
+  display: flex;
 }
