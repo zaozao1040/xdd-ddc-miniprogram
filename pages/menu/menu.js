@@ -47,6 +47,9 @@ Page({
 
     // 各种个性化
     userTimeAndMealTypeLimit: false, //奥美凯
+
+    // 
+    recentData:null,
   },
 
   onLoad: function (option) {
@@ -84,6 +87,13 @@ Page({
         mealDateList: mealDateList,
       });
       this.getMealTypeList(_this.data.promptInfo.mealDate);
+    } else if(_this.data.recentData){
+      // 后台算出最近可以点餐的情况
+      _this.setData({
+        activeMealDate: _this.data.recentData.mealDate,
+        mealDateList: mealDateList,
+      });
+      this.getMealTypeList(_this.data.recentData.mealDate);
     } else {
       // 一般情况
       this.setData({
@@ -117,6 +127,17 @@ Page({
               _this.getFoodTypeList();
             }
           );
+        } else if(_this.data.recentData){
+          // 后端计算的最近可点餐的日期+餐别 的情况
+          _this.setData(
+            {
+              mealTypeList: resData,
+              activeMealType: _this.data.recentData.mealType,
+            },
+            () => {
+              _this.getFoodTypeList();
+            }
+          );
         } else {
           // 一般情况
           let tmp_activeMealType = "";
@@ -143,17 +164,28 @@ Page({
     );
   },
   loadData: function (option) {
-    this.initData();
-    this.getUserInfo();
-    this.getPersonalConfig();
-    this.getCartList();
-    this.getPayInfo();
+    let _this = this
+    _this.initData();
+    _this.getUserInfo();
+    _this.getPersonalConfig();
+    _this.getCartList();
+    _this.getPayInfo();
     if (option.typeId) {
-      this.getCanpinInfo(option.typeId);
+      _this.getCanpinInfo(option.typeId);
+    } else if(option.recentMealType){
+      _this.setData({
+        recentData:{
+          mealDate:option.recentMealDate,
+          mealType:option.recentMealType
+        },
+      },()=>{
+        this.getMealDateList();
+      });
     } else {
       this.getMealDateList();
     }
   },
+  
   initData: function () {
     let _this = this;
     wx.getSystemInfo({

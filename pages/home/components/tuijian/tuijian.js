@@ -12,6 +12,7 @@ Component({
     labelList: [],
     activeLabelId: -1,
     foodInfo: {},
+    foodLabelTypeListData:[]
   },
   lifetimes: {
     ready: function () {
@@ -22,49 +23,36 @@ Component({
   methods: {
     getLabelList: function () {
       let _this = this;
-      let param = {
-        url: "/v3/getFoodLabelTypeList?typeId=2",
-      };
-      requestModel.request(param, (resData) => {
-        if (resData && resData.length > 0) {
-          _this.setData(
-            {
-              labelList: resData,
-              activeLabelId: resData[0].id,
-            },
-            () => {
-              _this.getfoodList(resData[0].id);
-            }
-          );
-        }
-      });
-    },
-
-    getfoodList: function (labelId) {
-      let _this = this;
       let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
       if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
         let tmp_userInfo = tmp_tmp_userInfo.userInfo;
         let param = {
-          url:
-            "/v3/getLabelFoodList?userCode=" +
-            tmp_userInfo.userCode +
-            "&labelId=" +
-            labelId,
+          url: "/v3/getFoodLabelTypeList?typeId=2&userCode=" +
+          tmp_userInfo.userCode,
         };
         requestModel.request(param, (resData) => {
-          _this.setData({
-            tuijianList: resData,
-          });
+          if (resData && resData.length > 0) {
+            _this.setData(
+              {
+                labelList: resData,
+                activeLabelId: resData[0].id,
+                tuijianList: resData[0].foodLabelTypeList,
+                foodLabelTypeListData:resData
+              }
+            );
+          }
         });
       }
+
     },
+
+
     clickLabel: function (e) {
       let _this = this;
-      let item = e.currentTarget.dataset.item;
-      _this.getfoodList(item.id);
+      let {item,index} = e.currentTarget.dataset;
       _this.setData({
         activeLabelId: item.id,
+        tuijianList: _this.data.foodLabelTypeListData[index].foodLabelTypeList,
       });
     },
 

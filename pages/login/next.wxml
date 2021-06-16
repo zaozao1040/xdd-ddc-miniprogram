@@ -3,7 +3,7 @@
     <view class="input-wrp">
       <input bindinput="organizeNameInput" value="{{organizeName}}" class="org-name" placeholder="请选择企业" type="string"></input>
     </view>
-    <view class="search-btn" bindtap="search">搜索</view>  
+    <!-- <view class="search-btn" bindtap="search">搜索</view>   -->
   </view>
   <block wx:if="{{showAddressFlag}}">
     <view class="org-wrp">

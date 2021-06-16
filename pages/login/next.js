@@ -26,15 +26,13 @@ Page({
 
   organizeNameInput: function (e) {
     let _this = this;
-    _this.setData({
-      organizeName: e.detail.value,
-    });
+    _this.search(e.detail.value)
   },
-  search: function () {
+  search: function (organizeName) {
     let _this = this;
-    if (_this.data.organizeName) {
+    if (organizeName) {
       let param = {
-        url: "/v3/getOrganizeList?organizeName=" + _this.data.organizeName,
+        url: "/v3/getOrganizeList?organizeName=" + organizeName,
       };
       requestModel.request(param, (data) => {
         _this.setData({

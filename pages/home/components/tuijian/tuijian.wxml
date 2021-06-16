@@ -4,7 +4,7 @@
     <scroll-view scroll-x style="overflow:hidden;white-space:nowrap;">
       <view class="label-wrp">
         <view class="{{item.id==activeLabelId?'active-label label':'inactive-label label'}}" 
-          wx:for="{{labelList}}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap='clickLabel' data-item='{{item}}'>{{item.labelTypeDesc}}</view>
+          wx:for="{{labelList}}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap='clickLabel' data-index='{{index}}' data-item='{{item}}'>{{item.labelTypeDesc}}</view>
       </view>
     </scroll-view>
 

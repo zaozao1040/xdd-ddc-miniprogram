@@ -76,11 +76,17 @@ Page({
     tuijianHeight: 0,
     tuijianOneHeight: 0,
     canpintuijianList: [],
+    // 
+    recentData:null 
   },
 
   navigateToMenu() {
+    let url = "/pages/menu/menu"
+    if(this.data.recentData){
+      url =  "/pages/menu/menu?recentMealDate="+this.data.recentData.mealDate+"&recentMealType="+this.data.recentData.mealType
+    }
     wx.navigateTo({
-      url: "/pages/menu/menu",
+      url,
     });
   },
   //监听轮播图切换图片，获取图片的下标
@@ -149,9 +155,7 @@ Page({
                 }
               },
             });
-          } else if (data.status === false) {
-            this.gotoMenu();
-          } else {
+          }  else {
             this.gotoMenu();
           }
         });
@@ -225,6 +229,7 @@ Page({
         });
       },
     });
+    _this.loadData(options)
     _this.initHome();
     _this.getNotice();
     _this.getCanpintuijianList();
@@ -270,7 +275,27 @@ Page({
       /* 获取首页取餐信息 */
     }, true);
   },
+  loadData: function (options) {
+    let _this = this;
+    _this.getRecentMealDateAndMealType();
 
+  },
+  getRecentMealDateAndMealType: function () {
+    let _this = this;
+    let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
+    if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
+      let tmp_userInfo = tmp_tmp_userInfo.userInfo;
+      let url = "/v3/getRecentMealDateAndMealType?userCode=" + tmp_userInfo.userCode;
+      let param = {
+        url,
+      };
+      requestModel.request(param, (resData) => {
+        _this.setData({
+          recentData: resData,
+        });
+      })
+    }
+  },
   //没绑定企业的用户弹出去绑定弹窗
   gotoBindOrganize() {
     wx.navigateTo({

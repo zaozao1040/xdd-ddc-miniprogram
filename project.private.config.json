@@ -447,6 +447,12 @@
           "pathName": "pages/mine/mine",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/login/next",
+          "pathName": "pages/login/next",
+          "query": "",
+          "scene": null
         }
       ]
     }
