@@ -345,6 +345,9 @@ Page({
       showCartFlag: false,
     });
   },
+  handleDonothing() {
+
+  },
   getCartList: function () {
     let _this = this;
     let param = {

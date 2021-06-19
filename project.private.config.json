@@ -459,6 +459,12 @@
           "pathName": "pages/wenzhang/wenzhangDetail",
           "query": "id=1",
           "scene": null
+        },
+        {
+          "name": "pages/menu/menu",
+          "pathName": "pages/menu/menu",
+          "query": "recentMealDate=2021-06-20&recentMealType=LUNCH",
+          "scene": null
         }
       ]
     }

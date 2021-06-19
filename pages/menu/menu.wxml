@@ -153,7 +153,7 @@
       <!------ 购物车餐品的列表 ------>
       <view wx:if="{{showCartFlag}}" class="footer-wrapper-top-show-cart">
         <view class="mask" catchtap="closeCart" catchtouchmove="preventTouchMove"></view>
-        <view class="{{ showCartFlag ? 'cart-wrp in' : 'cart-wrp out' }}" catchtouchmove="preventTouchMove">
+        <view class="{{ showCartFlag ? 'cart-wrp in' : 'cart-wrp out' }}" catchtouchmove="preventTouchMove" catchtap="handleDonothing">
           <view class="chart-top">企业总抵扣: ￥{{payInfo.organizeDeductionPrice}}</view>
           <view class="chart-top-2">
             <view style="font-family: PingFang-SC-Regular; font-size: 11px; color: #999999; letter-spacing: 0; text-align: left;">
