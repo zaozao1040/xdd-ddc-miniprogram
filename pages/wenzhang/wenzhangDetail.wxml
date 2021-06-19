@@ -1,0 +1,5 @@
+<view class="container">
+  <view class="detail-desc">
+    <rich-text nodes="{{detail}}"></rich-text>
+  </view>
+</view>

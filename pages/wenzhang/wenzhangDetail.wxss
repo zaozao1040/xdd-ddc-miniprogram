@@ -1,0 +1,5 @@
+.detail-desc {
+  background: #fff;
+  margin: 0 20upx;
+
+}

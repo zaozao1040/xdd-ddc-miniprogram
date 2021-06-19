@@ -8,14 +8,11 @@
         <swiper autoplay class="h-v2-swiper-item" circular="true" duration="300" indicatorActiveColor="#fff"
             indicatorColor="rgba(255,255,255)" indicatorActiveColor="#f79c4c" indicatorDots interval="5000"
             bindchange="onSwiperChange">
-            <block wx:for="{{imagesList.bannerImage}}" wx:for-index="swiperListIndex" wx:for-item="swiperListItem"
+            <block wx:for="{{swiperList}}" wx:for-index="swiperListIndex" wx:for-item="swiperListItem"
                 wx:key="swiperListIndex">
-                <swiper-item bindtap="navigateTo">
-                    <navigator url="/pages/home/link?extendUrl={{swiperListItem.url}}"
-                        style="width: 100%;height: 100%;border-radius: 8rpx;">
-                        <image src="{{swiperListItem.image}}" style="width: 100%;height: 100%;border-radius: 8rpx;">
+                <swiper-item bindtap="gotoPage" data-item="{{swiperListItem}}">
+                        <image src="{{swiperListItem.url}}" style="width: 100%;height: 100%;border-radius: 8rpx;">
                         </image>
-                    </navigator>
                 </swiper-item>
             </block>
         </swiper> 

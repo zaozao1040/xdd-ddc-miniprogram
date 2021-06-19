@@ -77,7 +77,10 @@ Page({
     tuijianOneHeight: 0,
     canpintuijianList: [],
     // 
-    recentData:null 
+    recentData:null, 
+
+    // 轮播图
+    swiperList:[],
   },
 
   navigateToMenu() {
@@ -108,14 +111,14 @@ Page({
       });
     }
   },
-  //获取首页图片
-  initHome: function () {
+  //获取首页轮播图
+  getSwiperList: function () {
     let param = {
-      url: "/home/getHomeImage?userCode=" + wx.getStorageSync("userCode"),
+      url: "/v3/getCarouseList?userCode=" + wx.getStorageSync("userCode"),
     };
     requestModel.request(param, (data) => {
       this.setData({
-        imagesList: data,
+        swiperList: data,
         preLoading_request: false, //轮播图接口来作为控制首页展示的充分条件之一
       });
     });
@@ -163,6 +166,12 @@ Page({
         this.gotoMenu();
       }
     }
+  },
+  gotoPage:function(e){
+    let page = e.currentTarget.dataset.item.page;
+    wx.navigateTo({
+      url: page,
+    });
   },
   gotoMenu: function () {
     // 前端没有userCode信息，则先跳转到登录页
@@ -230,7 +239,7 @@ Page({
       },
     });
     _this.loadData(options)
-    _this.initHome();
+    _this.getSwiperList();
     _this.getNotice();
     _this.getCanpintuijianList();
 
@@ -596,7 +605,7 @@ Page({
         });
 
         wx.showTabBar();
-        _this.initHome();
+        _this.getSwiperList();
       } else if (userInfo.userStatus == "NO_CHECK") {
         wx.showToast({
           title: "企业审核中",

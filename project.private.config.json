@@ -453,6 +453,12 @@
           "pathName": "pages/login/next",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/wenzhang/wenzhangDetail",
+          "pathName": "pages/wenzhang/wenzhangDetail",
+          "query": "id=1",
+          "scene": null
         }
       ]
     }

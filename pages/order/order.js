@@ -85,18 +85,9 @@ Page({
     },
     //跳转到登录页面
     gotoLogin() {
-        let getWxUserInfo = wx.getStorageSync('getWxUserInfo')
-
-        if (!getWxUserInfo) {
-            wx.navigateTo({
-                url: '/pages/login/authority/authority',
-            })
-            //无 userCode，则到登录页面
-        } else {
-            wx.navigateTo({
-                url: '/pages/login/selectPhone/selectPhone',
-            })
-        }
+      wx.reLaunch({
+        url: '/pages/login/selectPhone/selectPhone',
+    })
     },
     //跳转到点餐页面
     handleGotoMenu() {

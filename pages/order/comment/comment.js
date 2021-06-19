@@ -67,9 +67,11 @@ Page({
       query.selectViewport().scrollOffset();
       query.exec(function (res) {
         console.log("c_scrollPosition_forCalculate", res);
-        _this.setData({
-          scrollTop: res[0].top, // #the-id节点的上边界坐标
-        });
+        if(res.length>0){
+          _this.setData({
+            scrollTop: res[0].top, // #the-id节点的上边界坐标
+          });          
+        }
       });
 
       const query2 = wx.createSelectorQuery();

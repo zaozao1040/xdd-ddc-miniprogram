@@ -54,7 +54,8 @@
     "pages/menu/foodDetail/foodDetail",
     "pages/home/topic/topic",
     "pages/home/topic/topicDetail/topicDetail",
-    "pages/login/next"
+    "pages/login/next",
+    "pages/wenzhang/wenzhangDetail"
   ],
   "permission": {
     "scope.userLocation": {
