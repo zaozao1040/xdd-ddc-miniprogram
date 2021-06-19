@@ -209,16 +209,17 @@ Page({
         });
       } else {
         // 进入首页前 先在本地存储userInfo
-        requestModel.getUserInfo(() => {}, true);
-        //老用户 直接进入home页面
-        wx.reLaunch({
-          url: "/pages/home/home",
-        });
-        wx.showToast({
-          title: "登录成功",
-          image: "/images/msg/success.png",
-          duration: 1000,
-        });
+        requestModel.getUserInfo(() => {
+          //老用户 直接进入home页面
+          wx.reLaunch({
+            url: "/pages/home/home",
+          });
+          wx.showToast({
+            title: "登录成功",
+            image: "/images/msg/success.png",
+            duration: 1000,
+          });          
+        }, true);
       }
     });
   },
