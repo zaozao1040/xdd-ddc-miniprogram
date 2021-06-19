@@ -121,7 +121,7 @@ Page({
         swiperList: data,
         preLoading_request: false, //轮播图接口来作为控制首页展示的充分条件之一
       });
-    });
+    },true,()=>{},true);
   },
   clickStartMeal: function () {
 
@@ -222,6 +222,7 @@ Page({
   },
 
   onLoad: function (options) {
+    
     let _this = this;
 
     setTimeout(function () {
@@ -669,7 +670,6 @@ Page({
         _this.setData({
           canpintuijianList: pages,
         });
-        console.log("####### 3 #####fasd## ", pages);
 
         // 计算轮播图高度
         wx.getSystemInfo({

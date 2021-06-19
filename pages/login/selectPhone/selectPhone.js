@@ -208,8 +208,10 @@ Page({
           url: "/pages/login/login",
         });
       } else {
+        // 进入首页前 先在本地存储userInfo
+        requestModel.getUserInfo(() => {}, true);
         //老用户 直接进入home页面
-        wx.switchTab({
+        wx.reLaunch({
           url: "/pages/home/home",
         });
         wx.showToast({

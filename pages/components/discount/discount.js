@@ -17,15 +17,7 @@ Component({
     selectedDiscountInfo: {},
   },
   lifetimes: {
-    ready: function () {
-      setTimeout(() => {
-        console.log(
-          "####### 3 ####### ",
-          this.data.discountList,
-          this.data.selectedDiscountInfo
-        );
-      }, 1000);
-    },
+
   },
   methods: {
     initPage: function () {

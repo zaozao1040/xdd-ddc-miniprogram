@@ -24,6 +24,8 @@ Component({
   },
   lifetimes: {
     ready: function () {
+      console.log('$$$$$$$ 4 $$$$$$$ ',);
+      
       let _this = this;
       _this.getTopicList();
     },
@@ -33,6 +35,7 @@ Component({
       let _this = this;
       let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
       if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
+        
         let tmp_userInfo = tmp_tmp_userInfo.userInfo;
         let param = {
           url:

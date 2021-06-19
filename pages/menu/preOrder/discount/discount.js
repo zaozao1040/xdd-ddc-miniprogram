@@ -22,7 +22,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    console.log("####### 9999 ####### ");
 
     let _this = this;
     let tmp_selectedDiscountInfo =
@@ -58,7 +57,6 @@ Page({
 
   /* 监听子组件：选择一张优惠券触发事件 */
   onChangeSelectDiscount: function (e) {
-    console.log("@@@@@@@ 2 答复@@@@@@@ ", e.detail);
 
     let _this = this;
     jiuaiDebounce.canDoFunction({
