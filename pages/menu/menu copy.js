@@ -534,108 +534,60 @@ Page({
       }
     }
   },
-
   // 购物车 点击加号，将餐品加一
   clickAddOneFood(e) {
     let _this = this;
     let item = e.currentTarget.dataset.fooditem;
     let mealDate = e.currentTarget.dataset.mealdate;
     let mealType = e.currentTarget.dataset.mealtype;
-
-    let param = {
-      url: config.baseUrlPlus + "/v3/cart/addCart",
-      method: "post",
-      data: {
-        userCode: _this.data.userInfo.userCode,
-        foodCode: item.foodCode,
-        foodName: item.foodName,
-        foodPrice: item.foodPrice,
-        foodQuantity: 1,
-        image: item.image,
-        mealDate: mealDate,
-        mealType: mealType,
-      },
+    let tmp_item = {
+      ...item,
+      mealDate: mealDate,
+      mealType: mealType,
     };
-    request(param, (resData) => {
-      if (resData.data.code === 200) {
-        wx.showToast({
-          title: "添加成功",
-          duration: 1000,
-        });
-        _this.getPayInfo();
-        _this.getCartList();
-        // 判断是否当前遮罩层后面的日期+餐别是此刻的 若是则驱动遮罩层后面的进行改变数字
-        if(_this.data.activeMealDate==mealDate &&_this.data.activeMealType==mealType){
-          let {foodTypeIndex,foodIndex} = item
-          let tmp_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
-          tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count ++
-          _this.setData({
-            foodTypeList: tmp_foodTypeList,
-          })
-        }
-      } else {
-        wx.showToast({
-          title: resData.data.msg,
-          image: "/images/msg/error.png",
-          duration: 2000,
-        });
-      }
-    });
+    _this.addOneFood(tmp_item);
   },
-
   // 购物车 点击减号，将餐品减一
   clickMinusOneFood(e) {
     let _this = this;
     let item = e.currentTarget.dataset.fooditem;
     let mealDate = e.currentTarget.dataset.mealdate;
     let mealType = e.currentTarget.dataset.mealtype;
-    let param = {
-      url: config.baseUrlPlus + "/v3/cart/delCartNumber",
-      method: "post",
-      data: {
-        userCode: _this.data.userInfo.userCode,
-        foodCode: item.foodCode,
-        foodName: item.foodName,
-        foodPrice: item.foodPrice,
-        foodQuantity: 1,
-        mealDate: mealDate,
-        mealType: mealType,
-      },
+    let tmp_item = {
+      ...item,
+      mealDate: mealDate,
+      mealType: mealType,
     };
-    request(param, (resData) => {
-      if (resData.data.code === 200) {
-        wx.showToast({
-          title: "减少成功",
-          duration: 1000,
-        });
-        _this.getPayInfo();
-        _this.getCartList();
-        // 判断是否当前遮罩层后面的日期+餐别是此刻的 若是则驱动遮罩层后面的进行改变数字
-        if(_this.data.activeMealDate==mealDate &&_this.data.activeMealType==mealType){
-          let {foodTypeIndex,foodIndex} = item
-          let tmp_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
-          tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count --
-          _this.setData({
-            foodTypeList: tmp_foodTypeList,
-          })
-        }
-      } else {
-        wx.showToast({
-          title: resData.data.msg,
-          image: "/images/msg/error.png",
-          duration: 2000,
-        });
-      }
-    });
+    _this.minusOneFood(tmp_item);
   },
 
+  // 点击购物车icon，将餐品加1 -- 原购物车icon方案 考虑废弃
+  clickCart(e) {
+    let _this = this;
+    let { item } = e.currentTarget.dataset;
 
+    if (item.foodQuota && item.foodQuota.surplusNum == 0) {
+      wx.showToast({
+        title: "库存为0",
+        image: "/images/msg/error.png",
+        duration: 2000,
+      });
+    } else {
+      let tmp_item = {
+        ...item,
+        mealDate: _this.data.activeMealDate,
+        mealType: _this.data.activeMealType,
+      };
+      _this.addOneFood(tmp_item);
+    }
+  },
   clickMenuAdd(e){
     let _this = this
     let foodTypeItem =  e.currentTarget.dataset.foodtypeitem
     let foodItem =  e.currentTarget.dataset.fooditem
     let foodTypeIndex =  e.currentTarget.dataset.foodtypeindex
     let foodIndex =  e.currentTarget.dataset.foodindex
+    console.log('####### 3 ####### ',foodTypeItem.typeId,foodItem.foodCode);
     if(foodItem.foodQuota&&foodItem.count == foodItem.foodQuota.quotaNum){
       wx.showToast({
         title: '超出限购',
@@ -669,8 +621,6 @@ Page({
               mealDate: _this.data.activeMealDate,
               mealType: _this.data.activeMealType,
               image: foodItem.image,
-              foodTypeIndex,
-              foodIndex
             },
           };
           request(param, (resData) => {
@@ -698,6 +648,39 @@ Page({
     
   },
 
+  addOneFood(item) {
+    let _this = this;
+    let param = {
+      url: config.baseUrlPlus + "/v3/cart/addCart",
+      method: "post",
+      data: {
+        userCode: _this.data.userInfo.userCode,
+        foodCode: item.foodCode,
+        foodName: item.foodName,
+        foodPrice: item.foodPrice,
+        foodQuantity: 1,
+        mealDate: item.mealDate,
+        mealType: item.mealType,
+        image: item.image,
+      },
+    };
+    request(param, (resData) => {
+      if (resData.data.code === 200) {
+        wx.showToast({
+          title: "添加成功",
+          duration: 1000,
+        });
+        _this.getPayInfo();
+        _this.getCartList();
+      } else {
+        wx.showToast({
+          title: resData.data.msg,
+          image: "/images/msg/error.png",
+          duration: 2000,
+        });
+      }
+    });
+  },
 
   clickMenuMinus(e){
     let _this = this
@@ -731,8 +714,6 @@ Page({
               mealDate: _this.data.activeMealDate,
               mealType: _this.data.activeMealType,
               image: foodItem.image,
-              foodTypeIndex,
-              foodIndex
             },
           };
           request(param, (resData) => {
@@ -759,93 +740,39 @@ Page({
     }
     
   },
-  // // 点击购物车icon，将餐品加1 -- 原购物车icon方案 考虑废弃
-  // clickCart(e) {
-  //   let _this = this;
-  //   let { item } = e.currentTarget.dataset;
 
-  //   if (item.foodQuota && item.foodQuota.surplusNum == 0) {
-  //     wx.showToast({
-  //       title: "库存为0",
-  //       image: "/images/msg/error.png",
-  //       duration: 2000,
-  //     });
-  //   } else {
-  //     let tmp_item = {
-  //       ...item,
-  //       mealDate: _this.data.activeMealDate,
-  //       mealType: _this.data.activeMealType,
-  //     };
-  //     _this.addOneFood(tmp_item);
-  //   }
-  // },
-  
-  // addOneFood(item) {
-  //   let _this = this;
-  //   let param = {
-  //     url: config.baseUrlPlus + "/v3/cart/addCart",
-  //     method: "post",
-  //     data: {
-  //       userCode: _this.data.userInfo.userCode,
-  //       foodCode: item.foodCode,
-  //       foodName: item.foodName,
-  //       foodPrice: item.foodPrice,
-  //       foodQuantity: 1,
-  //       mealDate: item.mealDate,
-  //       mealType: item.mealType,
-  //       image: item.image,
-  //     },
-  //   };
-  //   request(param, (resData) => {
-  //     if (resData.data.code === 200) {
-  //       wx.showToast({
-  //         title: "添加成功",
-  //         duration: 1000,
-  //       });
-  //       _this.getPayInfo();
-  //       _this.getCartList();
-  //     } else {
-  //       wx.showToast({
-  //         title: resData.data.msg,
-  //         image: "/images/msg/error.png",
-  //         duration: 2000,
-  //       });
-  //     }
-  //   });
-  // },
-
-  // minusOneFood(item) {
-  //   let _this = this;
-  //   let param = {
-  //     url: config.baseUrlPlus + "/v3/cart/delCartNumber",
-  //     method: "post",
-  //     data: {
-  //       userCode: _this.data.userInfo.userCode,
-  //       foodCode: item.foodCode,
-  //       foodName: item.foodName,
-  //       foodPrice: item.foodPrice,
-  //       foodQuantity: 1,
-  //       mealDate: item.mealDate,
-  //       mealType: item.mealType,
-  //     },
-  //   };
-  //   request(param, (resData) => {
-  //     if (resData.data.code === 200) {
-  //       wx.showToast({
-  //         title: "减少成功",
-  //         duration: 1000,
-  //       });
-  //       _this.getPayInfo();
-  //       _this.getCartList();
-  //     } else {
-  //       wx.showToast({
-  //         title: resData.data.msg,
-  //         image: "/images/msg/error.png",
-  //         duration: 2000,
-  //       });
-  //     }
-  //   });
-  // },
+  minusOneFood(item) {
+    let _this = this;
+    let param = {
+      url: config.baseUrlPlus + "/v3/cart/delCartNumber",
+      method: "post",
+      data: {
+        userCode: _this.data.userInfo.userCode,
+        foodCode: item.foodCode,
+        foodName: item.foodName,
+        foodPrice: item.foodPrice,
+        foodQuantity: 1,
+        mealDate: item.mealDate,
+        mealType: item.mealType,
+      },
+    };
+    request(param, (resData) => {
+      if (resData.data.code === 200) {
+        wx.showToast({
+          title: "减少成功",
+          duration: 1000,
+        });
+        _this.getPayInfo();
+        _this.getCartList();
+      } else {
+        wx.showToast({
+          title: resData.data.msg,
+          image: "/images/msg/error.png",
+          duration: 2000,
+        });
+      }
+    });
+  },
   clearFoods: function () {
     let _this = this;
     let param = {
