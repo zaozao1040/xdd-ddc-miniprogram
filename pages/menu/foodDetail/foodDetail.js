@@ -32,7 +32,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let { foodCode, from } = options;
+    let { foodCode, from ,mealDate} = options;
 
     this.setData({
       foodCode: foodCode,
@@ -40,9 +40,10 @@ Page({
     });
     let url =
       "/v3/getFoodDetail?userCode=" +
-      wx.getStorageSync("userInfo").userInfo.userCode +
-      "&foodCode=" +
-      foodCode;
+      wx.getStorageSync("userInfo").userInfo.userCode + "&foodCode=" + foodCode ;
+      if(mealDate){
+        url = url +  "&mealDate=" + mealDate 
+      }
     let param = {
       url,
     };

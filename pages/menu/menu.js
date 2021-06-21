@@ -923,6 +923,8 @@ Page({
       url:
         "/pages/menu/foodDetail/foodDetail?foodCode=" +
         e.currentTarget.dataset.foodcode +
+        "&mealDate=" +
+        this.data.activeMealDate +
         "&from=menu",
     });
   },
