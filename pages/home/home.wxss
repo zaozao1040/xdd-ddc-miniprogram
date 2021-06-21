@@ -726,8 +726,8 @@ page {
   height: 150rpx;
   z-index: -1;
   background: #f2994a;
-  border-bottom-left-radius: 80rpx;
-  border-bottom-right-radius: 80rpx;
+  border-bottom-left-radius: 10%;
+  border-bottom-right-radius:10%;
 }
 
 /* 悬浮按钮 */

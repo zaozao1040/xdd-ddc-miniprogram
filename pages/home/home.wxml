@@ -3,7 +3,7 @@
         <image src='/images/home/pre_loading.png' style='width:100%;height:{{windowHeight}}px;'></image>
     </view>
     <view wx:else class="home-container" bindtap="closeNotice">
-        <view class="title-wrp"></view>
+      <view class="title-wrp"></view>
         <!-- 轮播图 autoplay="true"3.0-->
         <swiper autoplay class="h-v2-swiper-item" circular="true" duration="300" indicatorActiveColor="#fff"
             indicatorColor="rgba(255,255,255)" indicatorActiveColor="#f79c4c" indicatorDots interval="5000"

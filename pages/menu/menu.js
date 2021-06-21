@@ -19,7 +19,7 @@ Page({
     mealDateList: [...Array(14)],
     mealTypeList: [],
     foodTypeList: [],
-    old_foodTypeList: [], //存储这个为了清空购物车用
+    old_empty_foodTypeList: [], //存储这个为了清空购物车用
     activeInfoExtra: {},
     cartList: [],
     inValidNum: 0,
@@ -561,7 +561,7 @@ Page({
     _this.minusOneFood(tmp_item);
   },
 
-  // 点击购物车icon，将餐品加1
+  // 点击购物车icon，将餐品加1 -- 原购物车icon方案 考虑废弃
   clickCart(e) {
     let _this = this;
     let { item } = e.currentTarget.dataset;
@@ -602,14 +602,12 @@ Page({
         duration: 2000,
       });
     }else{
-      console.log('####### 3 ####### ',_this.data.foodTypeList);
       let tmp_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
-      let old_foodTypeList =  tmp_foodTypeList
+      let old_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
       tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count ++
       _this.setData(
         {
           foodTypeList: tmp_foodTypeList, //前端先渲染+1，再请求后端
-          old_foodTypeList:old_foodTypeList // 存储这个为了清空购物车用
         },()=>{
           let param = {
             url: config.baseUrlPlus + "/v3/cart/addCart",
@@ -629,7 +627,7 @@ Page({
             if (resData.data.code === 200) {
               wx.showToast({
                 title: "添加成功",
-                duration: 2000,
+                duration: 1000,
               });
               _this.getPayInfo();
               _this.getCartList();
@@ -644,16 +642,12 @@ Page({
               })
             }
           });
-
-
         }
       );
     }
     
   },
 
-
-  
   addOneFood(item) {
     let _this = this;
     let param = {
@@ -674,7 +668,7 @@ Page({
       if (resData.data.code === 200) {
         wx.showToast({
           title: "添加成功",
-          duration: 2000,
+          duration: 1000,
         });
         _this.getPayInfo();
         _this.getCartList();
@@ -687,6 +681,66 @@ Page({
       }
     });
   },
+
+  clickMenuMinus(e){
+    let _this = this
+    let foodTypeItem =  e.currentTarget.dataset.foodtypeitem
+    let foodItem =  e.currentTarget.dataset.fooditem
+    let foodTypeIndex =  e.currentTarget.dataset.foodtypeindex
+    let foodIndex =  e.currentTarget.dataset.foodindex
+    if(foodItem.count == 0){
+      wx.showToast({
+        title: '已经为0',
+        image: "/images/msg/error.png",
+        duration: 2000,
+      });
+    }else{
+      let tmp_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
+      let old_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
+      tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count --
+      _this.setData(
+        {
+          foodTypeList: tmp_foodTypeList, //前端先渲染+1，再请求后端
+        },()=>{
+          let param = {
+            url: config.baseUrlPlus + "/v3/cart/delCartNumber",
+            method: "post",
+            data: {
+              userCode: _this.data.userInfo.userCode,
+              foodCode: foodItem.foodCode,
+              foodName: foodItem.foodName,
+              foodPrice: foodItem.foodPrice,
+              foodQuantity: 1,
+              mealDate: _this.data.activeMealDate,
+              mealType: _this.data.activeMealType,
+              image: foodItem.image,
+            },
+          };
+          request(param, (resData) => {
+            if (resData.data.code === 200) {
+              wx.showToast({
+                title: "减少成功",
+                duration: 1000,
+              });
+              _this.getPayInfo();
+              _this.getCartList();
+            } else {
+              wx.showToast({
+                title: resData.data.msg,
+                image: "/images/msg/error.png",
+                duration: 2000,
+              });
+              _this.setData({
+                foodTypeList: old_foodTypeList, //后端减少购物车失败 则需要返还回原值
+              })
+            }
+          });
+        }
+      );
+    }
+    
+  },
+
   minusOneFood(item) {
     let _this = this;
     let param = {
@@ -706,7 +760,7 @@ Page({
       if (resData.data.code === 200) {
         wx.showToast({
           title: "减少成功",
-          duration: 2000,
+          duration: 1000,
         });
         _this.getPayInfo();
         _this.getCartList();
@@ -736,9 +790,9 @@ Page({
         });
         _this.getPayInfo();
         _this.getCartList();
+        _this.getFoodTypeList()
         _this.setData({
           showCartFlag: false,
-          foodTypeList:_this.data.old_foodTypeList
         });
       } else {
         wx.showToast({
