@@ -134,6 +134,15 @@
                             <view wx:elif="{{!foodItem.canMeal&&orgAdmin}}" class="num-control-stock">限个人账户点餐</view>
                           <view wx:else class="num-control">
                             <image src="/images/menu/cart.png" style="width:50rpx;height:50rpx; " data-item='{{foodItem}}' catchtap="clickCart" />
+                            <!-- <image src="/images/menu/order_less.png" style="width:40rpx;height:40rpx; " wx:if="{{ foodItem.count > 0 }}" 
+                              data-foodtypeitem='{{foodTypeItem}}' data-foodtypeindex='{{foodTypeIndex}}' data-fooditem='{{foodItem}}' data-foodindex='{{foodIndex}}' catchtap="clickMenuMinus">
+                            </image>
+                            <view wx:if="{{ foodItem.count > 0 }}" class="num">
+                              {{ foodItem.count }}
+                            </view>
+                            <image src="/images/menu/order_add.png" style="width:40rpx;height:40rpx;" 
+                              data-foodtypeitem='{{foodTypeItem}}' data-foodtypeindex='{{foodTypeIndex}}' data-fooditem='{{foodItem}}' data-foodindex='{{foodIndex}}' catchtap="clickMenuAdd">
+                            </image> -->
                           </view>
                         </view>
                       </view>

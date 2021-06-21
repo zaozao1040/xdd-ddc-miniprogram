@@ -18,7 +18,8 @@ Page({
     personalConfig: {},
     mealDateList: [...Array(14)],
     mealTypeList: [],
-    foodTypeList: {},
+    foodTypeList: [],
+    old_foodTypeList: [], //存储这个为了清空购物车用
     activeInfoExtra: {},
     cartList: [],
     inValidNum: 0,
@@ -129,15 +130,28 @@ Page({
           );
         } else if(_this.data.recentData){
           // 后端计算的最近可点餐的日期+餐别 的情况
-          _this.setData(
-            {
-              mealTypeList: resData,
-              activeMealType: _this.data.recentData.mealType,
-            },
-            () => {
-              _this.getFoodTypeList();
-            }
-          );
+          if(_this.data.activeMealDate == _this.data.recentData.mealDate){
+            _this.setData(
+              {
+                mealTypeList: resData,
+                activeMealType: _this.data.recentData.mealType,
+              },
+              () => {
+                _this.getFoodTypeList();
+              }
+            );            
+          }else{
+            _this.setData(
+              {
+                mealTypeList: resData,
+                activeMealType: resData[0].value,
+              },
+              () => {
+                _this.getFoodTypeList();
+              }
+            );
+          }
+
         } else {
           // 一般情况
           let tmp_activeMealType = "";
@@ -446,6 +460,9 @@ Page({
       );
     }
   },
+
+
+
   // 点击餐时
   clickMealType(e) {
     let _this = this;
@@ -564,6 +581,79 @@ Page({
       _this.addOneFood(tmp_item);
     }
   },
+  clickMenuAdd(e){
+    let _this = this
+    let foodTypeItem =  e.currentTarget.dataset.foodtypeitem
+    let foodItem =  e.currentTarget.dataset.fooditem
+    let foodTypeIndex =  e.currentTarget.dataset.foodtypeindex
+    let foodIndex =  e.currentTarget.dataset.foodindex
+    console.log('####### 3 ####### ',foodTypeItem.typeId,foodItem.foodCode);
+    if(foodItem.foodQuota&&foodItem.count == foodItem.foodQuota.quotaNum){
+      wx.showToast({
+        title: '超出限购',
+        image: "/images/msg/error.png",
+        duration: 2000,
+      });
+      
+    }else if(foodItem.foodQuota&&foodItem.foodQuota.surplusNum==0){
+      wx.showToast({
+        title: '库存为0',
+        image: "/images/msg/error.png",
+        duration: 2000,
+      });
+    }else{
+      console.log('####### 3 ####### ',_this.data.foodTypeList);
+      let tmp_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
+      let old_foodTypeList =  tmp_foodTypeList
+      tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count ++
+      _this.setData(
+        {
+          foodTypeList: tmp_foodTypeList, //前端先渲染+1，再请求后端
+          old_foodTypeList:old_foodTypeList // 存储这个为了清空购物车用
+        },()=>{
+          let param = {
+            url: config.baseUrlPlus + "/v3/cart/addCart",
+            method: "post",
+            data: {
+              userCode: _this.data.userInfo.userCode,
+              foodCode: foodItem.foodCode,
+              foodName: foodItem.foodName,
+              foodPrice: foodItem.foodPrice,
+              foodQuantity: 1,
+              mealDate: _this.data.activeMealDate,
+              mealType: _this.data.activeMealType,
+              image: foodItem.image,
+            },
+          };
+          request(param, (resData) => {
+            if (resData.data.code === 200) {
+              wx.showToast({
+                title: "添加成功",
+                duration: 2000,
+              });
+              _this.getPayInfo();
+              _this.getCartList();
+            } else {
+              wx.showToast({
+                title: resData.data.msg,
+                image: "/images/msg/error.png",
+                duration: 2000,
+              });
+              _this.setData({
+                foodTypeList: old_foodTypeList, //后端加入购物车失败 则需要返还回原值
+              })
+            }
+          });
+
+
+        }
+      );
+    }
+    
+  },
+
+
+  
   addOneFood(item) {
     let _this = this;
     let param = {
@@ -587,7 +677,6 @@ Page({
           duration: 2000,
         });
         _this.getPayInfo();
-
         _this.getCartList();
       } else {
         wx.showToast({
@@ -649,6 +738,7 @@ Page({
         _this.getCartList();
         _this.setData({
           showCartFlag: false,
+          foodTypeList:_this.data.old_foodTypeList
         });
       } else {
         wx.showToast({
