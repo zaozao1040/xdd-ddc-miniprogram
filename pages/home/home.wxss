@@ -718,7 +718,6 @@ page {
 }
 
 .title-wrp {
-  /* filter: blur(1px); */
   position: absolute;
   left: 0;
   right: 0;
