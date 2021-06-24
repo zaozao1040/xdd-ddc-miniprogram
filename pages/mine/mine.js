@@ -38,6 +38,10 @@ Page({
 
     // 订单未评价个数
     notReadNumber: 0,
+
+    // 备用餐信息
+    spareInfo:{
+    }
   },
   /* 获取待评价信息 */
   getOrderEvaluateReplyNotRead() {
@@ -236,6 +240,7 @@ Page({
         });
       },
     });
+    _this.getSpareMealSet()
   },
   // 如果是企业用户就切换为管理员，如果是管理员就切换为普通用户
   changeRole() {
@@ -307,23 +312,79 @@ Page({
   },
   // 备用餐页面
   gotoSpareminiProgram(e) {
-    let { orgadmin, organizecode } = e.currentTarget.dataset;
-    let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
-    // 如果是NGO 代表外来人员身份想要申请备用餐 每次都强制跳转到需要填写企业和企业地址
-    if (
-      organizecode == "ORGVISTORE530053156613128193" ||
-      !tmp_userInfo.deliveryAddressCode
-    ) {
-      wx.navigateTo({
-        url: "/pages/mine/orgAndaddress/orgAndaddress?frontPageFlag=spare",
-      });
-    } else {
-      wx.navigateTo({
-        url: "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" + orgadmin,
+    if(this.data.spareInfo){
+      // this.data.spareInfo有值 则代表请求到了结果
+      if(this.data.spareInfo.timeStatus==false){ 
+        wx.showModal({
+          title: "提示",
+          content: "当前时间不允许",
+          confirmText: "我知道了",
+          showCancel: false,
+          success: function (res) {
+          },
+        });
+      }else if(this.data.spareInfo.spareNum==0){
+        let content = this.data.spareInfo.mealDate+'('+this.data.spareInfo.mealType +') 暂无备用餐' 
+        wx.showModal({
+          title: "提示",
+          content: content,
+          confirmText: "我知道了",
+          showCancel: false,
+          success: function (res) {
+          },
+        }); 
+      }
+    }else{
+      let { orgadmin, organizecode } = e.currentTarget.dataset;
+      let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
+      // 如果是NGO 代表外来人员身份想要申请备用餐 每次都强制跳转到需要填写企业和企业地址
+      if (
+        organizecode == "ORGVISTORE530053156613128193" ||
+        !tmp_userInfo.deliveryAddressCode
+      ) {
+        wx.navigateTo({
+          url: "/pages/mine/orgAndaddress/orgAndaddress?frontPageFlag=spare",
+        });
+      } else {
+        wx.navigateTo({
+          url: "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" + orgadmin,
+        });
+      }
+    }
+
+  },
+  //获取备用餐设置
+  getSpareMealSet() {
+    let _this = this;
+    let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
+    if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
+      let params = {
+        data: {
+          userCode: tmp_tmp_userInfo.userInfo.userCode,
+          organizeCode: tmp_tmp_userInfo.userInfo.organizeCode,
+          deliveryAddressCode: tmp_tmp_userInfo.userInfo.deliveryAddressCode,
+        },
+        url: "/spare/getSpareMealSet",
+        method: "post",
+      };
+      requestModel.request(params, (res) => {
+        if (res.mealType == "BREAKFAST") {
+          res.mealTypeDes = "早餐";
+        } else if (res.mealType == "LUNCH") {
+          res.mealTypeDes = "午餐";
+        } else if (res.mealType == "DINNER") {
+          res.mealTypeDes = "晚餐";
+        } else if (res.mealType == "NIGHT") {
+          res.mealTypeDes = "夜宵";
+        }
+        _this.setData(
+          {
+            spareInfo: res,
+          }
+        );
       });
     }
   },
-
   gotoAddfoodAdmin() {
     wx.navigateTo({
       url: "/pages/mine/orgAdminAddfood/orgAdminAddfood",

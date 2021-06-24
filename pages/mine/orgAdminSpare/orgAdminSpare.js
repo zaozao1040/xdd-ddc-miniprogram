@@ -94,9 +94,8 @@ Page({
   onShow: function () {
     this.getOrderList();
   },
-  //获取设置
+  //获取备用餐设置
   getSpareMealSet() {
-    console.log("@@@@@@@ 2 @@@@@@@ ");
 
     let _this = this;
     let params = {
