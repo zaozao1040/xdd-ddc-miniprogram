@@ -324,10 +324,19 @@ Page({
           },
         });
       }else if(this.data.spareInfo.spareNum==0){
-        let content = this.data.spareInfo.mealDate+'('+this.data.spareInfo.mealType +') 暂无备用餐' 
+        let mealTypeDes = ""
+        if (this.data.spareInfo.mealType == "BREAKFAST") {
+          mealTypeDes = "早餐";
+        } else if (this.data.spareInfo.mealType == "LUNCH") {
+          mealTypeDes = "午餐";
+        } else if (this.data.spareInfo.mealType == "DINNER") {
+          mealTypeDes = "晚餐";
+        } else if (this.data.spareInfo.mealType == "NIGHT") {
+          mealTypeDes = "夜宵";
+        }
         wx.showModal({
-          title: "提示",
-          content: content,
+          title: this.data.spareInfo.mealDate+'('+mealTypeDes +')',
+          content: '暂无备用餐',
           confirmText: "我知道了",
           showCancel: false,
           success: function (res) {

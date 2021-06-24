@@ -268,7 +268,7 @@ Page({
     });
   },
 
-  getFoodTypeList: function () {
+  getFoodTypeList: function (loading=false) {
     let _this = this;
     let param = {
       url:
@@ -312,7 +312,7 @@ Page({
           scrollToView: "order" + tmp_activeFoodType,
         });
       }
-    });
+    },loading);
   },
   // 计算购物车高度，大于最大高度就滚动
   calculteCartHeight() {
@@ -862,7 +862,7 @@ Page({
         });
         _this.getPayInfo();
         _this.getCartList();
-        // _this.getFoodTypeList()
+        _this.getFoodTypeList(true)
         _this.setData({
           showCartFlag: false,
         });
