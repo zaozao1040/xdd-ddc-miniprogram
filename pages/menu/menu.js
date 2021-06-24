@@ -19,7 +19,6 @@ Page({
     mealDateList: [...Array(14)],
     mealTypeList: [],
     foodTypeList: [],
-    old_empty_foodTypeList: [], //存储这个为了清空购物车用
     activeInfoExtra: {},
     cartList: [],
     inValidNum: 0,
@@ -863,7 +862,7 @@ Page({
         });
         _this.getPayInfo();
         _this.getCartList();
-        _this.getFoodTypeList()
+        // _this.getFoodTypeList()
         _this.setData({
           showCartFlag: false,
         });

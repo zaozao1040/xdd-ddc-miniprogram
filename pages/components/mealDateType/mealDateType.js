@@ -124,7 +124,8 @@ Component({
             show: false,
           });
           wx.redirectTo({
-            url: "/pages/menu/menu",
+            url : "/pages/menu/menu?recentMealDate="+this.data.activeLeftItem.mealDate
+            +"&recentMealType="+ this.data.activeRightItem.value
           });
         } else {
           wx.showToast({
