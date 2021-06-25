@@ -312,38 +312,37 @@ Page({
   },
   // 备用餐页面
   gotoSpareminiProgram(e) {
-    if(this.data.spareInfo){
-      // this.data.spareInfo有值 则代表请求到了结果
-      if(this.data.spareInfo.timeStatus==false){ 
-        wx.showModal({
-          title: "提示",
-          content: "当前时间不允许",
-          confirmText: "我知道了",
-          showCancel: false,
-          success: function (res) {
-          },
-        });
-      }else if(this.data.spareInfo.spareNum==0){
-        let mealTypeDes = ""
-        if (this.data.spareInfo.mealType == "BREAKFAST") {
-          mealTypeDes = "早餐";
-        } else if (this.data.spareInfo.mealType == "LUNCH") {
-          mealTypeDes = "午餐";
-        } else if (this.data.spareInfo.mealType == "DINNER") {
-          mealTypeDes = "晚餐";
-        } else if (this.data.spareInfo.mealType == "NIGHT") {
-          mealTypeDes = "夜宵";
-        }
-        wx.showModal({
-          title: this.data.spareInfo.mealDate+'('+mealTypeDes +')',
-          content: '暂无备用餐',
-          confirmText: "我知道了",
-          showCancel: false,
-          success: function (res) {
-          },
-        }); 
+  
+    // this.data.spareInfo有值 则代表请求到了结果
+    if(this.data.spareInfo&&this.data.spareInfo.timeStatus==false){ 
+      wx.showModal({
+        title: "提示",
+        content: "当前时间不允许",
+        confirmText: "我知道了",
+        showCancel: false,
+        success: function (res) {
+        },
+      });
+    }else if(this.data.spareInfo&&this.data.spareInfo.spareNum==0){
+      let mealTypeDes = ""
+      if (this.data.spareInfo.mealType == "BREAKFAST") {
+        mealTypeDes = "早餐";
+      } else if (this.data.spareInfo.mealType == "LUNCH") {
+        mealTypeDes = "午餐";
+      } else if (this.data.spareInfo.mealType == "DINNER") {
+        mealTypeDes = "晚餐";
+      } else if (this.data.spareInfo.mealType == "NIGHT") {
+        mealTypeDes = "夜宵";
       }
-    }else{
+      wx.showModal({
+        title: this.data.spareInfo.mealDate+'('+mealTypeDes +')',
+        content: '暂无备用餐',
+        confirmText: "我知道了",
+        showCancel: false,
+        success: function (res) {
+        },
+      }); 
+    } else {
       let { orgadmin, organizecode } = e.currentTarget.dataset;
       let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
       // 如果是NGO 代表外来人员身份想要申请备用餐 每次都强制跳转到需要填写企业和企业地址
@@ -457,9 +456,11 @@ Page({
         query.select(".info-wrapper").boundingClientRect();
         query.selectViewport().scrollOffset();
         query.exec(function (res) {
-          _this.setData({
-            infoTop: res[0].top,
-          });
+          if(res instanceof Array&&res.length>0){
+            _this.setData({
+              infoTop: res[0].top,
+            });          
+          }
         });
       }, true);
     } else {
@@ -467,9 +468,11 @@ Page({
       query.select(".info-wrapper").boundingClientRect();
       query.selectViewport().scrollOffset();
       query.exec(function (res) {
-        _this.setData({
-          infoTop: res[0].top,
-        });
+        if(res instanceof Array&&res.length>0){
+          _this.setData({
+            infoTop: res[0].top,
+          });          
+        }
       });
     }
 

@@ -220,18 +220,22 @@ Page({
     query_1.select(".c_buttonPosition_forCalculate").boundingClientRect();
     query_1.selectViewport().scrollOffset();
     query_1.exec(function (res) {
-      _this.setData({
-        buttonTop: res[0].top, // #the-id节点的上边界坐标
-      });
+      if(res instanceof Array&&res.length>0){
+        _this.setData({
+          buttonTop: res[0].top,
+        });          
+      }
     });
 
     const query_2 = wx.createSelectorQuery();
     query_2.select(".c_buttonPosition_forCalculate_top").boundingClientRect();
     query_2.selectViewport().scrollOffset();
     query_2.exec(function (res) {
-      _this.setData({
-        addressBottom: res[0].bottom, // #the-id节点的上边界坐标
-      });
+      if(res instanceof Array&&res.length>0){
+        _this.setData({
+          addressBottom: res[0].bottom,
+        });          
+      }
     });
   },
 

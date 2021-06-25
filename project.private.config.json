@@ -477,6 +477,36 @@
           "pathName": "pages/mine/mine",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/mine/mine",
+          "pathName": "pages/mine/mine",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/login/phone/phone",
+          "pathName": "pages/login/phone/phone",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/login/userPw/userPw",
+          "pathName": "pages/login/userPw/userPw",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/phone/phone",
+          "pathName": "pages/mine/phone/phone",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/wallet/regular/regular",
+          "pathName": "pages/mine/wallet/regular/regular",
+          "query": "",
+          "scene": null
         }
       ]
     }
