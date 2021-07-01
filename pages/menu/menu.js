@@ -140,21 +140,32 @@ Page({
               }
             );            
           }else{
-            _this.setData(
-              {
-                mealTypeList: resData,
-                activeMealType: resData[0].value,
-              },
-              () => {
-                _this.getFoodTypeList();
-              }
-            );
+            if(resData instanceof Array && resData.length>0){
+              _this.setData(
+                {
+                  mealTypeList: resData,
+                  activeMealType: resData[0].value,
+                },
+                () => {
+                  _this.getFoodTypeList();
+                }
+              );
+            }else{
+              _this.setData(
+                {
+                  mealTypeList: resData,
+                },
+                () => {
+                  _this.getFoodTypeList();
+                }
+              );
+            }
           }
 
         } else {
           // 一般情况
           let tmp_activeMealType = "";
-          if (resData && resData.length > 0) {
+          if (resData instanceof Array && resData.length > 0) {
             tmp_activeMealType = resData[0].value;
             _this.setData(
               {
@@ -567,7 +578,9 @@ Page({
         if(_this.data.activeMealDate==mealDate &&_this.data.activeMealType==mealType){
           let {foodTypeIndex,foodIndex} = item
           let tmp_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
-          tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count ++
+          if(tmp_foodTypeList instanceof Array && tmp_foodTypeList.length>foodTypeIndex && tmp_foodTypeList[foodTypeIndex].foodList ){
+            tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count ++
+          }
           _this.setData({
             foodTypeList: tmp_foodTypeList,
           })
@@ -613,7 +626,9 @@ Page({
         if(_this.data.activeMealDate==mealDate &&_this.data.activeMealType==mealType){
           let {foodTypeIndex,foodIndex} = item
           let tmp_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
-          tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count --
+          if(tmp_foodTypeList instanceof Array && tmp_foodTypeList.length>foodTypeIndex && tmp_foodTypeList[foodTypeIndex].foodList ){
+            tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count --
+          }
           _this.setData({
             foodTypeList: tmp_foodTypeList,
           })
@@ -651,7 +666,9 @@ Page({
     }else{
       let tmp_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
       let old_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
-      tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count ++
+      if(tmp_foodTypeList instanceof Array && tmp_foodTypeList.length>foodTypeIndex && tmp_foodTypeList[foodTypeIndex].foodList ){
+        tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count ++
+      }
       _this.setData(
         {
           foodTypeList: tmp_foodTypeList, //前端先渲染+1，再请求后端
@@ -713,7 +730,9 @@ Page({
     }else{
       let tmp_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
       let old_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
-      tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count --
+      if(tmp_foodTypeList instanceof Array && tmp_foodTypeList.length>foodTypeIndex && tmp_foodTypeList[foodTypeIndex].foodList ){
+        tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count --
+      }
       _this.setData(
         {
           foodTypeList: tmp_foodTypeList, //前端先渲染+1，再请求后端
