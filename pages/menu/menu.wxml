@@ -229,8 +229,13 @@
         <view wx:elif="{{!activeInfoExtra.mealSet.userCanStandardPrice}}" style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
           当前餐标已被使用
         </view> 
-        <view wx:else style="position:relative; top:16rpx;  left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
-          餐标：￥{{activeInfoExtra.mealType.standardPrice}}
+        <view wx:else style="position:relative; top:16rpx; display: flex; left:280rpx;font-family: PingFang-SC-Regular; font-size: 22rpx; color: #333333; letter-spacing: 0; text-align: left;">
+          <view>
+            餐标: ￥{{activeInfoExtra.mealType.standardPrice}}
+          </view>
+          <view style="margin-left: 10rpx;" wx:if="{{!payInfo.moneyBack>0}}">
+            (餐标总返还:{{payInfo.moneyBack}})
+          </view>
         </view> 
       </view>
       <view class="footer-wrapper-bottom">

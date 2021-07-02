@@ -22,7 +22,9 @@ Page({
     activeInfoExtra: {},
     cartList: [],
     inValidNum: 0,
-    payInfo: {},
+    payInfo: {
+      moneyBack:0
+    },
     //
     activeMealDate: "",
     activeMealType: "",
