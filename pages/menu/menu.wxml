@@ -233,7 +233,7 @@
           <view>
             餐标: ￥{{activeInfoExtra.mealType.standardPrice}}
           </view>
-          <view style="margin-left: 10rpx;" wx:if="{{!payInfo.moneyBack>0}}">
+          <view style="margin-left: 10rpx;" wx:if="{{payInfo.moneyBack>0}}">
             (餐标总返还:{{payInfo.moneyBack}})
           </view>
         </view> 
