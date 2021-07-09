@@ -1,0 +1,22 @@
+<view class="list-wrp">
+  <view class="" wx:for="{{ list }}" wx:for-item="item" wx:for-index="index">
+    <l-list title="允许陌生人查看十条朋友圈">
+      <view slot="left-section">
+        <view class="">啊啊</view>
+      </view>
+      <view slot="right-section">
+        <view class="">adfafa</view>
+      </view>
+    </l-list>
+  </view>
+  <view>
+    <l-button
+      size="large"
+      class="btn"
+      bg-color="#F79C4C"
+      bind:lintap="clickAdd"
+    >
+      添加商务餐
+    </l-button>
+  </view>
+</view>

@@ -1,10 +1,11 @@
 {
-    "navigationBarTitleText": "我的",
-    "navigationBarTextStyle": "black",
-    "enablePullDownRefresh": true,
-    "usingComponents": {
-        "c-pop": "../components/popUp/popUp",
-        "c-custom-modal": "../components/customModal/customModal"
-    },
-    "navigationBarBackgroundColor": "#F7BE4C"
+  "navigationBarTitleText": "我的",
+  "navigationBarTextStyle": "black",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "c-pop": "../components/popUp/popUp",
+    "c-custom-modal": "../components/customModal/customModal",
+    "l-action-sheet": "/miniprogram_npm/lin-ui/action-sheet/index"
+  },
+  "navigationBarBackgroundColor": "#F7BE4C"
 }

@@ -1,0 +1,20 @@
+{
+  "name": "quit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "lin-ui": "^0.9.4",
+    "moment": "^2.29.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@codeup.aliyun.com:xdd/xdd-ddc-front/ddc-miniprogram.git"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -513,6 +513,48 @@
           "pathName": "pages/menu/menu",
           "query": "recentMealDate=2021-07-01&recentMealType=DINNER",
           "scene": null
+        },
+        {
+          "name": "pages/mine/mine",
+          "pathName": "pages/mine/mine",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/orgAdminSwcfood/orgAdminSwcfood",
+          "pathName": "pages/mine/orgAdminSwcfood/orgAdminSwcfood",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/home/home",
+          "pathName": "pages/home/home",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/orgAdminSwcfood/orgAdminSwcfood",
+          "pathName": "pages/mine/orgAdminSwcfood/orgAdminSwcfood",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/orgAdminSwcfood/orgAdminSwcfoodAdd",
+          "pathName": "pages/mine/orgAdminSwcfood/orgAdminSwcfoodAdd",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/orgAdminSwcfood/orgAdminSwcfood",
+          "pathName": "pages/mine/orgAdminSwcfood/orgAdminSwcfood",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/orgAdminSwcfood/orgAdminSwcfoodAdd",
+          "pathName": "pages/mine/orgAdminSwcfood/orgAdminSwcfoodAdd",
+          "query": "",
+          "scene": null
         }
       ]
     }

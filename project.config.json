@@ -31,10 +31,11 @@
     "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
-    "minifyWXSS": true
+    "minifyWXSS": true,
+    "nodeModules": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.10.4",
+  "libVersion": "2.18.0",
   "appid": "wx47b750121e8288c1",
   "projectname": "___diancan",
   "cloudfunctionTemplateRoot": "",

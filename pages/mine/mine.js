@@ -40,8 +40,7 @@ Page({
     notReadNumber: 0,
 
     // 备用餐信息
-    spareInfo:{
-    }
+    spareInfo: {},
   },
   /* 获取待评价信息 */
   getOrderEvaluateReplyNotRead() {
@@ -240,7 +239,7 @@ Page({
         });
       },
     });
-    _this.getSpareMealSet()
+    _this.getSpareMealSet();
   },
   // 如果是企业用户就切换为管理员，如果是管理员就切换为普通用户
   changeRole() {
@@ -312,19 +311,17 @@ Page({
   },
   // 备用餐页面
   gotoSpareminiProgram(e) {
-  
     // this.data.spareInfo有值 则代表请求到了结果
-    if(this.data.spareInfo&&this.data.spareInfo.timeStatus==false){ 
+    if (this.data.spareInfo && this.data.spareInfo.timeStatus == false) {
       wx.showModal({
         title: "提示",
         content: "当前时间不允许",
         confirmText: "我知道了",
         showCancel: false,
-        success: function (res) {
-        },
+        success: function (res) {},
       });
-    }else if(this.data.spareInfo&&this.data.spareInfo.spareNum==0){
-      let mealTypeDes = ""
+    } else if (this.data.spareInfo && this.data.spareInfo.spareNum == 0) {
+      let mealTypeDes = "";
       if (this.data.spareInfo.mealType == "BREAKFAST") {
         mealTypeDes = "早餐";
       } else if (this.data.spareInfo.mealType == "LUNCH") {
@@ -335,13 +332,12 @@ Page({
         mealTypeDes = "夜宵";
       }
       wx.showModal({
-        title: this.data.spareInfo.mealDate+'('+mealTypeDes +')',
-        content: '暂无备用餐',
+        title: this.data.spareInfo.mealDate + "(" + mealTypeDes + ")",
+        content: "暂无备用餐",
         confirmText: "我知道了",
         showCancel: false,
-        success: function (res) {
-        },
-      }); 
+        success: function (res) {},
+      });
     } else {
       let { orgadmin, organizecode } = e.currentTarget.dataset;
       let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
@@ -359,7 +355,6 @@ Page({
         });
       }
     }
-
   },
   //获取备用餐设置
   getSpareMealSet() {
@@ -385,17 +380,45 @@ Page({
         } else if (res.mealType == "NIGHT") {
           res.mealTypeDes = "夜宵";
         }
-        _this.setData(
-          {
-            spareInfo: res,
-          }
-        );
+        _this.setData({
+          spareInfo: res,
+        });
       });
     }
   },
   gotoAddfoodAdmin() {
-    wx.navigateTo({
-      url: "/pages/mine/orgAdminAddfood/orgAdminAddfood",
+    wx.lin.showActionSheet({
+      itemList: [
+        {
+          name: "普通餐",
+        },
+        {
+          name: "商务餐",
+        },
+      ],
+    });
+  },
+  lintapItem(e) {
+    if (e.detail.index == 0) {
+      wx.navigateTo({
+        url: "/pages/mine/orgAdminAddfood/orgAdminAddfood",
+      });
+    } else if (e.detail.index == 1) {
+      wx.navigateTo({
+        url: "/pages/mine/orgAdminSwcfood/orgAdminSwcfood",
+      });
+    }
+  },
+  gotoAddfoodAdmin() {
+    wx.lin.showActionSheet({
+      itemList: [
+        {
+          name: "普通餐",
+        },
+        {
+          name: "商务餐",
+        },
+      ],
     });
   },
   // 我要吐槽
@@ -456,10 +479,10 @@ Page({
         query.select(".info-wrapper").boundingClientRect();
         query.selectViewport().scrollOffset();
         query.exec(function (res) {
-          if(res instanceof Array&&res.length>0){
+          if (res instanceof Array && res.length > 0) {
             _this.setData({
               infoTop: res[0].top,
-            });          
+            });
           }
         });
       }, true);
@@ -468,10 +491,10 @@ Page({
       query.select(".info-wrapper").boundingClientRect();
       query.selectViewport().scrollOffset();
       query.exec(function (res) {
-        if(res instanceof Array&&res.length>0){
+        if (res instanceof Array && res.length > 0) {
           _this.setData({
             infoTop: res[0].top,
-          });          
+          });
         }
       });
     }

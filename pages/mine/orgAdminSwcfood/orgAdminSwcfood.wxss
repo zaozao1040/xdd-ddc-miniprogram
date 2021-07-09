@@ -1,0 +1,12 @@
+.list-wrp{
+  margin:20rpx;
+}
+.btn{
+  position: fixed;
+  left: 0;
+  bottom: 20rpx;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

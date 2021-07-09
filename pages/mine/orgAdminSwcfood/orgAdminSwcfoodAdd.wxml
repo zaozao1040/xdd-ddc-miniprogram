@@ -1,0 +1,69 @@
+<view class="wrp">
+  <l-form
+    name="ruleForm"
+    bind:linsubmit="submit"
+    l-form-btn-class="l-form-btn-class"
+  
+  >
+    <l-form-item
+      label="企业地址"
+      name="ruleName"
+      rules="{{ rules.address }}"
+      label-width="150rpx"
+    >
+      <l-input
+        label-layout="right"
+        label-width="0"
+        value="{{ form.address }}"
+        clear="{{ true }}"
+        required="{{ true }}"
+        show-row="{{ false }}"
+      >
+        <l-button slot="right" size="mini" bind:lintap="clickXzAddress">选择</l-button>
+      </l-input>
+    </l-form-item>
+
+    <l-form-item
+      label="餐别"
+      name="mealType"
+      rules="{{ rules.mealType }}"
+      label-width="150rpx"
+    >
+      <l-radio-group current="{{form.mealType}}" bind:linchange="clickMealType" placement="row">
+        <l-radio key="BREAKFAST" placement="right">早餐</l-radio>
+        <l-radio key="LUNCH" placement="right">午餐</l-radio>
+        <l-radio key="DINNER" placement="right">晚餐</l-radio>
+        <l-radio key="NIGHT" placement="right">夜宵</l-radio>
+      </l-radio-group>
+    </l-form-item>
+
+    <l-form-item
+      label="选择日期"
+      name="ruleName"
+      rules="{{ rules.mealDateList }}"
+      label-width="150rpx"
+      min-date="{{ minDate }}"
+      max-date="{{ maxDate }}"
+    >
+      <l-checkbox-group bind:linchange="clickMealDate">
+        <l-checkbox
+          wx:for-items="{{mealDateListAll}}"
+          wx:key="{{item.value}}"
+          key="{{item.value}}"
+          checked="{{item.isChecked}}">
+          {{item.value}}
+        </l-checkbox>
+      </l-checkbox-group>
+       
+    </l-form-item>
+    <view slot="submit">
+      <l-button>提交验证</l-button>
+    </view>
+    <view slot="reset">
+      <l-button type="default" plain>重置</l-button>
+    </view>
+  </l-form>
+  <!-- 弹出层 -->
+  <l-action-sheet bind:linitemtap="clickSheet"/>
+
+</view>

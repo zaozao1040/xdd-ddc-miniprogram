@@ -235,3 +235,5 @@
     bind:closemodal='closePhoneModal' bind:handleconfirm='handleContact'></c-custom-modal>
 <c-custom-modal title='是否开柜取餐?' content='{{cellInfoDes}}' wx:if='{{showTakeFoodModal}}'
     bind:closemodal='closeTakeFoodModal' bind:handleconfirm='handleTakeFoodContact'></c-custom-modal>
+<!-- lin -->
+<l-action-sheet bind:linitemtap="lintapItem"/>

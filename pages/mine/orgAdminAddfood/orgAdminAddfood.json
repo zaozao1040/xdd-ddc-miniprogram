@@ -1,8 +1,8 @@
 {
-    "navigationBarTitleText": "报餐",
-    "enablePullDownRefresh": true,
-    "usingComponents": {
-        "c-pop": "../../components/popUp/popUp",
-        "c-custom-modal": "../../components/customModal/customModal"
-    }
+  "navigationBarTitleText": "报餐-普通餐",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "c-pop": "../../components/popUp/popUp",
+    "c-custom-modal": "../../components/customModal/customModal"
+  }
 }
