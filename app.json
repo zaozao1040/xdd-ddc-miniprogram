@@ -116,6 +116,7 @@
     "l-radio-group": "/miniprogram_npm/lin-ui/radio-group/index",
     "l-radio": "/miniprogram_npm/lin-ui/radio/index",
     "l-calendar": "/miniprogram_npm/lin-ui/calendar/index",
+    "l-counter": "/miniprogram_npm/lin-ui/counter/index",
     "l-tag": "/miniprogram_npm/lin-ui/tag/index"
   }
 }

@@ -12,9 +12,19 @@ Page({
       deliveryAddressCode: "",
       mealType: "LUNCH",
       mealDateList: [],
+      foodList:[]
     },
     rules: {
       deliveryAddressCode: {
+        required: true,
+      },
+      mealType: {
+        required: true,
+      },
+      mealDateList: {
+        required: true,
+      },
+      foodList: {
         required: true,
       },
     },
@@ -24,6 +34,7 @@ Page({
     mealDateDinnerList: [],
     mealDateNightList: [],
     currentMealDateListAll: [],
+    foodListAll:[]
   },
 
   onLoad: function () {
@@ -164,6 +175,11 @@ Page({
           mealDateNightList: [],
         });
       }
+      _this.setData({
+        foodListAll:data.foodList||[]
+      });
+
+
     });
   },
 
@@ -205,7 +221,8 @@ Page({
       currentMealDateListAll: tmp,
     });
   },
-  submit() {
-    console.log("@@@@@@@ 2 @@@@@@@ ");
+  clickCommit(){
+    console.log('@@@@@@@ 2 @@@@@@@ ',this.data.foodListAll);
+    
   },
 });
