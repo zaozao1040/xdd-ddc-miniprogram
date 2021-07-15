@@ -23,7 +23,7 @@ Page({
     cartList: [],
     inValidNum: 0,
     payInfo: {
-      moneyBack:0
+      moneyBack: 0,
     },
     //
     activeMealDate: "",
@@ -50,8 +50,8 @@ Page({
     // 各种个性化
     userTimeAndMealTypeLimit: false, //奥美凯
 
-    // 
-    recentData:null,
+    //
+    recentData: null,
   },
 
   onLoad: function (option) {
@@ -89,7 +89,7 @@ Page({
         mealDateList: mealDateList,
       });
       this.getMealTypeList(_this.data.promptInfo.mealDate);
-    } else if(_this.data.recentData){
+    } else if (_this.data.recentData) {
       // 后台算出最近可以点餐的情况
       _this.setData({
         activeMealDate: _this.data.recentData.mealDate,
@@ -129,9 +129,9 @@ Page({
               _this.getFoodTypeList();
             }
           );
-        } else if(_this.data.recentData){
+        } else if (_this.data.recentData) {
           // 后端计算的最近可点餐的日期+餐别 的情况
-          if(_this.data.activeMealDate == _this.data.recentData.mealDate){
+          if (_this.data.activeMealDate == _this.data.recentData.mealDate) {
             _this.setData(
               {
                 mealTypeList: resData,
@@ -140,9 +140,9 @@ Page({
               () => {
                 _this.getFoodTypeList();
               }
-            );            
-          }else{
-            if(resData instanceof Array && resData.length>0){
+            );
+          } else {
+            if (resData instanceof Array && resData.length > 0) {
               _this.setData(
                 {
                   mealTypeList: resData,
@@ -152,7 +152,7 @@ Page({
                   _this.getFoodTypeList();
                 }
               );
-            }else{
+            } else {
               _this.setData(
                 {
                   mealTypeList: resData,
@@ -163,7 +163,6 @@ Page({
               );
             }
           }
-
         } else {
           // 一般情况
           let tmp_activeMealType = "";
@@ -190,7 +189,7 @@ Page({
     );
   },
   loadData: function (option) {
-    let _this = this
+    let _this = this;
     _this.initData();
     _this.getUserInfo();
     _this.getPersonalConfig();
@@ -198,20 +197,23 @@ Page({
     _this.getPayInfo();
     if (option.typeId) {
       _this.getCanpinInfo(option.typeId);
-    } else if(option.recentMealType){
-      _this.setData({
-        recentData:{
-          mealDate:option.recentMealDate,
-          mealType:option.recentMealType
+    } else if (option.recentMealType) {
+      _this.setData(
+        {
+          recentData: {
+            mealDate: option.recentMealDate,
+            mealType: option.recentMealType,
+          },
         },
-      },()=>{
-        this.getMealDateList();
-      });
+        () => {
+          this.getMealDateList();
+        }
+      );
     } else {
       this.getMealDateList();
     }
   },
-  
+
   initData: function () {
     let _this = this;
     wx.getSystemInfo({
@@ -281,7 +283,7 @@ Page({
     });
   },
 
-  getFoodTypeList: function (loading=false) {
+  getFoodTypeList: function (loading = false) {
     let _this = this;
     let param = {
       url:
@@ -292,40 +294,44 @@ Page({
         "&mealType=" +
         _this.data.activeMealType,
     };
-    requestModel.request(param, (resData) => {
-      _this.setData(
-        {
-          foodTypeList: resData.foodTypeList,
-          activeInfoExtra: {
-            mealSet: resData.mealSet,
-            mealType: resData.mealType,
+    requestModel.request(
+      param,
+      (resData) => {
+        _this.setData(
+          {
+            foodTypeList: resData.foodTypeList,
+            activeInfoExtra: {
+              mealSet: resData.mealSet,
+              mealType: resData.mealType,
+            },
+            userTimeAndMealTypeLimit: resData.limit,
+            loading: false,
           },
-          userTimeAndMealTypeLimit: resData.limit,
-          loading: false,
-        },
-        () => {
-          _this.calculateHeightList();
-        }
-      );
-
-      if (_this.data.promptInfo.mealDate) {
-        // 推荐餐品类别情况
-        let tmp_activeFoodType = 0;
-        let tmp_length = _this.data.foodTypeList.length;
-        for (let i = 0; i < tmp_length; i++) {
-          if (
-            _this.data.foodTypeList[i].typeId == _this.data.promptInfo.typeId
-          ) {
-            tmp_activeFoodType = i;
-            i = tmp_length;
+          () => {
+            _this.calculateHeightList();
           }
+        );
+
+        if (_this.data.promptInfo.mealDate) {
+          // 推荐餐品类别情况
+          let tmp_activeFoodType = 0;
+          let tmp_length = _this.data.foodTypeList.length;
+          for (let i = 0; i < tmp_length; i++) {
+            if (
+              _this.data.foodTypeList[i].typeId == _this.data.promptInfo.typeId
+            ) {
+              tmp_activeFoodType = i;
+              i = tmp_length;
+            }
+          }
+          _this.setData({
+            activeFoodType: tmp_activeFoodType,
+            scrollToView: "order" + tmp_activeFoodType,
+          });
         }
-        _this.setData({
-          activeFoodType: tmp_activeFoodType,
-          scrollToView: "order" + tmp_activeFoodType,
-        });
-      }
-    },loading);
+      },
+      loading
+    );
   },
   // 计算购物车高度，大于最大高度就滚动
   calculteCartHeight() {
@@ -371,9 +377,7 @@ Page({
       showCartFlag: false,
     });
   },
-  handleDonothing() {
-
-  },
+  handleDonothing() {},
   getCartList: function () {
     let _this = this;
     let param = {
@@ -472,8 +476,6 @@ Page({
       );
     }
   },
-
-
 
   // 点击餐时
   clickMealType(e) {
@@ -577,15 +579,24 @@ Page({
         _this.getPayInfo();
         _this.getCartList();
         // 判断是否当前遮罩层后面的日期+餐别是此刻的 若是则驱动遮罩层后面的进行改变数字
-        if(_this.data.activeMealDate==mealDate &&_this.data.activeMealType==mealType){
-          let {foodTypeIndex,foodIndex} = item
-          let tmp_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
-          if(tmp_foodTypeList instanceof Array && tmp_foodTypeList.length>foodTypeIndex && tmp_foodTypeList[foodTypeIndex].foodList ){
-            tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count ++
+        if (
+          _this.data.activeMealDate == mealDate &&
+          _this.data.activeMealType == mealType
+        ) {
+          let { foodTypeIndex, foodIndex } = item;
+          let tmp_foodTypeList = JSON.parse(
+            JSON.stringify(_this.data.foodTypeList)
+          );
+          if (
+            tmp_foodTypeList instanceof Array &&
+            tmp_foodTypeList.length > foodTypeIndex &&
+            tmp_foodTypeList[foodTypeIndex].foodList
+          ) {
+            tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count++;
           }
           _this.setData({
             foodTypeList: tmp_foodTypeList,
-          })
+          });
         }
       } else {
         wx.showToast({
@@ -625,15 +636,24 @@ Page({
         _this.getPayInfo();
         _this.getCartList();
         // 判断是否当前遮罩层后面的日期+餐别是此刻的 若是则驱动遮罩层后面的进行改变数字
-        if(_this.data.activeMealDate==mealDate &&_this.data.activeMealType==mealType){
-          let {foodTypeIndex,foodIndex} = item
-          let tmp_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
-          if(tmp_foodTypeList instanceof Array && tmp_foodTypeList.length>foodTypeIndex && tmp_foodTypeList[foodTypeIndex].foodList ){
-            tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count --
+        if (
+          _this.data.activeMealDate == mealDate &&
+          _this.data.activeMealType == mealType
+        ) {
+          let { foodTypeIndex, foodIndex } = item;
+          let tmp_foodTypeList = JSON.parse(
+            JSON.stringify(_this.data.foodTypeList)
+          );
+          if (
+            tmp_foodTypeList instanceof Array &&
+            tmp_foodTypeList.length > foodTypeIndex &&
+            tmp_foodTypeList[foodTypeIndex].foodList
+          ) {
+            tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count--;
           }
           _this.setData({
             foodTypeList: tmp_foodTypeList,
-          })
+          });
         }
       } else {
         wx.showToast({
@@ -645,36 +665,43 @@ Page({
     });
   },
 
-
-  clickMenuAdd(e){
-    let _this = this
-    let foodTypeItem =  e.currentTarget.dataset.foodtypeitem
-    let foodItem =  e.currentTarget.dataset.fooditem
-    let foodTypeIndex =  e.currentTarget.dataset.foodtypeindex
-    let foodIndex =  e.currentTarget.dataset.foodindex
-    if(foodItem.foodQuota&&foodItem.count == foodItem.foodQuota.quotaNum){
+  clickMenuAdd(e) {
+    let _this = this;
+    let foodTypeItem = e.currentTarget.dataset.foodtypeitem;
+    let foodItem = e.currentTarget.dataset.fooditem;
+    let foodTypeIndex = e.currentTarget.dataset.foodtypeindex;
+    let foodIndex = e.currentTarget.dataset.foodindex;
+    if (foodItem.foodQuota && foodItem.count == foodItem.foodQuota.quotaNum) {
       wx.showToast({
-        title: '超出限购',
+        title: "超出限购",
         image: "/images/msg/error.png",
         duration: 2000,
       });
-      
-    }else if(foodItem.foodQuota&&foodItem.foodQuota.surplusNum==0){
+    } else if (foodItem.foodQuota && foodItem.foodQuota.surplusNum == 0) {
       wx.showToast({
-        title: '库存为0',
+        title: "库存为0",
         image: "/images/msg/error.png",
         duration: 2000,
       });
-    }else{
-      let tmp_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
-      let old_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
-      if(tmp_foodTypeList instanceof Array && tmp_foodTypeList.length>foodTypeIndex && tmp_foodTypeList[foodTypeIndex].foodList ){
-        tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count ++
+    } else {
+      let tmp_foodTypeList = JSON.parse(
+        JSON.stringify(_this.data.foodTypeList)
+      );
+      let old_foodTypeList = JSON.parse(
+        JSON.stringify(_this.data.foodTypeList)
+      );
+      if (
+        tmp_foodTypeList instanceof Array &&
+        tmp_foodTypeList.length > foodTypeIndex &&
+        tmp_foodTypeList[foodTypeIndex].foodList
+      ) {
+        tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count++;
       }
       _this.setData(
         {
           foodTypeList: tmp_foodTypeList, //前端先渲染+1，再请求后端
-        },()=>{
+        },
+        () => {
           let param = {
             url: config.baseUrlPlus + "/v3/cart/addCart",
             method: "post",
@@ -688,7 +715,7 @@ Page({
               mealType: _this.data.activeMealType,
               image: foodItem.image,
               foodTypeIndex,
-              foodIndex
+              foodIndex,
             },
           };
           request(param, (resData) => {
@@ -707,38 +734,45 @@ Page({
               });
               _this.setData({
                 foodTypeList: old_foodTypeList, //后端加入购物车失败 则需要返还回原值
-              })
+              });
             }
           });
         }
       );
     }
-    
   },
 
-
-  clickMenuMinus(e){
-    let _this = this
-    let foodTypeItem =  e.currentTarget.dataset.foodtypeitem
-    let foodItem =  e.currentTarget.dataset.fooditem
-    let foodTypeIndex =  e.currentTarget.dataset.foodtypeindex
-    let foodIndex =  e.currentTarget.dataset.foodindex
-    if(foodItem.count == 0){
+  clickMenuMinus(e) {
+    let _this = this;
+    let foodTypeItem = e.currentTarget.dataset.foodtypeitem;
+    let foodItem = e.currentTarget.dataset.fooditem;
+    let foodTypeIndex = e.currentTarget.dataset.foodtypeindex;
+    let foodIndex = e.currentTarget.dataset.foodindex;
+    if (foodItem.count == 0) {
       wx.showToast({
-        title: '已经为0',
+        title: "已经为0",
         image: "/images/msg/error.png",
         duration: 2000,
       });
-    }else{
-      let tmp_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
-      let old_foodTypeList =  JSON.parse(JSON.stringify(_this.data.foodTypeList))
-      if(tmp_foodTypeList instanceof Array && tmp_foodTypeList.length>foodTypeIndex && tmp_foodTypeList[foodTypeIndex].foodList ){
-        tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count --
+    } else {
+      let tmp_foodTypeList = JSON.parse(
+        JSON.stringify(_this.data.foodTypeList)
+      );
+      let old_foodTypeList = JSON.parse(
+        JSON.stringify(_this.data.foodTypeList)
+      );
+      if (
+        tmp_foodTypeList instanceof Array &&
+        tmp_foodTypeList.length > foodTypeIndex &&
+        tmp_foodTypeList[foodTypeIndex].foodList
+      ) {
+        tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count--;
       }
       _this.setData(
         {
           foodTypeList: tmp_foodTypeList, //前端先渲染+1，再请求后端
-        },()=>{
+        },
+        () => {
           let param = {
             url: config.baseUrlPlus + "/v3/cart/delCartNumber",
             method: "post",
@@ -752,7 +786,7 @@ Page({
               mealType: _this.data.activeMealType,
               image: foodItem.image,
               foodTypeIndex,
-              foodIndex
+              foodIndex,
             },
           };
           request(param, (resData) => {
@@ -771,13 +805,12 @@ Page({
               });
               _this.setData({
                 foodTypeList: old_foodTypeList, //后端减少购物车失败 则需要返还回原值
-              })
+              });
             }
           });
         }
       );
     }
-    
   },
   // // 点击购物车icon，将餐品加1 -- 原购物车icon方案 考虑废弃
   // clickCart(e) {
@@ -799,7 +832,7 @@ Page({
   //     _this.addOneFood(tmp_item);
   //   }
   // },
-  
+
   // addOneFood(item) {
   //   let _this = this;
   //   let param = {
@@ -883,7 +916,7 @@ Page({
         });
         _this.getPayInfo();
         _this.getCartList();
-        _this.getFoodTypeList(true)
+        _this.getFoodTypeList(true);
         _this.setData({
           showCartFlag: false,
         });

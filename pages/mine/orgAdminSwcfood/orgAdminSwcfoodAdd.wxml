@@ -47,7 +47,7 @@
     >
       <l-checkbox-group bind:linchange="clickMealDate">
         <l-checkbox
-          wx:for-items="{{mealDateListAll}}"
+          wx:for-items="{{currentMealDateListAll}}"
           wx:key="{{item.value}}"
           key="{{item.value}}"
           checked="{{item.isChecked}}">

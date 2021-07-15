@@ -10,7 +10,7 @@ Page({
     form: {
       address: "",
       deliveryAddressCode: "",
-      mealType: "",
+      mealType: "LUNCH",
       mealDateList: [],
     },
     rules: {
@@ -19,7 +19,11 @@ Page({
       },
     },
     preData: {},
-    mealDateListAll: [],
+    mealDateBreakfastList: [],
+    mealDateLunchList: [],
+    mealDateDinnerList: [],
+    mealDateNightList: [],
+    currentMealDateListAll: [],
   },
 
   onLoad: function () {
@@ -72,7 +76,7 @@ Page({
         _this.setData({
           organizeAddressList: data,
           form: {
-            ..._this.form,
+            ..._this.data.form,
             deliveryAddressCode: data[0].deliveryAddressCode,
             address: data[0].address,
           },
@@ -97,10 +101,15 @@ Page({
         });
         _this.setData({
           preData: data,
-          mealDateListAll: tmp,
-          form: { ..._this.data.form, mealType: "BREAKFAST" },
+          mealDateBreakfastList: tmp,
         });
-      } else if (data.lunchList) {
+      } else {
+        _this.setData({
+          preData: data,
+          mealDateBreakfastList: [],
+        });
+      }
+      if (data.lunchList) {
         let tmp = [];
         data.lunchList.forEach((item) => {
           tmp.push({
@@ -110,10 +119,16 @@ Page({
         });
         _this.setData({
           preData: data,
-          mealDateListAll: tmp,
-          form: { ..._this.data.form, mealType: "LUNCH" },
+          mealDateLunchList: tmp,
+          currentMealDateListAll: tmp, //默认午餐
         });
-      } else if (data.dinnerList) {
+      } else {
+        _this.setData({
+          preData: data,
+          mealDateLunchList: [],
+        });
+      }
+      if (data.dinnerList) {
         let tmp = [];
         data.dinnerList.forEach((item) => {
           tmp.push({
@@ -123,10 +138,15 @@ Page({
         });
         _this.setData({
           preData: data,
-          mealDateListAll: tmp,
-          form: { ..._this.data.form, mealType: "DINNER" },
+          mealDateDinnerList: tmp,
         });
-      } else if (data.nightList) {
+      } else {
+        _this.setData({
+          preData: data,
+          mealDateDinnerList: [],
+        });
+      }
+      if (data.nightList) {
         let tmp = [];
         data.nightList.forEach((item) => {
           tmp.push({
@@ -136,8 +156,12 @@ Page({
         });
         _this.setData({
           preData: data,
-          mealDateListAll: tmp,
-          form: { ..._this.data.form, mealType: "NIGHT" },
+          mealDateNightList: tmp,
+        });
+      } else {
+        _this.setData({
+          preData: data,
+          mealDateNightList: [],
         });
       }
     });
@@ -146,29 +170,29 @@ Page({
     let _this = this;
     if (val.detail.key == "BREAKFAST") {
       _this.setData({
-        mealDateListAll: _this.data.preData.breakfastList,
+        currentMealDateListAll: _this.data.mealDateBreakfastList,
         form: { ..._this.data.form, mealType: "BREAKFAST" },
       });
     } else if (val.detail.key == "LUNCH") {
       _this.setData({
-        mealDateListAll: _this.data.preData.lunchList,
+        currentMealDateListAll: _this.data.mealDateLunchList,
         form: { ..._this.data.form, mealType: "LUNCH" },
       });
     } else if (val.detail.key == "DINNER") {
       _this.setData({
-        mealDateListAll: _this.data.preData.dinnerList,
+        currentMealDateListAll: _this.data.mealDateDinnerList,
         form: { ..._this.data.form, mealType: "DINNER" },
       });
     } else if (val.detail.key == "NIGHT") {
       _this.setData({
-        mealDateListAll: _this.data.preData.nightList,
+        currentMealDateListAll: _this.data.mealDateNightList,
         form: { ..._this.data.form, mealType: "NIGHT" },
       });
     }
   },
   clickMealDate(e) {
     console.log("@@@@@@@ 2 @@@@@@@ ", e);
-    let tmp = [...this.data.mealDateListAll];
+    let tmp = [...this.data.currentMealDateListAll];
     tmp.forEach((item) => {
       if (item.value == e.detail.key) {
         item.isChecked = !item.isChecked;
@@ -177,7 +201,10 @@ Page({
     console.log("@@@@@@@ 2 @@@@@@@ ", tmp);
 
     this.setData({
-      mealDateListAll: tmp,
+      currentMealDateListAll: tmp,
     });
+  },
+  submit() {
+    console.log("@@@@@@@ 2 @@@@@@@ ");
   },
 });
