@@ -166,6 +166,7 @@ Page({
       }
     });
   },
+
   clickMealType(val) {
     let _this = this;
     if (val.detail.key == "BREAKFAST") {
