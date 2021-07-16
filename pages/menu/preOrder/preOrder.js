@@ -342,7 +342,7 @@ Page({
       });
       return;
     }
-    if (!this.data.userInfo.deliveryAddressCode) {
+    if (!this.data.userInfo.deliveryAddressCode&&!this.data.newAddressCode) {
       wx.showToast({
         title: "请选择送餐地址",
         image: "/images/msg/error.png",
