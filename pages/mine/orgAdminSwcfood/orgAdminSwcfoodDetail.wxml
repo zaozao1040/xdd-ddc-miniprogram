@@ -47,20 +47,59 @@
       {{info.orderSpecialFoodNumber}}
     </view>
   </view>
-  <view class="line">
-    <view class="left">
-    餐品详情
-    </view>
-    <view class="right">
-    
-    </view>
-  </view>
   <view class="food-wrp">
     <view class="left">
     餐品详情
     </view>
     <view class="right">
-    
+      <view class="food-wrp">
+        <view class="food-item" wx:for="{{info.foodList}}"  wx:for-index="index" wx:for-item="item" wx:key="index">
+          <view class="food-item-left">
+            <view class="food-name-wrp">
+              <view class="food-name">
+                {{item.foodName}}
+              </view>
+              <view class="food-money-wrp">
+                <view style="display: flex;">
+                  <view class="food-money">
+                    {{"￥ "+item.foodPrice}}
+                  </view>               
+                </view>
+              </view>
+
+            </view>          
+          </view>
+          <view class="food-item-right" >
+            <l-counter count="{{item.foodQuantity}}" data-index="{{index}}" min="0" max="100" bind:lintap="clickCounter"/>
+          </view>
+        </view>
+      </view>
     </view>
   </view>
+  <view class="plus">
+  
+  </view>
+  <view class="btn-wrp">
+    <l-button
+    wx:if="{{editStatus}}"
+      size="large"
+      class="btn"
+      bg-color="#F79C4C"
+      bind:lintap="clickCommit"
+      
+    >
+      提 交 
+    </l-button>  
+    <l-button
+      wx:else
+        size="large"
+        class="btn"
+       type="warning"
+        bind:lintap="clickEdit"
+        plain
+      >
+      编 辑
+    </l-button>
+  </view>
+
 </view>
