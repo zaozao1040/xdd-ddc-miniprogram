@@ -30,10 +30,10 @@
       label-width="150rpx"
     >
       <l-radio-group current="{{form.mealType}}" bind:linchange="clickMealType" placement="row">
-        <l-radio key="BREAKFAST" placement="right">早餐</l-radio>
-        <l-radio key="LUNCH" placement="right">午餐</l-radio>
-        <l-radio key="DINNER" placement="right">晚餐</l-radio>
-        <l-radio key="NIGHT" placement="right">夜宵</l-radio>
+        <l-radio key="BREAKFAST" placement="right" disabled="{{bDisable}}">早餐</l-radio>
+        <l-radio key="LUNCH" placement="right" disabled="{{lDisable}}">午餐</l-radio>
+        <l-radio key="DINNER" placement="right" disabled="{{dDisable}}">晚餐</l-radio>
+        <l-radio key="NIGHT" placement="right" disabled="{{nDisable}}">夜宵</l-radio>
       </l-radio-group>
     </l-form-item>
 
@@ -80,7 +80,7 @@
             </view>          
           </view>
           <view class="food-item-right" >
-            <l-counter count="{{item.foodQuantity}}" min="0" max="100" bind:lintap="clickCounter"/>
+            <l-counter count="{{item.foodQuantity}}" data-index="{{index}}" min="0" max="100" bind:lintap="clickCounter"/>
           </view>
         </view>
 

@@ -1,8 +1,12 @@
 <view class="list-wrp">
   <view class="" wx:for="{{ list }}" wx:for-item="item" wx:for-index="index">
-    <l-list title="允许陌生人查看十条朋友圈">
+    <l-list>
       <view slot="left-section">
-        <view class="">啊啊</view>
+        <view class="">
+          <view class="">
+          {{item.mealDate + ' ' +item.mealTypeDes}}
+          </view>
+        </view>
       </view>
       <view slot="right-section">
         <view class="">adfafa</view>

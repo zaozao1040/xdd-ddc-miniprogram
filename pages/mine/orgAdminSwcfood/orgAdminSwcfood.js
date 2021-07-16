@@ -1,4 +1,5 @@
 import { base } from "../../../comm/public/request";
+import { mealTypeMap } from "../../../comm_plus/filters/public.js";
 let requestModel = new base();
 Page({
   /**
@@ -22,12 +23,7 @@ Page({
     value: 0,
     date: "",
     mealType: "",
-    mealTypeNameList: {
-      BREAKFAST: "早餐",
-      LUNCH: "午餐",
-      DINNER: "晚餐",
-      NIGHT: "夜宵",
-    },
+
     list: [],
     userCode: "",
     quantity: 0,
@@ -80,6 +76,11 @@ Page({
     requestModel.request(param, (data) => {
       console.log("@@@@@@@ 2 @@@@@@@ ", data);
       let tmp_list = data.list;
+      tmp_list.forEach(item=>{
+        item.mealTypeDes = mealTypeMap(item.mealType)
+      })
+      console.log('####### 3 ####### ',tmp_list);
+      
       if (page == 1) {
         _this.setData({
           list: tmp_list,
