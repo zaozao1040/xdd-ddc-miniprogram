@@ -1,0 +1,66 @@
+<view class="wrp">
+  <view class="line">
+    <view class="left">
+    申请人
+    </view>
+    <view class="right">
+      {{info.userName}}
+    </view>
+  </view>
+  <view class="line">
+    <view class="left">
+    所在企业
+    </view>
+    <view class="right">
+      {{info.organizeName}}
+    </view>
+  </view>
+  <view class="line">
+    <view class="left">
+    申请时间
+    </view>
+    <view class="right">
+      {{info.orderSpecialTime}}
+    </view>
+  </view>
+  <view class="line">
+    <view class="left">
+    用餐日期
+    </view>
+    <view class="right">
+      {{info.mealDate}}
+    </view>
+  </view>
+  <view class="line">
+    <view class="left">
+    用餐餐别
+    </view>
+    <view class="right">
+      {{info.mealTypeDes}}
+    </view>
+  </view>
+  <view class="line">
+    <view class="left">
+    总份数
+    </view>
+    <view class="right">
+      {{info.orderSpecialFoodNumber}}
+    </view>
+  </view>
+  <view class="line">
+    <view class="left">
+    餐品详情
+    </view>
+    <view class="right">
+    
+    </view>
+  </view>
+  <view class="food-wrp">
+    <view class="left">
+    餐品详情
+    </view>
+    <view class="right">
+    
+    </view>
+  </view>
+</view>

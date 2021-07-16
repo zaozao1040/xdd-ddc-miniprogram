@@ -1,0 +1,12 @@
+.wrp{
+  margin: 20rpx;
+}
+.line{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1rpx solid #e4e7ed;
+}
+.line:last-child{
+  border-bottom: none;
+}

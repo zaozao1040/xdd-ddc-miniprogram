@@ -55,7 +55,8 @@
     "pages/home/topic/topicDetail/topicDetail",
     "pages/login/next",
     "pages/wenzhang/wenzhangDetail",
-    "pages/mine/orgAdminSwcfood/orgAdminSwcfoodAdd"
+    "pages/mine/orgAdminSwcfood/orgAdminSwcfoodAdd",
+    "pages/mine/orgAdminSwcfood/orgAdminSwcfoodDetail"
   ],
   "permission": {
     "scope.userLocation": {
@@ -100,7 +101,9 @@
       }
     ]
   },
-  "navigateToMiniProgramAppIdList": ["wx8492039f6e368de0"],
+  "navigateToMiniProgramAppIdList": [
+    "wx8492039f6e368de0"
+  ],
   "sitemapLocation": "sitemap.json",
   "usingComponents": {
     "l-toast": "/miniprogram_npm/lin-ui/toast/index",

@@ -108,4 +108,11 @@ Page({
       url: "/pages/mine/orgAdminSwcfood/orgAdminSwcfoodAdd",
     });
   },
+  clickItem(e){
+    let item = e.currentTarget.dataset.item
+    getApp().globalData.swcItem = item
+    wx.navigateTo({
+      url: "/pages/mine/orgAdminSwcfood/orgAdminSwcfoodDetail",
+    });
+  }
 });

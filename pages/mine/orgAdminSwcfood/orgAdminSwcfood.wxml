@@ -1,10 +1,10 @@
 <view class="list-wrp">
   <view class="" wx:for="{{ list }}" wx:for-item="item" wx:for-index="index">
-    <l-list>
+    <l-list bind:lintap="clickItem" data-item="{{item}}">
       <view slot="left-section">
         <view class="">
           <view class="">
-          {{item.mealDate + ' ' +item.mealTypeDes}}
+          {{item.mealDate + ' ' +item.mealTypeDes+ ' x' +item.orderSpecialFoodNumber}}
           </view>
         </view>
       </view>
