@@ -3,7 +3,8 @@
   <l-dialog 
   show="{{dialogStatus}}"
   show-title="{{false}}"
-  type="confirm"    
+  type="confirm"   
+  confirm-color="#F79C4C" 
   content="确定提交?" 
   bind:linconfirm="clickConfirm"/>
   <view class="line">
@@ -76,7 +77,10 @@
 
             </view>          
           </view>
-          <view class="food-item-right" >
+          <view wx:if="{{info.toOrder}}" class="food-item-right" >
+            {{"x "+item.foodQuantity}}
+          </view>
+          <view wx:else class="food-item-right" >  
             <l-counter count="{{item.foodQuantity}}" data-index="{{index}}" min="1" max="100" bind:lintap="clickCounter"/>
           </view>
         </view>
@@ -88,30 +92,13 @@
   </view>
   <view class="btn-wrp">
     <l-button
-
-    wx:if="{{info.toOrder}}"
-
-    size="large"
-    class="btn"
-    disabled="{{true}}"
-    bg-color="#f4f4f5"
-    style="color: #bcbec2;background-color: #f4f4f5;border-color: #e9e9eb;"
-  >
-  <view  style="color: #bcbec2;">
-  提 交
-  </view></l-button>  
-    <l-button
+      wx:if="{{info.toOrder==false}}"
       size="large"
       class="btn"
       bg-color="#F79C4C"
-      bind:lintap="clickCommit"
-      wx:else
     >
       提 交 
     </l-button>  
-
-      
-    
   </view>
 
 </view>

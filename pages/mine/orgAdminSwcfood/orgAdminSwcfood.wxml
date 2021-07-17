@@ -1,4 +1,12 @@
 <view class="list-wrp">
+  <!-- 弹出层 -->
+  <l-dialog 
+    show="{{dialogStatus}}"
+    show-title="{{false}}"
+    type="confirm"    
+    content="确定提交?" 
+    confirm-color="#F79C4C"
+    bind:linconfirm="clickConfirm"/>
   <view class="" wx:for="{{ list }}" wx:for-item="item" wx:for-index="index">
     <l-list bind:lintap="clickItem" data-item="{{item}}">
       <view slot="left-section">
@@ -10,8 +18,15 @@
       </view>
       <view slot="right-section">
         <view class="tag-wrp">
-           <l-tag style="margin-right: 10rpx;" plain="{{true}}" bg-color="#F79C4C" font-color="#F79C4C" shape="circle" size="super-mini" wx:if="{{!item.toOrder}}" class="">不可修改</l-tag>
-     
+          <block wx:if="{{item.toOrder}}">
+            <l-button style="margin-right: 10rpx;" size="super-mini" bg-color="#409EFF">详情</l-button>
+          </block>
+          <block wx:else>
+            <l-button style="margin-right: 10rpx;" size="super-mini" bg-color="#F79C4C" data-item="{{item}}">编辑</l-button>
+            <l-button style="margin-right: 10rpx;" size="super-mini" bg-color="#F56C6C" data-item="{{item}}" catch:lintap="clickQuxiao">取消</l-button>
+          
+            
+          </block>
         </view>
       </view>
     </l-list>

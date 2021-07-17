@@ -34,6 +34,8 @@ Page({
     markDetail: [],
     popContent: {},
     modalContent: {},
+    // 
+    dialogStatus:false
   },
 
   /**
@@ -55,7 +57,13 @@ Page({
     }
   },
   loadData() {
-    this.getList();
+    this.setData({
+      limit: 10,
+      page:1
+    },()=>{
+       this.getList();
+    });
+   
   },
   getList() {
     let _this = this;
@@ -114,5 +122,33 @@ Page({
     wx.navigateTo({
       url: "/pages/mine/orgAdminSwcfood/orgAdminSwcfoodDetail",
     });
+  },
+  clickQuxiao(e) {
+    let item = e.currentTarget.dataset.item
+    getApp().globalData.swcItem = item
+    this.setData({
+      dialogStatus: true
+    });
+  },
+  clickConfirm(){
+    let swcItem = getApp().globalData.swcItem
+    let _this = this
+    let tmp_form = {
+       userCode:_this.data.userInfo.userCode,
+       orderSpecialCode:swcItem.orderSpecialCode
+     }
+     let params = {
+       data: tmp_form,
+       url: "/business/cancelBusinessMeal",
+       method: "post",
+     };
+     requestModel.request(params, () => {
+       wx.showToast({
+         title: '取消成功',
+         icon: 'none',
+         duration: 2000
+       })
+       _this.loadData()
+     });
   }
 });
