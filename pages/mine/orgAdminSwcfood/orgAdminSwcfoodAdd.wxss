@@ -52,3 +52,17 @@
 .food-num{
   font-size: 25rpx;
 }
+.btn-bg{
+  height: 100rpx;
+}
+.btn-wrp-wrp{
+  margin: 20rpx;
+}
+.btn-wrp{
+  position: fixed;
+  left: 0;
+  right:0;
+  bottom: 0;
+  z-index: 10;
+  background-color: white;
+}

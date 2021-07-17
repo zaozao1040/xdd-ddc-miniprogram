@@ -19,7 +19,7 @@
         required="{{ true }}"
         show-row="{{ false }}"
       >
-        <l-button slot="right" size="mini" bind:lintap="clickXzAddress">选择</l-button>
+        <l-button slot="right"      bg-color="#F79C4C" size="mini" bind:lintap="clickXzAddress">选择</l-button>
       </l-input>
     </l-form-item>
 
@@ -30,10 +30,10 @@
       label-width="150rpx"
     >
       <l-radio-group current="{{form.mealType}}" bind:linchange="clickMealType" placement="row">
-        <l-radio key="BREAKFAST" placement="right" disabled="{{bDisable}}">早餐</l-radio>
-        <l-radio key="LUNCH" placement="right" disabled="{{lDisable}}">午餐</l-radio>
-        <l-radio key="DINNER" placement="right" disabled="{{dDisable}}">晚餐</l-radio>
-        <l-radio key="NIGHT" placement="right" disabled="{{nDisable}}">夜宵</l-radio>
+        <l-radio select-color="#F79C4C"	key="BREAKFAST" placement="right" disabled="{{bDisable}}">早餐</l-radio>
+        <l-radio select-color="#F79C4C"	key="LUNCH" placement="right" disabled="{{lDisable}}">午餐</l-radio>
+        <l-radio select-color="#F79C4C"	key="DINNER" placement="right" disabled="{{dDisable}}">晚餐</l-radio>
+        <l-radio select-color="#F79C4C"	key="NIGHT" placement="right" disabled="{{nDisable}}">夜宵</l-radio>
       </l-radio-group>
     </l-form-item>
 
@@ -87,10 +87,17 @@
       </view>
     </l-form-item>
 
-      <view>
-        <l-button     bind:lintap="clickCommit">提 交</l-button>
-      </view>    
+
   </l-form>
+  <view class="btn-bg">
+  
+  </view>
+  <view class="btn-wrp">
+    <view class="btn-wrp-wrp">
+      <l-button   class="btn"      size="large"    bg-color="#F79C4C"    bind:lintap="clickCommit">提 交</l-button>
+  
+    </view>
+  </view>    
   <!-- 弹出层 -->
   <l-action-sheet bind:linitemtap="clickSheet"/>
 

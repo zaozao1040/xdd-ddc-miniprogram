@@ -9,7 +9,10 @@
         </view>
       </view>
       <view slot="right-section">
-        <view class="">adfafa</view>
+        <view class="tag-wrp">
+           <l-tag style="margin-right: 10rpx;" plain="{{true}}" bg-color="#F79C4C" font-color="#F79C4C" shape="circle" size="super-mini" wx:if="{{!item.toOrder}}" class="">不可修改</l-tag>
+     
+        </view>
       </view>
     </l-list>
   </view>

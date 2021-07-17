@@ -1,4 +1,11 @@
 <view class="wrp">
+  <!-- 弹出层 -->
+  <l-dialog 
+  show="{{dialogStatus}}"
+  show-title="{{false}}"
+  type="confirm"    
+  content="确定提交?" 
+  bind:linconfirm="clickConfirm"/>
   <view class="line">
     <view class="left">
     申请人
@@ -70,7 +77,7 @@
             </view>          
           </view>
           <view class="food-item-right" >
-            <l-counter count="{{item.foodQuantity}}" data-index="{{index}}" min="0" max="100" bind:lintap="clickCounter"/>
+            <l-counter count="{{item.foodQuantity}}" data-index="{{index}}" min="1" max="100" bind:lintap="clickCounter"/>
           </view>
         </view>
       </view>
@@ -81,25 +88,30 @@
   </view>
   <view class="btn-wrp">
     <l-button
-    wx:if="{{editStatus}}"
+
+    wx:if="{{info.toOrder}}"
+
+    size="large"
+    class="btn"
+    disabled="{{true}}"
+    bg-color="#f4f4f5"
+    style="color: #bcbec2;background-color: #f4f4f5;border-color: #e9e9eb;"
+  >
+  <view  style="color: #bcbec2;">
+  提 交
+  </view></l-button>  
+    <l-button
       size="large"
       class="btn"
       bg-color="#F79C4C"
       bind:lintap="clickCommit"
-      
+      wx:else
     >
       提 交 
     </l-button>  
-    <l-button
-      wx:else
-        size="large"
-        class="btn"
-       type="warning"
-        bind:lintap="clickEdit"
-        plain
-      >
-      编 辑
-    </l-button>
+
+      
+    
   </view>
 
 </view>
