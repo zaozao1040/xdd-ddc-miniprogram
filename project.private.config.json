@@ -615,6 +615,24 @@
           "pathName": "pages/mine/orgAdminSwcfood/orgAdminSwcfoodAdd",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/login/phone/phone",
+          "pathName": "pages/login/phone/phone",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/menu/menu",
+          "pathName": "pages/menu/menu",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/menu/foodDetail/foodDetail",
+          "pathName": "pages/menu/foodDetail/foodDetail",
+          "query": "",
+          "scene": null
         }
       ]
     }
