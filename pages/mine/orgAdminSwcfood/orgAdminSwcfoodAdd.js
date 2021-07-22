@@ -321,5 +321,5 @@ Page({
     }else if(type=='reduce'){
       this.data.foodListAll[index].foodQuantity--
     }
-  }
+  },
 });
