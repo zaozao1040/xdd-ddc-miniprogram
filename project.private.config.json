@@ -633,6 +633,18 @@
           "pathName": "pages/menu/foodDetail/foodDetail",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/mine/mine",
+          "pathName": "pages/mine/mine",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/addfood/addfood",
+          "pathName": "pages/mine/addfood/addfood",
+          "query": "",
+          "scene": null
         }
       ]
     }

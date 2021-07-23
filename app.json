@@ -63,10 +63,13 @@
       "root": "pages/menu",
       "pages": [
         "menu",
-        "preOrder/discount/discount",
         "remark/remark",
         "preOrder/preOrder",
-        "foodDetail/foodDetail"
+        "preOrder/discount/discount",
+        "foodDetail/foodDetail",
+        "today/today",
+        "today/confirm/confirm",
+        "today/discount/discount"
       ]
     }
   ],
