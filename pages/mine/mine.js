@@ -404,14 +404,14 @@ Page({
         url: "/pages/mine/orgAdminAddfood/orgAdminAddfood",
       });
     } else if (e.detail.index == 1) {
-      // wx.navigateTo({
-      //   url: "/pages/mine/orgAdminSwcfood/orgAdminSwcfood",
-      // });
-      wx.showToast({
-        title: '即将上线..',
-        icon: 'none',
-        duration: 2000
-      })
+      wx.navigateTo({
+        url: "/pages/mine/orgAdminSwcfood/orgAdminSwcfood",
+      });
+      // wx.showToast({
+      //   title: '即将上线..',
+      //   icon: 'none',
+      //   duration: 2000
+      // })
     }
   },
   gotoAddfoodAdmin() {
