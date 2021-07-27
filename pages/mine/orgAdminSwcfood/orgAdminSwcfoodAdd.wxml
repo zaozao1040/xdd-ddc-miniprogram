@@ -30,10 +30,10 @@
       label-width="150rpx"
     >
       <l-radio-group current="{{form.mealType}}" bind:linchange="clickMealType" placement="row">
-        <l-radio select-color="#F79C4C"	key="BREAKFAST" placement="right" disabled="{{bDisable}}">早餐</l-radio>
-        <l-radio select-color="#F79C4C"	key="LUNCH" placement="right" disabled="{{lDisable}}">午餐</l-radio>
-        <l-radio select-color="#F79C4C"	key="DINNER" placement="right" disabled="{{dDisable}}">晚餐</l-radio>
-        <l-radio select-color="#F79C4C"	key="NIGHT" placement="right" disabled="{{nDisable}}">夜宵</l-radio>
+        <text style="padding-top:5rpx">早餐</text><l-radio select-color="#F79C4C"	key="BREAKFAST" placement="right" disabled="{{bDisable}}"></l-radio>
+        <text style="padding-top:5rpx">午餐</text><l-radio select-color="#F79C4C"	key="LUNCH" placement="right" disabled="{{lDisable}}"></l-radio>
+        <text style="padding-top:5rpx">晚餐</text><l-radio select-color="#F79C4C"	key="DINNER" placement="right" disabled="{{dDisable}}"></l-radio>
+        <text style="padding-top:5rpx">夜宵</text><l-radio select-color="#F79C4C"	key="NIGHT" placement="right" disabled="{{nDisable}}"></l-radio>
       </l-radio-group>
     </l-form-item>
 

@@ -84,6 +84,13 @@ Page({
     requestModel.request(param, (data) => {
       console.log("@@@@@@@ 2 @@@@@@@ ", data);
       let tmp_list = data.list;
+      if(tmp_list&&tmp_list.length==0){
+        wx.showToast({
+          title: '暂无商务餐',
+          icon: 'none',
+          duration: 2000
+        })
+      }
       tmp_list.forEach(item=>{
         item.mealTypeDes = mealTypeMap(item.mealType)
       })
