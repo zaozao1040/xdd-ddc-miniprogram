@@ -269,6 +269,7 @@ Page({
     return tmp_foodList
   },
   clickCommit(){
+    console.log('@@@@@@@ 2 @@@@@@@ ',);
     
     let _this = this
     let newMealDateList  = _this.getMealDateList()

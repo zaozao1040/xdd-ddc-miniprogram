@@ -657,6 +657,12 @@
           "pathName": "pages/mine/orgAdminSwcfood/orgAdminSwcfoodAdd",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/mine/orgAdminSwcfood/orgAdminSwcfood",
+          "pathName": "pages/mine/orgAdminSwcfood/orgAdminSwcfood",
+          "query": "",
+          "scene": null
         }
       ]
     }

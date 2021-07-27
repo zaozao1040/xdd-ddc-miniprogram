@@ -96,6 +96,7 @@
       size="large"
       class="btn"
       bg-color="#F79C4C"
+      bind:lintap="clickConfirm"
     >
       提 交 
     </l-button>  
