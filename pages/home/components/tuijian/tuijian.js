@@ -8,11 +8,15 @@ Component({
   properties: {},
   /* 私有数据 */
   data: {
-    tuijianList: [],
+    foodList: [],
     labelList: [],
-    activeLabelId: -1,
+    activeLabelId: -99,
     foodInfo: {},
-    foodLabelTypeListData:[]
+    foodLabelTypeListData:[],
+    //分页
+    page: 1, // 设置加载的第几次，默认是第一次
+    limit: 6, // 每页条数
+    loadingData:false
   },
   lifetimes: {
     ready: function () {
@@ -27,7 +31,7 @@ Component({
       if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
         let tmp_userInfo = tmp_tmp_userInfo.userInfo;
         let param = {
-          url: "/v3/getFoodLabelTypeList?typeId=2&userCode=" +
+          url: "/v3/listFoodLabelType?labelTypeId=2&userCode=" +
           tmp_userInfo.userCode,
         };
         requestModel.request(param, (resData) => {
@@ -36,10 +40,56 @@ Component({
               {
                 labelList: resData,
                 activeLabelId: resData[0].id,
-                tuijianList: resData[0].foodLabelTypeList,
-                foodLabelTypeListData:resData
               }
-            );
+            ,()=>{
+              _this.getFoodList()
+            });
+          }
+        });
+      }
+
+    },
+    getFoodList: function () {
+      let _this = this;
+      let page = _this.data.page
+      let limit = _this.data.limit
+      let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
+      if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
+        let tmp_userInfo = tmp_tmp_userInfo.userInfo;
+        let param = {
+          url: "/v3/listLabelFood?typeId="+_this.data.activeLabelId+"&userCode=" +
+          tmp_userInfo.userCode+"&page=" +
+          page+"&limit=" +
+          limit,
+        };
+        requestModel.request(param, (resData) => {
+          
+          if (resData && resData.list.length > 0) {
+
+            let tmp_list = resData.list
+            if (page == 1) {
+                _this.setData({
+                    foodList: tmp_list,
+                    loadingData: false
+                })
+            } else {
+                _this.setData({
+                    foodList: _this.data.foodList.concat(tmp_list),
+                    loadingData: false
+                })
+            }
+            //下面开始分页  
+            if (page * limit >= resData.amount) { //说明已经请求完了 
+
+                _this.setData({
+                    hasMoreDataFlag: false
+                })
+            } else {
+                _this.setData({
+                    hasMoreDataFlag: true
+                })
+                _this.data.page = page + 1
+            }
           }
         });
       }
@@ -51,8 +101,9 @@ Component({
       let _this = this;
       let {item,index} = e.currentTarget.dataset;
       _this.setData({
-        activeLabelId: item.id,
-        tuijianList: _this.data.foodLabelTypeListData[index].foodLabelTypeList,
+        activeLabelId: item.id
+      },()=>{
+        _this.getFoodList()
       });
     },
 

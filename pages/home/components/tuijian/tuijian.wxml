@@ -7,11 +7,10 @@
           wx:for="{{labelList}}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap='clickLabel' data-index='{{index}}' data-item='{{item}}'>{{item.labelTypeName}}</view>
       </view>
     </scroll-view>
-
     <view class="food-wrp">
       <view
         class="food-item-wrp"
-        wx:for="{{ tuijianList }}"
+        wx:for="{{ foodList }}"
         wx:for-index="index"
         wx:for-item="item"
         wx:key="index"
