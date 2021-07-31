@@ -24,8 +24,6 @@ Component({
   },
   lifetimes: {
     ready: function () {
-      console.log('$$$$$$$ 4 $$$$$$$ ',);
-      
       let _this = this;
       _this.getTopicList();
     },

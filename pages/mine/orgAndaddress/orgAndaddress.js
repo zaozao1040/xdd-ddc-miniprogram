@@ -220,11 +220,6 @@ Page({
             organizeListNoResult: false,
           });
         }
-        console.log(
-          "$$$$$$$ 4 $$$$$$$ ",
-          _this.data.showOrganize,
-          _this.data.organizeList
-        );
       });
     }
   },
