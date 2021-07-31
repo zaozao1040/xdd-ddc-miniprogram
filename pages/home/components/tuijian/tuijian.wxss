@@ -79,3 +79,13 @@
   right: 10rpx;
   bottom: 50rpx;
 }
+
+/* 更多 */
+.more{
+  height: 100rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25rpx;
+  color: #999999;
+}

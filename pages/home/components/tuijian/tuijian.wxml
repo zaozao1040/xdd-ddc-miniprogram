@@ -44,6 +44,9 @@
 
       </view>
     </view>
+    <view class="more">
+      {{hasMoreDataFlag?'-- 上拉显示更多 --':"-- 没有更多了 --"}}
+    </view>
   <!-- --------------------------------------- 下面是各种 子组件 --------------------------------------- -->
   <!-- 子组件 选择日期和餐别 -->
   <c-mealDateType id='mealDateType' foodInfo='{{foodInfo}}' from='home'></c-mealDateType>

@@ -16,7 +16,9 @@ Component({
     //分页
     page: 1, // 设置加载的第几次，默认是第一次
     limit: 6, // 每页条数
-    loadingData:false
+    loadingData:false,
+
+    hasMoreDataFlag: true, //是否还有更多数据  默认还有
   },
   lifetimes: {
     ready: function () {
@@ -122,6 +124,13 @@ Component({
         foodInfo: e.currentTarget.dataset.item,
       });
       this.selectComponent("#mealDateType").show(tmpData);
+    },
+
+    /* 手动点击触发下一页 */
+    gotoNextPage: function() {
+      if (this.data.hasMoreDataFlag) {
+          this.getFoodList()
+      }
     },
   },
 });

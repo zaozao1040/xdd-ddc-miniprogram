@@ -304,7 +304,7 @@
         <!-- 子组件 主题轮播图 -->
         <c-topic></c-topic>
         <!-- 子组件 餐品推荐 -->
-        <c-tuijian></c-tuijian>
+        <c-tuijian id="tuijian"></c-tuijian>
         
     </view>
 </view>

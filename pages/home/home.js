@@ -220,6 +220,14 @@ Page({
       orgAdminMealFlag: false,
     });
   },
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function() {
+    console.log('@@@@@@@ 2 @f@@@@@@ ',);
+    // 调用子组件的方法 让子组件查询下一页
+    this.selectComponent("#tuijian").gotoNextPage()
+  },
 
   onLoad: function (options) {
     
