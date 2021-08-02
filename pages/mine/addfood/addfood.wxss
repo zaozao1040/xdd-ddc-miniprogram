@@ -442,6 +442,10 @@
 }
 
 .num {
+    height: 50rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-family: HelveticaNeue;
     font-size: 13px;
     color: #333333;

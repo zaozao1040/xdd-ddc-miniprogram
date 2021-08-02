@@ -74,10 +74,9 @@
                         {{foodTypeItem.typeDesc}}</view>
                     </view>
                     <!-- 单个食物 -->
-                    <view id="{{ foodItem.foodCode }}" wx:for="{{ foodTypeItem.foodList }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex" bindtap="handleGotoFoodDetail" 
-                      data-foodcode="{{ foodItem.foodCode }}" class="food-wrapper">
+                    <view id="{{ foodItem.foodCode }}" wx:for="{{ foodTypeItem.foodList }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex" class="food-wrapper">
                       <view wx:if="{{foodItem.sellAllOut }}" class="img-wrapper-stock"></view>
-                      <view class="img-wrapper">
+                      <view class="img-wrapper" bindtap="handleGotoFoodDetail" data-foodcode="{{ foodItem.foodCode }}" >
                         <image wx:if="{{ foodItem.foodQuota &&foodItem.foodQuota.quotaNum  }}" class='food-img-res' src="/images/menu/order_purchase.png">
                         </image>
                         <image class="food-img" lazy-load src="{{foodItem.image}}"></image>
@@ -134,13 +133,13 @@
                             <view wx:elif="{{!foodItem.canMeal&&orgAdmin}}" class="num-control-stock">限个人账户点餐</view>
                           <view wx:else class="num-control">
                             <!-- <image src="/images/menu/cart.png" style="width:50rpx;height:50rpx; " data-item='{{foodItem}}' catchtap="clickCart" /> -->
-                            <image src="/images/menu/order_less.png" style="width:40rpx;height:40rpx; " wx:if="{{ foodItem.count > 0 }}" 
+                            <image src="/images/menu/order_less.png" style="width:50rpx;height:50rpx; " wx:if="{{ foodItem.count > 0 }}" 
                               data-foodtypeitem='{{foodTypeItem}}' data-foodtypeindex='{{foodTypeIndex}}' data-fooditem='{{foodItem}}' data-foodindex='{{foodIndex}}' catchtap="clickMenuMinus">
                             </image>
                             <view wx:if="{{ foodItem.count > 0 }}" class="num">
                               {{ foodItem.count }}
                             </view>
-                            <image src="/images/menu/order_add.png" style="width:40rpx;height:40rpx;" 
+                            <image src="/images/menu/order_add.png" style="width:50rpx;height:50rpx;" 
                               data-foodtypeitem='{{foodTypeItem}}' data-foodtypeindex='{{foodTypeIndex}}' data-fooditem='{{foodItem}}' data-foodindex='{{foodIndex}}' catchtap="clickMenuAdd">
                             </image>
                           </view>

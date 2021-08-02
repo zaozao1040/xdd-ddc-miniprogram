@@ -89,12 +89,12 @@
                                             </view>
                                             <!-- ***************  + - 添加、减掉餐品的小控件(菜单中) *************** -->
                                             <view class="num-control">
-                                                <image src="/images/menu/order_less.png" style="width:40rpx;height:40rpx; " wx:if="{{ foodItem.foodCount > 0 }}" data-menutypeindex="{{ menutypeIndex }}" data-foodindex="{{ foodIndex }}" catchtap="handleMinusfood">
+                                                <image src="/images/menu/order_less.png" style="width:50rpx;height:50rpx; " wx:if="{{ foodItem.foodCount > 0 }}" data-menutypeindex="{{ menutypeIndex }}" data-foodindex="{{ foodIndex }}" catchtap="handleMinusfood">
                                                 </image>
                                                 <view wx:if="{{ foodItem.foodCount > 0 }}" class="num">
                                                     {{ foodItem.foodCount }}
                                                 </view>
-                                                <image src="/images/menu/order_add.png" style="width:40rpx;height:40rpx; " id='add{{menutypeIndex}}{{foodIndex}}' data-menutypeindex="{{ menutypeIndex }}" data-foodindex="{{ foodIndex }}" catchtap="handleAddfood">
+                                                <image src="/images/menu/order_add.png" style="width:50rpx;height:50rpx; " id='add{{menutypeIndex}}{{foodIndex}}' data-menutypeindex="{{ menutypeIndex }}" data-foodindex="{{ foodIndex }}" catchtap="handleAddfood">
                                                 </image>
                                             </view>
                                         </view>

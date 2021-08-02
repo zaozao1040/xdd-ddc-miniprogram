@@ -485,8 +485,12 @@
 }
 
 .num {
+  height: 50rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-family: HelveticaNeue;
-  font-size: 13px;
+  font-size: 30rpx;
   color: #333333;
   letter-spacing: 0;
   text-align: center;
