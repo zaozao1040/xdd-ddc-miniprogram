@@ -79,9 +79,12 @@ Component({
       });
     },
     clickLeftItem: function (e) {
+      
       let { item } = e.currentTarget.dataset;
       this.setData({
         activeLeftItem: item,
+        rightList:item.mealTypeList,
+        activeRightItem: item.mealTypeList[0],
       });
     },
     clickRightItem: function (e) {

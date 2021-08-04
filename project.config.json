@@ -11,6 +11,7 @@
     "minified": true,
     "newFeature": true,
     "coverView": true,
+    "nodeModules": true,
     "autoAudits": false,
     "scopeDataCheck": false,
     "checkInvalidKey": true,
@@ -24,15 +25,12 @@
       "disablePlugins": [],
       "outputPath": ""
     },
-    "bundle": false,
     "useIsolateContext": true,
-    "useCompilerModule": true,
-    "userConfirmedUseCompilerModuleSwitch": false,
     "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
     "minifyWXSS": true,
-    "nodeModules": true
+    "showES6CompileOption": false
   },
   "compileType": "miniprogram",
   "libVersion": "2.18.0",
