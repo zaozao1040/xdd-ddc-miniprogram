@@ -669,6 +669,12 @@
           "pathName": "pages/mine/addfood/addfood",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/menu/menu",
+          "pathName": "pages/menu/menu",
+          "query": "recentMealDate=2021-08-05&recentMealType=DINNER",
+          "scene": null
         }
       ]
     }
