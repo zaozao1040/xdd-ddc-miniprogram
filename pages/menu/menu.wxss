@@ -602,7 +602,6 @@
   display: flex;
   overflow: hidden;
 }
-
 .price-num-control {
   display: flex;
   justify-content: space-between;
