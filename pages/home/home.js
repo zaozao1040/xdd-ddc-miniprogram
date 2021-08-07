@@ -256,6 +256,12 @@ Page({
     if (options.fromorder) {
       _this.clickStartMeal();
     }
+
+    //设置版本号
+    let version = getApp().globalData.version 
+    wx.setNavigationBarTitle({
+      title: "点点餐 "+version
+    })
   },
 
   /**
