@@ -84,10 +84,8 @@
             </view>
         </view>
 
-        <view class="mask" wx:if="{{cancelFlag||showRatingsFlag||takeorderModalShow}}"
-            catchtouchmove="preventTouchMove"></view>
-        <!--取消订单弹出框-->
 
+        <!--取消订单弹出框-->
         <!-- <view wx:if='{{cancelFlag}}'>
             <c-custom-modal wx:if="{{showAnotherOrderInfo}}" title='是否取消订单？' content='订单取消餐标将作废不返还' content2='同一餐别下还有自费订单还未取消' cancel='再等等' confirm='确定取消' bind:closemodal='handleCancelOrderWait' bind:handleconfirm='handleCancelOrderConfirm'></c-custom-modal>
             <c-custom-modal wx:elif="{{cancelOrderStandardPrice}}" title='是否取消订单？' content='订单取消餐标将作废不返还' cancel='再等等' confirm='确定取消' bind:closemodal='handleCancelOrderWait' bind:handleconfirm='handleCancelOrderConfirm'></c-custom-modal>
@@ -272,38 +270,41 @@
         <c-pop content='{{orderSuccessContent}}' wx:if='{{orderSuccessFlag}}' bind:closemodal='closePop'></c-pop>
 
         <!--取餐需要验证-->
-        <view class='{{takeorderModalShow?"take-wrapper in":"take-wrapper  out"}}'
-            style='display:{{takeorderModalShowInit?"none":"block"}}'>
-            <image src='/images/order/takeorder.png'
-                style='width:140rpx;height:140rpx;position:absolute;right:304rpx;top:-70rpx;'></image>
-            <view class='take-title'>取餐提示</view>
-            <view class='take-des'>请到柜子旁取餐，取餐后请尽快用餐，太晚吃饭对胃不好哦～</view>
-            <image src='/images/home/filter_close.png'
-                style='width:88rpx;height:88rpx;position:absolute;right:10rpx;top:10rpx;' catchtap='closeModal'></image>
-            <scroll-view scroll-y style='height:316rpx;'>
-                <view style=' padding:1rpx 60rpx;'>
-                    <view wx:for='{{takeorderData}}' wx:for-item='takeorderItem' wx:for-index='takeorderIndex'
-                        wx:key='takeorderIndex'>
-                        <view class='flex-b' style='margin-top:30rpx;'>
-                            <view class='take-name'>{{item.foodName}}</view>
-                            <view class='take-cabinet flex-a' wx:if='{{item.cabinet&&item.cabinet.length>0}}'
-                                style='flex-wrap: wrap;'>
-                                <view wx:for='{{item.cabinet}}' wx:for-item='oneCabinet' wx:for-index='cabinetIndex'
-                                    wx:key='{{cabinetIndex}}' class='flex-a'>
-                                    <view>{{oneCabinet.cabinetNumber+'-'+oneCabinet.cellNumber}}</view>
-                                    <view wx:if='{{cabinetIndex<item.cabinet.length-1}}'>,</view>
-                                </view>
-                            </view>
-                            <view class='take-cabinet' wx:elif='{{item.boxNumber}}'>{{item.boxNumber}}</view>
-                        </view>
-                        <view class='take-remind' wx:if='{{item.prompt}}'>{{item.prompt}}</view>
-                    </view>
+        <l-mask show="{{takeorderModalShow}}" bind:lintap='closeModal' opacity="0.7">
+          <view class='{{takeorderModalShow?"take-wrapper in":"take-wrapper  out"}}'
+              style='display:{{takeorderModalShowInit?"none":"block"}}'>
+              <image src='/images/order/takeorder.png'
+                  style='width:140rpx;height:140rpx;position:absolute;right:304rpx;top:-70rpx;'></image>
+              <view class='take-title'>取餐提示</view>
+              <view class='take-des'>请到柜子旁取餐，取餐后请尽快用餐，太晚吃饭对胃不好哦～</view>
+              <image src='/images/home/filter_close.png'
+                  style='width:88rpx;height:88rpx;position:absolute;right:10rpx;top:10rpx;' catchtap='closeModal'></image>
+              <scroll-view scroll-y style='height:316rpx;'>
+                  <view style=' padding:1rpx 60rpx;'>
+                      <view wx:for='{{takeorderData}}' wx:for-item='takeorderItem' wx:for-index='takeorderIndex'
+                          wx:key='takeorderIndex'>
+                          <view class='flex-b' style='margin-top:30rpx;'>
+                              <view class='take-name'>{{item.foodName}}</view>
+                              <view class='take-cabinet flex-a' wx:if='{{item.cabinet&&item.cabinet.length>0}}'
+                                  style='flex-wrap: wrap;'>
+                                  <view wx:for='{{item.cabinet}}' wx:for-item='oneCabinet' wx:for-index='cabinetIndex'
+                                      wx:key='{{cabinetIndex}}' class='flex-a'>
+                                      <view>{{oneCabinet.cabinetNumber+'-'+oneCabinet.cellNumber}}</view>
+                                      <view wx:if='{{cabinetIndex<item.cabinet.length-1}}'>,</view>
+                                  </view>
+                              </view>
+                              <view class='take-cabinet' wx:elif='{{item.boxNumber}}'>{{item.boxNumber}}</view>
+                          </view>
+                          <view class='take-remind' wx:if='{{item.prompt}}'>{{item.prompt}}</view>
+                      </view>
 
-                </view>
-            </scroll-view>
-            <view class='take-button' wx:if='{{takeOrderPickagain}}' bindtap='takeFoodOrder'> 再次取餐</view>
-            <view class='take-button' wx:else bindtap='takeFoodOrder'> 取餐</view>
-        </view>
+                  </view>
+              </scroll-view>
+              <view class='take-button' wx:if='{{takeOrderPickagain}}' bindtap='takeFoodOrder'> 再次取餐</view>
+              <view class='take-button' wx:else bindtap='takeFoodOrder'> 取餐</view>
+          </view>
+        </l-mask>
+
     </view>
     <view wx:else>
         <view style='width:360rpx;height:360rpx;margin:186rpx 0 0 196rpx;'>

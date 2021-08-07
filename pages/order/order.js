@@ -778,9 +778,6 @@ Page({
     },
 
 
-    //用于解决小程序的遮罩层滚动穿透
-    preventTouchMove: function () {
 
-    }
 
 })

@@ -165,43 +165,46 @@
         </view>
 
         <!--取餐需要验证-->
-        <view class='{{takeorderModalShow?"take-wrapper in":"take-wrapper  out"}}'
-            style='display:{{takeorderModalShowInit?"none":"block"}}'>
-            <image src='/images/order/takeorder.png'
-                style='width:140rpx;height:140rpx;position:absolute;right:304rpx;top:-70rpx;'></image>
-            <view class='take-title'>取餐提示</view>
-            <view class='take-des'>请到柜子旁取餐，取餐后请尽快用餐，太晚吃饭对胃不好哦～</view>
-            <image src='/images/home/filter_close.png'
-                style='width:88rpx;height:88rpx;position:absolute;right:10rpx;top:10rpx;' catchtap='closeModal'></image>
-            <scroll-view scroll-y style='height:318rpx;'>
-                <view style=' padding:1rpx 60rpx;'>
-                    <view wx:for='{{takeorderData}}'>
-                        <!-- 取餐优化 重写样式和数据结构 -->
-                        <view class="take-plus-wrapper">
-                            <view class="take-plus-left-wrapper">
-                                <view class="take-plus-left-name">
-                                    {{item.foodName}}
-                                </view>
-                                <view class="take-plus-left-cabinet" wx:if="{{item.cabinetNumber}}">
-                                    {{item.cabinetNumber+'-'+item.cellNumber}}
-                                </view>
-                                <view style="font-size: 25rpx;color:#999;" class="take-plus-left-cabinet" wx:else>
-                                    首次已取餐
-                                </view>
-                                <view class="take-plus-left-prompt">
-                                    {{item.prompt}}
-                                </view>
-                            </view>
-                            <view class="take-plus-right-wrapper">
-                                <view class="take-plus-right-button" data-item="{{item}}" catchtap='takeFoodOrderPlus'>
-                                    取餐
-                                </view>
-                            </view>
-                        </view>
-                    </view>
-                </view>
-            </scroll-view>
-        </view>
+        <l-mask show="{{takeorderModalShow}}" bind:lintap='closeModal' opacity="0.7">
+          <view class='{{takeorderModalShow?"take-wrapper in":"take-wrapper  out"}}'
+              style='display:{{takeorderModalShowInit?"none":"block"}}'>
+              <image src='/images/order/takeorder.png'
+                  style='width:140rpx;height:140rpx;position:absolute;right:304rpx;top:-70rpx;'></image>
+              <view class='take-title'>取餐提示</view>
+              <view class='take-des'>请到柜子旁取餐，取餐后请尽快用餐，太晚吃饭对胃不好哦～</view>
+              <image src='/images/home/filter_close.png'
+                  style='width:88rpx;height:88rpx;position:absolute;right:10rpx;top:10rpx;' catchtap='closeModal'></image>
+              <scroll-view scroll-y style='height:318rpx;'>
+                  <view style=' padding:1rpx 60rpx;'>
+                      <view wx:for='{{takeorderData}}'>
+                          <!-- 取餐优化 重写样式和数据结构 -->
+                          <view class="take-plus-wrapper">
+                              <view class="take-plus-left-wrapper">
+                                  <view class="take-plus-left-name">
+                                      {{item.foodName}}
+                                  </view>
+                                  <view class="take-plus-left-cabinet" wx:if="{{item.cabinetNumber}}">
+                                      {{item.cabinetNumber+'-'+item.cellNumber}}
+                                  </view>
+                                  <view style="font-size: 25rpx;color:#999;" class="take-plus-left-cabinet" wx:else>
+                                      首次已取餐
+                                  </view>
+                                  <view class="take-plus-left-prompt">
+                                      {{item.prompt}}
+                                  </view>
+                              </view>
+                              <view class="take-plus-right-wrapper">
+                                  <view class="take-plus-right-button" data-item="{{item}}" catchtap='takeFoodOrderPlus'>
+                                      取餐
+                                  </view>
+                              </view>
+                          </view>
+                      </view>
+                  </view>
+              </scroll-view>
+          </view>          
+        </l-mask>
+
 
         <!-- 首页提示评价3.1-->
         <view wx:if='{{orderList&&orderList.length>0}}'>
