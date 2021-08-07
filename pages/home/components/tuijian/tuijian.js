@@ -8,6 +8,8 @@ Component({
   properties: {},
   /* 私有数据 */
   data: {
+    // 是否NGO
+    isNGO:false,
     foodList: [],
     labelList: [],
     activeLabelId: -99,
@@ -24,9 +26,19 @@ Component({
     ready: function () {
       let _this = this;
       _this.getLabelList();
+      _this.doNGO()//处理NGO 当为NGO时 不允许展示价格 以及加入购物车标签
     },
   },
   methods: {
+    doNGO: function () {
+      let NGOOrgnaizeCode = getApp().globalData.NGOOrgnaizeCode;
+      let orgnaizeCode = wx.getStorageSync("userInfo").userInfo.organizeCode
+      if(NGOOrgnaizeCode==orgnaizeCode){
+        this.setData({
+          isNGO: true,
+        });
+      }
+    },
     getLabelList: function () {
       let _this = this;
       let tmp_tmp_userInfo = wx.getStorageSync("userInfo");

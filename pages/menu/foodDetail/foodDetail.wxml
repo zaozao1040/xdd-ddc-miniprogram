@@ -43,7 +43,9 @@
                       </view>
                       <view wx:if="{{foodInfo.foodOriginalPrice>foodInfo.foodPrice}}" class="price-original">￥{{foodInfo.foodOriginalPrice}}</view>
                       <!--加入购物车 选择日期和餐别的弹窗-->
-                      <view class="add-to-wrapper" bindtap="handleAddtoCart">加入购物车</view>
+
+                      <view wx:if="{{isNGO}}" class="num-control-stock"></view>
+                      <view wx:else class="add-to-wrapper" bindtap="handleAddtoCart">加入购物车</view>
                   </view>
                   <view class="prompt-wrapper">
                       <view style='width:38rpx;height:42rpx;margin:18rpx 10rpx 0 20rpx;'>

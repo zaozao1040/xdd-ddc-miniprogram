@@ -7,6 +7,9 @@ import jiuaiDebounce from "../../comm_plus/jiuai-debounce/jiuai-debounce.js";
 let requestModel = new base();
 Page({
   data: {
+    // 是否NGO
+    isNGO:false,
+    //
     windowHeight: 500,
     scrollToView: "id_0",
     listHeight: [], //这个数组记录每个餐类的"之前所有餐类描述+所有具体餐品"的占用高度值
@@ -206,14 +209,23 @@ Page({
           },
         },
         () => {
-          this.getMealDateList();
+          _this.getMealDateList();
         }
       );
     } else {
-      this.getMealDateList();
+      _this.getMealDateList();
+    }
+    _this.doNGO()//处理NGO 当为NGO时 不允许展示价格 以及加入购物车标签
+  },
+  doNGO: function () {
+    let NGOOrgnaizeCode = getApp().globalData.NGOOrgnaizeCode;
+    let orgnaizeCode = this.data.userInfo.organizeCode
+    if(NGOOrgnaizeCode==orgnaizeCode){
+      this.setData({
+        isNGO: true,
+      });
     }
   },
-
   initData: function () {
     let _this = this;
     wx.getSystemInfo({

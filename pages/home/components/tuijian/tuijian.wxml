@@ -36,7 +36,9 @@
             <view class="food-price">
             ￥{{ item.foodPrice }}元
             </view>
-            <view class="cart-wrp">
+
+            <view wx:if="{{isNGO}}" class="num-control-stock"></view>
+            <view wx:else class="cart-wrp">
               <image src="/images/menu/cart.png" data-item='{{item}}' class="cart-img" catchtap="handleAddtoCart" />
             </view>
           </view>          
