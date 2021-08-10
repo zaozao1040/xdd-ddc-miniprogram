@@ -39,7 +39,7 @@
 
                   <view class="price" wx:if='{{!notShowPrice}}'>
                       <view class="price-real">
-                          <text style="font-size: 20rpx;margin-top:20rpx;line-height:24rpx;">￥</text>{{foodInfo.foodPrice}}
+                          <text style="font-size: 20rpx;margin-top:20rpx;line-height:24rpx;">￥</text>{{isNGO?"???":foodInfo.foodPrice}}
                       </view>
                       <view wx:if="{{foodInfo.foodOriginalPrice>foodInfo.foodPrice}}" class="price-original">￥{{foodInfo.foodOriginalPrice}}</view>
                       <!--加入购物车 选择日期和餐别的弹窗-->

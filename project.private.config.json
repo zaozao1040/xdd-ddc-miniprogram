@@ -687,6 +687,18 @@
           "pathName": "pages/menu/menu",
           "query": "recentMealDate=2021-08-07&recentMealType=DINNER",
           "scene": null
+        },
+        {
+          "name": "pages/menu/foodDetail/foodDetail",
+          "pathName": "pages/menu/foodDetail/foodDetail",
+          "query": "foodCode=FOOD872401967425650688",
+          "scene": null
+        },
+        {
+          "name": "pages/menu/menu",
+          "pathName": "pages/menu/menu",
+          "query": "recentMealDate=2021-08-10&recentMealType=DINNER",
+          "scene": null
         }
       ]
     }

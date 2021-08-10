@@ -34,7 +34,7 @@
             {{ item.foodName }}
             </view>
             <view class="food-price">
-            ￥{{ item.foodPrice }}元
+            ￥{{isNGO?"???": item.foodPrice }}元
             </view>
 
             <view wx:if="{{isNGO}}" class="num-control-stock"></view>
