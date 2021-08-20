@@ -70,15 +70,15 @@
 
         </view>
         <!--取餐信息-->
-        <view class="order-info-wrapper" wx:if='{{detailInfo.pickStatus==1}}'>
+        <view class="order-info-wrapper">
             <view class='order-info-title'>取餐信息</view>
             <view class="order-info-one">
                 <view class="left-label">取餐时间</view>
-                <view class="right-content">{{detailInfo.pickTimeDes}}</view>
+                <view class="right-content">{{detailInfo.pickTimeDes||'暂未取餐'}}</view>
             </view>
             <view class="order-info-one">
                 <view class="left-label">取餐地址</view>
-                <view class="right-content">{{detailInfo.orderAddress}}</view>
+                <view class="right-content">{{detailInfo.orderAddress||'--'}}</view>
             </view>
         </view>
         <view class="order-info-wrapper" wx:if='{{detailInfo.status==2||detailInfo.status==3}}'>

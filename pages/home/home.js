@@ -22,6 +22,7 @@ Page({
     imagesList: {},
     //
     homeOrderList: [], //首页取餐列表
+    homeOrderListAll: [], //首页取餐列表
     orderStatusMap: {
       NO_PAY: "未支付",
       PAYED_WAITINT_CONFIRM: "已支付",
@@ -451,57 +452,27 @@ Page({
       takeFood: _this.data.takeFood,
     });
     let param = {
-      url: "/home/getHomeOrderPick?userCode=" + wx.getStorageSync("userCode"),
+      url: "/v3/getHomeOrderPick?userCode=" + wx.getStorageSync("userCode"),
     };
     requestModel.request(
       param,
       (data) => {
         //先处理取餐信息, pickStatus==1表示待取
-        let tmp_homeOrderList = [];
-        data.forEach((item) => {
-          if (item.pickStatus == 1 && item.status == 2) {
-            if (item.orderFoodList) {
-              let onefood = item.orderFoodList[0];
+        if(data&&data instanceof Array&&data.length>0 ){
+          _this.setData({
+            homeOrderListAll: data,
+            homeOrderList: [data[0]],
+            swiperDefaultIndex: 0,
+          });  
 
-              let a = {};
-              a.foodImage = onefood.foodImage; //图片
-              a.mealTypeShow = _this.data.mealTypeMap[item.mealType]; //餐时
-              a.foodName = onefood.foodName;
-              a.orderCode = item.orderCode;
-              a.pickAgain = item.pickAgain;
-              a.cabinet = item.cabinet;
-              if (onefood.takeMealStartTime && onefood.takeMealEndTime) {
-                // 取餐时间
-                let start = onefood.takeMealStartTime.split(" ")[1].split(":"); //时 分 秒
+        }else{
+          _this.setData({
+            homeOrderListAll: [],
+            homeOrderList: [],
+            swiperDefaultIndex: 0,
+          });
+        }
 
-                let end = onefood.takeMealEndTime.split(" ")[1].split(":");
-
-                //取餐时间顶多是到明天吗？不管了，就是明天
-                let s =
-                  "今天" +
-                  start[0] +
-                  "点" +
-                  (start[1] != "00" ? start[1] + "分" : "");
-                let endHours = end[0] == "00" ? 24 : end[0];
-                let e =
-                  endHours < start[0]
-                    ? "明天" + endHours + "点"
-                    : endHours + "点" + (end[1] != "00" ? end[1] + "分" : "");
-                a.takeMealTimeDes = s + "到" + e;
-              } else {
-                let b = item.mealDate.split("-");
-                a.takeMealTimeDes = b[1] + "月" + b[2] + "日";
-              }
-
-              tmp_homeOrderList.push(a);
-            }
-          }
-        });
-        _this.setData({
-          homeOrderList: tmp_homeOrderList,
-          swiperDefaultIndex: 0,
-          // gethomeOrderList: true,
-        });
       },
       true
     );
@@ -509,6 +480,7 @@ Page({
 
   /* 去取餐 */
   handleTakeOrder: function (e) {
+    let _this = this
     //宁夏直接跳转电子凭证
     let organizeCode = wx.getStorageSync("userInfo").userInfo.organizeCode;
     let ningxiaOrgCode = getApp().globalData.ningxiaOrgnaizeCode;
@@ -520,46 +492,51 @@ Page({
       });
       return;
     }
-
-    this.setData({
-      showShapeFlag: false,
+    // _this.data.homeOrderListAll=_this.data.homeOrderListAll.concat(_this.data.homeOrderListAll)
+    _this.setData({
+      takeorderData: _this.data.homeOrderListAll,
+      takeorderModalShow: true,
+      takeorderModalShowInit: false,
+      // takeOrderCode: ordercode,
+      // takeOrderPickagain: pickagain,
     });
 
-    let _this = this;
-    if (!_this.data.canClick) {
-      return;
-    }
-    _this.data.canClick = false;
 
-    let { ordercode, pickagain } = e.currentTarget.dataset;
-    //就调用接口加载柜子号
-    let param = {
-      url:
-        "/order/orderPickPre?userCode=" +
-        wx.getStorageSync("userCode") +
-        "&orderCode=" +
-        ordercode,
-    };
-    requestModel.request(param, (data) => {
-      if (data) {
-        _this.setData({
-          takeorderData: data,
-          takeorderModalShow: true,
-          takeorderModalShowInit: false,
-          takeOrderCode: ordercode,
-          takeOrderPickagain: pickagain,
-        });
+    // let _this = this;
+    // if (!_this.data.canClick) {
+    //   return;
+    // }
+    // _this.data.canClick = false;
 
-        wx.hideTabBar();
-      }
-    });
+    // let { ordercode, pickagain } = e.currentTarget.dataset;
+    // //就调用接口加载柜子号
+    // let param = {
+    //   url:
+    //     "/order/orderPickPre?userCode=" +
+    //     wx.getStorageSync("userCode") +
+    //     "&orderCode=" +
+    //     ordercode,
+    // };
+    // requestModel.request(param, (data) => {
+    //   if (data) {
+    //     _this.setData({
+    //       takeorderData: data,
+    //       takeorderModalShow: true,
+    //       takeorderModalShowInit: false,
+    //       takeOrderCode: ordercode,
+    //       takeOrderPickagain: pickagain,
+    //     });
 
-    if (_this.data.timer) {
-      clearTimeout(_this.data.timer);
-    }
-    _this.data.timer = setTimeout(function () {
-      _this.data.canClick = true;
-    }, 2000);
+    //     wx.hideTabBar();
+    //   }
+    // });
+
+    // if (_this.data.timer) {
+    //   clearTimeout(_this.data.timer);
+    // }
+    // _this.data.timer = setTimeout(function () {
+    //   _this.data.canClick = true;
+    // }, 2000);
   },
   closeModal() {
     if (this.data.takeorderModalShow) {
@@ -573,27 +550,41 @@ Page({
 
   //取餐 优化
   takeFoodOrderPlus(e) {
+    console.log('@@@@@@@ 2 @@@@@@@ ',e.currentTarget.dataset.item);
+    
     let _this = this;
-
-    let ordercode = _this.data.takeOrderCode;
-    let pickagain = _this.data.takeOrderPickagain;
-    let { cellNumber, cabinetNumber, cellId } = e.currentTarget.dataset.item;
-    let param = {
-      url:
-        "/order/orderPick?userCode=" +
-        wx.getStorageSync("userCode") +
-        "&orderCode=" +
-        ordercode +
-        "&cabinetNumber=" +
-        cabinetNumber +
-        "&cellNumber=" +
-        cellNumber +
-        "&cellId=" +
-        cellId +
-        "&again=" +
-        pickagain,
-    };
-
+    let { cabinetList,orderCode,foodCode } = e.currentTarget.dataset.item;
+    let param = {}
+    if(cabinetList&&cabinetList instanceof Array &&cabinetList.length>0){
+      let cabinetNumber = cabinetList[0].cabinetNumber
+      let cellNumber = cabinetList[0].cellNumber
+      let cellId = cabinetList[0].cellId
+      param = {
+        url:
+          "/order/orderPick?userCode=" +
+          wx.getStorageSync("userCode") +
+          "&orderCode=" +
+          orderCode +
+          "&cabinetNumber=" +
+          cabinetNumber +
+          "&cellNumber=" +
+          cellNumber +
+          "&cellId=" +
+          cellId +
+          "&foodCode=" +
+          foodCode
+      };      
+    }else{
+      param = {
+        url:
+          "/order/orderPick?userCode=" +
+          wx.getStorageSync("userCode") +
+          "&orderCode=" +
+          orderCode +
+          "&foodCode=" +
+          foodCode
+      }; 
+    }
     requestModel.request(param, () => {
       _this.setData({
         takeorderModalShow: false,
