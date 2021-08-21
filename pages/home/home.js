@@ -497,46 +497,8 @@ Page({
       takeorderData: _this.data.homeOrderListAll,
       takeorderModalShow: true,
       takeorderModalShowInit: false,
-      // takeOrderCode: ordercode,
-      // takeOrderPickagain: pickagain,
     });
 
-
-    // let _this = this;
-    // if (!_this.data.canClick) {
-    //   return;
-    // }
-    // _this.data.canClick = false;
-
-    // let { ordercode, pickagain } = e.currentTarget.dataset;
-    // //就调用接口加载柜子号
-    // let param = {
-    //   url:
-    //     "/order/orderPickPre?userCode=" +
-    //     wx.getStorageSync("userCode") +
-    //     "&orderCode=" +
-    //     ordercode,
-    // };
-    // requestModel.request(param, (data) => {
-    //   if (data) {
-    //     _this.setData({
-    //       takeorderData: data,
-    //       takeorderModalShow: true,
-    //       takeorderModalShowInit: false,
-    //       takeOrderCode: ordercode,
-    //       takeOrderPickagain: pickagain,
-    //     });
-
-    //     wx.hideTabBar();
-    //   }
-    // });
-
-    // if (_this.data.timer) {
-    //   clearTimeout(_this.data.timer);
-    // }
-    // _this.data.timer = setTimeout(function () {
-    //   _this.data.canClick = true;
-    // }, 2000);
   },
   closeModal() {
     if (this.data.takeorderModalShow) {

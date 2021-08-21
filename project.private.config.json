@@ -699,6 +699,18 @@
           "pathName": "pages/menu/menu",
           "query": "recentMealDate=2021-08-10&recentMealType=DINNER",
           "scene": null
+        },
+        {
+          "name": "pages/order/order",
+          "pathName": "pages/order/order",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/order/order",
+          "pathName": "pages/order/order",
+          "query": "",
+          "scene": null
         }
       ]
     }

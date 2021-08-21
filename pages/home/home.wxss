@@ -104,6 +104,7 @@ page {
   width: 690rpx;
   /* height: 168rpx; */
   display: flex;
+  align-items: center;
   margin-right: 12rpx;
 }
 
@@ -150,7 +151,6 @@ page {
 .takefood-button {
   background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
   border-radius: 34rpx;
-  width: 120rpx;
   height: 68rpx;
   line-height: 68rpx;
   font-family: PingFang-SC-Medium;
@@ -159,7 +159,8 @@ page {
   letter-spacing: 0;
   text-align: center;
   float: right;
-  margin: 50rpx 24rpx 0 0;
+  margin-right: 20rpx;
+  padding: 0 30rpx;
   flex-shrink: 0;
 }
 
@@ -429,6 +430,9 @@ page {
 
 .flexdisplay {
   display: flex;
+  align-items: center;
+  height: 100%;
+
 }
 
 .notice-item {

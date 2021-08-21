@@ -118,10 +118,11 @@
                                             <view class='takefood-cabinet'>
                                                 <view class='flexdisplay' style="line-height:50rpx;"
                                                     wx:if='{{homeOrderItem.cabinetList&&homeOrderItem.cabinetList.length>0}}'>
-                                                    <view class="takefood-cabinet-title">柜号</view>
+                                                    <view class="takefood-cabinet-title"> {{homeOrderItem.cabinetList[0].cabinetAddress}}</view>
                                                     <view class="takefood-cabinet-number">
                                                         {{homeOrderItem.cabinetList[0].cabinetNumber}}-{{homeOrderItem.cabinetList[0].cellNumber}}
-                                                    </view>
+                                                    </view> 
+                                           
                                                 </view>
                                                 <view style="line-height:50rpx;" wx:else>
                                                     <view class="takefood-cabinet-title">没绑柜</view>
@@ -147,8 +148,7 @@
                                                 </view>
                                             </view>
                                             <view class="takefood-button" bindtap="handleTakeOrder"
-                                                data-ordercode="{{homeOrderItem.orderCode}}"
-                                                data-pickagain="{{homeOrderItem.pickAgain}}">取餐</view>
+                                                data-ordercode="{{homeOrderItem.orderCode}}">取餐</view>
                                         </view>
                                     </view>
                                 </view>
@@ -171,16 +171,16 @@
                   style='width:88rpx;height:88rpx;position:absolute;right:10rpx;top:10rpx;' catchtap='closeModal'></image>
               <scroll-view scroll-y style='max-height:500rpx;'>
                   <view style=' padding:1rpx 60rpx;'>
+                      <!-- 取餐优化 重写样式和数据结构 -->
                       <view wx:for='{{takeorderData}}'>
-                          <!-- 取餐优化 重写样式和数据结构 -->
                           <view class="take-plus-wrapper">
                               <view class="take-plus-left-wrapper">
                                   <view class="take-plus-left-name">
                                       {{item.foodName}}
                                   </view>
                                   <view class="take-plus-left-cabinet"  wx:if="{{item.cabinetList}}">
-                                    <text style="font-size: 25rpx;color:#999;">{{"柜号 : "}}</text>  
-                                    <text style="color: #ff5035;">{{item.cabinetList[0].cabinetNumber+'-'+item.cabinetList[0].cellNumber}}</text>
+                                    <text style="font-size: 25rpx;color:#999;">{{item.cabinetList[0].cabinetAddress}}</text>  
+                                    <text style="color: #ff5035;margin-left: 10rpx;">{{item.cabinetList[0].cabinetNumber+'-'+item.cabinetList[0].cellNumber}}</text>
                                   </view>
                                   <view class="take-plus-left-cabinet" style="color: #999999;"  wx:else>
                                       未绑柜
