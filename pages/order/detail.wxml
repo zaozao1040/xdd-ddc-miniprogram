@@ -73,19 +73,16 @@
         <view class="order-info-wrapper">
             <view class='order-info-title'>取餐信息</view>
             <view class="order-info-one">
-                <view class="left-label">取餐时间</view>
-                <view class="right-content">{{detailInfo.pickTimeDes||'暂未取餐'}}</view>
+              <view class="left-label" style="word-break: keep-all;">取餐地址</view>
+              <view class="right-content">{{detailInfo.orderAddress||'--'}}</view>
             </view>
-            <view class="order-info-one">
-                <view class="left-label" style="word-break: keep-all;">取餐地址</view>
-                <view class="right-content">{{detailInfo.orderAddress||'--'}}</view>
-            </view>
-        </view>
-        <view class="order-info-wrapper" wx:if='{{detailInfo.status==2||detailInfo.status==3}}'>
-            <view class='order-info-title'>存箱/柜信息</view>
-            <view class="order-info-one">
-                <view class="left-label">柜子</view>
-                <view class="right-content">{{detailInfo.cabinetsStr}}</view>
+            <view class="order-info-one" wx:for="{{detailInfo.cabinets}}" wx:for-index="cabinetsIndex" wx:for-item="cabinetsItem" wx:key="cabinetsIndex">
+
+                <view class="right-content" style="display: flex;justify-content: space-between;width:100%">
+                  <view style="margin-right: 5rpx;">{{cabinetsItem.shiwu}}</view>
+                  <view style="margin-right: 5rpx;">{{cabinetsItem.gui}}</view>
+                  <view class="">{{cabinetsItem.shijian}}</view>
+                </view>
             </view>
         </view>
         <!--订单信息-->
