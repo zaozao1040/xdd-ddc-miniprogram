@@ -711,6 +711,12 @@
           "pathName": "pages/order/order",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/order/detail",
+          "pathName": "pages/order/detail",
+          "query": "orderCode=DDC876021462882844672",
+          "scene": null
         }
       ]
     }

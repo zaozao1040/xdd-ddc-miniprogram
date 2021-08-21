@@ -95,36 +95,21 @@ Page({
                 }
 
                 //绑箱绑柜信息
-                let boxes = []
-                let cabinets = []
+                let cabinetsStr = []
                 data.orderFoodList.forEach(item => {
-                    if (item.boxNumber && item.boxNumber.length > 0) {
-                        item.boxNumber.forEach(bb => {
-                            if (!boxes.includes(bb)) {
-                                boxes.push(bb)
-                            }
-                        })
-                    }
                     if (item.cabinet && item.cabinet.length > 0) {
                         item.cabinet.forEach(cc => {
                             let a = cc.cabinetNumber + '-' + cc.cellNumber
-                            if (!cabinets.includes(a)) {
-                                cabinets.push(a)
+                            if (!cabinetsStr.includes(a)) {
+                              cabinetsStr.push(a)
                             }
                         })
                     }
                 })
-
-                if (boxes.length > 0) {
-                    data.boxes = boxes
+                if (cabinetsStr.length > 0) {
+                    data.cabinetsStr = cabinetsStr.join(',')
                 } else {
-                    data.boxes = '未查询到绑箱信息'
-                }
-                if (cabinets.length > 0) {
-
-                    data.cabinets = cabinets
-                } else {
-                    data.cabinets = '未查询到绑柜信息'
+                    data.cabinetsStr = '未查询到绑柜信息'
                 }
 
                 if (data.isPay) { //已支付，判断支付方式
@@ -154,7 +139,6 @@ Page({
                     getdataalready: true
                 })
 
-                console.log('detailInfo', data)
 
                 //获取windowHeight
                 wx.getSystemInfo({
