@@ -699,6 +699,18 @@
           "pathName": "pages/menu/menu",
           "query": "recentMealDate=2021-08-10&recentMealType=DINNER",
           "scene": null
+        },
+        {
+          "name": "pages/bucan/bucan",
+          "pathName": "pages/bucan/bucan",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/menu/bucan",
+          "pathName": "pages/menu/bucan",
+          "query": "",
+          "scene": null
         }
       ]
     }

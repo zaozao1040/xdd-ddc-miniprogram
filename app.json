@@ -40,14 +40,14 @@
     "pages/mine/orgAdminSpare/address/address",
     "pages/mine/orgAdminSwcfood/orgAdminSwcfoodAdd",
     "pages/mine/orgAdminSwcfood/orgAdminSwcfoodDetail",
-
     "pages/wenzhang/wenzhangDetail",
     "pages/components/popUp/popUp",
     "pages/components/customModal/customModal",
     "pages/components/discount/discount",
     "pages/components/discountPromotion/discountPromotion",
     "pages/components/comment/comment",
-    "pages/food/food"
+    "pages/food/food",
+    "pages/bucan/bucan"
   ],
   "subpackages": [
     {
@@ -69,7 +69,8 @@
         "foodDetail/foodDetail",
         "today/today",
         "today/confirm/confirm",
-        "today/discount/discount"
+        "today/discount/discount",
+        "bucan"
       ]
     }
   ],

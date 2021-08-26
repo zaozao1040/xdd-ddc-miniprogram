@@ -159,7 +159,7 @@
             <view class='function-wrapper'>
                 <view class='mine-service'>我的功能</view>
                 <view class='service-list'>
-                    <view bindtap="gotoAddfood">
+                    <view bindtap="gotoBucan">
                         <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
                             <image src="/images/mine/me_pic.png" style='width:80rpx;height:80rpx;'></image>
                         </view>

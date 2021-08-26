@@ -84,7 +84,7 @@ Page({
     });
   },
   //加餐
-  gotoAddfood() {
+  gotoBucan() {
     let _this = this;
     requestModel.getUserInfo((userInfo) => {
       _this.setData({
@@ -97,7 +97,7 @@ Page({
         });
       } else {
         wx.navigateTo({
-          url: "/pages/mine/addfood/addfood",
+          url: "/pages/menu/bucan",
         });
       }
     }, true);
