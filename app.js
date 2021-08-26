@@ -4,7 +4,7 @@ App({
     //   baseUrl: "https://wx.api.91dcan.cn", //线上真实数据，发a布使用！！！！！！！！！！
      baseUrl: "http://192.168.10.203:9082", //曹功德
     // baseUrl: "http://10.168.1.136:9082", //测试服务器
-   //baseUrl: "http://192.168.110.101:9082", //李凤
+   //   baseUrl: "http://192.168.110.101:9082", //李凤
     // baseUrl: "http://10.168.1.204:9082", //韩信信 志康
     // baseUrl: "https://wx.api.uat.91dcan.cn", //测试库  服务器1
     //   baseUrl: "http://5z2map.natappfree.cc", //net穿越
@@ -12,7 +12,7 @@ App({
     baseUrlFlyingCarpet: "https://smartcabinet.91dcan.cn", //飞毯线上真实数据，发布使用！！！！！！！！！！
     //  baseUrlFlyingCarpet: "http://10.168.1.197:9084", //赵家兴
 
-    version:"v3.1.31",
+    version:"v3.1.33",
 
     xddOrgnaizeCode: "ORG530051032172986376", // xdd的orgnaizeCode,线上真实数据，测试用！！！！！！！！！！
     ningxiaOrgnaizeCode: "ORG717398064662446080", // 宁夏的orgnaizeCode,线上真实数据，发布使用！！！！！！！！！！

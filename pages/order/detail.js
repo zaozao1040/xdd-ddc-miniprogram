@@ -77,55 +77,25 @@ Page({
                 data.orderStatusDes = _this.getOrderStatus(data) //状态
                 data.deduction = parseFloat((parseFloat(data.totalPrice) - parseFloat(data.payPrice)).toFixed(2))
 
-                if (data.pickStatus == 1) { //待取餐
-                    //取餐时间
-                    if (data.orderFoodList[0].takeMealStartTime && data.orderFoodList[0].takeMealEndTime) {
-
-
-                        let starts = data.orderFoodList[0].takeMealStartTime.split(' ')
-                        let sd = starts[0].split('-')
-                        let st = starts[1].split(':')
-                        let ends = data.orderFoodList[0].takeMealEndTime.split(' ')
-                        let ed = ends[0].split('-')
-                        let et = ends[1].split(':')
-                        data.pickTimeDes = sd[1] + '-' + sd[2] + ' ' + st[0] + ':' + st[1] + '至' + ed[1] + '-' + ed[2] + ' ' + et[0] + ':' + et[1]
-                    } else {
-                        data.pickTimeDes = data.mealDate
-                    }
-                }
+ 
 
                 //绑箱绑柜信息
-                let boxes = []
                 let cabinets = []
                 data.orderFoodList.forEach(item => {
-                    if (item.boxNumber && item.boxNumber.length > 0) {
-                        item.boxNumber.forEach(bb => {
-                            if (!boxes.includes(bb)) {
-                                boxes.push(bb)
-                            }
-                        })
-                    }
                     if (item.cabinet && item.cabinet.length > 0) {
                         item.cabinet.forEach(cc => {
                             let a = cc.cabinetNumber + '-' + cc.cellNumber
                             if (!cabinets.includes(a)) {
-                                cabinets.push(a)
+                              cabinets.push({
+                                gui:a,
+                                shijian:cc.foodPickTime,
+                                shiwu:item.foodName
+                              })
                             }
                         })
                     }
                 })
-
-                if (boxes.length > 0) {
-                    data.boxes = boxes
-                } else {
-                    data.boxes = '未查询到绑箱信息'
-                }
-                if (cabinets.length > 0) {
-
-                    data.cabinets = cabinets
-                } else {
-                    data.cabinets = '未查询到绑柜信息'
-                }
+                data.cabinets = cabinets||[]
 
                 if (data.isPay) { //已支付，判断支付方式
                     if (data.payMethod == 2 || data.payMethod == 3) {
@@ -154,7 +124,6 @@ Page({
                     getdataalready: true
                 })
 
-                console.log('detailInfo', data)
 
                 //获取windowHeight
                 wx.getSystemInfo({

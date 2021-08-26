@@ -117,43 +117,38 @@
                                         <view class='flexdisplay'>
                                             <view class='takefood-cabinet'>
                                                 <view class='flexdisplay' style="line-height:50rpx;"
-                                                    wx:if='{{homeOrderItem.cabinet&&homeOrderItem.cabinet.length>0}}'>
-                                                    <view class="takefood-cabinet-title">柜号</view>
+                                                    wx:if='{{homeOrderItem.cabinetList&&homeOrderItem.cabinetList.length>0}}'>
+                                                    <view class="takefood-cabinet-title"> {{homeOrderItem.cabinetList[0].cabinetAddress}}</view>
                                                     <view class="takefood-cabinet-number">
-                                                        {{homeOrderItem.cabinet[0].cabinetNumber}}-{{homeOrderItem.cabinet[0].cellNumber}}
-                                                    </view>
+                                                        {{homeOrderItem.cabinetList[0].cabinetNumber}}-{{homeOrderItem.cabinetList[0].cellNumber}}
+                                                    </view> 
+                                           
                                                 </view>
                                                 <view style="line-height:50rpx;" wx:else>
                                                     <view class="takefood-cabinet-title">没绑柜</view>
                                                 </view>
                                                 <view class='flexdisplay'
                                                     style="line-height: 40rpx;margin:4rpx 0 8rpx;">
-                                                    <view class="takefood-mealType">{{homeOrderItem.mealTypeShow}}
-                                                    </view>
-                                                    <view class='flexdisplay'
-                                                        wx:if='{{homeOrderItem.foodName.length<9}}'>
-                                                        <view class="takefood-foodname"
-                                                            wx:if='{{homeOrderItem.foodQuantity>1}}'>
-                                                            {{homeOrderItem.foodName}}x{{homeOrderItem.foodQuantity}}
+                                                    <view class="takefood-mealType">{{homeOrderItem.mealTypeDes}}</view>
+                                                    <view class='flexdisplay'>
+                                                        <view class="takefood-foodname">
+                                                          <block wx:if='{{homeOrderListAll.length>1}}'>
+                                                            <view>{{homeOrderItem.foodName}}</view>
+                                                            <view>
+                                                              {{'等'+homeOrderListAll.length+'个餐品' }}
+                                                            </view>                                                            
+                                                          </block>
+                                                          <block wx:else>
+                                                            <text>{{homeOrderItem.foodName}}</text>
+                                                          </block>
                                                         </view>
-                                                        <view class="takefood-foodname" wx:else>
-                                                            {{homeOrderItem.foodName}}
-                                                        </view>
-                                                    </view>
-                                                    <view class='flexdisplay' wx:else>
-                                                        <view class="takefood-foodname"> {{homeOrderItem.foodName}}
-                                                        </view>
-                                                        <view wx:if="{{homeOrderItem.foodQuantity>1}}"
-                                                            class='takefood-foodcount'>
-                                                            x{{homeOrderItem.foodQuantity}}</view>
                                                     </view>
                                                 </view>
-                                                <view class='takefood-time'>取餐时间: {{homeOrderItem.takeMealTimeDes}}
+                                                <view class='takefood-time'>取餐时间: {{homeOrderItem.foodPickTime||'未取餐'}}
                                                 </view>
                                             </view>
                                             <view class="takefood-button" bindtap="handleTakeOrder"
-                                                data-ordercode="{{homeOrderItem.orderCode}}"
-                                                data-pickagain="{{homeOrderItem.pickAgain}}">取餐</view>
+                                                data-ordercode="{{homeOrderItem.orderCode}}">取餐</view>
                                         </view>
                                     </view>
                                 </view>
@@ -174,23 +169,24 @@
               <view class='take-des'>请到柜子旁取餐，取餐后请尽快用餐，太晚吃饭对胃不好哦～</view>
               <image src='/images/home/filter_close.png'
                   style='width:88rpx;height:88rpx;position:absolute;right:10rpx;top:10rpx;' catchtap='closeModal'></image>
-              <scroll-view scroll-y style='height:318rpx;'>
+              <scroll-view scroll-y style='max-height:500rpx;'>
                   <view style=' padding:1rpx 60rpx;'>
+                      <!-- 取餐优化 重写样式和数据结构 -->
                       <view wx:for='{{takeorderData}}'>
-                          <!-- 取餐优化 重写样式和数据结构 -->
                           <view class="take-plus-wrapper">
                               <view class="take-plus-left-wrapper">
                                   <view class="take-plus-left-name">
                                       {{item.foodName}}
                                   </view>
-                                  <view class="take-plus-left-cabinet" wx:if="{{item.cabinetNumber}}">
-                                      {{item.cabinetNumber+'-'+item.cellNumber}}
+                                  <view class="take-plus-left-cabinet"  wx:if="{{item.cabinetList}}">
+                                    <text style="font-size: 25rpx;color:#999;">{{item.cabinetList[0].cabinetAddress}}</text>  
+                                    <text style="color: #ff5035;margin-left: 10rpx;">{{item.cabinetList[0].cabinetNumber+'-'+item.cabinetList[0].cellNumber}}</text>
                                   </view>
-                                  <view style="font-size: 25rpx;color:#999;" class="take-plus-left-cabinet" wx:else>
-                                      首次已取餐
+                                  <view class="take-plus-left-cabinet" style="color: #999999;"  wx:else>
+                                      未绑柜
                                   </view>
-                                  <view class="take-plus-left-prompt">
-                                      {{item.prompt}}
+                                  <view style="font-size: 25rpx;color:#999;" class="take-plus-left-cabinet" wx:if="{{item.foodPickTime}}">
+                                      {{"取餐时间 : "+item.foodPickTime}}
                                   </view>
                               </view>
                               <view class="take-plus-right-wrapper">
@@ -290,13 +286,13 @@
         </view>
 
         <!--弹出去绑定企业-->
-        <view class="modulebox-background-wrapper" wx:if='{{!showCheckFlag&&showBindOrganizeFlag}}'>
+        <view class="modulebox-background-wrapper" wx:if='{{!showCheckFlag&&showBindOrganizeFlag}}' bindtap='closeBindOrganize'>
             <view class='bind-organize-warpper'>
-                <view class='bind-organize-title'>尚未绑定企业</view>
-                <view class='bind-organize-content'>请前去绑定您所在的企业</view>
+                <view class='bind-organize-title'>尚未加入企业</view>
+                <view class='bind-organize-content'>先绑定企业再点餐,若您的企业尚未开通点点餐,可以先申请体验!</view>
 
                 <view class='bind-display'>
-                    <view class='bind-organize-left' bindtap='closeBindOrganize'>暂不绑定</view>
+                    <view class='bind-organize-left' bindtap='gotoShiyong'>先体验</view>
                     <view class='bind-organize-right' bindtap='gotoBindOrganize'>去绑定</view>
                 </view>
             </view>

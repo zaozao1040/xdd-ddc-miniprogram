@@ -201,11 +201,16 @@
                                     <view class='food-count' wx:if='{{orderItem.foodQuantity>1}}'>
                                         等{{orderItem.foodQuantity}}件餐品</view>
                                 </view>
-                                <view class="food-name" wx:if='{{orderItem.cabinet&&orderItem.cabinet.length>0}}'>
-                                    <text style='font-size:26rpx;'>柜号 </text><text
-                                        style='color:#F79C4C;'>{{orderItem.cabinet[0].cabinetNumber}}-{{orderItem.cabinet[0].cellNumber}}</text>
+                                <view class="food-name" wx:if='{{orderItem.cabinet&&orderItem.cabinet.length>1}}'>
+                                  <text style='font-size:26rpx;'>{{'共'+orderItem.cabinet.length+'个柜号' }} </text>                                                  
                                 </view>
-
+                                <view class="food-name" wx:elif='{{orderItem.cabinet&&orderItem.cabinet.length==1}}'>
+                                  <text style='font-size:26rpx;'>柜号 </text>
+                                  <text style='color:#F79C4C;'>{{orderItem.cabinet[0].cabinetNumber}}-{{orderItem.cabinet[0].cellNumber}}</text>                                                
+                                </view>
+                                <view class="food-name" wx:else>
+                                  <text style='font-size:26rpx;'>未绑柜</text>
+                                </view>
                             </view>
 
                             <view class='flex-a'>
@@ -233,8 +238,7 @@
                                         </view>
                                         <view wx:if="{{orderItem.status== 2 &&orderItem.pickStatus  == 1}}"
                                             class='take-food' catchtap="handleTakeOrder"
-                                            data-ordercode="{{orderItem.orderCode}}"
-                                            data-pickagain="{{orderItem.pickAgain}}">
+                                            data-item="{{orderItem}}">
                                             取餐
                                         </view>
                                         <view wx:if="{{orderItem.status== 2 &&orderItem.evaluateStatus  == 1}}"
@@ -279,29 +283,47 @@
               <view class='take-des'>请到柜子旁取餐，取餐后请尽快用餐，太晚吃饭对胃不好哦～</view>
               <image src='/images/home/filter_close.png'
                   style='width:88rpx;height:88rpx;position:absolute;right:10rpx;top:10rpx;' catchtap='closeModal'></image>
-              <scroll-view scroll-y style='height:316rpx;'>
+              <scroll-view scroll-y style='max-height:500rpx;'>
                   <view style=' padding:1rpx 60rpx;'>
-                      <view wx:for='{{takeorderData}}' wx:for-item='takeorderItem' wx:for-index='takeorderIndex'
+                      <!-- <view wx:for='{{takeorderData}}' wx:for-item='takeorderItem' wx:for-index='takeorderIndex'
                           wx:key='takeorderIndex'>
                           <view class='flex-b' style='margin-top:30rpx;'>
                               <view class='take-name'>{{item.foodName}}</view>
-                              <view class='take-cabinet flex-a' wx:if='{{item.cabinet&&item.cabinet.length>0}}'
+                              <view class='take-cabinet flex-a' wx:if='{{takeorderItem.cabinetList&&takeorderItem.cabinetList.length>0}}'
                                   style='flex-wrap: wrap;'>
-                                  <view wx:for='{{item.cabinet}}' wx:for-item='oneCabinet' wx:for-index='cabinetIndex'
-                                      wx:key='{{cabinetIndex}}' class='flex-a'>
-                                      <view>{{oneCabinet.cabinetNumber+'-'+oneCabinet.cellNumber}}</view>
-                                      <view wx:if='{{cabinetIndex<item.cabinet.length-1}}'>,</view>
-                                  </view>
+                                  <text style="font-size: 25rpx;color:#999;">{{takeorderItem.cabinetList[0].cabinetAddress}}</text>  
+                                  <text style="color: #ff5035;margin-left: 10rpx;">{{takeorderItem.cabinetList[0].cabinetNumber+'-'+takeorderItem.cabinetList[0].cellNumber}}</text>
                               </view>
-                              <view class='take-cabinet' wx:elif='{{item.boxNumber}}'>{{item.boxNumber}}</view>
                           </view>
                           <view class='take-remind' wx:if='{{item.prompt}}'>{{item.prompt}}</view>
-                      </view>
-
+                      </view> -->
+                      <!-- 取餐优化 重写样式和数据结构 -->
+                      <view wx:for='{{takeorderData}}' wx:for-item='takeorderItem' wx:for-index='takeorderIndex' wx:key='takeorderIndex'>
+                        <view class="take-plus-wrapper">
+                            <view class="take-plus-left-wrapper">
+                                <view class="take-plus-left-name">
+                                    {{takeorderItem.foodName}}
+                                </view>
+                                <view class="take-plus-left-cabinet"  wx:if="{{takeorderItem.cabinetList}}">
+                                  <text style="font-size: 25rpx;color:#999;">{{takeorderItem.cabinetList[0].cabinetAddress}}</text>  
+                                  <text style="color: #ff5035;margin-left: 10rpx;">{{takeorderItem.cabinetList[0].cabinetNumber+'-'+takeorderItem.cabinetList[0].cellNumber}}</text>
+                                </view>
+                                <view class="take-plus-left-cabinet" style="color: #999999;"  wx:else>
+                                    未绑柜
+                                </view>
+                                <view style="font-size: 25rpx;color:#999;" class="take-plus-left-cabinet" wx:if="{{takeorderItem.cabinetList[0].foodPickTime}}">
+                                    {{"取餐时间 : "+takeorderItem.cabinetList[0].foodPickTime}}
+                                </view>
+                            </view>
+                            <view class="take-plus-right-wrapper">
+                                <view class="take-plus-right-button" data-item="{{takeorderItem}}" catchtap='takeFoodOrderPlus'>
+                                    取餐
+                                </view>
+                            </view>
+                        </view>
+                    </view>
                   </view>
               </scroll-view>
-              <view class='take-button' wx:if='{{takeOrderPickagain}}' bindtap='takeFoodOrder'> 再次取餐</view>
-              <view class='take-button' wx:else bindtap='takeFoodOrder'> 取餐</view>
           </view>
         </l-mask>
 

@@ -102,8 +102,9 @@ page {
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.08);
   border-radius: 4px;
   width: 690rpx;
-  height: 168rpx;
+  /* height: 168rpx; */
   display: flex;
+  align-items: center;
   margin-right: 12rpx;
 }
 
@@ -116,10 +117,12 @@ page {
 
 .takefood-img-wrapper {
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
 }
 
 .takefood-cabinet {
-  margin-top: 18rpx;
+  margin: 10rpx 0;
   flex-grow: 1;
 }
 
@@ -148,7 +151,6 @@ page {
 .takefood-button {
   background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
   border-radius: 34rpx;
-  width: 120rpx;
   height: 68rpx;
   line-height: 68rpx;
   font-family: PingFang-SC-Medium;
@@ -157,7 +159,8 @@ page {
   letter-spacing: 0;
   text-align: center;
   float: right;
-  margin: 50rpx 24rpx 0 0;
+  margin-right: 20rpx;
+  padding: 0 30rpx;
   flex-shrink: 0;
 }
 
@@ -427,6 +430,9 @@ page {
 
 .flexdisplay {
   display: flex;
+  align-items: center;
+  height: 100%;
+
 }
 
 .notice-item {
@@ -700,6 +706,9 @@ page {
   line-height: 34rpx;
 }
 .take-plus-right-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .take-plus-right-button {
   background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
