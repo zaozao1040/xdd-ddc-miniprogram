@@ -184,7 +184,7 @@ class base {
             } else {
               let content = this.a[code];
               if (!content) {
-                content = "请求失败";
+                content = "请求繁忙";
               }
               if (content.length > 6) {
                 wx.showModal({

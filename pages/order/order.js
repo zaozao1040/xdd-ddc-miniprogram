@@ -48,6 +48,10 @@ Page({
         showShapeFlag: false,
         getalready: false,
         takeorderModalShowInit: true, //避免弹框在刚进入页面就弹出
+
+        // 取餐信息
+
+    orderItem: [], //首页取餐列表
     },
     bindDateChange(e) {
         if (e.detail && e.detail.value)
@@ -698,9 +702,8 @@ Page({
     takeFoodOrder() {
         let _this = this
         let ordercode = _this.data.takeOrderCode
-        let pickagain = _this.data.takeOrderPickagain
         let param = {
-            url: '/order/orderPick?userCode=' + _this.data.userCode + '&orderCode=' + ordercode + '&again=' + pickagain
+            url: '/order/orderPick?userCode=' + _this.data.userCode + '&orderCode=' + ordercode 
         }
         requestModel.request(param, () => {
 
@@ -711,9 +714,55 @@ Page({
             wx.showTabBar()
         })
     },
+    //取餐 优化
+    takeFoodOrderPlus(e) {
+      console.log('@@@@@@@ 2 @@@@@@@ ',e.currentTarget.dataset);
+      
+      let _this = this;
+      let { cabinetList,orderCode,foodCode } = e.currentTarget.dataset.item;
+      let param = {}
+      if(cabinetList&&cabinetList instanceof Array &&cabinetList.length>0){
+        let cabinetNumber = cabinetList[0].cabinetNumber
+        let cellNumber = cabinetList[0].cellNumber
+        let cellId = cabinetList[0].cellId
+        param = {
+          url:
+            "/order/orderPick?userCode=" +
+            wx.getStorageSync("userCode") +
+            "&orderCode=" +
+            orderCode +
+            "&cabinetNumber=" +
+            cabinetNumber +
+            "&cellNumber=" +
+            cellNumber +
+            "&cellId=" +
+            cellId +
+            "&foodCode=" +
+            foodCode
+        };      
+      }else{
+        param = {
+          url:
+            "/order/orderPick?userCode=" +
+            wx.getStorageSync("userCode") +
+            "&orderCode=" +
+            orderCode +
+            "&foodCode=" +
+            foodCode
+        }; 
+      }
+      requestModel.request(param, () => {
+        _this.setData({
+          takeorderModalShow: false,
+          takeOrderCode: null,
+        });
+        _this.getTakeMealInfo();
+        _this.getOrderList();
+        wx.showTabBar();
+      });
+    },
     /* 去取餐 */
     handleTakeOrder: function (e) {
-
         //宁夏直接跳转电子凭证
         let organizeCode = wx.getStorageSync("userInfo").userInfo.organizeCode
         let ningxiaOrgCode = getApp().globalData.ningxiaOrgnaizeCode
@@ -723,48 +772,15 @@ Page({
             })
             return;
         }
-
-
         this.setData({
             showShapeFlag: false
         })
-
-        let _this = this
-        if (!_this.data.canClick) {
-            return
-        }
-        _this.data.canClick = false
-
-        let {
-            ordercode,
-            pickagain
-        } = e.currentTarget.dataset
-        //就调用接口加载柜子号 
-        let param = {
-            url: '/order/orderPickPre?userCode=' + _this.data.userCode + '&orderCode=' + ordercode
-        }
-        requestModel.request(param, (data) => {
-
-            if (data) {
-                _this.setData({
-                    takeorderData: data,
-                    takeorderModalShow: true,
-                    takeorderModalShowInit: false,
-                    takeOrderCode: ordercode,
-                    takeOrderPickagain: pickagain
-                })
-
-                wx.hideTabBar()
-            }
-        })
-
-
-        if (_this.data.timer) {
-            clearTimeout(_this.data.timer)
-        }
-        _this.data.timer = setTimeout(function () {
-            _this.data.canClick = true
-        }, 2000)
+        let tmp_orderFoodList = e.currentTarget.dataset.item.orderFoodList
+        this.setData({
+          takeorderData: tmp_orderFoodList,
+          takeorderModalShow: true,
+          takeorderModalShowInit: false,
+      })
     },
 
     /* 去评价 */
@@ -776,8 +792,5 @@ Page({
             url: './comment/comment?orderCode=' + e.currentTarget.dataset.ordercode
         })
     },
-
-
-
 
 })
