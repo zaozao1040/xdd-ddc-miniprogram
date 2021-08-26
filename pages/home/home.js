@@ -299,6 +299,7 @@ Page({
       /* 获取首页取餐信息 */
     }, true);
   },
+  
   loadData: function (options) {
     let _this = this;
     _this.getRecentMealDateAndMealType();
@@ -330,6 +331,11 @@ Page({
   closeBindOrganize() {
     this.setData({
       showBindOrganizeFlag: false,
+    });
+  },
+  gotoShiyong() {
+    wx.navigateTo({
+      url: "/pages/shiyong/shiyong",
     });
   },
   /* 获取公告信息 */

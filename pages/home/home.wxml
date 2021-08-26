@@ -290,13 +290,13 @@
         </view>
 
         <!--弹出去绑定企业-->
-        <view class="modulebox-background-wrapper" wx:if='{{!showCheckFlag&&showBindOrganizeFlag}}'>
+        <view class="modulebox-background-wrapper" wx:if='{{!showCheckFlag&&showBindOrganizeFlag}}' bindtap='closeBindOrganize'>
             <view class='bind-organize-warpper'>
-                <view class='bind-organize-title'>尚未绑定企业</view>
-                <view class='bind-organize-content'>请前去绑定您所在的企业</view>
+                <view class='bind-organize-title'>尚未加入企业</view>
+                <view class='bind-organize-content'>先绑定企业再点餐,若您的企业尚未开通点点餐,可以先申请体验!</view>
 
                 <view class='bind-display'>
-                    <view class='bind-organize-left' bindtap='closeBindOrganize'>暂不绑定</view>
+                    <view class='bind-organize-left' bindtap='gotoShiyong'>先体验</view>
                     <view class='bind-organize-right' bindtap='gotoBindOrganize'>去绑定</view>
                 </view>
             </view>
