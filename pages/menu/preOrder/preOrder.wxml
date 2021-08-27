@@ -121,10 +121,9 @@
                           </view>
                           <view>
                               <image src='/images/menu/right.png'
-                                  style="height:22rpx;width:12rpx; margin:42rpx 0 0 20rpx;"></image>
+                                style="height:22rpx;width:12rpx; margin:42rpx 0 0 20rpx;"></image>
                           </view>
                       </view>
-
                   </view>
                 </view>
               </block>
