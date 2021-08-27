@@ -133,7 +133,7 @@
                   <view class='pay-item-last' style='border-bottom: 1rpx solid #F2F2F2;'>
                       <view class='pay-title' style='line-height:98rpx;'>支付方式</view>
                   </view>
-                  <view class='pay-item-last'  bindtap="clickBa" style='padding-bottom:26rpx;border-bottom: 1rpx solid #F2F2F2;'>
+                  <view class='pay-item-last' style='padding-bottom:26rpx;border-bottom: 1rpx solid #F2F2F2;'>
                       <view wx:if='{{!canUseBalance}}'
                           style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:90;'>
                       </view>
@@ -142,14 +142,14 @@
                               <image src="/images/menu/wallet.png" style="width:40rpx;height:40rpx;">
                               </image>
                           </view>
-                          <view style="display: flex;">
+                          <block>
                               <view class='pay-balance'>余额支付</view>
                               <view class='pay-balance' style="margin-left: 30rpx;font-size: 25rpx;display: flex;align-items: center;">
                                 <image src='/images/menu/diancanbi.png'
                                   style='width:20rpx;height:20rpx;'></image>
                                 当前剩余{{financeInfo.allBalance}}
                               </view>
-                          </view>
+                          </block>
                       </view>
                       <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
                           <!-- 直接用默认选择 - 暂不支持切换支付方式 bindtap="clickBaCheck" -->
@@ -157,7 +157,7 @@
                           <image src="/images/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:else></image>
                       </view>
                   </view>
-                  <view class='pay-item-last' bindtap="clickWx" style='padding-bottom:26rpx;border-bottom: 1rpx solid #F2F2F2;'>
+                  <view class='pay-item-last' style='padding-bottom:26rpx;border-bottom: 1rpx solid #F2F2F2;'>
                       <view wx:if='{{!canUseWx}}'
                           style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:90;'>
                       </view>
@@ -173,7 +173,7 @@
                           <image src="/images/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:else></image>
                       </view>
                   </view>
-                  <view class='pay-item-last' bindtap="clickSt" style='padding-bottom:26rpx;'>
+                  <view class='pay-item-last' style='padding-bottom:26rpx;'>
                     <view wx:if='{{!canUseStandard}}'
                         style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:90;'>
                     </view>

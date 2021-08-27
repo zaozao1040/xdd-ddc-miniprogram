@@ -2,7 +2,6 @@ import { base } from "../../../comm/public/request";
 import config from "../../../comm_plus/config/config.js";
 import { request } from "../../../comm_plus/public/request.js";
 import jiuaiDebounce from "../../../comm_plus/jiuai-debounce/jiuai-debounce.js";
-import { normalizeUnits, unix } from "moment";
 let requestModel = new base();
 Page({
   /**
@@ -25,11 +24,11 @@ Page({
     userName: "",
     phoneNumber: "",
 
-    canUseBalance: true,
+    canUseBalance: false,
     selectBa: false,
-    canUseStandard: true,
-    selectSt: true,
-    canUseWx: true,
+    canUseStandard: false,
+    selectSt: false,
+    canUseWx: false,
     selectWx: false,
     payInfo: {
       orderPayPrice: null,
@@ -49,7 +48,8 @@ Page({
     orderParamList: [],
     // 优惠券相关
     newSelectedDiscountInfo: {}, //当前选中的优惠券信息 这个从优惠券列表选中优惠券后，才传递的优惠券信息
-
+    // 标准支付的开关
+    standardPayFlag:true,
   },
   onLoad: function (options) {
     this.setData({
@@ -101,7 +101,7 @@ Page({
       method: "post",
       data: {
         userCode: _this.data.userInfo.userCode,
-        standardPayFlag:_this.data.selectSt
+        standardPayFlag:_this.data.standardPayFlag
       },
     };
     request(param, (resData) => {
@@ -167,69 +167,21 @@ Page({
       true
     );
   },
-  clickBa(){
-    let _this = this
-    if(_this.data.canUseBalance){
-      _this.setData({
-        selectBa: !this.data.selectBa,
-      },()=>{
-        _this.getPreOrderInfo()
-      });      
-    }else{
-      wx.showToast({
-        title: '不允许切换',
-        icon: 'none',
-        duration: 2000
-      });
-    }
-  },
-  clickSt(){
-    let _this = this
-    if(_this.data.canUseStandard){
-      _this.setData({
-        selectSt: !this.data.selectSt,
-      },()=>{
-        _this.getPreOrderInfo()
-      });     
-    }else{
-      wx.showToast({
-        title: '不允许切换',
-        icon: 'none',
-        duration: 2000
-      });
-    }
-  },
-  clickWx(){
-    let _this = this
-    if(_this.data.canUseWx){
-      _this.setData({
-        selectWx: !this.data.selectWx,
-      },()=>{
-        _this.getPreOrderInfo()
-      });     
-    }else{
-      wx.showToast({
-        title: '不允许切换',
-        icon: 'none',
-        duration: 2000
-      });
-    }
-  },
   refreshPayTypeInfo() {
     let _this = this;
     let tmp_payType = _this.data.payInfo.payType;
     if (tmp_payType == "BALANCE_PAY") {
       _this.setData({
-        canUseStandard: true,
+        canUseStandard: false,
         canUseBalance: true,
-        canUseWx: true,
+        canUseWx: false,
         selectBa: true,
         selectSt: false,
         selectWx: false,
       });
     } else if (tmp_payType == "BALANCE_MIX_WECHAT_PAY") {
       _this.setData({
-        canUseStandard: true,
+        canUseStandard: false,
         canUseBalance: true,
         canUseWx: true,
         selectBa: true,
@@ -238,8 +190,8 @@ Page({
       });
     } else if (tmp_payType == "WECHAT_PAY") {
       _this.setData({
-        canUseStandard: true,
-        canUseBalance: true,
+        canUseStandard: false,
+        canUseBalance: false,
         canUseWx: true,
         selectBa: false,
         selectSt: false,
@@ -248,8 +200,8 @@ Page({
     } else if (tmp_payType == "STANDARD_PAY") {
       _this.setData({
         canUseStandard: true,
-        canUseBalance: true,
-        canUseWx: true,
+        canUseBalance: false,
+        canUseWx: false,
         selectBa: false,
         selectSt: true,
         selectWx: false,
@@ -477,7 +429,6 @@ Page({
             url: config.baseUrlPlus + "/order/generateOrder",
             method: "post",
             data: {
-              standardPayFlag:_this.data.selectSt,
               verificationString: tmp_verificationString,
               userCode: _this.data.userInfo.userCode,
               userName: _this.data.userName,

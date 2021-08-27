@@ -1,0 +1,501 @@
+.wrapper {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #eee;
+}
+
+/* 弹出层 填写取餐人 送餐地址 */
+
+.modulebox-background-wrapper {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 99;
+  background: rgba(13, 21, 31, 0.5);
+  margin: auto;
+  overflow: hidden;
+}
+
+.modulebox-wrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 400rpx;
+  width: 600rpx;
+  padding-top: 10rpx;
+  background: #f5f5f5;
+  border-radius: 8rpx;
+}
+
+.section-3 {
+  display: flex;
+  border-radius: 6rpx;
+  height: 100rpx;
+  position: relative;
+}
+
+.section-3-1 {
+  padding: 22rpx 36rpx 24rpx;
+  border-top-left-radius: 6rpx;
+  border-bottom-left-radius: 6rpx;
+  background: #fafafa;
+}
+
+.section-3-2 {
+  font-family: PingFangSC-Regular;
+  font-size: 30rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  flex: 1;
+  background: #fff;
+  height: 100rpx;
+  line-height: 100rpx;
+  padding-left: 20rpx;
+}
+/* 默认地址 */
+
+.address-wrapper {
+  display: flex;
+  background: linear-gradient(-270deg, #f79c4c 0%, #f7cd4e 99%);
+  padding: 10rpx 20rpx;
+}
+
+.address-line1 {
+  display: flex;
+  font-family: PingFang-SC-Medium;
+  font-size: 30rpx;
+  color: #ffffff;
+  letter-spacing: 0;
+  line-height: 42rpx;
+  margin-bottom: 16rpx;
+}
+
+.address-line2 {
+  font-family: PingFang-SC-Medium;
+  font-size: 40rpx;
+  color: #ffffff;
+  letter-spacing: 0;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 56rpx;
+  margin-bottom: 10rpx;
+  margin-top: 14rpx;
+}
+
+.cart-day-wrapper {
+  background: #fff;
+  margin: 16rpx 16rpx;
+}
+
+.pay-balance-money {
+  font-size: 24rpx;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 40rpx;
+  font-family: HelveticaNeue-Medium;
+  color: #ff5035;
+}
+.cart-type {
+  border-bottom: 10rpx solid #f5f5f5;
+  padding: 0 30rpx;
+}
+.cart-type:last-child {
+  border-bottom: none;
+}
+
+.cart-day-title {
+  font-family: PingFang-SC-Regular;
+  font-size: 30rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f2f2f2;
+}
+
+.cart-organize-deduction {
+  display: flex;
+  justify-content: space-between;
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #f2f2f2;
+}
+
+.cart-menuItem {
+  display: flex;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f2f2f2;
+}
+
+.cart-menuItem-left {
+  width: 88rpx;
+  height: 88rpx;
+  margin-right: 20rpx;
+}
+
+.cart-menuItem-img {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 8rpx;
+}
+
+.cart-menuItemDes {
+  font-family: PingFang-SC-Medium;
+  font-size: 30rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 42rpx;
+}
+
+.cart-menuItem-money {
+  font-family: HelveticaNeue-Medium;
+  font-size: 30rpx;
+  color: #ff5035;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 42rpx;
+  padding-right: 7rpx;
+}
+.cart-menuItem-money-fen {
+  font-family: HelveticaNeue-Medium;
+  font-size: 25rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 42rpx;
+  padding-right: 7rpx;
+}
+
+.cart-menuItem-originmoney {
+  font-family: PingFang-SC-Regular;
+  font-size: 24rpx;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 42rpx;
+  margin-right: 20rpx;
+  height: 42rpx;
+  text-decoration: line-through;
+}
+
+.cart-menuItem-mealtype {
+  font-family: PingFang-SC-Regular;
+  font-size: 24rpx;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 34rpx;
+}
+
+.cart-discount-organize {
+  font-family: PingFang-SC-Medium;
+  font-size: 30rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 42rpx;
+}
+
+.cart-discount-organize-money {
+  font-family: HelveticaNeue-Medium;
+  font-size: 32rpx;
+  color: #ff5035;
+  letter-spacing: 0;
+  line-height: 42rpx;
+}
+/*支付*/
+
+.pay-title {
+  font-family: PingFang-SC-Medium;
+  font-weight: 500;
+  font-size: 30rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 42rpx;
+}
+
+.pay-wechat {
+  height: 42rpx;
+  font-size: 30rpx;
+  font-family: PingFang-SC-Regular;
+  font-weight: 400;
+  color: #333333;
+  line-height: 42rpx;
+  padding-top: 32rpx;
+  margin-left: 10rpx;
+}
+
+.pay-discount-money {
+  font-family: HelveticaNeue-Medium;
+  font-size: 26rpx;
+  color: #ff5035;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 42rpx;
+}
+
+.pay-no-discount {
+  font-family: PingFang-SC-Regular;
+  font-size: 26rpx;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 42rpx;
+}
+
+.pay-integral-describe {
+  font-family: PingFang-SC-Regular;
+  font-size: 24rpx;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 40rpx;
+}
+
+.pay-balance-describe {
+  font-family: PingFang-SC-Regular;
+  font-size: 24rpx;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: left;
+  margin-top: 10rpx;
+  line-height: 34rpx;
+}
+
+.pay-button {
+  background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
+  border-radius: 3px;
+  font-family: PingFang-SC-Medium;
+  font-size: 32rpx;
+  color: #ffffff;
+  letter-spacing: 0;
+  text-align: center;
+  width: 220rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+}
+
+.address-wrapper-top {
+  flex: 1;
+  width: 80%;
+  padding-left: 30rpx;
+}
+
+.address-wrapper-bottom {
+  flex: 0 0 70rpx;
+  margin: auto;
+  text-align: center;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.cart-menuItem-name {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+
+.flex-a {
+  display: flex;
+}
+.flex-b {
+  display: flex;
+  align-items: baseline;
+}
+
+.pay-item {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 30rpx;
+  border-bottom: 1rpx solid #f2f2f2;
+}
+
+.pay-item-last {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pay-item-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pay-bottom-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100rpx;
+  display: flex;
+  background: #4d4d4d;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+}
+
+.pay-bottom-money {
+  width: 530rpx;
+  display: flex;
+  padding: 30rpx 0;
+}
+
+.balance-r-wrapper {
+  background: #ffffff;
+  border-radius: 16rpx;
+  width: 560rpx;
+  height: 310rpx;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  margin: auto;
+}
+
+.balance-r-t {
+  margin: 60rpx 0;
+  text-align: center;
+}
+
+.balance-r-1 {
+  line-height: 50rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 36rpx;
+  color: #000000;
+}
+
+.balance-r-2 {
+  font-family: HelveticaNeue-Medium;
+  font-size: 26rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 32px;
+  margin: 18rpx 0 0 10rpx;
+}
+
+.balance-r-3 {
+  font-family: HelveticaNeue-Medium;
+  font-size: 40rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  line-height: 50rpx;
+}
+
+.balance-r_button {
+  border: 1rpx solid #cccccc;
+  border-radius: 40rpx;
+  width: 236rpx;
+  height: 76rpx;
+  line-height: 76rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 30rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.balance-r_button_check {
+  background: linear-gradient(270deg, #f79c4c 0%, #f7cd4e 99%);
+  border-radius: 50rpx;
+  width: 240rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 30rpx;
+  color: #ffffff;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.balance-r_button-wrapper {
+  display: flex;
+  padding: 0 30rpx 60rpx;
+  justify-content: space-between;
+}
+
+.remark-manage {
+  padding: 0 30rpx;
+  display: flex;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 6rpx;
+}
+
+.pay-balance {
+  height: 42rpx;
+  font-size: 30rpx;
+  font-family: PingFang-SC-Regular;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 42rpx;
+}
+
+.button-display {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  height: 100rpx;
+  border-top: 1rpx solid #e5e5e5;
+}
+
+.button-left {
+  width: 50%;
+  font-size: 32rpx;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: rgba(153, 153, 153, 1);
+  line-height: 100rpx;
+  height: 100rpx;
+  text-align: center;
+  background: #fff;
+  border-bottom-left-radius: 8rpx;
+}
+
+.button-right {
+  background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
+  width: 50%;
+  font-size: 32rpx;
+  font-family: PingFangSC-Regular;
+  font-weight: 400;
+  color: #ffffff;
+  line-height: 100rpx;
+  height: 100rpx;
+  border-bottom-right-radius: 8rpx;
+  text-align: center;
+}
+
+/* 取餐时段设置 */
+.takeMealLimit-wrapper {
+  background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
+  display: flex;
+  height: 60rpx;
+  justify-content: center;
+  color: white;
+}
+.takeMealLimit-font {
+  line-height: 60rpx;
+}
+.takeMealLimit-icon {
+  margin: 15rpx 0 0 20rpx;
+  width: 30rpx;
+  height: 30rpx;
+}
+.takeMealLimit-image {
+  height: 100%;
+  width: 100%;
+}

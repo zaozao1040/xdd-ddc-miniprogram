@@ -19,7 +19,7 @@
           </block>
         </view>
         <block >
-          <!-- 当前时间不可补餐 -->
+          <!-- 已过截止时间 -->
           <block wx:if='{{foodTypeList.length==0}}'>
             <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
               <image src="/images/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>

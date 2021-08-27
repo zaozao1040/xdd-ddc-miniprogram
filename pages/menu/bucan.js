@@ -745,7 +745,7 @@ Page({
       success: () => {
       
         wx.navigateTo({
-          url: "/pages/menu/preOrder/preOrder",
+          url: "/pages/menu/preOrder/preOrder?orderType=bucan",
         });
       },
     });
