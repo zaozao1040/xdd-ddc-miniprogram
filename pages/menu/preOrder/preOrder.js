@@ -28,7 +28,7 @@ Page({
     canUseBalance: true,
     selectBa: false,
     canUseStandard: true,
-    selectSt: true,
+    selectSt: null,
     canUseWx: true,
     selectWx: false,
     payInfo: {
@@ -167,22 +167,7 @@ Page({
       true
     );
   },
-  clickBa(){
-    let _this = this
-    if(_this.data.canUseBalance){
-      _this.setData({
-        selectBa: !this.data.selectBa,
-      },()=>{
-        _this.getPreOrderInfo()
-      });      
-    }else{
-      wx.showToast({
-        title: '不允许切换',
-        icon: 'none',
-        duration: 2000
-      });
-    }
-  },
+
   clickSt(){
     let _this = this
     if(_this.data.canUseStandard){
@@ -199,60 +184,53 @@ Page({
       });
     }
   },
+  clickBa(){
+    wx.showToast({
+      title: '不允许切换',
+      icon: 'none',
+      duration: 2000
+    });
+  },
   clickWx(){
-    let _this = this
-    if(_this.data.canUseWx){
-      _this.setData({
-        selectWx: !this.data.selectWx,
-      },()=>{
-        _this.getPreOrderInfo()
-      });     
-    }else{
-      wx.showToast({
-        title: '不允许切换',
-        icon: 'none',
-        duration: 2000
-      });
-    }
+    wx.showToast({
+      title: '不允许切换',
+      icon: 'none',
+      duration: 2000
+    });
   },
   refreshPayTypeInfo() {
     let _this = this;
     let tmp_payType = _this.data.payInfo.payType;
     if (tmp_payType == "BALANCE_PAY") {
       _this.setData({
-        canUseStandard: true,
         canUseBalance: true,
-        canUseWx: true,
         selectBa: true,
-        selectSt: false,
+        canUseWx: false,
         selectWx: false,
       });
     } else if (tmp_payType == "BALANCE_MIX_WECHAT_PAY") {
       _this.setData({
-        canUseStandard: true,
         canUseBalance: true,
-        canUseWx: true,
         selectBa: true,
-        selectSt: false,
+        canUseWx: true,
         selectWx: true,
       });
     } else if (tmp_payType == "WECHAT_PAY") {
       _this.setData({
-        canUseStandard: true,
-        canUseBalance: true,
         canUseWx: true,
-        selectBa: false,
-        selectSt: false,
         selectWx: true,
+        canUseBalance: false,
+        selectBa: false,
       });
     } else if (tmp_payType == "STANDARD_PAY") {
       _this.setData({
-        canUseStandard: true,
-        canUseBalance: true,
-        canUseWx: true,
+        canUseBalance: false,
+        canUseWx: false,
         selectBa: false,
-        selectSt: true,
         selectWx: false,
+        //餐标支付的开关，只有当后端推荐支付方式是STANDARD_PAY时，开可以控制，其他情况都不得控制
+        canUseStandard: true,
+        selectSt: true,
       });
     }
   },

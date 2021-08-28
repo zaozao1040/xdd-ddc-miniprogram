@@ -133,7 +133,7 @@
                   <view class='pay-item-last' style='border-bottom: 1rpx solid #F2F2F2;'>
                       <view class='pay-title' style='line-height:98rpx;'>支付方式</view>
                   </view>
-                  <view class='pay-item-last'  bindtap="clickBa" style='padding-bottom:26rpx;border-bottom: 1rpx solid #F2F2F2;'>
+                  <view class='pay-item-last' bindtap="clickBa" style='padding-bottom:26rpx;border-bottom: 1rpx solid #F2F2F2;'>
                       <view wx:if='{{!canUseBalance}}'
                           style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:90;'>
                       </view>
@@ -173,7 +173,7 @@
                           <image src="/images/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:else></image>
                       </view>
                   </view>
-                  <view class='pay-item-last' bindtap="clickSt" style='padding-bottom:26rpx;'>
+                  <view class='pay-item-last' style='padding-bottom:26rpx;'>
                     <view wx:if='{{!canUseStandard}}'
                         style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:90;'>
                     </view>
@@ -184,11 +184,12 @@
                         <view class='pay-wechat'>餐标支付</view>
                     </view>
                     <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
-                        <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;"
+                      <switch color="#f79c4c" checked="{{selectSt}}"  bindchange="clickSt"></switch>
+                        <!-- <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;"
                             wx:if="{{selectSt}}">
                         </image>
                         <image src="/images/menu/uncheck.png"
-                            style="width:44rpx;height:44rpx;" wx:else></image>
+                            style="width:44rpx;height:44rpx;" wx:else></image> -->
                     </view>
                 </view>
               </view>
