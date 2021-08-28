@@ -183,7 +183,7 @@
                         </image>
                         <view class='pay-wechat'>餐标支付</view>
                     </view>
-                    <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
+                    <view style='margin-top:28rpx;width:94rpx;height:44rpx;'>
                       <switch color="#f79c4c" checked="{{selectSt}}"  bindchange="clickSt"></switch>
                         <!-- <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;"
                             wx:if="{{selectSt}}">
