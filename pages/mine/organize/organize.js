@@ -295,8 +295,12 @@ Page({
                         organizeName: userInfo.organizeName
                     })
                 }, true)
-
-
+                // 关闭所有页面 ，这里为了容错
+                setTimeout(()=>{
+                  wx.reLaunch({
+                    url: '/pages/home/home',
+                  })
+                },2000)
             })
 
         }
