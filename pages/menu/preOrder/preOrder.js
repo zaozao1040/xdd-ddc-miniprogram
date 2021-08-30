@@ -121,6 +121,7 @@ Page({
               userPayPrice: resData.data.data.userPayPrice, // 可支付的 个人点餐币
               weiXinPayPrice: resData.data.data.weiXinPayPrice, // 需要支付的 微信金额
             },
+            selectSt:resData.data.data.alllowStandardPayFlag //
           },
           () => {
             _this.refreshUserFinance();
