@@ -214,8 +214,11 @@ Page({
       wx.setStorageSync("userCode", data.userCode);
       if (data.newUser == true) {
         //新用户 弹出是否绑定企业的模态框 TODO 5/14
+        // wx.reLaunch({
+        //   url: "/pages/login/login",
+        // });
         wx.reLaunch({
-          url: "/pages/login/login",
+          url: "/pages/home/home",
         });
       } else {
         // 进入首页前 先在本地存储userInfo

@@ -1,241 +1,106 @@
+
+import { request } from "../../comm_plus/public/request.js";
 import { base } from '../../comm/public/request'
+import config from "../../comm_plus/config/config.js";
+import jiuaiDebounce from "../../comm_plus/jiuai-debounce/jiuai-debounce.js";
 let requestModel = new base()
 Page({
     data: {
-        scrollTop: 0,
-        buttonTop: 0,
-        location: {},
-        organizeList: [],
-        organize: '',
+      userCode: '',
+      organizeName: '',
+      userName: '',
 
-        userName: '',
-        employeeNumber: '', //是否需要填写企业员工的工号  true需要 false不需要
-        usernumber: '', //工号
-        organizeCode: '',
-        search: '',
-        organizeListNoResult: false,
-        organizeSelected: false
+
+      userInfo: {},
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+      let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
 
+      if (tmp_userInfo) {
+        this.setData(
+          {
+            userInfo: tmp_userInfo,
+          }
+        );
+      }
     },
 
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    getBindStatus() {
-        let _this = this
-        requestModel.getUserInfo(userInfo => {
 
-            let { userName, userType, userStatus, organizeName } = userInfo
-            _this.setData({
-                userName: userName,
-                userType: userType,
-                userStatus: userStatus,
-                organizeName: organizeName
-            })
-            // 企业用户
-            if (userType == 'B_USER') {
-                if (userStatus == 'NORMAL') {
-                    _this.setData({
-                        bindAlready: true, //已经绑定
-                        bindUncheck: false, //审核未通过
-                        canBinding: false, //可绑定
-                        bindChecking: false //审核中
-                    })
-                } else if (userStatus == 'NO_CHECK') {
-                    _this.setData({
-                        bindAlready: false, //已经绑定
-                        bindUncheck: false, //审核未通过
-                        canBinding: false, //可绑定
-                        bindChecking: true //审核中
-                    })
-                } else if (userStatus == 'CHECK_NO_PASS') {
-                    _this.setData({
-                        bindAlready: false, //已经绑定
-                        bindUncheck: true, //审核未通过
-                        canBinding: false, //可绑定
-                        bindChecking: false //审核中
-                    })
-                }
-                //超级管理员
-
-            } else if (userType == 'ADMIN') {
-
-                _this.setData({
-                    bindAlready: false, //已经绑定
-                    bindUncheck: false, //审核未通过
-                    canBinding: true, //可绑定
-                    bindChecking: false //审核中
-                })
-
-                let param = {
-                    url: '/organize/organizeSimpleList?userCode=' + _this.data.userCode
-                }
-                //请求企业列表
-                requestModel.request(param, (data) => {
-                    _this.setData({
-                        organizeList: data
-                    })
-
-                })
-
-                _this.initAddress()
-            } else if (userType == 'VISITOR') {
-                _this.setData({
-                    bindAlready: false, //已经绑定
-                    bindUncheck: false, //审核未通过
-                    canBinding: true, //可绑定
-                    bindChecking: false //审核中
-                })
-                _this.initAddress()
-                //企业管理员
-            } else if (userType == 'ORG_ADMIN') {
-                _this.setData({
-                    bindAlready: true, //已经绑定
-                    bindUncheck: false, //审核未通过
-                    canBinding: false, //可绑定
-                    bindChecking: false //审核中
-                })
-            }
-        }, true)
-    },
-    //再次绑定
-    goBindAgain() {
-        this.setData({
-            bindAlready: false, //已经绑定
-            bindUncheck: false, //审核未通过
-            canBinding: true, //可绑定
-            bindChecking: false //审核中
-        })
-        this.initAddress()
-    },
-    onShow: function () {
-        let _this = this
-        requestModel.getUserCode(userCode => {
-            _this.getBindStatus()
-            _this.setData({
-                userCode: userCode
-            })
-        })
-
-    },
     /* 页面隐藏后回收定时器指针 */
     onHide: function () { },
-    initAddress: function () {
-        let _this = this;
-        const query = wx.createSelectorQuery()
-        query.select('.c_scrollPosition_forCalculate').boundingClientRect()
-        query.selectViewport().scrollOffset()
-        query.exec(function (res) {
-            _this.setData({
-                scrollTop: res[0].top // #the-id节点的上边界坐标
-            })
-        })
-        const query_1 = wx.createSelectorQuery()
-        query_1.select('.c_buttonPosition_forCalculate').boundingClientRect()
-        query_1.selectViewport().scrollOffset()
-        query_1.exec(function (res) {
-            _this.setData({
-                buttonTop: res[0].top // #the-id节点的上边界坐标
-            })
-        })
-        console.log('bindChecking', _this.data.bindChecking)
-        console.log('canBinding', _this.data.canBinding)
-    },
-    selectOrganize: function (e) {
-        console.log('aaa')
-        this.setData({
-            organize: e.currentTarget.dataset.organizename,
-            employeeNumber: e.currentTarget.dataset.employeenumber,
-            organizeList: [],
-            organizeSelected: true
-        });
-        this.data.organizeCode = e.currentTarget.dataset.organizecode
 
-        wx.showToast({
-            title: '选择成功',
-            image: '/images/msg/success.png',
-            duration: 2000
-        })
 
-    },
-    nameInput: function (e) {
+    userNameInput: function (e) {
         this.setData({
             userName: e.detail.value
         });
     },
-    usernumberInput: function (e) {
-        this.setData({
-            usernumber: e.detail.value
-        });
+    organizeNameInput: function (e) {
+      this.setData({
+        organizeName: e.detail.value
+      });
     },
-    organizeInput: function (e) {
-        this.setData({
-            organize: e.detail.value
-        });
+    tryBind(){
+      let _this = this;
+      jiuaiDebounce.canDoFunction({
+        type: "jieliu",
+        immediate: true,
+        key: "key_tryBind",
+        time: 1000,
+        success: () => {
+         _this.doTryBind()
+        },
+      });
     },
-    searchInput: function (e) {
-        let _this = this
-        _this.handleSearchOrganizes(e.detail.value)
-    },
-    handleSearchOrganizes(organizeName) {
+    doTryBind() {
+      let _this = this;
+      if (!_this.data.userName) {
+        wx.showToast({
+          title: "请输入姓名",
+          image: '/images/msg/error.png',
+          duration: 2000
+        })
+      } else if (!_this.data.organizeName) {
+        wx.showToast({
+          title: "请输入企业",
+          image: '/images/msg/error.png',
+          duration: 2000
+        })
+      }else{
+        let param = {
+          url: config.baseUrlPlus + "/user/bindTryOrganize",
+          method: "post",
+          data: {
+            userCode: _this.data.userInfo.userCode,
+            organizeName: _this.data.organizeName,
+            userName: _this.data.userName,
+          },
+        };
+        request(param, (resData) => {
+          
+          if (resData.data.code === 200) {
+            wx.showToast({
+              title: "提交成功",
+              duration: 1000,
+            });
+            wx.reLaunch({
+              url: "/pages/home/home",
+            });
 
-        let _this = this
+          } else {
+            wx.showToast({
+              title: resData.data.msg,
+              image: "/images/msg/error.png",
+              duration: 2000,
+            });
+          }
+        });        
+      }
 
-        if (_this.data.userType == 'ADMIN') {
-            let urlp = encodeURI('userCode=' + _this.data.userCode + '&organizeName=' + organizeName)
-            let param = {
-                url: '/organize/getOrganizeList?' + urlp
-            }
-            //请求企业列表
-            requestModel.request(param, (data) => {
-                _this.setData({
-                    employeeNumber: false,
-                    organizeList: data,
-                    organizeSelected: false,
-                    organizeCode: ''
-                })
-                if (data.length == 0) {
-                    _this.setData({
-                        organizeListNoResult: true //查到企业列表无结果，则相应视图
-                    })
-                } else {
-                    _this.setData({
-                        organizeListNoResult: false
-                    })
-                }
-            })
-        } else if (organizeName.length >= 2) {
-
-            let urlP = encodeURI('userCode=' + _this.data.userCode + '&longitude=0&latitude=0&organizeName=' + organizeName)
-            let param = {
-                url: '/organize/getOrganizeListByLocationNoDefault?' + urlP
-            }
-
-            //请求企业列表
-            requestModel.request(param, (data) => {
-                _this.setData({
-                    employeeNumber: false,
-                    organizeList: data,
-                    organizeSelected: false,
-                    organizeCode: ''
-                })
-                if (data.length == 0) {
-                    _this.setData({
-                        organizeListNoResult: true //查到企业列表无结果，则相应视图
-                    })
-                } else {
-                    _this.setData({
-                        organizeListNoResult: false
-                    })
-                }
-            })
-        }
     },
     /* button的绑定企业 */
     changeOrganize: function () {

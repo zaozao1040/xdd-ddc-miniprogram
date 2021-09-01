@@ -125,7 +125,7 @@
                           <view class='flex-a'>
                             <view class="price-real-icon">￥</view>
                             <view class="price-real">
-                              {{isNGO?"???": foodItem.foodPrice }}
+                              {{ foodItem.foodPrice }}
                             </view>
                             <view class="price-original" wx:if="{{foodItem.foodPrice < foodItem.foodOriginalPrice&&foodItem.showOrginalPrice }}">
                               ￥{{ foodItem.foodOriginalPrice }}

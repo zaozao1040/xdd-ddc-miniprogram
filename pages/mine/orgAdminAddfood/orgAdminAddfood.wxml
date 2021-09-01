@@ -61,7 +61,7 @@
                 </view>
 
                 <view bindtap='increaseFood' style="background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);margin-top:52rpx;width:630rpx;font-family: PingFang-SC-Medium;font-size: 18px;color: #FFFFFF;letter-spacing: 0; text-align: center;line-height:100rpx;border-radius:50rpx;">
-                    确定份数</view>
+                    确定份数2</view>
             </view>
             <view style="margin:0 20rpx;background:#fff;border-radius: 8rpx;" wx:if="{{hasdata}}">
                 <view class='one-line'>
@@ -104,5 +104,15 @@
 
         <!--删除未完成备注-->
         <c-custom-modal content='{{modalContent.content}}' cancel='{{modalContent.cancel}}' confirm='{{modalContent.confirm}}' wx:if='{{modalIndex==3}}' bind:closemodal='closeModalModal' bind:handleconfirm='deleteUncompleteRemark'></c-custom-modal>
-    </view>
+        <l-dialog 
+        show="{{showQueding}}"
+        type="confirm"     
+        title="确定份数?"
+        content="{{''}}"
+        confirm-color="#F79C4C"
+        bind:linconfirm="clickConfirm" 
+        bind:lincancel="clickCancel" 
+        bind:lintap="clickCancel"
+        />
+      </view>
 </view>

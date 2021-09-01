@@ -31,6 +31,7 @@ Page({
     markDetail: [],
     popContent: {},
     modalContent: {},
+    showQueding:false,
   },
 
   /**
@@ -134,8 +135,20 @@ Page({
       }
     );
   },
-  increaseFood() {
-    console.log("this.data.value", this.data.value);
+  clickConfirm(){
+    this.doIncreaseFood()
+  },
+  clickCancel(){
+    this.setData({
+      showQueding: false,
+    });
+  },
+  increaseFood(){
+    this.setData({
+      showQueding: true,
+    });
+  },
+  doIncreaseFood() {
     if (!this.data.value & (this.data.value != 0)) {
       wx.showToast({
         title: "请输入份数",

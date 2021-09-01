@@ -49,7 +49,8 @@ Page({
     orderParamList: [],
     // 优惠券相关
     newSelectedDiscountInfo: {}, //当前选中的优惠券信息 这个从优惠券列表选中优惠券后，才传递的优惠券信息
-
+//是否补餐
+appendMealFlag:false
   },
   onLoad: function (options) {
     this.setData({
@@ -121,7 +122,8 @@ Page({
               userPayPrice: resData.data.data.userPayPrice, // 可支付的 个人点餐币
               weiXinPayPrice: resData.data.data.weiXinPayPrice, // 需要支付的 微信金额
             },
-            selectSt:resData.data.data.alllowStandardPayFlag //
+            selectSt:resData.data.data.alllowStandardPayFlag, //
+            appendMealFlag:resData.data.data.appendMealFlag//是否补餐
           },
           () => {
             _this.refreshUserFinance();
@@ -465,7 +467,8 @@ Page({
                 _this.data.userInfo.deliveryAddressCode,
               payType: tmp_payType, //支付方式
               orderPayMoney: _this.data.payInfo.orderPayPrice, //自费的总价格
-              appendMealFlag: _this.data.orderType == "bucan" ? true : false,
+              // appendMealFlag: _this.data.orderType == "bucan" ? true : false,
+              appendMealFlag: _this.data.appendMealFlag,
               order: _this.getOrderListParam(),
             },
           };

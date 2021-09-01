@@ -279,13 +279,21 @@
       <!-- 审核状态框 弹出2.6.1 -->
       <view class="modulebox-background-wrapper" wx:if="{{showCheckFlag}}">
           <view class="modulebox-wrapper-organize">
+            <block wx:if="{{userStatus=='NO_CHECK'}}">
               <view style='margin:32rpx 0 20rpx;text-align: center;'>
-                  <image src="/images/mine/checking.jpg" style='width:216rpx;height:216rpx;'></image>
+                <image src="/images/mine/checking.jpg" style='width:216rpx;height:216rpx;'></image>
               </view>
               <view class='bind-title'>正在审核</view>
               <view class='bind-des'>企业审核会尽快完成，请耐心等待</view>
-
-              <view class="modulebox-button-no" catchtap="handleRefreshUser">点击刷新</view>
+              <view class="modulebox-button-no" catchtap="handleRefreshUser">点击刷新</view> 
+            </block>
+            <block wx:elif="{{userStatus=='CHECK_NO_PASS'}}">
+              <view style='margin:32rpx 0 20rpx;text-align: center;'>
+                  <image src="/images/mine/checkNo.jpg" style='width:216rpx;height:216rpx;'></image>
+              </view>
+              <view class='bind-title'>审核失败</view>
+              <view class="modulebox-button-no" catchtap="clickCxbd">重新绑定</view>
+            </block>
           </view>
       </view>
 
@@ -296,7 +304,7 @@
               <view class='bind-organize-content'>先绑定企业后再点餐，若您企业尚未开通点点餐，可先申请体验!</view>
 
               <view class='bind-display'>
-                  <view class='bind-organize-left' bindtap='closeBindOrganize'>暂不绑定</view>
+                  <view class='bind-organize-left' bindtap='gotoTiyan'>先体验</view>
                   <view class='bind-organize-right' bindtap='gotoBindOrganize'>去绑定</view>
               </view>
           </view>

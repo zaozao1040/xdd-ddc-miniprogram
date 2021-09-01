@@ -81,6 +81,8 @@ Page({
 
     // 轮播图
     swiperList:[],
+    // 审核状态
+    userStatus:""
   },
 
   navigateToMenu() {
@@ -278,15 +280,19 @@ Page({
       });
 
       let { userStatus, canTakeDiscount } = userInfo;
-      if (userStatus == "NO_CHECK") {
+      if (userStatus == "NO_CHECK"||userStatus == "CHECK_NO_PASS") {
         //企业用户的'审核中'状态
         this.setData({
           showCheckFlag: true,
+          userStatus:userStatus
         });
         wx.hideTabBar();
       }
-
-      if (userStatus == "NORMAL") {
+       if (userStatus == "NORMAL") {
+        this.setData({
+          showCheckFlag: false,
+          userStatus:userStatus
+        });
         this.getTakeMealInfo();
         //获取待评价的订单信息
         this.getOrderList();
@@ -299,6 +305,14 @@ Page({
       /* 获取首页取餐信息 */
     }, true);
   },
+  //重新绑定
+  clickCxbd(){
+    this.setData({
+      showCheckFlag: false,
+    });
+    this.gotoBindOrganize();
+  },
+
   loadData: function (options) {
     let _this = this;
     _this.getRecentMealDateAndMealType();
@@ -320,6 +334,7 @@ Page({
       })
     }
   },
+
   //没绑定企业的用户弹出去绑定弹窗
   gotoBindOrganize() {
     wx.navigateTo({
@@ -327,9 +342,12 @@ Page({
     });
   },
   //关闭弹窗
-  closeBindOrganize() {
+  gotoTiyan() {
     this.setData({
       showBindOrganizeFlag: false,
+    });
+    wx.navigateTo({
+      url: "/pages/shiyong/shiyong",
     });
   },
   /* 获取公告信息 */

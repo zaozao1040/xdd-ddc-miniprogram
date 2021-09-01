@@ -3,17 +3,17 @@
       <view class="section-3-1 ">
           <image src="/images/mine/organize_name.png" style='width:48rpx;height:48rpx;'></image>
       </view>
-      <input bindinput="nameInput" value="{{userName}}" class="section-3-2" placeholder="请输入真实姓名" type="string"></input>
+      <input bindinput="userNameInput" value="{{userName}}" class="section-3-2" placeholder="请输入真实姓名" type="string"></input>
   </view>
   <view class="section-3" style="margin-bottom: 5rpx;" bindtap="clickOrganize">
       <view class="section-3-1">
           <image src="/images/mine/organize.png" style='width:48rpx;height:48rpx;'></image>
       </view>
-      <input bindinput="searchInput" value="{{organize}}" placeholder="请输入您所在企业的名称" data-organizecode="{{organizeCode}}" class="section-3-2" type="string"></input>
+      <input bindinput="organizeNameInput" value="{{organizeName}}" placeholder="请输入您所在企业的名称" data-organizecode="{{organizeCode}}" class="section-3-2" type="string"></input>
   </view>
 
 
   <view class="c_buttonPosition_forCalculate">
-      <button loading="{{loading}}" class="button" catchtap="commit">申请使用</button>
+      <button loading="{{loading}}" class="button" catchtap="tryBind">申请试用</button>
   </view>
 </view>
