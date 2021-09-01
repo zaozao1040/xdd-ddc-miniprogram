@@ -292,8 +292,8 @@
       <!--弹出去绑定企业-->
       <view class="modulebox-background-wrapper" wx:if='{{!showCheckFlag&&showBindOrganizeFlag}}'>
           <view class='bind-organize-warpper'>
-              <view class='bind-organize-title'>尚未绑定企业</view>
-              <view class='bind-organize-content'>请前去绑定您所在的企业</view>
+              <view class='bind-organize-title'>尚未加入企业</view>
+              <view class='bind-organize-content'>先绑定企业后再点餐，若您企业尚未开通点点餐，可先申请体验!</view>
 
               <view class='bind-display'>
                   <view class='bind-organize-left' bindtap='closeBindOrganize'>暂不绑定</view>

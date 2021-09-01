@@ -735,6 +735,12 @@
           "pathName": "pages/menu/preOrder/preOrder",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/shiyong/shiyong",
+          "pathName": "pages/shiyong/shiyong",
+          "query": "",
+          "scene": null
         }
       ]
     }

@@ -60,6 +60,12 @@
       ]
     },
     {
+      "root": "pages/shiyong",
+      "pages": [
+        "shiyong"
+      ]
+    },
+    {
       "root": "pages/menu",
       "pages": [
         "menu",
