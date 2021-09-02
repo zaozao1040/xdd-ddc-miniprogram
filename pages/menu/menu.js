@@ -580,7 +580,8 @@ Page({
         image: item.image,
         mealDate: mealDate,
         mealType: mealType,
-        supplement:false
+        supplement:false,
+        canMeal:item.canMeal
       },
     };
     request(param, (resData) => {
@@ -729,7 +730,8 @@ Page({
               image: foodItem.image,
               foodTypeIndex,
               foodIndex,
-              supplement:false
+              supplement:false,
+              canMeal:foodItem.canMeal
             },
           };
           request(param, (resData) => {

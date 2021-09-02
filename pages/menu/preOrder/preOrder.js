@@ -49,8 +49,8 @@ Page({
     orderParamList: [],
     // 优惠券相关
     newSelectedDiscountInfo: {}, //当前选中的优惠券信息 这个从优惠券列表选中优惠券后，才传递的优惠券信息
-//是否补餐
-appendMealFlag:false
+    //是否补餐
+    appendMealFlag:false
   },
   onLoad: function (options) {
     this.setData({

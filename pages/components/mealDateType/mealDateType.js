@@ -116,7 +116,8 @@ Component({
           mealDate: _this.data.activeLeftItem.mealDate,
           mealType: _this.data.activeRightItem.value,
           image: _this.data.foodInfo.image,
-          supplement:false
+          supplement:false,
+          canMeal:_this.data.foodInfo.canMeal
         },
       };
       wx.showLoading();
