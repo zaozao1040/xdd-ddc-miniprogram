@@ -13,7 +13,7 @@ App({
     baseUrlFlyingCarpet: "https://smartcabinet.91dcan.cn", //飞毯线上真实数据，发布使用！！！！！！！！！！
     //  baseUrlFlyingCarpet: "http://10.168.1.197:9084", //赵家兴
 
-    version:"v3.1.34",
+    version:"v3.1.35",
 
     xddOrgnaizeCode: "ORG530051032172986376", // xdd的orgnaizeCode,线上真实数据，测试用！！！！！！！！！！
     ningxiaOrgnaizeCode: "ORG717398064662446080", // 宁夏的orgnaizeCode,线上真实数据，发布使用！！！！！！！！！！
