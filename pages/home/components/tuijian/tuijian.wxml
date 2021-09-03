@@ -28,7 +28,6 @@
               style=" border-radius: 8rpx"
             ></image>          
           </view>
-
           <view class="food-content">
             <view class="food-name">
             {{ item.foodName }}
