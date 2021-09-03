@@ -8,8 +8,8 @@ Component({
   properties: {},
   /* 私有数据 */
   data: {
-    // 是否NGO
-    isNGO:false,
+    // 隐藏价格
+    hidePrice:false,
     foodList: [],
     labelList: [],
     activeLabelId: -99,
@@ -26,17 +26,23 @@ Component({
     ready: function () {
       let _this = this;
       _this.getLabelList();
-      _this.doNGO()//处理NGO 当为NGO时 不允许展示价格 以及加入购物车标签
+      _this.doHidePrice()//用户状态为待审核或者审核不通过状态时，不允许展示价格
     },
   },
   methods: {
-    doNGO: function () {
-      let NGOOrgnaizeCode = getApp().globalData.NGOOrgnaizeCode;
-      let orgnaizeCode = wx.getStorageSync("userInfo").userInfo.organizeCode
-      if(NGOOrgnaizeCode==orgnaizeCode){
-        this.setData({
-          isNGO: true,
-        });
+    doHidePrice: function () {
+      let tmp_userInfo = wx.getStorageSync("userInfo").userInfo
+      if(tmp_userInfo){
+         let userStatus = wx.getStorageSync("userInfo").userInfo.userStatus 
+         if(userStatus=='NO_CHECK'||userStatus=='CHECK_NO_PASS'){
+          this.setData({
+            hidePrice: true,
+          });  
+        } else{
+            this.setData({
+            hidePrice: false,
+          });    
+        }  
       }
     },
     getLabelList: function () {

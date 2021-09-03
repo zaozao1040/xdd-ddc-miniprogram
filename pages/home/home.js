@@ -281,7 +281,7 @@ Page({
 
       let { userStatus, canTakeDiscount } = userInfo;
       if (userStatus == "NO_CHECK"||userStatus == "CHECK_NO_PASS") {
-        //企业用户的'审核中'状态
+        //企业用户的'审核中'状态 以及 '审核不通过' 状态
         this.setData({
           showCheckFlag: true,
           userStatus:userStatus
