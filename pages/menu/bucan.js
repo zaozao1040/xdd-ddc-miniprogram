@@ -770,7 +770,7 @@ Page({
         e.currentTarget.dataset.foodcode +
         "&mealDate=" +
         this.data.activeMealDate +
-        "&from=menu",
+        "&from=bucan",
     });
   },
 
