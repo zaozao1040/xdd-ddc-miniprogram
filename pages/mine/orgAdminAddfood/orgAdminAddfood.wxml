@@ -61,7 +61,7 @@
                 </view>
 
                 <view bindtap='increaseFood' style="background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);margin-top:52rpx;width:630rpx;font-family: PingFang-SC-Medium;font-size: 18px;color: #FFFFFF;letter-spacing: 0; text-align: center;line-height:100rpx;border-radius:50rpx;">
-                    确定份数2</view>
+                    确定份数</view>
             </view>
             <view style="margin:0 20rpx;background:#fff;border-radius: 8rpx;" wx:if="{{hasdata}}">
                 <view class='one-line'>
