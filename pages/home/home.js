@@ -3,6 +3,8 @@ let homeModel = new home();
 
 import { base } from "../../comm/public/request";
 let requestModel = new base();
+import config from "../../comm_plus/config/config.js";
+import { request } from "../../comm_plus/public/request.js";
 Page({
   /**
    * 页面的初始数据
@@ -82,7 +84,12 @@ Page({
     // 轮播图
     swiperList:[],
     // 审核状态
-    userStatus:""
+    userStatus:"",
+
+    // v4 分时点餐
+    fenshiInfo:{
+      timeShareFlag:false
+    }
   },
 
   navigateToMenu() {
@@ -126,6 +133,14 @@ Page({
     },true,()=>{},true);
   },
   clickStartMeal: function () {
+    // 分时处理
+    if(this.data.fenshiInfo.timeShareFlag){
+      let url =  "/pages/fsmenu/menu?recentMealDate="+this.data.fenshiInfo.mealDate+"&recentMealType="+this.data.fenshiInfo.mealType
+      wx.navigateTo({
+        url,
+      });
+      return
+    }
 
     if (!wx.getStorageSync("userInfo")) {
       this.gotoMenu();
@@ -234,7 +249,8 @@ Page({
   onLoad: function (options) {
     
     let _this = this;
-
+    _this.getTimeShareSet();//获取企业分时设置
+    _this.clearCart()//清空购物车 暴力做法
     setTimeout(function () {
       // 2秒后强制展示首页
       _this.setData({
@@ -316,6 +332,39 @@ Page({
   loadData: function (options) {
     let _this = this;
     _this.getRecentMealDateAndMealType();
+
+  },
+  getTimeShareSet: function () {
+    let _this = this;
+    let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
+    if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
+      let tmp_userInfo = tmp_tmp_userInfo.userInfo;
+      let url = "/v4/getTimeShareSet?userCode=" + tmp_userInfo.userCode;
+      let param = {
+        url,
+      };
+      requestModel.request(param, (resData) => {
+        _this.setData({
+          fenshiInfo: {...resData},
+        });
+      })
+    }
+  },
+  clearCart: function () {
+    let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
+    if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
+      let tmp_userInfo = tmp_tmp_userInfo.userInfo;
+      let param = {
+        url:
+          config.baseUrlPlus +
+          "/v3/cart/deleteShoppingCart?userCode=" +
+          tmp_userInfo.userCode,
+        method: "post",
+      };
+      request(param, (resData) => {
+
+      });
+    }
 
   },
   getRecentMealDateAndMealType: function () {
