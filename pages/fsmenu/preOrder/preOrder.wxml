@@ -66,7 +66,23 @@
       <view class="takeMealLimit-icon">
           <image class="takeMealLimit-image" src='/images/menu/edit.png'></image>
       </view>
-
+  </view>
+  <view class="fs-wrp">
+    <view class="fs-cb-wrp" wx:for="{{fsList}}" wx:for-item='item' wx:for-index='index' wx:key="index">
+      <view class="fs-cb-title">
+        取餐时间选择
+      </view>
+      <view class="fs-cb-content">
+        <view class="fs-cb-l">
+          {{item.mealTypeDes}}
+        </view>
+        <view class="fs-cb-r" wx:for="{{item.pickTimeList}}" wx:for-item='titem' wx:for-index='tindex' wx:key="tindex">
+          <view class="fs-cb-r-time" wx:if={{titem.timeFlag}}>
+            {{titem.startTime+'~'+titem.endTime}}
+          </view>
+        </view>      
+      </view>
+    </view>
   </view>
   <!-- 已选菜单 -->
   <scroll-view scroll-y style="height:{{buttonTop-addressBottom}}px;">

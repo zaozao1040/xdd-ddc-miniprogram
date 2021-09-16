@@ -50,7 +50,9 @@ Page({
     // 优惠券相关
     newSelectedDiscountInfo: {}, //当前选中的优惠券信息 这个从优惠券列表选中优惠券后，才传递的优惠券信息
     //是否补餐
-    appendMealFlag:false
+    appendMealFlag:false,
+    // 
+    fsList:[]
   },
   onLoad: function (options) {
     this.setData({
@@ -63,6 +65,7 @@ Page({
     this.initAddress();
     this.getPreOrderInfo();
   },
+
   getUserInfo: function () {
     let _this = this;
     let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
@@ -98,7 +101,7 @@ Page({
   getPreOrderInfo: function () {
     let _this = this;
     let param = {
-      url: config.baseUrlPlus + "/v3/cart/previewOrder",
+      url: config.baseUrlPlus + "/v4/cart/previewOrder",
       method: "post",
       data: {
         userCode: _this.data.userInfo.userCode,
@@ -123,7 +126,8 @@ Page({
               weiXinPayPrice: resData.data.data.weiXinPayPrice, // 需要支付的 微信金额
             },
             selectSt:resData.data.data.alllowStandardPayFlag, //
-            appendMealFlag:resData.data.data.appendMealFlag//是否补餐
+            appendMealFlag:resData.data.data.appendMealFlag,//是否补餐
+            fsList:   resData.data.data.timeShareList //分时处理
           },
           () => {
             _this.refreshUserFinance();

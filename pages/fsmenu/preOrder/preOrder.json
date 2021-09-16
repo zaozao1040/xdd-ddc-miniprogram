@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "订单预览",
+  "navigationBarTitleText": "分时订单预览",
   "navigationBarBackgroundColor": "#ffffff",
   "navigationBarTextStyle": "black",
   "usingComponents": {

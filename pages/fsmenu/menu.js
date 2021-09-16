@@ -393,7 +393,7 @@ Page({
   getCartList: function () {
     let _this = this;
     let param = {
-      url: "/v3/cart/getCartList?userCode=" + _this.data.userInfo.userCode,
+      url: "/v4/cart/getTimeShareCartList?userCode=" + _this.data.userInfo.userCode,
     };
     requestModel.request(
       param,
@@ -438,7 +438,7 @@ Page({
   getPayInfo: function () {
     let _this = this;
     let param = {
-      url: "/v3/cart/getNeedPayAmount?userCode=" + _this.data.userInfo.userCode,
+      url: "/v4/cart/getNeedPayAmount?userCode=" + _this.data.userInfo.userCode,
     };
     requestModel.request(
       param,
@@ -916,7 +916,7 @@ Page({
         } else {
           //false代表没有被限制，允许点餐（绝大多数用户都是这种情况）
           wx.navigateTo({
-            url: "/pages/menu/preOrder/preOrder",
+            url: "/pages/fsmenu/preOrder/preOrder",
           });
         }
       },
@@ -957,7 +957,7 @@ Page({
           _this.doLimit();
         } else {
           wx.navigateTo({
-            url: "/pages/menu/preOrder/preOrder",
+            url: "/pages/fsmenu/preOrder/preOrder",
           });
         }
       },

@@ -1,3 +1,42 @@
+/* 分时 */
+.fs-wrp{
+  margin: 20rpx;
+  border-radius:5rpx ;
+  background: #FFFFFF;
+}
+.fs-cb-wrp{
+  
+}
+
+.fs-cb-title{
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+}
+
+.fs-cb-content{
+  display: flex;
+  
+}
+
+.fs-cb-l{
+  flex: 0 0 100rpx;
+  display: flex;
+  align-items: flex-start;
+}
+
+.fs-cb-r{
+  flex: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.fs-cb-r-time{
+  
+}
+
+/*  */
+
 .wrapper {
   position: fixed;
   top: 0;

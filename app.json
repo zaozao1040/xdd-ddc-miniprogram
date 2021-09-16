@@ -82,7 +82,8 @@
     {
       "root": "pages/fsmenu",
       "pages": [
-        "menu"
+        "menu",
+        "preOrder/preOrder"
       ]
     }
   ],

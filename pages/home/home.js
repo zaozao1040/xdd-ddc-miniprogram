@@ -347,6 +347,7 @@ Page({
         _this.setData({
           fenshiInfo: {...resData},
         });
+        wx.setStorageSync("fenshiInfo", {...resData});
       })
     }
   },
