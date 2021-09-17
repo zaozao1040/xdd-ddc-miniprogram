@@ -765,6 +765,42 @@
           "pathName": "pages/menu/preOrder/preOrder",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/fsmenu/preOrder/preOrder",
+          "pathName": "pages/fsmenu/preOrder/preOrder",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/fsmenu/preOrder/preOrder",
+          "pathName": "pages/fsmenu/preOrder/preOrder",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/fsmenu/preOrder/preOrder",
+          "pathName": "pages/fsmenu/preOrder/preOrder",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/fsmenu/preOrder/preOrder",
+          "pathName": "pages/fsmenu/preOrder/preOrder",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/order/order",
+          "pathName": "pages/order/order",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/order/detail",
+          "pathName": "pages/order/detail",
+          "query": "orderCode=DDC888458690443608064",
+          "scene": null
         }
       ]
     }

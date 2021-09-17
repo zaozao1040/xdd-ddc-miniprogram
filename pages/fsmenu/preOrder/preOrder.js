@@ -52,7 +52,6 @@ Page({
     //是否补餐
     appendMealFlag:false,
     // 
-    fsList:[]
   },
   onLoad: function (options) {
     this.setData({
@@ -127,7 +126,6 @@ Page({
             },
             selectSt:resData.data.data.alllowStandardPayFlag, //
             appendMealFlag:resData.data.data.appendMealFlag,//是否补餐
-            fsList:   resData.data.data.timeShareList //分时处理
           },
           () => {
             _this.refreshUserFinance();
@@ -174,7 +172,35 @@ Page({
       true
     );
   },
-
+  clickItem(e){
+    let titem = e.currentTarget.dataset.titem;
+    let index1 = e.currentTarget.dataset.index1;
+    let index2 = e.currentTarget.dataset.index2;
+    let index3 = e.currentTarget.dataset.index3;
+    let _this = this
+    if(titem.active==true){
+      return
+    }
+    if(titem.timeFlag==false){
+      wx.showToast({
+        title: "不可选择",
+        duration: 1000,
+        icon: 'none',
+      });
+      return
+    }
+    let tmpArr = JSON.parse(JSON.stringify(_this.data.preOrderList))
+    tmpArr[index1].mealTypeList[index2].pickTimeList.forEach((item,index)=>{
+      if(index3==index){
+        item.active=true
+      }else{
+        item.active=false
+      }
+    })
+    _this.setData({
+      preOrderList:tmpArr
+    })
+  },
   clickSt(){
     let _this = this
     if(_this.data.canUseStandard){
@@ -428,7 +454,13 @@ Page({
             foodQuantity: itemMini.foodQuantity,
           });
         });
+        let tmp_startTime = ""
+        let oneResult = itemIn.pickTimeList.find((findItem)=>{
+          return findItem.active==true
+        })
+        tmp_startTime = oneResult.startTime
         tmp_orderParamList.push({
+          pickTime:tmp_startTime,
           mealType: itemIn.mealType,
           mealDate: itemOut.mealDate,
           integralNumber: 0,
@@ -459,7 +491,7 @@ Page({
           let tmp_verificationString = data;
           let tmp_payType = _this.data.payInfo.payType;
           let paramPay = {
-            url: config.baseUrlPlus + "/order/generateOrder",
+            url: config.baseUrlPlus + "/v4/order/generateOrder",
             method: "post",
             data: {
               standardPayFlag:_this.data.selectSt,

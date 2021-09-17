@@ -184,7 +184,11 @@
                             </view>
 
                             <view class='one-order-top'>
-                                <view class='top-date'>{{orderItem.takeMealTimeDes}}{{orderItem.mealTypeDes}}</view>
+                                <view class='top-date'>{{orderItem.takeMealTimeDes}}{{orderItem.mealTypeDes}}
+                                  <text style="display: inline-block;font-size: 20rpx;" wx:if="{{orderItem.timeShareFlag}}">
+                                    {{' 分时订单'}}
+                                  </text>
+                                </view>
                                 <view class='flex-a'>
                                     <view class='top-date'
                                         style='color:{{orderItem.orderStatusDes.differentColor?"#F79C4C":"#666666"}};'>

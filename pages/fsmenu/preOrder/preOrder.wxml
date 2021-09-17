@@ -67,23 +67,6 @@
           <image class="takeMealLimit-image" src='/images/menu/edit.png'></image>
       </view>
   </view>
-  <view class="fs-wrp">
-    <view class="fs-cb-wrp" wx:for="{{fsList}}" wx:for-item='item' wx:for-index='index' wx:key="index">
-      <view class="fs-cb-title">
-        取餐时间选择
-      </view>
-      <view class="fs-cb-content">
-        <view class="fs-cb-l">
-          {{item.mealTypeDes}}
-        </view>
-        <view class="fs-cb-r" wx:for="{{item.pickTimeList}}" wx:for-item='titem' wx:for-index='tindex' wx:key="tindex">
-          <view class="fs-cb-r-time" wx:if={{titem.timeFlag}}>
-            {{titem.startTime+'~'+titem.endTime}}
-          </view>
-        </view>      
-      </view>
-    </view>
-  </view>
   <!-- 已选菜单 -->
   <scroll-view scroll-y style="height:{{buttonTop-addressBottom}}px;">
       <view style="background: #F5F5F5;border-radius: 6rpx;">
@@ -91,8 +74,28 @@
           <view class="cart-day-wrapper">
               <block wx:for="{{preOrderList}}" wx:for-item='mealDateItem' wx:for-index='mealDateIndex' wx:key="mealDateIndex">
                 <view wx:for="{{mealDateItem.mealTypeList}}" wx:for-item='mealTypeItem' wx:for-index='mealTypeIndex' wx:key="mealTypeIndex" class="cart-type">
-                  <view class="cart-day-title">
-                    {{mealDateItem.mealDateDes}}({{mealDateItem.mealDate}}){{mealTypeItem.mealTypeDes}}
+                  <view class="cart-day-title-wrp">
+                    <view class="cart-day-title">
+                      {{mealDateItem.mealDateDes}}({{mealDateItem.mealDate}}){{mealTypeItem.mealTypeDes}}
+                    </view>
+                    <view class="fs-wrp">
+                      <view class="fs-title">
+                        取餐时间选择:
+                      </view>
+                      <view class="fs-cb-r">
+                        <view class="" wx:for="{{mealTypeItem.pickTimeList}}" wx:for-item='titem' wx:for-index='tindex' wx:key="tindex">
+                          <view wx:if="{{titem.timeFlag}}" class="{{titem.active==true?'fs-cb-r-time fs-cb-r-time-active':'fs-cb-r-time'}}"
+                            bindtap='clickItem' data-titem="{{titem}}" data-index1="{{mealDateIndex}}" data-index2="{{mealTypeIndex}}" data-index3="{{tindex}}">
+                            <!-- {{titem.startTimeShort+'~'+titem.endTimeShort}} -->
+                            {{titem.startTimeShort}}
+                          </view>
+                          <view class="fs-cb-r-time-no" wx:else bindtap='clickItem' data-titem="{{titem}}" data-index1="{{mealDateIndex}}" data-index2="{{mealTypeIndex}}" data-index3="{{tindex}}">
+                            <!-- {{titem.startTimeShort+'~'+titem.endTimeShort}} -->
+                            {{titem.startTimeShort}}
+                          </view>          
+                        </view>                      
+                      </view>
+                    </view>                    
                   </view>
                   <view class="cart-menuItem" wx:for="{{mealTypeItem.foods}}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex">
                       <view class="cart-menuItem-left">
