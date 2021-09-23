@@ -184,10 +184,13 @@
                             </view>
 
                             <view class='one-order-top'>
-                                <view class='top-date'>{{orderItem.takeMealTimeDes}}{{orderItem.mealTypeDes}}
-                                  <text style="display: inline-block;font-size: 20rpx;" wx:if="{{orderItem.timeShareFlag}}">
+                                <view class='top-date'>
+                                  <view class="">
+                                    {{orderItem.takeMealTimeDes}}{{orderItem.mealTypeDes}}
+                                  </view>
+                                  <view class="fsdd" wx:if="{{orderItem.timeShareFlag}}">
                                     {{' 分时订单'}}
-                                  </text>
+                                  </view>
                                 </view>
                                 <view class='flex-a'>
                                     <view class='top-date'
