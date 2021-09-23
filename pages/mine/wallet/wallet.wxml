@@ -1,83 +1,118 @@
-<view style='height:{{windowHeight}}px; '>
-
-    <view class="header-wrapper">
-        <navigator url="./regular/regular">
-            <view class='description'>?</view>
-        </navigator>
-        <view style='height:40rpx;width:100%;'>
-            <image src='/images/mine/diancanbi.png' style='height:40rpx;width:40rpx;'></image>
-        </view>
-        <view class='header-des'>钱包余额</view>
-        <view class="header-balance">{{allBalance}}</view>
-        <view wx:if='{{open}}'>
-            <view class='balance-type-wrapper'>
-                <view class='type-top'>
-                    <view class='type-top-left'>个人钱包 {{totalBalance}}</view>
-                    <view class='type-top-medium'> </view>
-                    <view class='type-top-left' wx:if='{{organizeBalanceFlag}}'>企业钱包 {{organizeBalance}}</view>
-                    <view class='type-top-left' wx:else>企业钱包 <text style='color:#ccc;'>尚未开通</text></view>
-                </view>
-
-                <view class='type-detail'>
-                    <view class='detail-one'>
-                        <view class='type-top'>
-                            <view class='detail-des'>个人点餐币</view>
-                            <view class='detail-money'>{{balance}}</view>
-                        </view>
-                        <view class='type-top' style='margin-top:20rpx;'>
-                            <view class='detail-des'>赠送点餐币 </view>
-                            <view class='detail-money'>{{totalPresentBalance}}</view>
-                        </view>
-                    </view>
-                    <view class='detail-one' style='padding-left:80rpx;'>
-                        <view class='type-top'>
-                            <view class='detail-des'>企业点餐币</view>
-                            <view class='detail-money' wx:if='{{organizeBalanceFlag}}'>{{organizeBalance}}</view>
-                            <view class='detail-money' style='color:#C7C7C7;' wx:else>尚无</view>
-                        </view>
-                        <view class='detail-money-clear'>(本月底清零金额：{{thisMonthClearOrganizeBlance}})</view>
-                    </view>
-
-                </view>
-            </view>
-            <view class='header-bottom-wrapper' bindtap='showDetail'>
-                <view class='header-bottom'>收起</view>
-                <image src='/images/mine/close.png' style='width:24rpx;height:22rpx;'></image>
-            </view>
-        </view>
-        <view wx:else>
-            <view class='close-wrapper'>
-                <view class='type-top'>
-                    <view class='type-top-left'>个人钱包 {{totalBalance}}</view>
-                    <view class='type-top-medium'> </view>
-                    <view class='type-top-left' wx:if='{{organizeBalanceFlag}}'>企业钱包 {{organizeBalance}}</view>
-                    <view class='type-top-left' wx:else>企业钱包 <text style='color:#ccc;'>尚未开通</text></view>
-                </view>
-                <view class='header-bottom-wrapper' bindtap='showDetail'>
-                    <view class='close-bottom'>展开</view>
-                    <image src='/images/mine/open.png' style='padding-top:4rpx;width:24rpx;height:22rpx;'></image>
-                </view>
-            </view>
-        </view>
-
+<view style="height:{{ windowHeight }}px; ">
+  <view class="header-wrapper">
+    <navigator url="./regular/regular">
+      <view class="description">?</view>
+    </navigator>
+    <view style="height: 40rpx; width: 100%">
+      <image
+        src="/images/mine/diancanbi.png"
+        style="height: 40rpx; width: 40rpx"
+      ></image>
     </view>
+    <view class="header-des">钱包余额</view>
+    <view class="header-balance">{{ allBalance }}</view>
+    <view wx:if="{{ open }}">
+      <view class="balance-type-wrapper">
+        <view class="type-top">
+          <view class="type-top-left">个人钱包 {{ totalBalance }}</view>
+          <view class="type-top-medium"></view>
+          <view class="type-top-left" wx:if="{{ organizeBalanceFlag }}">
+            企业钱包 {{ organizeBalance }}
+          </view>
+          <view class="type-top-left" wx:else>
+            企业钱包
+            <text style="color: #ccc">尚未开通</text>
+          </view>
+        </view>
 
-    <view class='button' bindtap='gotoRecharge' wx:if='{{canRechargeFlag}}'>
-        个人充值
+        <view class="type-detail">
+          <view class="detail-one">
+            <view class="type-top">
+              <view class="detail-des">个人点餐币</view>
+              <view class="detail-money">{{ balance }}</view>
+            </view>
+            <view class="type-top" style="margin-top: 20rpx">
+              <view class="detail-des">赠送点餐币</view>
+              <view class="detail-money">{{ totalPresentBalance }}</view>
+            </view>
+          </view>
+          <view class="detail-one" style="padding-left: 80rpx">
+            <view class="type-top">
+              <view class="detail-des">企业点餐币</view>
+              <view class="detail-money" wx:if="{{ organizeBalanceFlag }}">
+                {{ organizeBalance }}
+              </view>
+              <view class="detail-money" style="color: #c7c7c7" wx:else>
+                尚无
+              </view>
+            </view>
+            <view class="detail-money-clear">
+              (本月底清零金额：{{ thisMonthClearOrganizeBlance }})
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="header-bottom-wrapper" bindtap="showDetail">
+        <view class="header-bottom">收起</view>
+        <image
+          src="/images/mine/close.png"
+          style="width: 24rpx; height: 22rpx"
+        ></image>
+      </view>
     </view>
-    <view style='border-top:20rpx solid #f5f5f5;padding:0 30rpx;'>
-        <view class='list-item' bindtap='gotoDetail' data-type='personal'>
-            <view class='list-left'>个人点餐币明细</view>
-            <image src='/images/mine/xiangyou.png' style='margin-top:6rpx;width:34rpx;height:34rpx;'></image>
+    <view wx:else>
+      <view class="close-wrapper">
+        <view class="type-top">
+          <view class="type-top-left">个人钱包 {{ totalBalance }}</view>
+          <view class="type-top-medium"></view>
+          <view class="type-top-left" wx:if="{{ organizeBalanceFlag }}">
+            企业钱包 {{ organizeBalance }}
+          </view>
+          <view class="type-top-left" wx:else>
+            企业钱包
+            <text style="color: #ccc">尚未开通</text>
+          </view>
         </view>
-        <view class='list-item' bindtap='gotoDetail' data-type='organize' wx:if='{{organizeBalanceFlag}}'>
-            <view class='list-left'>企业点餐币明细</view>
-            <image src='/images/mine/xiangyou.png' style='margin-top:6rpx;width:34rpx;height:34rpx;'></image>
+        <view class="header-bottom-wrapper" bindtap="showDetail">
+          <view class="close-bottom">展开</view>
+          <image
+            src="/images/mine/open.png"
+            style="padding-top: 4rpx; width: 24rpx; height: 22rpx"
+          ></image>
         </view>
-        <view class='list-item' bindtap='gotoDetail' data-type='gift'>
-            <view class='list-left'>赠送点餐币明细</view>
-            <image src='/images/mine/xiangyou.png' style='margin-top:6rpx;width:34rpx;height:34rpx;'></image>
-        </view>
+      </view>
     </view>
+  </view>
 
+  <view class="button" bindtap="gotoRecharge" wx:if="{{ canRechargeFlag }}">
+    个人充值
+  </view>
+  <view style="border-top: 20rpx solid #f5f5f5; padding: 0 30rpx">
+    <view class="list-item" bindtap="gotoDetail" data-type="personal">
+      <view class="list-left">个人点餐币明细</view>
+      <image
+        src="/images/mine/xiangyou.png"
+        style="margin-top: 6rpx; width: 34rpx; height: 34rpx"
+      ></image>
+    </view>
+    <view
+      class="list-item"
+      bindtap="gotoDetail"
+      data-type="organize"
+      wx:if="{{ organizeBalanceFlag }}"
+    >
+      <view class="list-left">企业点餐币明细</view>
+      <image
+        src="/images/mine/xiangyou.png"
+        style="margin-top: 6rpx; width: 34rpx; height: 34rpx"
+      ></image>
+    </view>
+    <view class="list-item" bindtap="gotoDetail" data-type="gift">
+      <view class="list-left">赠送点餐币明细</view>
+      <image
+        src="/images/mine/xiangyou.png"
+        style="margin-top: 6rpx; width: 34rpx; height: 34rpx"
+      ></image>
+    </view>
+  </view>
 </view>
