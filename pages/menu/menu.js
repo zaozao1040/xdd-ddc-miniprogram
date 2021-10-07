@@ -8,7 +8,7 @@ let requestModel = new base();
 Page({
   data: {
     // 是否NGO
-    isNGO:false,
+    isNGO: false,
     //
     windowHeight: 500,
     scrollToView: "id_0",
@@ -215,12 +215,12 @@ Page({
     } else {
       _this.getMealDateList();
     }
-    _this.doNGO()//处理NGO 当为NGO时 不允许展示价格 以及加入购物车标签
+    _this.doNGO(); //处理NGO 当为NGO时 不允许展示价格 以及加入购物车标签
   },
   doNGO: function () {
     let NGOOrgnaizeCode = getApp().globalData.NGOOrgnaizeCode;
-    let orgnaizeCode = this.data.userInfo.organizeCode
-    if(NGOOrgnaizeCode==orgnaizeCode){
+    let orgnaizeCode = this.data.userInfo.organizeCode;
+    if (NGOOrgnaizeCode == orgnaizeCode) {
       this.setData({
         isNGO: true,
       });
@@ -580,8 +580,9 @@ Page({
         image: item.image,
         mealDate: mealDate,
         mealType: mealType,
-        supplement:false,
-        canMeal:item.canMeal
+        supplement: false,
+        canMeal: item.canMeal,
+        tempImage: item.tempImage,
       },
     };
     request(param, (resData) => {
@@ -730,8 +731,9 @@ Page({
               image: foodItem.image,
               foodTypeIndex,
               foodIndex,
-              supplement:false,
-              canMeal:foodItem.canMeal
+              supplement: false,
+              canMeal: foodItem.canMeal,
+              tempImage: foodItem.tempImage,
             },
           };
           request(param, (resData) => {
@@ -828,7 +830,7 @@ Page({
       );
     }
   },
- 
+
   clearFoods: function () {
     let _this = this;
     let param = {

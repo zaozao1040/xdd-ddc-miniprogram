@@ -42,7 +42,6 @@ Page({
     showCartFlag: false, //购物车的颜色，false时是灰色，true时有颜色
     inValidNumToast: true, //是否提示存在失效订单
 
-
     //
     recentData: null,
   },
@@ -65,7 +64,7 @@ Page({
         if (resData instanceof Array && resData.length > 0) {
           let weekCn = ["一", "二", "三", "四", "五", "六", "日"];
           let tmpActiveMealDate = "";
-          resData.forEach((item,index)=>{
+          resData.forEach((item, index) => {
             let tmpDes = "";
             let tmpDay = moment().subtract(-index, "days");
             if (index == 0) {
@@ -81,18 +80,21 @@ Page({
               description: tmpDes,
               mealDate: tmpDay.format("YYYY-MM-DD"),
               mealDateAbbreviation: tmpDay.format("MM/DD"),
-              mealTypeList:item.mealTypeList
+              mealTypeList: item.mealTypeList,
             });
-          })
-          _this.setData({
-            mealDateList: mealDateList,
-            mealTypeList:mealDateList[0].mealTypeList,
-            activeMealDate: tmpActiveMealDate,
-            activeMealType: mealDateList[0].mealTypeList[0].value
-          },()=>{
-            _this.getFoodTypeList()
           });
-        } 
+          _this.setData(
+            {
+              mealDateList: mealDateList,
+              mealTypeList: mealDateList[0].mealTypeList,
+              activeMealDate: tmpActiveMealDate,
+              activeMealType: mealDateList[0].mealTypeList[0].value,
+            },
+            () => {
+              _this.getFoodTypeList();
+            }
+          );
+        }
       },
       true
     );
@@ -109,44 +111,42 @@ Page({
         "&mealType=" +
         _this.data.activeMealType,
     };
-    requestModel.request(
-      param,
-      (resData) => {
-        _this.setData(
-          {
-            foodTypeList: resData.foodList||[],
-            activeInfoExtra: {
-              mealSet: resData.mealSet,
-              mealType: resData.mealType,
-            },
-            loading: false,
+    requestModel.request(param, (resData) => {
+      _this.setData(
+        {
+          foodTypeList: resData.foodList || [],
+          activeInfoExtra: {
+            mealSet: resData.mealSet,
+            mealType: resData.mealType,
           },
-          () => {
-            _this.calculateHeightList();
-          }
-        );
-      },
-      
-    );
+          loading: false,
+        },
+        () => {
+          _this.calculateHeightList();
+        }
+      );
+    });
   },
 
   // 点击日期(e)
   clickMealDate(e) {
-
     let _this = this;
     let { index, item } = e.currentTarget.dataset;
-    
+
     // 如果点击已经是激活状态的 则不处理
     if (_this.data.activeMealDate == item.mealDate) {
       return;
     } else {
-      _this.setData({
-        activeMealDate: item.mealDate,
-        activeMealType: item.mealTypeList[0].value,
-        mealTypeList:item.mealTypeList,
-      },()=>{
-        _this.getFoodTypeList()
-      });
+      _this.setData(
+        {
+          activeMealDate: item.mealDate,
+          activeMealType: item.mealTypeList[0].value,
+          mealTypeList: item.mealTypeList,
+        },
+        () => {
+          _this.getFoodTypeList();
+        }
+      );
     }
   },
 
@@ -193,24 +193,17 @@ Page({
     let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
 
     if (tmp_userInfo) {
-      _this.setData(
-        {
-          userInfo: tmp_userInfo,
-        }
-      );
+      _this.setData({
+        userInfo: tmp_userInfo,
+      });
     } else {
       requestModel.getUserInfo((userInfo) => {
-        _this.setData(
-          {
-            userInfo: userInfo,
-          }
-        );
+        _this.setData({
+          userInfo: userInfo,
+        });
       }, true);
     }
   },
-
-
-
 
   // 计算购物车高度，大于最大高度就滚动
   calculteCartHeight() {
@@ -409,8 +402,9 @@ Page({
         image: item.image,
         mealDate: mealDate,
         mealType: mealType,
-        supplement:true,
-        canMeal:item.canMeal
+        supplement: true,
+        canMeal: item.canMeal,
+        tempImage: item.tempImage,
       },
     };
     request(param, (resData) => {
@@ -559,8 +553,9 @@ Page({
               image: foodItem.image,
               foodTypeIndex,
               foodIndex,
-              supplement:true,
-              canMeal:foodItem.canMeal
+              supplement: true,
+              canMeal: foodItem.canMeal,
+              tempImage: foodItem.tempImage,
             },
           };
           request(param, (resData) => {
@@ -657,7 +652,7 @@ Page({
       );
     }
   },
-  
+
   clearFoods: function () {
     let _this = this;
     let param = {
@@ -745,7 +740,6 @@ Page({
       key: "key_goToPreOrder",
       time: 1000,
       success: () => {
-      
         wx.navigateTo({
           url: "/pages/menu/preOrder/preOrder?orderType=bucan",
         });
@@ -773,7 +767,4 @@ Page({
         "&from=bucan",
     });
   },
-
-
-
 });
