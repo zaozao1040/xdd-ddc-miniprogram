@@ -98,13 +98,6 @@
         },
         {
           "id": -1,
-          "name": "today/today",
-          "pathName": "pages/menu/today/today",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": -1,
           "name": "pages/test",
           "pathName": "pages/test/test",
           "query": "",
@@ -135,13 +128,6 @@
           "id": -1,
           "name": "pages/login/selectPhone/selectPhone",
           "pathName": "pages/login/selectPhone/selectPhone",
-          "query": "",
-          "scene": null
-        },
-        {
-          "id": -1,
-          "name": "pages/menu/today/confirm/confirm",
-          "pathName": "pages/menu/today/confirm/confirm",
           "query": "",
           "scene": null
         },
@@ -181,12 +167,6 @@
         {
           "name": "pages/menu/menu",
           "pathName": "pages/menu/menu",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "pages/menu/today/today",
-          "pathName": "pages/menu/today/today",
           "query": "",
           "scene": null
         },
@@ -800,6 +780,12 @@
           "name": "pages/order/detail",
           "pathName": "pages/order/detail",
           "query": "orderCode=DDC888458690443608064",
+          "scene": null
+        },
+        {
+          "name": "pages/mine/organize/organize",
+          "pathName": "pages/mine/organize/organize",
+          "query": "",
           "scene": null
         }
       ]

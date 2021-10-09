@@ -50,8 +50,8 @@ Page({
     // 优惠券相关
     newSelectedDiscountInfo: {}, //当前选中的优惠券信息 这个从优惠券列表选中优惠券后，才传递的优惠券信息
     //是否补餐
-    appendMealFlag:false,
-    // 
+    appendMealFlag: false,
+    //
   },
   onLoad: function (options) {
     this.setData({
@@ -63,6 +63,7 @@ Page({
     this.getUserInfo();
     this.initAddress();
     this.getPreOrderInfo();
+    this.getYaomingNotice();
   },
 
   getUserInfo: function () {
@@ -104,7 +105,7 @@ Page({
       method: "post",
       data: {
         userCode: _this.data.userInfo.userCode,
-        standardPayFlag:_this.data.selectSt
+        standardPayFlag: _this.data.selectSt,
       },
     };
     request(param, (resData) => {
@@ -124,8 +125,8 @@ Page({
               userPayPrice: resData.data.data.userPayPrice, // 可支付的 个人点餐币
               weiXinPayPrice: resData.data.data.weiXinPayPrice, // 需要支付的 微信金额
             },
-            selectSt:resData.data.data.alllowStandardPayFlag, //
-            appendMealFlag:resData.data.data.appendMealFlag,//是否补餐
+            selectSt: resData.data.data.alllowStandardPayFlag, //
+            appendMealFlag: resData.data.data.appendMealFlag, //是否补餐
           },
           () => {
             _this.refreshUserFinance();
@@ -172,63 +173,66 @@ Page({
       true
     );
   },
-  clickItem(e){
+  clickItem(e) {
     let titem = e.currentTarget.dataset.titem;
     let index1 = e.currentTarget.dataset.index1;
     let index2 = e.currentTarget.dataset.index2;
     let index3 = e.currentTarget.dataset.index3;
-    let _this = this
-    if(titem.active==true){
-      return
+    let _this = this;
+    if (titem.active == true) {
+      return;
     }
-    if(titem.timeFlag==false){
+    if (titem.timeFlag == false) {
       wx.showToast({
         title: "不可选择",
         duration: 1000,
-        icon: 'none',
+        icon: "none",
       });
-      return
+      return;
     }
-    let tmpArr = JSON.parse(JSON.stringify(_this.data.preOrderList))
-    tmpArr[index1].mealTypeList[index2].pickTimeList.forEach((item,index)=>{
-      if(index3==index){
-        item.active=true
-      }else{
-        item.active=false
+    let tmpArr = JSON.parse(JSON.stringify(_this.data.preOrderList));
+    tmpArr[index1].mealTypeList[index2].pickTimeList.forEach((item, index) => {
+      if (index3 == index) {
+        item.active = true;
+      } else {
+        item.active = false;
       }
-    })
+    });
     _this.setData({
-      preOrderList:tmpArr
-    })
-  },
-  clickSt(){
-    let _this = this
-    if(_this.data.canUseStandard){
-      _this.setData({
-        selectSt: !this.data.selectSt,
-      },()=>{
-        _this.getPreOrderInfo()
-      });     
-    }else{
-      wx.showToast({
-        title: '不允许切换',
-        icon: 'none',
-        duration: 2000
-      });
-    }
-  },
-  clickBa(){
-    wx.showToast({
-      title: '不允许切换',
-      icon: 'none',
-      duration: 2000
+      preOrderList: tmpArr,
     });
   },
-  clickWx(){
+  clickSt() {
+    let _this = this;
+    if (_this.data.canUseStandard) {
+      _this.setData(
+        {
+          selectSt: !this.data.selectSt,
+        },
+        () => {
+          _this.getPreOrderInfo();
+        }
+      );
+    } else {
+      wx.showToast({
+        title: "不允许切换",
+        icon: "none",
+        duration: 2000,
+      });
+    }
+  },
+  clickBa() {
     wx.showToast({
-      title: '不允许切换',
-      icon: 'none',
-      duration: 2000
+      title: "不允许切换",
+      icon: "none",
+      duration: 2000,
+    });
+  },
+  clickWx() {
+    wx.showToast({
+      title: "不允许切换",
+      icon: "none",
+      duration: 2000,
     });
   },
   refreshPayTypeInfo() {
@@ -282,10 +286,10 @@ Page({
     query_1.select(".c_buttonPosition_forCalculate").boundingClientRect();
     query_1.selectViewport().scrollOffset();
     query_1.exec(function (res) {
-      if(res instanceof Array&&res.length>0){
+      if (res instanceof Array && res.length > 0) {
         _this.setData({
           buttonTop: res[0].top,
-        });          
+        });
       }
     });
 
@@ -293,10 +297,10 @@ Page({
     query_2.select(".c_buttonPosition_forCalculate_top").boundingClientRect();
     query_2.selectViewport().scrollOffset();
     query_2.exec(function (res) {
-      if(res instanceof Array&&res.length>0){
+      if (res instanceof Array && res.length > 0) {
         _this.setData({
           addressBottom: res[0].bottom,
-        });          
+        });
       }
     });
   },
@@ -404,7 +408,7 @@ Page({
       });
       return;
     }
-    if (!this.data.userInfo.deliveryAddressCode&&!this.data.newAddressCode) {
+    if (!this.data.userInfo.deliveryAddressCode && !this.data.newAddressCode) {
       wx.showToast({
         title: "请选择送餐地址",
         image: "/images/msg/error.png",
@@ -454,13 +458,13 @@ Page({
             foodQuantity: itemMini.foodQuantity,
           });
         });
-        let tmp_startTime = ""
-        let oneResult = itemIn.pickTimeList.find((findItem)=>{
-          return findItem.active==true
-        })
-        tmp_startTime = oneResult.startTime
+        let tmp_startTime = "";
+        let oneResult = itemIn.pickTimeList.find((findItem) => {
+          return findItem.active == true;
+        });
+        tmp_startTime = oneResult.startTime;
         tmp_orderParamList.push({
-          pickTime:tmp_startTime,
+          pickTime: tmp_startTime,
           mealType: itemIn.mealType,
           mealDate: itemOut.mealDate,
           integralNumber: 0,
@@ -494,7 +498,7 @@ Page({
             url: config.baseUrlPlus + "/v4/order/generateOrder",
             method: "post",
             data: {
-              standardPayFlag:_this.data.selectSt,
+              standardPayFlag: _this.data.selectSt,
               verificationString: tmp_verificationString,
               userCode: _this.data.userInfo.userCode,
               userName: _this.data.userName,

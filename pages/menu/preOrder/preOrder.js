@@ -50,7 +50,7 @@ Page({
     // 优惠券相关
     newSelectedDiscountInfo: {}, //当前选中的优惠券信息 这个从优惠券列表选中优惠券后，才传递的优惠券信息
     //是否补餐
-    appendMealFlag:false
+    appendMealFlag: false,
   },
   onLoad: function (options) {
     this.setData({
@@ -62,6 +62,7 @@ Page({
     this.getUserInfo();
     this.initAddress();
     this.getPreOrderInfo();
+    this.getYaomingNotice();
   },
   getUserInfo: function () {
     let _this = this;
@@ -102,7 +103,7 @@ Page({
       method: "post",
       data: {
         userCode: _this.data.userInfo.userCode,
-        standardPayFlag:_this.data.selectSt
+        standardPayFlag: _this.data.selectSt,
       },
     };
     request(param, (resData) => {
@@ -122,8 +123,8 @@ Page({
               userPayPrice: resData.data.data.userPayPrice, // 可支付的 个人点餐币
               weiXinPayPrice: resData.data.data.weiXinPayPrice, // 需要支付的 微信金额
             },
-            selectSt:resData.data.data.alllowStandardPayFlag, //
-            appendMealFlag:resData.data.data.appendMealFlag//是否补餐
+            selectSt: resData.data.data.alllowStandardPayFlag, //
+            appendMealFlag: resData.data.data.appendMealFlag, //是否补餐
           },
           () => {
             _this.refreshUserFinance();
@@ -171,34 +172,37 @@ Page({
     );
   },
 
-  clickSt(){
-    let _this = this
-    if(_this.data.canUseStandard){
-      _this.setData({
-        selectSt: !this.data.selectSt,
-      },()=>{
-        _this.getPreOrderInfo()
-      });     
-    }else{
+  clickSt() {
+    let _this = this;
+    if (_this.data.canUseStandard) {
+      _this.setData(
+        {
+          selectSt: !this.data.selectSt,
+        },
+        () => {
+          _this.getPreOrderInfo();
+        }
+      );
+    } else {
       wx.showToast({
-        title: '不允许切换',
-        icon: 'none',
-        duration: 2000
+        title: "不允许切换",
+        icon: "none",
+        duration: 2000,
       });
     }
   },
-  clickBa(){
+  clickBa() {
     wx.showToast({
-      title: '不允许切换',
-      icon: 'none',
-      duration: 2000
+      title: "不允许切换",
+      icon: "none",
+      duration: 2000,
     });
   },
-  clickWx(){
+  clickWx() {
     wx.showToast({
-      title: '不允许切换',
-      icon: 'none',
-      duration: 2000
+      title: "不允许切换",
+      icon: "none",
+      duration: 2000,
     });
   },
   refreshPayTypeInfo() {
@@ -252,10 +256,10 @@ Page({
     query_1.select(".c_buttonPosition_forCalculate").boundingClientRect();
     query_1.selectViewport().scrollOffset();
     query_1.exec(function (res) {
-      if(res instanceof Array&&res.length>0){
+      if (res instanceof Array && res.length > 0) {
         _this.setData({
           buttonTop: res[0].top,
-        });          
+        });
       }
     });
 
@@ -263,10 +267,10 @@ Page({
     query_2.select(".c_buttonPosition_forCalculate_top").boundingClientRect();
     query_2.selectViewport().scrollOffset();
     query_2.exec(function (res) {
-      if(res instanceof Array&&res.length>0){
+      if (res instanceof Array && res.length > 0) {
         _this.setData({
           addressBottom: res[0].bottom,
-        });          
+        });
       }
     });
   },
@@ -284,7 +288,7 @@ Page({
       if (data) {
         wx.showModal({
           title: "提示",
-          content: "您本次消费金额将在下下个月的餐卡中扣除",
+          content: data,
           showCancel: false,
           confirmText: "我知道了",
         });
@@ -374,7 +378,7 @@ Page({
       });
       return;
     }
-    if (!this.data.userInfo.deliveryAddressCode&&!this.data.newAddressCode) {
+    if (!this.data.userInfo.deliveryAddressCode && !this.data.newAddressCode) {
       wx.showToast({
         title: "请选择送餐地址",
         image: "/images/msg/error.png",
@@ -458,7 +462,7 @@ Page({
             url: config.baseUrlPlus + "/order/generateOrder",
             method: "post",
             data: {
-              standardPayFlag:_this.data.selectSt,
+              standardPayFlag: _this.data.selectSt,
               verificationString: tmp_verificationString,
               userCode: _this.data.userInfo.userCode,
               userName: _this.data.userName,

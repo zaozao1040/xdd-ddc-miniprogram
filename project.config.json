@@ -139,13 +139,7 @@
           "query": "",
           "scene": null
         },
-        {
-          "id": -1,
-          "name": "today/today",
-          "pathName": "pages/menu/today/today",
-          "query": "",
-          "scene": null
-        },
+
         {
           "id": -1,
           "name": "pages/test",
@@ -181,13 +175,7 @@
           "query": "",
           "scene": null
         },
-        {
-          "id": -1,
-          "name": "pages/menu/today/confirm/confirm",
-          "pathName": "pages/menu/today/confirm/confirm",
-          "query": "",
-          "scene": null
-        },
+
         {
           "id": -1,
           "name": "pages/menu/preOrder/discount/discount",

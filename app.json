@@ -52,18 +52,11 @@
   "subpackages": [
     {
       "root": "pages/login",
-      "pages": [
-        "login",
-        "next",
-        "selectPhone/selectPhone",
-        "phone/phone"
-      ]
+      "pages": ["login", "next", "selectPhone/selectPhone", "phone/phone"]
     },
     {
       "root": "pages/shiyong",
-      "pages": [
-        "shiyong"
-      ]
+      "pages": ["shiyong"]
     },
     {
       "root": "pages/menu",
@@ -73,18 +66,12 @@
         "preOrder/preOrder",
         "preOrder/discount/discount",
         "foodDetail/foodDetail",
-        "today/today",
-        "today/confirm/confirm",
-        "today/discount/discount",
         "bucan"
       ]
     },
     {
       "root": "pages/fsmenu",
-      "pages": [
-        "menu",
-        "preOrder/preOrder"
-      ]
+      "pages": ["menu", "preOrder/preOrder"]
     }
   ],
   "permission": {
@@ -130,9 +117,7 @@
       }
     ]
   },
-  "navigateToMiniProgramAppIdList": [
-    "wx8492039f6e368de0"
-  ],
+  "navigateToMiniProgramAppIdList": ["wx8492039f6e368de0"],
   "sitemapLocation": "sitemap.json",
   "usingComponents": {
     "l-toast": "/miniprogram_npm/lin-ui/toast/index",
