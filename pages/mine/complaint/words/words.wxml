@@ -2,7 +2,7 @@
     <view class='wrapper'>
         <image wx:if='{{value}}' src='/images/mine/jing2.png' style='width:32rpx;height:32rpx;position: fixed;top:56rpx;left:50rpx;z-index:1001;'></image>
         <image wx:else src='/images/mine/jing3.png' style='width:32rpx;height:32rpx;position: fixed;top:56rpx;left:50rpx;z-index:1001;'></image>
-        <input bindinput="bindInput" value="{{value}}" class="input" placeholder-style='color:#999999;' placeholder="输入创建话题（12个字以内）" maxlength='12' type="string"></input>
+        <input bindinput="bindInput" value="{{value}}" class="input" placeholder-style='color:#999999;' placeholder="输入创建反馈（12个字以内）" maxlength='12' type="string"></input>
         <view class='button' wx:if='{{value}}' bindtap='createMineWords'>创建</view>
         <view class='button' wx:else style='background:#ddd;color:#fff;'>创建</view>
     </view>

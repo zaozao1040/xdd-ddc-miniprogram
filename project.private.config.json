@@ -787,6 +787,24 @@
           "pathName": "pages/mine/organize/organize",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/login/selectPhone/selectPhone",
+          "pathName": "pages/login/selectPhone/selectPhone",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/menu/menu",
+          "pathName": "pages/menu/menu",
+          "query": "recentMealDate=2021-10-12&recentMealType=LUNCH",
+          "scene": null
+        },
+        {
+          "name": "pages/home/home",
+          "pathName": "pages/home/home",
+          "query": "",
+          "scene": null
         }
       ]
     }
