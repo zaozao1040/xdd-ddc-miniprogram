@@ -28,13 +28,12 @@
               style=" border-radius: 8rpx"
             ></image>          
           </view>
-
           <view class="food-content">
             <view class="food-name">
             {{ item.foodName }}
             </view>
             <view class="food-price">
-            ￥{{isNGO?"???": item.foodPrice }}元
+            ￥{{ hidePrice ?"???":item.foodPrice}}元
             </view>
 
             <view wx:if="{{isNGO}}" class="num-control-stock"></view>

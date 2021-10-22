@@ -104,5 +104,15 @@
 
         <!--删除未完成备注-->
         <c-custom-modal content='{{modalContent.content}}' cancel='{{modalContent.cancel}}' confirm='{{modalContent.confirm}}' wx:if='{{modalIndex==3}}' bind:closemodal='closeModalModal' bind:handleconfirm='deleteUncompleteRemark'></c-custom-modal>
-    </view>
+        <l-dialog 
+        show="{{showQueding}}"
+        type="confirm"     
+        title="确定份数?"
+        content="{{''}}"
+        confirm-color="#F79C4C"
+        bind:linconfirm="clickConfirm" 
+        bind:lincancel="clickCancel" 
+        bind:lintap="clickCancel"
+        />
+      </view>
 </view>

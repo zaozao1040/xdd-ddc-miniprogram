@@ -3,6 +3,8 @@ let homeModel = new home();
 
 import { base } from "../../comm/public/request";
 let requestModel = new base();
+import config from "../../comm_plus/config/config.js";
+import { request } from "../../comm_plus/public/request.js";
 Page({
   /**
    * 页面的初始数据
@@ -22,7 +24,6 @@ Page({
     imagesList: {},
     //
     homeOrderList: [], //首页取餐列表
-    homeOrderListAll: [], //首页取餐列表
     orderStatusMap: {
       NO_PAY: "未支付",
       PAYED_WAITINT_CONFIRM: "已支付",
@@ -82,6 +83,13 @@ Page({
 
     // 轮播图
     swiperList:[],
+    // 审核状态
+    userStatus:"",
+
+    // v4 分时点餐
+    fenshiInfo:{
+      timeShareFlag:false
+    }
   },
 
   navigateToMenu() {
@@ -125,6 +133,14 @@ Page({
     },true,()=>{},true);
   },
   clickStartMeal: function () {
+    // 分时处理
+    if(this.data.fenshiInfo.timeShareFlag){
+      let url =  "/pages/fsmenu/menu?recentMealDate="+this.data.fenshiInfo.mealDate+"&recentMealType="+this.data.fenshiInfo.mealType
+      wx.navigateTo({
+        url,
+      });
+      return
+    }
 
     if (!wx.getStorageSync("userInfo")) {
       this.gotoMenu();
@@ -233,7 +249,8 @@ Page({
   onLoad: function (options) {
     
     let _this = this;
-
+    _this.getTimeShareSet();//获取企业分时设置
+    _this.clearCart()//清空购物车 暴力做法
     setTimeout(function () {
       // 2秒后强制展示首页
       _this.setData({
@@ -279,15 +296,19 @@ Page({
       });
 
       let { userStatus, canTakeDiscount } = userInfo;
-      if (userStatus == "NO_CHECK") {
-        //企业用户的'审核中'状态
+      if (userStatus == "NO_CHECK"||userStatus == "CHECK_NO_PASS") {
+        //企业用户的'审核中'状态 以及 '审核不通过' 状态
         this.setData({
           showCheckFlag: true,
+          userStatus:userStatus
         });
         wx.hideTabBar();
       }
-
-      if (userStatus == "NORMAL") {
+       if (userStatus == "NORMAL") {
+        this.setData({
+          showCheckFlag: false,
+          userStatus:userStatus
+        });
         this.getTakeMealInfo();
         //获取待评价的订单信息
         this.getOrderList();
@@ -300,10 +321,51 @@ Page({
       /* 获取首页取餐信息 */
     }, true);
   },
-  
+  //重新绑定
+  clickCxbd(){
+    this.setData({
+      showCheckFlag: false,
+    });
+    this.gotoBindOrganize();
+  },
+
   loadData: function (options) {
     let _this = this;
     _this.getRecentMealDateAndMealType();
+
+  },
+  getTimeShareSet: function () {
+    let _this = this;
+    let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
+    if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
+      let tmp_userInfo = tmp_tmp_userInfo.userInfo;
+      let url = "/v4/getTimeShareSet?userCode=" + tmp_userInfo.userCode;
+      let param = {
+        url,
+      };
+      requestModel.request(param, (resData) => {
+        _this.setData({
+          fenshiInfo: {...resData},
+        });
+        wx.setStorageSync("fenshiInfo", {...resData});
+      })
+    }
+  },
+  clearCart: function () {
+    let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
+    if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
+      let tmp_userInfo = tmp_tmp_userInfo.userInfo;
+      let param = {
+        url:
+          config.baseUrlPlus +
+          "/v3/cart/deleteShoppingCart?userCode=" +
+          tmp_userInfo.userCode,
+        method: "post",
+      };
+      request(param, (resData) => {
+
+      });
+    }
 
   },
   getRecentMealDateAndMealType: function () {
@@ -322,6 +384,7 @@ Page({
       })
     }
   },
+
   //没绑定企业的用户弹出去绑定弹窗
   gotoBindOrganize() {
     wx.navigateTo({
@@ -329,12 +392,10 @@ Page({
     });
   },
   //关闭弹窗
-  closeBindOrganize() {
+  gotoTiyan() {
     this.setData({
       showBindOrganizeFlag: false,
     });
-  },
-  gotoShiyong() {
     wx.navigateTo({
       url: "/pages/shiyong/shiyong",
     });
@@ -458,27 +519,57 @@ Page({
       takeFood: _this.data.takeFood,
     });
     let param = {
-      url: "/v3/getHomeOrderPick?userCode=" + wx.getStorageSync("userCode"),
+      url: "/home/getHomeOrderPick?userCode=" + wx.getStorageSync("userCode"),
     };
     requestModel.request(
       param,
       (data) => {
         //先处理取餐信息, pickStatus==1表示待取
-        if(data&&data instanceof Array&&data.length>0 ){
-          _this.setData({
-            homeOrderListAll: data,
-            homeOrderList: [data[0]],
-            swiperDefaultIndex: 0,
-          });  
+        let tmp_homeOrderList = [];
+        data.forEach((item) => {
+          if (item.pickStatus == 1 && item.status == 2) {
+            if (item.orderFoodList) {
+              let onefood = item.orderFoodList[0];
 
-        }else{
-          _this.setData({
-            homeOrderListAll: [],
-            homeOrderList: [],
-            swiperDefaultIndex: 0,
-          });
-        }
+              let a = {};
+              a.foodImage = onefood.foodImage; //图片
+              a.mealTypeShow = _this.data.mealTypeMap[item.mealType]; //餐时
+              a.foodName = onefood.foodName;
+              a.orderCode = item.orderCode;
+              a.pickAgain = item.pickAgain;
+              a.cabinet = item.cabinet;
+              if (onefood.takeMealStartTime && onefood.takeMealEndTime) {
+                // 取餐时间
+                let start = onefood.takeMealStartTime.split(" ")[1].split(":"); //时 分 秒
 
+                let end = onefood.takeMealEndTime.split(" ")[1].split(":");
+
+                //取餐时间顶多是到明天吗？不管了，就是明天
+                let s =
+                  "今天" +
+                  start[0] +
+                  "点" +
+                  (start[1] != "00" ? start[1] + "分" : "");
+                let endHours = end[0] == "00" ? 24 : end[0];
+                let e =
+                  endHours < start[0]
+                    ? "明天" + endHours + "点"
+                    : endHours + "点" + (end[1] != "00" ? end[1] + "分" : "");
+                a.takeMealTimeDes = s + "到" + e;
+              } else {
+                let b = item.mealDate.split("-");
+                a.takeMealTimeDes = b[1] + "月" + b[2] + "日";
+              }
+
+              tmp_homeOrderList.push(a);
+            }
+          }
+        });
+        _this.setData({
+          homeOrderList: tmp_homeOrderList,
+          swiperDefaultIndex: 0,
+          // gethomeOrderList: true,
+        });
       },
       true
     );
@@ -486,7 +577,6 @@ Page({
 
   /* 去取餐 */
   handleTakeOrder: function (e) {
-    let _this = this
     //宁夏直接跳转电子凭证
     let organizeCode = wx.getStorageSync("userInfo").userInfo.organizeCode;
     let ningxiaOrgCode = getApp().globalData.ningxiaOrgnaizeCode;
@@ -498,13 +588,46 @@ Page({
       });
       return;
     }
-    // _this.data.homeOrderListAll=_this.data.homeOrderListAll.concat(_this.data.homeOrderListAll)
-    _this.setData({
-      takeorderData: _this.data.homeOrderListAll,
-      takeorderModalShow: true,
-      takeorderModalShowInit: false,
+
+    this.setData({
+      showShapeFlag: false,
     });
 
+    let _this = this;
+    if (!_this.data.canClick) {
+      return;
+    }
+    _this.data.canClick = false;
+
+    let { ordercode, pickagain } = e.currentTarget.dataset;
+    //就调用接口加载柜子号
+    let param = {
+      url:
+        "/order/orderPickPre?userCode=" +
+        wx.getStorageSync("userCode") +
+        "&orderCode=" +
+        ordercode,
+    };
+    requestModel.request(param, (data) => {
+      if (data) {
+        _this.setData({
+          takeorderData: data,
+          takeorderModalShow: true,
+          takeorderModalShowInit: false,
+          takeOrderCode: ordercode,
+          takeOrderPickagain: pickagain,
+        });
+
+        wx.hideTabBar();
+      }
+    });
+
+    if (_this.data.timer) {
+      clearTimeout(_this.data.timer);
+    }
+    _this.data.timer = setTimeout(function () {
+      _this.data.canClick = true;
+    }, 2000);
   },
   closeModal() {
     if (this.data.takeorderModalShow) {
@@ -518,41 +641,27 @@ Page({
 
   //取餐 优化
   takeFoodOrderPlus(e) {
-    console.log('@@@@@@@ 2 @@@@@@@ ',e.currentTarget.dataset.item);
-    
     let _this = this;
-    let { cabinetList,orderCode,foodCode } = e.currentTarget.dataset.item;
-    let param = {}
-    if(cabinetList&&cabinetList instanceof Array &&cabinetList.length>0){
-      let cabinetNumber = cabinetList[0].cabinetNumber
-      let cellNumber = cabinetList[0].cellNumber
-      let cellId = cabinetList[0].cellId
-      param = {
-        url:
-          "/order/orderPick?userCode=" +
-          wx.getStorageSync("userCode") +
-          "&orderCode=" +
-          orderCode +
-          "&cabinetNumber=" +
-          cabinetNumber +
-          "&cellNumber=" +
-          cellNumber +
-          "&cellId=" +
-          cellId +
-          "&foodCode=" +
-          foodCode
-      };      
-    }else{
-      param = {
-        url:
-          "/order/orderPick?userCode=" +
-          wx.getStorageSync("userCode") +
-          "&orderCode=" +
-          orderCode +
-          "&foodCode=" +
-          foodCode
-      }; 
-    }
+
+    let ordercode = _this.data.takeOrderCode;
+    let pickagain = _this.data.takeOrderPickagain;
+    let { cellNumber, cabinetNumber, cellId } = e.currentTarget.dataset.item;
+    let param = {
+      url:
+        "/order/orderPick?userCode=" +
+        wx.getStorageSync("userCode") +
+        "&orderCode=" +
+        ordercode +
+        "&cabinetNumber=" +
+        cabinetNumber +
+        "&cellNumber=" +
+        cellNumber +
+        "&cellId=" +
+        cellId +
+        "&again=" +
+        pickagain,
+    };
+
     requestModel.request(param, () => {
       _this.setData({
         takeorderModalShow: false,

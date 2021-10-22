@@ -2,7 +2,7 @@
     <view class='wrapper'>
         <view class='flex-a'>
             <image src='/images/mine/jing2.png' style='width:40rpx;height:40rpx;'></image>
-            <view class='title'> 添加话题</view>
+            <view class='title'> 添加反馈</view>
         </view>
 
         <view class='word_list'>
@@ -16,7 +16,7 @@
         </view>
     </view>
     <view style="height:300rpx;background:#fff;border-radius:8rpx;">
-        <textarea style='color:#333;' class='textarea' placeholder-class='textarea' bindinput="bindTextAreaInput" placeholder="有什么想说的，和我们说说吧～" maxlength="300" auto-focus value="{{value}}" />
+        <textarea style='color:#333;' class='textarea' placeholder-class='textarea' bindinput="bindTextAreaInput" placeholder="请输入~" maxlength="300" auto-focus value="{{value}}" />
         <!-- <view style="font-size:32rpx;text-align:right;color:#ccc;padding-right:10rpx;">{{count}}/300</view> -->
     </view>
 

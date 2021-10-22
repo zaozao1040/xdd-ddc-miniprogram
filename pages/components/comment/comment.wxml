@@ -62,7 +62,7 @@
             </view>
             <view class="dialog-content">
                 <textarea style='color:#333;' class='textarea' placeholder-class='textarea'
-                    bindinput="bindTextAreaInput" placeholder="有什么想说的，和我们说说吧～" maxlength="300" auto-focus
+                    bindinput="bindTextAreaInput" placeholder="请输入~" maxlength="300" auto-focus
                     value="{{TextAreaValue}}" />
                 </view>   
 

@@ -182,7 +182,7 @@
                         <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
                             <image src="/images/mine/me_complaint.png" style='width:80rpx;height:80rpx;'></image>
                         </view>
-                        <view class='label-title'>我的话题</view>
+                        <view class='label-title'>我的反馈</view>
                     </view>
                     <view bindtap="gotoEvaluateService"
                         wx:if='{{(userInfo.orgAdmin==true)&&(userInfo.userType=="ORG_ADMIN"||userInfo.userType=="ADMIN")}}'>

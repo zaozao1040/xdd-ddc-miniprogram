@@ -79,11 +79,10 @@ Component({
       });
     },
     clickLeftItem: function (e) {
-      
       let { item } = e.currentTarget.dataset;
       this.setData({
         activeLeftItem: item,
-        rightList:item.mealTypeList,
+        rightList: item.mealTypeList,
         activeRightItem: item.mealTypeList[0],
       });
     },
@@ -116,7 +115,9 @@ Component({
           mealDate: _this.data.activeLeftItem.mealDate,
           mealType: _this.data.activeRightItem.value,
           image: _this.data.foodInfo.image,
-          supplement:false
+          supplement: false,
+          canMeal: _this.data.foodInfo.canMeal,
+          tempImage: _this.data.foodInfo.tempImage,
         },
       };
       wx.showLoading();
@@ -128,8 +129,11 @@ Component({
             show: false,
           });
           wx.redirectTo({
-            url : "/pages/menu/menu?recentMealDate="+this.data.activeLeftItem.mealDate
-            +"&recentMealType="+ this.data.activeRightItem.value
+            url:
+              "/pages/menu/menu?recentMealDate=" +
+              this.data.activeLeftItem.mealDate +
+              "&recentMealType=" +
+              this.data.activeRightItem.value,
           });
         } else {
           wx.showToast({

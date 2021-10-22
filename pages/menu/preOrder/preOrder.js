@@ -2,6 +2,7 @@ import { base } from "../../../comm/public/request";
 import config from "../../../comm_plus/config/config.js";
 import { request } from "../../../comm_plus/public/request.js";
 import jiuaiDebounce from "../../../comm_plus/jiuai-debounce/jiuai-debounce.js";
+import { normalizeUnits, unix } from "moment";
 let requestModel = new base();
 Page({
   /**
@@ -24,11 +25,11 @@ Page({
     userName: "",
     phoneNumber: "",
 
-    canUseBalance: false,
+    canUseBalance: true,
     selectBa: false,
-    canUseStandard: false,
-    selectSt: false,
-    canUseWx: false,
+    canUseStandard: true,
+    selectSt: null,
+    canUseWx: true,
     selectWx: false,
     payInfo: {
       orderPayPrice: null,
@@ -48,6 +49,8 @@ Page({
     orderParamList: [],
     // 优惠券相关
     newSelectedDiscountInfo: {}, //当前选中的优惠券信息 这个从优惠券列表选中优惠券后，才传递的优惠券信息
+    //是否补餐
+    appendMealFlag: false,
   },
   onLoad: function (options) {
     this.setData({
@@ -59,6 +62,7 @@ Page({
     this.getUserInfo();
     this.initAddress();
     this.getPreOrderInfo();
+    this.getYaomingNotice();
   },
   getUserInfo: function () {
     let _this = this;
@@ -99,6 +103,7 @@ Page({
       method: "post",
       data: {
         userCode: _this.data.userInfo.userCode,
+        standardPayFlag: _this.data.selectSt,
       },
     };
     request(param, (resData) => {
@@ -118,6 +123,8 @@ Page({
               userPayPrice: resData.data.data.userPayPrice, // 可支付的 个人点餐币
               weiXinPayPrice: resData.data.data.weiXinPayPrice, // 需要支付的 微信金额
             },
+            selectSt: resData.data.data.alllowStandardPayFlag, //
+            appendMealFlag: resData.data.data.appendMealFlag, //是否补餐
           },
           () => {
             _this.refreshUserFinance();
@@ -164,44 +171,73 @@ Page({
       true
     );
   },
+
+  clickSt() {
+    let _this = this;
+    if (_this.data.canUseStandard) {
+      _this.setData(
+        {
+          selectSt: !this.data.selectSt,
+        },
+        () => {
+          _this.getPreOrderInfo();
+        }
+      );
+    } else {
+      wx.showToast({
+        title: "不允许切换",
+        icon: "none",
+        duration: 2000,
+      });
+    }
+  },
+  clickBa() {
+    wx.showToast({
+      title: "不允许切换",
+      icon: "none",
+      duration: 2000,
+    });
+  },
+  clickWx() {
+    wx.showToast({
+      title: "不允许切换",
+      icon: "none",
+      duration: 2000,
+    });
+  },
   refreshPayTypeInfo() {
     let _this = this;
     let tmp_payType = _this.data.payInfo.payType;
     if (tmp_payType == "BALANCE_PAY") {
       _this.setData({
-        canUseStandard: false,
         canUseBalance: true,
-        canUseWx: false,
         selectBa: true,
-        selectSt: false,
+        canUseWx: false,
         selectWx: false,
       });
     } else if (tmp_payType == "BALANCE_MIX_WECHAT_PAY") {
       _this.setData({
-        canUseStandard: false,
         canUseBalance: true,
-        canUseWx: true,
         selectBa: true,
-        selectSt: false,
+        canUseWx: true,
         selectWx: true,
       });
     } else if (tmp_payType == "WECHAT_PAY") {
       _this.setData({
-        canUseStandard: false,
-        canUseBalance: false,
         canUseWx: true,
-        selectBa: false,
-        selectSt: false,
         selectWx: true,
+        canUseBalance: false,
+        selectBa: false,
       });
     } else if (tmp_payType == "STANDARD_PAY") {
       _this.setData({
-        canUseStandard: true,
         canUseBalance: false,
         canUseWx: false,
         selectBa: false,
-        selectSt: true,
         selectWx: false,
+        //餐标支付的开关，只有当后端推荐支付方式是STANDARD_PAY时，开可以控制，其他情况都不得控制
+        canUseStandard: true,
+        selectSt: true,
       });
     }
   },
@@ -220,10 +256,10 @@ Page({
     query_1.select(".c_buttonPosition_forCalculate").boundingClientRect();
     query_1.selectViewport().scrollOffset();
     query_1.exec(function (res) {
-      if(res instanceof Array&&res.length>0){
+      if (res instanceof Array && res.length > 0) {
         _this.setData({
           buttonTop: res[0].top,
-        });          
+        });
       }
     });
 
@@ -231,10 +267,10 @@ Page({
     query_2.select(".c_buttonPosition_forCalculate_top").boundingClientRect();
     query_2.selectViewport().scrollOffset();
     query_2.exec(function (res) {
-      if(res instanceof Array&&res.length>0){
+      if (res instanceof Array && res.length > 0) {
         _this.setData({
           addressBottom: res[0].bottom,
-        });          
+        });
       }
     });
   },
@@ -252,7 +288,7 @@ Page({
       if (data) {
         wx.showModal({
           title: "提示",
-          content: "您本次消费金额将在下下个月的餐卡中扣除",
+          content: data,
           showCancel: false,
           confirmText: "我知道了",
         });
@@ -342,7 +378,7 @@ Page({
       });
       return;
     }
-    if (!this.data.userInfo.deliveryAddressCode&&!this.data.newAddressCode) {
+    if (!this.data.userInfo.deliveryAddressCode && !this.data.newAddressCode) {
       wx.showToast({
         title: "请选择送餐地址",
         image: "/images/msg/error.png",
@@ -426,6 +462,7 @@ Page({
             url: config.baseUrlPlus + "/order/generateOrder",
             method: "post",
             data: {
+              standardPayFlag: _this.data.selectSt,
               verificationString: tmp_verificationString,
               userCode: _this.data.userInfo.userCode,
               userName: _this.data.userName,
@@ -434,7 +471,8 @@ Page({
                 _this.data.userInfo.deliveryAddressCode,
               payType: tmp_payType, //支付方式
               orderPayMoney: _this.data.payInfo.orderPayPrice, //自费的总价格
-              appendMealFlag: _this.data.orderType == "add" ? true : false,
+              // appendMealFlag: _this.data.orderType == "bucan" ? true : false,
+              appendMealFlag: _this.data.appendMealFlag,
               order: _this.getOrderListParam(),
             },
           };
