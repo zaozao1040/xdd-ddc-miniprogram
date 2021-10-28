@@ -458,11 +458,13 @@ Page({
             foodQuantity: itemMini.foodQuantity,
           });
         });
-        let tmp_startTime = "";
-        let oneResult = itemIn.pickTimeList.find((findItem) => {
-          return findItem.active == true;
-        });
-        tmp_startTime = oneResult.startTime;
+        let tmp_startTime = null;
+        if (itemIn.pickTimeList) {
+          let oneResult = itemIn.pickTimeList.find((findItem) => {
+            return findItem.active == true;
+          });
+          tmp_startTime = oneResult.startTime;
+        }
         tmp_orderParamList.push({
           pickTime: tmp_startTime,
           mealType: itemIn.mealType,
