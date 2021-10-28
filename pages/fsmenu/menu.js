@@ -299,6 +299,9 @@ Page({
 
   getFoodTypeList: function (loading = false) {
     let _this = this;
+    let tmp_activeTimeShareStatus = _this.data.mealTypeList.find((item) => {
+      return item.value == _this.data.activeMealType;
+    }).timeShareStatus;
     let param = {
       url:
         "/v4/listFoodDate?userCode=" +
@@ -306,14 +309,13 @@ Page({
         "&mealDate=" +
         _this.data.activeMealDate +
         "&mealType=" +
-        _this.data.activeMealType,
+        _this.data.activeMealType +
+        "&timeShareStatus=" +
+        tmp_activeTimeShareStatus,
     };
     requestModel.request(
       param,
       (resData) => {
-        let tmp_activeTimeShareStatus = _this.data.mealTypeList.find((item) => {
-          return item.value == _this.data.activeMealType;
-        }).timeShareStatus;
         _this.setData(
           {
             foodTypeList: resData.foodTypeList,
