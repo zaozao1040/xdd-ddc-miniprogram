@@ -55,6 +55,8 @@ Page({
 
     //
     recentData: null,
+    //
+    activeTimeShareStatus: false,
   },
 
   onLoad: function (option) {
@@ -309,6 +311,9 @@ Page({
     requestModel.request(
       param,
       (resData) => {
+        let tmp_activeTimeShareStatus = _this.data.mealTypeList.find((item) => {
+          return item.value == _this.data.activeMealType;
+        }).timeShareStatus;
         _this.setData(
           {
             foodTypeList: resData.foodTypeList,
@@ -318,6 +323,7 @@ Page({
             },
             userTimeAndMealTypeLimit: resData.limit,
             loading: false,
+            activeTimeShareStatus: tmp_activeTimeShareStatus,
           },
           () => {
             _this.calculateHeightList();
@@ -585,6 +591,7 @@ Page({
         supplement: false,
         canMeal: item.canMeal,
         tempImage: item.tempImage,
+        timeShareStatus: _this.data.activeTimeShareStatus,
       },
     };
     request(param, (resData) => {
@@ -736,6 +743,7 @@ Page({
               supplement: false,
               canMeal: foodItem.canMeal,
               tempImage: foodItem.tempImage,
+              timeShareStatus: _this.data.activeTimeShareStatus,
             },
           };
           request(param, (resData) => {
