@@ -472,6 +472,7 @@ Page({
           integralNumber: 0,
           foods: tmp_foods,
           userDiscountCode: itemIn.userDiscountCode,
+          timeShareStatus: itemIn.timeShareStatus,
         });
       });
     });
