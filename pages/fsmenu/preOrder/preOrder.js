@@ -318,7 +318,7 @@ Page({
       if (data) {
         wx.showModal({
           title: "提示",
-          content: "您本次消费金额将在下下个月的餐卡中扣除",
+          content: "您本次消费的金额将在次月中旬餐卡中扣除",
           showCancel: false,
           confirmText: "我知道了",
         });

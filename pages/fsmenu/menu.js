@@ -459,7 +459,7 @@ Page({
       },
       true,
       (resData) => {
-        if (resData.code == 4031) {
+        if (resData.code == 4031 || resData.code == 4017) {
           setTimeout(() => {
             wx.showModal({
               title: "需要清空购物车",
