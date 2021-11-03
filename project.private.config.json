@@ -805,6 +805,12 @@
           "pathName": "pages/home/home",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/fsmenu/menu",
+          "pathName": "pages/fsmenu/menu",
+          "query": "recentMealDate=2021-10-28&recentMealType=LUNCH",
+          "scene": null
         }
       ]
     }

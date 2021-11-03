@@ -26,9 +26,9 @@
                       {{foodInfo.foodName}}
                   </view>
                   <view class="foodLimitNum" wx:if="{{foodInfo.foodQuota||foodInfo.goodRate}}">
-                      <view class="food-stock" wx:if="{{foodInfo.foodQuota.surplusNum||foodInfo.foodQuota.surplusNum==0 }}">
+                      <!-- <view class="food-stock" wx:if="{{foodInfo.foodQuota.surplusNum||foodInfo.foodQuota.surplusNum==0 }}">
                           库存: {{foodInfo.foodQuota.surplusNum }}
-                      </view>
+                      </view> -->
                       <view class="food-stock" wx:if="{{ foodInfo.foodQuota.quotaNum ||foodInfo.foodQuota.quotaNum==0}}">
                           限购: {{foodInfo.foodQuota.quotaNum }}
                       </view>

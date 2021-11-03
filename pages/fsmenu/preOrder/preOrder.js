@@ -318,7 +318,7 @@ Page({
       if (data) {
         wx.showModal({
           title: "提示",
-          content: "您本次消费金额将在下下个月的餐卡中扣除",
+          content: "您本次消费的金额将在次月中旬餐卡中扣除",
           showCancel: false,
           confirmText: "我知道了",
         });
@@ -458,11 +458,13 @@ Page({
             foodQuantity: itemMini.foodQuantity,
           });
         });
-        let tmp_startTime = "";
-        let oneResult = itemIn.pickTimeList.find((findItem) => {
-          return findItem.active == true;
-        });
-        tmp_startTime = oneResult.startTime;
+        let tmp_startTime = null;
+        if (itemIn.pickTimeList) {
+          let oneResult = itemIn.pickTimeList.find((findItem) => {
+            return findItem.active == true;
+          });
+          tmp_startTime = oneResult.startTime;
+        }
         tmp_orderParamList.push({
           pickTime: tmp_startTime,
           mealType: itemIn.mealType,
@@ -470,6 +472,7 @@ Page({
           integralNumber: 0,
           foods: tmp_foods,
           userDiscountCode: itemIn.userDiscountCode,
+          timeShareStatus: itemIn.timeShareStatus,
         });
       });
     });

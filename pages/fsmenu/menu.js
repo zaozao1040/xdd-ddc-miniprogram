@@ -55,6 +55,8 @@ Page({
 
     //
     recentData: null,
+    //
+    activeTimeShareStatus: false,
   },
 
   onLoad: function (option) {
@@ -297,6 +299,9 @@ Page({
 
   getFoodTypeList: function (loading = false) {
     let _this = this;
+    let tmp_activeTimeShareStatus = _this.data.mealTypeList.find((item) => {
+      return item.value == _this.data.activeMealType;
+    }).timeShareStatus;
     let param = {
       url:
         "/v4/listFoodDate?userCode=" +
@@ -304,7 +309,9 @@ Page({
         "&mealDate=" +
         _this.data.activeMealDate +
         "&mealType=" +
-        _this.data.activeMealType,
+        _this.data.activeMealType +
+        "&timeShareStatus=" +
+        tmp_activeTimeShareStatus,
     };
     requestModel.request(
       param,
@@ -318,6 +325,7 @@ Page({
             },
             userTimeAndMealTypeLimit: resData.limit,
             loading: false,
+            activeTimeShareStatus: tmp_activeTimeShareStatus,
           },
           () => {
             _this.calculateHeightList();
@@ -451,7 +459,7 @@ Page({
       },
       true,
       (resData) => {
-        if (resData.code == 4031) {
+        if (resData.code == 4031 || resData.code == 4017) {
           setTimeout(() => {
             wx.showModal({
               title: "需要清空购物车",
@@ -585,6 +593,7 @@ Page({
         supplement: false,
         canMeal: item.canMeal,
         tempImage: item.tempImage,
+        timeShareStatus: _this.data.activeTimeShareStatus,
       },
     };
     request(param, (resData) => {
@@ -736,6 +745,7 @@ Page({
               supplement: false,
               canMeal: foodItem.canMeal,
               tempImage: foodItem.tempImage,
+              timeShareStatus: _this.data.activeTimeShareStatus,
             },
           };
           request(param, (resData) => {
