@@ -6,12 +6,7 @@ Page({
    */
   data: {
     userInfo: {},
-    spareInfo: {},
 
-    //送餐地址
-    organizeAddressList: [],
-    currentAddressIndex: 0,
-    deliveryAddressCode: "",
     address: "",
 
     //
@@ -25,6 +20,11 @@ Page({
     orgadmin: false, //是否是企业管理员
     showQbWx: true, //展示钱包支付和微信支付
     showQy: true, //展示企业支付
+
+    //
+    spareInfo: {},
+    getSpareMealSetParams: {},
+    orgAddressInfo: {}, //这个参数其实是前两个页面选中的企业地址
   },
 
   /**
@@ -79,17 +79,20 @@ Page({
   onReachBottom: function () {},
   loadData() {
     let _this = this;
+    var pages = getCurrentPages();
+    var prevPage = pages[pages.length - 2]; //上一个页面
+    _this.setData({
+      //这2个参数保存一下
+      getSpareMealSetParams: prevPage.data.getSpareMealSetParams,
+      orgAddressInfo: prevPage.data.orgAddressInfo,
+    });
     _this.getUserPayBalance();
-    _this.getOrganizeAddressList();
   },
   //获取设置
   getSpareMealSet() {
     let _this = this;
     let params = {
-      data: {
-        userCode: wx.getStorageSync("userCode"),
-        deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
-      },
+      data: _this.data.getSpareMealSetParams,
       url: "/spare/getSpareMealSet",
       method: "post",
     };
@@ -281,25 +284,7 @@ Page({
       });
     }
   },
-  getOrganizeAddressList() {
-    let _this = this;
-    let param = {
-      url:
-        "/organize/listOrganizeDeliveryAddress?userCode=" +
-        wx.getStorageSync("userCode"),
-    };
 
-    requestModel.request(param, (data) => {
-      if (data instanceof Array && data.length > 0) {
-        // _this.getAddfoodData(data[0].deliveryAddressCode);
-        _this.setData({
-          organizeAddressList: data,
-          deliveryAddressCode: data[0].deliveryAddressCode,
-          address: data[0].address,
-        });
-      }
-    });
-  },
   handleChangeWechatPayFlag() {
     let _this = this;
     _this.setData(
@@ -371,7 +356,8 @@ Page({
                   verificationString: respVer,
                   organizeCode: tmp_organizeCode,
                   userCode: wx.getStorageSync("userCode"),
-                  deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
+                  deliveryAddressCode:
+                    _this.data.orgAddressInfo.deliveryAddressCode,
                   mealDate: _this.data.spareInfo.mealDate,
                   mealType: _this.data.spareInfo.mealType,
                   userName: _this.data.userInfo.userName,
@@ -464,10 +450,15 @@ Page({
       },
     });
   },
-  handleChangeAddress() {
-    wx.navigateTo({
-      url: "/pages/mine/orgAdminSpare/address/address",
-    });
+
+  lintapItem(e) {
+    let _this = this;
+    let { item } = e.detail;
+    if (item.address) {
+      _this.setData({
+        orgAddressInfo: item,
+      });
+    }
   },
   getUserPayBalance() {
     let _this = this;
@@ -501,7 +492,8 @@ Page({
             data: {
               organizeCode: _this.data.userInfo.organizeCode,
               userCode: wx.getStorageSync("userCode"),
-              deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
+              deliveryAddressCode:
+                _this.data.orgAddressInfo.deliveryAddressCode,
               mealDate: _this.data.spareInfo.mealDate,
               mealType: _this.data.spareInfo.mealType,
               userName: _this.data.userInfo.userName,
@@ -515,12 +507,6 @@ Page({
           };
           requestModel.request(params, (data) => {
             console.log("@@@@@@@ 2 @@@@@@@ ", data);
-
-            // _this.setData({
-            //   organizeAddressList: data,
-            //   deliveryAddressCode: data[0].deliveryAddressCode,
-            //   address: data[0].address,
-            // });
           });
         }
       },

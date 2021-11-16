@@ -43,6 +43,9 @@ Page({
     checkOrderDateDes: "",
     selectedDate: null, //全部订单的日期
     selectedDateFlag: false,
+    //
+    getSpareMealSetParams: {},
+    orgAddressInfo: {},
   },
   bindDateChange(e) {
     if (e.detail && e.detail.value)
@@ -83,7 +86,21 @@ Page({
         orgadmin: options.orgadmin,
       },
       () => {
-        _this.getSpareMealSet();
+        var pages = getCurrentPages();
+        var prevPage = pages[pages.length - 2]; //上一个页面
+        _this.setData(
+          {
+            //这3个参数保存一下
+            spareInfo: prevPage.data.spareInfo,
+            getSpareMealSetParams: prevPage.data.getSpareMealSetParams,
+            orgAddressInfo: prevPage.data.orgAddressInfo,
+          },
+          () => {
+            if (_this.data.spareInfo.timeStatus) {
+              _this.initOrder();
+            }
+          }
+        );
       }
     );
   },
@@ -96,13 +113,9 @@ Page({
   },
   //获取备用餐设置
   getSpareMealSet() {
-
     let _this = this;
     let params = {
-      data: {
-        userCode: wx.getStorageSync("userCode"),
-        deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
-      },
+      data: _this.data.getSpareMealSetParams,
       url: "/spare/getSpareMealSet",
       method: "post",
     };

@@ -43,6 +43,7 @@ Page({
     orgadmin: "no",
     getSpareMealSetParams: {},
     spareInfo: {},
+    orgAddressInfo: {}, //选择的企业地址
   },
   /* 获取待评价信息 */
   getOrderEvaluateReplyNotRead() {
@@ -320,7 +321,7 @@ Page({
         orgadmin: orgadmin,
       },
       () => {
-        _this.getOrganizeDeliveryAddress();
+        _this.getAddressByOrganizeCode();
       }
     );
   },
@@ -388,7 +389,9 @@ Page({
               wx.navigateTo({
                 url:
                   "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
-                  _this.data.orgadmin,
+                  _this.data.orgadmin +
+                  "&deliveryAddressCode=" +
+                  obj.deliveryAddressCode,
               });
             }
           }
@@ -398,39 +401,40 @@ Page({
   },
 
   // 获取企业地址列表
-  getOrganizeDeliveryAddress() {
+  getAddressByOrganizeCode() {
     let _this = this;
     let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
     if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
       let params = {
         data: {
           userCode: tmp_tmp_userInfo.userInfo.userCode,
+          organizeCode: tmp_tmp_userInfo.userInfo.organizeCode,
         },
-        url: "/organize/getOrganizeDeliveryAddress",
+        url: "/organize/getAddressByOrganizeCode",
         method: "get",
       };
       requestModel.request(params, (res) => {
-        let tmp_getSpareMealSetParams = {
-          userCode: tmp_tmp_userInfo.userInfo.userCode,
-          organizeCode: tmp_tmp_userInfo.userInfo.organizeCode,
-          deliveryAddressCode: res[0].deliveryAddressCode,
-        };
         if (Array.isArray(res) && res.length == 1) {
-          _this.getSpareMealSet(tmp_getSpareMealSetParams);
-        } else if (Array.isArray(res) && res.length > 1) {
+          let tmp_getSpareMealSetParams = {
+            userCode: tmp_tmp_userInfo.userInfo.userCode,
+            organizeCode: tmp_tmp_userInfo.userInfo.organizeCode,
+            deliveryAddressCode: res[0].deliveryAddressCode,
+          };
           _this.setData(
             {
               getSpareMealSetParams: tmp_getSpareMealSetParams,
             },
             () => {
-              res.map((item) => {
-                item.name = item.address;
-              });
-              wx.lin.showActionSheet({
-                itemList: res,
-              });
+              _this.getSpareMealSet(tmp_getSpareMealSetParams);
             }
           );
+        } else if (Array.isArray(res) && res.length > 1) {
+          res.map((item) => {
+            item.name = item.address;
+          });
+          wx.lin.showActionSheet({
+            itemList: res,
+          });
         }
       });
     }
@@ -452,10 +456,21 @@ Page({
     let { index, item } = e.detail;
     if (item.address) {
       // 备用餐弹窗
-      _this.getSpareMealSet({
-        ..._this.data.getSpareMealSetParams,
+      let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
+      let tmp_getSpareMealSetParams = {
+        userCode: tmp_tmp_userInfo.userInfo.userCode,
+        organizeCode: tmp_tmp_userInfo.userInfo.organizeCode,
         deliveryAddressCode: item.deliveryAddressCode,
-      });
+      };
+      _this.setData(
+        {
+          orgAddressInfo: item,
+          getSpareMealSetParams: tmp_getSpareMealSetParams,
+        },
+        () => {
+          _this.getSpareMealSet(tmp_getSpareMealSetParams);
+        }
+      );
     } else {
       // 报餐弹窗
       if (index == 0) {

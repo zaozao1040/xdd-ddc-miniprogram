@@ -1,19 +1,15 @@
 <view wx:if="{{ spareInfo.timeStatus }}">
   <view style="background:rgb(245,245,245);padding:20rpx 0;">
     <view style="margin:0 20rpx 20rpx;background:#FFF; padding:40rpx;border-radius: 12rpx; ">
-      <view class="address-wrp" bindtap="handleChangeAddress">
+      <view class="address-wrp">
         <view class="address-left">
           <view class="address-des">
-            {{userInfo.deliveryAddress}}
+            {{orgAddressInfo.address}}
           </view>
           <view class="name-des">
             {{userInfo.userName}}
           </view>
         </view>
-        <view class="address-right">
-          <text class='iconfont icon-icon_on_the_right' style="font-size:40rpx;"></text>
-        </view>
-      
       </view>
     </view>
     <view style="margin:0 20rpx 20rpx;background:#FFF; padding:40rpx;border-radius: 12rpx; ">
@@ -154,3 +150,5 @@
   <image class="image" mode="aspectFit" src="/images/mine/nospare.png"></image>
   <view class="no-label">~该时间段没有备用餐~</view>
 </view>
+<!-- lin -->
+<l-action-sheet bind:linitemtap="lintapItem"/>
