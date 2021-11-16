@@ -78,24 +78,28 @@ Page({
     tuijianHeight: 0,
     tuijianOneHeight: 0,
     canpintuijianList: [],
-    // 
-    recentData:null, 
+    //
+    recentData: null,
 
     // 轮播图
-    swiperList:[],
+    swiperList: [],
     // 审核状态
-    userStatus:"",
+    userStatus: "",
 
     // v4 分时点餐
-    fenshiInfo:{
-      timeShareFlag:false
-    }
+    fenshiInfo: {
+      timeShareFlag: false,
+    },
   },
 
   navigateToMenu() {
-    let url = "/pages/menu/menu"
-    if(this.data.recentData){
-      url =  "/pages/menu/menu?recentMealDate="+this.data.recentData.mealDate+"&recentMealType="+this.data.recentData.mealType
+    let url = "/pages/menu/menu";
+    if (this.data.recentData) {
+      url =
+        "/pages/menu/menu?recentMealDate=" +
+        this.data.recentData.mealDate +
+        "&recentMealType=" +
+        this.data.recentData.mealType;
     }
     wx.navigateTo({
       url,
@@ -125,21 +129,31 @@ Page({
     let param = {
       url: "/v3/getCarouseList?userCode=" + wx.getStorageSync("userCode"),
     };
-    requestModel.request(param, (data) => {
-      this.setData({
-        swiperList: data,
-        preLoading_request: false, //轮播图接口来作为控制首页展示的充分条件之一
-      });
-    },true,()=>{},true);
+    requestModel.request(
+      param,
+      (data) => {
+        this.setData({
+          swiperList: data,
+          preLoading_request: false, //轮播图接口来作为控制首页展示的充分条件之一
+        });
+      },
+      true,
+      () => {},
+      true
+    );
   },
   clickStartMeal: function () {
     // 分时处理
-    if(this.data.fenshiInfo.timeShareFlag){
-      let url =  "/pages/fsmenu/menu?recentMealDate="+this.data.fenshiInfo.mealDate+"&recentMealType="+this.data.fenshiInfo.mealType
+    if (this.data.fenshiInfo.timeShareFlag) {
+      let url =
+        "/pages/fsmenu/menu?recentMealDate=" +
+        this.data.fenshiInfo.mealDate +
+        "&recentMealType=" +
+        this.data.fenshiInfo.mealType;
       wx.navigateTo({
         url,
       });
-      return
+      return;
     }
 
     if (!wx.getStorageSync("userInfo")) {
@@ -175,7 +189,7 @@ Page({
                 }
               },
             });
-          }  else {
+          } else {
             this.gotoMenu();
           }
         });
@@ -184,7 +198,7 @@ Page({
       }
     }
   },
-  gotoPage:function(e){
+  gotoPage: function (e) {
     let page = e.currentTarget.dataset.item.page;
     wx.navigateTo({
       url: page,
@@ -240,17 +254,15 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function() {
-    console.log('@@@@@@@ 2 @f@@@@@@ ',);
+  onReachBottom: function () {
     // 调用子组件的方法 让子组件查询下一页
-    this.selectComponent("#tuijian").gotoNextPage()
+    this.selectComponent("#tuijian").gotoNextPage();
   },
 
   onLoad: function (options) {
-    
     let _this = this;
-    _this.getTimeShareSet();//获取企业分时设置
-    _this.clearCart()//清空购物车 暴力做法
+    _this.getTimeShareSet(); //获取企业分时设置
+    // _this.clearCart(); //清空购物车 暴力做法
     setTimeout(function () {
       // 2秒后强制展示首页
       _this.setData({
@@ -265,7 +277,7 @@ Page({
         });
       },
     });
-    _this.loadData(options)
+    _this.loadData(options);
     _this.getSwiperList();
     _this.getNotice();
     _this.getCanpintuijianList();
@@ -276,10 +288,10 @@ Page({
     }
 
     //设置版本号
-    let version = getApp().globalData.version 
+    let version = getApp().globalData.version;
     wx.setNavigationBarTitle({
-      title: "点点餐 "+version
-    })
+      title: "点点餐 " + version,
+    });
   },
 
   /**
@@ -296,18 +308,18 @@ Page({
       });
 
       let { userStatus, canTakeDiscount } = userInfo;
-      if (userStatus == "NO_CHECK"||userStatus == "CHECK_NO_PASS") {
+      if (userStatus == "NO_CHECK" || userStatus == "CHECK_NO_PASS") {
         //企业用户的'审核中'状态 以及 '审核不通过' 状态
         this.setData({
           showCheckFlag: true,
-          userStatus:userStatus
+          userStatus: userStatus,
         });
         wx.hideTabBar();
       }
-       if (userStatus == "NORMAL") {
+      if (userStatus == "NORMAL") {
         this.setData({
           showCheckFlag: false,
-          userStatus:userStatus
+          userStatus: userStatus,
         });
         this.getTakeMealInfo();
         //获取待评价的订单信息
@@ -322,7 +334,7 @@ Page({
     }, true);
   },
   //重新绑定
-  clickCxbd(){
+  clickCxbd() {
     this.setData({
       showCheckFlag: false,
     });
@@ -332,7 +344,6 @@ Page({
   loadData: function (options) {
     let _this = this;
     _this.getRecentMealDateAndMealType();
-
   },
   getTimeShareSet: function () {
     let _this = this;
@@ -345,10 +356,10 @@ Page({
       };
       requestModel.request(param, (resData) => {
         _this.setData({
-          fenshiInfo: {...resData},
+          fenshiInfo: { ...resData },
         });
-        wx.setStorageSync("fenshiInfo", {...resData});
-      })
+        wx.setStorageSync("fenshiInfo", { ...resData });
+      });
     }
   },
   clearCart: function () {
@@ -362,18 +373,16 @@ Page({
           tmp_userInfo.userCode,
         method: "post",
       };
-      request(param, (resData) => {
-
-      });
+      request(param, (resData) => {});
     }
-
   },
   getRecentMealDateAndMealType: function () {
     let _this = this;
     let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
     if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
       let tmp_userInfo = tmp_tmp_userInfo.userInfo;
-      let url = "/v3/getRecentMealDateAndMealType?userCode=" + tmp_userInfo.userCode;
+      let url =
+        "/v3/getRecentMealDateAndMealType?userCode=" + tmp_userInfo.userCode;
       let param = {
         url,
       };
@@ -381,7 +390,7 @@ Page({
         _this.setData({
           recentData: resData,
         });
-      })
+      });
     }
   },
 

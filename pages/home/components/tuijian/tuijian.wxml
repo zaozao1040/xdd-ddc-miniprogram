@@ -1,12 +1,13 @@
 <view>
-  <view wx:if="{{ labelList.length > 0 }}">
+  <!-- <view wx:if="{{ labelList.length > 0 }}"> -->
+  <view>
     <view class="line"></view>
-    <scroll-view scroll-x style="overflow:hidden;white-space:nowrap;">
+    <view style="overflow:hidden;white-space:nowrap;">
       <view class="label-wrp">
         <view class="{{item.id==activeLabelId?'active-label label':'inactive-label label'}}" 
           wx:for="{{labelList}}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap='clickLabel' data-index='{{index}}' data-item='{{item}}'>{{item.labelTypeName}}</view>
       </view>
-    </scroll-view>
+    </view>
     <view class="food-wrp">
       <view
         class="food-item-wrp"
@@ -19,8 +20,9 @@
       >
         <view class="food-item-inside-wrp">
           <view class="food-img-wrp">
+            <!--  mode="aspectFill" -->
             <image
-            mode="aspectFill"
+           
             class="food-img"
             data-item="{{ item }}"
             bindtap="gotoFoodDetail"
@@ -52,5 +54,8 @@
   <!-- 子组件 选择日期和餐别 -->
   <c-mealDateType id='mealDateType' foodInfo='{{foodInfo}}' from='home'></c-mealDateType>
   </view>
+  <!-- <view wx:else>
+  
+  </view> -->
 
 </view>
