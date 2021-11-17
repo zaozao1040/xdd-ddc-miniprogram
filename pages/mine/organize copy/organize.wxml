@@ -22,7 +22,7 @@
     </view>
     <!-- 企业选择 -->
     <view class="search-wrapper">
-        <scroll-view scroll-y style="height: {{windowHeight - scrollTop}}px;" class="c_scrollPosition_forCalculate">
+        <scroll-view scroll-y style="height: {{buttonTop - scrollTop}}px;" class="c_scrollPosition_forCalculate">
             <view class="organizeItem-wrapper" wx:for="{{organizeList}}" wx:for-index="organizeIndex" wx:for-item="organizeItem" wx:key="organizeIndex" catchtap="selectOrganize" data-employeenumber="{{organizeItem.employeeNumber}}" data-organizename="{{organizeItem.organizeName}}"
                 data-organizecode="{{organizeItem.organizeCode}}">
                 <view class="organizeItem-left">
@@ -41,6 +41,9 @@
                 未查询到企业
             </view>
         </scroll-view>
+    </view>
+    <view class="c_buttonPosition_forCalculate">
+        <button loading="{{loading}}" class="button" catchtap="changeOrganize">绑定企业</button>
     </view>
 </view>
 <view class="organize-wrapper" wx:if='{{bindAlready }}'>
@@ -69,15 +72,3 @@
     <view class='bind-des'>审核会尽快完成，请耐心等待</view>
     <view class='bind-back' bindtap='goback'>返回</view>
 </view>
-<!-- lin -->
-<l-action-sheet bind:linitemtap="lintapItem"/>
-<l-dialog 
-  show="{{showQueding}}"
-  type="confirm"     
-  title="{{organize}}"
-  content="{{addressName}}"
-  confirm-color="#F79C4C"
-  bind:linconfirm="clickConfirm" 
-  bind:lincancel="clickCancel" 
-  bind:lintap="clickCancel"
-/>

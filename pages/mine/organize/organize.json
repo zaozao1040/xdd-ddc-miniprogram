@@ -1,5 +1,8 @@
 {
-    "navigationBarTitleText": "绑定企业",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTextStyle": "black"
+  "navigationBarTitleText": "绑定企业",
+  "navigationBarBackgroundColor": "#fff",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "l-action-sheet": "/miniprogram_npm/lin-ui/action-sheet/index"
+  }
 }

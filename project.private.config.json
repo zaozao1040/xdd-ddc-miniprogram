@@ -823,6 +823,12 @@
           "pathName": "pages/mine/mine",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/mine/organize/organize",
+          "pathName": "pages/mine/organize/organize",
+          "query": "",
+          "scene": null
         }
       ]
     }

@@ -3,10 +3,9 @@ let requestModel = new base();
 Page({
   data: {
     scrollTop: 0,
-    windowHeight: 0,
+    buttonTop: 0,
     location: {},
     organizeList: [],
-    organizeListAll: [],
     organize: "",
 
     userName: "",
@@ -16,10 +15,6 @@ Page({
     search: "",
     organizeListNoResult: false,
     organizeSelected: false,
-    //
-    addressCode: "",
-    addressName: "",
-    showQueding: false,
   },
 
   /**
@@ -80,7 +75,6 @@ Page({
         requestModel.request(param, (data) => {
           _this.setData({
             organizeList: data,
-            organizeListAll: JSON.parse(JSON.stringify(data)),
           });
         });
 
@@ -127,13 +121,6 @@ Page({
   onHide: function () {},
   initAddress: function () {
     let _this = this;
-    wx.getSystemInfo({
-      success: function (res) {
-        _this.setData({
-          windowHeight: res.windowHeight,
-        });
-      },
-    });
     const query = wx.createSelectorQuery();
     query.select(".c_scrollPosition_forCalculate").boundingClientRect();
     query.selectViewport().scrollOffset();
@@ -142,14 +129,23 @@ Page({
         scrollTop: res[0].top, // #the-id节点的上边界坐标
       });
     });
+    const query_1 = wx.createSelectorQuery();
+    query_1.select(".c_buttonPosition_forCalculate").boundingClientRect();
+    query_1.selectViewport().scrollOffset();
+    query_1.exec(function (res) {
+      _this.setData({
+        buttonTop: res[0].top, // #the-id节点的上边界坐标
+      });
+    });
+    console.log("bindChecking", _this.data.bindChecking);
+    console.log("canBinding", _this.data.canBinding);
   },
-
-  // 获取企业地址列表
-  selectOrganize(e) {
-    let _this = this;
+  selectOrganize: function (e) {
+    console.log("aaa");
     this.setData({
       organize: e.currentTarget.dataset.organizename,
       employeeNumber: e.currentTarget.dataset.employeenumber,
+      organizeList: [],
       organizeSelected: true,
     });
     this.data.organizeCode = e.currentTarget.dataset.organizecode;
@@ -158,54 +154,6 @@ Page({
       title: "选择成功",
       image: "/images/msg/success.png",
       duration: 2000,
-    });
-    let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
-    if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
-      let params = {
-        data: {
-          userCode: tmp_tmp_userInfo.userInfo.userCode,
-          organizeCode: e.currentTarget.dataset.organizecode,
-        },
-        url: "/organize/getAddressByOrganizeCode",
-        method: "get",
-      };
-      requestModel.request(params, (res) => {
-        if (Array.isArray(res) && res.length == 1) {
-          _this.setData({
-            addressCode: res[0].deliveryAddressCode,
-            addressName: res[0].address,
-            showQueding: true,
-          });
-        } else if (Array.isArray(res) && res.length > 1) {
-          res.map((item) => {
-            item.name = item.address;
-          });
-          wx.lin.showActionSheet({
-            itemList: res,
-          });
-        }
-      });
-    }
-  },
-  clickConfirm() {
-    this.changeOrganize();
-  },
-  clickCancel() {
-    this.setData({
-      showQueding: false,
-      organize: "",
-      employeeNumber: "",
-      organizeSelected: false,
-      organizeList: this.data.organizeListAll,
-    });
-  },
-  lintapItem(e) {
-    let _this = this;
-    let { item } = e.detail;
-    _this.setData({
-      addressCode: item.deliveryAddressCode,
-      addressName: item.address,
-      showQueding: true,
     });
   },
   nameInput: function (e) {
@@ -301,12 +249,6 @@ Page({
         image: "/images/msg/error.png",
         duration: 2000,
       });
-    } else if (!_this.data.addressCode) {
-      wx.showToast({
-        title: "请选择企业地址",
-        image: "/images/msg/error.png",
-        duration: 2000,
-      });
     } else if (_this.data.employeeNumber == true && !_this.data.usernumber) {
       wx.showToast({
         title: "请输入工号",
@@ -318,7 +260,6 @@ Page({
         userCode: _this.data.userCode,
         userName: _this.data.userName,
         organizeCode: _this.data.organizeCode,
-        addressCode: _this.data.addressCode,
         userOrganizeCode: _this.data.employeeNumber
           ? _this.data.usernumber
           : null,
