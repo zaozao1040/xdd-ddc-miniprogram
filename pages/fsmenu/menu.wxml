@@ -14,8 +14,8 @@
         </scroll-view>
         <view class='mealtype-list'>
           <block wx:for="{{ mealTypeList }}" wx:for-item="item"  wx:for-index="index" wx:key="index">
-            <view class="{{ item.value == activeMealType ? 'mealtype-active' : 'mealtype-inactive' }}" bindtap="clickMealType"  data-index='{{index}}' data-item='{{item}}'>
-              {{ item.label }}</view>
+            <view class="{{ item.value == activeMealType && item.takeMealTime== activeTakeMealTime ? 'mealtype-active' : 'mealtype-inactive' }}" bindtap="clickMealType"  data-index='{{index}}' data-item='{{item}}'>
+              {{ item.timeShareStatus?item.label+ ' ' +item.takeMealTime:item.label }}</view>
           </block>
         </view>
         <block >

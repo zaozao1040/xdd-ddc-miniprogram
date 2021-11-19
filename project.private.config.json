@@ -829,6 +829,12 @@
           "pathName": "pages/mine/organize/organize",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/fsmenu/menu",
+          "pathName": "pages/fsmenu/menu",
+          "query": "recentMealDate=2021-11-19&recentMealType=LUNCH",
+          "scene": null
         }
       ]
     }

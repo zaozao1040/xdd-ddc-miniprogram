@@ -146,10 +146,14 @@ Page({
     // 分时处理
     if (this.data.fenshiInfo.timeShareFlag) {
       let url =
-        "/pages/fsmenu/menu?recentMealDate=" +
+        "/pages/fsmenu/menu?mealDate=" +
         this.data.fenshiInfo.mealDate +
-        "&recentMealType=" +
-        this.data.fenshiInfo.mealType;
+        "&mealType=" +
+        this.data.fenshiInfo.mealType +
+        "&timeShareFlag=" +
+        this.data.fenshiInfo.timeShareFlag +
+        "&takeMealTime=" +
+        this.data.fenshiInfo.takeMealTime;
       wx.navigateTo({
         url,
       });

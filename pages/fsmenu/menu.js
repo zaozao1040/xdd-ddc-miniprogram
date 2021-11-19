@@ -31,6 +31,8 @@ Page({
     //
     activeMealDate: "",
     activeMealType: "",
+    activeTakeMealTime: "",
+    activeTimeShareStatus: false,
     mealTypeMap: {
       LUNCH: "午餐",
       DINNER: "晚餐",
@@ -48,7 +50,6 @@ Page({
 
     // 餐品类型推荐
     activeTypeId: null,
-    promptInfo: {},
 
     // 各种个性化
     userTimeAndMealTypeLimit: false, //奥美凯
@@ -56,7 +57,6 @@ Page({
     //
     recentData: null,
     //
-    activeTimeShareStatus: false,
   },
 
   onLoad: function (option) {
@@ -67,13 +67,12 @@ Page({
     let _this = this;
     let mealDateList = [];
     let weekCn = ["一", "二", "三", "四", "五", "六", "日"];
-    let tmpActiveMealDate = "";
+
     for (let i = 0; i < 14; i++) {
       let tmpDes = "";
       let tmpDay = moment().subtract(-i, "days");
       if (i == 0) {
         tmpDes = "今天";
-        tmpActiveMealDate = tmpDay.format("YYYY-MM-DD");
       } else if (i == 1) {
         tmpDes = "明天";
       } else {
@@ -86,32 +85,20 @@ Page({
         mealDateAbbreviation: tmpDay.format("MM/DD"),
       });
     }
-
-    if (_this.data.promptInfo.mealDate) {
-      // 推荐餐品类别情况
-      _this.setData({
-        activeMealDate: _this.data.promptInfo.mealDate,
-        mealDateList: mealDateList,
-      });
-      this.getMealTypeList(_this.data.promptInfo.mealDate);
-    } else if (_this.data.recentData) {
-      // 后台算出最近可以点餐的情况
-      _this.setData({
-        activeMealDate: _this.data.recentData.mealDate,
-        mealDateList: mealDateList,
-      });
-      this.getMealTypeList(_this.data.recentData.mealDate);
-    } else {
-      // 一般情况
-      this.setData({
-        mealDateList: mealDateList,
-        activeMealDate: tmpActiveMealDate,
-      });
-      this.getMealTypeList(tmpActiveMealDate);
-    }
+    // 后台算出最近可以点餐的情况
+    _this.setData({
+      mealDateList: mealDateList,
+    });
   },
   // 后端根据日期获取餐别列表
-  getMealTypeList: function (mealDate) {
+  getMealTypeList: function (mealDate, mealType, timeShareStatus) {
+    console.log(
+      "@@@@@@@ mealDate, mealType, timeShareStatus2 @@@@@@@ ",
+      mealDate,
+      mealType,
+      timeShareStatus
+    );
+
     let _this = this;
     let param = {
       url:
@@ -123,72 +110,19 @@ Page({
     requestModel.request(
       param,
       (resData) => {
-        if (_this.data.promptInfo.mealType) {
-          // 推荐餐品类别情况
-          _this.setData(
-            {
-              mealTypeList: resData,
-              activeMealType: _this.data.promptInfo.mealType,
-            },
-            () => {
-              _this.getFoodTypeList();
-            }
-          );
-        } else if (_this.data.recentData) {
-          // 后端计算的最近可点餐的日期+餐别 的情况
-          if (_this.data.activeMealDate == _this.data.recentData.mealDate) {
-            _this.setData(
-              {
-                mealTypeList: resData,
-                activeMealType: _this.data.recentData.mealType,
-              },
-              () => {
-                _this.getFoodTypeList();
-              }
-            );
-          } else {
-            if (resData instanceof Array && resData.length > 0) {
-              _this.setData(
-                {
-                  mealTypeList: resData,
-                  activeMealType: resData[0].value,
-                },
-                () => {
-                  _this.getFoodTypeList();
-                }
-              );
-            } else {
-              _this.setData(
-                {
-                  mealTypeList: resData,
-                },
-                () => {
-                  _this.getFoodTypeList();
-                }
-              );
-            }
-          }
+        _this.setData({
+          mealTypeList: resData,
+        });
+        let tmp_mealType = "";
+        let tmp_timeShareStatus = null;
+        if (mealType) {
+          tmp_mealType = mealType;
+          tmp_timeShareStatus = timeShareStatus;
         } else {
-          // 一般情况
-          let tmp_activeMealType = "";
-          if (resData instanceof Array && resData.length > 0) {
-            tmp_activeMealType = resData[0].value;
-            _this.setData(
-              {
-                mealTypeList: resData,
-                activeMealType: tmp_activeMealType,
-              },
-              () => {
-                _this.getFoodTypeList();
-              }
-            );
-          } else {
-            _this.setData({
-              mealTypeList: resData,
-              activeMealType: tmp_activeMealType,
-            });
-          }
+          tmp_mealType = resData[0].value;
+          tmp_timeShareStatus = resData[0].timeShareStatus;
         }
+        _this.getFoodTypeList(mealDate, tmp_mealType, tmp_timeShareStatus);
       },
       true
     );
@@ -200,23 +134,25 @@ Page({
     _this.getPersonalConfig();
     _this.getCartList();
     _this.getPayInfo();
-    if (option.typeId) {
-      _this.getCanpinInfo(option.typeId);
-    } else if (option.recentMealType) {
-      _this.setData(
-        {
-          recentData: {
-            mealDate: option.recentMealDate,
-            mealType: option.recentMealType,
-          },
-        },
-        () => {
-          _this.getMealDateList();
-        }
-      );
-    } else {
-      _this.getMealDateList();
-    }
+    _this.setData({
+      recentData: {
+        mealDate: option.mealDate,
+        mealType: option.mealType,
+        takeMealTime: option.takeMealTime,
+        timeShareStatus: option.timeShareFlag,
+      },
+      activeMealDate: option.mealDate,
+      activeMealType: option.mealType,
+      activeTimeShareStatus: option.timeShareFlag,
+      activeTakeMealTime: option.takeMealTime,
+    });
+
+    _this.getMealDateList();
+    _this.getMealTypeList(
+      option.mealDate,
+      option.mealType,
+      option.timeShareFlag
+    );
     _this.doNGO(); //处理NGO 当为NGO时 不允许展示价格 以及加入购物车标签
   },
   doNGO: function () {
@@ -297,61 +233,34 @@ Page({
     });
   },
 
-  getFoodTypeList: function (loading = false) {
+  getFoodTypeList: function (mealDate, mealType, timeShareStatus) {
     let _this = this;
-    let tmp_activeTimeShareStatus = _this.data.mealTypeList.find((item) => {
-      return item.value == _this.data.activeMealType;
-    }).timeShareStatus;
     let param = {
       url:
         "/v4/listFoodDate?userCode=" +
         _this.data.userInfo.userCode +
         "&mealDate=" +
-        _this.data.activeMealDate +
+        mealDate +
         "&mealType=" +
-        _this.data.activeMealType +
+        mealType +
         "&timeShareStatus=" +
-        tmp_activeTimeShareStatus,
+        timeShareStatus,
     };
-    requestModel.request(
-      param,
-      (resData) => {
-        _this.setData(
-          {
-            foodTypeList: resData.foodTypeList,
-            activeInfoExtra: {
-              mealSet: resData.mealSet,
-              mealType: resData.mealType,
-            },
-            userTimeAndMealTypeLimit: resData.limit,
-            loading: false,
-            activeTimeShareStatus: tmp_activeTimeShareStatus,
+    requestModel.request(param, (resData) => {
+      _this.setData(
+        {
+          foodTypeList: resData.foodTypeList,
+          activeInfoExtra: {
+            mealSet: resData.mealSet,
+            mealType: resData.mealType,
           },
-          () => {
-            _this.calculateHeightList();
-          }
-        );
-
-        if (_this.data.promptInfo.mealDate) {
-          // 推荐餐品类别情况
-          let tmp_activeFoodType = 0;
-          let tmp_length = _this.data.foodTypeList.length;
-          for (let i = 0; i < tmp_length; i++) {
-            if (
-              _this.data.foodTypeList[i].typeId == _this.data.promptInfo.typeId
-            ) {
-              tmp_activeFoodType = i;
-              i = tmp_length;
-            }
-          }
-          _this.setData({
-            activeFoodType: tmp_activeFoodType,
-            scrollToView: "order" + tmp_activeFoodType,
-          });
+          userTimeAndMealTypeLimit: resData.limit,
+        },
+        () => {
+          _this.calculateHeightList();
         }
-      },
-      loading
-    );
+      );
+    });
   },
   // 计算购物车高度，大于最大高度就滚动
   calculteCartHeight() {
@@ -487,15 +396,10 @@ Page({
     if (_this.data.activeMealDate == item.mealDate) {
       return;
     } else {
-      _this.setData(
-        {
-          activeMealDate: item.mealDate,
-          mealTypeList: _this.data.mealDateList[index].dayMealTypeList,
-        },
-        () => {
-          _this.getMealTypeList(item.mealDate);
-        }
-      );
+      _this.setData({
+        activeMealDate: item.mealDate,
+      });
+      _this.getMealTypeList(item.mealDate, null, null);
     }
   },
 
@@ -504,12 +408,17 @@ Page({
     let _this = this;
     let { index, item } = e.currentTarget.dataset;
     // 如果点击已经是激活状态的 则不处理
-    if (_this.data.activeMealType == item.value) {
+    if (
+      (_this.data.activeMealType == item.value &&
+        _this.data.activeTakeMealTime == item.takeMealTime) ||
+      ""
+    ) {
       return;
     } else {
       _this.setData(
         {
           activeMealType: item.value,
+          activeTakeMealTime: item.takeMealTime || "",
         },
         () => {
           _this.getFoodTypeList();
@@ -606,8 +515,10 @@ Page({
         _this.getCartList();
         // 判断是否当前遮罩层后面的日期+餐别是此刻的 若是则驱动遮罩层后面的进行改变数字
         if (
-          _this.data.activeMealDate == mealDate &&
-          _this.data.activeMealType == mealType
+          (_this.data.activeMealDate == mealDate &&
+            _this.data.activeMealType == mealType &&
+            _this.data.activeTakeMealTime == takeMealTime) ||
+          ""
         ) {
           let { foodTypeIndex, foodIndex } = item;
           let tmp_foodTypeList = JSON.parse(
@@ -663,8 +574,10 @@ Page({
         _this.getCartList();
         // 判断是否当前遮罩层后面的日期+餐别是此刻的 若是则驱动遮罩层后面的进行改变数字
         if (
-          _this.data.activeMealDate == mealDate &&
-          _this.data.activeMealType == mealType
+          (_this.data.activeMealDate == mealDate &&
+            _this.data.activeMealType == mealType &&
+            _this.data.activeTakeMealTime == takeMealTime) ||
+          ""
         ) {
           let { foodTypeIndex, foodIndex } = item;
           let tmp_foodTypeList = JSON.parse(
@@ -739,6 +652,7 @@ Page({
               foodQuantity: 1,
               mealDate: _this.data.activeMealDate,
               mealType: _this.data.activeMealType,
+              takeMealTime: _this.data.activeTakeMealTime || "",
               image: foodItem.image,
               foodTypeIndex,
               foodIndex,
@@ -814,6 +728,7 @@ Page({
               foodQuantity: 1,
               mealDate: _this.data.activeMealDate,
               mealType: _this.data.activeMealType,
+              takeMealTime: _this.data.activeTakeMealTime || "",
               image: foodItem.image,
               foodTypeIndex,
               foodIndex,
@@ -1003,29 +918,6 @@ Page({
       title: "未绑定企业",
       image: "/images/msg/error.png",
       duration: 2000,
-    });
-  },
-
-  // 获取餐品推荐信息(如果是餐品推荐跳转过来的话)
-  getCanpinInfo(typeId) {
-    let _this = this;
-    let url =
-      "/promoteFoodType/foodTypeAndDate?userCode=" +
-      _this.data.userInfo.userCode +
-      "&typeId=" +
-      typeId;
-    let param = {
-      url,
-    };
-    requestModel.request(param, (data) => {
-      _this.setData(
-        {
-          promptInfo: data,
-        },
-        () => {
-          _this.getMealDateList();
-        }
-      );
     });
   },
 });
