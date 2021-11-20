@@ -13,13 +13,11 @@
           </view>
         </scroll-view>
   
-        <scroll-view scroll-x style="overflow:hidden;white-space:nowrap;">
-          <view class="mealtype-list">
-            <block wx:for="{{ mealTypeList }}" wx:for-item="item"  wx:for-index="index" wx:key="index">
-              <view class="{{ item.value == activeMealType && item.takeMealTime== activeTakeMealTime ? 'mealtype-active' : 'mealtype-inactive' }}" bindtap="clickMealType"  data-index='{{index}}' data-item='{{item}}'>
-                {{ item.timeShareStatus?item.label+ ' ' +item.takeMealTime:item.label }}</view>
-            </block>          
-          </view>
+        <scroll-view scroll-x style="overflow:hidden;white-space:nowrap;height:100rpx;padding:0 30rpx 0 30rpx;">
+          <view class="mealtype-list" wx:for="{{ mealTypeList }}" wx:for-item="item"  wx:for-index="index" wx:key="index">
+            <view class="{{ item.value == activeMealType && item.takeMealTime== activeTakeMealTime ? 'mealtype-active' : 'mealtype-inactive' }}" bindtap="clickMealType"  data-index='{{index}}' data-item='{{item}}'>
+              {{ item.label+ ' ' +item.takeMealTime }}</view>
+          </view>          
         </scroll-view>
     
         <block>

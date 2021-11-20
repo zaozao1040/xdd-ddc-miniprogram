@@ -144,7 +144,7 @@
   letter-spacing: 0;
   text-align: center;
   height: 62rpx;
-  width: 160rpx;
+  width: 180rpx;
   line-height: 62rpx;
   margin-right: 20rpx;
 }
@@ -158,7 +158,7 @@
   letter-spacing: 0;
   text-align: center;
   height: 62rpx;
-  width: 160rpx;
+  width: 180rpx;
   line-height: 62rpx;
   margin-right: 20rpx;
 }
@@ -592,9 +592,8 @@
 /* + - **********控件(购物车详情中)********** */
 
 .mealtype-list {
-  padding: 20rpx 25rpx 29rpx 25rpx;
-  display: flex;
-  /* border-bottom: 1rpx solid #EBEBEB; */
+  margin: 10rpx 0 0 0;
+  display: inline-block;
 }
 
 .food-label {

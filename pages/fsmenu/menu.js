@@ -779,7 +779,11 @@ Page({
         });
         _this.getPayInfo();
         _this.getCartList();
-        _this.getFoodTypeList(true);
+        _this.getFoodTypeList(
+          _this.data.activeMealDate,
+          _this.data.activeMealType,
+          _this.data.activeTimeShareStatus
+        );
         _this.setData({
           showCartFlag: false,
         });
