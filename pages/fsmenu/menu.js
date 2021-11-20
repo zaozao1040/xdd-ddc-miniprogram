@@ -106,18 +106,20 @@ Page({
         _this.setData({
           mealTypeList: resData,
         });
-        let tmp_mealType = "";
+        let tmp_mealType = null;
         let tmp_timeShareStatus = null;
+        let tmp_takeMealTime = null;
         if (mealType) {
           tmp_mealType = mealType;
           tmp_timeShareStatus = timeShareStatus;
         } else {
           tmp_mealType = resData[0].value;
           tmp_timeShareStatus = resData[0].timeShareStatus;
+          tmp_takeMealTime = resData[0].takeMealTime;
           _this.setData({
             activeMealType: resData[0].value,
             activeTimeShareStatus: resData[0].timeShareStatus,
-            // activeTakeMealTime: resData[0].takeMealTime,
+            activeTakeMealTime: resData[0].takeMealTime,
           });
         }
         _this.getFoodTypeList(mealDate, tmp_mealType, tmp_timeShareStatus);
