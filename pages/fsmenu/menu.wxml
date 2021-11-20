@@ -12,13 +12,17 @@
             <view class="{{item.mealDate==activeMealDate?'active-day-line':''}}"></view>
           </view>
         </scroll-view>
-        <view class='mealtype-list'>
-          <block wx:for="{{ mealTypeList }}" wx:for-item="item"  wx:for-index="index" wx:key="index">
-            <view class="{{ item.value == activeMealType && item.takeMealTime== activeTakeMealTime ? 'mealtype-active' : 'mealtype-inactive' }}" bindtap="clickMealType"  data-index='{{index}}' data-item='{{item}}'>
-              {{ item.timeShareStatus?item.label+ ' ' +item.takeMealTime:item.label }}</view>
-          </block>
-        </view>
-        <block >
+  
+        <scroll-view scroll-x style="overflow:hidden;white-space:nowrap;">
+          <view class="mealtype-list">
+            <block wx:for="{{ mealTypeList }}" wx:for-item="item"  wx:for-index="index" wx:key="index">
+              <view class="{{ item.value == activeMealType && item.takeMealTime== activeTakeMealTime ? 'mealtype-active' : 'mealtype-inactive' }}" bindtap="clickMealType"  data-index='{{index}}' data-item='{{item}}'>
+                {{ item.timeShareStatus?item.label+ ' ' +item.takeMealTime:item.label }}</view>
+            </block>          
+          </view>
+        </scroll-view>
+    
+        <block>
           <!-- 餐别不允许点餐 -->
           <block wx:if='{{userTimeAndMealTypeLimit}}'>
             <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>

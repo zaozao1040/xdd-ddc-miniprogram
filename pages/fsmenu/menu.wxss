@@ -144,9 +144,9 @@
   letter-spacing: 0;
   text-align: center;
   height: 62rpx;
-  width: 148rpx;
+  width: 160rpx;
   line-height: 62rpx;
-  margin-left: 30rpx;
+  margin-right: 20rpx;
 }
 
 .mealtype-active {
@@ -158,9 +158,9 @@
   letter-spacing: 0;
   text-align: center;
   height: 62rpx;
-  width: 148rpx;
+  width: 160rpx;
   line-height: 62rpx;
-  margin-left: 30rpx;
+  margin-right: 20rpx;
 }
 
 .right-item-text {
@@ -244,7 +244,7 @@
   margin-bottom: 40rpx;
   width: 100%;
 }
-.sallout-img{
+.sallout-img {
   width: 160rpx;
   height: 160rpx;
 }
@@ -480,8 +480,8 @@
   display: flex;
   height: 40rpx;
   position: absolute;
-    right: 0;
-    bottom: 10rpx;
+  right: 0;
+  bottom: 10rpx;
 }
 
 .num-control-stock {
@@ -592,7 +592,7 @@
 /* + - **********控件(购物车详情中)********** */
 
 .mealtype-list {
-  padding: 20rpx 0 29rpx;
+  padding: 20rpx 25rpx 29rpx 25rpx;
   display: flex;
   /* border-bottom: 1rpx solid #EBEBEB; */
 }

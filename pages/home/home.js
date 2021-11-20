@@ -88,7 +88,12 @@ Page({
 
     // v4 分时点餐
     fenshiInfo: {
-      timeShareFlag: false,
+      timeShareFlag: false, //企业是否分时
+      // 下面四个参数是分时开启情况下后端推荐的“最近”可点餐
+      mealDate: null,
+      mealType: null,
+      takeMealTime: null,
+      timeShareStatus: null,
     },
   },
 
@@ -150,8 +155,8 @@ Page({
         this.data.fenshiInfo.mealDate +
         "&mealType=" +
         this.data.fenshiInfo.mealType +
-        "&timeShareFlag=" +
-        this.data.fenshiInfo.timeShareFlag +
+        "&timeShareStatus=" +
+        this.data.fenshiInfo.timeShareStatus +
         "&takeMealTime=" +
         this.data.fenshiInfo.takeMealTime;
       wx.navigateTo({

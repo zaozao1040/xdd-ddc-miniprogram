@@ -835,6 +835,12 @@
           "pathName": "pages/fsmenu/menu",
           "query": "recentMealDate=2021-11-19&recentMealType=LUNCH",
           "scene": null
+        },
+        {
+          "name": "pages/fsmenu/menu",
+          "pathName": "pages/fsmenu/menu",
+          "query": "mealDate=2021-11-21&mealType=LUNCH&timeShareStatus=true&takeMealTime=11%3A00",
+          "scene": null
         }
       ]
     }

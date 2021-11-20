@@ -31,7 +31,7 @@ Page({
     //
     activeMealDate: "",
     activeMealType: "",
-    activeTakeMealTime: "",
+    activeTakeMealTime: "asdf",
     activeTimeShareStatus: false,
     mealTypeMap: {
       LUNCH: "午餐",
@@ -92,13 +92,6 @@ Page({
   },
   // 后端根据日期获取餐别列表
   getMealTypeList: function (mealDate, mealType, timeShareStatus) {
-    console.log(
-      "@@@@@@@ mealDate, mealType, timeShareStatus2 @@@@@@@ ",
-      mealDate,
-      mealType,
-      timeShareStatus
-    );
-
     let _this = this;
     let param = {
       url:
@@ -121,6 +114,11 @@ Page({
         } else {
           tmp_mealType = resData[0].value;
           tmp_timeShareStatus = resData[0].timeShareStatus;
+          _this.setData({
+            activeMealType: resData[0].value,
+            activeTimeShareStatus: resData[0].timeShareStatus,
+            // activeTakeMealTime: resData[0].takeMealTime,
+          });
         }
         _this.getFoodTypeList(mealDate, tmp_mealType, tmp_timeShareStatus);
       },
@@ -134,16 +132,17 @@ Page({
     _this.getPersonalConfig();
     _this.getCartList();
     _this.getPayInfo();
+
     _this.setData({
       recentData: {
         mealDate: option.mealDate,
         mealType: option.mealType,
         takeMealTime: option.takeMealTime,
-        timeShareStatus: option.timeShareFlag,
+        timeShareStatus: option.timeShareStatus,
       },
       activeMealDate: option.mealDate,
       activeMealType: option.mealType,
-      activeTimeShareStatus: option.timeShareFlag,
+      activeTimeShareStatus: option.timeShareStatus,
       activeTakeMealTime: option.takeMealTime,
     });
 
@@ -151,7 +150,7 @@ Page({
     _this.getMealTypeList(
       option.mealDate,
       option.mealType,
-      option.timeShareFlag
+      option.timeShareStatus
     );
     _this.doNGO(); //处理NGO 当为NGO时 不允许展示价格 以及加入购物车标签
   },
@@ -418,10 +417,15 @@ Page({
       _this.setData(
         {
           activeMealType: item.value,
+          activeTimeShareStatus: item.timeShareStatus,
           activeTakeMealTime: item.takeMealTime || "",
         },
         () => {
-          _this.getFoodTypeList();
+          _this.getFoodTypeList(
+            _this.data.activeMealDate,
+            item.value,
+            item.timeShareStatus
+          );
         }
       );
     }
