@@ -189,7 +189,11 @@
                         <image src='/images/menu/yishixiao.png' style='width:80rpx;height:70rpx;margin-right:60rpx;'></image>
                       </view>
                       <view class="chart-food-name-price">
-                        <view class="chart-mealtype">{{ mealTypeItem.mealTypeDes }}</view>
+                        <view class="chart-mealtype-wrp">
+                          <view class="chart-mealtype">{{ mealTypeItem.mealTypeDes }}</view>
+                          <view class="chart-mealtype">{{ mealTypeItem.takeMealTime}}</view>                        
+                        </view>
+
                         <view style="text-overflow: ellipsis; white-space: nowrap;">
                           <view>{{ foodItem.foodName }}</view>
                         </view>

@@ -76,8 +76,9 @@
                 <view wx:for="{{mealDateItem.mealTypeList}}" wx:for-item='mealTypeItem' wx:for-index='mealTypeIndex' wx:key="mealTypeIndex" class="cart-type">
                   <view class="cart-day-title-wrp">
                     <view class="cart-day-title">
-                      {{mealDateItem.mealDateDes}}({{mealDateItem.mealDate}}){{mealTypeItem.mealTypeDes}}
+                      {{mealDateItem.mealDateDes}}({{mealDateItem.mealDate}}){{' '+mealTypeItem.mealTypeDes+' '+mealTypeItem.takeMealTime}}
                     </view>
+                    <!-- 已选菜单 
                     <block wx:if="{{mealTypeItem.pickTimeList}}">
                       <view class="fs-wrp">
                         <view class="fs-title">
@@ -87,17 +88,17 @@
                           <view class="" wx:for="{{mealTypeItem.pickTimeList}}" wx:for-item='titem' wx:for-index='tindex' wx:key="tindex">
                             <view wx:if="{{titem.timeFlag}}" class="{{titem.active==true?'fs-cb-r-time fs-cb-r-time-active':'fs-cb-r-time'}}"
                               bindtap='clickItem' data-titem="{{titem}}" data-index1="{{mealDateIndex}}" data-index2="{{mealTypeIndex}}" data-index3="{{tindex}}">
-                              <!-- {{titem.startTimeShort+'~'+titem.endTimeShort}} -->
                               {{titem.startTimeShort}}
                             </view>
                             <view class="fs-cb-r-time-no" wx:else bindtap='clickItem' data-titem="{{titem}}" data-index1="{{mealDateIndex}}" data-index2="{{mealTypeIndex}}" data-index3="{{tindex}}">
-                              <!-- {{titem.startTimeShort+'~'+titem.endTimeShort}} -->
                               {{titem.startTimeShort}}
                             </view>          
                           </view>                      
                         </view>
                       </view>                         
                     </block>
+                    -->
+
                   </view>
                   <view class="cart-menuItem" wx:for="{{mealTypeItem.foods}}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex">
                       <view class="cart-menuItem-left">

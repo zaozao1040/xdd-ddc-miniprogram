@@ -841,6 +841,24 @@
           "pathName": "pages/fsmenu/menu",
           "query": "mealDate=2021-11-21&mealType=LUNCH&timeShareStatus=true&takeMealTime=11%3A00",
           "scene": null
+        },
+        {
+          "name": "pages/fsmenu/preOrder/preOrder",
+          "pathName": "pages/fsmenu/preOrder/preOrder",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/fsmenu/preOrder/preOrder",
+          "pathName": "pages/fsmenu/preOrder/preOrder",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "pages/fsmenu/menu",
+          "pathName": "pages/fsmenu/menu",
+          "query": "mealDate=2021-11-22&mealType=LUNCH&timeShareStatus=true&takeMealTime=11%3A00",
+          "scene": null
         }
       ]
     }
