@@ -124,6 +124,8 @@
                   <!-- 优惠券模块 -->
                   <view class='pay-item-last' data-mealdate="{{mealTypeItem.mealDate}}"
                       data-mealtype="{{mealTypeItem.mealType}}"
+                      data-timesharestatus="{{mealTypeItem.timeShareStatus}}"
+                      data-takemealtime="{{mealTypeItem.takeMealTime}}"
                       data-combinediscountinfo="{{mealTypeItem.combineDiscountInfo}}"
                       bindtap="clickDiscount">
                       <view class='pay-title' style='padding:30rpx 0;'>优惠券</view>

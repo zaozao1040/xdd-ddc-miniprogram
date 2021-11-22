@@ -328,9 +328,17 @@ Page({
 
   /* 跳转优惠券页面 */
   clickDiscount: function (e) {
+    console.log("####### 3 ####### ", e.currentTarget.dataset);
+
     let _this = this;
     let tmp_foods = [];
-    let { mealdate, mealtype, combinediscountinfo } = e.currentTarget.dataset;
+    let {
+      mealdate,
+      mealtype,
+      timesharestatus,
+      takemealtime,
+      combinediscountinfo,
+    } = e.currentTarget.dataset;
     let tmp_orderListParam = _this.getOrderListParam();
     tmp_orderListParam.map((item, index) => {
       if (item.mealDate == mealdate && item.mealType == mealtype) {
@@ -342,6 +350,8 @@ Page({
       userCode: _this.data.userInfo.userCode,
       mealDate: mealdate,
       mealType: mealtype,
+      timeShareStatus: timesharestatus,
+      takeMealTime: takemealtime,
       foods: tmp_foods,
       selectedDiscountInfo: combinediscountinfo
         ? {
