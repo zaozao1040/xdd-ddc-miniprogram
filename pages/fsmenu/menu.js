@@ -144,7 +144,7 @@ Page({
       },
       activeMealDate: option.mealDate,
       activeMealType: option.mealType,
-      activeTimeShareStatus: option.timeShareStatus,
+      activeTimeShareStatus: option.timeShareStatus == "true" ? true : false, //这也是个坑 option传递布尔值会被搞成字符串
       activeTakeMealTime: option.takeMealTime,
     });
 
@@ -492,6 +492,7 @@ Page({
     let item = e.currentTarget.dataset.fooditem;
     let mealDate = e.currentTarget.dataset.mealdate;
     let mealType = e.currentTarget.dataset.mealtype;
+    let mealTypeItem = e.currentTarget.dataset.mealtypeitem;
 
     let param = {
       url: config.baseUrlPlus + "/v3/cart/addCart",
@@ -508,7 +509,8 @@ Page({
         supplement: false,
         canMeal: item.canMeal,
         tempImage: item.tempImage,
-        timeShareStatus: _this.data.activeTimeShareStatus,
+        timeShareStatus: mealTypeItem.timeShareStatus,
+        takeMealTime: mealTypeItem.takeMealTime,
       },
     };
     request(param, (resData) => {
@@ -523,7 +525,7 @@ Page({
         if (
           (_this.data.activeMealDate == mealDate &&
             _this.data.activeMealType == mealType &&
-            _this.data.activeTakeMealTime == takeMealTime) ||
+            _this.data.activeTakeMealTime == mealTypeItem.takeMealTime) ||
           ""
         ) {
           let { foodTypeIndex, foodIndex } = item;
@@ -557,6 +559,7 @@ Page({
     let item = e.currentTarget.dataset.fooditem;
     let mealDate = e.currentTarget.dataset.mealdate;
     let mealType = e.currentTarget.dataset.mealtype;
+    let mealTypeItem = e.currentTarget.dataset.mealtypeitem;
     let param = {
       url: config.baseUrlPlus + "/v3/cart/delCartNumber",
       method: "post",
@@ -568,6 +571,8 @@ Page({
         foodQuantity: 1,
         mealDate: mealDate,
         mealType: mealType,
+        timeShareStatus: mealTypeItem.timeShareStatus,
+        takeMealTime: mealTypeItem.takeMealTime,
       },
     };
     request(param, (resData) => {
@@ -582,7 +587,7 @@ Page({
         if (
           (_this.data.activeMealDate == mealDate &&
             _this.data.activeMealType == mealType &&
-            _this.data.activeTakeMealTime == takeMealTime) ||
+            _this.data.activeTakeMealTime == mealTypeItem.takeMealTime) ||
           ""
         ) {
           let { foodTypeIndex, foodIndex } = item;
@@ -666,6 +671,7 @@ Page({
               canMeal: foodItem.canMeal,
               tempImage: foodItem.tempImage,
               timeShareStatus: _this.data.activeTimeShareStatus,
+              takeMealTime: _this.data.activeTakeMealTime,
             },
           };
           request(param, (resData) => {
@@ -734,7 +740,8 @@ Page({
               foodQuantity: 1,
               mealDate: _this.data.activeMealDate,
               mealType: _this.data.activeMealType,
-              takeMealTime: _this.data.activeTakeMealTime || "",
+              timeShareStatus: _this.data.activeTimeShareStatus,
+              takeMealTime: _this.data.activeTakeMealTime,
               image: foodItem.image,
               foodTypeIndex,
               foodIndex,

@@ -213,12 +213,12 @@
 
                       <!-- ***************  + - 添加、减掉餐品的小控件(购物车中) *************** -->
                       <view class="chart-num-control">
-                        <image src="/images/menu/order_less.png" style="width:40rpx;height:40rpx;" wx:if="{{ foodItem.foodQuantity > 0 }}" data-fooditem="{{foodItem}}" data-mealdate='{{mealTypeItem.mealDate}}' data-mealtype='{{mealTypeItem.mealType}}' catchtap="clickMinusOneFood">
+                        <image src="/images/menu/order_less.png" style="width:40rpx;height:40rpx;" wx:if="{{ foodItem.foodQuantity > 0 }}" data-mealtypeitem="{{mealTypeItem}}" data-fooditem="{{foodItem}}" data-mealdate='{{mealTypeItem.mealDate}}' data-mealtype='{{mealTypeItem.mealType}}' catchtap="clickMinusOneFood">
                         </image>
                         <view wx:if="{{ foodItem.foodQuantity > 0 }}" class="chart-num">
                           {{ foodItem.foodQuantity}}
                         </view>
-                        <image src="/images/menu/order_add.png" style="width:40rpx;height:40rpx;" data-fooditem="{{foodItem}}" data-mealdate='{{mealTypeItem.mealDate}}' data-mealtype='{{mealTypeItem.mealType}}' catchtap="clickAddOneFood">
+                        <image src="/images/menu/order_add.png" style="width:40rpx;height:40rpx;" data-mealtypeitem="{{mealTypeItem}}"  data-fooditem="{{foodItem}}" data-mealdate='{{mealTypeItem.mealDate}}' data-mealtype='{{mealTypeItem.mealType}}' catchtap="clickAddOneFood">
                         </image>
                       </view>
                     </view>
