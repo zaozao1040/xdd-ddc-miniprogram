@@ -113,6 +113,8 @@ Page({
             userCode: wx.getStorageSync("userInfo").userInfo.userCode,
             mealType: tmp_publicParam.mealType,
             mealDate: tmp_publicParam.mealDate,
+            timeShareStatus: tmp_publicParam.timeShareStatus,
+            takeMealTime: tmp_publicParam.takeMealTime,
             userDiscountCode: null,
             discountMoney: null,
           },
