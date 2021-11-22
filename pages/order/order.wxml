@@ -186,7 +186,7 @@
                             <view class='one-order-top'>
                                 <view class='top-date'>
                                   <view class="">
-                                    {{orderItem.takeMealTimeDes}}{{orderItem.mealTypeDes}}{{' '+orderItem.sharePickTime}}
+                                    {{orderItem.takeMealTimeDes}}{{orderItem.mealTypeDes}}{{orderItem.sharePickTime==null?'':' '+orderItem.sharePickTime}}
                                   </view>
                                   <view class="fsdd" wx:if="{{orderItem.timeShareFlag}}">
                                     {{' 分时订单'}}
