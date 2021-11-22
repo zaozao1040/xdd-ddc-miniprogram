@@ -88,6 +88,10 @@
               <view class="left-label" style="word-break: keep-all;">取餐时间(分时)</view>
               <view class="right-content">{{detailInfo.sharePickTime||'--'}}</view>
             </view>
+            <view class="order-info-one" wx:else>
+              <view class="left-label" style="word-break: keep-all;">取餐时间</view>
+              <view class="right-content">{{detailInfo.sharePickTime||'--'}}</view>
+            </view>
         </view>
         <!--订单信息-->
         <view class="order-info-wrapper">
