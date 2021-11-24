@@ -233,6 +233,23 @@ Page({
       });
     });
   },
+  doCartList() {
+    /*############### 区域: 修改这里 ###############*/
+    let tmp_newCartList = [];
+    this.data.cartList.map((item, index) => {
+      item.mealTypeList.map((itemIn, indexIn) => {
+        itemIn.foods.map((itemInIn, indexInIn) => {
+          tmp_newCartList.push({
+            foodCode: itemInIn.foodCode,
+            foodQuantity: itemInIn.foodQuantity,
+          });
+        });
+      });
+    });
+    console.log("@@@@@@@ cartList @@@@@@@ ", this.data.cartList);
+
+    /*########### end 区域: 修改这里 ###############*/
+  },
 
   getFoodTypeList: function (mealDate, mealType, timeShareStatus) {
     let _this = this;
@@ -248,6 +265,8 @@ Page({
         timeShareStatus,
     };
     requestModel.request(param, (resData) => {
+      // _this.doCartList();
+
       _this.setData(
         {
           foodTypeList: resData.foodTypeList,
