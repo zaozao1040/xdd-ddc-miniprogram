@@ -80,7 +80,7 @@ App({
       });
     }
 
-    // this.clearFoods(); //清空购物车
+    this.clearFoods(); //清空购物车
   },
 
   /**
