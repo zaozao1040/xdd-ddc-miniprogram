@@ -865,6 +865,12 @@
           "pathName": "pages/fsmenu/preOrder/preOrder",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/fsmenu/menu",
+          "pathName": "pages/fsmenu/menu",
+          "query": "mealDate=2021-11-24&mealType=DINNER&timeShareStatus=false&takeMealTime=18%3A00",
+          "scene": null
         }
       ]
     }

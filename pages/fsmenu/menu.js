@@ -132,7 +132,6 @@ Page({
     _this.initData();
     _this.getUserInfo();
     _this.getPersonalConfig();
-    _this.getCartList();
     _this.getPayInfo();
 
     _this.setData({
@@ -233,22 +232,49 @@ Page({
       });
     });
   },
-  doCartList() {
-    /*############### 区域: 修改这里 ###############*/
-    let tmp_newCartList = [];
-    this.data.cartList.map((item, index) => {
+  doCartList(cartList) {
+    console.log("@@@@@@@ cartList @@@@@@@ ", cartList);
+
+    // 第一步
+    let tmp_newCartList = []; //指：命中当前背后菜单的购物车餐品的列表
+    let tmp_newCartFoodCodeList = [];
+    cartList.map((item, index) => {
       item.mealTypeList.map((itemIn, indexIn) => {
         itemIn.foods.map((itemInIn, indexInIn) => {
-          tmp_newCartList.push({
-            foodCode: itemInIn.foodCode,
-            foodQuantity: itemInIn.foodQuantity,
-          });
+          // 判断该餐是否命中当前背后menu菜单
+          if (
+            itemIn.mealDate == this.data.activeMealDate &&
+            itemIn.mealType == this.data.activeMealType &&
+            itemIn.takeMealTime == this.data.activeTakeMealTime
+          ) {
+            tmp_newCartList.push({
+              foodCode: itemInIn.foodCode,
+              foodQuantity: itemInIn.foodQuantity,
+              mealDate: itemIn.mealDate,
+              mealType: itemIn.mealType,
+              timeShareStatus: itemIn.timeShareStatus,
+              takeMealTime: itemIn.takeMealTime,
+            });
+            tmp_newCartFoodCodeList.push(itemInIn.foodCode);
+          }
         });
       });
     });
-    console.log("@@@@@@@ cartList @@@@@@@ ", this.data.cartList);
-
-    /*########### end 区域: 修改这里 ###############*/
+    // 第二步
+    let new_foodTypeList = JSON.parse(JSON.stringify(this.data.foodTypeList));
+    new_foodTypeList.map((item, index) => {
+      item.foodList.map((itemIn, indexIn) => {
+        let tmp_index = tmp_newCartFoodCodeList.indexOf(itemIn.foodCode);
+        if (tmp_index != -1) {
+          itemIn.count = tmp_newCartList[tmp_index].foodQuantity;
+        } else {
+          itemIn.count = 0;
+        }
+      });
+    });
+    this.setData({
+      foodTypeList: new_foodTypeList,
+    });
   },
 
   getFoodTypeList: function (mealDate, mealType, timeShareStatus) {
@@ -265,8 +291,6 @@ Page({
         timeShareStatus,
     };
     requestModel.request(param, (resData) => {
-      // _this.doCartList();
-
       _this.setData(
         {
           foodTypeList: resData.foodTypeList,
@@ -277,6 +301,7 @@ Page({
           userTimeAndMealTypeLimit: resData.limit,
         },
         () => {
+          _this.getCartList();
           _this.calculateHeightList();
         }
       );
@@ -347,6 +372,7 @@ Page({
             cartList: resData.cartResDtoList,
           });
         }
+        _this.doCartList(resData.cartResDtoList);
 
         if (resData.inValidNum > 0 && _this.data.inValidNumToast) {
           setTimeout(() => {
@@ -508,169 +534,132 @@ Page({
   // 购物车 点击加号，将餐品加一
   clickAddOneFood(e) {
     let _this = this;
-    let item = e.currentTarget.dataset.fooditem;
-    let mealDate = e.currentTarget.dataset.mealdate;
-    let mealType = e.currentTarget.dataset.mealtype;
-    let mealTypeItem = e.currentTarget.dataset.mealtypeitem;
+    jiuaiDebounce.canDoFunction({
+      type: "jieliu",
+      immediate: true,
+      key: "key_clickMenuMinus",
+      time: 300,
+      success: () => {
+        let item = e.currentTarget.dataset.fooditem;
+        let mealDate = e.currentTarget.dataset.mealdate;
+        let mealType = e.currentTarget.dataset.mealtype;
+        let mealTypeItem = e.currentTarget.dataset.mealtypeitem;
 
-    let param = {
-      url: config.baseUrlPlus + "/v3/cart/addCart",
-      method: "post",
-      data: {
-        userCode: _this.data.userInfo.userCode,
-        foodCode: item.foodCode,
-        foodName: item.foodName,
-        foodPrice: item.foodPrice,
-        foodQuantity: 1,
-        image: item.image,
-        mealDate: mealDate,
-        mealType: mealType,
-        supplement: false,
-        canMeal: item.canMeal,
-        tempImage: item.tempImage,
-        timeShareStatus: mealTypeItem.timeShareStatus,
-        takeMealTime: mealTypeItem.takeMealTime,
-      },
-    };
-    request(param, (resData) => {
-      if (resData.data.code === 200) {
-        wx.showToast({
-          title: "添加成功",
-          duration: 1000,
-        });
-        _this.getPayInfo();
-        _this.getCartList();
-        // 判断是否当前遮罩层后面的日期+餐别是此刻的 若是则驱动遮罩层后面的进行改变数字
-        if (
-          (_this.data.activeMealDate == mealDate &&
-            _this.data.activeMealType == mealType &&
-            _this.data.activeTakeMealTime == mealTypeItem.takeMealTime) ||
-          ""
-        ) {
-          let { foodTypeIndex, foodIndex } = item;
-          let tmp_foodTypeList = JSON.parse(
-            JSON.stringify(_this.data.foodTypeList)
-          );
-          if (
-            tmp_foodTypeList instanceof Array &&
-            tmp_foodTypeList.length > foodTypeIndex &&
-            tmp_foodTypeList[foodTypeIndex].foodList
-          ) {
-            tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count++;
+        let param = {
+          url: config.baseUrlPlus + "/v3/cart/addCart",
+          method: "post",
+          data: {
+            userCode: _this.data.userInfo.userCode,
+            foodCode: item.foodCode,
+            foodName: item.foodName,
+            foodPrice: item.foodPrice,
+            foodQuantity: 1,
+            image: item.image,
+            mealDate: mealDate,
+            mealType: mealType,
+            supplement: false,
+            canMeal: item.canMeal,
+            tempImage: item.tempImage,
+            timeShareStatus: mealTypeItem.timeShareStatus,
+            takeMealTime: mealTypeItem.takeMealTime,
+          },
+        };
+        request(param, (resData) => {
+          if (resData.data.code === 200) {
+            wx.showToast({
+              title: "添加成功",
+              duration: 1000,
+            });
+            _this.getPayInfo();
+            _this.getCartList();
+          } else {
+            wx.showToast({
+              title: resData.data.msg,
+              image: "/images/msg/error.png",
+              duration: 2000,
+            });
           }
-          _this.setData({
-            foodTypeList: tmp_foodTypeList,
-          });
-        }
-      } else {
-        wx.showToast({
-          title: resData.data.msg,
-          image: "/images/msg/error.png",
-          duration: 2000,
         });
-      }
+      },
     });
   },
 
   // 购物车 点击减号，将餐品减一
   clickMinusOneFood(e) {
     let _this = this;
-    let item = e.currentTarget.dataset.fooditem;
-    let mealDate = e.currentTarget.dataset.mealdate;
-    let mealType = e.currentTarget.dataset.mealtype;
-    let mealTypeItem = e.currentTarget.dataset.mealtypeitem;
-    let param = {
-      url: config.baseUrlPlus + "/v3/cart/delCartNumber",
-      method: "post",
-      data: {
-        userCode: _this.data.userInfo.userCode,
-        foodCode: item.foodCode,
-        foodName: item.foodName,
-        foodPrice: item.foodPrice,
-        foodQuantity: 1,
-        mealDate: mealDate,
-        mealType: mealType,
-        timeShareStatus: mealTypeItem.timeShareStatus,
-        takeMealTime: mealTypeItem.takeMealTime,
-      },
-    };
-    request(param, (resData) => {
-      if (resData.data.code === 200) {
-        wx.showToast({
-          title: "减少成功",
-          duration: 1000,
-        });
-        _this.getPayInfo();
-        _this.getCartList();
-        // 判断是否当前遮罩层后面的日期+餐别是此刻的 若是则驱动遮罩层后面的进行改变数字
-        if (
-          (_this.data.activeMealDate == mealDate &&
-            _this.data.activeMealType == mealType &&
-            _this.data.activeTakeMealTime == mealTypeItem.takeMealTime) ||
-          ""
-        ) {
-          let { foodTypeIndex, foodIndex } = item;
-          let tmp_foodTypeList = JSON.parse(
-            JSON.stringify(_this.data.foodTypeList)
-          );
-          if (
-            tmp_foodTypeList instanceof Array &&
-            tmp_foodTypeList.length > foodTypeIndex &&
-            tmp_foodTypeList[foodTypeIndex].foodList
-          ) {
-            tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count--;
+    jiuaiDebounce.canDoFunction({
+      type: "jieliu",
+      immediate: true,
+      key: "key_clickMenuMinus",
+      time: 300,
+      success: () => {
+        let item = e.currentTarget.dataset.fooditem;
+        let mealDate = e.currentTarget.dataset.mealdate;
+        let mealType = e.currentTarget.dataset.mealtype;
+        let mealTypeItem = e.currentTarget.dataset.mealtypeitem;
+        let param = {
+          url: config.baseUrlPlus + "/v3/cart/delCartNumber",
+          method: "post",
+          data: {
+            userCode: _this.data.userInfo.userCode,
+            foodCode: item.foodCode,
+            foodName: item.foodName,
+            foodPrice: item.foodPrice,
+            foodQuantity: 1,
+            mealDate: mealDate,
+            mealType: mealType,
+            timeShareStatus: mealTypeItem.timeShareStatus,
+            takeMealTime: mealTypeItem.takeMealTime,
+          },
+        };
+        request(param, (resData) => {
+          if (resData.data.code === 200) {
+            wx.showToast({
+              title: "减少成功",
+              duration: 1000,
+            });
+            _this.getPayInfo();
+            _this.getCartList();
+          } else {
+            wx.showToast({
+              title: resData.data.msg,
+              image: "/images/msg/error.png",
+              duration: 2000,
+            });
           }
-          _this.setData({
-            foodTypeList: tmp_foodTypeList,
-          });
-        }
-      } else {
-        wx.showToast({
-          title: resData.data.msg,
-          image: "/images/msg/error.png",
-          duration: 2000,
         });
-      }
+      },
     });
   },
 
   clickMenuAdd(e) {
     let _this = this;
-    let foodTypeItem = e.currentTarget.dataset.foodtypeitem;
-    let foodItem = e.currentTarget.dataset.fooditem;
-    let foodTypeIndex = e.currentTarget.dataset.foodtypeindex;
-    let foodIndex = e.currentTarget.dataset.foodindex;
-    if (foodItem.foodQuota && foodItem.count == foodItem.foodQuota.quotaNum) {
-      wx.showToast({
-        title: "超出限购",
-        image: "/images/msg/error.png",
-        duration: 2000,
-      });
-    } else if (foodItem.foodQuota && foodItem.foodQuota.surplusNum == 0) {
-      wx.showToast({
-        title: "库存为0",
-        image: "/images/msg/error.png",
-        duration: 2000,
-      });
-    } else {
-      let tmp_foodTypeList = JSON.parse(
-        JSON.stringify(_this.data.foodTypeList)
-      );
-      let old_foodTypeList = JSON.parse(
-        JSON.stringify(_this.data.foodTypeList)
-      );
-      if (
-        tmp_foodTypeList instanceof Array &&
-        tmp_foodTypeList.length > foodTypeIndex &&
-        tmp_foodTypeList[foodTypeIndex].foodList
-      ) {
-        tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count++;
-      }
-      _this.setData(
-        {
-          foodTypeList: tmp_foodTypeList, //前端先渲染+1，再请求后端
-        },
-        () => {
+    jiuaiDebounce.canDoFunction({
+      type: "jieliu",
+      immediate: true,
+      key: "key_clickMenuMinus",
+      time: 300,
+      success: () => {
+        let foodTypeItem = e.currentTarget.dataset.foodtypeitem;
+        let foodItem = e.currentTarget.dataset.fooditem;
+        let foodTypeIndex = e.currentTarget.dataset.foodtypeindex;
+        let foodIndex = e.currentTarget.dataset.foodindex;
+        if (
+          foodItem.foodQuota &&
+          foodItem.count == foodItem.foodQuota.quotaNum
+        ) {
+          wx.showToast({
+            title: "超出限购",
+            image: "/images/msg/error.png",
+            duration: 2000,
+          });
+        } else if (foodItem.foodQuota && foodItem.foodQuota.surplusNum == 0) {
+          wx.showToast({
+            title: "库存为0",
+            image: "/images/msg/error.png",
+            duration: 2000,
+          });
+        } else {
           let param = {
             url: config.baseUrlPlus + "/v3/cart/addCart",
             method: "post",
@@ -713,41 +702,29 @@ Page({
             }
           });
         }
-      );
-    }
+      },
+    });
   },
 
   clickMenuMinus(e) {
     let _this = this;
-    let foodTypeItem = e.currentTarget.dataset.foodtypeitem;
-    let foodItem = e.currentTarget.dataset.fooditem;
-    let foodTypeIndex = e.currentTarget.dataset.foodtypeindex;
-    let foodIndex = e.currentTarget.dataset.foodindex;
-    if (foodItem.count == 0) {
-      wx.showToast({
-        title: "已经为0",
-        image: "/images/msg/error.png",
-        duration: 2000,
-      });
-    } else {
-      let tmp_foodTypeList = JSON.parse(
-        JSON.stringify(_this.data.foodTypeList)
-      );
-      let old_foodTypeList = JSON.parse(
-        JSON.stringify(_this.data.foodTypeList)
-      );
-      if (
-        tmp_foodTypeList instanceof Array &&
-        tmp_foodTypeList.length > foodTypeIndex &&
-        tmp_foodTypeList[foodTypeIndex].foodList
-      ) {
-        tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count--;
-      }
-      _this.setData(
-        {
-          foodTypeList: tmp_foodTypeList, //前端先渲染+1，再请求后端
-        },
-        () => {
+    jiuaiDebounce.canDoFunction({
+      type: "jieliu",
+      immediate: true,
+      key: "key_clickMenuMinus",
+      time: 300,
+      success: () => {
+        let foodTypeItem = e.currentTarget.dataset.foodtypeitem;
+        let foodItem = e.currentTarget.dataset.fooditem;
+        let foodTypeIndex = e.currentTarget.dataset.foodtypeindex;
+        let foodIndex = e.currentTarget.dataset.foodindex;
+        if (foodItem.count == 0) {
+          wx.showToast({
+            title: "已经为0",
+            image: "/images/msg/error.png",
+            duration: 2000,
+          });
+        } else {
           let param = {
             url: config.baseUrlPlus + "/v3/cart/delCartNumber",
             method: "post",
@@ -786,8 +763,8 @@ Page({
             }
           });
         }
-      );
-    }
+      },
+    });
   },
 
   clearFoods: function () {
@@ -807,11 +784,6 @@ Page({
         });
         _this.getPayInfo();
         _this.getCartList();
-        _this.getFoodTypeList(
-          _this.data.activeMealDate,
-          _this.data.activeMealType,
-          _this.data.activeTimeShareStatus
-        );
         _this.setData({
           showCartFlag: false,
         });
