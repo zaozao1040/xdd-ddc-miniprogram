@@ -373,7 +373,6 @@ Page({
           });
         }
         _this.doCartList(resData.cartResDtoList);
-
         if (resData.inValidNum > 0 && _this.data.inValidNumToast) {
           setTimeout(() => {
             wx.showModal({
@@ -696,9 +695,6 @@ Page({
                 image: "/images/msg/error.png",
                 duration: 2000,
               });
-              _this.setData({
-                foodTypeList: old_foodTypeList, //后端加入购物车失败 则需要返还回原值
-              });
             }
           });
         }
@@ -756,9 +752,6 @@ Page({
                 title: resData.data.msg,
                 image: "/images/msg/error.png",
                 duration: 2000,
-              });
-              _this.setData({
-                foodTypeList: old_foodTypeList, //后端减少购物车失败 则需要返还回原值
               });
             }
           });
