@@ -328,8 +328,6 @@ Page({
 
   /* 跳转优惠券页面 */
   clickDiscount: function (e) {
-    console.log("####### 3 ####### ", e.currentTarget.dataset);
-
     let _this = this;
     let tmp_foods = [];
     let {
@@ -341,10 +339,15 @@ Page({
     } = e.currentTarget.dataset;
     let tmp_orderListParam = _this.getOrderListParam();
     tmp_orderListParam.map((item, index) => {
-      if (item.mealDate == mealdate && item.mealType == mealtype) {
+      if (
+        item.mealDate == mealdate &&
+        item.mealType == mealtype &&
+        item.takeMealTime == takemealtime
+      ) {
         tmp_foods = item.foods;
       }
     });
+    console.log("####### tmp_orderListParam ####### ", tmp_orderListParam);
     getApp().globalData.publicParam = {
       // 这个是优惠券详情列表请求的参数，这里提前存储好
       userCode: _this.data.userInfo.userCode,
@@ -459,6 +462,7 @@ Page({
   getOrderListParam: function () {
     let _this = this;
     let tmp_orderParamList = [];
+
     _this.data.preOrderList.forEach((itemOut) => {
       itemOut.mealTypeList.forEach((itemIn) => {
         let tmp_foods = [];
@@ -482,6 +486,7 @@ Page({
           integralNumber: 0,
           foods: tmp_foods,
           userDiscountCode: itemIn.userDiscountCode,
+          takeMealTime: itemIn.takeMealTime,
           timeShareStatus: itemIn.timeShareStatus,
         });
       });
