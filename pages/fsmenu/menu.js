@@ -31,7 +31,7 @@ Page({
     //
     activeMealDate: "",
     activeMealType: "",
-    activeTakeMealTime: "asdf",
+    activeTakeMealTime: "",
     activeTimeShareStatus: false,
     mealTypeMap: {
       LUNCH: "午餐",
@@ -233,8 +233,6 @@ Page({
     });
   },
   doCartList(cartList) {
-    console.log("@@@@@@@ cartList @@@@@@@ ", cartList);
-
     // 第一步
     let tmp_newCartList = []; //指：命中当前背后菜单的购物车餐品的列表
     let tmp_newCartFoodCodeList = [];
@@ -543,7 +541,6 @@ Page({
         let mealDate = e.currentTarget.dataset.mealdate;
         let mealType = e.currentTarget.dataset.mealtype;
         let mealTypeItem = e.currentTarget.dataset.mealtypeitem;
-
         let param = {
           url: config.baseUrlPlus + "/v3/cart/addCart",
           method: "post",
@@ -561,6 +558,7 @@ Page({
             tempImage: item.tempImage,
             timeShareStatus: mealTypeItem.timeShareStatus,
             takeMealTime: mealTypeItem.takeMealTime,
+            isFoodQuota: item.isFoodQuota,
           },
         };
         request(param, (resData) => {
@@ -659,6 +657,12 @@ Page({
             duration: 2000,
           });
         } else {
+          let tmp_isFoodQuota = null;
+          if (foodItem.foodQuota && foodItem.foodQuota.foodCode) {
+            tmp_isFoodQuota = true;
+          } else {
+            tmp_isFoodQuota = false;
+          }
           let param = {
             url: config.baseUrlPlus + "/v3/cart/addCart",
             method: "post",
@@ -679,6 +683,7 @@ Page({
               tempImage: foodItem.tempImage,
               timeShareStatus: _this.data.activeTimeShareStatus,
               takeMealTime: _this.data.activeTakeMealTime,
+              isFoodQuota: tmp_isFoodQuota,
             },
           };
           request(param, (resData) => {

@@ -295,8 +295,6 @@ Page({
     });
   },
   doCartList(cartList) {
-    console.log("@@@@@@@ cartList @@@@@@@ ", cartList);
-
     // 第一步
     let tmp_newCartList = []; //指：命中当前背后菜单的购物车餐品的列表
     let tmp_newCartFoodCodeList = [];
@@ -634,6 +632,7 @@ Page({
             supplement: false,
             canMeal: item.canMeal,
             tempImage: item.tempImage,
+            isFoodQuota: item.isFoodQuota,
           },
         };
         request(param, (resData) => {
@@ -729,6 +728,12 @@ Page({
             duration: 2000,
           });
         } else {
+          let tmp_isFoodQuota = null;
+          if (foodItem.foodQuota && foodItem.foodQuota.foodCode) {
+            tmp_isFoodQuota = true;
+          } else {
+            tmp_isFoodQuota = false;
+          }
           let param = {
             url: config.baseUrlPlus + "/v3/cart/addCart",
             method: "post",
@@ -746,6 +751,7 @@ Page({
               supplement: false,
               canMeal: foodItem.canMeal,
               tempImage: foodItem.tempImage,
+              isFoodQuota: tmp_isFoodQuota,
             },
           };
           request(param, (resData) => {
