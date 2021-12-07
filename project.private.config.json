@@ -877,6 +877,12 @@
           "pathName": "pages/fsmenu/preOrder/preOrder",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/login/selectPhone/selectPhone",
+          "pathName": "pages/login/selectPhone/selectPhone",
+          "query": "",
+          "scene": null
         }
       ]
     }

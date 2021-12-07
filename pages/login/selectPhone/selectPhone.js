@@ -1,9 +1,7 @@
 var t = require("../../../comm/script/helper");
-var md5 = require('../../../utils/md5.js');
-var dateFormat = require('../../../utils/date-format.js')
+var md5 = require("../../../utils/md5.js");
+var dateFormat = require("../../../utils/date-format.js");
 import { base } from "../../../comm/public/request";
-
-
 
 let requestModel = new base();
 Page({
@@ -23,6 +21,15 @@ Page({
 
     wxCode: "",
     page: true, //展示第几个页面
+  },
+
+  clickWxLogin: function () {
+    wx.requestSubscribeMessage({
+      tmplIds: ["SljAwyR2jA-_h4mNqJRa5tU096H-Ni90RoufB4VhOWY"],
+      complete(res) {
+        console.log("$$$$$$$ 4 $$$$$$$ ", res);
+      },
+    });
   },
   changePage: function () {
     this.setData({
@@ -59,14 +66,19 @@ Page({
   sendCode: function () {
     let _this = this;
     if (t._validCellPhone(_this.data.phone)) {
-      let currentDate = dateFormat.date()
+      let currentDate = dateFormat.date();
       let phonePrefix = _this.data.phone.substring(0, 3);
-      let phoneSuffix = _this.data.phone.substring(_this.data.phone.length - 3)
+      let phoneSuffix = _this.data.phone.substring(_this.data.phone.length - 3);
       let key = phonePrefix + phoneSuffix + currentDate;
-      let encryptKey = md5.md5(key).toLowerCase().substring(8, 24)
+      let encryptKey = md5.md5(key).toLowerCase().substring(8, 24);
       //获取短信验证码
       let param = {
-        url: "/login/smsCode?phoneNumber=" + _this.data.phone + "&smsType=1" + "&key=" + encryptKey,
+        url:
+          "/login/smsCode?phoneNumber=" +
+          _this.data.phone +
+          "&smsType=1" +
+          "&key=" +
+          encryptKey,
       };
       requestModel.request(param, () => {
         wx.showToast({
@@ -231,7 +243,7 @@ Page({
             title: "登录成功",
             image: "/images/msg/success.png",
             duration: 1000,
-          });          
+          });
         }, true);
       }
     });
