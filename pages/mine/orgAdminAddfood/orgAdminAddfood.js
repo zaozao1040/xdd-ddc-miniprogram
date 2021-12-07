@@ -31,7 +31,7 @@ Page({
     markDetail: [],
     popContent: {},
     modalContent: {},
-    showQueding:false,
+    showQueding: false,
   },
 
   /**
@@ -135,15 +135,15 @@ Page({
       }
     );
   },
-  clickConfirm(){
-    this.doIncreaseFood()
+  clickConfirm() {
+    this.doIncreaseFood();
   },
-  clickCancel(){
+  clickCancel() {
     this.setData({
       showQueding: false,
     });
   },
-  increaseFood(){
+  increaseFood() {
     this.setData({
       showQueding: true,
     });

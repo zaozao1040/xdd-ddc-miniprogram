@@ -4,7 +4,7 @@
           <view class="img-wrapper">
             <image src="../../../images/login/logo.png" mode="widthFix" style="width:100%;height: 100%;"></image>
           </view>
-          <button bindtap='clickWxLogin' class="button-active" open-type="getPhoneNumber" bindgetphonenumber="handleGetPhoneNumber">
+          <button  class="button-active" open-type="getPhoneNumber" bindgetphonenumber="handleGetPhoneNumber">
             微信快捷登录
           </button>
           <view class="other-des" catchtap="changePage">

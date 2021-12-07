@@ -883,6 +883,12 @@
           "pathName": "pages/login/selectPhone/selectPhone",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/mine/discount/discount",
+          "pathName": "pages/mine/discount/discount",
+          "query": "",
+          "scene": null
         }
       ]
     }

@@ -23,14 +23,6 @@ Page({
     page: true, //展示第几个页面
   },
 
-  clickWxLogin: function () {
-    wx.requestSubscribeMessage({
-      tmplIds: ["SljAwyR2jA-_h4mNqJRa5tU096H-Ni90RoufB4VhOWY"],
-      complete(res) {
-        console.log("$$$$$$$ 4 $$$$$$$ ", res);
-      },
-    });
-  },
   changePage: function () {
     this.setData({
       page: !this.data.page,

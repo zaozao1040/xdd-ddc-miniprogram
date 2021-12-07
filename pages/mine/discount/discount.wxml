@@ -70,4 +70,14 @@
             没有更多了..
         </view>
     </scroll-view>
+    <l-dialog 
+    show="{{showDialog}}"
+    type="confirm"     
+    title="您尚未订阅优惠券通知"
+    content="{{'是否订阅?'}}"
+    confirm-color="#F79C4C"
+    bind:linconfirm="clickConfirm" 
+    bind:lincancel="clickCancel" 
+    bind:lintap="clickCancel"
+    />
 </view>
