@@ -422,6 +422,7 @@ Page({
           };
           _this.setData(
             {
+              orgAddressInfo: res[0],
               getSpareMealSetParams: tmp_getSpareMealSetParams,
             },
             () => {

@@ -388,7 +388,7 @@ Page({
                         });
                         wx.hideLoading();
                         setTimeout(function () {
-                          wx.reLaunch({
+                          wx.navigateTo({
                             url:
                               "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
                               _this.data.orgadmin,
@@ -404,7 +404,7 @@ Page({
 
                         wx.hideLoading();
                         setTimeout(function () {
-                          wx.reLaunch({
+                          wx.navigateTo({
                             url:
                               "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
                               _this.data.orgadmin,
