@@ -55,6 +55,10 @@ Page({
 
     //
     recentData: null,
+    //
+    orderType: 1, //点餐类型  1-普通餐 2-补餐 3-备用餐 根据不同类型跳转不同页面 普通餐和补餐公用点餐页
+    // 备用餐信息
+    spareInfo: {},
   },
 
   onLoad: function (option) {
@@ -350,43 +354,138 @@ Page({
     requestModel.request(
       param,
       (resData) => {
-        _this.setData(
-          {
-            foodTypeList: resData.foodTypeList,
-            activeInfoExtra: {
-              mealSet: resData.mealSet,
-              mealType: resData.mealType,
-            },
-            userTimeAndMealTypeLimit: resData.limit,
-            loading: false,
-          },
-          () => {
-            _this.getCartList();
-            _this.calculateHeightList();
-          }
-        );
-
-        if (_this.data.promptInfo.mealDate) {
-          // 推荐餐品类别情况
-          let tmp_activeFoodType = 0;
-          let tmp_length = _this.data.foodTypeList.length;
-          for (let i = 0; i < tmp_length; i++) {
-            if (
-              _this.data.foodTypeList[i].typeId == _this.data.promptInfo.typeId
-            ) {
-              tmp_activeFoodType = i;
-              i = tmp_length;
-            }
-          }
+        if (resData.orderType == 3) {
+          // 备用餐逻辑
           _this.setData({
-            activeFoodType: tmp_activeFoodType,
-            scrollToView: "order" + tmp_activeFoodType,
+            orderType: resData.orderType,
+            // orderType: 3,
           });
-          _this.getCartList();
+        } else {
+          _this.setData(
+            {
+              foodTypeList: resData.foodTypeList,
+              activeInfoExtra: {
+                mealSet: resData.mealSet,
+                mealType: resData.mealType,
+              },
+              userTimeAndMealTypeLimit: resData.limit,
+              loading: false,
+              orderType: resData.orderType,
+            },
+            () => {
+              _this.getCartList();
+              _this.calculateHeightList();
+            }
+          );
+
+          if (_this.data.promptInfo.mealDate) {
+            // 推荐餐品类别情况
+            let tmp_activeFoodType = 0;
+            let tmp_length = _this.data.foodTypeList.length;
+            for (let i = 0; i < tmp_length; i++) {
+              if (
+                _this.data.foodTypeList[i].typeId ==
+                _this.data.promptInfo.typeId
+              ) {
+                tmp_activeFoodType = i;
+                i = tmp_length;
+              }
+            }
+            _this.setData({
+              activeFoodType: tmp_activeFoodType,
+              scrollToView: "order" + tmp_activeFoodType,
+            });
+            _this.getCartList();
+          }
         }
       },
       loading
     );
+  },
+  doWithByc() {
+    let _this = this;
+    let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
+    if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
+      let params = {
+        userCode: tmp_tmp_userInfo.userInfo.userCode,
+        organizeCode: tmp_tmp_userInfo.userInfo.organizeCode,
+        deliveryAddressCode: tmp_tmp_userInfo.userInfo.deliveryAddressCode,
+      };
+      _this.getSpareMealSet(params);
+    }
+  },
+  //获取备用餐设置
+  getSpareMealSet(obj) {
+    let _this = this;
+    let params = {
+      data: obj,
+      url: "/spare/getSpareMealSet",
+      method: "post",
+    };
+    requestModel.request(params, (res) => {
+      if (res.mealType == "BREAKFAST") {
+        res.mealTypeDes = "早餐";
+      } else if (res.mealType == "LUNCH") {
+        res.mealTypeDes = "午餐";
+      } else if (res.mealType == "DINNER") {
+        res.mealTypeDes = "晚餐";
+      } else if (res.mealType == "NIGHT") {
+        res.mealTypeDes = "夜宵";
+      }
+      _this.setData(
+        {
+          spareInfo: res,
+        },
+        () => {
+          // this.data.spareInfo有值 则代表请求到了结果
+          if (this.data.spareInfo && this.data.spareInfo.timeStatus == false) {
+            wx.showModal({
+              title: "提示",
+              content: "当前时间不允许",
+              confirmText: "我知道了",
+              showCancel: false,
+              success: function (res) {},
+            });
+          } else if (this.data.spareInfo && this.data.spareInfo.spareNum == 0) {
+            let mealTypeDes = "";
+            if (this.data.spareInfo.mealType == "BREAKFAST") {
+              mealTypeDes = "早餐";
+            } else if (this.data.spareInfo.mealType == "LUNCH") {
+              mealTypeDes = "午餐";
+            } else if (this.data.spareInfo.mealType == "DINNER") {
+              mealTypeDes = "晚餐";
+            } else if (this.data.spareInfo.mealType == "NIGHT") {
+              mealTypeDes = "夜宵";
+            }
+            wx.showModal({
+              title: this.data.spareInfo.mealDate + "(" + mealTypeDes + ")",
+              content: "暂无备用餐",
+              confirmText: "我知道了",
+              showCancel: false,
+              success: function (res) {},
+            });
+          } else {
+            let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
+            // 如果是NGO 代表外来人员身份想要申请备用餐 每次都强制跳转到需要填写企业和企业地址
+            if (
+              tmp_userInfo.organizeCode == "ORGVISTORE530053156613128193" ||
+              !tmp_userInfo.deliveryAddressCode
+            ) {
+              wx.navigateTo({
+                url: "/pages/mine/orgAndaddress/orgAndaddress?frontPageFlag=spare",
+              });
+            } else {
+              wx.navigateTo({
+                url:
+                  "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=no" +
+                  "&deliveryAddressCode=" +
+                  obj.deliveryAddressCode,
+              });
+            }
+          }
+        }
+      );
+    });
   },
   // 计算购物车高度，大于最大高度就滚动
   calculteCartHeight() {
@@ -629,7 +728,7 @@ Page({
             image: item.image,
             mealDate: mealDate,
             mealType: mealType,
-            supplement: false,
+            supplement: _this.data.orderType == 2 ? true : false,
             canMeal: item.canMeal,
             tempImage: item.tempImage,
             isFoodQuota: item.isFoodQuota,
@@ -748,7 +847,7 @@ Page({
               image: foodItem.image,
               foodTypeIndex,
               foodIndex,
-              supplement: false,
+              supplement: _this.data.orderType == 2 ? true : false,
               canMeal: foodItem.canMeal,
               tempImage: foodItem.tempImage,
               isFoodQuota: tmp_isFoodQuota,

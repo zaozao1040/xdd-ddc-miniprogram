@@ -19,8 +19,21 @@
           </block>
         </view>
         <block >
+          <!-- 备用餐 -->
+          <block wx:if='{{orderType == 3}}'>
+            <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
+              <image src="/images/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
+            </view>
+            <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
+              普通餐、补餐时间已过，请使用备用餐
+            </view>
+            <view style="display:flex;justify-content:center;">
+              <l-button style="margin: 20rpx;" shape="circle" size="medium" bg-color="#f79c4c" catch:lintap="doWithByc">去使用</l-button>
+            </view>
+                    
+          </block>
           <!-- 餐别不允许点餐 -->
-          <block wx:if='{{userTimeAndMealTypeLimit}}'>
+          <block wx:elif='{{userTimeAndMealTypeLimit}}'>
             <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
               <image src="/images/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
             </view>
