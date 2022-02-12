@@ -712,7 +712,7 @@ Page({
       cancelText: "取消操作",
       success: function (res) {
         if (res.confirm) {
-          _this.clearInvalidFoods();
+          _this.clearFoods();
         }
       },
       complete: function (res) {},
@@ -880,6 +880,8 @@ Page({
               _this.getPayInfo();
               _this.getCartList();
             } else if (resData.data.code === 4068) {
+              console.log("=======  ======= ");
+
               // 4068 是检测到购物车同时加入了补餐和普通餐的报错
               _this.showClearCard();
             } else {
