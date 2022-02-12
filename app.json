@@ -9,6 +9,7 @@
     "pages/order/comment/comment",
     "pages/order/myComment/myComment",
     "pages/order/qrCode/qrCode",
+    "pages/order/qrCodeBack/qrCodeBack",
     "pages/mine/mine",
     "pages/mine/phone/phone",
     "pages/mine/organize/organize",

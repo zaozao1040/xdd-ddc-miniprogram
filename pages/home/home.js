@@ -100,13 +100,13 @@ Page({
   navigateToMenu() {
     let url = "/pages/menu/menu";
     // 暂时放开下面这一段，也就是不用后端推荐 因为合并补餐和普通餐 其实不需要推荐了 直接定位数组第一个就行
-    // if (this.data.recentData) {
-    //   url =
-    //     "/pages/menu/menu?recentMealDate=" +
-    //     this.data.recentData.mealDate +
-    //     "&recentMealType=" +
-    //     this.data.recentData.mealType;
-    // }
+    if (this.data.recentData) {
+      url =
+        "/pages/menu/menu?recentMealDate=" +
+        this.data.recentData.mealDate +
+        "&recentMealType=" +
+        this.data.recentData.mealType;
+    }
     wx.navigateTo({
       url,
     });
@@ -608,6 +608,18 @@ Page({
       return;
     }
 
+    // 药明康德2000个傻逼吃饭，要求上线跳转到取餐码页面
+    if (
+      _this.data.homeOrderItem.cabinet &&
+      _this.data.homeOrderItem.cabinet.length == 0
+    ) {
+      wx.navigateTo({
+        url:
+          "/pages/order/qrCode/qrCodeBack?orderCode=" +
+          e.currentTarget.dataset.ordercode,
+      });
+      return;
+    }
     this.setData({
       showShapeFlag: false,
     });

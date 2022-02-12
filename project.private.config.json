@@ -889,6 +889,13 @@
           "pathName": "pages/mine/discount/discount",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/order/qrCodeBack/qrCodeBack",
+          "query": "orderCode=DDC941976092124643328",
+          "scene": null,
+          "launchMode": "default"
         }
       ]
     }
