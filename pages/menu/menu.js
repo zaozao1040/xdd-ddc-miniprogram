@@ -718,7 +718,7 @@ Page({
       complete: function (res) {},
     });
   },
-  // 购物车 点击加号，将餐品加一
+  // 购物车 点击加号， 将餐品加一
   clickAddOneFood(e) {
     let _this = this;
     jiuaiDebounce.canDoFunction({
