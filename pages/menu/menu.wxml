@@ -25,10 +25,10 @@
               <image src="/images/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
             </view>
             <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
-              普通餐、补餐时间已过，请使用备用餐
+              普通餐、补餐时间已过，可申请<text style="color:#f79c4c">备用餐</text>
             </view>
             <view style="display:flex;justify-content:center;">
-              <l-button style="margin: 20rpx;" shape="circle" size="medium" bg-color="#f79c4c" catch:lintap="doWithByc">去使用</l-button>
+              <l-button style="margin: 20rpx;" shape="circle" size="medium" bg-color="#f79c4c" catch:lintap="doWithByc">去申请</l-button>
             </view>
                     
           </block>
@@ -87,11 +87,9 @@
                         {{foodTypeItem.typeDesc}}</view>
                     </view>
                     <!-- 单个食物 -->
-
                     <view id="{{ foodItem.foodCode }}" wx:for="{{ foodTypeItem.foodList }}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="foodIndex" class="food-wrapper">
                       <view wx:if="{{foodItem.foodQuota&&foodItem.foodQuota.surplusNum ==0}}" class="img-wrapper-stock">
                         <image class="sallout-img" src="/images/menu/sallout2.png"></image>
-
                       </view>
                       <view class="img-wrapper" bindtap="handleGotoFoodDetail" data-foodcode="{{ foodItem.foodCode }}" >
                         <image wx:if="{{ foodItem.foodQuota &&foodItem.foodQuota.quotaNum  }}" class='food-img-res' src="/images/menu/order_purchase.png">
@@ -122,7 +120,6 @@
                                 库存:{{foodItem.foodQuota.surplusNum }}
                               </view>
                             </block>
-
                             <view class="food-stock" wx:if="{{ foodItem.foodQuota.quotaNum ||foodItem.foodQuota.quotaNum==0}}">
                               限购:{{foodItem.foodQuota.quotaNum }}
                             </view>
@@ -210,14 +207,12 @@
                           <text wx:if="{{foodItem.foodOriginalPrice&&foodItem.foodOriginalPrice>foodItem.foodPrice}}" style="margin-left:6rpx;text-decoration:line-through;font-size: 25rpx;">￥{{ foodItem.foodOriginalPrice }}</text>
                         </view>
                       </view>
-
                       <!--原价-->
                       <view class="chart-food-originalprice" wx:if="{{ foodItem.foodTotalPrice < foodItem.foodTotalOriginalPrice}}">
                         ￥
                         <text style="position:relative;right:6rpx;">{{foodItem.foodTotalOriginalPrice}}</text>
                       </view>
                       <view class="chart-food-originalprice" wx:else> </view>
-
                       <!-- ***************  + - 添加、减掉餐品的小控件(购物车中) *************** -->
                       <view class="chart-num-control">
                         <image src="/images/menu/order_less.png" style="width:40rpx;height:40rpx;" wx:if="{{ foodItem.foodQuantity > 0 }}" data-fooditem="{{foodItem}}" data-mealdate='{{mealTypeItem.mealDate}}' data-mealtype='{{mealTypeItem.mealType}}' catchtap="clickMinusOneFood">
@@ -233,7 +228,6 @@
                 </view>
               </block>
               <view style="height:350rpx;background:#FFFFFF;"></view>
-
             </view>
           </scroll-view>
         </view>
