@@ -702,7 +702,22 @@ Page({
       }
     }
   },
-
+  //弹窗购物车不允许同时存在普通餐和补餐
+  showClearCard() {
+    let _this = this;
+    wx.showModal({
+      title: "是否清空购物车?",
+      content: "普通餐、补餐 不可同时下单",
+      confirmText: "清空",
+      cancelText: "取消操作",
+      success: function (res) {
+        if (res.confirm) {
+          _this.clearInvalidFoods();
+        }
+      },
+      complete: function (res) {},
+    });
+  },
   // 购物车 点击加号，将餐品加一
   clickAddOneFood(e) {
     let _this = this;
@@ -742,6 +757,9 @@ Page({
             });
             _this.getPayInfo();
             _this.getCartList();
+          } else if (resData.data.code === 4068) {
+            // 4068 是检测到购物车同时加入了补餐和普通餐的报错
+            _this.showClearCard();
           } else {
             wx.showToast({
               title: resData.data.msg,
@@ -861,6 +879,9 @@ Page({
               });
               _this.getPayInfo();
               _this.getCartList();
+            } else if (resData.data.code === 4068) {
+              // 4068 是检测到购物车同时加入了补餐和普通餐的报错
+              _this.showClearCard();
             } else {
               wx.showToast({
                 title: resData.data.msg,
