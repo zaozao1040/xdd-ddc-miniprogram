@@ -240,6 +240,7 @@
                                         </view>
                                         <view wx:if="{{orderItem.status== 2 &&orderItem.pickStatus  == 1}}"
                                             class='take-food' catchtap="handleTakeOrder"
+                                            data-cabinet="{{orderItem.cabinet}}"
                                             data-ordercode="{{orderItem.orderCode}}"
                                             data-pickagain="{{orderItem.pickAgain}}">
                                             取餐

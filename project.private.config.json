@@ -908,6 +908,13 @@
           "name": "",
           "pathName": "pages/order/qrCodeBack/qrCodeBack",
           "query": "orderCode=DDC942091210435067904",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/order/order",
+          "query": "",
           "scene": null,
           "launchMode": "default"
         }
