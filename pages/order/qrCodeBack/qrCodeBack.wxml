@@ -4,7 +4,7 @@
   style="margin:auto;width:{{ code_w }}px; height:{{ code_w }}px;"
   canvas-id="canvas"
 ></canvas>
-<view class="date">{{ detailInfo.mealDate }} {{ detailInfo.mealTypeDes }}</view>
+<view  class="{{pickStatus == 1?'date':'date anti'}}">{{ detailInfo.mealDate }} {{ detailInfo.mealTypeDes }}</view>
 
 <view class="food-wrapper">
   <view
@@ -13,28 +13,27 @@
     wx:for-index="foodListIndex"
     wx:for-item="foodListItem"
   >
-    <view class="foodName">
+    <view  class="{{pickStatus == 1?'foodName':'foodName anti'}}">
       {{ foodListItem.foodName }}
     </view>
-    <view class="foodQuantity">x {{ foodListItem.foodQuantity }}份</view>
+    <view  class="{{pickStatus == 1?'foodQuantity':'foodQuantity anti'}}">x {{ foodListItem.foodQuantity }}份</view>
   </view>
 </view>
-<view wx:if="{{ detailInfo.startTime }}" class="qucan">
-  取餐时间: {{ detailInfo.startTime }}~{{ detailInfo.endTime }}
-</view>
-<view class="user">{{ userInfo.userName }}({{ userInfo.phoneNumber }})</view>
-<view class="organize">
+
+<view  class="{{pickStatus == 1?'user':'user anti'}}">{{ userInfo.userName }}({{ userInfo.phoneNumber }})</view>
+<view  class="{{pickStatus == 1?'organize':'organize anti'}}">
   {{ userInfo.organizeName }}
 </view>
-<view class="button"></view>
-
 <view wx:if="{{ pickStatus === 1 }}" class="button" bindtap="updateOrderStatus">
   确认取餐
 </view>
-<view wx:elif="{{ pickStatus === 2 }}" class="yiqucan">{{ detailInfo.startTime+'~'+ detailInfo.endTime +' 已取餐'}}</view>
-<view wx:elif="{{ pickStatus === 0 }}" class="weidao">不可取餐</view>
-
-<view class="ts-wrp">
+<view wx:elif="{{ pickStatus === 2 }}" class="yiqucan">{{ detailInfo.pickTime +' 已取餐'}}</view>
+<view wx:elif="{{ pickStatus === 0 }}"  class="weidao">
+  <view class="weidao-title">未到取餐时间</view>
+  <view class="qcsj"><text class="qcsj iconfont icon-tixing"></text>午餐取餐时间: 上午10:00</view>
+  <view class="qcsj"><text class="qcsj iconfont icon-tixing"></text>晚餐取餐时间: 下午16:00</view>
+</view>
+<view class="{{pickStatus == 1?'ts-wrp':'ts-wrp anti'}}">
   <view class="ts-title">
     温馨提醒：  
   </view>

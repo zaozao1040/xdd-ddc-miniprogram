@@ -894,6 +894,20 @@
           "name": "",
           "pathName": "pages/order/qrCodeBack/qrCodeBack",
           "query": "orderCode=DDC941976092124643328",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/order/detail",
+          "query": "orderCode=DDC942091210435067904",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/order/qrCodeBack/qrCodeBack",
+          "query": "orderCode=DDC942091210435067904",
           "scene": null,
           "launchMode": "default"
         }

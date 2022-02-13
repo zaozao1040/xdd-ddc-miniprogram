@@ -1,11 +1,23 @@
 <view class="wrapper" wx:if='{{getdataalready}}'>
     <scroll-view scroll-y style="height:{{ windowHeight }}px" bindscroll="handleMostOuterScroll">
         <view class='header-status'>{{detailInfo.orderStatusDes}}</view>
-        <view wx:if="{{qrcodeShow}}" class="header-dianzipingzheng" data-orderCode="{{detailInfo.orderCode}}"
-            bindtap="handleGotoQrcode">
-            <text style="margin-top: 6rpx; color: #F79C4C; font-size: 30rpx;" class="iconfont icon-hetong1"></text>
-            <text style='color:#F79C4C;margin-left:10rpx;'>电子凭证</text>
-        </view>
+        <block wx:if="{{ningxiaOrgFlag}}">
+          <block wx:if="{{qrcodeShow}}">
+            <view class="header-dianzipingzheng" data-orderCode="{{detailInfo.orderCode}}"
+                bindtap="handleGotoQrcode">
+                <text style="margin-top: 6rpx; color: #F79C4C; font-size: 30rpx;" class="iconfont icon-hetong1"></text>
+                <text style='color:#F79C4C;margin-left:10rpx;'>电子凭证</text>
+            </view>        
+          </block>
+        </block>
+        <block wx:else>
+          <view class="header-dianzipingzheng" data-orderCode="{{detailInfo.orderCode}}"
+              bindtap="handleGotoQrcodeBack">
+              <text style="margin-top: 6rpx; color: #F79C4C; font-size: 30rpx;" class="iconfont icon-hetong1"></text>
+              <text style='color:#F79C4C;margin-left:10rpx;'>取餐凭证</text>
+          </view>  
+        </block>
+
         <view class="orderItem-wrapper">
             <view class="cart-day-title">{{detailInfo.mealDate}}{{' '+detailInfo.mealTypeDes}}</view>
             <view class="cart-day-title" wx:if="{{detailInfo.startTime}}">

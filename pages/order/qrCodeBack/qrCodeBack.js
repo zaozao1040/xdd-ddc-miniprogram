@@ -19,7 +19,7 @@ Page({
     orderCode: "",
     code_w: code_w,
     pickStatus: -1, //0-不可取餐  1-可取餐  2-已取餐
-    colorDark: "#f79c4c", // "#FFFFFF"  "#f79c4c"
+    colorDark: "#999999", // "#999999"  "#f79c4c"
   },
 
   /**
@@ -46,9 +46,16 @@ Page({
         } else if (data.mealType == "NIGHT") {
           data.mealTypeDes = "夜宵";
         }
+        let tmp_colorDark = "";
+        if (data.pickStatus == 0 || data.pickStatus == 2) {
+          tmp_colorDark = "#999999";
+        } else if (data.pickStatus == 1) {
+          tmp_colorDark = "#f79c4c";
+        }
         _this.setData(
           {
             userCode: userCode,
+            colorDark: tmp_colorDark,
             orderCode: options.orderCode,
             pickStatus: data.pickStatus,
             detailInfo: data,
@@ -92,10 +99,22 @@ Page({
       } else if (data.mealType == "NIGHT") {
         data.mealTypeDes = "夜宵";
       }
-      _this.setData({
-        pickStatus: data.pickStatus,
-        detailInfo: data,
-      });
+      let tmp_colorDark = "";
+      if (data.pickStatus == 0 || data.pickStatus == 2) {
+        tmp_colorDark = "#999999";
+      } else if (data.pickStatus == 1) {
+        tmp_colorDark = "#f79c4c";
+      }
+      _this.setData(
+        {
+          colorDark: tmp_colorDark,
+          pickStatus: data.pickStatus,
+          detailInfo: data,
+        },
+        () => {
+          _this.makeQrcode(_this.data.orderCode);
+        }
+      );
     });
   },
   // 修改订单取餐状态 从未取餐改为已取餐
@@ -109,14 +128,14 @@ Page({
       cancelText: "取消",
       success: function (res) {
         if (res.confirm) {
-          let param = {
-            userCode: wx.getStorageSync("userCode"),
-            orderCode: _this.data.detailInfo.orderCode,
-          };
           let params = {
-            data: param,
-            url: "/v4/order/updatePickStatus",
-            method: "post",
+            data: {},
+            url:
+              "/v4/order/updatePickStatus?userCode=" +
+              wx.getStorageSync("userCode") +
+              "&orderCode=" +
+              _this.data.detailInfo.orderCode,
+            method: "get",
           };
           requestModel.request(params, (result) => {
             wx.showToast({

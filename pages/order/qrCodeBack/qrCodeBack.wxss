@@ -1,5 +1,4 @@
 .title {
-  font-family: PingFang-SC-Regular;
   font-size: 30rpx;
   color: #666;
   letter-spacing: 0;
@@ -9,8 +8,6 @@
 .date {
   font-size: 40rpx;
   /* font-size: 52rpx; */
-  font-family: PingFangSC-Regular;
-  font-weight: 400;
   color: #222;
   line-height: 78rpx;
   margin: 40rpx 0 20rpx 20rpx;
@@ -30,23 +27,17 @@
 .foodName {
   font-size: 52rpx;
   /* font-size: 40rpx; */
-  font-family: PingFang-SC-Medium;
-  font-weight: 500;
   color: #f79c4c;
   line-height: 42rpx;
 }
 .foodQuantity {
   margin-left: 20rpx;
   font-size: 40rpx;
-  font-family: PingFang-SC-Medium;
-  font-weight: 500;
   color: #f79c4c;
   line-height: 42rpx;
 }
 .user {
   font-size: 28rpx;
-  font-family: PingFangSC-Regular;
-  font-weight: 400;
   color: #222;
   line-height: 60rpx;
   flex-shrink: 0;
@@ -54,8 +45,6 @@
 }
 .qucan {
   font-size: 28rpx;
-  font-family: PingFangSC-Regular;
-  font-weight: 400;
   color: #222;
   line-height: 60rpx;
   flex-shrink: 0;
@@ -63,8 +52,6 @@
 }
 .organize {
   font-size: 28rpx;
-  font-family: PingFangSC-Regular;
-  font-weight: 400;
   color: #222;
   line-height: 60rpx;
   flex-shrink: 0;
@@ -77,21 +64,27 @@
   text-align: center;
   background-image: linear-gradient(270deg, #f79c4c 0%, #f79c4c 99%);
   border-radius: 57rpx;
-  font-family: PingFang-SC-Medium;
   letter-spacing: 0;
   margin: 50rpx 100rpx;
 }
 .yiqucan {
   text-align: center;
-  margin: 100rpx;
+  margin: 70rpx;
   font-size: 50rpx;
   color: red;
 }
 .weidao {
   text-align: center;
-  margin: 100rpx;
+  margin: 70rpx;
+}
+.weidao-title {
   font-size: 50rpx;
-  color: rgb(189, 189, 189);
+  color: red;
+  padding-bottom: 20rpx;
+}
+.qcsj{
+  color:#999999;
+  font-size: 25rpx;
 }
 /* 下面的提示 */
 .ts-wrp{
@@ -104,4 +97,8 @@
 }
 .ts-line{
 
+}
+/* 暗体  */
+.anti{
+  color:#999999!important;
 }
