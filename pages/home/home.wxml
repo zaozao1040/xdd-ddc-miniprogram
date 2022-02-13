@@ -153,6 +153,7 @@
                                           </view>
                                           <view class="takefood-button" bindtap="handleTakeOrder"
                                               data-ordercode="{{homeOrderItem.orderCode}}"
+                                              data-bangguiflag="{{homeOrderItem.bangguiFlag}}"
                                               data-pickagain="{{homeOrderItem.pickAgain}}">取餐</view>
                                       </view>
                                   </view>

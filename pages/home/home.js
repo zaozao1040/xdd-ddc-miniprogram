@@ -16,8 +16,6 @@ Page({
     showDiancan: false, //是否展示右下角 点餐 悬浮按钮
     swiperDefaultIndex: 0,
     imageWidth: wx.getSystemInfoSync().windowWidth,
-    timer: null,
-    canClick: true,
     showCheckFlag: false, //显示审核状态框标志 默认不显示
     registered: false,
 
@@ -498,11 +496,7 @@ Page({
     });
   },
   /* 页面隐藏后回收定时器指针 */
-  onHide: function () {
-    if (this.data.timer) {
-      clearTimeout(this.data.timer);
-    }
-  },
+  onHide: function () {},
   /* 获取订单评价列表 */
   getOrderList: function () {
     let _this = this;
@@ -556,6 +550,8 @@ Page({
               a.foodName = onefood.foodName;
               a.orderCode = item.orderCode;
               a.pickAgain = item.pickAgain;
+              a.bangguiFlag =
+                item.cabinet && item.cabinet.length > 0 ? true : false; //是否已经绑柜 如果未绑柜 则点击取餐按钮要跳转到取餐凭证页面
               a.cabinet = item.cabinet;
               if (onefood.takeMealStartTime && onefood.takeMealEndTime) {
                 // 取餐时间
@@ -596,6 +592,8 @@ Page({
 
   /* 去取餐 */
   handleTakeOrder: function (e) {
+    let _this = this;
+    let { ordercode, pickagain, bangguiflag } = e.currentTarget.dataset;
     //宁夏直接跳转电子凭证
     let organizeCode = wx.getStorageSync("userInfo").userInfo.organizeCode;
     let ningxiaOrgCode = getApp().globalData.ningxiaOrgnaizeCode;
@@ -607,30 +605,15 @@ Page({
       });
       return;
     }
-
-    // 药明康德2000个傻逼吃饭，要求上线跳转到取餐码页面
-    if (
-      _this.data.homeOrderItem.cabinet &&
-      _this.data.homeOrderItem.cabinet.length == 0
-    ) {
+    // 药明康德2000个大神吃饭，要求上线跳转到取餐码页面
+    if (bangguiflag == false) {
       wx.navigateTo({
         url:
-          "/pages/order/qrCode/qrCodeBack?orderCode=" +
+          "/pages/order/qrCodeBack/qrCodeBack?orderCode=" +
           e.currentTarget.dataset.ordercode,
       });
       return;
     }
-    this.setData({
-      showShapeFlag: false,
-    });
-
-    let _this = this;
-    if (!_this.data.canClick) {
-      return;
-    }
-    _this.data.canClick = false;
-
-    let { ordercode, pickagain } = e.currentTarget.dataset;
     //就调用接口加载柜子号
     let param = {
       url:
@@ -652,13 +635,6 @@ Page({
         wx.hideTabBar();
       }
     });
-
-    if (_this.data.timer) {
-      clearTimeout(_this.data.timer);
-    }
-    _this.data.timer = setTimeout(function () {
-      _this.data.canClick = true;
-    }, 2000);
   },
   closeModal() {
     if (this.data.takeorderModalShow) {
