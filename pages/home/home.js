@@ -351,7 +351,7 @@ Page({
 
   loadData: function (options) {
     let _this = this;
-    // _this.getRecentMealDateAndMealType();  //放开这个 就不通过后端来进行点餐日期默认推荐了 合并补餐和正常餐入口后 可前端直接锁定数组第一个餐别
+    _this.getRecentMealDateAndMealType(); //放开这个 就不通过后端来进行点餐日期默认推荐了 合并补餐和正常餐入口后 可前端直接锁定数组第一个餐别
   },
   getTimeShareSet: function () {
     let _this = this;

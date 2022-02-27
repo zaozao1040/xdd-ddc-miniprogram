@@ -1,77 +1,86 @@
 .section-3 {
-    border-radius: 6rpx;
-    margin: 16rpx 16rpx 0 16rpx;
-    display: flex;
-    background: #FFFFFF;
+  border-radius: 6rpx;
+  padding: 16rpx 16rpx 0 16rpx;
+  display: flex;
+  background: #FFFFFF;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index:100;
 }
-
+.section-3-zhanwei{
+height: 110rpx;
+}
 .phone-number {
-    height: 100rpx;
-    line-height: 100rpx;
-    padding-left: 20rpx;
-    font-family: PingFangSC-Regular;
-    font-size: 30rpx;
-    color: #333333;
-    letter-spacing: 0;
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  height: 100rpx;
+  line-height: 100rpx;
+  padding-left: 20rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 30rpx;
+  color: #333333;
+  letter-spacing: 0;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .phone-address {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 
 /* 企业选择 */
 
 .address-wrapper {
-    background: #F5F5F5;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  background: #F5F5F5;
+
 }
 
 .placeholder-class {
-    font-family: PingFangSC-Regular;
-    font-size: 30rpx;
-    color: #999999;
-    letter-spacing: 0;
-    text-align: left;
+  font-family: PingFangSC-Regular;
+  font-size: 30rpx;
+  color: #999999;
+  letter-spacing: 0;
+  text-align: left;
 }
 
 .addressList-wrapper {
-    background: #FFF;
-    margin: 5rpx 16rpx 0 16rpx;
+  background: #FFF;
+  margin: 5rpx 16rpx 0 16rpx;
 }
 
 .noResult {
-    padding: 10rpx 20rpx;
-    font-size: 40rpx;
-    color: #666;
+  padding: 10rpx 20rpx;
+  font-size: 40rpx;
+  color: #666;
 }
-
+.zhanwei{
+height: 200rpx;
+}
 .button {
-    margin: 42rpx 16rpx;
-    width: 100%;
-    background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
-    border-radius: 50rpx;
-    font-family: PingFangSC-Regular;
-    font-size: 34rpx;
-    color: #FFFFFF;
-    letter-spacing: 0;
-    text-align: center;
-    line-height: 96rpx;
-    width: 712rpx;
-    height: 96rpx;
+position: fixed;
+left: 0;
+right: 0;
+bottom: 0;
+  margin: 42rpx 16rpx;
+  width: 100%;
+  background-image: linear-gradient(270deg, #F79C4C 0%, #F7CD4E 99%);
+  border-radius: 50rpx;
+  font-family: PingFangSC-Regular;
+  font-size: 34rpx;
+  color: #FFFFFF;
+  letter-spacing: 0;
+  text-align: center;
+  line-height: 96rpx;
+  width: 712rpx;
+  height: 96rpx;
 }
 
 .address {
-    background: #FFFFFF;
-    height: 100rpx;
-    flex-grow: 1;
+  background: #FFFFFF;
+  height: 100rpx;
+  flex-grow: 1;
 }
