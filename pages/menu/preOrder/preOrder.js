@@ -51,6 +51,7 @@ Page({
     newSelectedDiscountInfo: {}, //当前选中的优惠券信息 这个从优惠券列表选中优惠券后，才传递的优惠券信息
     //是否补餐
     appendMealFlag: false,
+    addressListLength: 1,
   },
   onLoad: function (options) {
     this.setData({
@@ -63,6 +64,23 @@ Page({
     this.initAddress();
     this.getPreOrderInfo();
     this.getYaomingNotice();
+    this.getAddressList();
+  },
+  // 获取地址列表 目的是为了判断该企业是不是多地址 多地址的话 下单要提醒用户地址
+  getAddressList: function () {
+    let _this = this;
+    let param = {
+      url:
+        "/organize/getOrganizeDeliveryAddress?userCode=" +
+        wx.getStorageSync("userInfo").userInfo.userCode,
+    };
+
+    requestModel.request(param, (data) => {
+      console.log("xxx", data);
+      _this.setData({
+        addressListLength: data.length,
+      });
+    });
   },
   getUserInfo: function () {
     let _this = this;
@@ -369,7 +387,7 @@ Page({
   },
 
   //余额支付的提示
-  confirmPay() {
+  clickPay() {
     if (!this.data.userName) {
       wx.showToast({
         title: "请填写姓名",
@@ -386,19 +404,21 @@ Page({
       });
       return;
     }
-
-    if (
-      (this.data.payInfo.payType == "BALANCE_PAY" ||
-        this.data.payInfo.payType == "BALANCE_MIX_WECHAT_PAY") &&
-      this.data.payInfo.orderPayPrice > 0
-    ) {
-      this.setData({
-        balanceConfirmFlag: true,
-      });
-    } else {
-      //其余支付方式则直接支付
-      this.doPay();
-    }
+    this.setData({
+      balanceConfirmFlag: true,
+    });
+    // if (
+    //   (this.data.payInfo.payType == "BALANCE_PAY" ||
+    //     this.data.payInfo.payType == "BALANCE_MIX_WECHAT_PAY") &&
+    //   this.data.payInfo.orderPayPrice > 0
+    // ) {
+    //   this.setData({
+    //     balanceConfirmFlag: true,
+    //   });
+    // } else {
+    //   //其余支付方式则直接支付
+    //   this.doPay();
+    // }
   },
 
   confirmPayBalance() {

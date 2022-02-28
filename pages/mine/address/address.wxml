@@ -1,6 +1,6 @@
 <view class="wrp" hover-class="none" hover-stop-propagation="false">
   <view class="address-wrapper">
-    <view class="section-3">
+    <!-- <view class="section-3">
         <view style="width:80rpx;height:100rpx;">
             <image src="/images/mine/dizhi.png" style='padding-left:43rpx;padding-top:29.2rpx;width:34.6rpx;height:42.8rpx;margin:auto;'></image>
         </view>
@@ -11,22 +11,28 @@
     </view>
     <view class="section-3-zhanwei" hover-class="none" hover-stop-propagation="false">
       
-    </view>
+    </view> -->
     <view class="addressList-wrapper">
         <view wx:for="{{addressList}}" wx:for-index="addressIndex" wx:for-item="addressItem" wx:key="addressIndex" catchtap="selectDefaultAddress" data-addressdes="{{addressItem.address}}" data-addresscode="{{addressItem.deliveryAddressCode}}" data-useraddaddress="{{addressItem.userAddAddress}}">
-            <view style="padding: 10rpx;margin-bottom: 10rpx; border-bottom: 1rpx solid #eeeeee;">
-                <view style="padding-bottom: 10rpx; line-height: 42rpx;font-family: PingFangSC-Regular; font-size: 30rpx; color: #333333; line-height: 42rpx">
-                    {{addressItem.address}}
-                </view>
-                <view class='phone-address'>
-                    <view style=" height: 42rpx;font-family: PingFangSC-Regular; font-size: 30rpx; color: #333333; line-height: 42rpx">
-                        联系人:{{addressItem.contactName}}
-                    </view>
-                    <view style=" height: 42rpx;font-family: PingFangSC-Regular; font-size: 30rpx; color: #333333; line-height: 42rpx">
-                        {{addressItem.contactPhone}}
-                    </view>
-                </view>
+          <view style="display:flex; position: relative;display: flex;align-items: center; border-bottom: 1rpx solid #eeeeee;">
+            <view style="flex:1;padding: 10rpx;margin-bottom: 10rpx; ">
+                  <view style="padding-bottom: 10rpx; line-height: 42rpx;font-family: PingFangSC-Regular; font-size: 30rpx; color: #333333; line-height: 42rpx">
+                      {{addressItem.address}}
+                  </view>
+                  <view class='phone-address'>
+                      <view style=" height: 42rpx;font-family: PingFangSC-Regular; font-size: 30rpx; color: #333333; line-height: 42rpx">
+                          联系人:{{addressItem.contactName}}
+                      </view>
+                      <view style=" height: 42rpx;font-family: PingFangSC-Regular; font-size: 30rpx; color: #333333; line-height: 42rpx">
+                          {{addressItem.contactPhone}}
+                      </view>
+                  </view>
+            </view> 
+            <view style="width:100rpx;display:flex;align-items: center;justify-content: center;">
+              <image wx:if="{{addressCode==addressItem.deliveryAddressCode}}" src="/images/mine/selected.png" style='width:52rpx;height:52rpx; '></image>
             </view>
+          </view>  
+
 
         </view>
         <view wx:if="{{addressListNoResult}}" class="noResult">

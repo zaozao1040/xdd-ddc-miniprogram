@@ -8,6 +8,7 @@ Page({
     buttonTop: 0,
     location: {},
     addressList: [],
+    addressCode: "aaaa",
     addressDes: "",
     organizeCode: "",
     search: "",
@@ -28,8 +29,8 @@ Page({
     requestModel.getUserInfo((userInfo) => {
       _this.setData({
         addressDes: userInfo.deliveryAddress,
+        addressCode: userInfo.deliveryAddressCode,
       });
-      this.data.addressCode = userInfo.deliveryAddressCode;
     });
   },
 
@@ -68,8 +69,8 @@ Page({
   selectDefaultAddress: function (e) {
     this.setData({
       addressDes: e.currentTarget.dataset.addressdes,
+      addressCode: e.currentTarget.dataset.addresscode,
     });
-    this.data.addressCode = e.currentTarget.dataset.addresscode;
   },
   changeDefaultAddress: function () {
     let _this = this;

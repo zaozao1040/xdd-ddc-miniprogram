@@ -10,11 +10,13 @@ Component({
     content2: String,
     content3: String,
     content4: String,
+    content5: String,
     money: String,
     money1: String,
     money2: String,
     money3: String,
     money4: String,
+    money5: String,
     cancel: {
       type: String,
       value: "取消",
