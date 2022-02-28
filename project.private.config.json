@@ -929,6 +929,20 @@
           "name": "",
           "pathName": "pages/order/detail",
           "query": "orderCode=DDC915568154074152960",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/mine/address/address",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/mine/address/address",
+          "query": "",
           "scene": null,
           "launchMode": "default"
         }

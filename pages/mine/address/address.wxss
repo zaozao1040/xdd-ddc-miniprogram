@@ -1,8 +1,15 @@
+page {
+  /* background-color: #eee; */
+}
+
+.wrp{
+  
+}
 .section-3 {
   border-radius: 6rpx;
   padding: 16rpx 16rpx 0 16rpx;
   display: flex;
-  background: #FFFFFF;
+  /* background: #FFFFFF; */
   position: fixed;
   top: 0;
   left: 0;
@@ -13,6 +20,7 @@
 height: 110rpx;
 }
 .phone-number {
+  margin-right: 80rpx;
   height: 100rpx;
   line-height: 100rpx;
   padding-left: 20rpx;
@@ -35,7 +43,7 @@ height: 110rpx;
 /* 企业选择 */
 
 .address-wrapper {
-  background: #F5F5F5;
+  /* background: #F5F5F5; */
 
 }
 
@@ -49,7 +57,7 @@ height: 110rpx;
 
 .addressList-wrapper {
   background: #FFF;
-  margin: 5rpx 16rpx 0 16rpx;
+  margin: 25rpx 16rpx 0 16rpx;
 }
 
 .noResult {
