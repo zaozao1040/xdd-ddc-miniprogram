@@ -19,8 +19,17 @@
           </block>
         </view>
         <block >
+          <!-- 所有类型的餐 的时间都过了 啥餐都不能点 -->
+          <block wx:if='{{orderType == 4}}'>
+            <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
+              <image src="/images/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
+            </view>
+            <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
+              普通餐、补餐、备用餐时间已过
+            </view> 
+          </block>
           <!-- 备用餐 -->
-          <block wx:if='{{orderType == 3}}'>
+          <block wx:elif='{{orderType == 3}}'>
             <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
               <image src="/images/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
             </view>
@@ -28,9 +37,8 @@
               普通餐、补餐时间已过，可申请<text style="color:#f79c4c">备用餐</text>
             </view>
             <view style="display:flex;justify-content:center;">
-              <l-button style="margin: 20rpx;" shape="circle" size="medium" bg-color="#f79c4c" catch:lintap="doWithByc">去申请</l-button>
-            </view>
-                    
+              <l-button style="margin: 20rpx;" shape="semicircle" size="medium" bg-color="#f79c4c" catch:lintap="doWithByc">去申请</l-button>
+            </view> 
           </block>
           <!-- 餐别不允许点餐 -->
           <block wx:elif='{{userTimeAndMealTypeLimit}}'>
