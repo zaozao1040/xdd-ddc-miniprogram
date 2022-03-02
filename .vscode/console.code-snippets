@@ -1,0 +1,43 @@
+{
+  "jj": {
+    "scope": "javascript,typescript",
+    "prefix": "jj",
+    "body": ["console.log('======= $1 ======= ',$2);", "$2"]
+  },
+  "jjj": {
+    "scope": "javascript,typescript",
+    "prefix": "jjj",
+    "body": ["console.log('@@@@@@@ 2 @@@@@@@ ',$1);", "$2"]
+  },
+  "jjjj": {
+    "scope": "javascript,typescript",
+    "prefix": "jjjj",
+    "body": ["console.log('####### 3 ####### ',$1);", "$2"]
+  },
+  "jjjjj": {
+    "scope": "javascript,typescript",
+    "prefix": "jj",
+    "body": ["console.log('$$$$$$$ 4 $$$$$$$ ',$1);", "$2"]
+  },
+  "kk": {
+    "scope": "javascript,typescript",
+    "prefix": "kk",
+    "body": [
+      "\n// #region ***** 功能: $1 *****\n",
+      "// #endregion ######## end 区域: $1 ###############*/\n"
+    ]
+  },
+  "kkk": {
+    "scope": "javascript,typescript",
+    "prefix": "kkk",
+    "body": [
+      "\n// #region ############### 区域: $1 ###############\n",
+      "// #endregion ######## end 区域: $1 ###############*/\n"
+    ]
+  },
+  "qq": {
+    "scope": "javascript,typescript",
+    "prefix": "kkkk",
+    "body": ["//[QQ] $1"]
+  }
+}

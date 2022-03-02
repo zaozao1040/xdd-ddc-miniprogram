@@ -971,6 +971,20 @@
           "name": "",
           "pathName": "pages/menu/menu",
           "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/menu/menu",
+          "query": "recentMealDate=2022-03-03&recentMealType=LUNCH",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/menu/menu",
+          "query": "recentMealDate=2022-03-03&recentMealType=LUNCH",
           "scene": null,
           "launchMode": "default"
         }

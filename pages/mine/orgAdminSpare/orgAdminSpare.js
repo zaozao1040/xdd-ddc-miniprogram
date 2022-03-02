@@ -44,8 +44,6 @@ Page({
     selectedDate: null, //全部订单的日期
     selectedDateFlag: false,
     //
-    getSpareMealSetParams: {},
-    orgAddressInfo: {},
   },
   bindDateChange(e) {
     if (e.detail && e.detail.value)
@@ -80,29 +78,11 @@ Page({
     let _this = this;
     let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
 
-    _this.setData(
-      {
-        userInfo: tmp_userInfo,
-        orgadmin: options.orgadmin,
-      },
-      () => {
-        var pages = getCurrentPages();
-        var prevPage = pages[pages.length - 2]; //上一个页面
-        _this.setData(
-          {
-            //这3个参数保存一下
-            spareInfo: prevPage.data.spareInfo,
-            getSpareMealSetParams: prevPage.data.getSpareMealSetParams,
-            orgAddressInfo: prevPage.data.orgAddressInfo,
-          },
-          () => {
-            if (_this.data.spareInfo.timeStatus) {
-              _this.initOrder();
-            }
-          }
-        );
-      }
-    );
+    _this.setData({
+      userInfo: tmp_userInfo,
+      orgadmin: options.orgadmin,
+    });
+    _this.getSpareMealSet();
   },
 
   /**
@@ -114,19 +94,20 @@ Page({
   //获取备用餐设置
   getSpareMealSet() {
     let _this = this;
+    let userInfo = wx.getStorageSync("userInfo").userInfo;
     let params = {
-      data: _this.data.getSpareMealSetParams,
+      data: {
+        deliveryAddressCode: userInfo.deliveryAddressCode,
+        organizeCode: userInfo.organizeCode,
+        userCode: userInfo.userCode,
+      },
       url: "/spare/getSpareMealSet",
       method: "post",
     };
-    let tmp_selectOrganizeInfo = wx.getStorageSync("selectOrganizeInfo"); //处理外来人员情况 需要传选择的organizeCode
-    if (
-      tmp_selectOrganizeInfo &&
-      _this.data.userInfo.organizeCode == "ORGVISTORE530053156613128193"
-    ) {
-      params.data.organizeCode = tmp_selectOrganizeInfo.organizeCode;
-    }
+
     requestModel.request(params, (res) => {
+      console.log("======= rrrrr ======= ", res);
+
       if (res.mealType == "BREAKFAST") {
         res.mealTypeDes = "早餐";
       } else if (res.mealType == "LUNCH") {

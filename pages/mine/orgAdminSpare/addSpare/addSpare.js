@@ -23,8 +23,7 @@ Page({
 
     //
     spareInfo: {},
-    getSpareMealSetParams: {},
-    orgAddressInfo: {}, //这个参数其实是前两个页面选中的企业地址
+    orgAddressInfo: { address: "" }, //这个参数其实是前两个页面选中的企业地址
   },
 
   /**
@@ -34,6 +33,9 @@ Page({
     let _this = this;
     _this.setData({
       orgadmin: options.orgadmin,
+      orgAddressInfo: {
+        address: wx.getStorageSync("userInfo").userInfo.deliveryAddress,
+      },
     });
   },
 
@@ -81,28 +83,23 @@ Page({
     let _this = this;
     var pages = getCurrentPages();
     var prevPage = pages[pages.length - 2]; //上一个页面
-    _this.setData({
-      //这2个参数保存一下
-      getSpareMealSetParams: prevPage.data.getSpareMealSetParams,
-      orgAddressInfo: prevPage.data.orgAddressInfo,
-    });
+
     _this.getUserPayBalance();
   },
   //获取设置
   getSpareMealSet() {
     let _this = this;
+    let userInfo = wx.getStorageSync("userInfo").userInfo;
     let params = {
-      data: _this.data.getSpareMealSetParams,
+      data: {
+        deliveryAddressCode: userInfo.deliveryAddressCode,
+        organizeCode: userInfo.organizeCode,
+        userCode: userInfo.userCode,
+      },
       url: "/spare/getSpareMealSet",
       method: "post",
     };
-    let tmp_selectOrganizeInfo = wx.getStorageSync("selectOrganizeInfo"); //处理外来人员情况 需要传选择的organizeCode
-    if (
-      tmp_selectOrganizeInfo &&
-      _this.data.userInfo.organizeCode == "ORGVISTORE530053156613128193"
-    ) {
-      params.data.organizeCode = tmp_selectOrganizeInfo.organizeCode;
-    }
+
     requestModel.request(params, (res) => {
       if (res.mealType == "BREAKFAST") {
         res.mealTypeDes = "早餐";
@@ -356,8 +353,7 @@ Page({
                   verificationString: respVer,
                   organizeCode: tmp_organizeCode,
                   userCode: wx.getStorageSync("userCode"),
-                  deliveryAddressCode:
-                    _this.data.orgAddressInfo.deliveryAddressCode,
+                  deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
                   mealDate: _this.data.spareInfo.mealDate,
                   mealType: _this.data.spareInfo.mealType,
                   userName: _this.data.userInfo.userName,
@@ -493,8 +489,7 @@ Page({
             data: {
               organizeCode: _this.data.userInfo.organizeCode,
               userCode: wx.getStorageSync("userCode"),
-              deliveryAddressCode:
-                _this.data.orgAddressInfo.deliveryAddressCode,
+              deliveryAddressCode: userInfo.deliveryAddressCode,
               mealDate: _this.data.spareInfo.mealDate,
               mealType: _this.data.spareInfo.mealType,
               userName: _this.data.userInfo.userName,
