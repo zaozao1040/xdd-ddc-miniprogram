@@ -38,12 +38,6 @@ Page({
 
     // 订单未评价个数
     notReadNumber: 0,
-
-    // 备用餐信息
-    orgadmin: "no",
-    getSpareMealSetParams: {},
-    spareInfo: {},
-    orgAddressInfo: {}, //选择的企业地址
   },
   /* 获取待评价信息 */
   getOrderEvaluateReplyNotRead() {
@@ -314,194 +308,25 @@ Page({
 
   // 点击备用餐
   clickByc(e) {
-    let _this = this;
     let { orgadmin } = e.currentTarget.dataset;
-    _this.setData(
-      {
-        orgadmin: orgadmin,
-      },
-      () => {
-        _this.getAddressByOrganizeCode();
-      }
-    );
-  },
-  //获取备用餐设置
-  getSpareMealSet(obj) {
-    let _this = this;
-    let params = {
-      data: obj,
-      url: "/spare/getSpareMealSet",
-      method: "post",
-    };
-    requestModel.request(params, (res) => {
-      if (res.mealType == "BREAKFAST") {
-        res.mealTypeDes = "早餐";
-      } else if (res.mealType == "LUNCH") {
-        res.mealTypeDes = "午餐";
-      } else if (res.mealType == "DINNER") {
-        res.mealTypeDes = "晚餐";
-      } else if (res.mealType == "NIGHT") {
-        res.mealTypeDes = "夜宵";
-      }
-      _this.setData(
-        {
-          spareInfo: res,
-        },
-        () => {
-          // this.data.spareInfo有值 则代表请求到了结果
-          if (this.data.spareInfo && this.data.spareInfo.timeStatus == false) {
-            wx.showModal({
-              title: "提示",
-              content: "当前时间不允许",
-              confirmText: "我知道了",
-              showCancel: false,
-              success: function (res) {},
-            });
-          } else if (this.data.spareInfo && this.data.spareInfo.spareNum == 0) {
-            let mealTypeDes = "";
-            if (this.data.spareInfo.mealType == "BREAKFAST") {
-              mealTypeDes = "早餐";
-            } else if (this.data.spareInfo.mealType == "LUNCH") {
-              mealTypeDes = "午餐";
-            } else if (this.data.spareInfo.mealType == "DINNER") {
-              mealTypeDes = "晚餐";
-            } else if (this.data.spareInfo.mealType == "NIGHT") {
-              mealTypeDes = "夜宵";
-            }
-            wx.showModal({
-              title: this.data.spareInfo.mealDate + "(" + mealTypeDes + ")",
-              content: "暂无备用餐",
-              confirmText: "我知道了",
-              showCancel: false,
-              success: function (res) {},
-            });
-          } else {
-            let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
-            // 如果是NGO 代表外来人员身份想要申请备用餐 每次都强制跳转到需要填写企业和企业地址
-            if (
-              tmp_userInfo.organizeCode == "ORGVISTORE530053156613128193" ||
-              !tmp_userInfo.deliveryAddressCode
-            ) {
-              wx.navigateTo({
-                url: "/pages/mine/orgAndaddress/orgAndaddress?frontPageFlag=spare",
-              });
-            } else {
-              wx.navigateTo({
-                url:
-                  "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
-                  _this.data.orgadmin +
-                  "&deliveryAddressCode=" +
-                  obj.deliveryAddressCode,
-              });
-            }
-          }
-        }
-      );
-    });
-  },
-
-  // 获取企业地址列表
-  getAddressByOrganizeCode() {
-    let _this = this;
     let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
     if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
-      let params = {
-        data: {
-          userCode: tmp_tmp_userInfo.userInfo.userCode,
-          organizeCode: tmp_tmp_userInfo.userInfo.organizeCode,
-        },
-        url: "/organize/getAddressByOrganizeCode",
-        method: "get",
-      };
-      requestModel.request(params, (res) => {
-        if (Array.isArray(res) && res.length == 1) {
-          let tmp_getSpareMealSetParams = {
-            userCode: tmp_tmp_userInfo.userInfo.userCode,
-            organizeCode: tmp_tmp_userInfo.userInfo.organizeCode,
-            deliveryAddressCode: res[0].deliveryAddressCode,
-          };
-          _this.setData(
-            {
-              orgAddressInfo: res[0],
-              getSpareMealSetParams: tmp_getSpareMealSetParams,
-            },
-            () => {
-              _this.getSpareMealSet(tmp_getSpareMealSetParams);
-            }
-          );
-        } else if (Array.isArray(res) && res.length > 1) {
-          res.map((item) => {
-            item.name = item.address;
-          });
-          wx.lin.showActionSheet({
-            itemList: res,
-          });
-        }
+      wx.navigateTo({
+        url:
+          "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
+          orgadmin +
+          "&deliveryAddressCode=" +
+          tmp_tmp_userInfo.userInfo.deliveryAddressCode,
       });
     }
   },
+
   gotoAddfoodAdmin() {
-    wx.lin.showActionSheet({
-      itemList: [
-        {
-          name: "普通餐",
-        },
-        {
-          name: "商务餐",
-        },
-      ],
+    wx.navigateTo({
+      url: "/pages/mine/orgAdminAddfood/orgAdminAddfood",
     });
   },
-  lintapItem(e) {
-    let _this = this;
-    let { index, item } = e.detail;
-    if (item.address) {
-      // 备用餐弹窗
-      let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
-      let tmp_getSpareMealSetParams = {
-        userCode: tmp_tmp_userInfo.userInfo.userCode,
-        organizeCode: tmp_tmp_userInfo.userInfo.organizeCode,
-        deliveryAddressCode: item.deliveryAddressCode,
-      };
-      _this.setData(
-        {
-          orgAddressInfo: item,
-          getSpareMealSetParams: tmp_getSpareMealSetParams,
-        },
-        () => {
-          _this.getSpareMealSet(tmp_getSpareMealSetParams);
-        }
-      );
-    } else {
-      // 报餐弹窗
-      if (index == 0) {
-        wx.navigateTo({
-          url: "/pages/mine/orgAdminAddfood/orgAdminAddfood",
-        });
-      } else if (index == 1) {
-        // wx.navigateTo({
-        //   url: "/pages/mine/orgAdminSwcfood/orgAdminSwcfood",
-        // });
-        wx.showToast({
-          title: "即将上线..",
-          icon: "none",
-          duration: 2000,
-        });
-      }
-    }
-  },
-  gotoAddfoodAdmin() {
-    wx.lin.showActionSheet({
-      itemList: [
-        {
-          name: "普通餐",
-        },
-        {
-          name: "商务餐",
-        },
-      ],
-    });
-  },
+
   // 我要吐槽
   gotoSaySomething() {
     wx.navigateTo({

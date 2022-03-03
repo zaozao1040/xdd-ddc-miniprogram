@@ -151,9 +151,7 @@
                         </view>
                         <image src="/images/mine/data_cabinet_no.png" class='org-addfood-img'></image>
                     </view>
-                    <view class='org-addfood' data-orgadmin="yes" bindtap="clickByc">
-                        <image src="/images/mine/data_spare.png" class='org-addfood-img'></image>
-                    </view>
+             
                 </view>
             </view>
             <view class='function-wrapper'>
@@ -191,7 +189,7 @@
                         </view>
                         <view class='label-title'>服务评分</view>
                     </view>
-                    <view data-orgadmin="no" bindtap="clickByc" wx:if='{{userInfo.orgAdmin==false}}'>
+                    <view data-orgadmin="no" bindtap="clickByc" >
                         <view style="margin-left:12rpx;width:80rpx;height:80rpx; ">
                             <image src="/images/mine/me_spare.png" style='width:80rpx;height:80rpx;'></image>
                         </view>
@@ -235,5 +233,4 @@
     bind:closemodal='closePhoneModal' bind:handleconfirm='handleContact'></c-custom-modal>
 <c-custom-modal title='是否开柜取餐?' content='{{cellInfoDes}}' wx:if='{{showTakeFoodModal}}'
     bind:closemodal='closeTakeFoodModal' bind:handleconfirm='handleTakeFoodContact'></c-custom-modal>
-<!-- lin -->
-<l-action-sheet bind:linitemtap="lintapItem"/>
+ 

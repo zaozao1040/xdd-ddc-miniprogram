@@ -171,7 +171,7 @@ Page({
   getOrderStatus(element) {
     let a = "";
     if (element.status == 1) {
-      if (element.isPay == 0) {
+      if (element.isPay == false) {
         a = "订单未支付";
       } else {
         a = "订单已支付";

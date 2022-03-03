@@ -151,8 +151,7 @@
 }
 .org-addfood {
   flex: 1;
-  /* height: 170rpx; */
-  height: 120rpx;
+  height: 170rpx;
   margin: 0 10rpx;
 }
 .org-addfood-img {

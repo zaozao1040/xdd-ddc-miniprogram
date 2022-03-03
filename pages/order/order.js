@@ -218,7 +218,7 @@ Page({
       has: true,
     };
     if (element.status == 1) {
-      if (element.isPay == 0) {
+      if (element.isPay == false) {
         a.label = "未支付";
         a.has = false;
         a.differentColor = true;

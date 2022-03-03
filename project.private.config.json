@@ -985,6 +985,20 @@
           "name": "",
           "pathName": "pages/menu/menu",
           "query": "recentMealDate=2022-03-03&recentMealType=LUNCH",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/order/order",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/mine/mine",
+          "query": "",
           "scene": null,
           "launchMode": "default"
         }
