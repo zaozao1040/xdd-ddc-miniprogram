@@ -1,328 +1,272 @@
 <view>
   <view wx:if='{{preLoading_request&&preLoading_force}}' style='width:100%;height:{{windowHeight}}px;'>
-      <image src='/images/home/pre_loading.png' style='width:100%;height:{{windowHeight}}px;'></image>
+    <image src='/images/home/pre_loading.png' style='width:100%;height:{{windowHeight}}px;'></image>
   </view>
   <view wx:else class="home-container" bindtap="closeNotice">
     <view class="title-wrp"></view>
-      <!-- 轮播图 autoplay="true"3.0-->
-      <swiper autoplay class="h-v2-swiper-item" circular="true" duration="300" indicatorActiveColor="#fff"
-          indicatorColor="rgba(255,255,255)" indicatorActiveColor="#f79c4c" indicatorDots interval="5000"
-          bindchange="onSwiperChange">
-          <block wx:for="{{swiperList}}" wx:for-index="swiperListIndex" wx:for-item="swiperListItem"
-              wx:key="swiperListIndex">
-              <swiper-item bindtap="gotoPage" data-item="{{swiperListItem}}">
-                      <image src="{{swiperListItem.url}}" style="width: 100%;height: 100%;border-radius: 8rpx;">
-                      </image>
-              </swiper-item>
-          </block>
-      </swiper> 
-
-      <!-- 轮播公告 3.0-->
-      <view style="padding:0 30rpx 40rpx 36rpx;" wx:if="{{hasNotice}}">
-          <view class='notice-item'>
-              <view class="notice-title">最新公告</view>
-              <view class='notice-button' catchtap="handleshowAllNotice">查看更多</view>
-          </view>
-          <swiper class="notice-detail" circular="true" duration="500" vertical="true" autoplay="true">
-              <block wx:for="{{noticeData}}" wx:key="{{index}}">
-                  <swiper-item catchtap="handleshowOneNotice" data-onenotice="{{item}}" style='margin-left:-10rpx;'>
-                      【点我查看】{{item.noticeTitle}}
-                  </swiper-item>
-              </block>
-          </swiper>
+    <!-- 轮播图 autoplay="true"3.0 -->
+    <swiper autoplay class="h-v2-swiper-item" circular="true" duration="300" indicatorActiveColor="#fff" indicatorColor="rgba(255,255,255)" indicatorActiveColor="#f79c4c" indicatorDots interval="5000" bindchange="onSwiperChange">
+      <block wx:for="{{swiperList}}" wx:for-index="swiperListIndex" wx:for-item="swiperListItem" wx:key="swiperListIndex">
+        <swiper-item bindtap="gotoPage" data-item="{{swiperListItem}}">
+          <image src="{{swiperListItem.url}}" style="width: 100%;height: 100%;border-radius: 8rpx;"></image>
+        </swiper-item>
+      </block>
+    </swiper>
+    <!-- 轮播公告 3.0 -->
+    <view style="padding:0 30rpx 40rpx 36rpx;" wx:if="{{hasNotice}}">
+      <view class='notice-item'>
+        <view class="notice-title">最新公告</view>
+        <view class='notice-button' catchtap="handleshowAllNotice">查看更多</view>
       </view>
-
-      <!--弹出公告-->
-      <view class="modulebox-background-wrapper" wx:if="{{showOneNotice&&!showUserAuthFlag&&!showCheckFlag}}">
-          <view>
-              <image src='/images/home/announcement_pic.png' class='modulebox-image'></image>
-          </view>
-          <swiper class="modulebox-wrapper-notice" circular="true" duration="500" autoplay="true" indicator-dots
-              indicator-color='rgba(247,156,76,0.30)' indicator-active-color='#F79C4C'>
-              <block wx:for="{{showedNoticeData}}" wx:key="{{index}}">
-                  <swiper-item>
-
-                      <block>
-                          <view class='modulebox-notice-title'>
-                              {{item.noticeTitle}}
-                          </view>
-                          <scroll-view scroll-y style='height:270rpx;'>
-                              <view class="modulebox-notice-content">
-                                  {{item.content}}
-                              </view>
-                          </scroll-view>
-                      </block>
-                  </swiper-item>
-              </block>
-          </swiper>
-      </view>
-
-      <!-- 开始点餐 3.0-->
-      <view class="h-v3">
-        <view class="h-v3-1" catchtap="clickStartMeal">
-            {{fenshiInfo.timeShareFlag?'开始分时点餐':'开始点餐'}}
-        </view>
-        <view
-            style="position:absolute;top:{{hasNotice?460:328}}rpx;height:100rpx;width:600rpx;margin-left:46rpx;z-index:-1;">
-            <image src="/images/home/home_projection.png" style="height:100rpx;width:600rpx;"></image>
-        </view>
+      <swiper class="notice-detail" circular="true" duration="500" vertical="true" autoplay="true">
+        <block wx:for="{{noticeData}}" wx:key="{{index}}">
+          <swiper-item catchtap="handleshowOneNotice" data-onenotice="{{item}}" style='margin-left:-10rpx;'>
+            【点我查看】{{item.noticeTitle}}
+          </swiper-item>
+        </block>
+      </swiper>
     </view>
-    <!-- 开心农场 3.0-->
+    <!-- 弹出公告 -->
+    <view class="modulebox-background-wrapper" wx:if="{{showOneNotice&&!showUserAuthFlag&&!showCheckFlag}}">
+      <view>
+        <image src='/images/home/announcement_pic.png' class='modulebox-image'></image>
+      </view>
+      <swiper class="modulebox-wrapper-notice" circular="true" duration="500" autoplay="true" indicator-dots indicator-color='rgba(247,156,76,0.30)' indicator-active-color='#F79C4C'>
+        <block wx:for="{{showedNoticeData}}" wx:key="{{index}}">
+          <swiper-item>
+            <block>
+              <view class='modulebox-notice-title'>{{item.noticeTitle}}</view>
+              <scroll-view scroll-y style='height:270rpx;'>
+                <view class="modulebox-notice-content">{{item.content}}</view>
+              </scroll-view>
+            </block>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+    <!-- 开始点餐 3.0 -->
+    <view class="h-v3">
+      <view class="h-v3-1" catchtap="clickStartMeal">
+        {{fenshiInfo.timeShareFlag?'开始分时点餐':'开始点餐'}}
+      </view>
+      <view style="position:absolute;top:{{hasNotice?460:328}}rpx;height:100rpx;width:600rpx;margin-left:46rpx;z-index:-1;">
+        <image src="/images/home/home_projection.png" style="height:100rpx;width:600rpx;"></image>
+      </view>
+    </view>
+    <!-- 开心农场 3.0 -->
     <block wx:if="{{showNc}}">
-      <view class="h-v3" catchtap="clickNc">
-        <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/home/kxnc3.png" style="width:100%; " mode="aspectFit"></image>
+      <view class="mx-qsm mb-qtn rounded-sm" catchtap="clickNc">
+        <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/home/kxnc3.png" class="rounded-sm" style="width:100%; " mode="widthFix"></image>
       </view>
     </block>
-      <!-- 餐品类别推荐 autoplay-->
-      
-      <block wx:if="{{canpintuijianList.length>0}}">
-        <swiper  style='height:{{tuijianHeight}}px' class="canpintuijian-wrapper" circular="true" duration="300"
-            indicatorActiveColor="#fff" indicatorColor="rgba(255,255,255)" indicatorActiveColor="#f79c4c" indicatorDots
-            interval="4000">
-            <!-- 循环页 -->
-            <block wx:for="{{canpintuijianList}}" wx:for-index="pageIndex" wx:for-item="pageItem" wx:key="pageIndex">
-                <swiper-item class="canpintuijian-page-item">
-                    <view style='height:{{tuijianOneHeight}}px;width:{{tuijianOneHeight}}px;' class="canpintuijian-item"
-                        wx:for="{{pageItem}}" wx:for-index="canpintuijianListIndex" wx:for-item="canpintuijianListItem"
-                        wx:key="canpintuijianListIndex">
-                        <view bindtap="handleGotoMenuByCanpin" data-tuijianitem="{{canpintuijianListItem}}"
-                            class="canpintuijian-item-content-wrapper">
-                            <view style='background-color:{{canpintuijianListItem.color}};'
-                                class="canpintuijian-item-content">
-                                <view class="canpintuijian-item-content-title">
-                                    {{canpintuijianListItem.typeName}}
-                                </view>
-                                <view class="canpintuijian-item-content-imagewrapper">
-                                    <image class="canpintuijian-item-content-imagewrapper-image"
-                                        src="{{canpintuijianListItem.typePicture}}"></image>
-                                </view>
-                            </view>
-                        </view>
-                    </view>
-
-                </swiper-item>
-            </block>
-        </swiper>        
-      </block>
-
-
-
-      <!-- 首页提示取餐3.0-->
-      <view wx:if="{{homeOrderList.length>0}}">
-          <view style="margin-left:30rpx;">
-              <view>
-                  <swiper current="{{swiperDefaultIndex}}" next-margin='24rpx' style='width: 100%; height: 212rpx;'>
-                      <block wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem"
-                          wx:key="homeOrderIndex">
-                          <swiper-item>
-                              <view class="takefood-food">
-                                  <view class='takefood-img-wrapper'>
-                                      <image class="takefood-img" src="{{homeOrderItem.foodImage}}"></image>
-                                  </view>
-                                  <view style='flex-grow: 1;'>
-                                      <view class='flexdisplay'>
-                                          <view class='takefood-cabinet'>
-                                              <view class='flexdisplay' style="line-height:50rpx;"
-                                                  wx:if='{{homeOrderItem.cabinet&&homeOrderItem.cabinet.length>0}}'>
-                                                  <view class="takefood-cabinet-title">柜号</view>
-                                                  <view class="takefood-cabinet-number">
-                                                      {{homeOrderItem.cabinet[0].cabinetNumber}}-{{homeOrderItem.cabinet[0].cellNumber}}
-                                                  </view>
-                                              </view>
-                                              <view style="line-height:50rpx;" wx:else>
-                                                  <view class="takefood-cabinet-title">没绑柜</view>
-                                              </view>
-                                              <view class='flexdisplay'
-                                                  style="line-height: 40rpx;margin:4rpx 0 8rpx;">
-                                                  <view class="takefood-mealType">{{homeOrderItem.mealTypeShow}}
-                                                  </view>
-                                                  <view class='flexdisplay'
-                                                      wx:if='{{homeOrderItem.foodName.length<9}}'>
-                                                      <view class="takefood-foodname"
-                                                          wx:if='{{homeOrderItem.foodQuantity>1}}'>
-                                                          {{homeOrderItem.foodName}}x{{homeOrderItem.foodQuantity}}
-                                                      </view>
-                                                      <view class="takefood-foodname" wx:else>
-                                                          {{homeOrderItem.foodName}}
-                                                      </view>
-                                                  </view>
-                                                  <view class='flexdisplay' wx:else>
-                                                      <view class="takefood-foodname"> {{homeOrderItem.foodName}}
-                                                      </view>
-                                                      <view wx:if="{{homeOrderItem.foodQuantity>1}}"
-                                                          class='takefood-foodcount'>
-                                                          x{{homeOrderItem.foodQuantity}}</view>
-                                                  </view>
-                                              </view>
-                                              <view class='takefood-time'>取餐时间: {{homeOrderItem.takeMealTimeDes}}
-                                              </view>
-                                          </view>
-                                          <view class="takefood-button" bindtap="handleTakeOrder"
-                                              data-ordercode="{{homeOrderItem.orderCode}}"
-                                              data-bangguiflag="{{homeOrderItem.bangguiFlag}}"
-                                              data-pickagain="{{homeOrderItem.pickAgain}}">取餐</view>
-                                      </view>
-                                  </view>
-                              </view>
-                          </swiper-item>
-                      </block>
-                  </swiper>
-              </view>
-          </view>
-      </view>
-
-      <!--取餐需要验证-->
-      <l-mask show="{{takeorderModalShow}}" bind:lintap='closeModal' opacity="0.7">
-        <view class='{{takeorderModalShow?"take-wrapper in":"take-wrapper  out"}}'
-            style='display:{{takeorderModalShowInit?"none":"block"}}'>
-            <image src='/images/order/takeorder.png'
-                style='width:140rpx;height:140rpx;position:absolute;right:304rpx;top:-70rpx;'></image>
-            <view class='take-title'>取餐提示</view>
-            <view class='take-des'>请到柜子旁取餐，取餐后请尽快用餐，太晚吃饭对胃不好哦～</view>
-            <image src='/images/home/filter_close.png'
-                style='width:88rpx;height:88rpx;position:absolute;right:10rpx;top:10rpx;' catchtap='closeModal'></image>
-            <scroll-view scroll-y style='height:318rpx;'>
-                <view style=' padding:1rpx 60rpx;'>
-                    <view wx:for='{{takeorderData}}'>
-                        <!-- 取餐优化 重写样式和数据结构 -->
-                        <view class="take-plus-wrapper">
-                            <view class="take-plus-left-wrapper">
-                                <view class="take-plus-left-name">
-                                    {{item.foodName}}
-                                </view>
-                                <view class="take-plus-left-cabinet" wx:if="{{item.cabinetNumber}}">
-                                    {{item.cabinetNumber+'-'+item.cellNumber}}
-                                </view>
-                                <view style="font-size: 25rpx;color:#999;" class="take-plus-left-cabinet" wx:else>
-                                    首次已取餐
-                                </view>
-                                <view class="take-plus-left-prompt">
-                                    {{item.prompt}}
-                                </view>
-                            </view>
-                            <view class="take-plus-right-wrapper">
-                                <view class="take-plus-right-button" data-item="{{item}}" catchtap='takeFoodOrderPlus'>
-                                    取餐
-                                </view>
-                            </view>
-                        </view>
-                    </view>
+    <!-- 餐品类别推荐 autoplay -->
+    <block wx:if="{{canpintuijianList.length>0}}">
+      <swiper style='height:{{tuijianHeight}}px' class="canpintuijian-wrapper" circular="true" duration="300" indicatorActiveColor="#fff" indicatorColor="rgba(255,255,255)" indicatorActiveColor="#f79c4c" indicatorDots interval="4000">
+        <!-- 循环页 -->
+        <block wx:for="{{canpintuijianList}}" wx:for-index="pageIndex" wx:for-item="pageItem" wx:key="pageIndex">
+          <swiper-item class="canpintuijian-page-item">
+            <view style='height:{{tuijianOneHeight}}px;width:{{tuijianOneHeight}}px;' class="canpintuijian-item" wx:for="{{pageItem}}" wx:for-index="canpintuijianListIndex" wx:for-item="canpintuijianListItem" wx:key="canpintuijianListIndex">
+              <view bindtap="handleGotoMenuByCanpin" data-tuijianitem="{{canpintuijianListItem}}" class="canpintuijian-item-content-wrapper">
+                <view style='background-color:{{canpintuijianListItem.color}};' class="canpintuijian-item-content">
+                  <view class="canpintuijian-item-content-title">
+                    {{canpintuijianListItem.typeName}}
+                  </view>
+                  <view class="canpintuijian-item-content-imagewrapper">
+                    <image class="canpintuijian-item-content-imagewrapper-image" src="{{canpintuijianListItem.typePicture}}"></image>
+                  </view>
                 </view>
-            </scroll-view>
-        </view>          
-      </l-mask>
-
-
-      <!-- 首页提示评价3.1-->
-      <view wx:if='{{orderList&&orderList.length>0}}'>
-          <view style="margin:0 0 30rpx 30rpx;">
-              <view class='takefood-title'>订单评价</view>
-              <view>
-                  <swiper style='width: 100%; height: 172rpx;'>
-                      <block wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem"
-                          wx:key="orderItem.orderCode">
-                          <swiper-item>
-                              <view class="order-remark-img">
-                                  <image class="order-remark-img" src="/images/home/present.png"></image>
-                              </view>
-                              <view class="order-remark-img-title">有礼</view>
-                              <view class="takefood-food" style='width:690rpx;'>
-                                  <view class='takefood-img-wrapper'>
-                                      <image class="takefood-img" src="{{orderItem.orderFoodList[0].foodImage}}">
-                                      </image>
-                                  </view>
-                                  <view class='takefood-cabinet' style='margin-top:34rpx;'>
-                                      <view class='order-remark'>您有15积分待领取</view>
-                                      <view class='order-remark-title'
-                                          wx:if='{{orderItem.foodQuantity>1&&orderItem.orderFoodList[0].foodName.length>9}}'>
-                                          <view class="takefood-foodname">{{orderItem.orderFoodList[0].foodName}}
-                                          </view>
-                                          <view class="order-remark-title"> 等{{orderItem.foodQuantity}}件</view>
-                                      </view>
-                                      <view wx:elif='{{orderItem.foodQuantity>1}}' class="order-remark-title">
-                                          {{orderItem.orderFoodList[0].foodName}} 等{{orderItem.foodQuantity}}件</view>
-                                      <view wx:else class="takefood-foodname" style='width: 300rpx;'>
-                                          {{orderItem.orderFoodList[0].foodName}}</view>
-                                  </view>
-                                  <view class="takefood-button" style='width:140rpx;' catchtap="handleEvaluateOrder"
-                                      data-ordercode="{{orderItem.orderCode}}"
-                                      data-orderfoodlist="{{orderItem.orderFoodList}}"
-                                      data-foods="{{orderItem.orderFoodList}}">点击领取</view>
-                              </view>
-                          </swiper-item>
-                      </block>
-                  </swiper>
               </view>
-          </view>
-      </view>
-
-
-      <!--企业管理员无报餐权限弹框-->
-      <view class='modulebox-background-wrapper' wx:if='{{orgAdminNoMealFlag}}'>
-          <view class='bind-organize-warpper' style='width:580rpx;height:340rpx;'>
-              <view class='bind-organize-title'>当前是管理员身份，无点餐权限</view>
-              <view class='bind-organize-content'>您无点餐权限，请开通点餐权限或者在‘我的’页面切换为企业用户进行点餐</view>
-              <view class='dialog-button' bindtap='closeDialog'>知道了</view>
-          </view>
-      </view>
-      <!--企业管理员点餐提示弹框-->
-      <view class='modulebox-background-wrapper' wx:if='{{orgAdminMealFlag}}'>
-          <view class='bind-organize-warpper'>
-              <view class='bind-organize-title'>当前是管理员身份,是否点餐?</view>
-              <view class='bind-organize-content'>您可在'我的'页面切换为企业用户</view>
-              <view class='bind-display'>
-                  <view class='bind-organize-left' bindtap='closeDialog'>暂不</view>
-                  <view class='bind-organize-right' bindtap='navigateToMenu'>点餐</view>
-              </view>
-          </view>
-      </view>        
-      <!-- --------------------------------------- 下面是各种 悬浮按钮 --------------------------------------- -->
-      <!-- 点餐 -->
-      <view class="fd-wrp" wx:if="{{showDiancan}}">
-        <image bindtap="clickStartMeal" src="/images/home/diancan.png" style='width:100%;height:100%;'></image>
-      </view>
-      
-      <!-- --------------------------------------- 下面是各种 弹出层 --------------------------------------- -->
-      <!-- 审核状态框 弹出2.6.1 -->
-      <view class="modulebox-background-wrapper" wx:if="{{showCheckFlag}}">
-          <view class="modulebox-wrapper-organize">
-            <block wx:if="{{userStatus=='NO_CHECK'}}">
-              <view style='margin:32rpx 0 20rpx;text-align: center;'>
-                <image src="/images/mine/checking.jpg" style='width:216rpx;height:216rpx;'></image>
-              </view>
-              <view class='bind-title'>正在审核</view>
-              <view class='bind-des'>企业审核会尽快完成，请耐心等待</view>
-              <view class="modulebox-button-no" catchtap="handleRefreshUser">点击刷新</view> 
+            </view>
+          </swiper-item>
+        </block>
+      </swiper>
+    </block>
+    <!-- 首页提示取餐3.0 -->
+    <view wx:if="{{homeOrderList.length>0}}">
+      <view style="margin-left:30rpx;">
+        <view>
+          <swiper current="{{swiperDefaultIndex}}" next-margin='24rpx' style='width: 100%; height: 212rpx;'>
+            <block wx:for="{{homeOrderList}}" wx:for-index="homeOrderIndex" wx:for-item="homeOrderItem" wx:key="homeOrderIndex">
+              <swiper-item>
+                <view class="takefood-food">
+                  <view class='takefood-img-wrapper'>
+                    <image class="takefood-img" src="{{homeOrderItem.foodImage}}"></image>
+                  </view>
+                  <view style='flex-grow: 1;'>
+                    <view class='flexdisplay'>
+                      <view class='takefood-cabinet'>
+                        <view class='flexdisplay' style="line-height:50rpx;" wx:if='{{homeOrderItem.cabinet&&homeOrderItem.cabinet.length>0}}'>
+                          <view class="takefood-cabinet-title">柜号</view>
+                          <view class="takefood-cabinet-number">
+                            {{homeOrderItem.cabinet[0].cabinetNumber}}-{{homeOrderItem.cabinet[0].cellNumber}}
+                          </view>
+                        </view>
+                        <view style="line-height:50rpx;" wx:else>
+                          <view class="takefood-cabinet-title">没绑柜</view>
+                        </view>
+                        <view class='flexdisplay' style="line-height: 40rpx;margin:4rpx 0 8rpx;">
+                          <view class="takefood-mealType">{{homeOrderItem.mealTypeShow}}</view>
+                          <view class='flexdisplay' wx:if='{{homeOrderItem.foodName.length<9}}'>
+                            <view class="takefood-foodname" wx:if='{{homeOrderItem.foodQuantity>1}}'>
+                              {{homeOrderItem.foodName}}x{{homeOrderItem.foodQuantity}}
+                            </view>
+                            <view class="takefood-foodname" wx:else>
+                              {{homeOrderItem.foodName}}
+                            </view>
+                          </view>
+                          <view class='flexdisplay' wx:else>
+                            <view class="takefood-foodname">{{homeOrderItem.foodName}}</view>
+                            <view wx:if="{{homeOrderItem.foodQuantity>1}}" class='takefood-foodcount'>
+                              x{{homeOrderItem.foodQuantity}}
+                            </view>
+                          </view>
+                        </view>
+                        <view class='takefood-time'>取餐时间: {{homeOrderItem.takeMealTimeDes}}</view>
+                      </view>
+                      <view class="takefood-button" bindtap="handleTakeOrder" data-ordercode="{{homeOrderItem.orderCode}}" data-bangguiflag="{{homeOrderItem.bangguiFlag}}" data-pickagain="{{homeOrderItem.pickAgain}}">
+                        取餐
+                      </view>
+                    </view>
+                  </view>
+                </view>
+              </swiper-item>
             </block>
-            <block wx:elif="{{userStatus=='CHECK_NO_PASS'}}">
-              <view style='margin:32rpx 0 20rpx;text-align: center;'>
-                  <image src="/images/mine/checkNo.jpg" style='width:216rpx;height:216rpx;'></image>
+          </swiper>
+        </view>
+      </view>
+    </view>
+    <!-- 取餐需要验证 -->
+    <l-mask show="{{takeorderModalShow}}" bind:lintap='closeModal' opacity="0.7">
+      <view class='{{takeorderModalShow?"take-wrapper in":"take-wrapper  out"}}' style='display:{{takeorderModalShowInit?"none":"block"}}'>
+        <image src='/images/order/takeorder.png' style='width:140rpx;height:140rpx;position:absolute;right:304rpx;top:-70rpx;'></image>
+        <view class='take-title'>取餐提示</view>
+        <view class='take-des'>请到柜子旁取餐，取餐后请尽快用餐，太晚吃饭对胃不好哦～</view>
+        <image src='/images/home/filter_close.png' style='width:88rpx;height:88rpx;position:absolute;right:10rpx;top:10rpx;' catchtap='closeModal'></image>
+        <scroll-view scroll-y style='height:318rpx;'>
+          <view style=' padding:1rpx 60rpx;'>
+            <view wx:for='{{takeorderData}}'>
+              <!-- 取餐优化 重写样式和数据结构 -->
+              <view class="take-plus-wrapper">
+                <view class="take-plus-left-wrapper">
+                  <view class="take-plus-left-name">{{item.foodName}}</view>
+                  <view class="take-plus-left-cabinet" wx:if="{{item.cabinetNumber}}">
+                    {{item.cabinetNumber+'-'+item.cellNumber}}
+                  </view>
+                  <view style="font-size: 25rpx;color:#999;" class="take-plus-left-cabinet" wx:else>
+                    首次已取餐
+                  </view>
+                  <view class="take-plus-left-prompt">{{item.prompt}}</view>
+                </view>
+                <view class="take-plus-right-wrapper">
+                  <view class="take-plus-right-button" data-item="{{item}}" catchtap='takeFoodOrderPlus'>
+                    取餐
+                  </view>
+                </view>
               </view>
-              <view class='bind-title'>审核失败</view>
-              <view class="modulebox-button-no" catchtap="clickCxbd">重新绑定</view>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+    </l-mask>
+    <!-- 首页提示评价3.1 -->
+    <view wx:if='{{orderList&&orderList.length>0}}'>
+      <view style="margin:0 0 30rpx 30rpx;">
+        <view class='takefood-title'>订单评价</view>
+        <view>
+          <swiper style='width: 100%; height: 172rpx;'>
+            <block wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderItem.orderCode">
+              <swiper-item>
+                <view class="order-remark-img">
+                  <image class="order-remark-img" src="/images/home/present.png"></image>
+                </view>
+                <view class="order-remark-img-title">有礼</view>
+                <view class="takefood-food" style='width:690rpx;'>
+                  <view class='takefood-img-wrapper'>
+                    <image class="takefood-img" src="{{orderItem.orderFoodList[0].foodImage}}"></image>
+                  </view>
+                  <view class='takefood-cabinet' style='margin-top:34rpx;'>
+                    <view class='order-remark'>您有15积分待领取</view>
+                    <view class='order-remark-title' wx:if='{{orderItem.foodQuantity>1&&orderItem.orderFoodList[0].foodName.length>9}}'>
+                      <view class="takefood-foodname">{{orderItem.orderFoodList[0].foodName}}</view>
+                      <view class="order-remark-title">等{{orderItem.foodQuantity}}件</view>
+                    </view>
+                    <view wx:elif='{{orderItem.foodQuantity>1}}' class="order-remark-title">
+                      {{orderItem.orderFoodList[0].foodName}} 等{{orderItem.foodQuantity}}件
+                    </view>
+                    <view wx:else class="takefood-foodname" style='width: 300rpx;'>
+                      {{orderItem.orderFoodList[0].foodName}}
+                    </view>
+                  </view>
+                  <view class="takefood-button" style='width:140rpx;' catchtap="handleEvaluateOrder" data-ordercode="{{orderItem.orderCode}}" data-orderfoodlist="{{orderItem.orderFoodList}}" data-foods="{{orderItem.orderFoodList}}">
+                    点击领取
+                  </view>
+                </view>
+              </swiper-item>
             </block>
-          </view>
+          </swiper>
+        </view>
       </view>
-
-      <!--弹出去绑定企业-->
-      <view class="modulebox-background-wrapper" wx:if='{{!showCheckFlag&&showBindOrganizeFlag}}'>
-          <view class='bind-organize-warpper'>
-              <view class='bind-organize-title'>尚未加入企业</view>
-              <view class='bind-organize-content'>先绑定企业后再点餐，若您企业尚未开通点点餐，可先申请体验!</view>
-
-              <view class='bind-display'>
-                  <view class='bind-organize-left' bindtap='gotoTiyan'>先体验</view>
-                  <view class='bind-organize-right' bindtap='gotoBindOrganize'>去绑定</view>
-              </view>
-          </view>
+    </view>
+    <!-- 企业管理员无报餐权限弹框 -->
+    <view class='modulebox-background-wrapper' wx:if='{{orgAdminNoMealFlag}}'>
+      <view class='bind-organize-warpper' style='width:580rpx;height:340rpx;'>
+        <view class='bind-organize-title'>当前是管理员身份，无点餐权限</view>
+        <view class='bind-organize-content'>您无点餐权限，请开通点餐权限或者在‘我的’页面切换为企业用户进行点餐</view>
+        <view class='dialog-button' bindtap='closeDialog'>知道了</view>
       </view>
-
-
-      <!-- --------------------------------------- 下面是各种 子组件 --------------------------------------- -->
-      <!-- 子组件 主题轮播图 -->
-      <c-topic></c-topic>
-      <!-- 子组件 餐品推荐 -->
-      <c-tuijian id="tuijian"></c-tuijian>
-      
+    </view>
+    <!-- 企业管理员点餐提示弹框 -->
+    <view class='modulebox-background-wrapper' wx:if='{{orgAdminMealFlag}}'>
+      <view class='bind-organize-warpper'>
+        <view class='bind-organize-title'>当前是管理员身份,是否点餐?</view>
+        <view class='bind-organize-content'>您可在'我的'页面切换为企业用户</view>
+        <view class='bind-display'>
+          <view class='bind-organize-left' bindtap='closeDialog'>暂不</view>
+          <view class='bind-organize-right' bindtap='navigateToMenu'>点餐</view>
+        </view>
+      </view>
+    </view>
+    <!-- --------------------------------------- 下面是各种 悬浮按钮 --------------------------------------- -->
+    <!-- 点餐 -->
+    <view class="fd-wrp" wx:if="{{showDiancan}}">
+      <image bindtap="clickStartMeal" src="/images/home/diancan.png" style='width:100%;height:100%;'></image>
+    </view>
+    <!-- --------------------------------------- 下面是各种 弹出层 --------------------------------------- -->
+    <!-- 审核状态框 弹出2.6.1 -->
+    <view class="modulebox-background-wrapper" wx:if="{{showCheckFlag}}">
+      <view class="modulebox-wrapper-organize">
+        <block wx:if="{{userStatus=='NO_CHECK'}}">
+          <view style='margin:32rpx 0 20rpx;text-align: center;'>
+            <image src="/images/mine/checking.jpg" style='width:216rpx;height:216rpx;'></image>
+          </view>
+          <view class='bind-title'>正在审核</view>
+          <view class='bind-des'>企业审核会尽快完成，请耐心等待</view>
+          <view class="modulebox-button-no" catchtap="handleRefreshUser">点击刷新</view>
+        </block>
+        <block wx:elif="{{userStatus=='CHECK_NO_PASS'}}">
+          <view style='margin:32rpx 0 20rpx;text-align: center;'>
+            <image src="/images/mine/checkNo.jpg" style='width:216rpx;height:216rpx;'></image>
+          </view>
+          <view class='bind-title'>审核失败</view>
+          <view class="modulebox-button-no" catchtap="clickCxbd">重新绑定</view>
+        </block>
+      </view>
+    </view>
+    <!-- 弹出去绑定企业 -->
+    <view class="modulebox-background-wrapper" wx:if='{{!showCheckFlag&&showBindOrganizeFlag}}'>
+      <view class='bind-organize-warpper'>
+        <view class='bind-organize-title'>尚未加入企业</view>
+        <view class='bind-organize-content'>先绑定企业后再点餐，若您企业尚未开通点点餐，可先申请体验!</view>
+        <view class='bind-display'>
+          <view class='bind-organize-left' bindtap='gotoTiyan'>先体验</view>
+          <view class='bind-organize-right' bindtap='gotoBindOrganize'>去绑定</view>
+        </view>
+      </view>
+    </view>
+    <!-- --------------------------------------- 下面是各种 子组件 --------------------------------------- -->
+    <!-- 子组件 主题轮播图 -->
+    <c-topic></c-topic>
+    <!-- 子组件 餐品推荐 -->
+    <c-tuijian id="tuijian"></c-tuijian>
   </view>
 </view>

@@ -1,6 +1,12 @@
 {
-	"compilerOptions": {
-		"target": "es2015",
-		"module": "commonjs"
-	}	
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "baseUrl": ".",
+    "types": ["miniprogram-api-typings"],
+    "paths": {
+      "@vant/weapp/*": ["/node_modules/@vant/weapp/dist/*"]
+    },
+    "lib": ["ES6"]
+  }
 }
