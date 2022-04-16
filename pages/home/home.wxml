@@ -59,14 +59,19 @@
 
       <!-- 开始点餐 3.0-->
       <view class="h-v3">
-          <view class="h-v3-1" catchtap="clickStartMeal">
-              {{fenshiInfo.timeShareFlag?'开始分时点餐':'开始点餐'}}
-          </view>
-          <view
-              style="position:absolute;top:{{hasNotice?460:328}}rpx;height:100rpx;width:600rpx;margin-left:46rpx;z-index:-1;">
-              <image src="/images/home/home_projection.png" style="height:100rpx;width:600rpx;"></image>
-          </view>
-      </view>
+        <view class="h-v3-1" catchtap="clickStartMeal">
+            {{fenshiInfo.timeShareFlag?'开始分时点餐':'开始点餐'}}
+        </view>
+        <view
+            style="position:absolute;top:{{hasNotice?460:328}}rpx;height:100rpx;width:600rpx;margin-left:46rpx;z-index:-1;">
+            <image src="/images/home/home_projection.png" style="height:100rpx;width:600rpx;"></image>
+        </view>
+    </view>
+    <!-- 开心农场 3.0-->
+    <view class="h-v3" catchtap="clickNc">
+
+      <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/home/kxnc2.jpg" style="width:100%; " mode="aspectFit"></image>
+    </view>
       <!-- 餐品类别推荐 autoplay-->
       
       <block wx:if="{{canpintuijianList.length>0}}">

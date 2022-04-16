@@ -200,7 +200,24 @@ Page({
     _this.getPersonalConfig();
     // _this.getCartList();
     _this.getPayInfo();
-    if (option.typeId) {
+    // 获取开心农场推荐信息(如果是餐品开心农场跳转过来的话)
+    if (option.nongchangTypeId) {
+      _this.setData(
+        {
+          recentData: {
+            mealDate: option.recentMealDate,
+            mealType: option.recentMealType,
+          },
+          promptInfo: {
+            mealDate: option.recentMealDate,
+            typeId: option.nongchangTypeId,
+          },
+        },
+        () => {
+          _this.getMealDateList();
+        }
+      );
+    } else if (option.typeId) {
       _this.getCanpinInfo(option.typeId);
     } else if (option.recentMealType) {
       _this.setData(
