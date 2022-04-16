@@ -652,6 +652,8 @@ Page({
       key: "key_clickMenuMinus",
       time: 300,
       success: () => {
+        console.log("=======  ======= ", e.currentTarget.dataset.fooditem);
+
         let item = e.currentTarget.dataset.fooditem;
         let mealDate = e.currentTarget.dataset.mealdate;
         let mealType = e.currentTarget.dataset.mealtype;
@@ -750,6 +752,7 @@ Page({
       key: "key_clickMenuMinus",
       time: 300,
       success: () => {
+        console.log("=======  ======= ", e.currentTarget.dataset.foodtypeitem);
         let foodTypeItem = e.currentTarget.dataset.foodtypeitem;
         let foodItem = e.currentTarget.dataset.fooditem;
         let foodTypeIndex = e.currentTarget.dataset.foodtypeindex;
@@ -794,6 +797,7 @@ Page({
               canMeal: foodItem.canMeal,
               tempImage: foodItem.tempImage,
               isFoodQuota: tmp_isFoodQuota,
+              typeId: foodTypeItem.typeId,
             },
           };
           request(param, (resData) => {
