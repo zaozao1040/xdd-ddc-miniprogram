@@ -68,10 +68,11 @@
         </view>
     </view>
     <!-- 开心农场 3.0-->
-    <view class="h-v3" catchtap="clickNc">
-
-      <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/home/kxnc2.jpg" style="width:100%; " mode="aspectFit"></image>
-    </view>
+    <block wx:if="{{showNc}}">
+      <view class="h-v3" catchtap="clickNc">
+        <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/home/kxnc3.png" style="width:100%; " mode="aspectFit"></image>
+      </view>
+    </block>
       <!-- 餐品类别推荐 autoplay-->
       
       <block wx:if="{{canpintuijianList.length>0}}">

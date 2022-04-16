@@ -93,6 +93,8 @@ Page({
       takeMealTime: null,
       timeShareStatus: null,
     },
+    // 是否展示开心农场
+    showNc: false,
   },
 
   navigateToMenu() {
@@ -145,6 +147,20 @@ Page({
       () => {},
       true
     );
+  },
+  //获取是否开心农场权限
+  getNongchang: function () {
+    let _this = this;
+    let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
+    let organizeCode = tmp_userInfo ? tmp_userInfo.organizeCode : "";
+    let param = {
+      url: "/food/getHasKaiXin?organizeCode=" + organizeCode,
+    };
+    requestModel.request(param, (data) => {
+      _this.setData({
+        showNc: data,
+      });
+    });
   },
   clickStartMeal: function () {
     // 分时处理
@@ -302,6 +318,7 @@ Page({
       },
     });
     _this.loadData(options);
+    _this.getNongchang();
     _this.getSwiperList();
     _this.getNotice();
     _this.getCanpintuijianList();
