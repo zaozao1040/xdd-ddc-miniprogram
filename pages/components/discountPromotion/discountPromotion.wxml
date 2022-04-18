@@ -1,32 +1,27 @@
 <view class="wrapper">
-    <view class="bg">
-        <view>
-            <view class="title">
-                您的专属福利
-            </view>
-            <view class="discount-wrapper">
-                <view class="discountItem" wx:for="{{discountList}}" wx:for-item="discountItem" wx:for-index="discountIndex" wx:key="discountIndex" bindtap="handleTakeDiscount" data-discountcode="{{discountItem.discountCode}}">
-                    <view class="left">
-                        <text style="font-size: 30rpx;">¥</text>{{discountItem.dis}}
-                    </view>
-                    <view class="right">
-                        <view class="top">
-                            优惠券
-                        </view>
-                        <view class="bottom">
-                            自费满{{discountItem.total}}可用
-                        </view>
-                    </view>
-                    <view class="hock"></view>
-                </view>
-                <view class="des">
-                    <view>对你的好</view>
-                    <view>不知不觉攒了这么多</view>
-                </view>
-            </view>
+  <view class="bg">
+    <view>
+      <view class="title">您的专属福利</view>
+      <view class="discount-wrapper">
+        <view class="discountItem" wx:for="{{discountList}}" wx:for-item="discountItem" wx:for-index="discountIndex" wx:key="discountIndex" bindtap="handleTakeDiscount" data-discountcode="{{discountItem.discountCode}}">
+          <view class="left">
+            <text style="font-size: 30rpx;">¥</text>
+            {{discountItem.dis}}
+          </view>
+          <view class="right">
+            <view class="top">优惠券</view>
+            <view class="bottom">自费满{{discountItem.total}}可用</view>
+          </view>
+          <view class="hock"></view>
         </view>
-        <view class="close " bindtap="handleCloseLayer">
-            <image src="/images/home/dacha.png" class="img"></image>
+        <view class="des">
+          <view>对你的好</view>
+          <view>不知不觉攒了这么多</view>
         </view>
+      </view>
     </view>
+    <view class="close " bindtap="handleCloseLayer">
+      <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/home/dacha.png" class="img"></image>
+    </view>
+  </view>
 </view>

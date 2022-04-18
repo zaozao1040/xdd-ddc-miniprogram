@@ -3,152 +3,114 @@
     <view style="margin:0 20rpx 20rpx;background:#FFF; padding:40rpx;border-radius: 12rpx; ">
       <view class="address-wrp">
         <view class="address-left">
-          <view class="address-des">
-            {{orgAddressInfo.address}}
-          </view>
-          <view class="name-des">
-            {{userInfo.userName}}
-          </view>
+          <view class="address-des">{{orgAddressInfo.address}}</view>
+          <view class="name-des">{{userInfo.userName}}</view>
         </view>
       </view>
     </view>
     <view style="margin:0 20rpx 20rpx;background:#FFF; padding:40rpx;border-radius: 12rpx; ">
       <view class="item">
-        <view class="item-left">
-          日期/餐别
-        </view>
-        <view class="item-right">
-          {{spareInfo.mealDate}} {{spareInfo.mealTypeDes}}   
-        </view>      
+        <view class="item-left">日期/餐别</view>
+        <view class="item-right">{{spareInfo.mealDate}} {{spareInfo.mealTypeDes}}</view>
       </view>
       <view class="item">
-        <view class="item-left">
-          备用餐单价
-        </view>
+        <view class="item-left">备用餐单价</view>
         <view class="item-right">
-          <text style="color:#fa3534"> ￥{{spareInfo.sparePrice}}</text>    
-        </view>      
+          <text style="color:#fa3534">￥{{spareInfo.sparePrice}}</text>
+        </view>
       </view>
       <view class="item">
-        <view class="item-left">
-          申请数量
-        </view>
+        <view class="item-left">申请数量</view>
         <view class="item-right">
           <view class="value-number">
-              <view style='line-height: 60rpx;border-right: 1rpx solid #EBEBEB;color:#666666;width:60rpx;flex-shrink:0;' bindtap='minus'>-</view>
-              <input style='width:100rpx;height:60rpx;line-height: 60rpx;' value="{{spareNum}}" focus type="number" bindinput='inputAddfoodNumber' />
-              <view style='line-height: 60rpx;border-left: 1rpx solid #EBEBEB;color:#666666;width:60rpx;flex-shrink:0;' bindtap='add'>+</view>
-          </view>        
-        </view>      
+            <view style='line-height: 60rpx;border-right: 1rpx solid #EBEBEB;color:#666666;width:60rpx;flex-shrink:0;' bindtap='minus'>
+              -
+            </view>
+            <input style='width:100rpx;height:60rpx;line-height: 60rpx;' value="{{spareNum}}" focus type="number" bindinput='inputAddfoodNumber' />
+            <view style='line-height: 60rpx;border-left: 1rpx solid #EBEBEB;color:#666666;width:60rpx;flex-shrink:0;' bindtap='add'>
+              +
+            </view>
+          </view>
+        </view>
       </view>
       <view class="item">
-        <view class="item-left">
-          库存
-        </view>
-        <view class="item-right">
-          剩余:{{spareInfo.spareNum}} / 总数:{{spareInfo.spareNumTotal}}
-        </view>      
+        <view class="item-left">库存</view>
+        <view class="item-right">剩余:{{spareInfo.spareNum}} / 总数:{{spareInfo.spareNumTotal}}</view>
       </view>
       <view class="item" wx:if="{{orgadmin=='no'}}">
-        <view class="item-left">
-          餐标抵扣
-        </view>
+        <view class="item-left">餐标抵扣</view>
         <view class="item-right">
-          <view wx:if="{{spareInfo.userCanStandardPrice&&spareInfo.standardPrice>0}}" style="color:#fa3534">- ￥{{spareInfo.standardPrice}}</view>
+          <view wx:if="{{spareInfo.userCanStandardPrice&&spareInfo.standardPrice>0}}" style="color:#fa3534">
+            - ￥{{spareInfo.standardPrice}}
+          </view>
           <view wx:elif="{{spareInfo.userCanStandardPrice==false&&spareInfo.standardPrice>0}}">
             餐标已使用
-          </view> 
-          <view wx:else>
-            0
-          </view> 
-        </view>        
-      </view>
-  </view>
-    <view style='margin:0 16rpx;'>
-        <view style='background:#fff;padding:0 30rpx;border-radius:6rpx;'>
-            <view class='pay-item-last' style='border-bottom: 1rpx solid #F2F2F2;'>
-                <view class='pay-title' style='line-height:98rpx;'>支付方式</view>
-            </view>
-            <block wx:if="{{ showQbWx }}">
-              <view class='pay-item-last' style='padding-bottom:26rpx;border-bottom: 1rpx solid #F2F2F2;'>
-                  <view wx:if='{{!canUseBalance}}'
-                      style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:90;'>
-                  </view>
-                  <view class='flex-a' style="margin-top:32rpx;">
-                      <view style='padding-top:2rpx;margin-right:10rpx;width:40rpx;height:40rpx;'>
-                          <image src="/images/menu/wallet.png" style="width:40rpx;height:40rpx;">
-                          </image>
-                      </view>
-                      <block>
-                          <view class='pay-balance'>钱包支付(钱包余额)</view>
-                          <image src='/images/menu/diancanbi.png'
-                              style='width:28rpx;height:28rpx;padding:6rpx 8rpx 0;'></image>
-                          <view class='pay-balance'>{{balance}})</view>
-                      </block>
-                  </view>
-                  <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
-                      <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;"
-                          bindtap="handleChangeWechatPayFlag"
-                          wx:if="{{payType=='BALANCE_PAY' ||payType=='BALANCE_MIX_WECHAT_PAY'}}">
-                      </image>
-                      <image src="/images/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:else
-                          bindtap="handleChangeBalancePayFlag">
-                      </image>
-                  </view>
-              </view>
-              <view class='pay-item-last' style='padding-bottom:26rpx;'>
-                  <view class='flex-a'>
-                      <image src="/images/menu/order_wechatpay.png"
-                          style="padding-top:34rpx;width:40rpx;height:40rpx;">
-                      </image>
-                      <view class='pay-wechat'>微信支付</view>
-                  </view>
-                  <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
-                      <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;"
-                          wx:if="{{payType=='WECHAT_PAY'||payType=='BALANCE_MIX_WECHAT_PAY'}}">
-                      </image>
-                      <image src="/images/menu/uncheck.png" catchtap="handleChangeWechatPayFlag"
-                          style="width:44rpx;height:44rpx;" wx:else></image>
-
-                  </view>
-              </view>
-            </block>
-            <block wx:if="{{ showQy }}">
-              <view class='pay-item-last' style='padding-bottom:26rpx;'>
-                  <view class='flex-a'>
-                      <image src="/images/menu/order_wechatpay.png"
-                          style="padding-top:34rpx;width:40rpx;height:40rpx;">
-                      </image>
-                      <view class='pay-wechat'>企业支付</view>
-                  </view>
-                  <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
-                      <image src="/images/menu/check.png" style="width:44rpx;height:44rpx;"
-                          wx:if="{{payType=='STANDARD_PAY'}}">
-                      </image>
-                      <image src="/images/menu/uncheck.png" catchtap="handleChangeWechatPayFlag"
-                          style="width:44rpx;height:44rpx;" wx:else></image>
-
-                  </view>
-              </view>
-            </block>
-
+          </view>
+          <view wx:else>0</view>
         </view>
+      </view>
+    </view>
+    <view style='margin:0 16rpx;'>
+      <view style='background:#fff;padding:0 30rpx;border-radius:6rpx;'>
+        <view class='pay-item-last' style='border-bottom: 1rpx solid #F2F2F2;'>
+          <view class='pay-title' style='line-height:98rpx;'>支付方式</view>
+        </view>
+        <block wx:if="{{ showQbWx }}">
+          <view class='pay-item-last' style='padding-bottom:26rpx;border-bottom: 1rpx solid #F2F2F2;'>
+            <view wx:if='{{!canUseBalance}}' style='background:rgba(255,255,255,0.5);position:absolute;width:660rpx;height:100rpx;z-index:90;'></view>
+            <view class='flex-a' style="margin-top:32rpx;">
+              <view style='padding-top:2rpx;margin-right:10rpx;width:40rpx;height:40rpx;'>
+                <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/wallet.png" style="width:40rpx;height:40rpx;"></image>
+              </view>
+              <block>
+                <view class='pay-balance'>钱包支付(钱包余额)</view>
+                <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/diancanbi.png' style='width:28rpx;height:28rpx;padding:6rpx 8rpx 0;'></image>
+                <view class='pay-balance'>{{balance}})</view>
+              </block>
+            </view>
+            <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
+              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/check.png" style="width:44rpx;height:44rpx;" bindtap="handleChangeWechatPayFlag" wx:if="{{payType=='BALANCE_PAY' ||payType=='BALANCE_MIX_WECHAT_PAY'}}"></image>
+              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:else bindtap="handleChangeBalancePayFlag"></image>
+            </view>
+          </view>
+          <view class='pay-item-last' style='padding-bottom:26rpx;'>
+            <view class='flex-a'>
+              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/order_wechatpay.png" style="padding-top:34rpx;width:40rpx;height:40rpx;"></image>
+              <view class='pay-wechat'>微信支付</view>
+            </view>
+            <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
+              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/check.png" style="width:44rpx;height:44rpx;" wx:if="{{payType=='WECHAT_PAY'||payType=='BALANCE_MIX_WECHAT_PAY'}}"></image>
+              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/uncheck.png" catchtap="handleChangeWechatPayFlag" style="width:44rpx;height:44rpx;" wx:else></image>
+            </view>
+          </view>
+        </block>
+        <block wx:if="{{ showQy }}">
+          <view class='pay-item-last' style='padding-bottom:26rpx;'>
+            <view class='flex-a'>
+              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/order_wechatpay.png" style="padding-top:34rpx;width:40rpx;height:40rpx;"></image>
+              <view class='pay-wechat'>企业支付</view>
+            </view>
+            <view style='margin-top:28rpx;width:44rpx;height:44rpx;'>
+              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/check.png" style="width:44rpx;height:44rpx;" wx:if="{{payType=='STANDARD_PAY'}}"></image>
+              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/uncheck.png" catchtap="handleChangeWechatPayFlag" style="width:44rpx;height:44rpx;" wx:else></image>
+            </view>
+          </view>
+        </block>
+      </view>
     </view>
   </view>
-    <view class="pay-bottom-wrapper">
-        <view class='pay-bottom-money'>
-            <view
-                style='width:158rpx;text-align:center;font-family: PingFang-SC-Medium; font-size: 40rpx; color: #FFFFFF;letter-spacing: 0;line-height:40rpx;'>
-                ￥{{orderPayMoney}}
-            </view>
-        </view>
-        <view class='pay-button' bindtap="clickPay">确认支付</view>
-    </view>  
-
+  <view class="pay-bottom-wrapper">
+    <view class='pay-bottom-money'>
+      <view style='width:158rpx;text-align:center;font-family: PingFang-SC-Medium; font-size: 40rpx; color: #FFFFFF;letter-spacing: 0;line-height:40rpx;'>
+        ￥{{orderPayMoney}}
+      </view>
+    </view>
+    <view class='pay-button' bindtap="clickPay">确认支付</view>
+  </view>
 </view>
 <view wx:else class="no">
-  <image class="image" mode="aspectFit" src="/images/mine/nospare.png"></image>
+  <image class="image" mode="aspectFit" src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/mine/nospare.png"></image>
   <view class="no-label">~该时间段没有备用餐~</view>
 </view>
 <!-- lin -->
-<l-action-sheet bind:linitemtap="lintapItem"/>
+<l-action-sheet bind:linitemtap="lintapItem" />

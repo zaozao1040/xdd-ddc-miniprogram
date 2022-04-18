@@ -1,136 +1,121 @@
-<!--pages/food/food.wxml-->
+<!-- pages/food/food.wxml -->
 <view class="food-wrapper">
-    <!-- 标题 -->
-    <view class="header-wrapper  c_scrollPosition_forCalculate">
-        <view catchtap="changeItemStatusActiveFlag" data-flag="detail">
-            <view class=" {{itemStatusActiveFlag==true?'header-item-active':'header-item'}}">餐品详情</view>
-            <view class="{{itemStatusActiveFlag==true?'header-item-border-active':'header-item-border'}}"></view>
-        </view>
-        <view catchtap="changeItemStatusActiveFlag" data-flag="ratings">
-            <view class="{{itemStatusActiveFlag==false?'header-item-active':'header-item'}}">评价列表</view>
-            <view class="{{itemStatusActiveFlag==false?'header-item-border-active':'header-item-border'}}"></view>
-        </view>
-
+  <!-- 标题 -->
+  <view class="header-wrapper  c_scrollPosition_forCalculate">
+    <view catchtap="changeItemStatusActiveFlag" data-flag="detail">
+      <view class=" {{itemStatusActiveFlag==true?'header-item-active':'header-item'}}">餐品详情</view>
+      <view class="{{itemStatusActiveFlag==true?'header-item-border-active':'header-item-border'}}"></view>
     </view>
-
-    <view class="food-content">
-        <!-- 餐品详情 -->
-        <view wx:if="{{itemStatusActiveFlag==true}}" class="img-wrapper">
-            <!-- 基本信息 -->
-            <view class="basic-info">
-                <view class="img-wrapper" wx:if='{{foodInfo.bannerImage&&foodInfo.bannerImage.length>0}}'>
-                    <image src="{{foodInfo.bannerImage[0]}}" style="width:100%;height:400rpx;"></image>
-                </view>
-                <view class="food-info-wrapper">
-                    <view class="foodName">
-                        {{foodInfo.foodName}}
-                    </view>
-                    <view class="tag-wrapper">
-                        <view class="tag-item">
-                            {{typeName}}</view>
-                        <view class="tag-item" wx:if="{{foodInfo.foodLabels}}" wx:for="{{foodInfo.foodLabels}}" wx:for-item="labelItem" wx:key="{{index}}">
-                            {{labelItem}}
-                        </view>
-                    </view>
-
-                    <view class="foodLimitNum" wx:if="{{foodInfo.foodQuota||foodInfo.goodRate}}">
-                        <view class="food-stock" wx:if="{{foodInfo.foodQuota.surplusNum||foodInfo.foodQuota.surplusNum==0 }}">
-                            库存: {{foodInfo.foodQuota.surplusNum }}
-                        </view>
-                        <view class="food-stock" wx:if="{{ foodInfo.foodQuota.quotaNum ||foodInfo.foodQuota.quotaNum==0}}">
-                            限购: {{foodInfo.foodQuota.quotaNum }}
-                        </view>
-                        <view class="food-stock" wx:if="{{ foodInfo.goodRate}}">
-                            好评率: {{ foodInfo.goodRate }}%
-                        </view>
-                    </view>
-
-                    <view class="price" wx:if='{{!notShowPrice}}'>
-                        <view class="price-real">
-                            <text style="font-size: 20rpx;margin-top:20rpx;line-height:24rpx;">￥</text>{{foodInfo.foodPrice}}
-                        </view>
-                        <view wx:if="{{foodInfo.foodOriginalPrice>foodInfo.foodPrice}}" class="price-original">￥{{foodInfo.foodOriginalPrice}}</view>
-                        <!-- <view class="add-to-wrapper" bindtap="handleAddtoCart">加入购物车</view> -->
-                    </view>
-                    <view class="prompt-wrapper">
-                        <view style='width:38rpx;height:42rpx;margin:18rpx 10rpx 0 20rpx;'>
-                            <image src='/images/menu/lamp.png' style='width:38rpx;height:42rpx;'></image>
-                        </view>
-                        <view class='prompt'><text style='color:#333;'>提示</text>：{{foodInfo.prompt}}</view>
-                    </view>
-                                     
-                </view>
-
-                <view class="food-info-wrapper" wx:if="{{foodInfo.description}}">
-                    <view class='foodDes-title'>原料</view>
-                    <view class="foodDes">
-                        {{foodInfo.description}}
-                    </view>
-                </view>
-
-            </view>
-            <view wx:if='{{foodInfo.detailImage&&foodInfo.detailImage.length>0}}' class="food-info-wrapper" style='padding-top:20rpx;'>
-                <view class='foodDes-title' style='font-size:32rpx;line-height:44rpx;margin-bottom:20rpx;'>详情</view>
-                <image class="foodImg" src="{{foodInfo.detailImage[0]}}" style="width:100%;" mode="widthFix"></image>
-            </view>
-
+    <view catchtap="changeItemStatusActiveFlag" data-flag="ratings">
+      <view class="{{itemStatusActiveFlag==false?'header-item-active':'header-item'}}">评价列表</view>
+      <view class="{{itemStatusActiveFlag==false?'header-item-border-active':'header-item-border'}}"></view>
+    </view>
+  </view>
+  <view class="food-content">
+    <!-- 餐品详情 -->
+    <view wx:if="{{itemStatusActiveFlag==true}}" class="img-wrapper">
+      <!-- 基本信息 -->
+      <view class="basic-info">
+        <view class="img-wrapper" wx:if='{{foodInfo.bannerImage&&foodInfo.bannerImage.length>0}}'>
+          <image src="{{foodInfo.bannerImage[0]}}" style="width:100%;height:400rpx;"></image>
         </view>
-        <!-- 评价列表 -->
+        <view class="food-info-wrapper">
+          <view class="foodName">{{foodInfo.foodName}}</view>
+          <view class="tag-wrapper">
+            <view class="tag-item">{{typeName}}</view>
+            <view class="tag-item" wx:if="{{foodInfo.foodLabels}}" wx:for="{{foodInfo.foodLabels}}" wx:for-item="labelItem" wx:key="{{index}}">
+              {{labelItem}}
+            </view>
+          </view>
+          <view class="foodLimitNum" wx:if="{{foodInfo.foodQuota||foodInfo.goodRate}}">
+            <view class="food-stock" wx:if="{{foodInfo.foodQuota.surplusNum||foodInfo.foodQuota.surplusNum==0 }}">
+              库存: {{foodInfo.foodQuota.surplusNum }}
+            </view>
+            <view class="food-stock" wx:if="{{ foodInfo.foodQuota.quotaNum ||foodInfo.foodQuota.quotaNum==0}}">
+              限购: {{foodInfo.foodQuota.quotaNum }}
+            </view>
+            <view class="food-stock" wx:if="{{ foodInfo.goodRate}}">
+              好评率: {{ foodInfo.goodRate }}%
+            </view>
+          </view>
+          <view class="price" wx:if='{{!notShowPrice}}'>
+            <view class="price-real">
+              <text style="font-size: 20rpx;margin-top:20rpx;line-height:24rpx;">￥</text>
+              {{foodInfo.foodPrice}}
+            </view>
+            <view wx:if="{{foodInfo.foodOriginalPrice>foodInfo.foodPrice}}" class="price-original">
+              ￥{{foodInfo.foodOriginalPrice}}
+            </view>
+            <!-- <view class="add-to-wrapper" bindtap="handleAddtoCart">加入购物车</view> -->
+          </view>
+          <view class="prompt-wrapper">
+            <view style='width:38rpx;height:42rpx;margin:18rpx 10rpx 0 20rpx;'>
+              <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/lamp.png' style='width:38rpx;height:42rpx;'></image>
+            </view>
+            <view class='prompt'>
+              <text style='color:#333;'>提示</text>
+              ：{{foodInfo.prompt}}
+            </view>
+          </view>
+        </view>
+        <view class="food-info-wrapper" wx:if="{{foodInfo.description}}">
+          <view class='foodDes-title'>原料</view>
+          <view class="foodDes">{{foodInfo.description}}</view>
+        </view>
+      </view>
+      <view wx:if='{{foodInfo.detailImage&&foodInfo.detailImage.length>0}}' class="food-info-wrapper" style='padding-top:20rpx;'>
+        <view class='foodDes-title' style='font-size:32rpx;line-height:44rpx;margin-bottom:20rpx;'>
+          详情
+        </view>
+        <image class="foodImg" src="{{foodInfo.detailImage[0]}}" style="width:100%;" mode="widthFix"></image>
+      </view>
+    </view>
+    <!-- 评价列表 -->
+    <view wx:else>
+      <scroll-view class="ratingsDetailList-wrapper" scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower='gotoNextPage'>
+        <view wx:if="{{amount==0}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+          未查询到评价记录..
+        </view>
         <view wx:else>
-            <scroll-view class="ratingsDetailList-wrapper" scroll-y style="height: {{windowHeight - scrollTop}}px;" bindscrolltolower='gotoNextPage'>
-                <view wx:if="{{amount==0}}" class="noResult" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
-                    未查询到评价记录..
+          <view class="ratings-item" wx:for="{{ratingsInfoList}}" wx:for-item="ratingItem" wx:for-index="ratingIndex" wx:key="ratingIndex">
+            <view class="left">
+              <image class="left-image" wx:if='{{ratingItem.headImage}}' src="{{ratingItem.headImage}}"></image>
+              <image class="left-image" wx:else src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/mine/huiyuan.png"></image>
+            </view>
+            <view class="right">
+              <view class="line1">
+                <view class="user">{{ratingItem.userName}}</view>
+                <view class="time">{{ratingItem.evaluateTime}}</view>
+              </view>
+              <view class="line2">
+                <block wx:for="{{ratingItem.star}}" wx:key="index">
+                  <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/order/staryes.png' style='width:32rpx;height:32rpx;margin-right:6rpx;'></image>
+                </block>
+                <block wx:for="{{5-ratingItem.star}}" wx:key="index">
+                  <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/order/starno.png' style='width:32rpx;height:32rpx;margin-right:6rpx;'></image>
+                </block>
+              </view>
+              <view class="line3" wx:if="{{ratingItem.content}}">{{ratingItem.content}}</view>
+              <view wx:if="{{ratingItem.image&&ratingItem.image.length<=3&&ratingItem.image.length>0}}" class='image-list'>
+                <view style="width:164rpx;height:164rpx;" wx:for="{{ratingItem.image}}" wx:for-index="imageIndex" wx:for-item="imageItem" wx:key="imageIndex" style="text-align:left;">
+                  <image style="width:164rpx;height:164rpx;border-radius:8rpx;margin-right:20rpx;" src="{{imageItem}}" bindtap='showImage' data-imagelist='{{ratingItem.image}}' data-image='{{imageItem}}'></image>
                 </view>
-                <view wx:else>
-                    <view class="ratings-item" wx:for="{{ratingsInfoList}}" wx:for-item="ratingItem" wx:for-index="ratingIndex" wx:key="ratingIndex">
-                        <view class="left">
-                            <image class="left-image" wx:if='{{ratingItem.headImage}}' src="{{ratingItem.headImage}}">
-                            </image>
-                            <image class="left-image" wx:else src="/images/mine/huiyuan.png"></image>
-                        </view>
-                        <view class="right">
-                            <view class="line1">
-                                <view class="user">{{ratingItem.userName}}</view>
-                                <view class="time">{{ratingItem.evaluateTime}}</view>
-                            </view>
-                            <view class="line2">
-                                <block wx:for="{{ratingItem.star}}" wx:key="index">
-                                    <image src='/images/order/staryes.png' style='width:32rpx;height:32rpx;margin-right:6rpx;'></image>
-                                </block>
-                                <block wx:for="{{5-ratingItem.star}}" wx:key="index">
-                                    <image src='/images/order/starno.png' style='width:32rpx;height:32rpx;margin-right:6rpx;'></image>
-                                </block>
-                            </view>
-                            <view class="line3" wx:if="{{ratingItem.content}}">{{ratingItem.content}}</view>
-
-                            <view wx:if="{{ratingItem.image&&ratingItem.image.length<=3&&ratingItem.image.length>0}}" class='image-list'>
-                                <view style="width:164rpx;height:164rpx;" wx:for="{{ratingItem.image}}" wx:for-index="imageIndex" wx:for-item="imageItem" wx:key="imageIndex" style="text-align:left;">
-                                    <image style="width:164rpx;height:164rpx;border-radius:8rpx;margin-right:20rpx;" src="{{imageItem}}" bindtap='showImage' data-imagelist='{{ratingItem.image}}' data-image='{{imageItem}}'></image>
-                                </view>
-                            </view>
-                            <view class="line-reply" wx:if="{{ratingItem.replyContent}}">回复:{{ratingItem.replyContent}}</view>
-                        </view>
-                    </view>
-
-                    <view wx:if="{{loadingData}}" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
-                        正在加载数据...
-                    </view>
-
-                </view>
-            </scroll-view>
+              </view>
+              <view class="line-reply" wx:if="{{ratingItem.replyContent}}">
+                回复:{{ratingItem.replyContent}}
+              </view>
+            </view>
+          </view>
+          <view wx:if="{{loadingData}}" style="font-size:30rpx;color:#666;text-align: center;height: 80rpx;line-height: 80rpx;">
+            正在加载数据...
+          </view>
         </view>
-
-        <!--图片的弹窗-->
-        <view class="mask" catchtap="handleCloseImage" wx:if="{{enLargeImageShow}}" catchtouchmove="preventTouchMove ">
-        </view>
-        <view wx:if='{{enLargeImageShow}}' catchtap="handleCloseImage">
-            <image src='{{enLargeImage}}' style='z-index:1000;position:fixed;margin:auto;left:0;right:0; bottom:3%;width:100%;height:80%;'>
-            </image>
-        </view>
+      </scroll-view>
     </view>
-
-
-
-
-
+    <!-- 图片的弹窗 -->
+    <view class="mask" catchtap="handleCloseImage" wx:if="{{enLargeImageShow}}" catchtouchmove="preventTouchMove "></view>
+    <view wx:if='{{enLargeImageShow}}' catchtap="handleCloseImage">
+      <image src='{{enLargeImage}}' style='z-index:1000;position:fixed;margin:auto;left:0;right:0; bottom:3%;width:100%;height:80%;'></image>
+    </view>
+  </view>
 </view>

@@ -26,7 +26,7 @@ Page({
 
   organizeNameInput: function (e) {
     let _this = this;
-    _this.search(e.detail.value)
+    _this.search(e.detail.value);
   },
   search: function (organizeName) {
     let _this = this;

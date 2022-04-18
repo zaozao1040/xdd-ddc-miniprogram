@@ -1,97 +1,95 @@
 <view wx:if='{{remrkSucceed}}'>
-    <view style='text-align:center;margin-top:100rpx;'>
-        <view style='height:216rpx;width:252rpx;margin:0 auto;'>
-            <image src='/images/order/remarksuccess.png' style='height:216rpx;width:252rpx;'></image>
-        </view>
-        <view class='success-1'>评价成功</view>
-        <!-- <view class='success-2'>+15积分</view> -->
-        <view class='success-3'>感谢您的评价，祝您每天开心 </view>
+  <view style='text-align:center;margin-top:100rpx;'>
+    <view style='height:216rpx;width:252rpx;margin:0 auto;'>
+      <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/order/remarksuccess.png' style='height:216rpx;width:252rpx;'></image>
     </view>
+    <view class='success-1'>评价成功</view>
+    <!-- <view class='success-2'>+15积分</view> -->
+    <view class='success-3'>感谢您的评价，祝您每天开心</view>
+  </view>
 </view>
 <view wx:else>
-    <view wx:if='{{getDataAlready}}'>
-        <view class='top'>文字+照片评价任意餐品即可获得<text style='color:#F2994A;'>15积分</text></view>
-
-        <view class='c_scrollPosition_forCalculate' style='background:#F5F5F5;height:{{scrollBottom-scrollTop}}px;'>
-            <form report-submit="true" bindsubmit="buttonClickYes_ratings">
-                <scroll-view scroll-y style='height:{{scrollBottom-scrollTop}}px;'>
-                    <view style='padding:16rpx 24rpx;'>
-                        <view class='service-wrapper'>
-                            <!--  服务评价 -->
-                            <view class='service-title'>服务评价</view>
-                            <view class='service-des'>对配送服务、引导服务、清洁卫生、现场服务和餐具设备进行评价</view>
-                            <view class='flex-a'>
-                                <view wx:for="{{5}}" wx:key="{{index}}" bindtap="handleClickServiceStar" data-foodindex="{{foodIndex}}" data-star="{{index+1}}">
-                                    <image wx:if='{{index<serviceInfo.star}}' src="/images/order/staryes.png" style='width:56rpx;height:56rpx;margin-right: 20rpx; '></image>
-                                    <image wx:else src="/images/order/starno.png" style='width:56rpx;height:56rpx;margin-right: 20rpx; '></image>
-                                </view>
-                            </view>
-                            <!-- 评价标签 -->
-                            <view style="background:#F5F5F5;padding:22rpx 32rpx 22rpx 22rpx;margin-top:30rpx;">
-                                <textarea class='textarea' placeholder-style='color:#CBCBCB;' placeholder="请对本次服务进行评价哟～" maxlength="60" bindinput="contentInputService"></textarea>
-                                <view class="img-wrapper">
-                                    <view class='flex-a'>
-                                        <view wx:for="{{serviceInfo.imagePaths}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex">
-                                            <view class='image-remove' catchtap='removeOneImage' data-flag="SERVICE" data-index="{{imgIndex}}">x</view>
-                                            <image class="image" src="{{imgItem}}" catchtap="handlePreviewImage" data-flag="SERVICE" data-index="{{imgIndex}}">
-                                            </image>
-                                        </view>
-                                    </view>
-                                    <image class="image-shangchuan" wx:if="{{serviceInfo.imagePaths.length<3}}" src="/images/order/xiangji.png" bindtap="handleClickAddImg" data-flag="SERVICE"></image>
-
-                                </view>
-                            </view>
-                        </view>
-
-
-                        <!-- 每个餐品的评价 -->
-                        <view class="foodItem" wx:for="{{orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem" wx:key="foodIndex">
-                            <view class='flex-a'>
-                                <image src="{{foodItem.foodImage}}" style='width:56rpx;height:56rpx;border-radius: 6rpx;'>
-                                </image>
-                                <view class="foodName"> {{foodItem.foodName}} x{{foodItem.foodQuantity}}</view>
-                            </view>
-
-                            <view class='service-title' style='margin:28rpx 0 20rpx;'>餐品评价</view>
-
-                            <view class='flex-a'>
-                                <view wx:for="{{5}}" wx:key="{{index}}" bindtap="handleClickFoodStar" data-foodindex="{{foodIndex}}" data-star="{{index+1}}">
-                                    <image wx:if='{{index<foodItem.star}}' src="/images/order/staryes.png" style='width:56rpx;height:56rpx;margin-right: 20rpx; '></image>
-                                    <image wx:else src="/images/order/starno.png" style='width:56rpx;height:56rpx;margin-right: 20rpx; '></image>
-                                </view>
-                            </view>
-                            <!-- 评价标签 -->
-                            <view wx:if='{{foodItem.star<4}}'>
-                                <view class='comment-label' wx:if='{{foodItem.evaluateLabelsActive}}'>
-                                    <view wx:for="{{foodItem.evaluateLabelsActive}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="*this" bindtap="handleClickLabel" data-foodindex="{{foodIndex}}" data-labelindex="{{labelIndex}}">
-                                        <view class="{{labelItem.active==true?'labelItem-active':'labelItem'}}" style='margin-right:{{labelIndex%3!=2?50:0}}rpx;'>
-                                            {{labelItem.name}}
-                                        </view>
-                                    </view>
-                                </view>
-                            </view>
-                            <view style="background:#F5F5F5;padding:22rpx 32rpx 22rpx 22rpx;margin-top:30rpx;">
-
-                                <textarea class='textarea' placeholder-style='color:#CBCBCB;' placeholder="请对本次餐品进行评价哟～" maxlength="60" bindinput="contentInput" data-foodindex="{{foodIndex}}"></textarea>
-
-                                <view class="img-wrapper">
-                                    <view class='flex-a'>
-                                        <view wx:for="{{foodItem.imagePaths}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex">
-                                            <view class='image-remove' catchtap='removeOneImage' data-foodindex="{{foodIndex}}" data-index="{{imgIndex}}">x</view>
-                                            <image class="image" src="{{imgItem}}" catchtap="handlePreviewImage" data-foodindex="{{foodIndex}}" data-index="{{imgIndex}}">
-                                            </image>
-                                        </view>
-                                    </view>
-                                    <image class="image-shangchuan" wx:if="{{foodItem.imagePaths.length<3}}" src="/images/order/xiangji.png" catchtap="handleClickAddImg" data-foodindex="{{foodIndex}}"></image>
-                                </view>
-                            </view>
-                        </view>
-                    </view>
-                </scroll-view>
-                <view class='button-view'>
-                    <button class="button" formType="submit" data-ordercode="{{orderItem.orderCode}}">评价</button>
-                </view>
-            </form>
-        </view>
+  <view wx:if='{{getDataAlready}}'>
+    <view class='top'>
+      文字+照片评价任意餐品即可获得
+      <text style='color:#F2994A;'>15积分</text>
     </view>
+    <view class='c_scrollPosition_forCalculate' style='background:#F5F5F5;height:{{scrollBottom-scrollTop}}px;'>
+      <form report-submit="true" bindsubmit="buttonClickYes_ratings">
+        <scroll-view scroll-y style='height:{{scrollBottom-scrollTop}}px;'>
+          <view style='padding:16rpx 24rpx;'>
+            <view class='service-wrapper'>
+              <!-- 服务评价 -->
+              <view class='service-title'>服务评价</view>
+              <view class='service-des'>对配送服务、引导服务、清洁卫生、现场服务和餐具设备进行评价</view>
+              <view class='flex-a'>
+                <view wx:for="{{5}}" wx:key="{{index}}" bindtap="handleClickServiceStar" data-foodindex="{{foodIndex}}" data-star="{{index+1}}">
+                  <image wx:if='{{index<serviceInfo.star}}' src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/order/staryes.png" style='width:56rpx;height:56rpx;margin-right: 20rpx; '></image>
+                  <image wx:else src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/order/starno.png" style='width:56rpx;height:56rpx;margin-right: 20rpx; '></image>
+                </view>
+              </view>
+              <!-- 评价标签 -->
+              <view style="background:#F5F5F5;padding:22rpx 32rpx 22rpx 22rpx;margin-top:30rpx;">
+                <textarea class='textarea' placeholder-style='color:#CBCBCB;' placeholder="请对本次服务进行评价哟～" maxlength="60" bindinput="contentInputService"></textarea>
+                <view class="img-wrapper">
+                  <view class='flex-a'>
+                    <view wx:for="{{serviceInfo.imagePaths}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex">
+                      <view class='image-remove' catchtap='removeOneImage' data-flag="SERVICE" data-index="{{imgIndex}}">
+                        x
+                      </view>
+                      <image class="image" src="{{imgItem}}" catchtap="handlePreviewImage" data-flag="SERVICE" data-index="{{imgIndex}}"></image>
+                    </view>
+                  </view>
+                  <image class="image-shangchuan" wx:if="{{serviceInfo.imagePaths.length<3}}" src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/order/xiangji.png" bindtap="handleClickAddImg" data-flag="SERVICE"></image>
+                </view>
+              </view>
+            </view>
+            <!-- 每个餐品的评价 -->
+            <view class="foodItem" wx:for="{{orderFoodList}}" wx:for-index="foodIndex" wx:for-item="foodItem" wx:key="foodIndex">
+              <view class='flex-a'>
+                <image src="{{foodItem.foodImage}}" style='width:56rpx;height:56rpx;border-radius: 6rpx;'></image>
+                <view class="foodName">{{foodItem.foodName}} x{{foodItem.foodQuantity}}</view>
+              </view>
+              <view class='service-title' style='margin:28rpx 0 20rpx;'>餐品评价</view>
+              <view class='flex-a'>
+                <view wx:for="{{5}}" wx:key="{{index}}" bindtap="handleClickFoodStar" data-foodindex="{{foodIndex}}" data-star="{{index+1}}">
+                  <image wx:if='{{index<foodItem.star}}' src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/order/staryes.png" style='width:56rpx;height:56rpx;margin-right: 20rpx; '></image>
+                  <image wx:else src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/order/starno.png" style='width:56rpx;height:56rpx;margin-right: 20rpx; '></image>
+                </view>
+              </view>
+              <!-- 评价标签 -->
+              <view wx:if='{{foodItem.star<4}}'>
+                <view class='comment-label' wx:if='{{foodItem.evaluateLabelsActive}}'>
+                  <view wx:for="{{foodItem.evaluateLabelsActive}}" wx:for-index="labelIndex" wx:for-item="labelItem" wx:key="*this" bindtap="handleClickLabel" data-foodindex="{{foodIndex}}" data-labelindex="{{labelIndex}}">
+                    <view class="{{labelItem.active==true?'labelItem-active':'labelItem'}}" style='margin-right:{{labelIndex%3!=2?50:0}}rpx;'>
+                      {{labelItem.name}}
+                    </view>
+                  </view>
+                </view>
+              </view>
+              <view style="background:#F5F5F5;padding:22rpx 32rpx 22rpx 22rpx;margin-top:30rpx;">
+                <textarea class='textarea' placeholder-style='color:#CBCBCB;' placeholder="请对本次餐品进行评价哟～" maxlength="60" bindinput="contentInput" data-foodindex="{{foodIndex}}"></textarea>
+                <view class="img-wrapper">
+                  <view class='flex-a'>
+                    <view wx:for="{{foodItem.imagePaths}}" wx:for-index="imgIndex" wx:for-item="imgItem" wx:key="imgIndex">
+                      <view class='image-remove' catchtap='removeOneImage' data-foodindex="{{foodIndex}}" data-index="{{imgIndex}}">
+                        x
+                      </view>
+                      <image class="image" src="{{imgItem}}" catchtap="handlePreviewImage" data-foodindex="{{foodIndex}}" data-index="{{imgIndex}}"></image>
+                    </view>
+                  </view>
+                  <image class="image-shangchuan" wx:if="{{foodItem.imagePaths.length<3}}" src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/order/xiangji.png" catchtap="handleClickAddImg" data-foodindex="{{foodIndex}}"></image>
+                </view>
+              </view>
+            </view>
+          </view>
+        </scroll-view>
+        <view class='button-view'>
+          <button class="button" formType="submit" data-ordercode="{{orderItem.orderCode}}">
+            评价
+          </button>
+        </view>
+      </form>
+    </view>
+  </view>
 </view>

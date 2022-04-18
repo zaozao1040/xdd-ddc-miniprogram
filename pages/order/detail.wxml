@@ -1,149 +1,138 @@
 <view class="wrapper" wx:if='{{getdataalready}}'>
-    <scroll-view scroll-y style="height:{{ windowHeight }}px" bindscroll="handleMostOuterScroll">
-        <view class='header-status'>{{detailInfo.orderStatusDes}}</view>
-        <block wx:if="{{ningxiaOrgFlag}}">
-          <block wx:if="{{qrcodeShow}}">
-            <view class="header-dianzipingzheng" data-orderCode="{{detailInfo.orderCode}}"
-                bindtap="handleGotoQrcode">
-                <text style="margin-top: 6rpx; color: #F79C4C; font-size: 30rpx;" class="iconfont icon-hetong1"></text>
-                <text style='color:#F79C4C;margin-left:10rpx;'>电子凭证</text>
-            </view>        
-          </block>
-        </block>
-        <block wx:else>
-          <view class="header-dianzipingzheng" data-orderCode="{{detailInfo.orderCode}}"
-              bindtap="handleGotoQrcodeBack">
-              <text style="margin-top: 6rpx; color: #F79C4C; font-size: 30rpx;" class="iconfont icon-hetong1"></text>
-              <text style='color:#F79C4C;margin-left:10rpx;'>取餐凭证</text>
-          </view>  
-        </block>
-
-        <view class="orderItem-wrapper">
-            <view class="cart-day-title">{{detailInfo.mealDate}}{{' '+detailInfo.mealTypeDes}}</view>
-            <view class="cart-day-title" wx:if="{{detailInfo.startTime}}">
-                {{'取餐时间: '+detailInfo.startTime}}{{'~'+detailInfo.endTime}}</view>
-            <view class="cart-menuItem" wx:for="{{detailInfo.orderFoodList}}" wx:key="{{index}}">
-                <!-- <view class="cart-menuItem-left">
+  <scroll-view scroll-y style="height:{{ windowHeight }}px" bindscroll="handleMostOuterScroll">
+    <view class='header-status'>{{detailInfo.orderStatusDes}}</view>
+    <block wx:if="{{ningxiaOrgFlag}}">
+      <block wx:if="{{qrcodeShow}}">
+        <view class="header-dianzipingzheng" data-orderCode="{{detailInfo.orderCode}}" bindtap="handleGotoQrcode">
+          <text style="margin-top: 6rpx; color: #F79C4C; font-size: 30rpx;" class="iconfont icon-hetong1"></text>
+          <text style='color:#F79C4C;margin-left:10rpx;'>电子凭证</text>
+        </view>
+      </block>
+    </block>
+    <block wx:else>
+      <view class="header-dianzipingzheng" data-orderCode="{{detailInfo.orderCode}}" bindtap="handleGotoQrcodeBack">
+        <text style="margin-top: 6rpx; color: #F79C4C; font-size: 30rpx;" class="iconfont icon-hetong1"></text>
+        <text style='color:#F79C4C;margin-left:10rpx;'>取餐凭证</text>
+      </view>
+    </block>
+    <view class="orderItem-wrapper">
+      <view class="cart-day-title">{{detailInfo.mealDate}}{{' '+detailInfo.mealTypeDes}}</view>
+      <view class="cart-day-title" wx:if="{{detailInfo.startTime}}">
+        {{'取餐时间: '+detailInfo.startTime}}{{'~'+detailInfo.endTime}}
+      </view>
+      <view class="cart-menuItem" wx:for="{{detailInfo.orderFoodList}}" wx:key="{{index}}">
+        <!-- <view class="cart-menuItem-left">
                     <image class="cart-menuItem-img" src="{{item.foodImage}}"></image>
                 </view> -->
-                <view class='flex-1'>
-                    <view class='food-name'>
-                        <view class="cart-menuItemDes">{{item.foodName}}</view>
-
-                        <!-- <view class="cart-menuItem-originmoney" wx:if="{{item.foodTotalOriginalPrice!=item.foodTotalPrice}}">¥{{item.foodTotalOriginalPrice}}</view> -->
-                        <view class="cart-menuItem-money">¥{{item.foodPrice}}</view>
-
-                    </view>
-                    <view class="cart-menuItem-mealtype">
-                        <text
-                            style="margin-right:10rpx;">{{detailInfo.mealTypeDes}}</text><text>x{{item.foodQuantity}}</text>
-                    </view>
-                </view>
-            </view>
-            <view class='cart-organize-deduction'>
-                <view class='cart-discount-organize'>共计</view>
-                <view class='cart-discount-organize-money'>￥{{detailInfo.totalPrice}}</view>
-            </view>
-            <view class='cart-organize-deduction' wx:if='{{detailInfo.standardPrice}}'>
-                <view class='cart-discount-organize'>企业抵扣</view>
-                <view class='cart-discount-organize-money'>-￥{{detailInfo.standardPrice}}</view>
-            </view>
-            <!-- <view class='cart-organize-deduction'>
+        <view class='flex-1'>
+          <view class='food-name'>
+            <view class="cart-menuItemDes">{{item.foodName}}</view>
+            <!-- <view class="cart-menuItem-originmoney" wx:if="{{item.foodTotalOriginalPrice!=item.foodTotalPrice}}">¥{{item.foodTotalOriginalPrice}}</view> -->
+            <view class="cart-menuItem-money">¥{{item.foodPrice}}</view>
+          </view>
+          <view class="cart-menuItem-mealtype">
+            <text style="margin-right:10rpx;">{{detailInfo.mealTypeDes}}</text>
+            <text>x{{item.foodQuantity}}</text>
+          </view>
+        </view>
+      </view>
+      <view class='cart-organize-deduction'>
+        <view class='cart-discount-organize'>共计</view>
+        <view class='cart-discount-organize-money'>￥{{detailInfo.totalPrice}}</view>
+      </view>
+      <view class='cart-organize-deduction' wx:if='{{detailInfo.standardPrice}}'>
+        <view class='cart-discount-organize'>企业抵扣</view>
+        <view class='cart-discount-organize-money'>-￥{{detailInfo.standardPrice}}</view>
+      </view>
+      <!-- <view class='cart-organize-deduction'>
             <view class='cart-discount-organize'>积分抵扣</view> 
             <view class='cart-discount-organize-money'>-￥{{detailInfo.integralPrice}}</view> 
         </view> -->
-            <view class='cart-organize-deduction' wx:if='{{detailInfo.discountPrice}}'>
-                <view class='cart-discount-organize'>优惠券</view>
-
-                <view class='cart-discount-organize-money'>-￥{{detailInfo.discountPrice}}</view>
-
-            </view>
-            <view class='order-money'>
-                <view class='yy-1'>已优惠</view>
-                <view class='yy-2'>￥{{detailInfo.deduction}}</view>
-                <view class='yy-3'>合计</view>
-                <view class='yy-4'>￥{{detailInfo.payPrice}}</view>
-            </view>
+      <view class='cart-organize-deduction' wx:if='{{detailInfo.discountPrice}}'>
+        <view class='cart-discount-organize'>优惠券</view>
+        <view class='cart-discount-organize-money'>-￥{{detailInfo.discountPrice}}</view>
+      </view>
+      <view class='order-money'>
+        <view class='yy-1'>已优惠</view>
+        <view class='yy-2'>￥{{detailInfo.deduction}}</view>
+        <view class='yy-3'>合计</view>
+        <view class='yy-4'>￥{{detailInfo.payPrice}}</view>
+      </view>
+    </view>
+    <view class="order-info-wrapper" wx:if='{{detailInfo.showPayWay}}'>
+      <view class='order-info-title'>付款信息</view>
+      <view class="order-info-one" wx:if='{{detailInfo.userPayPrice}}'>
+        <view class="left-label">个人点餐币</view>
+        <view class="right-content">{{detailInfo.userPayPrice}}</view>
+      </view>
+      <view class="order-info-one" wx:if='{{detailInfo.organizePayPrice}}'>
+        <view class="left-label">企业点餐币</view>
+        <view class="right-content">{{detailInfo.organizePayPrice}}</view>
+      </view>
+      <view class="order-info-one" wx:if='{{detailInfo.presentPayPrice}}'>
+        <view class="left-label">赠送点餐币</view>
+        <view class="right-content">{{detailInfo.presentPayPrice}}</view>
+      </view>
+    </view>
+    <!-- 取餐信息 -->
+    <view class="order-info-wrapper">
+      <view class='order-info-title'>取餐信息</view>
+      <view class="order-info-one">
+        <view class="left-label" style="word-break: keep-all;">取餐地址</view>
+        <view class="right-content">{{detailInfo.orderAddress||'--'}}</view>
+      </view>
+      <view class="order-info-one" wx:for="{{detailInfo.cabinets}}" wx:for-index="cabinetsIndex" wx:for-item="cabinetsItem" wx:key="cabinetsIndex">
+        <view class="right-content" style="display: flex;justify-content: space-between;width:100%">
+          <view style="margin-right: 5rpx;">{{cabinetsItem.shiwu}}</view>
+          <view style="margin-right: 5rpx;">{{cabinetsItem.gui}}</view>
+          <view class="">{{cabinetsItem.shijian}}</view>
         </view>
-        <view class="order-info-wrapper" wx:if='{{detailInfo.showPayWay}}'>
-            <view class='order-info-title'>付款信息</view>
-            <view class="order-info-one" wx:if='{{detailInfo.userPayPrice}}'>
-                <view class="left-label">个人点餐币</view>
-                <view class="right-content">{{detailInfo.userPayPrice}}</view>
-            </view>
-            <view class="order-info-one" wx:if='{{detailInfo.organizePayPrice}}'>
-                <view class="left-label">企业点餐币</view>
-                <view class="right-content">{{detailInfo.organizePayPrice}}</view>
-            </view>
-            <view class="order-info-one" wx:if='{{detailInfo.presentPayPrice}}'>
-                <view class="left-label">赠送点餐币</view>
-                <view class="right-content">{{detailInfo.presentPayPrice}}</view>
-            </view>
-
+      </view>
+      <view class="order-info-one" wx:if="{{detailInfo.timeShareFlag}}">
+        <view class="left-label" style="word-break: keep-all;">取餐时间(分时)</view>
+        <view class="right-content">{{detailInfo.sharePickTime||'--'}}</view>
+      </view>
+      <view class="order-info-one" wx:else>
+        <view class="left-label" style="word-break: keep-all;">取餐时间</view>
+        <view class="right-content">{{detailInfo.sharePickTime||'--'}}</view>
+      </view>
+    </view>
+    <!-- 订单信息 -->
+    <view class="order-info-wrapper">
+      <view class='order-info-title'>订单信息</view>
+      <view class="order-info-one">
+        <view class="left-label flex-a">
+          <view>订单编号</view>
+          <view style='font-size:24rpx;margin-left:10rpx;line-height:36rpx;border-radius:6rpx;color:#F79C4C;border:1rpx solid #F79C4C;padding:0 6rpx;' bindtap='handleCopy'>
+            复制
+          </view>
         </view>
-        <!--取餐信息-->
-        <view class="order-info-wrapper">
-            <view class='order-info-title'>取餐信息</view>
-            <view class="order-info-one">
-              <view class="left-label" style="word-break: keep-all;">取餐地址</view>
-              <view class="right-content">{{detailInfo.orderAddress||'--'}}</view>
-            </view>
-            <view class="order-info-one" wx:for="{{detailInfo.cabinets}}" wx:for-index="cabinetsIndex" wx:for-item="cabinetsItem" wx:key="cabinetsIndex">
-
-                <view class="right-content" style="display: flex;justify-content: space-between;width:100%">
-                  <view style="margin-right: 5rpx;">{{cabinetsItem.shiwu}}</view>
-                  <view style="margin-right: 5rpx;">{{cabinetsItem.gui}}</view>
-                  <view class="">{{cabinetsItem.shijian}}</view>
-                </view>
-            </view>
-            <view class="order-info-one" wx:if="{{detailInfo.timeShareFlag}}">
-              <view class="left-label" style="word-break: keep-all;">取餐时间(分时)</view>
-              <view class="right-content">{{detailInfo.sharePickTime||'--'}}</view>
-            </view>
-            <view class="order-info-one" wx:else>
-              <view class="left-label" style="word-break: keep-all;">取餐时间</view>
-              <view class="right-content">{{detailInfo.sharePickTime||'--'}}</view>
-            </view>
+        <view class="right-content">{{detailInfo.orderCode}}</view>
+      </view>
+      <view class="order-info-one">
+        <view class="left-label">下单时间</view>
+        <view class="right-content">{{detailInfo.orderTime}}</view>
+      </view>
+      <view class="order-info-one" wx:if='{{detailInfo.isPay}}'>
+        <view class="left-label">支付时间</view>
+        <view class="right-content">{{detailInfo.orderTime}}</view>
+      </view>
+      <view class="order-info-one">
+        <view class="left-label">支付方式</view>
+        <view class="right-content">{{detailInfo.payTypeDes}}</view>
+      </view>
+      <view class="order-info-one" bindtap='gotoMyComment' wx:if='{{detailInfo.evaluateStatus==2}}'>
+        <view class="left-label">我的评价</view>
+        <view style='width:44rpx;height:44rpx;'>
+          <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/mine/xiangyoubaise.png' style='width:44rpx;height:44rpx;'></image>
         </view>
-        <!--订单信息-->
-        <view class="order-info-wrapper">
-            <view class='order-info-title'>订单信息</view>
-            <view class="order-info-one">
-                <view class="left-label flex-a">
-                    <view>订单编号</view>
-                    <view
-                        style='font-size:24rpx;margin-left:10rpx;line-height:36rpx;border-radius:6rpx;color:#F79C4C;border:1rpx solid #F79C4C;padding:0 6rpx;'
-                        bindtap='handleCopy'>复制</view>
-                </view>
-                <view class="right-content">{{detailInfo.orderCode}}</view>
-            </view>
-            <view class="order-info-one">
-                <view class="left-label">下单时间</view>
-                <view class="right-content">{{detailInfo.orderTime}}</view>
-            </view>
-            <view class="order-info-one" wx:if='{{detailInfo.isPay}}'>
-                <view class="left-label">支付时间</view>
-                <view class="right-content">{{detailInfo.orderTime}}</view>
-            </view>
-            <view class="order-info-one">
-                <view class="left-label">支付方式</view>
-                <view class="right-content">{{detailInfo.payTypeDes}}</view>
-            </view>
-            <view class="order-info-one" bindtap='gotoMyComment' wx:if='{{detailInfo.evaluateStatus==2}}'>
-                <view class="left-label">我的评价</view>
-                <view style='width:44rpx;height:44rpx;'>
-                    <image src='/images/mine/xiangyoubaise.png' style='width:44rpx;height:44rpx;'></image>
-                </view>
-            </view>
-        </view>
-        <view class="order-info-wrapper flex-b" style='margin-bottom:0;' bindtap='getPhoneNumber'>
-            <image style='height:32rpx;width:32rpx;margin-top:4rpx;' src='/images/order/phone.png'></image>
-
-            <view class="left-label" style='color:#666;margin-left:10rpx;'>联系客服</view>
-        </view>
-        <view wx:if='{{windowHeight>wrapperHeight}}'
-            style='height:{{windowHeight-wrapperHeight}}px;background:#f5f5f5;'></view>
-        <c-custom-modal title='是否拨打客服电话?' content='{{servicePhone}}' wx:if='{{showPhoneModal}}'
-            bind:closemodal='closePhoneModal' bind:handleconfirm='handleContact'></c-custom-modal>
-    </scroll-view>
+      </view>
+    </view>
+    <view class="order-info-wrapper flex-b" style='margin-bottom:0;' bindtap='getPhoneNumber'>
+      <image style='height:32rpx;width:32rpx;margin-top:4rpx;' src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/order/phone.png'></image>
+      <view class="left-label" style='color:#666;margin-left:10rpx;'>联系客服</view>
+    </view>
+    <view wx:if='{{windowHeight>wrapperHeight}}' style='height:{{windowHeight-wrapperHeight}}px;background:#f5f5f5;'></view>
+    <c-custom-modal title='是否拨打客服电话?' content='{{servicePhone}}' wx:if='{{showPhoneModal}}' bind:closemodal='closePhoneModal' bind:handleconfirm='handleContact'></c-custom-modal>
+  </scroll-view>
 </view>

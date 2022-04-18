@@ -67,10 +67,10 @@ Page({
       query.selectViewport().scrollOffset();
       query.exec(function (res) {
         console.log("c_scrollPosition_forCalculate", res);
-        if(res.length>0){
+        if (res.length > 0) {
           _this.setData({
             scrollTop: res[0].top, // #the-id节点的上边界坐标
-          });          
+          });
         }
       });
 

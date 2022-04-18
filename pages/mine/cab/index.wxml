@@ -1,169 +1,174 @@
 <view>
-    <view wx:if="{{loading}}" class="cells-wrapper-loading">加载中..</view>
-    <c-header currentOrganizeInfo="{{currentOrganizeInfo}}" onlineInfo="{{onlineInfo}}" />
-    <view class="wrapper">
-        <view class="labels-wrapper" wx:if="{{cabinetList.length>0}}">
-            <scroll-view class="scroll-view" scroll-x>
-                <view class="label-wrapper {{index==currentCabinetIndex?'label-wrapper-active':''}}" wx:for="{{cabinetList}}" wx:for-index="index" wx:for-item="item" wx:key="index" data-index="{{index}}" data-item="{{item}}" bindtap="handleClickLabel">
-                    <!-- <image src='/images/cab/offline.png' wx:if="{{item.cabinetStatus==1}}" style='width:30rpx;height:30rpx;'></image> -->
-                    {{item.cabinetSort}}
-                    <!-- <image src='/images/cab/xiangxia.png' wx:if="{{index==currentCabinetIndex}}" style='width:30rpx;height:30rpx;'></image> -->
-                </view>
-            </scroll-view>
+  <view wx:if="{{loading}}" class="cells-wrapper-loading">加载中..</view>
+  <c-header currentOrganizeInfo="{{currentOrganizeInfo}}" onlineInfo="{{onlineInfo}}" />
+  <view class="wrapper">
+    <view class="labels-wrapper" wx:if="{{cabinetList.length>0}}">
+      <scroll-view class="scroll-view" scroll-x>
+        <view class="label-wrapper {{index==currentCabinetIndex?'label-wrapper-active':''}}" wx:for="{{cabinetList}}" wx:for-index="index" wx:for-item="item" wx:key="index" data-index="{{index}}" data-item="{{item}}" bindtap="handleClickLabel">
+          <!-- <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/cab/offline.png' wx:if="{{item.cabinetStatus==1}}" style='width:30rpx;height:30rpx;'></image> -->
+          {{item.cabinetSort}}
+          <!-- <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/cab/xiangxia.png' wx:if="{{index==currentCabinetIndex}}" style='width:30rpx;height:30rpx;'></image> -->
         </view>
-        <scroll-view class="scroll-view" scroll-x>
-            <view class="cells-wrapper" style="grid-template-rows: repeat({{currentCabinetInfo.cabinetRow}}, 1fr);grid-template-columns: repeat({{currentCabinetInfo.cabinetColumn}}, 1fr);">
-                <view class="cell-wrapper {{item.heatStatus==1?'cell-wrapper-heat':''}}" wx:for="{{cellList}}" wx:for-index="index" wx:for-item="item" wx:key="index" data-index="{{index}}" data-item="{{item}}" data-type="cell" bindlongpress="handleLongClickCell" bindtap="handleShortClickCell">
-                    <view wx:if="{{item.runningStatus==0}}" class="cell-inside-wrapper-error">
-                        <view class="error-icon iconfont icon-tixing"></view>
-                        <view class="cell-error-title">故障</view>
-                    </view>
-                    <view wx:else class="cell-inside-wrapper {{item.userCode?'':'cell-inside-wrapper-nouser'}}">
-                        <view class="cell-code {{item.userCode?'':'cell-code-nouser'}}">
-                            {{currentCabinetInfo.cabinetSort}} - {{item.cellShowSort}}
-                        </view>
-                        <view class="cell-name {{item.userCode?'':'cell-name-nouser'}}" wx:if="{{item.userCode}}">
-                            {{item.userName}}
-                        </view>
-                        <view class="cell-name cell-name-nouser" wx:else>未绑定</view>
-                    </view>
-                </view>
-            </view>
-        </scroll-view>
+      </scroll-view>
     </view>
-    <!-- 柜子操作的弹出层 -->
-    <view class="operation-bg" wx:if="{{showOperationFlag.cabinet}}" catchtap="clickOperation">
-        <view class="operation-warpper" catchtap="clickOperationStop">
-            <view class="operation-title">
-                {{dialogTitle}}
-                <image src="/images/cab/close.png" catchtap="clickOperation" style="font-size: 30rpx;" class="operation-close-icon"></image>
+    <scroll-view class="scroll-view" scroll-x>
+      <view class="cells-wrapper" style="grid-template-rows: repeat({{currentCabinetInfo.cabinetRow}}, 1fr);grid-template-columns: repeat({{currentCabinetInfo.cabinetColumn}}, 1fr);">
+        <view class="cell-wrapper {{item.heatStatus==1?'cell-wrapper-heat':''}}" wx:for="{{cellList}}" wx:for-index="index" wx:for-item="item" wx:key="index" data-index="{{index}}" data-item="{{item}}" data-type="cell" bindlongpress="handleLongClickCell" bindtap="handleShortClickCell">
+          <view wx:if="{{item.runningStatus==0}}" class="cell-inside-wrapper-error">
+            <view class="error-icon iconfont icon-tixing"></view>
+            <view class="cell-error-title">故障</view>
+          </view>
+          <view wx:else class="cell-inside-wrapper {{item.userCode?'':'cell-inside-wrapper-nouser'}}">
+            <view class="cell-code {{item.userCode?'':'cell-code-nouser'}}">
+              {{currentCabinetInfo.cabinetSort}} - {{item.cellShowSort}}
             </view>
-            <view class="operation-button-wrapper">
-                <button class="operation-button" size="mini" type="primary" plain data-type="openAll" bindtap="clickCabinetOperation">
-                    开柜
-                </button>
+            <view class="cell-name {{item.userCode?'':'cell-name-nouser'}}" wx:if="{{item.userCode}}">
+              {{item.userName}}
             </view>
-            <view class="operation-button-wrapper">
-                <button class="operation-button" size="mini" type="primary" plain data-type="heatAll" bindtap="clickCabinetOperation">
-                    加热
-                </button>
-                <button class="operation-button" size="mini" type="default" plain data-type="cancelHeatAll" bindtap="clickCabinetOperation">
-                    取消加热
-                </button>
-            </view>
-            <view class="operation-button-wrapper">
-                <button class="operation-button" size="mini" type="primary" plain data-type="lightAll" bindtap="clickCabinetOperation">
-                    开启照明灯
-                </button>
-                <button class="operation-button" size="mini" type="default" plain data-type="cancelLightAll" bindtap="clickCabinetOperation">
-                    关闭照明灯
-                </button>
-            </view>
-            <view class="operation-button-wrapper">
-                <button class="operation-button" size="mini" type="primary" plain data-type="disinfectAll" bindtap="clickCabinetOperation">
-                    开启消毒灯
-                </button>
-                <button class="operation-button" size="mini" type="default" plain data-type="cancelDisinfectAll" bindtap="clickCabinetOperation">
-                    关闭消毒灯
-                </button>
-            </view>
-            <view class="operation-button-wrapper">
-                <button class="operation-button" size="mini" type="primary" plain data-type="boxLightAll" bindtap="clickCabinetOperation">
-                    开启灯箱
-                </button>
-                <button class="operation-button" size="mini" type="default" plain data-type="cancelBoxLightAll" bindtap="clickCabinetOperation">
-                    关闭灯箱
-                </button>
-            </view>
+            <view class="cell-name cell-name-nouser" wx:else>未绑定</view>
+          </view>
         </view>
+      </view>
+    </scroll-view>
+  </view>
+  <!-- 柜子操作的弹出层 -->
+  <view class="operation-bg" wx:if="{{showOperationFlag.cabinet}}" catchtap="clickOperation">
+    <view class="operation-warpper" catchtap="clickOperationStop">
+      <view class="operation-title">
+        {{dialogTitle}}
+        <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/cab/close.png" catchtap="clickOperation" style="font-size: 30rpx;" class="operation-close-icon"></image>
+      </view>
+      <view class="operation-button-wrapper">
+        <button class="operation-button" size="mini" type="primary" plain data-type="openAll" bindtap="clickCabinetOperation">
+          开柜
+        </button>
+      </view>
+      <view class="operation-button-wrapper">
+        <button class="operation-button" size="mini" type="primary" plain data-type="heatAll" bindtap="clickCabinetOperation">
+          加热
+        </button>
+        <button class="operation-button" size="mini" type="default" plain data-type="cancelHeatAll" bindtap="clickCabinetOperation">
+          取消加热
+        </button>
+      </view>
+      <view class="operation-button-wrapper">
+        <button class="operation-button" size="mini" type="primary" plain data-type="lightAll" bindtap="clickCabinetOperation">
+          开启照明灯
+        </button>
+        <button class="operation-button" size="mini" type="default" plain data-type="cancelLightAll" bindtap="clickCabinetOperation">
+          关闭照明灯
+        </button>
+      </view>
+      <view class="operation-button-wrapper">
+        <button class="operation-button" size="mini" type="primary" plain data-type="disinfectAll" bindtap="clickCabinetOperation">
+          开启消毒灯
+        </button>
+        <button class="operation-button" size="mini" type="default" plain data-type="cancelDisinfectAll" bindtap="clickCabinetOperation">
+          关闭消毒灯
+        </button>
+      </view>
+      <view class="operation-button-wrapper">
+        <button class="operation-button" size="mini" type="primary" plain data-type="boxLightAll" bindtap="clickCabinetOperation">
+          开启灯箱
+        </button>
+        <button class="operation-button" size="mini" type="default" plain data-type="cancelBoxLightAll" bindtap="clickCabinetOperation">
+          关闭灯箱
+        </button>
+      </view>
     </view>
-    <!-- 格子操作的弹出层 -->
-    <view class="operation-bg" wx:if="{{showOperationFlag.cell}}" catchtap="clickOperation">
-        <view class="operation-warpper" catchtap="clickOperationStop">
-            <view class="operation-title">
-                {{dialogTitle}}
-                <image src="/images/cab/close.png" catchtap="clickOperation" style="font-size: 30rpx;" class="operation-close-icon"></image>
+  </view>
+  <!-- 格子操作的弹出层 -->
+  <view class="operation-bg" wx:if="{{showOperationFlag.cell}}" catchtap="clickOperation">
+    <view class="operation-warpper" catchtap="clickOperationStop">
+      <view class="operation-title">
+        {{dialogTitle}}
+        <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/cab/close.png" catchtap="clickOperation" style="font-size: 30rpx;" class="operation-close-icon"></image>
+      </view>
+      <view class="foods-wrapper">
+        <view class="foods-wrapper-left">餐品:</view>
+        <view class="foods-wrapper-right">
+          <view wx:if="{{foodList.length>0}}" class="food-item-wrapper">
+            <view class="food-item" wx:for="{{foodList}}" wx:for-index="index" wx:for-item="item">
+              <view class="food-name">{{item.foodName}} x 1</view>
+              <view class="food-unbind" data-qrcode="{{item.qrcode}}" data-index="{{item.index}}" bindtap="handleOpenUnbind">
+                取餐
+              </view>
             </view>
-            <view class="foods-wrapper">
-                <view class="foods-wrapper-left">餐品:</view>
-                <view class="foods-wrapper-right">
-                    <view wx:if="{{foodList.length>0}}" class="food-item-wrapper">
-                        <view class="food-item" wx:for="{{foodList}}" wx:for-index="index" wx:for-item="item">
-                            <view class="food-name">{{item.foodName}} x 1</view>
-                            <view class="food-unbind" data-qrcode="{{item.qrcode}}" data-index="{{item.index}}" bindtap="handleOpenUnbind">
-                                取餐
-                            </view>
-                        </view>
-                    </view>
-                    <view wx:else class="food-item-nofood">暂无绑定..</view>
-                </view>
-            </view>
-            <view class="operation-button-wrapper">
-                <button class="operation-button" size="mini" type="primary" plain data-type="open" bindtap="clickCellOperation">
-                    开格
-                </button>
-                <button class="operation-button" size="mini" type="primary" plain data-type="bind" bindtap="clickCellOperation">
-                    绑定
-                </button>
-                <button class="operation-button" size="mini" type="primary" plain data-type="openBind" bindtap="clickCellOperation">
-                    开格并绑定
-                </button>
-            </view>
-            <view class="operation-button-wrapper">
-                <button class="operation-button" size="mini" type="primary" plain data-type="heat" bindtap="clickCellOperation">
-                    加热
-                </button>
-                <button class="operation-button" size="mini" type="default" plain data-type="cancelHeat" bindtap="clickCellOperation">
-                    取消加热
-                </button>
-            </view>
-            <view class="operation-button-wrapper">
-                <button class="operation-button" size="mini" type="primary" plain data-type="light" bindtap="clickCellOperation">
-                    开启照明灯
-                </button>
-                <button class="operation-button" size="mini" type="default" plain data-type="cancelLight" bindtap="clickCellOperation">
-                    关闭照明灯
-                </button>
-            </view>
-            <view class="operation-button-wrapper">
-                <button class="operation-button" size="mini" type="primary" plain data-type="disinfect" bindtap="clickCellOperation">
-                    开启消毒灯
-                </button>
-                <button class="operation-button" size="mini" type="default" plain data-type="cancelDisinfect" bindtap="clickCellOperation">
-                    关闭消毒灯
-                </button>
-            </view>
+          </view>
+          <view wx:else class="food-item-nofood">暂无绑定..</view>
         </view>
+      </view>
+      <view class="operation-button-wrapper">
+        <button class="operation-button" size="mini" type="primary" plain data-type="open" bindtap="clickCellOperation">
+          开格
+        </button>
+        <button class="operation-button" size="mini" type="primary" plain data-type="bind" bindtap="clickCellOperation">
+          绑定
+        </button>
+        <button class="operation-button" size="mini" type="primary" plain data-type="openBind" bindtap="clickCellOperation">
+          开格并绑定
+        </button>
+      </view>
+      <view class="operation-button-wrapper">
+        <button class="operation-button" size="mini" type="primary" plain data-type="heat" bindtap="clickCellOperation">
+          加热
+        </button>
+        <button class="operation-button" size="mini" type="default" plain data-type="cancelHeat" bindtap="clickCellOperation">
+          取消加热
+        </button>
+      </view>
+      <view class="operation-button-wrapper">
+        <button class="operation-button" size="mini" type="primary" plain data-type="light" bindtap="clickCellOperation">
+          开启照明灯
+        </button>
+        <button class="operation-button" size="mini" type="default" plain data-type="cancelLight" bindtap="clickCellOperation">
+          关闭照明灯
+        </button>
+      </view>
+      <view class="operation-button-wrapper">
+        <button class="operation-button" size="mini" type="primary" plain data-type="disinfect" bindtap="clickCellOperation">
+          开启消毒灯
+        </button>
+        <button class="operation-button" size="mini" type="default" plain data-type="cancelDisinfect" bindtap="clickCellOperation">
+          关闭消毒灯
+        </button>
+      </view>
     </view>
-    <!-- 合并绑定操作的弹出层 -->
-    <view class="operation-bg" wx:if="{{showOperationFlag.mergeBind}}" catchTap="clickOperation" >
-        <view class="operation-warpper" catchTap="clickOperationStop">
-            <view class="operation-mergeBind-des">
-               <text class="operation-mergeBind-des-qiangdiao">{{currentUserName}}</text>存在多餐,是否合绑？
-            </view> 
-            <view wx:if="{{mergeFoodList.length>0}}" class="operation-mergeBind-cell-item-wrapper">
-                <view class="operation-mergeBind-cell-item" wx:for="{{mergeFoodList}}" wx:for-index="index" wx:for-item="item">
-                    <view class="operation-mergeBind-cell-item-food-wrapper">
-                        <view class="operation-mergeBind-cell-item-food-item"  wx:for="{{item.foodList}}" wx:for-index="foodListIndex" wx:for-item="foodListItem">
-                            {{foodListItem.foodName}} x 1 
-                        </view>
-                    </view>
-                    <view style="display:flex;">
-                        <view class="operation-mergeBind-cellSort">
-                            {{item.cabinetSort}}-{{item.cellSort}}
-                        </view>
-                        <button wx:if="{{currentHeatStatus==item.heatStatus}}" type="primary" size="mini" style="margin:0;" class="operation-mergeBind-cell-unbind1" data-item="{{item}}" bindtap="handleMergeBind">合绑</button>
-                        <button wx:else style="margin:0;background:#b7d4bb;border:none;" type="primary" size="mini" class="operation-mergeBind-cell-unbind1" bindtap="handleMergeBindNotHeatStatus">合绑</button>
-                    </view>
-                </view>
-            </view>  
-            <view wx:else class="operation-mergeBind-cell-item-nofood">
-                暂无绑定..
-            </view>  
-            <view class="operation-mergeBind-buttons-wrapper">
-                <button type="primary" plain class="operation-mergeBind-button1" bindtap="clickOperation" >取消</button>
-                <button type="primary" class="operation-mergeBind-button2" bindtap="handleContinueBind">放新格子 {{currentCabinetInfo.cabinetSort}}-{{currentCellInfo.cellShowSort}}</button>
-            </view>  
+  </view>
+  <!-- 合并绑定操作的弹出层 -->
+  <view class="operation-bg" wx:if="{{showOperationFlag.mergeBind}}" catchTap="clickOperation">
+    <view class="operation-warpper" catchTap="clickOperationStop">
+      <view class="operation-mergeBind-des">
+        <text class="operation-mergeBind-des-qiangdiao">{{currentUserName}}</text>
+        存在多餐,是否合绑？
+      </view>
+      <view wx:if="{{mergeFoodList.length>0}}" class="operation-mergeBind-cell-item-wrapper">
+        <view class="operation-mergeBind-cell-item" wx:for="{{mergeFoodList}}" wx:for-index="index" wx:for-item="item">
+          <view class="operation-mergeBind-cell-item-food-wrapper">
+            <view class="operation-mergeBind-cell-item-food-item" wx:for="{{item.foodList}}" wx:for-index="foodListIndex" wx:for-item="foodListItem">
+              {{foodListItem.foodName}} x 1
+            </view>
+          </view>
+          <view style="display:flex;">
+            <view class="operation-mergeBind-cellSort">{{item.cabinetSort}}-{{item.cellSort}}</view>
+            <button wx:if="{{currentHeatStatus==item.heatStatus}}" type="primary" size="mini" style="margin:0;" class="operation-mergeBind-cell-unbind1" data-item="{{item}}" bindtap="handleMergeBind">
+              合绑
+            </button>
+            <button wx:else style="margin:0;background:#b7d4bb;border:none;" type="primary" size="mini" class="operation-mergeBind-cell-unbind1" bindtap="handleMergeBindNotHeatStatus">
+              合绑
+            </button>
+          </view>
         </view>
+      </view>
+      <view wx:else class="operation-mergeBind-cell-item-nofood">暂无绑定..</view>
+      <view class="operation-mergeBind-buttons-wrapper">
+        <button type="primary" plain class="operation-mergeBind-button1" bindtap="clickOperation">
+          取消
+        </button>
+        <button type="primary" class="operation-mergeBind-button2" bindtap="handleContinueBind">
+          放新格子 {{currentCabinetInfo.cabinetSort}}-{{currentCellInfo.cellShowSort}}
+        </button>
+      </view>
     </view>
+  </view>
 </view>

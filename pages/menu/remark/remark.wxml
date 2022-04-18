@@ -1,83 +1,68 @@
 <scroll-view scroll-y style="background: #F5F5F5;height:{{windowHeight}}px;">
-    <view id='c_warpper_calculation' style=' padding:16rpx 20rpx 0;'>
-        <view wx:for="{{preOrderList}}" wx:for-item='mealDateItem' wx:for-index='mealDateIndex' wx:key='{{mealDateIndex}}'>
-          <view class='remark-day-wrapper' wx:for="{{mealDateItem.mealTypeList}}" wx:for-item='mealTypeItem' wx:for-index='mealTypeIndex' wx:key="mealTypeIndex">
-              <view class="cart-day-title">
-                  {{mealDateItem.mealDateDes}}({{mealDateItem.mealDate}}){{mealTypeItem.mealTypeDes}}
+  <view id='c_warpper_calculation' style=' padding:16rpx 20rpx 0;'>
+    <view wx:for="{{preOrderList}}" wx:for-item='mealDateItem' wx:for-index='mealDateIndex' wx:key='{{mealDateIndex}}'>
+      <view class='remark-day-wrapper' wx:for="{{mealDateItem.mealTypeList}}" wx:for-item='mealTypeItem' wx:for-index='mealTypeIndex' wx:key="mealTypeIndex">
+        <view class="cart-day-title">
+          {{mealDateItem.mealDateDes}}({{mealDateItem.mealDate}}){{mealTypeItem.mealTypeDes}}
+        </view>
+        <view wx:for="{{mealTypeItem.foods}}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="{{foodIndex}}">
+          <view>
+            <view class='cart-menuItem'>
+              <view class='flex-1'>
+                <image class="cart-menuItem-img" src="{{foodItem.image}}"></image>
+                <view class='cart-menuItem-name'>{{foodItem.foodName}}</view>
               </view>
-              <view wx:for="{{mealTypeItem.foods}}" wx:for-item="foodItem" wx:for-index="foodIndex" wx:key="{{foodIndex}}">
-                  <view>
-                      <view class='cart-menuItem'>
-                          <view class='flex-1'>
-                              <image class="cart-menuItem-img" src="{{foodItem.image}}"></image>
-                              <view class='cart-menuItem-name'>{{foodItem.foodName}}</view>
-                          </view>
-                          <view class="cart-menuItem-count">
-                              x{{foodItem.foodQuantity}}
-                          </view>
-                      </view>
-                      <view class='remark-menuItem'>
-                          <view class='remark-menuItem-left'>餐品备注</view>
-                          <view class='remark-menuItem-button' bindtap='clickAdd' data-mealdate='{{mealDateItem.mealDate}}' data-mealtype='{{mealTypeItem.mealType}}' data-fooditem='{{foodItem}}'>添加</view>
-                      </view>
-                      <block wx:if='{{foodItem.markDetail.length>0}}'>
-                          <view class='remark-wrp' wx:for="{{foodItem.markDetail}}" wx:for-item='markItem' wx:for-index='markIndex' wx:key='{{markIndex}}'>
-                              <view class='remark-item'>
-                                <view class='remark-left'>
-                                  <view class='remark-left-item'>
-                                    {{markItem.quantity}} 份
-                                  </view>
-                                  <view class='remark-left-item'>
-                                    {{markItem.mark}}
-                                  </view>
-                                </view>
-                                <view class='mark-right' bindtap='clickDel' data-markitem='{{markItem}}'  data-fooditem='{{foodItem}}' data-mealdate='{{mealDateItem.mealDate}}' data-mealtype='{{mealTypeItem.mealType}}'>
-                                    <view class='remark-delete'>删除</view>
-                                </view>
-                              </view>
-                          </view>
-                      </block>
+              <view class="cart-menuItem-count">x{{foodItem.foodQuantity}}</view>
+            </view>
+            <view class='remark-menuItem'>
+              <view class='remark-menuItem-left'>餐品备注</view>
+              <view class='remark-menuItem-button' bindtap='clickAdd' data-mealdate='{{mealDateItem.mealDate}}' data-mealtype='{{mealTypeItem.mealType}}' data-fooditem='{{foodItem}}'>
+                添加
+              </view>
+            </view>
+            <block wx:if='{{foodItem.markDetail.length>0}}'>
+              <view class='remark-wrp' wx:for="{{foodItem.markDetail}}" wx:for-item='markItem' wx:for-index='markIndex' wx:key='{{markIndex}}'>
+                <view class='remark-item'>
+                  <view class='remark-left'>
+                    <view class='remark-left-item'>{{markItem.quantity}} 份</view>
+                    <view class='remark-left-item'>{{markItem.mark}}</view>
                   </view>
-              </view>
-          </view>
-        </view>
-    </view>
-    <view class="dialog-wrp-bg" wx:if="{{showDialogAdd}}"  bindtap="closeDialogAdd">
-      <view class="dialog-wrp"  catchtap="donothing">
-        <view class="title">
-          添加备注
-        </view>
-        <view class="content-wrp">
-          <view class="line">
-            <view class="left">
-              备注内容
-            </view>
-            <view class="right">
-                <input bindinput='inputRemarkName' maxlength="3" placeholder="备注(限三字)" value="{{mark}}" class='remark-name' placeholder-class='remark-name-default' />
-            </view>      
-          </view>
-          <view class="line">
-            <view class="left">
-              数量
-            </view>
-            <view class="right">
-                <view class='remark-count-group'>
-                    <image style='margin-top:18rpx;width:44rpx;height:44rpx;' src='/images/menu/minus.png' bindtap='minus'></image>
-                    <input readonly bindinput='inputRemarkCount' type='number' maxlength="10" placeholder="数量" value="{{quantity}}" class='remark-count'
-                        placeholder-class='remark-count-default' />
-                    <image style='margin-top:18rpx;width:44rpx;height:44rpx;' src='/images/menu/add.png' bindtap='add'></image>
+                  <view class='mark-right' bindtap='clickDel' data-markitem='{{markItem}}' data-fooditem='{{foodItem}}' data-mealdate='{{mealDateItem.mealDate}}' data-mealtype='{{mealTypeItem.mealType}}'>
+                    <view class='remark-delete'>删除</view>
+                  </view>
                 </view>
-            </view>      
+              </view>
+            </block>
           </view>
-        </view> 
-        <view class="btn-wrp">
-          <view class="cancel" bindtap="closeDialogAdd">
-            取消
-          </view>
-          <view class="confirm" bindtap="confirmAdd">
-            确定
-          </view>
-        </view>     
+        </view>
       </view>
     </view>
+  </view>
+  <view class="dialog-wrp-bg" wx:if="{{showDialogAdd}}" bindtap="closeDialogAdd">
+    <view class="dialog-wrp" catchtap="donothing">
+      <view class="title">添加备注</view>
+      <view class="content-wrp">
+        <view class="line">
+          <view class="left">备注内容</view>
+          <view class="right">
+            <input bindinput='inputRemarkName' maxlength="3" placeholder="备注(限三字)" value="{{mark}}" class='remark-name' placeholder-class='remark-name-default' />
+          </view>
+        </view>
+        <view class="line">
+          <view class="left">数量</view>
+          <view class="right">
+            <view class='remark-count-group'>
+              <image style='margin-top:18rpx;width:44rpx;height:44rpx;' src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/minus.png' bindtap='minus'></image>
+              <input readonly bindinput='inputRemarkCount' type='number' maxlength="10" placeholder="数量" value="{{quantity}}" class='remark-count' placeholder-class='remark-count-default' />
+              <image style='margin-top:18rpx;width:44rpx;height:44rpx;' src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/add.png' bindtap='add'></image>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="btn-wrp">
+        <view class="cancel" bindtap="closeDialogAdd">取消</view>
+        <view class="confirm" bindtap="confirmAdd">确定</view>
+      </view>
+    </view>
+  </view>
 </scroll-view>

@@ -22,7 +22,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
     let _this = this;
     let tmp_selectedDiscountInfo =
       getApp().globalData.publicParam.selectedDiscountInfo;
@@ -57,7 +56,6 @@ Page({
 
   /* 监听子组件：选择一张优惠券触发事件 */
   onChangeSelectDiscount: function (e) {
-
     let _this = this;
     jiuaiDebounce.canDoFunction({
       type: "jieliu",

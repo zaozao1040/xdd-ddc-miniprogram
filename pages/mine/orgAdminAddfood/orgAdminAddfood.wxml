@@ -1,118 +1,117 @@
 <view wx:if="{{hasalready}}">
-    <view wx:if='{{notAllowed}}'>
-        <view style='margin:216rpx auto 0;width:200rpx;height:200rpx;'>
-            <image class="" src="/images/home/filter_dinner.png" style="width:200rpx;height:200rpx;"></image>
-        </view>
-        <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
-            当前时间段不可报餐
-        </view>
+  <view wx:if='{{notAllowed}}'>
+    <view style='margin:216rpx auto 0;width:200rpx;height:200rpx;'>
+      <image class="" src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/home/filter_dinner.png" style="width:200rpx;height:200rpx;"></image>
     </view>
-    <view wx:else style='height:409px;'>
-        <view style="background:rgb(245,245,245);padding:20rpx 0;" wx:if="{{canadd}}">
-            <view style="margin:0 20rpx 20rpx;background:#FFF; padding:40rpx;border-radius: 12rpx; ">
-                <view style="font-family: PingFang-SC-Medium;font-size: 30rpx; color: #333333; letter-spacing: 0;text-align: left;line-height:42rpx;">
-                    {{date}} {{mealTypeNameList[mealType]}} 截止时间：{{endTime}}</view>
-                
-                <view class="org-address-wrapper">
-                    <scroll-view class="org-scroll-view" scroll-x>
-                        <view class="org-address-item {{index==currentAddressIndex?'org-address-item-active':''}}" wx:for="{{organizeAddressList}}" wx:for-index="index" wx:for-item="item" wx:key="index" data-index="{{index}}" data-item="{{item}}" bindtap="handleClickAddress">
-                            地址{{index+1}}
-                        </view>
-                    </scroll-view>
-                    <view class="org-address-des">
-                        <text class="error-icon iconfont icon-dizhi"></text>{{address}}
-                    </view>
-                </view>
-
-
-
-                <view class='value-number-wrapper'>
-                    <view class='value-number-left'>报餐数量</view>
-                    <view class="value-number">
-                        <view style='line-height: 80rpx;border-right: 1rpx solid #EBEBEB;color:#666666;width:80rpx;flex-shrink:0;' bindtap='minus'>-</view>
-                        <input style='height:80rpx;line-height: 80rpx;' value="{{value}}" focus type="number" bindinput='inputAddfoodNumber' />
-                        <view style='line-height: 80rpx;border-left: 1rpx solid #EBEBEB;color:#666666;width:80rpx;flex-shrink:0;' bindtap='add'>+</view>
-                    </view>
-                </view>
-                <view style="height:244rpx;background:#FAFAFA;border:1rpx solid #EBEBEB;">
-                    <textarea class='remark' placeholder-style="font-size: 28rpx; color: #CCCCCC; letter-spacing: 0; text-align: left;" bindinput="bindRemakInput" placeholder="备注" maxlength="100" auto-focus value="{{remarkValue}}" />
-                    <view style="font-size:28rpx;text-align:right;color:#ccc;padding:0 10rpx 10rpx 0;">{{remarkCount}}/100</view>
-                </view>
-                <view class='remark-menuItem'>
-                    <view class='remark-menuItem-left'>添加详细备注</view>
-                    <view class='remark-menuItem-button' bindtap='addRemark'>添加</view>
-                </view>
-                <view wx:if='{{markDetail.length>0}}'>
-                    <view wx:for="{{markDetail}}" wx:for-item='oneRemark' wx:for-index='remarkIndex' wx:key='{{remarkIndex}}'>
-                        <view class='flex-1' style='margin-top:20rpx;'>
-                            <input bindinput='inputRemarkName' data-remarkindex='{{remarkIndex}}' maxlength="3" placeholder="备注(限三字)" value="{{oneRemark.mark}}" class='remark-name' placeholder-class='remark-name-default' />
-
-                            <view class='remark-count-group'>
-                                <image style='margin-top:18rpx;width:44rpx;height:44rpx;' src='/images/menu/minus.png' bindtap='handleRemarkMinus' data-remarkindex='{{remarkIndex}}'></image>
-                                <input bindinput='inputRemarkCount' data-remarkindex='{{remarkIndex}}' type='number' maxlength="10" placeholder="数量" value="{{oneRemark.quantity}}" class='remark-count' placeholder-class='remark-count-default' />
-                                <image style='margin-top:18rpx;width:44rpx;height:44rpx;' src='/images/menu/add.png' bindtap='handleRemarkAdd' data-remarkindex='{{remarkIndex}}'></image>
-                            </view>
-                            <view class='flex-1' bindtap='deleteOneRemark' data-remarkindex='{{remarkIndex}}'>
-                                <image style='margin-top:18rpx;width:44rpx;height:44rpx;' src='/images/menu/delete.png'></image>
-                                <view class='remark-delete'>删除</view>
-                            </view>
-                        </view>
-                    </view>
-                </view>
-
-                <view bindtap='increaseFood' style="background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);margin-top:52rpx;width:630rpx;font-family: PingFang-SC-Medium;font-size: 18px;color: #FFFFFF;letter-spacing: 0; text-align: center;line-height:100rpx;border-radius:50rpx;">
-                    确定份数</view>
-            </view>
-            <view style="margin:0 20rpx;background:#fff;border-radius: 8rpx;" wx:if="{{hasdata}}">
-                <view class='one-line'>
-                    <view style='font-size: 36rpx;color: #333333;'>已报数目</view>
-                    <view style='font-size: 34rpx; color: rgb(80,185,66);'>{{quantity}}</view>
-                </view>
-                <block wx:for="{{list}}" wx:key="index">
-                    <view class='list-item'>
-
-                        <view>
-                            <view style="font-size: 30rpx;  color: #333333;padding-top:18rpx;">{{item.userName||item.name}}</view>
-                            <view style="font-size: 24rpx;  color: #999;padding-top:10rpx;"> {{item.addTime}} {{mealTypeNameList[mealType]}} </view>
-                        </view>
-                        <view style='line-height:120rpx;font-size: 34rpx; color: #F79C4C;' wx:if="{{item.difference>0}}"> +{{item.difference}}</view>
-                        <view style='line-height:120rpx;font-size: 34rpx; color: #FF5035;' wx:else> {{item.difference}}</view>
-                    </view>
-                </block>
-            </view>
+    <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
+      当前时间段不可报餐
+    </view>
+  </view>
+  <view wx:else style='height:409px;'>
+    <view style="background:rgb(245,245,245);padding:20rpx 0;" wx:if="{{canadd}}">
+      <view style="margin:0 20rpx 20rpx;background:#FFF; padding:40rpx;border-radius: 12rpx; ">
+        <view style="font-family: PingFang-SC-Medium;font-size: 30rpx; color: #333333; letter-spacing: 0;text-align: left;line-height:42rpx;">
+          {{date}} {{mealTypeNameList[mealType]}} 截止时间：{{endTime}}
         </view>
-
-        <view style="background:rgb(245,245,245);padding:40rpx 0;" wx:else>
-            <view style="margin:0 20rpx 40rpx;background:#FFF; padding:40rpx;border-radius: 8rpx; ">
-                <view wx:if='{{lunchEndTime}}' style='left:0;right:0;top:300rpx;font-family: PingFang-SC-Regular;font-size: 20px;color: #F79C4C;letter-spacing: 0;text-align: center;'>
-                    午餐截止时间：{{lunchEndTime}}
-                </view>
-                <view wx:if='{{dinnerEndTime}}' style='left:0;right:0;top:300rpx;margin-top:22rpx;font-family: PingFang-SC-Regular;font-size: 20px;color: #F79C4C;letter-spacing: 0;text-align: center;'>
-                    晚餐截止时间：{{dinnerEndTime}}
-                </view>
-                <view wx:if='{{!lunchEndTime&&!dinnerEndTime}}' style='left:0;right:0;top:300rpx;font-family: PingFang-SC-Regular;font-size: 20px;color: #F79C4C;letter-spacing: 0;text-align: center;'>
-                    当前时段不可报餐
-                </view>
-                <view style="background: #ccc;margin-top:62rpx;width:630rpx;font-family: PingFang-SC-Medium;font-size: 18px;color: #FFFFFF;letter-spacing: 0; text-align: center;line-height:100rpx;border-radius:50rpx;">
-                    确定份数</view>
+        <view class="org-address-wrapper">
+          <scroll-view class="org-scroll-view" scroll-x>
+            <view class="org-address-item {{index==currentAddressIndex?'org-address-item-active':''}}" wx:for="{{organizeAddressList}}" wx:for-index="index" wx:for-item="item" wx:key="index" data-index="{{index}}" data-item="{{item}}" bindtap="handleClickAddress">
+              地址{{index+1}}
             </view>
+          </scroll-view>
+          <view class="org-address-des">
+            <text class="error-icon iconfont icon-dizhi"></text>
+            {{address}}
+          </view>
         </view>
-
-        <c-pop content='{{popContent.content}}' wx:if='{{popContent.show}}' bind:closemodal='closeModal'></c-pop>
-        <!--删除一条备注-->
-        <c-custom-modal content='{{modalContent.content}}' wx:if='{{modalIndex==1}}' params='{{modalContent.eventParam}}' bind:closemodal='closeModalModal' bind:handleconfirm='deleteOneRemarkForModal'></c-custom-modal>
-
-        <!--删除未完成备注-->
-        <c-custom-modal content='{{modalContent.content}}' cancel='{{modalContent.cancel}}' confirm='{{modalContent.confirm}}' wx:if='{{modalIndex==3}}' bind:closemodal='closeModalModal' bind:handleconfirm='deleteUncompleteRemark'></c-custom-modal>
-        <l-dialog 
-        show="{{showQueding}}"
-        type="confirm"     
-        title="确定份数?"
-        content="{{''}}"
-        confirm-color="#F79C4C"
-        bind:linconfirm="clickConfirm" 
-        bind:lincancel="clickCancel" 
-        bind:lintap="clickCancel"
-        />
+        <view class='value-number-wrapper'>
+          <view class='value-number-left'>报餐数量</view>
+          <view class="value-number">
+            <view style='line-height: 80rpx;border-right: 1rpx solid #EBEBEB;color:#666666;width:80rpx;flex-shrink:0;' bindtap='minus'>
+              -
+            </view>
+            <input style='height:80rpx;line-height: 80rpx;' value="{{value}}" focus type="number" bindinput='inputAddfoodNumber' />
+            <view style='line-height: 80rpx;border-left: 1rpx solid #EBEBEB;color:#666666;width:80rpx;flex-shrink:0;' bindtap='add'>
+              +
+            </view>
+          </view>
+        </view>
+        <view style="height:244rpx;background:#FAFAFA;border:1rpx solid #EBEBEB;">
+          <textarea class='remark' placeholder-style="font-size: 28rpx; color: #CCCCCC; letter-spacing: 0; text-align: left;" bindinput="bindRemakInput" placeholder="备注" maxlength="100" auto-focus value="{{remarkValue}}" />
+          <view style="font-size:28rpx;text-align:right;color:#ccc;padding:0 10rpx 10rpx 0;">
+            {{remarkCount}}/100
+          </view>
+        </view>
+        <view class='remark-menuItem'>
+          <view class='remark-menuItem-left'>添加详细备注</view>
+          <view class='remark-menuItem-button' bindtap='addRemark'>添加</view>
+        </view>
+        <view wx:if='{{markDetail.length>0}}'>
+          <view wx:for="{{markDetail}}" wx:for-item='oneRemark' wx:for-index='remarkIndex' wx:key='{{remarkIndex}}'>
+            <view class='flex-1' style='margin-top:20rpx;'>
+              <input bindinput='inputRemarkName' data-remarkindex='{{remarkIndex}}' maxlength="3" placeholder="备注(限三字)" value="{{oneRemark.mark}}" class='remark-name' placeholder-class='remark-name-default' />
+              <view class='remark-count-group'>
+                <image style='margin-top:18rpx;width:44rpx;height:44rpx;' src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/minus.png' bindtap='handleRemarkMinus' data-remarkindex='{{remarkIndex}}'></image>
+                <input bindinput='inputRemarkCount' data-remarkindex='{{remarkIndex}}' type='number' maxlength="10" placeholder="数量" value="{{oneRemark.quantity}}" class='remark-count' placeholder-class='remark-count-default' />
+                <image style='margin-top:18rpx;width:44rpx;height:44rpx;' src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/add.png' bindtap='handleRemarkAdd' data-remarkindex='{{remarkIndex}}'></image>
+              </view>
+              <view class='flex-1' bindtap='deleteOneRemark' data-remarkindex='{{remarkIndex}}'>
+                <image style='margin-top:18rpx;width:44rpx;height:44rpx;' src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/delete.png'></image>
+                <view class='remark-delete'>删除</view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view bindtap='increaseFood' style="background-image: linear-gradient(-90deg, #F79C4C 0%, #F7CD4E 99%);margin-top:52rpx;width:630rpx;font-family: PingFang-SC-Medium;font-size: 18px;color: #FFFFFF;letter-spacing: 0; text-align: center;line-height:100rpx;border-radius:50rpx;">
+          确定份数
+        </view>
       </view>
+      <view style="margin:0 20rpx;background:#fff;border-radius: 8rpx;" wx:if="{{hasdata}}">
+        <view class='one-line'>
+          <view style='font-size: 36rpx;color: #333333;'>已报数目</view>
+          <view style='font-size: 34rpx; color: rgb(80,185,66);'>{{quantity}}</view>
+        </view>
+        <block wx:for="{{list}}" wx:key="index">
+          <view class='list-item'>
+            <view>
+              <view style="font-size: 30rpx;  color: #333333;padding-top:18rpx;">
+                {{item.userName||item.name}}
+              </view>
+              <view style="font-size: 24rpx;  color: #999;padding-top:10rpx;">
+                {{item.addTime}} {{mealTypeNameList[mealType]}}
+              </view>
+            </view>
+            <view style='line-height:120rpx;font-size: 34rpx; color: #F79C4C;' wx:if="{{item.difference>0}}">
+              +{{item.difference}}
+            </view>
+            <view style='line-height:120rpx;font-size: 34rpx; color: #FF5035;' wx:else>
+              {{item.difference}}
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+    <view style="background:rgb(245,245,245);padding:40rpx 0;" wx:else>
+      <view style="margin:0 20rpx 40rpx;background:#FFF; padding:40rpx;border-radius: 8rpx; ">
+        <view wx:if='{{lunchEndTime}}' style='left:0;right:0;top:300rpx;font-family: PingFang-SC-Regular;font-size: 20px;color: #F79C4C;letter-spacing: 0;text-align: center;'>
+          午餐截止时间：{{lunchEndTime}}
+        </view>
+        <view wx:if='{{dinnerEndTime}}' style='left:0;right:0;top:300rpx;margin-top:22rpx;font-family: PingFang-SC-Regular;font-size: 20px;color: #F79C4C;letter-spacing: 0;text-align: center;'>
+          晚餐截止时间：{{dinnerEndTime}}
+        </view>
+        <view wx:if='{{!lunchEndTime&&!dinnerEndTime}}' style='left:0;right:0;top:300rpx;font-family: PingFang-SC-Regular;font-size: 20px;color: #F79C4C;letter-spacing: 0;text-align: center;'>
+          当前时段不可报餐
+        </view>
+        <view style="background: #ccc;margin-top:62rpx;width:630rpx;font-family: PingFang-SC-Medium;font-size: 18px;color: #FFFFFF;letter-spacing: 0; text-align: center;line-height:100rpx;border-radius:50rpx;">
+          确定份数
+        </view>
+      </view>
+    </view>
+    <c-pop content='{{popContent.content}}' wx:if='{{popContent.show}}' bind:closemodal='closeModal'></c-pop>
+    <!-- 删除一条备注 -->
+    <c-custom-modal content='{{modalContent.content}}' wx:if='{{modalIndex==1}}' params='{{modalContent.eventParam}}' bind:closemodal='closeModalModal' bind:handleconfirm='deleteOneRemarkForModal'></c-custom-modal>
+    <!-- 删除未完成备注 -->
+    <c-custom-modal content='{{modalContent.content}}' cancel='{{modalContent.cancel}}' confirm='{{modalContent.confirm}}' wx:if='{{modalIndex==3}}' bind:closemodal='closeModalModal' bind:handleconfirm='deleteUncompleteRemark'></c-custom-modal>
+    <l-dialog show="{{showQueding}}" type="confirm" title="确定份数?" content="{{''}}" confirm-color="#F79C4C" bind:linconfirm="clickConfirm" bind:lincancel="clickCancel" bind:lintap="clickCancel" />
+  </view>
 </view>

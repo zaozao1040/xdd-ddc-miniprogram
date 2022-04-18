@@ -31,7 +31,7 @@
       <view class="header-operation-title">
         企业操作
         <image
-          src="/images/cab/close.png"
+          src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/cab/close.png"
           catchtap="clickOperation"
           style="font-size: 30rpx;"
           class="header-operation-close-icon"

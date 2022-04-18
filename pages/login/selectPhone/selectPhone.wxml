@@ -1,80 +1,67 @@
 <view>
-    <view class="bg-wrapper">
-        <block wx:if="{{page==true}}">
-          <view class="img-wrapper">
-            <image src="../../../images/login/logo.png" mode="widthFix" style="width:100%;height: 100%;"></image>
+  <view class="bg-wrapper">
+    <block wx:if="{{page==true}}">
+      <view class="img-wrapper">
+        <image src="../../..https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/login/logo.png" mode="widthFix" style="width:100%;height: 100%;"></image>
+      </view>
+      <button class="button-active" open-type="getPhoneNumber" bindgetphonenumber="handleGetPhoneNumber">
+        微信快捷登录
+      </button>
+      <view class="other-des" catchtap="changePage">其他方式登录</view>
+    </block>
+    <block wx:else>
+      <view class="title">
+        <view class="titleBtn {{loginType=='shouji'?'titleBtnActive':''}}" data-type="shouji" bindtap='changeLoginType'>
+          手机快捷登录
+        </view>
+        <view class="titleBtn {{loginType=='zhanghao'?'titleBtnActive':''}}" data-type="zhanghao" bindtap='changeLoginType'>
+          账号密码登录
+        </view>
+      </view>
+      <block wx:if="{{loginType=='shouji'}}">
+        <view class="section-3">
+          <view class='header'>+86</view>
+          <view class='line'></view>
+          <input placeholder-class='placeholder-class' class='phone-number' bindinput="phoneInput" maxlength="11" placeholder="请输入手机号" type="number"></input>
+        </view>
+        <view class="section-3" style='margin-top:20rpx;'>
+          <input placeholder-class='placeholder-class' class='phone-number' bindinput="codeInput" placeholder="请输入验证码" type="number"></input>
+          <view catchtap="sendCode" class="rg-section-v6" wx:if="{{firstCode&&phone.length==11}}">
+            获取验证码
           </view>
-          <button  class="button-active" open-type="getPhoneNumber" bindgetphonenumber="handleGetPhoneNumber">
-            微信快捷登录
-          </button>
-          <view class="other-des" catchtap="changePage">
-            其他方式登录
+          <view class="rg-section-v5" wx:elif="{{firstCode}}">获取验证码</view>
+          <view class="rg-section-v5" wx:if="{{waitTime>0}}">{{waitTime}}s</view>
+          <view catchtap="sendCode" class="rg-section-v6" wx:if="{{waitTime==0&&phone.length==11}}">
+            重新发送
           </view>
-        </block>
-        <block wx:else>
-          <view class="title">
-              <view class="titleBtn {{loginType=='shouji'?'titleBtnActive':''}}" data-type="shouji"
-                  bindtap='changeLoginType'>手机快捷登录
-              </view>
-              <view class="titleBtn {{loginType=='zhanghao'?'titleBtnActive':''}}" data-type="zhanghao"
-                  bindtap='changeLoginType'>账号密码登录</view>
-          </view>
-          <block wx:if="{{loginType=='shouji'}}">
-              <view class="section-3">
-                  <view class='header'>+86</view>
-                  <view class='line'></view>
-                  <input placeholder-class='placeholder-class' class='phone-number' bindinput="phoneInput" maxlength="11"
-                      placeholder="请输入手机号" type="number"></input>
-              </view>
-              <view class="section-3" style='margin-top:20rpx;'>
-
-                  <input placeholder-class='placeholder-class' class='phone-number' bindinput="codeInput"
-                      placeholder="请输入验证码" type="number"></input>
-                  <view catchtap="sendCode" class="rg-section-v6" wx:if="{{firstCode&&phone.length==11}}">获取验证码</view>
-                  <view class="rg-section-v5" wx:elif="{{firstCode}}">获取验证码</view>
-                  <view class="rg-section-v5" wx:if="{{waitTime>0}}">{{waitTime}}s</view>
-                  <view catchtap="sendCode" class="rg-section-v6" wx:if="{{waitTime==0&&phone.length==11}}">重新发送</view>
-                  <view class="rg-section-v5" wx:elif="{{waitTime==0}}">重新发送</view>
-              </view>
-              <view class='des'>未注册手机验证后即完成注册</view>
-              <view catchtap="loginByPhone" class="button-active" wx:if='{{code&&phone.length==11&&agreeAuthority}}'>
-                  同意协议并登录</view>
-              <view class="button-inactive" wx:else>同意协议并登录</view>
-              <view class="other-des" catchtap="changePage">
-                微信快捷登录
-              </view>
-          </block>
-          <block wx:if="{{loginType=='zhanghao'}}">
-              <view class="section-3">
-
-                  <input placeholder-class='placeholder-class' class='phone-number' bindinput="nameInput"
-                      placeholder="请输入用户名"></input>
-              </view>
-              <view class="section-3" style='margin-top:20rpx;'>
-                  <input placeholder-class='placeholder-class' password class='phone-number' bindinput="pwdInput"
-                      placeholder="请输入密码"></input>
-              </view>
-
-              <view catchtap="loginWithNamePwd" class="button-active" wx:if='{{name&&password}}'>登录</view>
-              <view class="button-inactive" wx:else>登录</view>
-          </block>          
-        </block>
-        <view class="gouxuan-wrapper">
-          <image class='checked-b' wx:if='{{agreeAuthority}}' bindtap='changeAuthority'
-              src='/images/login/checked.png'>
-          </image>
-          <view class='unchecked-b' wx:else bindtap='changeAuthority'></view>
-          <view class='agree-des-b' bindtap='changeAuthority'>
-              登录代表您已同意<text style='color:#F79C4C;' catchtap='showProtocal'>点点餐用户协议</text><text
-                  style='color:#F79C4C;' catchtap='showPrivacy'>、隐私政策</text>
-          </view>
+          <view class="rg-section-v5" wx:elif="{{waitTime==0}}">重新发送</view>
+        </view>
+        <view class='des'>未注册手机验证后即完成注册</view>
+        <view catchtap="loginByPhone" class="button-active" wx:if='{{code&&phone.length==11&&agreeAuthority}}'>
+          同意协议并登录
+        </view>
+        <view class="button-inactive" wx:else>同意协议并登录</view>
+        <view class="other-des" catchtap="changePage">微信快捷登录</view>
+      </block>
+      <block wx:if="{{loginType=='zhanghao'}}">
+        <view class="section-3">
+          <input placeholder-class='placeholder-class' class='phone-number' bindinput="nameInput" placeholder="请输入用户名"></input>
+        </view>
+        <view class="section-3" style='margin-top:20rpx;'>
+          <input placeholder-class='placeholder-class' password class='phone-number' bindinput="pwdInput" placeholder="请输入密码"></input>
+        </view>
+        <view catchtap="loginWithNamePwd" class="button-active" wx:if='{{name&&password}}'>登录</view>
+        <view class="button-inactive" wx:else>登录</view>
+      </block>
+    </block>
+    <view class="gouxuan-wrapper">
+      <image class='checked-b' wx:if='{{agreeAuthority}}' bindtap='changeAuthority' src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/login/checked.png'></image>
+      <view class='unchecked-b' wx:else bindtap='changeAuthority'></view>
+      <view class='agree-des-b' bindtap='changeAuthority'>
+        登录代表您已同意
+        <text style='color:#F79C4C;' catchtap='showProtocal'>点点餐用户协议</text>
+        <text style='color:#F79C4C;' catchtap='showPrivacy'>、隐私政策</text>
       </view>
     </view>
-
-
-
-
-
-
-
+  </view>
 </view>

@@ -328,16 +328,14 @@ Page({
     let menutypeIndex = e.currentTarget.dataset.menutypeindex; // 餐品类别的index
     let foodIndex = e.currentTarget.dataset.foodindex; // 在menutypeIndex的foods的index
 
-    let tmp_oneFood = this.data.allMenuData.foodList[menutypeIndex].foodList[
-      foodIndex
-    ];
+    let tmp_oneFood =
+      this.data.allMenuData.foodList[menutypeIndex].foodList[foodIndex];
     //  不大于0也不显示减图标啊，所以这里应该可以不用判断。还是判断下吧，因为可能用户会点的很快，这样就减为负数了。
     // 应该是下面所有的操作都是在减1之后
     if (tmp_oneFood.foodCount > 0) {
       tmp_oneFood.foodCount -= 1;
-      this.data.allMenuData.foodList[menutypeIndex].foodList[
-        foodIndex
-      ] = tmp_oneFood;
+      this.data.allMenuData.foodList[menutypeIndex].foodList[foodIndex] =
+        tmp_oneFood;
       // 总的数目减1
       let temptotalCount = this.data.totalCount - 1;
 
@@ -403,11 +401,10 @@ Page({
       if (tmp_oneFood.foodCount == 0) {
         let tempselectFoodsIndex = this.data.selectedFoodsIndex;
 
-        tempselectFoodsIndex.foodList[
-          menutypeIndex
-        ] = tempselectFoodsIndex.foodList[menutypeIndex].filter((item) => {
-          return item != foodIndex;
-        });
+        tempselectFoodsIndex.foodList[menutypeIndex] =
+          tempselectFoodsIndex.foodList[menutypeIndex].filter((item) => {
+            return item != foodIndex;
+          });
 
         this.setData({
           selectedFoodsIndex: tempselectFoodsIndex,
@@ -421,9 +418,8 @@ Page({
     let foodIndex = e.currentTarget.dataset.foodindex; // 在menutypeIndex的foods的index
 
     //被点击的那道菜，不知道要不要做是否为空判断
-    let tmp_oneFood = this.data.allMenuData.foodList[menutypeIndex].foodList[
-      foodIndex
-    ];
+    let tmp_oneFood =
+      this.data.allMenuData.foodList[menutypeIndex].foodList[foodIndex];
 
     // 考虑库存和限购
     let canAddFlag = true;
@@ -457,9 +453,8 @@ Page({
       tmp_oneFood.foodCount += 1; // 需不需要判断库存
 
       // 先menu增1
-      this.data.allMenuData.foodList[menutypeIndex].foodList[
-        foodIndex
-      ] = tmp_oneFood;
+      this.data.allMenuData.foodList[menutypeIndex].foodList[foodIndex] =
+        tmp_oneFood;
 
       // 然后动画
 
@@ -633,17 +628,15 @@ Page({
 
     let tmp_selectedFoodIndex = e.currentTarget.dataset.selectedfoodindex;
 
-    let tmp_oneFood = this.data.allMenuData.foodList[menutypeIndex].foodList[
-      foodIndex
-    ];
+    let tmp_oneFood =
+      this.data.allMenuData.foodList[menutypeIndex].foodList[foodIndex];
     //  不大于0也不显示减图标啊，所以这里应该可以不用判断。还是判断下吧，因为可能用户会点的很快，这样就减为负数了。
     // 应该是下面所有的操作都是在减1之后
     if (tmp_oneFood.foodCount > 0) {
       tmp_oneFood.foodCount -= 1;
 
-      this.data.allMenuData.foodList[menutypeIndex].foodList[
-        foodIndex
-      ] = tmp_oneFood;
+      this.data.allMenuData.foodList[menutypeIndex].foodList[foodIndex] =
+        tmp_oneFood;
       // 总的数目减1
       let tmptotalCount = this.data.totalCount - 1;
 
@@ -697,9 +690,8 @@ Page({
           : 0;
 
       // 购物车中的减1
-      let tmp_selectedFood = this.data.selectedFoodsIndex.selectedFoods[
-        tmp_selectedFoodIndex
-      ];
+      let tmp_selectedFood =
+        this.data.selectedFoodsIndex.selectedFoods[tmp_selectedFoodIndex];
       tmp_selectedFood.foodCount--;
       tmp_selectedFood.foodTotalPrice = parseFloat(
         (tmp_selectedFood.foodTotalPrice - tmp_selectedFood.foodPrice).toFixed(
@@ -712,9 +704,8 @@ Page({
           tmp_selectedFood.foodOriginalPrice
         ).toFixed(2)
       );
-      this.data.selectedFoodsIndex.selectedFoods[
-        tmp_selectedFoodIndex
-      ] = tmp_selectedFood;
+      this.data.selectedFoodsIndex.selectedFoods[tmp_selectedFoodIndex] =
+        tmp_selectedFood;
       this.data.selectedFoodsIndex.deductionMoney = parseFloat(
         new_deduction.toFixed(2)
       );
@@ -733,11 +724,10 @@ Page({
       // 是不是也不用删除，我都判断了
       if (tmp_oneFood.foodCount == 0) {
         let tempselectFoodsIndex = this.data.selectedFoodsIndex;
-        tempselectFoodsIndex.foodList[
-          menutypeIndex
-        ] = tempselectFoodsIndex.foodList[menutypeIndex].filter((item) => {
-          return item != foodIndex;
-        });
+        tempselectFoodsIndex.foodList[menutypeIndex] =
+          tempselectFoodsIndex.foodList[menutypeIndex].filter((item) => {
+            return item != foodIndex;
+          });
 
         this.setData({
           selectedFoodsIndex: tempselectFoodsIndex,
@@ -762,9 +752,8 @@ Page({
 
     let tmp_selectedFoodIndex = e.currentTarget.dataset.selectedfoodindex;
     //被点击的那道菜，不知道要不要做是否为空判断
-    let tmp_oneFood = this.data.allMenuData.foodList[menutypeIndex].foodList[
-      foodIndex
-    ];
+    let tmp_oneFood =
+      this.data.allMenuData.foodList[menutypeIndex].foodList[foodIndex];
 
     // 考虑库存和限购
     let canAddFlag = true;
@@ -813,9 +802,8 @@ Page({
       );
       tmp_oneFood.foodTotalOriginalPrice = tmpFoodTotalOriginalPrice;
 
-      this.data.allMenuData.foodList[menutypeIndex].foodList[
-        foodIndex
-      ] = tmp_oneFood;
+      this.data.allMenuData.foodList[menutypeIndex].foodList[foodIndex] =
+        tmp_oneFood;
 
       let tmptotalCount = this.data.totalCount + 1; //购物车中总数加1
       this.setData({
@@ -876,9 +864,8 @@ Page({
           ? tmptotalMoney - tmp_totalMoneyRealDeduction
           : 0;
       // 购物车中被增1的增1
-      let tmp_selectedFood = this.data.selectedFoodsIndex.selectedFoods[
-        tmp_selectedFoodIndex
-      ];
+      let tmp_selectedFood =
+        this.data.selectedFoodsIndex.selectedFoods[tmp_selectedFoodIndex];
       tmp_selectedFood.foodCount++;
       tmp_selectedFood.foodTotalPrice = parseFloat(
         (tmp_selectedFood.foodTotalPrice + tmp_selectedFood.foodPrice).toFixed(
@@ -891,9 +878,8 @@ Page({
           tmp_selectedFood.foodOriginalPrice
         ).toFixed(2)
       );
-      this.data.selectedFoodsIndex.selectedFoods[
-        tmp_selectedFoodIndex
-      ] = tmp_selectedFood;
+      this.data.selectedFoodsIndex.selectedFoods[tmp_selectedFoodIndex] =
+        tmp_selectedFood;
       this.data.selectedFoodsIndex.deductionMoney = parseFloat(
         new_deduction.toFixed(2)
       );
@@ -985,7 +971,8 @@ Page({
         let addSelectedFoods = {};
         addSelectedFoods[meal] = this.data.selectedFoodsIndex;
         addSelectedFoods[meal].name = this.data.mealTypeItemShow;
-        addSelectedFoods.count = this.data.selectedFoodsIndex.selectedFoods.length;
+        addSelectedFoods.count =
+          this.data.selectedFoodsIndex.selectedFoods.length;
         addSelectedFoods.mealDate = this.data.mealDate;
 
         //只要时间不是今天就是补明天的，相等就是补今天的

@@ -1,31 +1,31 @@
 <view wx:if='{{list.length>0}}'>
-    <scroll-view style='height:{{scrollHeight-10}}px;background:#F5F5F5;' bindscrolltolower='gotoNextPage' scroll-y>
-        <view style='padding: 20rpx; '>
-            <view class='wrapper' wx:for='{{list}}'>
-                <view class='top'>
-                    <image src='{{headImage}}' class='img'></image>
-                    <view class='name'>{{userName}}</view>
-                    <view class='time'>{{item.addTime}}</view>
-                </view>
-                <view class='content-wrapper' style='padding-top:22rpx;'>
-                    <view>
-                        <block wx:for='{{item.topicList}}' wx:for-item='topicItem'>
-                            <image src='/images/mine/jing1.png' style='width:42rpx;height:42rpx; position:relative;top:8rpx; '></image>
-                            <text class='content-dot'>{{topicItem.content}}</text>
-                        </block>
-                        <text class='content' wx:if='{{item.content}}'>{{item.content}}</text>
-                    </view>
-                    <view class='reply' wx:if='{{item.replyContent}}'>{{item.replyContent}}</view>
-                </view>
-            </view>
+  <scroll-view style='height:{{scrollHeight-10}}px;background:#F5F5F5;' bindscrolltolower='gotoNextPage' scroll-y>
+    <view style='padding: 20rpx; '>
+      <view class='wrapper' wx:for='{{list}}'>
+        <view class='top'>
+          <image src='{{headImage}}' class='img'></image>
+          <view class='name'>{{userName}}</view>
+          <view class='time'>{{item.addTime}}</view>
         </view>
-    </scroll-view>
-    <view style='background:#F5F5F5;height:{{windowHeight-scrollHeight+10}}px; '>
-        <view bindtap='gotoSay' class='button'>我要反馈</view>
+        <view class='content-wrapper' style='padding-top:22rpx;'>
+          <view>
+            <block wx:for='{{item.topicList}}' wx:for-item='topicItem'>
+              <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/mine/jing1.png' style='width:42rpx;height:42rpx; position:relative;top:8rpx; '></image>
+              <text class='content-dot'>{{topicItem.content}}</text>
+            </block>
+            <text class='content' wx:if='{{item.content}}'>{{item.content}}</text>
+          </view>
+          <view class='reply' wx:if='{{item.replyContent}}'>{{item.replyContent}}</view>
+        </view>
+      </view>
     </view>
+  </scroll-view>
+  <view style='background:#F5F5F5;height:{{windowHeight-scrollHeight+10}}px; '>
+    <view bindtap='gotoSay' class='button'>我要反馈</view>
+  </view>
 </view>
 <view style='height:{{windowHeight}}px;background:#F5F5F5;' wx:else>
-    <image src='/images/mine/nocomplaint.png' style='width:244rpx;height:244rpx;margin:236rpx 0 2rpx 250rpx; '></image>
-    <view class='nono'>暂无~</view>
-    <view class='no-button' bindtap='gotoSay'>我要反馈</view>
+  <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/mine/nocomplaint.png' style='width:244rpx;height:244rpx;margin:236rpx 0 2rpx 250rpx; '></image>
+  <view class='nono'>暂无~</view>
+  <view class='no-button' bindtap='gotoSay'>我要反馈</view>
 </view>
