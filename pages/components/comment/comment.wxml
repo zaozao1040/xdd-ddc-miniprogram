@@ -15,7 +15,6 @@
     <view class='one-food' wx:for='{{comment.orderFoodEvaluates}}' wx:key='index'>
 
         <view class='food-name'>{{item.foodName}} x{{item.foodQuantity}}</view>
-
         <view class='flex-a'>
             <view class='title'>餐品评价</view>
             <image src='/images/order/staryes.png' class='star' wx:for='{{item.foodStar}}' wx:for-index='starIndex'

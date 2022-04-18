@@ -7,10 +7,7 @@
     "lin-ui": "^0.9.4",
     "moment": "^2.29.1"
   },
-  "devDependencies": {
-    "tailwindcss": "^2.2.16",
-    "tailwindcss-miniprogram-preset": "^2.1.2"
-  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "git": "git add . ; git commit -m '提交' ; git push",
