@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "@vant/weapp": "^1.10.2",
     "lin-ui": "^0.9.4",
     "moment": "^2.29.1"
   },

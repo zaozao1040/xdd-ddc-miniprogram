@@ -2,7 +2,8 @@
   "usingComponents": {
     "c-topic": "./components/topic/topic",
     "c-tuijian": "./components/tuijian/tuijian",
-    "c-mealDateType": "../components/mealDateType/mealDateType"
+    "c-mealDateType": "../components/mealDateType/mealDateType",
+    "van-button": "@vant/weapp/button/index"
   },
   "navigationBarBackgroundColor": "#f79c4c",
   "navigationBarTextStyle": "white",
