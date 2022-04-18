@@ -67,6 +67,13 @@
               <image src="/images/home/home_projection.png" style="height:100rpx;width:600rpx;"></image>
           </view>
       </view>
+
+      <!-- 开心农场 3.0 -->
+      <block wx:if="{{showNc}}">
+        <view class="mx-qsm mb-qtn rounded-sm" catchtap="clickNc">
+          <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/home/kxnc3.png" class="rounded-sm" style="width:100%; " mode="widthFix"></image>
+        </view>
+      </block>
       <!-- 餐品类别推荐 autoplay-->
       
       <block wx:if="{{canpintuijianList.length>0}}">

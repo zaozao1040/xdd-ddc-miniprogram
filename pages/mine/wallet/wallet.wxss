@@ -120,7 +120,7 @@
      line-height: 28rpx;
  }
  
- .list-item {
+ .list-item-style {
      display: flex;
      justify-content: space-between;
      padding: 30rpx 0;

@@ -200,7 +200,23 @@ Page({
     _this.getPersonalConfig();
     // _this.getCartList();
     _this.getPayInfo();
-    if (option.typeId) {
+    if (option.nongchangTypeId) {
+      _this.setData(
+        {
+          recentData: {
+            mealDate: option.recentMealDate,
+            mealType: option.recentMealType,
+          },
+          promptInfo: {
+            mealDate: option.recentMealDate,
+            typeId: option.nongchangTypeId,
+          },
+        },
+        () => {
+          _this.getMealDateList();
+        }
+      );
+    } else if (option.typeId) {
       _this.getCanpinInfo(option.typeId);
     } else if (option.recentMealType) {
       _this.setData(
@@ -628,11 +644,13 @@ Page({
     }
   },
   //弹窗购物车不允许同时存在普通餐和补餐
-  showClearCard() {
+  showClearCard(title, content) {
     let _this = this;
+    let tmp_title = title || "是否清空购物车?";
+    let tmp_content = content || "普通餐、补餐 不可同时下单";
     wx.showModal({
-      title: "是否清空购物车?",
-      content: "普通餐、补餐 不可同时下单",
+      title: tmp_title,
+      content: tmp_content,
       confirmText: "清空",
       cancelText: "取消操作",
       success: function (res) {
@@ -643,6 +661,7 @@ Page({
       complete: function (res) {},
     });
   },
+
   // 购物车 点击加号， 将餐品加一
   clickAddOneFood(e) {
     let _this = this;
@@ -807,6 +826,12 @@ Page({
             } else if (resData.data.code === 4068) {
               // 4068 是检测到购物车同时加入了补餐和普通餐的报错
               _this.showClearCard();
+            } else if (resData.data.code === 10001) {
+              // 10001 是检测开心农场餐品和非开心农场同时加入购物车
+              _this.showClearCard(
+                "开心农场餐品只可单独下单",
+                "是否清空购物车?"
+              );
             } else {
               wx.showToast({
                 title: resData.data.msg,

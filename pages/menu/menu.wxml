@@ -72,12 +72,19 @@
               <!-- 左边餐品分类 -->
               <scroll-view class="menu-left" scroll-y style="height: {{ windowHeight - 2 }}px;">
                 <view wx:for="{{ foodTypeList }}" wx:for-item="foodTypeItem" wx:for-index="foodTypeIndex" wx:key="foodTypeIndex" class=" {{ activeFoodType == foodTypeIndex ? 'left-item-active' : 'left-item'}}" data-foodtypeindex="{{ foodTypeIndex }}" bindtap="clickFoodType" >
-                  <view class="menu-name-image" wx:if='{{ foodTypeItem.typePicture}}'>
-                    <image src='{{foodTypeItem.typePicture}}' style='width:28rpx;height:28rpx;'>
-                    </image>
-                    <view class="menu-name"> {{ foodTypeItem.typeName }}</view>
-                  </view>
-                  <view class="menu-name" wx:else>{{ foodTypeItem.typeName }}</view>
+                  <block wx:if='{{ foodTypeItem.typePicture}}'>
+                    <view class="menu-name-image">
+                      <image src='{{foodTypeItem.typePicture}}' style='width:28rpx;height:28rpx;'>
+                      </image>
+                      <view class="menu-name"> {{ foodTypeItem.typeName }}</view>
+                    </view>
+                  </block>
+                  <block wx:else>
+                    <view class="flex flex-col ites-center">
+                      <view class="menu-name">{{ foodTypeItem.typeName }}</view>
+                      <view wx:if="{{ foodTypeItem.typeName=='开心农场'}}" class="text-qsuccess text-qmn">{{ '(疫情特供)'}}</view>
+                    </view>
+                  </block>
                 </view>
                 <view style="height:340rpx;"></view>
               </scroll-view>

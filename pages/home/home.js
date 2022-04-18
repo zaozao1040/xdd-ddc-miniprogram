@@ -93,6 +93,8 @@ Page({
       takeMealTime: null,
       timeShareStatus: null,
     },
+    // 是否展示开心农场
+    showNc: false,
   },
 
   navigateToMenu() {
@@ -145,6 +147,20 @@ Page({
       () => {},
       true
     );
+  },
+  //获取是否开心农场权限
+  getNongchang: function () {
+    let _this = this;
+    let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
+    let organizeCode = tmp_userInfo ? tmp_userInfo.organizeCode : "";
+    let param = {
+      url: "/food/getHasKaiXin?organizeCode=" + organizeCode,
+    };
+    requestModel.request(param, (data) => {
+      _this.setData({
+        showNc: data,
+      });
+    });
   },
   clickStartMeal: function () {
     // 分时处理
@@ -205,6 +221,22 @@ Page({
         this.gotoMenu();
       }
     }
+  },
+  // 农场点餐
+  clickNc: function () {
+    let url = "/pages/menu/menu";
+    // 暂时放开下面这一段，也就是不用后端推荐 因为合并补餐和普通餐 其实不需要推荐了 直接定位数组第一个就行
+    if (this.data.recentData) {
+      url =
+        "/pages/menu/menu?recentMealDate=" +
+        this.data.recentData.mealDate +
+        "&recentMealType=" +
+        this.data.recentData.mealType +
+        "&nongchangTypeId=118";
+    }
+    wx.navigateTo({
+      url,
+    });
   },
   gotoPage: function (e) {
     let page = e.currentTarget.dataset.item.page;
@@ -286,6 +318,7 @@ Page({
       },
     });
     _this.loadData(options);
+    _this.getNongchang();
     _this.getSwiperList();
     _this.getNotice();
     _this.getCanpintuijianList();

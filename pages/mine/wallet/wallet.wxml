@@ -88,7 +88,7 @@
     个人充值
   </view>
   <view style="border-top: 20rpx solid #f5f5f5; padding: 0 30rpx">
-    <view class="list-item" bindtap="gotoDetail" data-type="personal">
+    <view class="list-item-style" bindtap="gotoDetail" data-type="personal">
       <view class="list-left">个人点餐币明细</view>
       <image
         src="/images/mine/xiangyou.png"
@@ -96,7 +96,7 @@
       ></image>
     </view>
     <view
-      class="list-item"
+      class="list-item-style"
       bindtap="gotoDetail"
       data-type="organize"
       wx:if="{{ organizeBalanceFlag }}"
@@ -107,7 +107,7 @@
         style="margin-top: 6rpx; width: 34rpx; height: 34rpx"
       ></image>
     </view>
-    <view class="list-item" bindtap="gotoDetail" data-type="gift">
+    <view class="list-item-style" bindtap="gotoDetail" data-type="gift">
       <view class="list-left">赠送点餐币明细</view>
       <image
         src="/images/mine/xiangyou.png"

@@ -999,6 +999,13 @@
           "name": "",
           "pathName": "pages/mine/mine",
           "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/menu/foodDetail/foodDetail",
+          "query": "foodCode=FOOD646743731713736704&mealDate=2022-04-18&from=menu",
           "scene": null,
           "launchMode": "default"
         }

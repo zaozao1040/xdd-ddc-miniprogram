@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .qbb {
+    border-bottom: solid 1rpx #F1F1F1;
+  }  
+  .qbbdark {
+    border-bottom: solid 1rpx #e2e2e2;
+  }  
+  .qbblight {
+    border-bottom: solid 1rpx #c2c2c2;
+  }   
+  .qbb:last-child {
+    border-bottom: none;
+  }
+  .qbblc {
+    border-bottom: solid 1rpx #F1F1F1;
+  }   
+  .qbblc:last-child {
+    border-bottom: none;
+  }
+  .qb {
+    border: solid 1rpx #F1F1F1;
+  }
+  .qbdark {
+    border: solid 5rpx #7B7FFF!important;
+  }
+  .qbbase {
+    border: solid 5rpx #8F89FF!important;
+  }
+  .qbbase-1 {
+    border: solid 1rpx #8F89FF!important;
+  }
+  .qbciyao {
+    border: solid 5rpx #999999!important;
+  }
+  .qbzhanwei {
+    border: solid 5rpx #cccccc!important;
+  }
+  /* 布局 */
+  .qcenter{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+  .qxcenter{
+    display:flex;
+    justify-content:center;
+  }
+  .qycenter{
+    display:flex;
+    align-items:center;
+  }
+}
+@layer utilities {
+
+}
+
+@layer components {
+  .qtitle{
+    @apply text-qchanggui;
+    @apply font-bold;
+    @apply text-lg;
+  }
+  .qtitlebase{
+    @apply text-qbase;
+    @apply font-bold;
+    @apply text-lg;
+  }
+  .qtitlechanggui{
+    @apply text-qchanggui;
+    @apply font-medium;
+    @apply text-lg;
+  }
+  .qzfx{
+    width:100%;
+    height:0;
+    padding-bottom:100%;
+  }
+  .qshenglue{
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+}

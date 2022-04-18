@@ -185,11 +185,12 @@
 
 .left-item {
   background: #f7f8f8;
-  height: 92rpx;
+  min-height: 92rpx;
   width: 160rpx;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 27rpx;
 }
 
 .left-item-active {
@@ -197,12 +198,12 @@
   justify-content: center;
   align-items: center;
   background: #ffffff;
-  height: 92rpx;
+  min-height: 92rpx;
   width: 160rpx;
-  line-height: 92rpx;
   text-align: center;
   font-family: PingFang-SC-Regular;
-  font-size: 15px;
+
+  font-size: 30rpx;
   color: #f79c4c;
   letter-spacing: 0;
 }
@@ -225,11 +226,8 @@
 }
 
 .menu-name {
-  line-height: 34rpx;
   text-align: center;
-  font-family: PingFang-SC-Regular;
-  font-size: 24rpx;
-  color: #666666;
+  font-family: PingFang-SC-Regular; 
   letter-spacing: 0;
 }
 

@@ -47,11 +47,11 @@
                       <view wx:if="{{isNGO||from=='bucan'}}" class="num-control-stock"></view>
                       <view wx:else class="add-to-wrapper" bindtap="handleAddtoCart">加入购物车</view>
                   </view>
-                  <view class="prompt-wrapper">
-                      <view style='width:38rpx;height:42rpx;margin:18rpx 10rpx 0 20rpx;'>
-                          <image src='/images/menu/lamp.png' style='width:38rpx;height:42rpx;'></image>
-                      </view>
-                      <view class='prompt'><text style='color:#333;'>提示</text>：{{foodInfo.prompt}}</view>
+                  <view wx:if="{{foodInfo.prompt}}" class="prompt-wrapper">
+                    <view style='width:38rpx;height:42rpx;margin:18rpx 10rpx 0 20rpx;'>
+                        <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/lamp.png' style='width:38rpx;height:42rpx;'></image>
+                    </view>
+                    <view class='prompt'><text style='color:#333;'>提示</text>：{{foodInfo.prompt}}</view>
                   </view>
                                     
               </view>
