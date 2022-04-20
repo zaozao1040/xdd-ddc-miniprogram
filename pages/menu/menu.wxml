@@ -4,7 +4,7 @@
   </view>
   <view wx:else>
     <scroll-view class="wrapper" scroll-y style="height:{{ windowHeight }}px" bindscroll="onScrollOut">
-      <!-- <view class="flex">
+      <!-- <view class="flex" style='width:100%;height:{{totalBarHeight}}px;'>
         <view class="ml-qtn qb round-full px-qtn py-qttn" class="{{activeMode == 100?'active-day-line':''}}">
           <view class="">工作餐</view>
         </view>

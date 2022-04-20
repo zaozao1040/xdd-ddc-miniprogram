@@ -307,10 +307,10 @@ Page({
     requestModel.request(param, (data) => {
       if (data) {
         wx.showModal({
-          title: "提示",
+          title: "支付提示",
           content: data,
           showCancel: false,
-          confirmText: "我知道了",
+          confirmText: "知道了",
         });
       }
     });
@@ -482,6 +482,7 @@ Page({
           let tmp_payType = _this.data.payInfo.payType;
           let paramPay = {
             url: config.baseUrlPlus + "/order/generateOrder",
+            logKey: "/order/generateOrder", //log用
             method: "post",
             data: {
               standardPayFlag: _this.data.selectSt,
