@@ -1,6 +1,9 @@
 <view class="modulebox-background-wrapper">
   <view class="warpper">
     <view class="title">{{ title }}</view>
+    <view wx:if="{{ subtitle }}" class="subtitle">
+      {{ subtitle }}
+    </view>
     <slot></slot>
     <view class="content" wx:if="{{ content }}">
       <view>

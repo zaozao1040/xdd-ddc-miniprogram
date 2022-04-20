@@ -11,7 +11,14 @@
   align-items: center;
   justify-content: center;
 }
-
+.subtitle{
+  display: flex;
+  align-items: center;
+  color: red;
+  font-size: 28rpx;
+  margin: 0 10rpx 30rpx 10rpx;
+  justify-content: center;
+}
 .warpper {
   background: #fff;
   border-radius: 8rpx;
