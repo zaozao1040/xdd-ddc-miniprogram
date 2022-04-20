@@ -14,7 +14,10 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "git": "git add . ; git commit -m '提交' ; git push",
+    "gp": "git add . ; git commit -m '[qn - branch]提交' ; git push",
+    "gpm": "git add . ; git commit -m '[qn - branch]提交 - 为了master合并' ; git push;git checkout master;git merge origin/qiuning;git push;git checkout qiuning;",
+    "gfm": "git fetch --all; git reset --hard origin/master",
+    "gfq": "git fetch --all; git reset --hard origin/qiuning",
     "tw": "npx tailwindcss --no-autoprefixer -i ./tailwind.css -o ./output.wxss --watch"
   },
   "repository": {

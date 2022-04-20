@@ -52,6 +52,7 @@ Page({
     //是否补餐
     appendMealFlag: false,
     addressListLength: 1,
+    previewInfo: {}, //这里记录一下previewInfo接口返回的原始数据
   },
   onLoad: function (options) {
     this.setData({
@@ -143,6 +144,7 @@ Page({
             },
             selectSt: resData.data.data.alllowStandardPayFlag, //
             appendMealFlag: resData.data.data.appendMealFlag, //是否补餐
+            previewInfo: resData.data.data,
           },
           () => {
             _this.refreshUserFinance();
@@ -494,6 +496,7 @@ Page({
               // appendMealFlag: _this.data.orderType == "bucan" ? true : false,
               appendMealFlag: _this.data.appendMealFlag,
               order: _this.getOrderListParam(),
+              kaiXinFlag: _this.data.previewInfo.kaiXinFlag,
             },
           };
 
