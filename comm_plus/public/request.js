@@ -36,11 +36,10 @@ export function request(params, sCallback, eCallback, cCallback) {
       sCallback && sCallback(result);
       // 下面处理日志
       if (logUrlList.indexOf(params.logKey) !== -1) {
-        if (result.data && result.data.code == 200) {
+        if (result.data && result.data.code !== 200) {
           let userInfo = wx.getStorageSync("userInfo").userInfo;
-          let tmp_obj = {
-            a_key: params.logKey,
-            b_user:
+          let obj = {
+            a_user:
               userInfo.userName +
               "/" +
               userInfo.organizeName +
@@ -48,23 +47,15 @@ export function request(params, sCallback, eCallback, cCallback) {
               userInfo.userCode +
               "/" +
               userInfo.organizeCode,
-            c_req: {
+            b_req: {
               url: params.url,
-              method: params.method || "GET",
               data: tmp_data,
-              header: {
-                "content-type": "application/json",
-                "X-Requested-With": "XMLHttpRequest",
-              },
             },
-            d_resp: result.data,
+            c_resp: result.data,
           };
-          let obj = {
-            ...tmp_obj,
-            e_json: JSON.stringify(tmp_obj),
-          };
-          logger.error("REQ", obj);
-          console.log("####### logger ####### ", obj);
+
+          logger.error(params.logKey, obj);
+          console.log("####### logger error ####### ", obj);
         }
       }
     },

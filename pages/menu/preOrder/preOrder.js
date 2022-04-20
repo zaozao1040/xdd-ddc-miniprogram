@@ -119,6 +119,7 @@ Page({
     let _this = this;
     let param = {
       url: config.baseUrlPlus + "/v3/cart/previewOrder",
+      logKey: "/v3/cart/previewOrder",
       method: "post",
       data: {
         userCode: _this.data.userInfo.userCode,
