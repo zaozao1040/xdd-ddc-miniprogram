@@ -44,6 +44,8 @@ export function request(params, sCallback, eCallback, cCallback) {
               "/" +
               userInfo.organizeName +
               "/" +
+              userInfo.phoneNumber +
+              "/" +
               userInfo.userCode +
               "/" +
               userInfo.organizeCode,

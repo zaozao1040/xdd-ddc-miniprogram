@@ -77,7 +77,6 @@ Page({
     };
 
     requestModel.request(param, (data) => {
-      console.log("xxx", data);
       _this.setData({
         addressListLength: data.length,
       });
