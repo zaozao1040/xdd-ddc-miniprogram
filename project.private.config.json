@@ -1020,6 +1020,13 @@
           "name": "",
           "pathName": "pages/order/order",
           "query": "content=%E8%AE%A2%E5%8D%95%E5%B7%B2%E7%94%9F%E6%88%90%2C%E8%AF%B7%E5%B0%BD%E5%BF%AB%E6%94%AF%E4%BB%98",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/order/order",
+          "query": "content=%E8%AE%A2%E5%8D%95%E5%B7%B2%E7%94%9F%E6%88%90%2C%E8%AF%B7%E5%B0%BD%E5%BF%AB%E6%94%AF%E4%BB%98",
           "scene": null,
           "launchMode": "default"
         }
