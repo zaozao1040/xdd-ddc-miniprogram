@@ -56,7 +56,7 @@ export function request(params, sCallback, eCallback, cCallback) {
             },
             c_resp: result.data,
           };
-          logger.error(userInfo.userName, obj);
+          logger.error(params.logKey, obj);
           console.log("####### error ####### ", params.url);
         }
       }
@@ -79,7 +79,7 @@ export function request(params, sCallback, eCallback, cCallback) {
           },
           c_resp: result.data,
         };
-        logger.info(userInfo.userName, obj);
+        logger.info(params.logKey, obj);
         console.log("####### info ####### ", params.url);
       }
     },
