@@ -1,52 +1,35 @@
 <view class="modulebox-background-wrapper">
   <view class="warpper">
     <view class="title">{{ title }}</view>
+    <view wx:if="{{ subtitle }}" class="subtitle">{{ subtitle }}</view>
     <slot></slot>
     <view class="content" wx:if="{{ content }}">
-      <view>
-        {{ content }}
-      </view>
+      <view>{{ content }}</view>
       <view style="color: #f79c4c">{{ money }}</view>
     </view>
     <view class="content-bt" wx:if="{{ content1 }}">
-      <view>
-        {{ content1 }}
-      </view>
+      <view>{{ content1 }}</view>
       <view style="color: #f79c4c">{{ money1 }}</view>
     </view>
     <view class="content-bt" wx:if="{{ content2 }}">
-      <view>
-        {{ content2 }}
-      </view>
+      <view>{{ content2 }}</view>
       <view style="color: #f79c4c">{{ money2 }}</view>
     </view>
     <view class="content-bt" wx:if="{{ content3 }}">
-      <view>
-        {{ content3 }}
-      </view>
+      <view>{{ content3 }}</view>
       <view style="color: #f79c4c">{{ money3 }}</view>
     </view>
     <view class="content-bt" wx:if="{{ content4 }}">
-      <view>
-        {{ content4 }}
-      </view>
+      <view>{{ content4 }}</view>
       <view style="color: #f79c4c">{{ money4 }}</view>
     </view>
     <view class="content-bt" wx:if="{{ content5 }}">
-      <view style="white-space: nowrap">
-        {{ content5 }}
-      </view>
+      <view style="white-space: nowrap">{{ content5 }}</view>
     </view>
-    <view wx:if="{{ content5 }}" style="color: #f79c4c; margin: 0 40rpx">
-      {{ money5 }}
-    </view>
+    <view wx:if="{{ content5 }}" style="color: #f79c4c; margin: 0 40rpx">{{ money5 }}</view>
     <view class="button-display">
       <view class="button-left" bindtap="closeModal">{{ cancel }}</view>
-      <view
-        class="button-right"
-        bindtap="handleConfirm"
-        data-modalparam="{{ params }}"
-      >
+      <view class="button-right" bindtap="handleConfirm" data-modalparam="{{ params }}">
         {{ confirm }}
       </view>
     </view>

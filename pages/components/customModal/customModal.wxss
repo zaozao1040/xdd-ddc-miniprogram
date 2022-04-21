@@ -18,7 +18,14 @@
   z-index: 1001;
   width: 500rpx;
 }
-
+.subtitle{
+  display: flex;
+  align-items: center;
+  color: red;
+  font-size: 28rpx;
+  margin: 0 10rpx 30rpx 10rpx;
+  justify-content: center;
+}
 .title {
   font-size: 34rpx;
   font-family: PingFang-SC-Medium;

@@ -138,6 +138,7 @@ class base {
     9001: "建议内容不可为空",
     9002: "建议内容长度过长",
     9003: "建议提交失败，请重试",
+    10002: "支付方式错误",
   };
   //hasToast表示sCallback回调函数中有没有wx.showToast
   //有的话，就在回调函数中执行wx.hideLoading,有的话hasToast=true

@@ -5,6 +5,10 @@ Component({
       type: String,
       value: "提示",
     },
+    subtitle: {
+      type: String,
+      value: null,
+    },
     content: String,
     content1: String,
     content2: String,

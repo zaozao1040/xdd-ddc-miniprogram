@@ -180,8 +180,6 @@
     </view>
     <view class='pay-button' bindtap="clickPay">确定支付</view>
   </view>
-  <!-- --------------------------------------- 下面是各种 弹出层 --------------------------------------- -->
-  <!-- --------------------------------------- 下面是各种 子组件 --------------------------------------- -->
   <!-- 弹出层 填写钱包支付提示 -->
-  <c-custom-modal title='下单提示' wx:if='{{balanceConfirmFlag}}' bind:closemodal='cancelPayBalance' bind:handleconfirm='confirmPayBalance' content1='企业点餐币' money1='￥{{payInfo.organizePayPrice}}' content2='个人点餐币' money2='￥{{payInfo.userPayPrice}}' content3='赠送点餐币' money3='￥{{payInfo.presentPayPrice}}' content4='微信支付' money4='￥{{payInfo.weiXinPayPrice}}' content5='取餐地址' money5='{{address}}'></c-custom-modal>
+  <c-custom-modal title='下单提示' subtitle="{{previewInfo.kaiXinFlag?'开心农场订单只可使用个人点餐币':''}}" wx:if='{{balanceConfirmFlag}}' bind:closemodal='cancelPayBalance' bind:handleconfirm='confirmPayBalance' content1='企业点餐币' money1='￥{{payInfo.organizePayPrice}}' content2='个人点餐币' money2='￥{{payInfo.userPayPrice}}' content3='赠送点餐币' money3='￥{{payInfo.presentPayPrice}}' content4='微信支付' money4='￥{{payInfo.weiXinPayPrice}}' content5='取餐地址' money5='{{address}}'></c-custom-modal>
 </view>
