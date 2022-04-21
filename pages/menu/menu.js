@@ -11,6 +11,7 @@ Page({
     isNGO: false,
     //
     windowHeight: 500,
+    totalBarHeight: getApp().globalData.totalBarHeight,
     scrollToView: "id_0",
     listHeight: [], //这个数组记录每个餐类的"之前所有餐类描述+所有具体餐品"的占用高度值
     cartHeight: 100, //购物车的高度 设置为2/1windowHeight的高度，最高为2/1windowHeight的高度

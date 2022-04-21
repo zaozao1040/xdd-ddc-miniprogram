@@ -1,5 +1,6 @@
 {
-    "navigationBarTitleText": "开始订餐",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTextStyle": "black"
+  "navigationBarTitleText": "开始订餐",
+  "navigationBarBackgroundColor": "#fff",
+  "navigationBarTextStyle": "black",
+  "navigationStyle": "custom"
 }

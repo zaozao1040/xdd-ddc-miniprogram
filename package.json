@@ -13,7 +13,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "git": "git add . ; git commit -m '提交' ; git push",
+    "gp": "git add . ; git commit -m '提交' ; git push",
     "tw": "npx tailwindcss --no-autoprefixer -i ./tailwind.css -o ./output.wxss --watch"
   },
   "repository": {

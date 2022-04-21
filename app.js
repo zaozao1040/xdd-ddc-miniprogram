@@ -10,7 +10,7 @@ App({
     baseUrlFlyingCarpet: "https://smartcabinet.91dcan.cn", //飞毯线上真实数据，发布使用！！！！！！！！！！
     //  baseUrlFlyingCarpet: "http://10.168.1.197:9084", //赵家兴
 
-    version: "v3.2.2",
+    version: "v3.4.0",
 
     xddOrgnaizeCode: "ORG530051032172986376", // xdd的orgnaizeCode,线上真实数据，测试用！！！！！！！！！！
     ningxiaOrgnaizeCode: "ORG717398064662446080", // 宁夏的orgnaizeCode,线上真实数据，发布使用！！！！！！！！！！
@@ -38,12 +38,35 @@ App({
     publicParam: {},
     // 商务餐
     swcItem: {},
+
+    // 屏幕尺寸 标题栏高度等
+    statusBarHeight: 0,
+    titleBarHeight: 0,
+    totalBarHeight: 0,
   },
 
   /**
    * 当小程序初始化完成时，会触发 onLaunch（全局只触发一次）
    */
   onLaunch: function () {
+    let _this = this;
+    //计算自定义状态栏高度
+    wx.getSystemInfo({
+      success: (res) => {
+        _this.globalData.statusBarHeight = res.statusBarHeight;
+        _this.globalData.titleBarHeight =
+          wx.getMenuButtonBoundingClientRect().bottom +
+          wx.getMenuButtonBoundingClientRect().top -
+          res.statusBarHeight * 2;
+        _this.globalData.totalBarHeight =
+          res.statusBarHeight + _this.globalData.titleBarHeight;
+        console.log("自定义标题栏高度: ", _this.globalData.totalBarHeight);
+      },
+      fail() {
+        _this.globalData.statusBarHeight = 0;
+        _this.globalData.titleBarHeight = 0;
+      },
+    });
     wx.loadFontFace({
       family: "PingFang-SC-Medium",
       source:
