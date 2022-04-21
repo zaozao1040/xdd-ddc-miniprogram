@@ -1,4 +1,5 @@
 import { logUrlErrorList, logUrlInfoList } from "./logUrl.js";
+
 const logManager = wx.getRealtimeLogManager();
 const logger = logManager.tag("plugin-onUserTapSth");
 
