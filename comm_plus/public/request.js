@@ -1,4 +1,4 @@
-import { logUrlList } from "./logUrl.js";
+import { logUrlErrorList, logUrlInfoList } from "./logUrl.js";
 const logManager = wx.getRealtimeLogManager();
 const logger = logManager.tag("plugin-onUserTapSth");
 
@@ -35,8 +35,9 @@ export function request(params, sCallback, eCallback, cCallback) {
     success: (result) => {
       sCallback && sCallback(result);
       // 下面处理日志
-      if (logUrlList.indexOf(params.logKey) !== -1) {
-        if (result.data && result.data.code !== 200) {
+
+      if (result.data && result.data.code !== 200) {
+        if (logUrlErrorList.indexOf(params.logKey) !== -1) {
           let userInfo = wx.getStorageSync("userInfo").userInfo;
           let obj = {
             a_user:
@@ -55,10 +56,31 @@ export function request(params, sCallback, eCallback, cCallback) {
             },
             c_resp: result.data,
           };
-
-          logger.error(params.logKey, obj);
-          console.log("####### logger error ####### ", obj);
+          logger.error(userInfo.userName, obj);
+          console.log("####### error ####### ", params.url);
         }
+      }
+      if (logUrlInfoList.indexOf(params.logKey) !== -1) {
+        let userInfo = wx.getStorageSync("userInfo").userInfo;
+        let obj = {
+          a_user:
+            userInfo.userName +
+            "/" +
+            userInfo.organizeName +
+            "/" +
+            userInfo.phoneNumber +
+            "/" +
+            userInfo.userCode +
+            "/" +
+            userInfo.organizeCode,
+          b_req: {
+            url: params.url,
+            data: tmp_data,
+          },
+          c_resp: result.data,
+        };
+        logger.info(userInfo.userName, obj);
+        console.log("####### info ####### ", params.url);
       }
     },
     fail: (error) => {
