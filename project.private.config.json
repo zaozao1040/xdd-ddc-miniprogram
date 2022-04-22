@@ -1027,6 +1027,20 @@
           "name": "",
           "pathName": "pages/menu/menu",
           "query": "recentMealDate=2022-04-22&recentMealType=DINNER&nongchangTypeId=118&groupId=4",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/menu/bucan",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/menu/bucan",
+          "query": "",
           "scene": null,
           "launchMode": "default"
         }

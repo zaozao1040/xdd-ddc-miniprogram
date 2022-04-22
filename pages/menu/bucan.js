@@ -65,6 +65,10 @@ Page({
           let weekCn = ["一", "二", "三", "四", "五", "六", "日"];
           let tmpActiveMealDate = "";
           resData.forEach((item, index) => {
+            // 这里不展示 ”明天“ 了
+            if (index == 1) {
+              return;
+            }
             let tmpDes = "";
             let tmpDay = moment().subtract(-index, "days");
             if (index == 0) {
