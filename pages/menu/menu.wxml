@@ -6,13 +6,13 @@
     <scroll-view class="wrapper" scroll-y style="height:{{ windowHeight }}px" bindscroll="onScrollOut">
       <view class="flex items-end mb-qtn" style='width:70%;height:{{totalBarHeight}}px;'>
         <view class="qcenter ml-qtn  pb-qtttn" bindtap='clickFanhui'>
-          <van-icon name="arrow-left" size="{{30}}" />
+          <van-icon name="arrow-left" color="{{'#f79c4c'}}" size="{{30}}" />
         </view>
         <view class="flex-1 flex items-end">
           <van-tabs class="flex-1 pb-qtttn" active="{{activeGroupId}}" bind:click="clickGroupId" type="{{'card'}}" color="{{'#f79c4c'}}" title-active-color="{{'#FFFFFF'}}">
-            <van-tab title="标准餐" name="{{100}}"></van-tab>
-            <van-tab title="零食小食" name="{{3}}"></van-tab>
-            <van-tab title="开心农场" name="{{4}}"></van-tab>
+            <van-tab title="工作餐" name="{{100}}"></van-tab>
+            <van-tab title="小食" name="{{3}}"></van-tab>
+            <van-tab title="农场" name="{{4}}"></van-tab>
           </van-tabs>
         </view>
       </view>
@@ -37,7 +37,7 @@
         </view>
         <block>
           <!-- 所有类型的餐 的时间都过了 啥餐都不能点 -->
-          <block wx:if='{{orderType == 4}}'>
+          <block wx:if='{{today==activeMealDate&&orderType == 4}}'>
             <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
               <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
             </view>
@@ -46,7 +46,7 @@
             </view>
           </block>
           <!-- 备用餐 -->
-          <block wx:elif='{{orderType == 3}}'>
+          <block wx:elif='{{today==activeMealDate&&orderType == 3}}'>
             <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
               <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
             </view>

@@ -59,6 +59,7 @@ Page({
     //
     orderType: 1, //点餐类型  1-普通餐 2-补餐 3-备用餐 4-啥餐也不能点 根据不同类型跳转不同页面 普通餐和补餐公用点餐页
     activeGroupId: 100, // 100 普通餐+商户餐  1 普通餐  2 商户餐 3 小食零食  4 开心农场
+    today: moment().format("YYYY-MM-DD"),
   },
 
   onLoad: function (option) {
@@ -391,7 +392,7 @@ Page({
           // 备用餐逻辑
           _this.setData({
             orderType: resData.orderType,
-            // orderType: 3,
+            foodTypeList: resData.foodTypeList,
           });
         } else {
           _this.setData(

@@ -1020,6 +1020,13 @@
           "name": "",
           "pathName": "pages/menu/menu",
           "query": "recentMealDate=2022-04-22&recentMealType=LUNCH",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/menu/menu",
+          "query": "recentMealDate=2022-04-22&recentMealType=DINNER&nongchangTypeId=118&groupId=4",
           "scene": null,
           "launchMode": "default"
         }
