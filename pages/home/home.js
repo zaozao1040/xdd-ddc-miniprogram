@@ -232,7 +232,7 @@ Page({
         this.data.recentData.mealDate +
         "&recentMealType=" +
         this.data.recentData.mealType +
-        "&nongchangTypeId=118";
+        "&nongchangTypeId=118&groupId=4";
     }
     wx.navigateTo({
       url,

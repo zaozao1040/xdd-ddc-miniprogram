@@ -137,6 +137,7 @@
 
     "van-button": "/miniprogram_npm/vant/button/index",
     "van-tab": "/miniprogram_npm/vant/tab/index",
-    "van-tabs": "/miniprogram_npm/vant/tabs/index"
+    "van-tabs": "/miniprogram_npm/vant/tabs/index",
+    "van-icon": "/miniprogram_npm/vant/icon/index"
   }
 }

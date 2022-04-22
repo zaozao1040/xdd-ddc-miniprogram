@@ -4,21 +4,17 @@
   </view>
   <view wx:else>
     <scroll-view class="wrapper" scroll-y style="height:{{ windowHeight }}px" bindscroll="onScrollOut">
-      <view class="flex items-end" style='width:70%;height:{{totalBarHeight}}px;'>
-        <van-tabs class="flex-1 pb-qttn" active="a" type="{{'card'}}" color="{{'#f79c4c'}}" title-active-color="{{'#FFFFFF'}}">
-          <van-tab title="标准餐" name="a"></van-tab>
-          <van-tab title="零食小食" name="b"></van-tab>
-          <van-tab title="开心农场" name="c"></van-tab>
-        </van-tabs>
-        <!-- <view class="ml-qtn qb round-full px-qtn py-qttn" class="{{activeMode == 100?'active-day-line':''}}">
-          <view class="">工作餐</view>
+      <view class="flex items-end mb-qtn" style='width:70%;height:{{totalBarHeight}}px;'>
+        <view class="qcenter ml-qtn  pb-qtttn" bindtap='clickFanhui'>
+          <van-icon name="arrow-left" size="{{30}}" />
         </view>
-        <view class="ml-qtn qb round-full px-qtn py-qttn">
-          <view class="">小食零食</view>
+        <view class="flex-1 flex items-end">
+          <van-tabs class="flex-1 pb-qtttn" active="{{activeGroupId}}" bind:click="clickGroupId" type="{{'card'}}" color="{{'#f79c4c'}}" title-active-color="{{'#FFFFFF'}}">
+            <van-tab title="标准餐" name="{{100}}"></van-tab>
+            <van-tab title="零食小食" name="{{3}}"></van-tab>
+            <van-tab title="开心农场" name="{{4}}"></van-tab>
+          </van-tabs>
         </view>
-        <view class="ml-qtn qb round-full px-qtn py-qttn">
-          <view class="">开心农场</view>
-        </view> -->
       </view>
       <view>
         <scroll-view scroll-x style="overflow:hidden;white-space:nowrap;">
