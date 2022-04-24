@@ -32,7 +32,7 @@
             </view>
           </view>
         </view>  
-        <view style="height: 20rpx;" class="rounded-tl-full rounded-tr-full bg-white"></view>      
+        <!-- <view style="height: 20rpx;" class="rounded-tl-full rounded-tr-full bg-white"></view>       -->
       </view>
       <view class="">
         <scroll-view scroll-x style="overflow:hidden;white-space:nowrap;">
