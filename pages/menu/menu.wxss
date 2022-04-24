@@ -1,3 +1,16 @@
+.active-groupid{
+  width:105rpx;
+  height:105rpx;
+  padding: 5rpx;
+  background-color: #ffffff;
+  border-radius: 50%;
+  margin-bottom: 10rpx;
+}
+.inactive-groupid{
+  width:100rpx;
+  height:100rpx;
+}
+
 .in {
   animation-name: show;
   animation-duration: 0.3s;

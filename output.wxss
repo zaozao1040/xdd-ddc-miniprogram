@@ -6506,6 +6506,10 @@
   margin-right: 0.875rem !important;
 }
 
+.mx-qtttn {
+  margin-left: 5rpx !important;
+  margin-right: 5rpx !important;
+}
 .mx-qttn {
   margin-left: 10rpx !important;
   margin-right: 10rpx !important;
@@ -7960,6 +7964,10 @@
   padding-right: 0.875rem !important;
 }
 
+.px-qtttn {
+  padding-left: 5rpx !important;
+  padding-right: 5rpx !important;
+}
 .px-qttn {
   padding-left: 10rpx !important;
   padding-right: 10rpx !important;
