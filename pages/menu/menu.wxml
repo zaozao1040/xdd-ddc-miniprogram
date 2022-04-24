@@ -4,7 +4,7 @@
   </view>
   <view wx:else>
     <scroll-view class="wrapper" scroll-y style="height:{{ windowHeight }}px" bindscroll="onScrollOut">
-      <view class=" w-full" style="background: rgb(255,152,0, 0.3);">
+      <view class="bg-white w-full">
         <view class="" style='width:70%;'>
           <view class="flex items-center" style="padding-top: 40px;padding-bottom: 5px;margin-bottom: 5px;">
             <view class="qcenter ml-qtn  pb-qtttn" bindtap='clickFanhui'>
