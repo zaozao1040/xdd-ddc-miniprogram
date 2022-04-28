@@ -46,7 +46,8 @@
     "pages/food/food",
     "pages/bucan/bucan",
     "pages/home/dcyj/dcyj",
-    "pages/home/tjyj/tjyj"
+    "pages/home/tjyj/tjyj",
+    "pages/home/tjyjyq/tjyjyq"
   ],
   "subpackages": [
     {
@@ -142,6 +143,10 @@
     "van-tab": "/miniprogram_npm/vant/tab/index",
     "van-tabs": "/miniprogram_npm/vant/tabs/index",
     "van-icon": "/miniprogram_npm/vant/icon/index",
-    "van-steps": "/miniprogram_npm/vant/steps/index"
+    "van-steps": "/miniprogram_npm/vant/steps/index",
+    "van-field": "/miniprogram_npm/vant/field/index",
+    "van-cell": "/miniprogram_npm/vant/cell/index",
+    "van-cell-group": "/miniprogram_npm/vant/cell-group/index",
+    "van-area": "/miniprogram_npm/vant/area/index"
   }
 }

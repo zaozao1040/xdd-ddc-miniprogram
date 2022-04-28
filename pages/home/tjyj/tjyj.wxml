@@ -6,7 +6,9 @@
       <text class="">￥</text>
       <text class="">500~3000?</text>
     </view>
-    <view class="qcenter text-white bg-qbase rounded-full mx-qmd h-qsm mt-qlg">立即邀请</view>
+    <view bindtap="clickYq" class="qcenter text-white bg-qbase rounded-full mx-qmd h-qsm mt-qlg">
+      立即邀请
+    </view>
   </view>
   <view class="text-qciyao text-qmn my-qmd">
     <view class="px-qlg mb-qtn">• 每邀请好友公司上点点餐，好友有效留资奖励100元</view>
