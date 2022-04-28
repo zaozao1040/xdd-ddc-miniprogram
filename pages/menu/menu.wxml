@@ -4,18 +4,6 @@
   </view>
   <view wx:else>
     <scroll-view class="wrapper" scroll-y style="height:{{ windowHeight }}px" bindscroll="onScrollOut">
-      <!-- <view class="flex items-end mb-qtn" style='width:70%;height:{{totalBarHeight}}px;'>
-        <view class="qcenter ml-qtn  pb-qtttn" bindtap='clickFanhui'>
-          <van-icon name="arrow-left" color="{{'#f79c4c'}}" size="{{30}}" />
-        </view>
-        <view class="flex-1 flex items-end">
-          <van-tabs class="flex-1 pb-qtttn" active="{{activeGroupId}}" bind:click="clickGroupId" type="{{'card'}}" color="{{'#f79c4c'}}" title-active-color="{{'#FFFFFF'}}">
-            <van-tab title="工作餐" name="{{100}}"></van-tab>
-            <van-tab title="小食" name="{{3}}"></van-tab>
-            <van-tab title="农场" name="{{4}}"></van-tab>
-          </van-tabs>
-        </view> "navigationStyle": "custom"
-      </view> -->
       <view>
         <scroll-view scroll-x style="overflow:hidden;white-space:nowrap;">
           <view wx:for="{{mealDateList}}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap='clickMealDate' id="day{{index}}" data-index='{{index}}' data-item='{{item}}' style='display:inline-block;margin-right:{{index==6?"40rpx":"60rpx"}};padding-left:{{index==0?"40rpx":"0"}}'>
