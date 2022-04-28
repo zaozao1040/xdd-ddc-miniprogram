@@ -188,7 +188,6 @@
   text-align: left;
   line-height: 34rpx;
 }
-
 .right-item-text-desc {
   font-family: PingFang-SC-Light;
   font-size: 20rpx;
