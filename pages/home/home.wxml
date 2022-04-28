@@ -265,9 +265,9 @@
     </view>
     <!-- --------------------------------------- 下面是各种 子组件 --------------------------------------- -->
     <!-- 子组件 点餐有奖 + 推荐有奖 -->
-    <view class="flex  mx-qtn text-qchanggui text-qmn">
-      <view class="bg-qbeijing rounded-md  p-qttn" style="flex:2" bindtap="clickDcljf">
-        <view class="flex justify-between items-center mt-qtn mb-qttn px-qttn">
+    <view class="flex mb-qtn mx-qtn text-qchanggui text-qmn" style='height:220rpx;'>
+      <view class="bg-qbeijing rounded-md  p-qttn mr-qttn" style="flex:2" bindtap="clickDcljf">
+        <view class="flex justify-between items-center   mb-qttn px-qttn">
           <view class="flex">
             <van-icon name="clock-o" />
             <view class="ml-qttn">本周已点{{dcyjInfo.yd}}天</view>
@@ -281,7 +281,7 @@
         </view>
         <view class="flex">
           <view class="flex-1 flex flex-col items-center" wx:for="{{dcyjList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-            <view class="w-qmn h-qmn rounded-full bg-qbase qcenter">
+            <view class="{{item.ifReceive==0?'bg-qbase text-white rounded-full qcenter w-qmn h-qmn':'bg-qzhanwei text-qciyao rounded-full qcenter w-qmn h-qmn'}}">
               {{item.rewardIntegralNum}}
             </view>
             <view class="flex pt-qttn">
@@ -290,9 +290,13 @@
             </view>
           </view>
         </view>
-        <view class="bg-qbase text-white qcenter h-qmn mt-qttn mb-qtn rounded-full">点餐领积分</view>
+        <view class="bg-qbase text-white qcenter h-qmn mt-qttn mx-qttn mb-qtn rounded-full">
+          点餐领积分
+        </view>
       </view>
-      <view class=" " style="flex:1">33</view>
+      <view style="flex:1" bindtap="clickTjljf">
+        <image class=" rounded-md " src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/home/tj.jpg' style='width:220rpx;height:220rpx;'></image>
+      </view>
     </view>
     <!-- 子组件 主题轮播图 -->
     <c-topic></c-topic>

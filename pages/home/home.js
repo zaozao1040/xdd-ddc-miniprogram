@@ -382,7 +382,12 @@ Page({
     }, true);
   },
 
-  // #region ############### 区域: 点餐有奖 ###############
+  // #region ############### 区域: 有奖 ###############
+  clickTjljf: function () {
+    wx.navigateTo({
+      url: "/pages/home/tjyj/tjyj",
+    });
+  },
   clickDcljf: function () {
     wx.navigateTo({
       url: "/pages/home/dcyj/dcyj",

@@ -1,0 +1,25 @@
+<view class="text-qmd text-qbase">
+  <view class="bg-qpage pb-qsm">
+    <view class="qcenter pt-qhhg">邀请好友上点点餐</view>
+    <view class="qcenter mt-qttn">得福利</view>
+    <view class="qcenter mt-qlg">
+      <text class="">￥</text>
+      <text class="">500~3000?</text>
+    </view>
+    <view class="qcenter text-white bg-qbase rounded-full mx-qmd h-qsm mt-qlg">立即邀请</view>
+  </view>
+  <view class="text-qciyao text-qmn my-qmd">
+    <view class="px-qlg mb-qtn">• 每邀请好友公司上点点餐，好友有效留资奖励100元</view>
+    <view class="px-qlg mb-qtn">• 好友公司成功签约，再奖励500元</view>
+    <view class="px-qlg mb-qtn">• 好友公司成功上线1个月，在奖励500+ 元，奖金不设限</view>
+  </view>
+  <view class="bg-qpage pb-qsm">
+    <view class="qcenter pt-qhhg pb-qlg">- 三步获得奖励 -</view>
+    <l-steps dot="{{true}}" color="#f79c4c" active-index="2" l-step-class="{{lStepClass}}">
+      <l-step describe="分享邀请" title="小程序用户" icon-color="#f79c4c" l-step-class="{{lStepClass}}"></l-step>
+      <l-step describe="登记信息" title="被邀请人" icon-color="#f79c4c"></l-step>
+      <l-step describe="发放奖励" title="点点餐商务对接" icon-color="#f79c4c"></l-step>
+    </l-steps>
+  </view>
+  <view class="text-qsm qcenter m-qsm text-qchanggui">邀请记录</view>
+</view>
