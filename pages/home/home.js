@@ -95,6 +95,12 @@ Page({
     },
     // 是否展示开心农场
     showNc: false,
+
+    // 有奖
+    dcyjList: [],
+    dcyjInfo: {
+      yd: 0,
+    },
   },
 
   navigateToMenu() {
@@ -322,6 +328,7 @@ Page({
     _this.getSwiperList();
     _this.getNotice();
     _this.getCanpintuijianList();
+    _this.getDcyjList(); //点餐有奖
 
     // 这个逻辑是  订单页 当没有订单时，引导用户跳转到首页的开始点餐
     if (options.fromorder) {
@@ -374,6 +381,45 @@ Page({
       /* 获取首页取餐信息 */
     }, true);
   },
+
+  // #region ############### 区域: 点餐有奖 ###############
+  clickDcljf: function () {
+    wx.navigateTo({
+      url: "/pages/home/dcyj/dcyj",
+    });
+  },
+  getDcyjList: function () {
+    let _this = this;
+    let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
+    if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
+      let tmp_userInfo = tmp_tmp_userInfo.userInfo;
+      let param = {
+        url: "/orderReward/getRewardSet?userCode=" + tmp_userInfo.userCode,
+      };
+      requestModel.request(param, (resData) => {
+        if (
+          resData &&
+          resData.completedDTOList &&
+          resData.completedDTOList.length > 0
+        ) {
+          let yd = 0;
+          resData.completedDTOList.forEach((item) => {
+            if (item.completed) {
+              yd++;
+            }
+          });
+          _this.setData({
+            dcyjList: resData.completedDTOList || [],
+            dcyjInfo: {
+              yd: yd,
+            },
+          });
+        }
+      });
+    }
+  },
+  // #endregion ######## end 区域: 点餐有奖 ###############*/
+
   //重新绑定
   clickCxbd() {
     this.setData({

@@ -44,16 +44,24 @@
     "pages/components/discountPromotion/discountPromotion",
     "pages/components/comment/comment",
     "pages/food/food",
-    "pages/bucan/bucan"
+    "pages/bucan/bucan",
+    "pages/home/dcyj/dcyj"
   ],
   "subpackages": [
     {
       "root": "pages/login",
-      "pages": ["login", "next", "selectPhone/selectPhone", "phone/phone"]
+      "pages": [
+        "login",
+        "next",
+        "selectPhone/selectPhone",
+        "phone/phone"
+      ]
     },
     {
       "root": "pages/shiyong",
-      "pages": ["shiyong"]
+      "pages": [
+        "shiyong"
+      ]
     },
     {
       "root": "pages/menu",
@@ -68,7 +76,10 @@
     },
     {
       "root": "pages/fsmenu",
-      "pages": ["menu", "preOrder/preOrder"]
+      "pages": [
+        "menu",
+        "preOrder/preOrder"
+      ]
     }
   ],
   "permission": {
@@ -114,7 +125,9 @@
       }
     ]
   },
-  "navigateToMiniProgramAppIdList": ["wx8492039f6e368de0"],
+  "navigateToMiniProgramAppIdList": [
+    "wx8492039f6e368de0"
+  ],
   "sitemapLocation": "sitemap.json",
   "usingComponents": {
     "l-toast": "/miniprogram_npm/lin-ui/toast/index",
@@ -134,7 +147,6 @@
     "l-tag": "/miniprogram_npm/lin-ui/tag/index",
     "l-dialog": "/miniprogram_npm/lin-ui/dialog/index",
     "l-mask": "/miniprogram_npm/lin-ui/mask/index",
-
     "van-button": "/miniprogram_npm/vant/button/index",
     "van-tab": "/miniprogram_npm/vant/tab/index",
     "van-tabs": "/miniprogram_npm/vant/tabs/index",

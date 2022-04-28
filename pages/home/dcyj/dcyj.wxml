@@ -1,0 +1,45 @@
+<view class="text-qchanggui text-qsm">
+  <view class="   text-qchanggui text-qmn m-qmn  p-qmn bg-white  rounded-lg">
+    <view class="qcenter text-qmd mt-qsm mb-qtn">{{dcyjInfo.ks+" 至 "+dcyjInfo.js}}</view>
+    <view class="flex items-baseline justify-center mb-qsm">
+      <text class="text-qsm">已点</text>
+      <text class="text-qbase text-qhhhg">{{dcyjInfo.yd}}</text>
+      <text class="text-qsm">天</text>
+    </view>
+    <view class="flex mb-qsm">
+      <view class="flex-1 flex flex-col items-center" wx:for="{{dcyjList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+        <view style="height:70rpx;width:70rpx" class="{{item.ifReceive==0?'bg-qbase text-white rounded-full qcenter':'bg-qbeijing text-qciyao rounded-full qcenter'}}">
+          {{item.week}}
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="m-qmn p-qmn bg-white rounded-lg">
+    <view class="qtitle mb-qtn">本周点餐奖励</view>
+    <view class="flex justify-between items-center qbb my-qttn py-qttn" wx:for="{{dcyjList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+      <view class=" ">
+        <view class="">点餐{{item.rewardRuleValue}}天</view>
+        <view class="text-qciyao">
+          <text class="">可得</text>
+          <text class="text-qbase">{{item.rewardIntegralNum}}</text>
+          <text class="">积分</text>
+        </view>
+      </view>
+      <block wx:if="{{item.ifReceive==0}}">
+        <view class="w-qlg h-qmn text-qciyao rounded-full bg-qbeijing qcenter text-qmn" bindtap="clickLq" data-item="{{item }}">
+          {{'已领取'}}
+        </view>
+      </block>
+      <block wx:elif="{{item.ifReceive==1}}">
+        <view class="w-qlg h-qmn text-white rounded-full bg-qbase qcenter text-qmn" bindtap="clickLq" data-item="{{item }}">
+          {{'领取'}}
+        </view>
+      </block>
+      <block wx:else>
+        <view class="w-qlg h-qmn text-qciyao rounded-full bg-qbeijing qcenter text-qmn" bindtap="clickLq" data-item="{{item }}">
+          {{item.ifReceive}}
+        </view>
+      </block>
+    </view>
+  </view>
+</view>

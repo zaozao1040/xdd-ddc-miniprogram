@@ -1,4 +1,16 @@
 {
+  "view": {
+    "prefix": "view",
+    "body": ["<view class=\"\">", "  $1", "</view>"]
+  },
+  "text": {
+    "prefix": "text",
+    "body": ["<text class=\"\">$1</text>"]
+  },
+  "block": {
+    "prefix": "block",
+    "body": ["<block wx:if=\"{{}}\">", "  $1", "</block>"]
+  },
   "jj": {
     "scope": "javascript,typescript",
     "prefix": "jj",

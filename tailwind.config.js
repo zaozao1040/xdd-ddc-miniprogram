@@ -4,7 +4,11 @@ const {
 } = require("tailwindcss-miniprogram-preset");
 module.exports = {
   presets: [defaultPreset],
-  content: ["./**/*.{wxml,js}"],
+  content: [
+    "./**/*.{wxml,js}",
+    "./**/**/*.{wxml,js}",
+    "./**/**/**/*.{wxml,js}",
+  ],
   theme: {
     screens: false,
     spacing: {

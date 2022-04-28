@@ -146,7 +146,8 @@ page {
 }
 
 .takefood-button {
-  background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
+  /* background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%); */
+  background: #f79c4c;
   border-radius: 34rpx;
   width: 120rpx;
   height: 68rpx;
@@ -268,7 +269,8 @@ page {
   letter-spacing: 0;
   width: 100%; */
 
-  background-image: linear-gradient(270deg, #f79c4c 0%, #f7cd4e 99%);
+  /* background-image: linear-gradient(270deg, #f79c4c 0%, #f7cd4e 99%); */
+  background: #f79c4c;
   border-radius: 50rpx;
   font-family: PingFangSC-Regular;
   font-size: 34rpx;
@@ -415,7 +417,8 @@ page {
   height: 80rpx;
   line-height: 80rpx;
   text-align: center;
-  background-image: linear-gradient(270deg, #f79c4c 0%, #f7cd4e 99%);
+  /* background-image: linear-gradient(270deg, #f79c4c 0%, #f7cd4e 99%); */
+  background: #f79c4c;
   border-radius: 50rpx;
   font-family: PingFangSC-Regular;
   font-size: 34rpx;
@@ -498,7 +501,8 @@ page {
 }
 
 .bind-organize-right {
-  background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
+  /* background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%); */
+  background: #f79c4c;
   width: 50%;
   font-size: 32rpx;
   font-family: PingFangSC-Regular;
@@ -702,7 +706,8 @@ page {
 .take-plus-right-wrapper {
 }
 .take-plus-right-button {
-  background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
+  /* background-image: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%); */
+  background: #f79c4c;
   border-radius: 34rpx;
   width: 120rpx;
   height: 68rpx;
