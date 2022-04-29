@@ -3900,7 +3900,13 @@ Page({
     hyList: [],
     hyListColumns: [],
     showGm: false,
-    gmListColumns: ["少于100", "少于100", "少于100", "少于100", "少于100"],
+    gmListColumns: [
+      "少于100人",
+      "100~300人",
+      "300~500人",
+      "500~1000人",
+      "1000人以上",
+    ],
     // form 参数
     name: "",
     phone: "",
@@ -3969,6 +3975,11 @@ Page({
       showHy: true,
     });
   },
+  clickGm() {
+    this.setData({
+      showGm: true,
+    });
+  },
   confirmHy(val) {
     if (val.detail && val.detail.value) {
       this.setData({
@@ -3979,6 +3990,18 @@ Page({
     } else {
       this.setData({
         showHy: false,
+      });
+    }
+  },
+  confirmGm(val) {
+    if (val.detail && val.detail.value) {
+      this.setData({
+        showGm: false,
+        peopleNumber: val.detail.value,
+      });
+    } else {
+      this.setData({
+        showGm: false,
       });
     }
   },
@@ -4005,6 +4028,11 @@ Page({
   onCloseHy() {
     this.setData({
       showHy: false,
+    });
+  },
+  onCloseGm() {
+    this.setData({
+      showGm: false,
     });
   },
 });
