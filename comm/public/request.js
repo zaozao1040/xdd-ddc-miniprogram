@@ -2,6 +2,7 @@ const baseUrl = getApp().globalData.baseUrl;
 
 class base {
   a = {
+    400: "参数解析失败",
     500: "网路故障",
     1001: "微信信息错误，请重新授权登录",
     1002: "微信信息错误，请重新授权登录",

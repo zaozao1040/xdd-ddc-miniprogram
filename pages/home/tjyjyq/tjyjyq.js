@@ -1,6 +1,6 @@
 import { base } from "../../../comm/public/request";
 import jiuaiDebounce from "../../../comm_plus/jiuai-debounce/jiuai-debounce.js";
-
+import Dialog from "../../../miniprogram_npm/vant/dialog/dialog";
 let requestModel = new base();
 Page({
   /**
@@ -3919,9 +3919,9 @@ Page({
     industryName: "",
     peopleNumber: "",
     userCode: "",
-    wechatOpenid: "",
     area: "",
     //
+    userInfo: {},
   },
 
   /**
@@ -4033,6 +4033,153 @@ Page({
   onCloseGm() {
     this.setData({
       showGm: false,
+    });
+  },
+  clickSq() {
+    let _this = this;
+    // if (!this.data.name) {
+    //   wx.showToast({
+    //     title: "姓名必填",
+    //     icon: "none",
+    //   });
+    //   return;
+    // }
+    // if (!this.data.phone) {
+    //   wx.showToast({
+    //     title: "手机号必填",
+    //     icon: "none",
+    //   });
+    //   return;
+    // }
+    // if (!this.data.companyName) {
+    //   wx.showToast({
+    //     title: "公司名称必填",
+    //     icon: "none",
+    //   });
+    //   return;
+    // }
+    // if (!this.data.area) {
+    //   wx.showToast({
+    //     title: "区域必填",
+    //     icon: "none",
+    //   });
+    //   return;
+    // }
+    // if (!this.data.address) {
+    //   wx.showToast({
+    //     title: "地址必填",
+    //     icon: "none",
+    //   });
+    //   return;
+    // }
+    // if (!this.data.industryName) {
+    //   wx.showToast({
+    //     title: "行业必填",
+    //     icon: "none",
+    //   });
+    //   return;
+    // }
+    // if (!this.data.peopleNumber) {
+    //   wx.showToast({
+    //     title: "规模必填",
+    //     icon: "none",
+    //   });
+    //   return;
+    // }
+    Dialog.confirm({
+      title: "是否提交?",
+      message: "",
+    })
+      .then(() => {
+        _this.doCommit();
+      })
+      .catch(() => {
+        // on cancel
+      });
+  },
+  doCommit() {
+    let _this = this;
+    jiuaiDebounce.canDoFunction({
+      type: "jieliu",
+      immediate: true,
+      key: "key_tmp",
+      time: 300,
+      success: () => {
+        let [
+          name,
+          phone,
+          companyName,
+          province,
+          city,
+          county,
+          address,
+          industryCode,
+          peopleNumber,
+          userCode,
+        ] = [
+          _this.data.name,
+          _this.data.phone,
+          _this.data.companyName,
+          _this.data.province,
+          _this.data.city,
+          _this.data.county,
+          _this.data.address,
+          _this.data.industryCode,
+          _this.data.peopleNumber,
+          _this.data.userInfo.userCode,
+        ];
+        let param = {
+          url:
+            "/recommendReward/applyMeal?name=" +
+            name +
+            "&phone=" +
+            phone +
+            "&companyName=" +
+            companyName +
+            "&province=" +
+            province +
+            "&city=" +
+            city +
+            "&county=" +
+            county +
+            "&address=" +
+            address +
+            "&industryCode=" +
+            industryCode +
+            "&peopleNumber=" +
+            peopleNumber +
+            "&userCode=" +
+            userCode,
+        };
+        requestModel.request(param, (resData) => {
+          if (resData) {
+            wx.showToast({
+              title: "邀请成功",
+              icon: "none",
+            });
+            _this.resetForm();
+            setTimeout(() => {
+              wx.navigateBack();
+            }, 2000);
+          }
+        });
+      },
+    });
+  },
+  resetForm() {
+    this.setData({
+      name: "",
+      phone: "",
+      companyName: "",
+      province: "",
+      city: "",
+      county: "",
+      address: "",
+      industryCode: "",
+      industryName: "",
+      peopleNumber: "",
+      // userCode: "",
+      area: "",
     });
   },
 });
