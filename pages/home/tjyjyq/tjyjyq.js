@@ -4125,7 +4125,7 @@ Page({
           _this.data.county,
           _this.data.address,
           _this.data.industryCode,
-          _this.data.peopleNumber,
+          _this.data.gmListColumns.indexOf(_this.data.peopleNumber).toString(),
           _this.data.userInfo.userCode,
         ];
         let param = {
@@ -4144,7 +4144,7 @@ Page({
             county +
             "&address=" +
             address +
-            "&industryCode=" +
+            "&categoryCode=" +
             industryCode +
             "&peopleNumber=" +
             peopleNumber +
