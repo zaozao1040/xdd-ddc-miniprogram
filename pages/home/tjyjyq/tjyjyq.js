@@ -1,4 +1,7 @@
-// pages/home/tjyjyq/tjyjyq.js
+import { base } from "../../../comm/public/request";
+import jiuaiDebounce from "../../../comm_plus/jiuai-debounce/jiuai-debounce.js";
+
+let requestModel = new base();
 Page({
   /**
    * 页面的初始数据
@@ -3893,45 +3896,115 @@ Page({
       },
     },
     showArea: false,
+    showHy: false,
+    hyList: [],
+    hyListColumns: [],
+    showGm: false,
+    gmListColumns: ["少于100", "少于100", "少于100", "少于100", "少于100"],
+    // form 参数
+    name: "",
+    phone: "",
+    companyName: "",
+    province: "",
+    city: "",
+    county: "",
+    address: "",
+    industryCode: "",
+    industryName: "",
+    peopleNumber: "",
+    userCode: "",
+    wechatOpenid: "",
+    area: "",
+    //
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {},
+  onLoad(options) {
+    let _this = this;
+    let tmp_userInfo = wx.getStorageSync("userInfo");
+    if (tmp_userInfo) {
+      _this.setData(
+        {
+          userInfo: tmp_userInfo.userInfo,
+        },
+        () => {
+          _this.loadData();
+        }
+      );
+    }
+  },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow() {},
+  loadData: function () {
+    this.getHyList();
+  },
+  getHyList: function () {
+    let _this = this;
+    let param = {
+      url: "/recommendReward/getIndustry",
+    };
+    requestModel.request(param, (resData) => {
+      if (resData && resData.length > 0) {
+        let arr = [];
+        resData.forEach((item) => {
+          arr.push(item.industryName);
+        });
+        _this.setData({
+          hyList: resData || [],
+          hyListColumns: arr,
+        });
+      }
+    });
+  },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {},
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {},
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {},
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {},
+  clickArea() {
+    this.setData({
+      showArea: true,
+    });
+  },
+  clickHy() {
+    this.setData({
+      showHy: true,
+    });
+  },
+  confirmHy(val) {
+    if (val.detail && val.detail.value) {
+      this.setData({
+        showHy: false,
+        industryCode: this.data.hyList[val.detail.index].industryCode,
+        industryName: this.data.hyList[val.detail.index].industryName,
+      });
+    } else {
+      this.setData({
+        showHy: false,
+      });
+    }
+  },
+  confirmArea(val) {
+    console.log("=======  ======= ", val);
+    let [province, city, county] = [
+      val.detail.values[0].name,
+      val.detail.values[1].name,
+      val.detail.values[2].name,
+    ];
+    this.setData({
+      showArea: false,
+      province: province,
+      city: city,
+      county: county,
+      area: province + "-" + city + "-" + county,
+    });
+  },
+  onCloseArea() {
+    this.setData({
+      showArea: false,
+    });
+  },
+  onCloseHy() {
+    this.setData({
+      showHy: false,
+    });
+  },
 });

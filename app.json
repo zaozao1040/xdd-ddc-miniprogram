@@ -147,6 +147,10 @@
     "van-field": "/miniprogram_npm/vant/field/index",
     "van-cell": "/miniprogram_npm/vant/cell/index",
     "van-cell-group": "/miniprogram_npm/vant/cell-group/index",
-    "van-area": "/miniprogram_npm/vant/area/index"
+    "van-area": "/miniprogram_npm/vant/area/index",
+    "van-popup": "/miniprogram_npm/vant/popup/index",
+    "van-picker": "/miniprogram_npm/vant/picker/index",
+    "van-radio": "/miniprogram_npm/vant/radio/index",
+    "van-radio-group": "/miniprogram_npm/vant/radio-group/index"
   }
 }
