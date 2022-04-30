@@ -4006,7 +4006,6 @@ Page({
     }
   },
   confirmArea(val) {
-    console.log("=======  ======= ", val);
     let [province, city, county] = [
       val.detail.values[0].name,
       val.detail.values[1].name,
@@ -4105,32 +4104,9 @@ Page({
       key: "key_tmp",
       time: 300,
       success: () => {
-        let [
-          name,
-          phone,
-          companyName,
-          province,
-          city,
-          county,
-          address,
-          industryCode,
-          peopleNumber,
-          userCode,
-        ] = [
-          _this.data.name,
-          _this.data.phone,
-          _this.data.companyName,
-          _this.data.province,
-          _this.data.city,
-          _this.data.county,
-          _this.data.address,
-          _this.data.industryCode,
-          _this.data.gmListColumns.indexOf(_this.data.peopleNumber).toString(),
-          _this.data.userInfo.userCode,
-        ];
         let param = {
           url: "/recommendReward/applyMeal",
-          methord: "POST",
+          method: "POST",
           data: {
             name: _this.data.name,
             phone: _this.data.phone,
@@ -4152,8 +4128,8 @@ Page({
               title: "邀请成功",
               icon: "none",
             });
-            _this.resetForm();
             setTimeout(() => {
+              _this.resetForm();
               wx.navigateBack();
             }, 2000);
           }

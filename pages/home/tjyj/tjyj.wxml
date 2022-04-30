@@ -17,11 +17,22 @@
   </view>
   <view class="bg-qpage pb-qsm">
     <view class="qcenter pt-qhhg pb-qlg">- 三步获得奖励 -</view>
-    <l-steps dot="{{true}}" color="#f79c4c" active-index="2" l-step-class="{{lStepClass}}">
-      <l-step describe="分享邀请" title="小程序用户" icon-color="#f79c4c" l-step-class="{{lStepClass}}"></l-step>
+    <l-steps dot="{{ true }}" color="#f79c4c" active-index="2" l-step-class="{{ lStepClass }}">
+      <l-step describe="分享邀请" title="小程序用户" icon-color="#f79c4c" l-step-class="{{ lStepClass }}"></l-step>
       <l-step describe="登记信息" title="被邀请人" icon-color="#f79c4c"></l-step>
       <l-step describe="发放奖励" title="点点餐商务对接" icon-color="#f79c4c"></l-step>
     </l-steps>
   </view>
-  <view class="text-qsm qcenter m-qsm text-qchanggui">邀请记录</view>
+  <view class="text-qmn qcenter m-qsm text-qchanggui">邀请记录</view>
+  <view class="mx-qmn">
+    <view class="flex justify-between items-center qbb my-qttn py-qttn" wx:for="{{ list }}" wx:for-index="index" wx:for-item="item" wx:key="index">
+      <view class=" ">
+        <view class="">{{ item.name }}</view>
+        <view class="text-qciyao text-qtn">{{ item.shareTime }}</view>
+      </view>
+      <view class="{{item.operationType==0||item.operationType==1?'w-qlg h-qmn text-qciyao rounded-full bg-qbeijing qcenter text-qmn':'w-qlg h-qmn text-white rounded-full bg-qbase qcenter text-qmn'}}">
+        {{ item.operationNote }}
+      </view>
+    </view>
+  </view>
 </view>
