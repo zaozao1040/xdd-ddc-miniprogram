@@ -25,14 +25,19 @@
   </view>
   <view class="text-qmn qcenter m-qsm text-qchanggui">邀请记录</view>
   <view class="mx-qmn">
-    <view class="flex justify-between items-center qbb my-qttn py-qttn" wx:for="{{ list }}" wx:for-index="index" wx:for-item="item" wx:key="index">
-      <view class=" ">
-        <view class="">{{ item.name }}</view>
-        <view class="text-qciyao text-qtn">{{ item.shareTime }}</view>
+    <block wx:if="{{list.length==0}}">
+      <van-empty description="暂无数据" />
+    </block>
+    <block else>
+      <view class="flex justify-between items-center qbb my-qttn py-qttn" wx:for="{{ list }}" wx:for-index="index" wx:for-item="item" wx:key="index">
+        <view class=" ">
+          <view class="">{{ item.name }}</view>
+          <view class="text-qciyao text-qtn">{{ item.shareTime }}</view>
+        </view>
+        <view class="{{item.operationType==0||item.operationType==1?'w-qlg h-qmn text-qciyao rounded-full bg-qbeijing qcenter text-qmn':'w-qlg h-qmn text-white rounded-full bg-qbase qcenter text-qmn'}}">
+          {{ item.operationNote }}
+        </view>
       </view>
-      <view class="{{item.operationType==0||item.operationType==1?'w-qlg h-qmn text-qciyao rounded-full bg-qbeijing qcenter text-qmn':'w-qlg h-qmn text-white rounded-full bg-qbase qcenter text-qmn'}}">
-        {{ item.operationNote }}
-      </view>
-    </view>
+    </block>
   </view>
 </view>

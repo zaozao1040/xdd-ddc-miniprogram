@@ -152,6 +152,7 @@
     "van-picker": "/miniprogram_npm/vant/picker/index",
     "van-radio": "/miniprogram_npm/vant/radio/index",
     "van-radio-group": "/miniprogram_npm/vant/radio-group/index",
-    "van-dialog": "/miniprogram_npm/vant/dialog/index"
+    "van-dialog": "/miniprogram_npm/vant/dialog/index",
+    "van-empty": "/miniprogram_npm/vant/empty/index"
   }
 }

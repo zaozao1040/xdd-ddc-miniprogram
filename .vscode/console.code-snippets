@@ -9,7 +9,14 @@
   },
   "block": {
     "prefix": "block",
-    "body": ["<block wx:if=\"{{}}\">", "  $1", "</block>"]
+    "body": [
+      "<block wx:if=\"{{}}\">",
+      "  $1",
+      "</block>",
+      "<block wx:else>",
+      "  ",
+      "</block>"
+    ]
   },
   "jj": {
     "scope": "javascript,typescript",

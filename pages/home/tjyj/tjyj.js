@@ -28,7 +28,7 @@ Page({
         wx.getStorageSync("userInfo").userInfo.userCode,
     };
     requestModel.request(param, (resData) => {
-      if (resData && resData.length > 0) {
+      if (resData) {
         _this.setData({
           list: resData || [],
         });
