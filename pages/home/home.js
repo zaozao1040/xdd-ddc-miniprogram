@@ -96,11 +96,15 @@ Page({
     // 是否展示开心农场
     showNc: false,
 
-    // 有奖
+    // 推荐有奖
     dcyjList: [],
     dcyjInfo: {
       yd: 0,
     },
+    // 点点推荐
+    ddtjList: [],
+    // 点点餐榜
+    ddcbList: [],
   },
 
   navigateToMenu() {
@@ -329,6 +333,8 @@ Page({
     _this.getNotice();
     _this.getCanpintuijianList();
     _this.getDcyjList(); //点餐有奖
+    _this.getDdtjList(); //点点推荐
+    _this.getDdcbList(); //点点餐榜
 
     // 这个逻辑是  订单页 当没有订单时，引导用户跳转到首页的开始点餐
     if (options.fromorder) {
@@ -382,7 +388,7 @@ Page({
     }, true);
   },
 
-  // #region ############### 区域: 有奖 ###############
+  // #region ############### 区域: 点餐有奖 ###############
   clickTjljf: function () {
     wx.navigateTo({
       url: "/pages/home/tjyj/tjyj",
@@ -424,6 +430,81 @@ Page({
     }
   },
   // #endregion ######## end 区域: 点餐有奖 ###############*/
+
+  // #region ############### 区域: 点点推荐 ###############
+  // clickTjljf: function () {
+  //   wx.navigateTo({
+  //     url: "/pages/home/tjyj/tjyj",
+  //   });
+  // },
+  // clickDcljf: function () {
+  //   wx.navigateTo({
+  //     url: "/pages/home/dcyj/dcyj",
+  //   });
+  // },
+  getDdtjList: function () {
+    let _this = this;
+    let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
+    if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
+      let tmp_userInfo = tmp_tmp_userInfo.userInfo;
+      let param = {
+        url: "/intelligent/getShareRecommend?userCode=" + tmp_userInfo.userCode,
+      };
+      requestModel.request(param, (resData) => {
+        if (resData) {
+          console.log("####### 3 ####### ", resData);
+
+          _this.setData({
+            ddtjList: resData || [],
+          });
+        }
+      });
+    }
+  },
+  // #endregion ######## end 区域: 点点推荐 ###############*/
+
+  // #region ############### 区域: 点点餐榜 ###############
+  // clickTjljf: function () {
+  //   wx.navigateTo({
+  //     url: "/pages/home/tjyj/tjyj",
+  //   });
+  // },
+  // clickDcljf: function () {
+  //   wx.navigateTo({
+  //     url: "/pages/home/dcyj/dcyj",
+  //   });
+  // },
+  getDdcbList: function () {
+    let _this = this;
+    let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
+    if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
+      let tmp_userInfo = tmp_tmp_userInfo.userInfo;
+      let param = {
+        url: "/intelligent/getRankList?userCode=" + tmp_userInfo.userCode,
+      };
+      requestModel.request(param, (resData) => {
+        if (resData) {
+          if (resData.length == 0) {
+            _this.setData({
+              ddcbList: [],
+              ddcbInfo: null,
+            });
+          } else if (resData.length == 1) {
+            _this.setData({
+              ddcbList: [resData[0]],
+              ddcbInfo: null,
+            });
+          } else {
+            _this.setData({
+              ddcbList: resData.slice(1),
+              ddcbInfo: resData[0],
+            });
+          }
+        }
+      });
+    }
+  },
+  // #endregion ######## end 区域: 点点餐榜 ###############*/
 
   //重新绑定
   clickCxbd() {

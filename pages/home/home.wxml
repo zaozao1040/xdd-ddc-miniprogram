@@ -264,7 +264,7 @@
       </view>
     </view>
     <!-- --------------------------------------- 下面是各种 子组件 --------------------------------------- -->
-    <!-- 子组件 点餐有奖 + 推荐有奖 -->
+    <!-- 点餐有奖 + 推荐有奖 -->
     <view class="flex mb-qtn mx-qtn text-qchanggui text-qmn" style='height:220rpx;'>
       <view class="bg-qbeijing rounded-md  p-qttn mr-qttn" style="flex:2" bindtap="clickDcljf">
         <view class="flex justify-between items-center   mb-qttn px-qttn">
@@ -298,6 +298,56 @@
         <image class=" rounded-md " src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/home/tj.jpg' style='width:220rpx;height:220rpx;'></image>
       </view>
     </view>
+    <!-- 点点推荐 -->
+    <block wx:if="{{ddtjList.length>0}}">
+      <view class=" mb-qtn mx-qmn text-qchanggui text-qmn">
+        <view class="text-qbase text-qsm mt-qtn mb-qttn">点点推荐</view>
+        <view class="flex">
+          <view class="flex-1" style="" wx:for="{{ddtjList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+            <view style="width:235rpx;height:235rpx;">
+              <image mode="aspectFill" class="w-full h-full" src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/home/pre_loading.png'></image>
+            </view>
+            <view class="ml-qttn mt-qttn ">{{item.name}}</view>
+            <view class="ml-qttn flex justify-between items-center">
+              <view class="">
+                <text class="text-qtn">￥</text>
+                <text class="text-qmoney">{{item.price}}</text>
+                <text class="text-qmoney">元</text>
+              </view>
+              <view class="flex text-qciyao text-qtn">
+                <text class="">{{item.peopleNumber}}</text>
+                <text class="">人点餐</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+    <!-- 点点餐榜 -->
+    <block wx:if="{{ddcbList.length>0}}">
+      <view class=" mb-qtn mx-qmn text-qchanggui text-qmn">
+        <view class="text-qbase text-qsm mt-qtn mb-qttn">点点餐榜</view>
+        <view class="flex">
+          <view class="flex-1" style="" wx:for="{{ddcbList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+            <view style="width:235rpx;height:235rpx;">
+              <image mode="aspectFill" class="w-full h-full" src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/home/pre_loading.png'></image>
+            </view>
+            <view class="ml-qttn mt-qttn ">{{item.name}}</view>
+            <view class="ml-qttn flex justify-between items-center">
+              <view class="">
+                <text class="text-qtn">￥</text>
+                <text class="text-qmoney">{{item.price}}</text>
+                <text class="text-qmoney">元</text>
+              </view>
+              <view class="flex text-qciyao text-qtn">
+                <text class="">{{item.peopleNumber}}</text>
+                <text class="">人点餐</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
     <!-- 子组件 主题轮播图 -->
     <c-topic></c-topic>
     <!-- 子组件 餐品推荐 -->
