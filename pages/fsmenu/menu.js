@@ -559,6 +559,7 @@ Page({
             timeShareStatus: mealTypeItem.timeShareStatus,
             takeMealTime: mealTypeItem.takeMealTime,
             isFoodQuota: item.isFoodQuota,
+            orgAdmin: _this.data.userInfo.orgAdmin,
           },
         };
         request(param, (resData) => {
@@ -684,6 +685,7 @@ Page({
               timeShareStatus: _this.data.activeTimeShareStatus,
               takeMealTime: _this.data.activeTakeMealTime,
               isFoodQuota: tmp_isFoodQuota,
+              orgAdmin: _this.data.userInfo.orgAdmin,
             },
           };
           request(param, (resData) => {

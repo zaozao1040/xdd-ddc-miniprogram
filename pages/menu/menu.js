@@ -711,6 +711,7 @@ Page({
             canMeal: item.canMeal,
             tempImage: item.tempImage,
             isFoodQuota: item.isFoodQuota,
+            orgAdmin: _this.data.userInfo.orgAdmin,
           },
         };
         request(param, (resData) => {
@@ -724,6 +725,14 @@ Page({
           } else if (resData.data.code === 4068) {
             // 4068 是检测到购物车同时加入了补餐和普通餐的报错
             _this.showClearCard();
+          } else if (resData.data.code === 4036) {
+            // 4036 管理员身份不允许补餐的报错
+            wx.showModal({
+              title: "管理员不允许补餐",
+              content: "请切换成普通用户再补餐",
+              showCancel: false,
+              confirmText: "我知道了",
+            });
           } else {
             wx.showToast({
               title: resData.data.msg,
@@ -833,6 +842,7 @@ Page({
               canMeal: foodItem.canMeal,
               tempImage: foodItem.tempImage,
               isFoodQuota: tmp_isFoodQuota,
+              orgAdmin: _this.data.userInfo.orgAdmin,
             },
           };
           request(param, (resData) => {
@@ -846,6 +856,14 @@ Page({
             } else if (resData.data.code === 4068) {
               // 4068 是检测到购物车同时加入了补餐和普通餐的报错
               _this.showClearCard();
+            } else if (resData.data.code === 4036) {
+              // 4036 管理员身份不允许补餐的报错
+              wx.showModal({
+                title: "管理员不允许补餐",
+                content: "请切换成普通用户再补餐",
+                showCancel: false,
+                confirmText: "我知道了",
+              });
             } else if (resData.data.code === 10001) {
               // 10001 是检测开心农场餐品和非开心农场同时加入购物车
               _this.showClearCard(

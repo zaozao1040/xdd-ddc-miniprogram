@@ -118,6 +118,7 @@ Component({
           supplement: false,
           canMeal: _this.data.foodInfo.canMeal,
           tempImage: _this.data.foodInfo.tempImage,
+          orgAdmin: wx.getStorageSync("userInfo").userInfo.orgAdmin,
         },
       };
       wx.showLoading();

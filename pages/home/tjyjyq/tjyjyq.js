@@ -4129,27 +4129,22 @@ Page({
           _this.data.userInfo.userCode,
         ];
         let param = {
-          url:
-            "/recommendReward/applyMeal?name=" +
-            name +
-            "&phone=" +
-            phone +
-            "&companyName=" +
-            companyName +
-            "&province=" +
-            province +
-            "&city=" +
-            city +
-            "&county=" +
-            county +
-            "&address=" +
-            address +
-            "&categoryCode=" +
-            industryCode +
-            "&peopleNumber=" +
-            peopleNumber +
-            "&userCode=" +
-            userCode,
+          url: "/recommendReward/applyMeal",
+          methord: "POST",
+          data: {
+            name: _this.data.name,
+            phone: _this.data.phone,
+            companyName: _this.data.companyName,
+            province: _this.data.province,
+            city: _this.data.city,
+            county: _this.data.county,
+            address: _this.data.address,
+            categoryCode: _this.data.industryCode,
+            peopleNumber: _this.data.gmListColumns
+              .indexOf(_this.data.peopleNumber)
+              .toString(),
+            userCode: _this.data.userInfo.userCode,
+          },
         };
         requestModel.request(param, (resData) => {
           if (resData) {

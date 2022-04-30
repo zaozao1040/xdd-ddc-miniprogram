@@ -405,6 +405,7 @@ Page({
         supplement: true,
         canMeal: item.canMeal,
         tempImage: item.tempImage,
+        orgAdmin: _this.data.userInfo.orgAdmin,
       },
     };
     request(param, (resData) => {
@@ -556,6 +557,7 @@ Page({
               supplement: true,
               canMeal: foodItem.canMeal,
               tempImage: foodItem.tempImage,
+              orgAdmin: _this.data.userInfo.orgAdmin,
             },
           };
           request(param, (resData) => {
