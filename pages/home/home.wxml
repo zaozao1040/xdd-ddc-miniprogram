@@ -265,39 +265,42 @@
     </view>
     <!-- --------------------------------------- 下面是各种 子组件 --------------------------------------- -->
     <!-- 点餐有奖 + 推荐有奖 -->
-    <view class="flex mb-qtn mx-qtn text-qchanggui text-qmn" style='height:220rpx;'>
-      <view class="bg-qbeijing rounded-md  p-qttn mr-qttn" style="flex:2" bindtap="clickDcljf">
-        <view class="flex justify-between items-center   mb-qttn px-qttn">
+    <block wx:if="{{dcyjOpenStatus}}">
+      <view class="flex mb-qtn mx-qtn text-qchanggui text-qmn" style='height:220rpx;'>
+        <view class="bg-qbeijing rounded-md  p-qttn mr-qttn" style="flex:2" bindtap="clickDcljf">
+          <view class="flex justify-between items-center   mb-qttn px-qttn">
+            <view class="flex">
+              <van-icon name="clock-o" />
+              <view class="ml-qttn">本周已点{{dcyjInfo.yd}}天</view>
+            </view>
+            <view class="flex items-center">
+              <van-icon name="gem-o" class="text-qbase" />
+              <view class="{{item.completed==0?'ml-qttn text-qzhanwei':'ml-qttn text-qbase'}}">
+                积分兑换
+              </view>
+            </view>
+          </view>
           <view class="flex">
-            <van-icon name="clock-o" />
-            <view class="ml-qttn">本周已点{{dcyjInfo.yd}}天</view>
-          </view>
-          <view class="flex items-center">
-            <van-icon name="gem-o" class="text-qbase" />
-            <view class="{{item.completed==0?'ml-qttn text-qzhanwei':'ml-qttn text-qbase'}}">
-              积分兑换
+            <view class="flex-1 flex flex-col items-center" wx:for="{{dcyjList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+              <view class="{{item.ifReceive==0?'bg-qbase text-white rounded-full qcenter w-qmn h-qmn':'bg-qzhanwei text-qciyao rounded-full qcenter w-qmn h-qmn'}}">
+                {{item.rewardIntegralNum}}
+              </view>
+              <view class="flex pt-qttn">
+                <view class="">{{item.rewardRuleValue}}</view>
+                <view class="">天</view>
+              </view>
             </view>
           </view>
-        </view>
-        <view class="flex">
-          <view class="flex-1 flex flex-col items-center" wx:for="{{dcyjList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-            <view class="{{item.ifReceive==0?'bg-qbase text-white rounded-full qcenter w-qmn h-qmn':'bg-qzhanwei text-qciyao rounded-full qcenter w-qmn h-qmn'}}">
-              {{item.rewardIntegralNum}}
-            </view>
-            <view class="flex pt-qttn">
-              <view class="">{{item.rewardRuleValue}}</view>
-              <view class="">天</view>
-            </view>
+          <view class="bg-qbase text-white qcenter h-qmn mt-qttn mx-qttn mb-qtn rounded-full">
+            点餐领积分
           </view>
         </view>
-        <view class="bg-qbase text-white qcenter h-qmn mt-qttn mx-qttn mb-qtn rounded-full">
-          点餐领积分
+        <view style="flex:1" bindtap="clickTjljf">
+          <image class=" rounded-md " src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/home/tj.jpg' style='width:220rpx;height:220rpx;'></image>
         </view>
-      </view>
-      <view style="flex:1" bindtap="clickTjljf">
-        <image class=" rounded-md " src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/home/tj.jpg' style='width:220rpx;height:220rpx;'></image>
-      </view>
-    </view>
+      </view>      
+    </block>
+
     <!-- 点点推荐 -->
     <block wx:if="{{ddtjList.length>0}}">
       <view class="text-qbase text-qsm mt-qmd mb-qttn mx-qmn">点点推荐</view> 

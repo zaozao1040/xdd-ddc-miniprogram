@@ -101,6 +101,7 @@ Page({
     dcyjInfo: {
       yd: 0,
     },
+    dcyjOpenStatus: false, //是否开通
     // 点点推荐
     ddtjList: [],
     // 点点餐榜
@@ -408,7 +409,8 @@ Page({
     if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
       let tmp_userInfo = tmp_tmp_userInfo.userInfo;
       let param = {
-        url: "/orderReward/getRewardSet?userCode=" + tmp_userInfo.userCode,
+        url:
+          "/orderReward/getRewardSet?organizeCode=" + tmp_userInfo.organizeCode,
       };
       requestModel.request(param, (resData) => {
         if (
@@ -427,6 +429,7 @@ Page({
             dcyjInfo: {
               yd: yd,
             },
+            dcyjOpenStatus: resData.isOpen,
           });
         }
       });
