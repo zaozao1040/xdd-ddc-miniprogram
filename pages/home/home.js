@@ -105,6 +105,9 @@ Page({
     ddtjList: [],
     // 点点餐榜
     ddcbList: [],
+    ddcbInfo: {},
+    //
+    foodInfo: {},
   },
 
   navigateToMenu() {
@@ -453,10 +456,11 @@ Page({
       requestModel.request(param, (resData) => {
         if (resData) {
           console.log("####### 3 ####### ", resData);
-
-          _this.setData({
-            ddtjList: resData || [],
-          });
+          if (resData && Array.isArray(resData)) {
+            _this.setData({
+              ddtjList: resData.slice(0, 3) || [],
+            });
+          }
         }
       });
     }
@@ -959,5 +963,18 @@ Page({
     wx.navigateTo({
       url: "/pages/menu/menu?typeId=" + tuijianitem.typeId,
     });
+  },
+
+  //加入购物车
+  handleAddtoCart(e) {
+    console.log("@@@@@@@ 2 @@@@@@@ ", e);
+
+    let tmpData = {
+      foodCode: e.currentTarget.dataset.item.foodCode,
+    };
+    this.setData({
+      foodInfo: e.currentTarget.dataset.item,
+    });
+    this.selectComponent("#mealDateType").show(tmpData);
   },
 });
