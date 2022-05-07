@@ -50,12 +50,8 @@ Page({
           resData.completedDTOList &&
           resData.completedDTOList.length > 0
         ) {
-          let yd = 0;
           let len = resData.completedDTOList.length;
           for (let i = 0; i < len; i++) {
-            if (resData.completedDTOList[i].completed) {
-              yd++;
-            }
             resData.completedDTOList[i].week = [
               "一",
               "二",
@@ -69,7 +65,7 @@ Page({
           _this.setData({
             dcyjList: resData.completedDTOList || [],
             dcyjInfo: {
-              yd: yd,
+              yd: resData.alreadyDay,
               ks: resData.completedDTOList[0].date,
               js: resData.completedDTOList[len - 1].date,
             },

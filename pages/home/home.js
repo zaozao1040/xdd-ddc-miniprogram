@@ -417,18 +417,17 @@ Page({
           resData.completedDTOList &&
           resData.completedDTOList.length > 0
         ) {
-          let yd = 0;
-          resData.completedDTOList.forEach((item) => {
-            if (item.completed) {
-              yd++;
-            }
-          });
           _this.setData({
             dcyjList: resData.completedDTOList || [],
             dcyjInfo: {
-              yd: yd,
+              yd: resData.alreadyDay,
             },
-            dcyjOpenStatus: resData.isOpen,
+            dcyjOpenStatus: true,
+          });
+        } else if (resData == false) {
+          //代表未开通
+          _this.setData({
+            dcyjOpenStatus: false,
           });
         }
       });
