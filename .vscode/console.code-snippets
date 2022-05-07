@@ -1,4 +1,8 @@
 {
+  "base": {
+    "prefix": "base",
+    "body": ["#f79c4c"]
+  },
   "view": {
     "prefix": "view",
     "body": ["<view class=\"\">", "  $1", "</view>"]

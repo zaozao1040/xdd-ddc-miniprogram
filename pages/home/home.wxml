@@ -307,7 +307,10 @@
       <view class=" mb-qtn  text-qchanggui text-qmn">
         <view class="flex px-qttn">
           <view class="px-qttn flex-1"   data-item='{{item}}' catchtap="handleAddtoCart"  wx:for="{{ddtjList}}" wx:for-index="index" wx:for-item="item" wx:key="index"> 
-            <image mode="aspectFill" class="w-full" style="height:215rpx;" src="{{item.picPath}}"></image> 
+            <view class="w-full relative" style="height:215rpx;">
+              <image mode="aspectFill" class="w-full h-full"   src="{{item.picPath}}"></image> 
+              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/cart.png" class="w-qmn h-qmn rounded-full absolute" style="right:10rpx;bottom:10rpx"  data-item='{{ddcbInfo}}' catchtap="handleAddtoCart" />
+            </view>
             <view class="ml-qttn mt-qttn ">{{item.name}}</view>
             <view class="ml-qttn flex justify-between items-center">
               <view class="qshenglue">
@@ -349,16 +352,16 @@
           </view>
           <view class="flex-auto pl-qmn">
             <view class="qbb mb-qttn pb-qttn flex items-center"   data-item='{{item}}' catchtap="handleAddtoCart" wx:for="{{ddcbList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-              <view class="text-white bg-yellow-400 w-qmn h-qmn rounded-full qcenter" wx:if="{{index==0}}">
+              <view class="text-white bg-yellow-700 w-qmn h-qmn rounded-full qcenter" wx:if="{{index==0}}">
                 {{index+1}}
               </view>
-              <view class="text-white bg-yellow-500 w-qmn h-qmn rounded-full qcenter" wx:elif="{{index==1}}">
+              <view class="text-white bg-yellow-600 w-qmn h-qmn rounded-full qcenter" wx:elif="{{index==1}}">
                 {{index+1}}
               </view>
-              <view class="text-white bg-yellow-600 w-qmn h-qmn rounded-full qcenter" wx:elif="{{index==2}}">
+              <view class="text-white bg-yellow-500 w-qmn h-qmn rounded-full qcenter" wx:elif="{{index==2}}">
                 {{index+1}}
               </view>
-              <view class="text-white bg-yellow-700 w-qmn h-qmn rounded-full qcenter" wx:else>
+              <view class="text-white bg-yellow-400 w-qmn h-qmn rounded-full qcenter" wx:else>
                 {{index+1}}
               </view>
               <view class="flex-auto ml-qttn "> 

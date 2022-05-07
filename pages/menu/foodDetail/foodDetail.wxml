@@ -40,8 +40,8 @@
             <view wx:if="{{foodInfo.foodOriginalPrice>foodInfo.foodPrice}}" class="price-original">
               ￥{{foodInfo.foodOriginalPrice}}
             </view>
-            <!-- 加入购物车 选择日期和餐别的弹窗 -->
-            <view wx:if="{{isNGO||from=='bucan'}}" class="num-control-stock"></view>
+            <!-- 加入购物车 选择日期和餐别的弹窗 typeId 39 是补餐 硬编码 -->
+            <view wx:if="{{isNGO||from=='bucan'||foodInfo.typeId==39}}" class="num-control-stock"></view>
             <view wx:else class="add-to-wrapper" bindtap="handleAddtoCart">加入购物车</view>
           </view>
           <view wx:if="{{foodInfo.prompt}}" class="prompt-wrapper">
