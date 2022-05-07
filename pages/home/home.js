@@ -409,8 +409,7 @@ Page({
     if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
       let tmp_userInfo = tmp_tmp_userInfo.userInfo;
       let param = {
-        url:
-          "/orderReward/getRewardSet?organizeCode=" + tmp_userInfo.organizeCode,
+        url: "/orderReward/getRewardSet?userCode=" + tmp_userInfo.userCode,
       };
       requestModel.request(param, (resData) => {
         if (
