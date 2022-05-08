@@ -2,7 +2,7 @@
   <view class="   text-qchanggui text-qmn m-qmn  p-qmn bg-white  rounded-lg">
     <view class="qcenter text-qmd mt-qsm mb-qtn">{{dcyjInfo.ks+" 至 "+dcyjInfo.js}}</view>
     <view class="flex items-baseline justify-center mb-qsm">
-      <text class="text-qsm">已点</text>
+      <text class="text-qsm">本周已点餐</text>
       <text class="text-qbase text-qhhhg">{{dcyjInfo.yd}}</text>
       <text class="text-qsm">天</text>
     </view>

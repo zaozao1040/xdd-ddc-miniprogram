@@ -33,6 +33,15 @@ Page({
       );
     }
   },
+  onUnload: function () {
+    const pages = getCurrentPages();
+    if (pages.length > 1) {
+      let beforePage = pages[pages.length - 2];
+      if (beforePage.__route__ == "pages/home/home") {
+        beforePage.getDcyjList();
+      }
+    }
+  },
   loadData: function () {
     this.getDcyjList();
   },

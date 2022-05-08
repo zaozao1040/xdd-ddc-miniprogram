@@ -271,7 +271,7 @@
           <view class="flex justify-between items-center   mb-qttn px-qttn">
             <view class="flex">
               <van-icon name="clock-o" />
-              <view class="ml-qttn">本周已点{{dcyjInfo.yd}}天</view>
+              <view class="ml-qttn">本周已点餐{{dcyjInfo.yd}}天</view>
             </view>
             <view class="flex items-center">
               <van-icon name="gem-o" class="text-qbase" />

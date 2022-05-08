@@ -144,6 +144,7 @@ class base {
     20002: "只能领本周",
     20003: "您已领取过了",
     20004: "该天未下单",
+    20015: "领取失败",
   };
   //hasToast表示sCallback回调函数中有没有wx.showToast
   //有的话，就在回调函数中执行wx.hideLoading,有的话hasToast=true
