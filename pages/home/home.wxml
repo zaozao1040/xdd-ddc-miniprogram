@@ -282,8 +282,9 @@
           </view>
           <view class="flex">
             <view class="flex-1 flex flex-col items-center" wx:for="{{dcyjList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-              <view class="{{item.ifReceive==0?'bg-qbase text-white rounded-full qcenter w-qmn h-qmn':'bg-qzhanwei text-qciyao rounded-full qcenter w-qmn h-qmn'}}">
+              <view class="{{item.ifReceive==0?'bg-qbase text-white rounded-full qcenter w-qmn h-qmn relative':'bg-qzhanwei text-qciyao rounded-full qcenter w-qmn h-qmn relative'}}">
                 {{item.rewardIntegralNum}}
+                <van-icon wx:if="{{item.ifReceive==0}}" class="absolute" style="bottom:-5rpx;right:-5rpx" name="success" color="red" />
               </view>
               <view class="flex pt-qttn">
                 <view class="">{{item.rewardRuleValue}}</view>

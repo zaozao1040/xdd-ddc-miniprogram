@@ -1049,6 +1049,13 @@
           "query": "foodCode=FOOD965277657682018304&mealDate=2022-05-08&from=menu",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/home/dcyj/dcyj",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

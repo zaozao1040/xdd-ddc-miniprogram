@@ -77,12 +77,11 @@ Page({
   clickLq: function (e) {
     let _this = this;
     let { item } = e.currentTarget.dataset;
-    console.log("=======  ======= ", item);
     jiuaiDebounce.canDoFunction({
       type: "jieliu",
       immediate: true,
       key: "key_tmp",
-      time: 300,
+      time: 1000,
       success: () => {
         let [userCode, rewardSetCode, rewardIntegralNum, date] = [
           _this.data.userInfo.userCode,
@@ -104,10 +103,12 @@ Page({
         requestModel.request(param, (resData) => {
           if (resData) {
             wx.showToast({
-              title: "领取成功",
+              title: "已获得积分",
               icon: "none",
             });
-            _this.loadData();
+            setTimeout(() => {
+              _this.loadData();
+            }, 2000);
           }
         });
       },
