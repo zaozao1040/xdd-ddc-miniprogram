@@ -31,9 +31,9 @@
     <block else>
       <view class=" qbb my-qttn py-qttn" wx:for="{{ list }}" wx:for-index="index" wx:for-item="item" wx:key="index">
         <view class="flex justify-between items-center">
-          <view class="">{{ item.name }}</view>
+          <view class="">{{ item.name +' '+item.companyName }}</view>
           <view class=" px-qttn qcenter text-qbase rounded-sm bg-qlight qcenter text-qtn ">
-            {{ item.operationTypeDes }}
+            {{ item.operationTypeDes}}
           </view>
         </view>
         <view class="flex justify-between items-center">
