@@ -28,7 +28,18 @@ Page({
         wx.getStorageSync("userInfo").userInfo.userCode,
     };
     requestModel.request(param, (resData) => {
-      if (resData) {
+      if (resData && Array.isArray(resData)) {
+        resData.forEach((item) => {
+          if (item.operationType == 0) {
+            item.operationTypeDes = "待审核";
+          } else if (item.operationType == 1) {
+            item.operationTypeDes = "无效信息";
+          } else if (item.operationType == 2) {
+            item.operationTypeDes = "已签约";
+          } else if (item.operationType == 3) {
+            item.operationTypeDes = "商务谈判";
+          }
+        });
         _this.setData({
           list: resData || [],
         });
