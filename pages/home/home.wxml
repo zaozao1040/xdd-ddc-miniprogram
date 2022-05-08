@@ -299,18 +299,17 @@
         <view style="flex:1" bindtap="clickTjljf">
           <image class=" rounded-md " src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/home/tj.jpg' style='width:220rpx;height:220rpx;'></image>
         </view>
-      </view>      
+      </view>
     </block>
-
     <!-- 点点推荐 -->
     <block wx:if="{{ddtjList.length>0}}">
-      <view class="text-qbase text-qsm mt-qmd mb-qttn mx-qmn">点点推荐</view> 
+      <view class="text-qbase text-qsm mt-qmd mb-qttn mx-qmn">点点推荐</view>
       <view class=" mb-qtn  text-qchanggui text-qmn">
         <view class="flex px-qttn">
-          <view class="px-qttn flex-1"   data-item='{{item}}' catchtap="handleAddtoCart"  wx:for="{{ddtjList}}" wx:for-index="index" wx:for-item="item" wx:key="index"> 
+          <view class="px-qttn flex-1" data-item='{{item}}' catchtap="handleAddtoCart" wx:for="{{ddtjList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
             <view class="w-full relative" style="height:215rpx;">
-              <image mode="aspectFill" class="w-full h-full"   src="{{item.picPath}}"></image> 
-              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/cart.png" class="w-qmn h-qmn rounded-full absolute" style="right:10rpx;bottom:10rpx"  data-item='{{ddcbInfo}}' catchtap="handleAddtoCart" />
+              <image mode="aspectFill" class="w-full h-full" src="{{item.picPath}}"></image>
+              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/cart.png" class="w-qmn h-qmn rounded-full absolute" style="right:10rpx;bottom:10rpx" data-item='{{ddcbInfo}}' catchtap="handleAddtoCart" />
             </view>
             <view class="ml-qttn mt-qttn ">{{item.name}}</view>
             <view class="ml-qttn flex justify-between items-center">
@@ -333,10 +332,13 @@
       <view class=" mb-qtn mx-qmn text-qchanggui text-qmn">
         <view class="text-qbase text-qsm mt-qmd mb-qttn">点点餐榜</view>
         <view class="flex">
-          <view style="width:300rpx"> 
+          <view style="width:300rpx">
             <view class="w-qhhhhg h-qhhhhg relative">
               <image mode="aspectFill" class="w-full h-full rounded-sm" src="{{ddcbInfo.picPath}}"></image>
-              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/cart.png" class="w-qsm h-qsm rounded-full absolute" style="right:15rpx;bottom:15rpx"  data-item='{{ddcbInfo}}' catchtap="handleAddtoCart" />
+              <view style="top:15rpx;left:15rpx" class="absolute text-white bg-yellow-700 w-qmn h-qmn rounded-full qcenter">
+                1
+              </view>
+              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/cart.png" class="w-qsm h-qsm rounded-full absolute" style="right:15rpx;bottom:15rpx" data-item='{{ddcbInfo}}' catchtap="handleAddtoCart" />
             </view>
             <view class="ml-qttn mt-qttn text-qsm">{{ddcbInfo.name}}</view>
             <view class="ml-qttn flex justify-between items-center">
@@ -349,28 +351,26 @@
                 <text class="">{{ddcbInfo.peopleNumber}}</text>
                 <text class="">人点餐</text>
               </view>
-            </view>   
+            </view>
           </view>
           <view class="flex-auto pl-qmn">
-            <view class="qbb mb-qttn pb-qttn flex items-center"   data-item='{{item}}' catchtap="handleAddtoCart" wx:for="{{ddcbList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
-              <view class="text-white bg-yellow-700 w-qmn h-qmn rounded-full qcenter" wx:if="{{index==0}}">
-                {{index+1}}
+            <view class="qbb mb-qttn pb-qttn flex items-center" data-item='{{item}}' catchtap="handleAddtoCart" wx:for="{{ddcbList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+              <view class="text-white bg-yellow-600 w-qmn h-qmn rounded-full qcenter" wx:if="{{index==0}}">
+                {{index+2}}
               </view>
-              <view class="text-white bg-yellow-600 w-qmn h-qmn rounded-full qcenter" wx:elif="{{index==1}}">
-                {{index+1}}
+              <view class="text-white bg-yellow-500 w-qmn h-qmn rounded-full qcenter" wx:elif="{{index==1}}">
+                {{index+2}}
               </view>
-              <view class="text-white bg-yellow-500 w-qmn h-qmn rounded-full qcenter" wx:elif="{{index==2}}">
-                {{index+1}}
+              <view class="text-white bg-yellow-400 w-qmn h-qmn rounded-full qcenter" wx:elif="{{index==2}}">
+                {{index+2}}
               </view>
-              <view class="text-white bg-yellow-400 w-qmn h-qmn rounded-full qcenter" wx:else>
-                {{index+1}}
+              <view class="text-white bg-yellow-300 w-qmn h-qmn rounded-full qcenter" wx:else>
+                {{index+2}}
               </view>
-              <view class="flex-auto ml-qttn "> 
+              <view class="flex-auto ml-qttn ">
                 <view class="flex justify-between items-center">
-                  <view class="">
-                    {{item.name}}
-                  </view>
-                  <van-icon name="add-o" color="#f79c4c" size="23"/> 
+                  <view class="">{{item.name}}</view>
+                  <van-icon name="add-o" color="#f79c4c" size="23" />
                 </view>
                 <view class="  flex justify-between items-end">
                   <view class="">
@@ -384,16 +384,16 @@
                   </view>
                 </view>
               </view>
-            </view>            
+            </view>
           </view>
-
         </view>
       </view>
     </block>
     <!-- 子组件 主题轮播图 -->
     <c-topic></c-topic>
     <!-- 子组件 餐品推荐 -->
-    <c-tuijian id="tuijian"></c-tuijian>    <!-- 子组件 选择日期和餐别 -->
+    <c-tuijian id="tuijian"></c-tuijian>
+    <!-- 子组件 选择日期和餐别 -->
     <c-mealDateType id='mealDateType' foodInfo='{{foodInfo}}' from='home'></c-mealDateType>
   </view>
 </view>
