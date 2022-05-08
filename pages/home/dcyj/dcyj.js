@@ -76,7 +76,15 @@ Page({
   },
   clickLq: function (e) {
     let _this = this;
+
     let { item } = e.currentTarget.dataset;
+    if (item.ifReceive != 1) {
+      wx.showToast({
+        title: "不可领取",
+        icon: "none",
+      });
+      return;
+    }
     jiuaiDebounce.canDoFunction({
       type: "jieliu",
       immediate: true,
