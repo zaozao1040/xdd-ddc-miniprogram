@@ -68,11 +68,12 @@ Page({
   clickFanhui: function () {
     wx.navigateBack();
   },
-  clickGroupId: function (event) {
+  clickGroupId: function (e) {
     let _this = this;
+    let { groupid } = e.currentTarget.dataset;
     _this.setData(
       {
-        activeGroupId: event.detail.name,
+        activeGroupId: groupid,
       },
       () => {
         _this.getFoodTypeList();
