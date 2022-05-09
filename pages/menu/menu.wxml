@@ -7,9 +7,9 @@
       <view class="pb-qttn w-full" style="padding-top:40px;">
         <view class="" style='width:70%;'>
           <view class="flex items-center">
-            <!-- <view class="qcenter ml-qtn  pb-qtttn" bindtap='clickFanhui'>
-              <van-icon name="arrow-left" color="{{'#f79c4c'}}" size="{{30}}" />
-            </view> -->
+            <view class="qcenter ml-qtn pb-qtttn" bindtap='clickFanhui'>
+              <van-icon name="arrow-left" color="{{'#333333'}}" size="{{18}}" />
+            </view>
             <view class="flex-1 flex justify-start items-end ml-qsm text-qmn text-qchanggui">
               <view class="qcenter flex-col" bindtap='clickGroupId' data-groupid="{{100}}">
                 <view class="{{activeGroupId==100?'active-groupid':'inactive-groupid'}}">

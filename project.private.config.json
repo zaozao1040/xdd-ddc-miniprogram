@@ -1063,6 +1063,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/menu/menu",
+          "query": "recentMealDate=2022-05-10&recentMealType=LUNCH",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

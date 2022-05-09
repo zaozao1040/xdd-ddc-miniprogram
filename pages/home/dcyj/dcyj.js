@@ -125,7 +125,7 @@ Page({
             });
             setTimeout(() => {
               _this.loadData();
-            }, 2000);
+            }, 1000);
           }
         });
       },
