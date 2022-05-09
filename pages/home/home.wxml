@@ -306,10 +306,10 @@
       <view class="text-qbase text-qsm mt-qmd mb-qttn mx-qmn">点点推荐</view>
       <view class=" mb-qtn  text-qchanggui text-qmn">
         <view class="flex px-qttn">
-          <view class="px-qttn flex-1" data-item='{{item}}' catchtap="handleAddtoCart" wx:for="{{ddtjList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+          <view class="px-qttn flex-1" data-item='{{item}}'  catchtap="handleAddtoCart" wx:for="{{ddtjList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
             <view class="w-full relative" style="height:215rpx;">
               <image mode="aspectFill" class="w-full h-full" src="{{item.image}}"></image>
-              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/cart.png" class="w-qmn h-qmn rounded-full absolute" style="right:10rpx;bottom:10rpx" data-item='{{ddcbInfo}}' catchtap="handleAddtoCart" />
+              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/cart.png" class="w-qmn h-qmn rounded-full absolute" style="right:10rpx;bottom:10rpx"  />
             </view>
             <view class="ml-qttn mt-qttn ">{{item.foodName}}</view>
             <view class="ml-qttn flex justify-between items-center">
@@ -333,12 +333,12 @@
         <view class="text-qbase text-qsm mt-qmd mb-qttn">点点餐榜</view>
         <view class="flex">
           <view style="width:300rpx">
-            <view class="w-qhhhhg h-qhhhhg relative">
+            <view class="w-qhhhhg h-qhhhhg relative"  data-item='{{ddcbInfo}}' catchtap="handleAddtoCart">
               <image mode="aspectFill" class="w-full h-full rounded-sm" src="{{ddcbInfo.image}}"></image>
               <view style="top:15rpx;left:15rpx" class="absolute text-white bg-yellow-700 w-qmn h-qmn rounded-full qcenter">
                 1
               </view>
-              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/cart.png" class="w-qsm h-qsm rounded-full absolute" style="right:15rpx;bottom:15rpx" data-item='{{ddcbInfo}}' catchtap="handleAddtoCart" />
+              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/cart.png" class="w-qsm h-qsm rounded-full absolute" style="right:15rpx;bottom:15rpx" />
             </view>
             <view class="ml-qttn mt-qttn text-qsm">{{ddcbInfo.foodName}}</view>
             <view class="ml-qttn flex justify-between items-center">
