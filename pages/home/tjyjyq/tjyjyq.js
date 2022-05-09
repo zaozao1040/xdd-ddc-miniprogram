@@ -4019,6 +4019,7 @@ Page({
       area: province + "-" + city + "-" + county,
     });
   },
+
   onCloseArea() {
     this.setData({
       showArea: false,

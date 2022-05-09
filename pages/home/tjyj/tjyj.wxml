@@ -24,7 +24,7 @@
     </l-steps>
   </view>
   <view class="text-qmn qcenter m-qsm text-qchanggui">邀请记录</view>
-  <view class="mx-qmn">
+  <view class="mx-qmn mb-qhhg pb-qhhg">
     <block wx:if="{{list.length==0}}">
       <van-empty description="暂无数据" />
     </block>

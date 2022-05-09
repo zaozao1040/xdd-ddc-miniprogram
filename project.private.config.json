@@ -1070,6 +1070,20 @@
           "query": "recentMealDate=2022-05-10&recentMealType=LUNCH",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/home/tjyj/tjyj",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/home/tjyjyq/tjyjyq",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

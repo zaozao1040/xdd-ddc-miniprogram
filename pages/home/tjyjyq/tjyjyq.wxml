@@ -24,13 +24,13 @@
     </view>
   </van-cell-group>
   <van-popup show="{{ showArea }}" bind:close="onCloseArea" position="bottom">
-    <van-area title="选择区域" area-list="{{ areaList }}" value="{{ county }}" bind:confirm="confirmArea" />
+    <van-area title="选择区域" area-list="{{ areaList }}" value="320500" bind:confirm="confirmArea" bind:cancel="onCloseArea"/>
   </van-popup>
   <van-popup show="{{ showHy }}" position="bottom" bind:close="onCloseHy">
-    <van-picker show-toolbar="{{true}}" title="选择行业" columns="{{ hyListColumns }}" bind:confirm="confirmHy" />
+    <van-picker show-toolbar="{{true}}" title="选择行业" columns="{{ hyListColumns }}" bind:confirm="confirmHy"  bind:cancel="onCloseHy"/>
   </van-popup>
   <van-popup show="{{ showGm }}" position="bottom" bind:close="onCloseGm">
-    <van-picker show-toolbar="{{true}}" title="选择人员规模" columns="{{ gmListColumns }}" bind:confirm="confirmGm" />
+    <van-picker show-toolbar="{{true}}" title="选择人员规模" columns="{{ gmListColumns }}" bind:confirm="confirmGm"  bind:cancel="onCloseGm"/>
   </van-popup>
   <van-dialog id="van-dialog" />
 </view>
