@@ -311,11 +311,11 @@
               <image mode="aspectFill" class="w-full h-full" src="{{item.image}}"></image>
               <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/cart.png" class="w-qmn h-qmn rounded-full absolute" style="right:10rpx;bottom:10rpx" data-item='{{ddcbInfo}}' catchtap="handleAddtoCart" />
             </view>
-            <view class="ml-qttn mt-qttn ">{{item.name}}</view>
+            <view class="ml-qttn mt-qttn ">{{item.foodName}}</view>
             <view class="ml-qttn flex justify-between items-center">
               <view class="qshenglue">
                 <text class="text-qtn">￥</text>
-                <text class="text-qmoney">{{item.price}}</text>
+                <text class="text-qmoney">{{item.foodPrice}}</text>
                 <text class="text-qmoney">元</text>
               </view>
               <view class="flex text-qciyao text-qtn qshenglue">
