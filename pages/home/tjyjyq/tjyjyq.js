@@ -4037,55 +4037,55 @@ Page({
   },
   clickSq() {
     let _this = this;
-    // if (!this.data.name) {
-    //   wx.showToast({
-    //     title: "姓名必填",
-    //     icon: "none",
-    //   });
-    //   return;
-    // }
-    // if (!this.data.phone) {
-    //   wx.showToast({
-    //     title: "手机号必填",
-    //     icon: "none",
-    //   });
-    //   return;
-    // }
-    // if (!this.data.companyName) {
-    //   wx.showToast({
-    //     title: "公司名称必填",
-    //     icon: "none",
-    //   });
-    //   return;
-    // }
-    // if (!this.data.area) {
-    //   wx.showToast({
-    //     title: "区域必填",
-    //     icon: "none",
-    //   });
-    //   return;
-    // }
-    // if (!this.data.address) {
-    //   wx.showToast({
-    //     title: "地址必填",
-    //     icon: "none",
-    //   });
-    //   return;
-    // }
-    // if (!this.data.industryName) {
-    //   wx.showToast({
-    //     title: "行业必填",
-    //     icon: "none",
-    //   });
-    //   return;
-    // }
-    // if (!this.data.peopleNumber) {
-    //   wx.showToast({
-    //     title: "规模必填",
-    //     icon: "none",
-    //   });
-    //   return;
-    // }
+    if (!this.data.name) {
+      wx.showToast({
+        title: "姓名必填",
+        icon: "none",
+      });
+      return;
+    }
+    if (!this.data.phone) {
+      wx.showToast({
+        title: "手机号必填",
+        icon: "none",
+      });
+      return;
+    }
+    if (!this.data.companyName) {
+      wx.showToast({
+        title: "公司名称必填",
+        icon: "none",
+      });
+      return;
+    }
+    if (!this.data.area) {
+      wx.showToast({
+        title: "区域必填",
+        icon: "none",
+      });
+      return;
+    }
+    if (!this.data.address) {
+      wx.showToast({
+        title: "地址必填",
+        icon: "none",
+      });
+      return;
+    }
+    if (!this.data.industryName) {
+      wx.showToast({
+        title: "行业必填",
+        icon: "none",
+      });
+      return;
+    }
+    if (!this.data.peopleNumber) {
+      wx.showToast({
+        title: "规模必填",
+        icon: "none",
+      });
+      return;
+    }
     Dialog.confirm({
       title: "是否提交?",
       message: "",
