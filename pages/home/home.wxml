@@ -301,7 +301,7 @@
         </view>
       </view>
     </block>
-    <!-- 点点推荐 -->
+    <!--  点点推荐 -->
     <block wx:if="{{ddtjList.length>0}}">
       <view class="text-qbase text-qsm mt-qmd mb-qttn mx-qmn">点点推荐</view>
       <view class=" mb-qtn  text-qchanggui text-qmn">
