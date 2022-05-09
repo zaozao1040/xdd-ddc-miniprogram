@@ -130,7 +130,7 @@ Component({
           _this.setData({
             show: false,
           });
-          wx.redirectTo({
+          wx.navigateTo({
             url:
               "/pages/menu/menu?recentMealDate=" +
               this.data.activeLeftItem.mealDate +

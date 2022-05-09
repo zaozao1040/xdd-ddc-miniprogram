@@ -308,7 +308,7 @@
         <view class="flex px-qttn">
           <view class="px-qttn flex-1" data-item='{{item}}' catchtap="handleAddtoCart" wx:for="{{ddtjList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
             <view class="w-full relative" style="height:215rpx;">
-              <image mode="aspectFill" class="w-full h-full" src="{{item.picPath}}"></image>
+              <image mode="aspectFill" class="w-full h-full" src="{{item.image}}"></image>
               <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/cart.png" class="w-qmn h-qmn rounded-full absolute" style="right:10rpx;bottom:10rpx" data-item='{{ddcbInfo}}' catchtap="handleAddtoCart" />
             </view>
             <view class="ml-qttn mt-qttn ">{{item.name}}</view>
@@ -334,17 +334,17 @@
         <view class="flex">
           <view style="width:300rpx">
             <view class="w-qhhhhg h-qhhhhg relative">
-              <image mode="aspectFill" class="w-full h-full rounded-sm" src="{{ddcbInfo.picPath}}"></image>
+              <image mode="aspectFill" class="w-full h-full rounded-sm" src="{{ddcbInfo.image}}"></image>
               <view style="top:15rpx;left:15rpx" class="absolute text-white bg-yellow-700 w-qmn h-qmn rounded-full qcenter">
                 1
               </view>
               <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/cart.png" class="w-qsm h-qsm rounded-full absolute" style="right:15rpx;bottom:15rpx" data-item='{{ddcbInfo}}' catchtap="handleAddtoCart" />
             </view>
-            <view class="ml-qttn mt-qttn text-qsm">{{ddcbInfo.name}}</view>
+            <view class="ml-qttn mt-qttn text-qsm">{{ddcbInfo.foodName}}</view>
             <view class="ml-qttn flex justify-between items-center">
               <view class="">
                 <text class="text-qtn">￥</text>
-                <text class="text-qmoney">{{ddcbInfo.price}}</text>
+                <text class="text-qmoney">{{ddcbInfo.foodPrice}}</text>
                 <text class="text-qmoney">元</text>
               </view>
               <view class="flex text-qciyao text-qtn">
@@ -369,13 +369,13 @@
               </view>
               <view class="flex-auto ml-qttn ">
                 <view class="flex justify-between items-center">
-                  <view class="">{{item.name}}</view>
+                  <view class="">{{item.foodName}}</view>
                   <van-icon name="add-o" color="#f79c4c" size="23" />
                 </view>
                 <view class="  flex justify-between items-end">
                   <view class="">
                     <text class="text-qtn">￥</text>
-                    <text class="text-qmoney">{{item.price}}</text>
+                    <text class="text-qmoney">{{item.foodPrice}}</text>
                     <text class="text-qmoney">元</text>
                   </view>
                   <view class="flex text-qciyao text-qtn">
