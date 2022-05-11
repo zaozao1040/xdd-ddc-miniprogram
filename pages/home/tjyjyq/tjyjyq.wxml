@@ -8,7 +8,7 @@
         姓名:
       </view>
       <view class="">
-        {{tujianInfo.userName+'('+tuijianInfo.nickName+')'}}
+        {{tuijianInfo.userName+'('+tuijianInfo.nickName+')'}}
       </view>
     </view>
     <view class="mt-qttn flex justify-between">
@@ -16,7 +16,7 @@
         所在企业:
       </view>
       <view class="">
-        {{tujianInfo.organizeName}}
+        {{tuijianInfo.organizeName}}
       </view>
     </view> 
   </view>

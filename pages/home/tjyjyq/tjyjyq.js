@@ -4132,7 +4132,7 @@ Page({
             peopleNumber: _this.data.gmListColumns
               .indexOf(_this.data.peopleNumber)
               .toString(),
-            userCode: _this.tuijianInfo.userCode,
+            userCode: _this.data.tuijianInfo.userCode,
           },
         };
         requestModel.request(param, (resData) => {
