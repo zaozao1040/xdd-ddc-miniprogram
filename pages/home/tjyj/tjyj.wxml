@@ -25,7 +25,7 @@
   </view>
   <view class="text-qmn qcenter m-qsm text-qchanggui relative">
     邀请记录
-    <view  bindtap='refresh' wx:if="{{list.length>0}}" class="absolute rounded-full text-white bg-qbase px-qtn py-qttn" style="right: 0;">
+    <view  bindtap='refresh' class="absolute rounded-full text-white bg-qbase px-qtn py-qttn" style="right: 0;">
       刷新
     </view> 
     
