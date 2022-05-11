@@ -3934,24 +3934,14 @@ Page({
     if (options.tuijianUserCode) {
       _this.setData({
         tuijianInfo: {
-          userCode: options.userCode,
           nickName: options.nickName,
           organizeName: options.organizeName,
           userName: options.userName,
         },
+        userCode: options.tuijianUserCode,
       });
     }
-    let tmp_userInfo = wx.getStorageSync("userInfo");
-    if (tmp_userInfo) {
-      _this.setData(
-        {
-          userInfo: tmp_userInfo.userInfo,
-        },
-        () => {
-          _this.loadData();
-        }
-      );
-    }
+    _this.loadData();
   },
 
   onShow() {},
@@ -4132,9 +4122,10 @@ Page({
             peopleNumber: _this.data.gmListColumns
               .indexOf(_this.data.peopleNumber)
               .toString(),
-            userCode: _this.data.tuijianInfo.userCode,
+            userCode: _this.data.userCode,
           },
         };
+
         requestModel.request(param, (resData) => {
           if (resData) {
             wx.showToast({
@@ -4142,28 +4133,13 @@ Page({
               icon: "none",
             });
             setTimeout(() => {
-              _this.resetForm();
-              wx.navigateBack();
+              wx.reLaunch({
+                url: "/pages/home/home",
+              });
             }, 2000);
           }
         });
       },
-    });
-  },
-  resetForm() {
-    this.setData({
-      name: "",
-      phone: "",
-      companyName: "",
-      province: "",
-      city: "",
-      county: "",
-      address: "",
-      industryCode: "",
-      industryName: "",
-      peopleNumber: "",
-      // userCode: "",
-      area: "",
     });
   },
 });

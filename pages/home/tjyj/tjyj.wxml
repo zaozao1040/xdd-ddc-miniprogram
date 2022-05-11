@@ -23,7 +23,13 @@
       <l-step describe="发放奖励" title="点点餐商务对接" icon-color="#f79c4c"></l-step>
     </l-steps>
   </view>
-  <view class="text-qmn qcenter m-qsm text-qchanggui">邀请记录</view>
+  <view class="text-qmn qcenter m-qsm text-qchanggui relative">
+    邀请记录
+    <view  bindtap='refresh' wx:if="{{list.length>0}}" class="absolute rounded-full text-white bg-qbase px-qtn py-qttn" style="right: 0;">
+      刷新
+    </view> 
+    
+  </view>
   <view class="mx-qmn mb-qhhg pb-qhhg">
     <block wx:if="{{list.length==0}}">
       <van-empty description="暂无数据" />

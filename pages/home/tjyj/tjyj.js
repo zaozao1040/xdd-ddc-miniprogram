@@ -38,6 +38,9 @@ Page({
         "https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/home/home1.png",
     };
   },
+  refresh: function () {
+    this.getList();
+  },
   getList: function () {
     let _this = this;
     let param = {

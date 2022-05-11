@@ -10,7 +10,7 @@
       <view class="">
         {{tuijianInfo.userName+'('+tuijianInfo.nickName+')'}}
       </view>
-    </view>
+    </view> 
     <view class="mt-qttn flex justify-between">
       <view class="text-qciyao">
         所在企业:
