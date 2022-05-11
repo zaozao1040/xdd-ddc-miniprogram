@@ -276,7 +276,7 @@
             <view class="flex items-center">
               <van-icon name="gem-o" class="text-qbase" />
               <view class="{{item.completed==0?'ml-qttn text-qzhanwei':'ml-qttn text-qbase'}}">
-                积分兑换
+                领积分
               </view>
             </view>
           </view>
