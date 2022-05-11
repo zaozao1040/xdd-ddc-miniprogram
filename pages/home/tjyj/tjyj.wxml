@@ -30,7 +30,7 @@
     </view> 
     
   </view>
-  <view class="mx-qmn mb-qhhg pb-qhhg">
+  <view class="mx-qmn mb-qhhg pb-qhhg mb-qhhg">
     <block wx:if="{{list.length==0}}">
       <van-empty description="暂无数据" />
     </block>
