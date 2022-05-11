@@ -43,4 +43,18 @@
       </view>
     </block>
   </view>
+  <!-- 分享弹出层 -->
+  <van-popup show="{{ showShare }}"  closeable position="bottom" bind:close="closePopup" > 
+      <view class="text-qchanggui text-qsm qcenter pt-qmd pb-qhhg">分享到</view>
+      <view class="share-list">
+        <button  class="button-share" open-type="share">
+          <view class="flex flex-col items-center">
+            <view class="w-qmd h-qmd">
+              <image class="w-full h-full" src="https://fksapp1.oss-cn-shanghai.aliyuncs.com/ladygaga/share/wx.png" mode="aspectFill"></image>
+            </view>
+            <view class="text-qciyao text-qmn">{{ "微信好友" }}</view>
+          </view>
+        </button> 
+      </view> 
+  </van-popup> 
 </view>

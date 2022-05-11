@@ -1,0 +1,93 @@
+ 
+.mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 998;
+  transition: 0.3s;
+
+
+}
+.bottom {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 90upx;
+  background: #fff;
+  z-index: 9;
+  font-size: 30upx;
+  color: #303133;
+}
+.mask-content {
+  width: 100%;
+  height: 580upx;
+  transition: 0.3s;
+  background: #fff;
+
+
+} 
+.view-content {
+  height: 100%;
+}
+.share-header {
+  height: 110upx;
+  font-size: 28upx + 2upx;
+  color: font-color-dark;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10upx;
+
+
+}
+
+.share-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.share-item {
+  display: flex;
+  flex: 1;
+  margin: 20rpx 100rpx 0 100rpx;
+
+} 
+  .button-share {
+    background: #fff;
+    position: relative;
+    border-radius: 0;
+    padding: 0;
+    height: 140upx;
+
+
+  }
+  .button-wrapper {
+    display: flex;
+    flex-direction: column;
+
+
+  }
+  .image-wrapper {
+    height: 80upx;
+
+ 
+  }
+
+  .button-label {
+    height: 60upx;
+    line-height: 60upx;
+    font-size: 28upx;
+    color: #606266;
+  }
+  .button-share:after {
+    border: none;
+  }

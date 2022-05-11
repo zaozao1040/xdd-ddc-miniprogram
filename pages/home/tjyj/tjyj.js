@@ -10,6 +10,7 @@ Page({
       color: "#f79c4c",
     },
     list: [],
+    showShare: false,
   },
 
   /**
@@ -19,6 +20,23 @@ Page({
 
   onShow() {
     this.getList();
+  },
+  onShareAppMessage() {
+    let userInfo = wx.getStorageSync("userInfo").userInfo;
+    return {
+      title: userInfo.nickName + "向您推荐点点餐",
+      path:
+        "/pages/home/tjyjyq/tjyjyq?tuijianUserCode=" +
+        userInfo.userCode +
+        "&nickName=" +
+        userInfo.nickName +
+        "&organizeName=" +
+        userInfo.organizeName +
+        "&userName=" +
+        userInfo.userName,
+      imageUrl:
+        "https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/home/home1.png",
+    };
   },
   getList: function () {
     let _this = this;
@@ -47,8 +65,13 @@ Page({
     });
   },
   clickYq: function () {
-    wx.navigateTo({
-      url: "/pages/home/tjyjyq/tjyjyq",
+    this.setData({
+      showShare: true,
+    });
+  },
+  closePopup: function () {
+    this.setData({
+      showShare: false,
     });
   },
 });

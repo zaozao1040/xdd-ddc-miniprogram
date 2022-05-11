@@ -1,4 +1,25 @@
 <view class="m-qmn">
+  <view class="text-qchanggui text-qsm bg-white mb-qsm p-qmn">
+    <view class="qcenter">
+      您的推荐人信息
+    </view>
+    <view class="mt-qttn flex justify-between">
+      <view class="text-qciyao">
+        姓名:
+      </view>
+      <view class="">
+        {{tujianInfo.userName+'('+tuijianInfo.nickName+')'}}
+      </view>
+    </view>
+    <view class="mt-qttn flex justify-between">
+      <view class="text-qciyao">
+        所在企业:
+      </view>
+      <view class="">
+        {{tujianInfo.organizeName}}
+      </view>
+    </view> 
+  </view>
   <van-cell-group>
     <van-field model:value="{{ name }}" required label="真实姓名" placeholder="请输入真实姓名" clearable="{{true}}" />
     <van-field model:value="{{ phone }}" type="number" required label="手机号" placeholder="请输入手机号" clearable="{{true}}" />

@@ -3922,6 +3922,8 @@ Page({
     area: "",
     //
     userInfo: {},
+    //
+    tuijianInfo: {},
   },
 
   /**
@@ -3929,6 +3931,16 @@ Page({
    */
   onLoad(options) {
     let _this = this;
+    if (options.tuijianUserCode) {
+      _this.setData({
+        tuijianInfo: {
+          userCode: options.userCode,
+          nickName: options.nickName,
+          organizeName: options.organizeName,
+          userName: options.userName,
+        },
+      });
+    }
     let tmp_userInfo = wx.getStorageSync("userInfo");
     if (tmp_userInfo) {
       _this.setData(
@@ -4120,7 +4132,7 @@ Page({
             peopleNumber: _this.data.gmListColumns
               .indexOf(_this.data.peopleNumber)
               .toString(),
-            userCode: _this.data.userInfo.userCode,
+            userCode: _this.tuijianInfo.userCode,
           },
         };
         requestModel.request(param, (resData) => {
