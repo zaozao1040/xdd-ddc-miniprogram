@@ -306,12 +306,12 @@
       <view class="text-qbase text-qsm mt-qmd mb-qttn mx-qmn">点点推荐</view>
       <view class=" mb-qtn  text-qchanggui text-qmn">
         <view class="flex px-qttn">
-          <view class="px-qttn flex-1" data-item='{{item}}'  catchtap="handleAddtoCart" wx:for="{{ddtjList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
+          <view class="px-qttn flex-1" style="min-width: 0;" data-item='{{item}}'  catchtap="handleAddtoCart" wx:for="{{ddtjList}}" wx:for-index="index" wx:for-item="item" wx:key="index">
             <view class="w-full relative" style="height:215rpx;">
               <image mode="aspectFill" class="w-full h-full" src="{{item.image}}"></image>
               <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/cart.png" class="w-qmn h-qmn rounded-full absolute" style="right:10rpx;bottom:10rpx"  />
             </view>
-            <view class="ml-qttn mt-qttn ">{{item.foodName}}</view>
+            <view class="ml-qttn mt-qttn qshenglue">{{item.foodName}}</view>
             <view class="ml-qttn flex justify-between items-center">
               <view class="qshenglue">
                 <text class="text-qtn">￥</text>
