@@ -4074,20 +4074,20 @@ Page({
       });
       return;
     }
-    if (!this.data.industryName) {
-      wx.showToast({
-        title: "行业必填",
-        icon: "none",
-      });
-      return;
-    }
-    if (!this.data.peopleNumber) {
-      wx.showToast({
-        title: "规模必填",
-        icon: "none",
-      });
-      return;
-    }
+    // if (!this.data.industryName) {
+    //   wx.showToast({
+    //     title: "行业必填",
+    //     icon: "none",
+    //   });
+    //   return;
+    // }
+    // if (!this.data.peopleNumber) {
+    //   wx.showToast({
+    //     title: "规模必填",
+    //     icon: "none",
+    //   });
+    //   return;
+    // }
     Dialog.confirm({
       title: "是否提交?",
       message: "",

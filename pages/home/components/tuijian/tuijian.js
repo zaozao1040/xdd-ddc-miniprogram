@@ -17,7 +17,7 @@ Component({
     foodLabelTypeListData: [],
     //分页
     page: 1, // 设置加载的第几次，默认是第一次
-    limit: 4, // 每页条数
+    limit: 8, // 每页条数
     loadingData: false,
 
     hasMoreDataFlag: true, //是否还有更多数据  默认还有
