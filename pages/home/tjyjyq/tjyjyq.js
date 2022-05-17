@@ -4067,13 +4067,13 @@ Page({
       });
       return;
     }
-    if (!this.data.address) {
-      wx.showToast({
-        title: "地址必填",
-        icon: "none",
-      });
-      return;
-    }
+    // if (!this.data.address) {
+    //   wx.showToast({
+    //     title: "地址必填",
+    //     icon: "none",
+    //   });
+    //   return;
+    // }
     // if (!this.data.industryName) {
     //   wx.showToast({
     //     title: "行业必填",
