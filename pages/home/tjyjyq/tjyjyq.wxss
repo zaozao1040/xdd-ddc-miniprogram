@@ -1,3 +1,12 @@
-page {
+/* page {
   background-color: #eeeeee;
+} */
+.wrp {
+  /* background: url("https://fksapp1.oss-cn-shanghai.aliyuncs.com/client/public/bg.jpg") no-repeat; */
+  /* background: url("https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/tmp.jpg") no-repeat; */
+  background-size: cover;
+  background-position: top;
+}
+.van-cell{
+  background-color: transparent!important;
 }

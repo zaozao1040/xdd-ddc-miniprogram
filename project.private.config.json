@@ -1112,6 +1112,20 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/home/tjyjyq/tjyjyq",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/home/tjyj/tjyj",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

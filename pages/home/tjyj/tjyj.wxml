@@ -1,5 +1,5 @@
 <view class="text-qmd text-qbase">
-  <view class="bg-qpage pb-qsm">
+   <view class="bg-qpage pb-qsm">
     <view class="qcenter pt-qhhg">邀请好友上点点餐</view>
     <view class="qcenter mt-qttn">得福利</view>
     <view class="qcenter mt-qlg">
@@ -49,6 +49,7 @@
       </view>
     </block>
   </view>
+ <view class="h-qttn"></view>
   <!-- 分享弹出层 -->
   <van-popup show="{{ showShare }}"  closeable position="bottom" bind:close="closePopup" > 
       <view class="text-qchanggui text-qsm qcenter pt-qmd pb-qhhg">分享到</view>

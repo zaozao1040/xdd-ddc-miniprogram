@@ -1,5 +1,6 @@
 {
   "navigationBarBackgroundColor": "#f79c4c",
   "navigationBarTextStyle": "white",
-  "navigationBarTitleText": "推荐邀请"
+  "navigationBarTitleText": "推荐邀请",
+  "navigationStyle": "custom"
 }
