@@ -197,43 +197,44 @@ Page({
     if (!wx.getStorageSync("userInfo")) {
       this.gotoMenu();
     } else {
-      // 针对 药明康德 企业，要先判断是否开启了“先评价后点餐”的个性化设置
-      let ymkdOrgnaizeCodeList = getApp().globalData.ymkdOrgnaizeCodeList;
-      let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
-      let organizeCode = tmp_userInfo ? tmp_userInfo.organizeCode : "";
-      // let organizeCode = wx.getStorageSync("userInfo").userInfo.organizeCode;
-      let userCode = wx.getStorageSync("userInfo").userInfo.userCode;
-      if (ymkdOrgnaizeCodeList.indexOf(organizeCode) != -1) {
-        let param = {
-          url: "/organize/getOrderNeedEvaluate?userCode=" + userCode,
-        };
-        requestModel.request(param, (data) => {
-          if (data.status === true) {
-            //不需要 先评价后点餐
-            wx.showModal({
-              title: "先评价后点餐",
-              content: "必需先评价上一餐,才可继续点餐",
-              confirmText: "去评价",
-              success(res) {
-                if (res.confirm) {
-                  console.log("用户点击确定");
-                  wx.navigateTo({
-                    url:
-                      "/pages/order/comment/comment?orderCode=" +
-                      data.orderCode,
-                  });
-                } else if (res.cancel) {
-                  console.log("用户点击取消");
-                }
-              },
-            });
-          } else {
-            this.gotoMenu();
-          }
-        });
-      } else {
-        this.gotoMenu();
-      }
+      // 2022-05-20 药明康德终于废掉了“先评价后点餐”的屌需求，欧耶！所有人无不欢呼雀跃！奔走相告！
+      // // 针对 药明康德 企业，要先判断是否开启了“先评价后点餐”的个性化设置
+      // let ymkdOrgnaizeCodeList = getApp().globalData.ymkdOrgnaizeCodeList;
+      // let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
+      // let organizeCode = tmp_userInfo ? tmp_userInfo.organizeCode : "";
+      // let userCode = wx.getStorageSync("userInfo").userInfo.userCode;
+      // if (ymkdOrgnaizeCodeList.indexOf(organizeCode) != -1) {
+      //   let param = {
+      //     url: "/organize/getOrderNeedEvaluate?userCode=" + userCode,
+      //   };
+      //   requestModel.request(param, (data) => {
+      //     if (data.status === true) {
+      //       //不需要 先评价后点餐
+      //       wx.showModal({
+      //         title: "先评价后点餐",
+      //         content: "必需先评价上一餐,才可继续点餐",
+      //         confirmText: "去评价",
+      //         success(res) {
+      //           if (res.confirm) {
+      //             console.log("用户点击确定");
+      //             wx.navigateTo({
+      //               url:
+      //                 "/pages/order/comment/comment?orderCode=" +
+      //                 data.orderCode,
+      //             });
+      //           } else if (res.cancel) {
+      //             console.log("用户点击取消");
+      //           }
+      //         },
+      //       });
+      //     } else {
+      //       this.gotoMenu();
+      //     }
+      //   });
+      // } else {
+      //   this.gotoMenu();
+      // }
+      this.gotoMenu();
     }
   },
   // 农场点餐
@@ -336,9 +337,9 @@ Page({
     _this.getSwiperList();
     _this.getNotice();
     _this.getCanpintuijianList();
-    _this.getDcyjList(); //点餐有奖
-    _this.getDdtjList(); //点点推荐
-    _this.getDdcbList(); //点点餐榜
+    // _this.getDcyjList(); //点餐有奖
+    // _this.getDdtjList(); //点点推荐
+    // _this.getDdcbList(); //点点餐榜
 
     // 这个逻辑是  订单页 当没有订单时，引导用户跳转到首页的开始点餐
     if (options.fromorder) {
