@@ -424,10 +424,16 @@ Page({
   },
 
   confirmPayBalance() {
-    this.setData({
-      balanceConfirmFlag: false,
+    let _this = this;
+    jiuaiDebounce.canDoFunction({
+      type: "jieliu",
+      immediate: true,
+      key: "key_doPay",
+      time: 3000,
+      success: () => {
+        _this.doPay();
+      },
     });
-    this.doPay();
   },
   cancelPayBalance() {
     this.setData({
@@ -466,99 +472,93 @@ Page({
    */
   doPay: function () {
     let _this = this;
-    jiuaiDebounce.canDoFunction({
-      type: "jieliu",
-      immediate: true,
-      key: "key_doPay",
-      time: 1000,
-      success: () => {
-        let param = {
-          url:
-            "/order/getOrderVerificationString?userCode=" +
-            _this.data.userInfo.userCode,
-        };
-        requestModel.request(param, (data) => {
-          let tmp_verificationString = data;
-          let tmp_payType = _this.data.payInfo.payType;
-          let paramPay = {
-            url: config.baseUrlPlus + "/order/generateOrder",
-            method: "post",
-            data: {
-              standardPayFlag: _this.data.selectSt,
-              verificationString: tmp_verificationString,
-              userCode: _this.data.userInfo.userCode,
-              userName: _this.data.userName,
-              addressCode:
-                _this.data.newAddressCode ||
-                _this.data.userInfo.deliveryAddressCode,
-              payType: tmp_payType, //支付方式
-              orderPayMoney: _this.data.payInfo.orderPayPrice, //自费的总价格
-              // appendMealFlag: _this.data.orderType == "bucan" ? true : false,
-              appendMealFlag: _this.data.appendMealFlag,
-              order: _this.getOrderListParam(),
-              kaiXinFlag: _this.data.previewInfo.kaiXinFlag,
-            },
-          };
+    let param = {
+      url:
+        "/order/getOrderVerificationString?userCode=" +
+        _this.data.userInfo.userCode,
+    };
+    requestModel.request(param, (data) => {
+      let tmp_verificationString = data;
+      let tmp_payType = _this.data.payInfo.payType;
+      let paramPay = {
+        url: config.baseUrlPlus + "/order/generateOrder",
+        method: "post",
+        data: {
+          standardPayFlag: _this.data.selectSt,
+          verificationString: tmp_verificationString,
+          userCode: _this.data.userInfo.userCode,
+          userName: _this.data.userName,
+          addressCode:
+            _this.data.newAddressCode ||
+            _this.data.userInfo.deliveryAddressCode,
+          payType: tmp_payType, //支付方式
+          orderPayMoney: _this.data.payInfo.orderPayPrice, //自费的总价格
+          // appendMealFlag: _this.data.orderType == "bucan" ? true : false,
+          appendMealFlag: _this.data.appendMealFlag,
+          order: _this.getOrderListParam(),
+          kaiXinFlag: _this.data.previewInfo.kaiXinFlag,
+        },
+      };
 
-          console.log("@@@@@@@ paramPay @@@@@@@ ", paramPay);
+      console.log("@@@@@@@ paramPay @@@@@@@ ", paramPay);
 
-          request(paramPay, (resData) => {
-            if (resData.data.code === 200) {
-              let data = resData.data.data.payData;
-              if (
-                !data ||
-                tmp_payType == "BALANCE_PAY" ||
-                tmp_payType == "STANDARD_PAY"
-              ) {
-                wx.reLaunch({
-                  url: "/pages/order/order?content=" + "订单已生成",
-                });
-              } else if (
-                (tmp_payType == "WECHAT_PAY" ||
-                  tmp_payType == "BALANCE_MIX_WECHAT_PAY") &&
-                resData.data.data.needPay
-              ) {
-                //微信支付
-                wx.showLoading();
-                if (data.timeStamp) {
-                  wx.requestPayment({
-                    timeStamp: data.timeStamp.toString(),
-                    nonceStr: data.nonceStr,
-                    package: data.packageValue,
-                    signType: data.signType,
-                    paySign: data.paySign,
-                    success: function (e) {
-                      setTimeout(function () {
-                        wx.reLaunch({
-                          url: "/pages/order/order?content=" + "订单已生成",
-                        });
-                      }, 200);
-                      wx.hideLoading();
-                    },
-                    fail: function (e) {
-                      setTimeout(function () {
-                        wx.reLaunch({
-                          url:
-                            "/pages/order/order?content=" +
-                            "订单已生成,请尽快支付",
-                        });
-                      }, 200);
-                      wx.hideLoading();
-                    },
-                  });
-                }
-              }
-            } else {
-              wx.showModal({
-                title: "提示",
-                content: resData.data.msg,
-                showCancel: false,
-                confirmText: "我知道了",
+      request(paramPay, (resData) => {
+        _this.setData({
+          balanceConfirmFlag: false,
+        });
+        if (resData.data.code === 200) {
+          let data = resData.data.data.payData;
+          if (
+            !data ||
+            tmp_payType == "BALANCE_PAY" ||
+            tmp_payType == "STANDARD_PAY"
+          ) {
+            wx.reLaunch({
+              url: "/pages/order/order?content=" + "订单已生成",
+            });
+          } else if (
+            (tmp_payType == "WECHAT_PAY" ||
+              tmp_payType == "BALANCE_MIX_WECHAT_PAY") &&
+            resData.data.data.needPay
+          ) {
+            //微信支付
+            wx.showLoading();
+            if (data.timeStamp) {
+              wx.requestPayment({
+                timeStamp: data.timeStamp.toString(),
+                nonceStr: data.nonceStr,
+                package: data.packageValue,
+                signType: data.signType,
+                paySign: data.paySign,
+                success: function (e) {
+                  setTimeout(function () {
+                    wx.reLaunch({
+                      url: "/pages/order/order?content=" + "订单已生成",
+                    });
+                  }, 200);
+                  wx.hideLoading();
+                },
+                fail: function (e) {
+                  setTimeout(function () {
+                    wx.reLaunch({
+                      url:
+                        "/pages/order/order?content=" + "订单已生成,请尽快支付",
+                    });
+                  }, 200);
+                  wx.hideLoading();
+                },
               });
             }
+          }
+        } else {
+          wx.showModal({
+            title: "提示",
+            content: resData.data.msg,
+            showCancel: false,
+            confirmText: "我知道了",
           });
-        });
-      },
+        }
+      });
     });
   },
 
