@@ -337,9 +337,9 @@ Page({
     _this.getSwiperList();
     _this.getNotice();
     _this.getCanpintuijianList();
-    // _this.getDcyjList(); //点餐有奖
-    // _this.getDdtjList(); //点点推荐
-    // _this.getDdcbList(); //点点餐榜
+    _this.getDcyjList(); //点餐有奖
+    _this.getDdtjList(); //点点推荐
+    _this.getDdcbList(); //点点餐榜
 
     // 这个逻辑是  订单页 当没有订单时，引导用户跳转到首页的开始点餐
     if (options.fromorder) {

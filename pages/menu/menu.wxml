@@ -127,9 +127,9 @@
                 <block wx:else>
                   <view class="flex flex-col ites-center">
                     <view class="menu-name">{{ foodTypeItem.typeName }}</view>
-                    <view wx:if="{{ foodTypeItem.typeName=='开心农场'}}" class="text-qsuccess text-qmn">
+                    <!-- <view wx:if="{{ foodTypeItem.typeName=='开心农场'}}" class="text-qsuccess text-qmn">
                       {{ '(疫情特供)'}}
-                    </view>
+                    </view> -->
                   </view>
                 </block>
               </view>

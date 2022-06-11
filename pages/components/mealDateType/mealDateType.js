@@ -23,6 +23,7 @@ Component({
     show: false,
     activeLeftItem: {},
     activeRightItem: {},
+    foodPrice: null,
   },
   /* 生命周期 */
   pageLifetimes: {
@@ -37,6 +38,11 @@ Component({
     // },
     show(data) {
       let foodCode = data.foodCode;
+      if (data.foodPrice) {
+        this.setData({
+          foodPrice: data.foodPrice,
+        });
+      }
       this.getMealDateAndType(foodCode);
     },
     // 获取指定餐品的排餐日期和餐别
@@ -111,7 +117,9 @@ Component({
           userCode: wx.getStorageSync("userInfo").userInfo.userCode,
           foodCode: _this.data.foodInfo.foodCode,
           foodName: _this.data.foodInfo.foodName,
-          foodPrice: _this.data.foodInfo.foodPrice,
+          foodPrice: _this.data.foodPrice
+            ? _this.data.foodPrice
+            : _this.data.foodInfo.foodPrice,
           foodQuantity: 1,
           mealDate: _this.data.activeLeftItem.mealDate,
           mealType: _this.data.activeRightItem.value,

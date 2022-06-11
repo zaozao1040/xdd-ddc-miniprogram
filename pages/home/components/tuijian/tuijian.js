@@ -135,9 +135,13 @@ Component({
     },
 
     gotoFoodDetail: function (e) {
-      let foodCode = e.currentTarget.dataset.item.foodCode;
+      let { foodCode, foodPrice } = e.currentTarget.dataset.item;
       wx.navigateTo({
-        url: "/pages/menu/foodDetail/foodDetail?foodCode=" + foodCode,
+        url:
+          "/pages/menu/foodDetail/foodDetail?foodCode=" +
+          foodCode +
+          "&foodPrice=" +
+          foodPrice,
       });
     },
     //加入购物车

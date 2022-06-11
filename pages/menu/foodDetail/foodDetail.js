@@ -9,7 +9,7 @@ Page({
    */
   data: {
     // 是否NGO
-    isNGO:false,
+    isNGO: false,
     page: 1, // 设置加载的第几次，默认是第一次
     limit: 10, // 每页条数
     hasMoreDataFlag: true, //是否还有更多数据  默认还有
@@ -28,13 +28,19 @@ Page({
     hasImgFlag: false,
     enLargeImageShow: false,
     from: null,
+    foodPrice: null,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let { foodCode, from ,mealDate} = options;
+    let { foodCode, from, mealDate } = options;
+    if (options.foodPrice) {
+      this.setData({
+        foodPrice: options.foodPrice,
+      });
+    }
 
     this.setData({
       foodCode: foodCode,
@@ -42,10 +48,12 @@ Page({
     });
     let url =
       "/v3/getFoodDetail?userCode=" +
-      wx.getStorageSync("userInfo").userInfo.userCode + "&foodCode=" + foodCode ;
-      if(mealDate){
-        url = url +  "&mealDate=" + mealDate 
-      }
+      wx.getStorageSync("userInfo").userInfo.userCode +
+      "&foodCode=" +
+      foodCode;
+    if (mealDate) {
+      url = url + "&mealDate=" + mealDate;
+    }
     let param = {
       url,
     };
@@ -57,12 +65,12 @@ Page({
 
     this.initRatings();
 
-    this.doNGO()//处理NGO 当为NGO时 不允许展示价格 以及加入购物车标签
+    this.doNGO(); //处理NGO 当为NGO时 不允许展示价格 以及加入购物车标签
   },
   doNGO: function () {
     let NGOOrgnaizeCode = getApp().globalData.NGOOrgnaizeCode;
-    let orgnaizeCode = wx.getStorageSync("userInfo").userInfo.organizeCode
-    if(NGOOrgnaizeCode==orgnaizeCode){
+    let orgnaizeCode = wx.getStorageSync("userInfo").userInfo.organizeCode;
+    if (NGOOrgnaizeCode == orgnaizeCode) {
       this.setData({
         isNGO: true,
       });
@@ -72,6 +80,9 @@ Page({
   handleAddtoCart() {
     let tmpData = {
       foodCode: this.data.foodInfo.foodCode,
+      foodPrice: this.data.foodPrice
+        ? this.data.foodPrice
+        : this.data.foodInfo.foodCode,
     };
     this.selectComponent("#mealDateType").show(tmpData);
   },
