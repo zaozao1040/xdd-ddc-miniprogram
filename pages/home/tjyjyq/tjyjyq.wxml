@@ -22,7 +22,7 @@
           选择
         </van-button>
       </van-field>
-      <van-field model:value="{{ address }}"   maxlength="{{100}}" show-word-limit="{{true}}" type="textarea" autosize label="详细地址" placeholder="请输入详细地址" clearable="{{true}}" />
+      <van-field model:value="{{ address }}"    label="详细地址" placeholder="请输入详细地址" clearable="{{true}}" />
       <van-field model:value="{{ industryName }}"   readonly="{{true}}" label="所属行业" placeholder="所属行业" clearable="{{true}}">
         <van-button slot="button" color="#f79c4c" size="small" type="primary" bind:click="clickHy">
           选择
