@@ -3982,6 +3982,7 @@ Page({
       showGm: true,
     });
   },
+  onChangephone(val) {},
   confirmHy(val) {
     if (val.detail && val.detail.value) {
       this.setData({
@@ -4053,6 +4054,16 @@ Page({
       });
       return;
     }
+    let tmp =
+      /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
+    let phoneTest = tmp.test(this.data.phone);
+    if (!phoneTest) {
+      wx.showToast({
+        title: "手机号格式不正确",
+        icon: "none",
+      });
+      return;
+    }
     if (!this.data.companyName) {
       wx.showToast({
         title: "公司名称必填",
@@ -4067,13 +4078,7 @@ Page({
       });
       return;
     }
-    // if (!this.data.address) {
-    //   wx.showToast({
-    //     title: "地址必填",
-    //     icon: "none",
-    //   });
-    //   return;
-    // }
+
     // if (!this.data.industryName) {
     //   wx.showToast({
     //     title: "行业必填",
