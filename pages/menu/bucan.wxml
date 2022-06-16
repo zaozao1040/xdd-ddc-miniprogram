@@ -24,8 +24,17 @@
           </block>
         </view>
         <block>
+          <!-- 当前状态，若是false，要么没开通要么时间过了 -->
+          <block wx:if='{{activeInfoExtra.mealType.status==false}}'>
+            <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
+              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
+            </view>
+            <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
+              {{mealTypeMap[activeMealType]}}未开通补餐或补餐时间已过
+            </view>
+          </block>
           <!-- 已过截止时间 -->
-          <block wx:if='{{foodTypeList.length==0}}'>
+          <block wx:elif='{{foodTypeList.length==0}}'>
             <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
               <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
             </view>
