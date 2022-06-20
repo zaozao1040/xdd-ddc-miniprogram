@@ -467,7 +467,7 @@ Page({
           } else if (resData.length == 1) {
             _this.setData({
               ddcbList: [resData[0]],
-              ddcbInfo: null,
+              ddcbInfo: resData[0],
             });
           } else {
             _this.setData({
