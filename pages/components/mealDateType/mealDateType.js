@@ -109,7 +109,6 @@ Component({
     },
     addOneFood() {
       let _this = this;
-      console.log("=======  ======= ", _this.data.foodInfo);
       let param = {
         url: config.baseUrlPlus + "/v3/cart/addCart",
         method: "post",

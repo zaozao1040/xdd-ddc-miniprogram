@@ -82,7 +82,7 @@ Page({
       foodCode: this.data.foodInfo.foodCode,
       foodPrice: this.data.foodPrice
         ? this.data.foodPrice
-        : this.data.foodInfo.foodCode,
+        : this.data.foodInfo.foodPrice,
     };
     this.selectComponent("#mealDateType").show(tmpData);
   },
