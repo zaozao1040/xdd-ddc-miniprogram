@@ -1140,6 +1140,20 @@
           "query": "foodCode=FOOD986645691545812992&mealDate=2022-06-20&from=menu",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/menu/menu",
+          "query": "recentMealDate=2022-06-21&recentMealType=DINNER",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/menu/preOrder/preOrder",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

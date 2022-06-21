@@ -26,10 +26,16 @@
     <view class="content-bt" wx:if="{{ content5 }}">
       <view style="white-space: nowrap">{{ content5 }}</view>
     </view>
-    <view wx:if="{{ content5 }}" style="color: #f79c4c; margin: 0 40rpx">{{ money5 }}</view>
+    <view wx:if="{{ content5 }}" style="color: #f79c4c; margin: 0 40rpx">
+      {{ money5 }}
+    </view>
     <view class="button-display">
       <view class="button-left" bindtap="closeModal">{{ cancel }}</view>
-      <view class="button-right" bindtap="handleConfirm" data-modalparam="{{ params }}">
+      <view
+        class="button-right"
+        bindtap="handleConfirm"
+        data-modalparam="{{ params }}"
+      >
         {{ confirm }}
       </view>
     </view>

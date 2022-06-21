@@ -1,3 +1,4 @@
+import jiuaiDebounce from "../../../comm_plus/jiuai-debounce/jiuai-debounce.js";
 Component({
   /* 通信数据 */
   properties: {
@@ -38,7 +39,19 @@ Component({
       this.triggerEvent("closemodal");
     },
     handleConfirm: function (e) {
-      this.triggerEvent("handleconfirm", e.currentTarget.dataset.modalparam);
+      let _this = this;
+      jiuaiDebounce.canDoFunction({
+        type: "jieliu",
+        immediate: true,
+        key: "key_handleConfirm",
+        time: 3000,
+        success: () => {
+          _this.triggerEvent(
+            "handleconfirm",
+            e.currentTarget.dataset.modalparam
+          );
+        },
+      });
     },
   },
   /* 生命周期 */

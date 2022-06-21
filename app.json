@@ -153,6 +153,8 @@
     "van-radio": "/miniprogram_npm/vant/radio/index",
     "van-radio-group": "/miniprogram_npm/vant/radio-group/index",
     "van-dialog": "/miniprogram_npm/vant/dialog/index",
-    "van-empty": "/miniprogram_npm/vant/empty/index"
+    "van-empty": "/miniprogram_npm/vant/empty/index",
+    "van-overlay": "/miniprogram_npm/vant/overlay/index",
+    "van-loading": "/miniprogram_npm/vant/loading/index"
   }
 }
