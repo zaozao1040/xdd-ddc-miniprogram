@@ -89,11 +89,11 @@
             普通餐、补餐时间已过，可申请
             <text style="color:#f79c4c">备用餐</text>
           </view>
-          <view style="display:flex;justify-content:center;">
+          <!-- <view style="display:flex;justify-content:center;">
             <l-button style="margin: 20rpx;" shape="semicircle" size="medium" bg-color="#f79c4c" catch:lintap="doWithByc">
               去申请
             </l-button>
-          </view>
+          </view> -->
         </block>
         <!-- 餐别不允许点餐 -->
         <block wx:elif='{{userTimeAndMealTypeLimit}}'>
