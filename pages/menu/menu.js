@@ -393,12 +393,16 @@ Page({
           // 备用餐逻辑
           _this.setData({
             orderType: resData.orderType,
-            foodTypeList: resData.foodTypeList,
+            foodTypeList: resData.foodCustomizeList.concat(
+              resData.foodTypeList
+            ),
           });
         } else {
           _this.setData(
             {
-              foodTypeList: resData.foodTypeList,
+              foodTypeList: resData.foodCustomizeList.concat(
+                resData.foodTypeList
+              ),
               activeInfoExtra: {
                 mealSet: resData.mealSet,
                 mealType: resData.mealType,
