@@ -1043,6 +1043,15 @@ Page({
   },
   goToPreOrder() {
     let _this = this;
+    if (_this.data.payInfo.orderPayPrice < 0) {
+      // 这种情况也是有可能发生的，当企业开启不能低于餐标下单，而排了一个餐低于餐标，用户只点这一个菜，这里支付金额就会是负数
+      wx.showToast({
+        title: "金额必需大于0",
+        icon: "none",
+        duration: 2000,
+      });
+      return;
+    }
     if (_this.data.inValidNum > 0 && _this.data.payInfo.cartFoodNumber == 0) {
       wx.showModal({
         title: "是否清空失效餐品?",
