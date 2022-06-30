@@ -5,6 +5,7 @@ import { base } from "../../comm/public/request";
 let requestModel = new base();
 import config from "../../comm_plus/config/config.js";
 import { request } from "../../comm_plus/public/request.js";
+
 Page({
   /**
    * 页面的初始数据

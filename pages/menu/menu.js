@@ -398,6 +398,9 @@ Page({
             ),
           });
         } else {
+          if (!resData.foodCustomizeList) {
+            resData.foodCustomizeList = [];
+          }
           _this.setData(
             {
               foodTypeList: resData.foodCustomizeList.concat(

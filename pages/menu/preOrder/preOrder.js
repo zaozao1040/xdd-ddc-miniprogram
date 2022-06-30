@@ -3,6 +3,9 @@ import config from "../../../comm_plus/config/config.js";
 import { request } from "../../../comm_plus/public/request.js";
 import jiuaiDebounce from "../../../comm_plus/jiuai-debounce/jiuai-debounce.js";
 import { normalizeUnits, unix } from "moment";
+
+var log = require("../../../utils/log.js");
+
 let requestModel = new base();
 Page({
   /**
@@ -126,8 +129,14 @@ Page({
         standardPayFlag: _this.data.selectSt,
       },
     };
+    log.info("请求 previewOrder " + JSON.stringify(param));
     request(param, (resData) => {
       if (resData.data.code === 200) {
+        if (resData.data.data) {
+          log.info("响应 previewOrder " + JSON.stringify(resData));
+        } else {
+          log.error("响应 previewOrder " + JSON.stringify(resData));
+        }
         _this.setData(
           {
             preOrderList: resData.data.data.cartResDtoList,
@@ -152,6 +161,7 @@ Page({
           }
         );
       } else {
+        log.error("响应 previewOrder " + JSON.stringify(resData));
         wx.showToast({
           title: resData.data.msg,
           image: "/images/msg/error.png",
@@ -165,9 +175,11 @@ Page({
     let param = {
       url: "/user/getUserFinance?userCode=" + _this.data.userInfo.userCode,
     };
+    log.info("请求 getUserFinance " + JSON.stringify(param));
     requestModel.request(
       param,
       (data) => {
+        log.info("响应 getUserFinance " + JSON.stringify(data));
         wx.hideLoading();
         // 返回接口中的字段含义如下：
         // allBalance: 1.2  个人点餐币+赠送点餐币+企业点餐币（如果该企业没有开通企业钱包，则等于个人点餐币+赠送点餐币）
@@ -476,6 +488,7 @@ Page({
         balanceConfirmFlag: false,
       },
       () => {
+        log.info("请求 generateOrder " + JSON.stringify(param));
         requestModel.request(param, (data) => {
           let tmp_verificationString = data;
           let tmp_payType = _this.data.payInfo.payType;
@@ -498,7 +511,14 @@ Page({
               kaiXinFlag: _this.data.previewInfo.kaiXinFlag,
             },
           };
+
+          log.info("请求 generateOrder " + JSON.stringify(paramPay));
           request(paramPay, (resData) => {
+            if (resData.data.data) {
+              log.info("响应 generateOrder " + JSON.stringify(resData));
+            } else {
+              log.error("响应 generateOrder " + JSON.stringify(resData));
+            }
             _this.setData({ tmpLoading: false, balanceConfirmFlag: false });
             if (resData.data.code === 200) {
               let data = resData.data.data.payData;
