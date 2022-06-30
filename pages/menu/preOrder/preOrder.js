@@ -133,9 +133,9 @@ Page({
     request(param, (resData) => {
       if (resData.data.code === 200) {
         if (resData.data.data) {
-          log.info("响应 previewOrder " + JSON.stringify(resData));
+          log.info("响应 previewOrder " + JSON.stringify(resData.data));
         } else {
-          log.error("响应 previewOrder " + JSON.stringify(resData));
+          log.error("响应 previewOrder " + JSON.stringify(resData.data));
         }
         _this.setData(
           {
@@ -161,7 +161,7 @@ Page({
           }
         );
       } else {
-        log.error("响应 previewOrder " + JSON.stringify(resData));
+        log.error("响应 previewOrder " + JSON.stringify(resData.data));
         wx.showToast({
           title: resData.data.msg,
           image: "/images/msg/error.png",
@@ -179,7 +179,11 @@ Page({
     requestModel.request(
       param,
       (data) => {
-        log.info("响应 getUserFinance " + JSON.stringify(data));
+        if (data) {
+          log.info("响应 getUserFinance " + JSON.stringify(data));
+        } else {
+          log.error("响应 getUserFinance " + JSON.stringify(data));
+        }
         wx.hideLoading();
         // 返回接口中的字段含义如下：
         // allBalance: 1.2  个人点餐币+赠送点餐币+企业点餐币（如果该企业没有开通企业钱包，则等于个人点餐币+赠送点餐币）
@@ -488,8 +492,9 @@ Page({
         balanceConfirmFlag: false,
       },
       () => {
-        log.info("请求 generateOrder " + JSON.stringify(param));
+        log.info("请求 getOrderVerificationString " + JSON.stringify(param));
         requestModel.request(param, (data) => {
+          log.info("响应 getOrderVerificationString " + JSON.stringify(data));
           let tmp_verificationString = data;
           let tmp_payType = _this.data.payInfo.payType;
           let paramPay = {
@@ -515,9 +520,9 @@ Page({
           log.info("请求 generateOrder " + JSON.stringify(paramPay));
           request(paramPay, (resData) => {
             if (resData.data.data) {
-              log.info("响应 generateOrder " + JSON.stringify(resData));
+              log.info("响应 generateOrder " + JSON.stringify(resData.data));
             } else {
-              log.error("响应 generateOrder " + JSON.stringify(resData));
+              log.error("响应 generateOrder " + JSON.stringify(resData.data));
             }
             _this.setData({ tmpLoading: false, balanceConfirmFlag: false });
             if (resData.data.code === 200) {
