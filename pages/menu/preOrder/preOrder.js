@@ -57,12 +57,23 @@ Page({
     addressListLength: 1,
     previewInfo: {}, //这里记录一下previewInfo接口返回的原始数据
     tmpLoading: false, //防止重复下单
+    logUserStr: "",
   },
   onLoad: function (options) {
     this.setData({
       orderType: options.orderType,
     });
     this.loadData();
+    let userInfo = wx.getStorageSync("userInfo").userInfo;
+    this.logUserStr =
+      userInfo.userName +
+      " " +
+      userInfo.organizeName +
+      " " +
+      userInfo.organizeCode +
+      " " +
+      userInfo.userCode +
+      " ";
   },
   loadData: function () {
     this.getUserInfo();
@@ -129,13 +140,24 @@ Page({
         standardPayFlag: _this.data.selectSt,
       },
     };
-    log.info("请求 previewOrder " + JSON.stringify(param));
+    wx.getStorageSync("userInfo").userInfo;
+    log.info(
+      "请求 previewOrder " + _this.data.logUserStr + JSON.stringify(param)
+    );
     request(param, (resData) => {
       if (resData.data.code === 200) {
         if (resData.data.data) {
-          log.info("响应 previewOrder " + JSON.stringify(resData.data));
+          log.info(
+            "响应 previewOrder " +
+              _this.data.logUserStr +
+              JSON.stringify(resData.data)
+          );
         } else {
-          log.error("响应 previewOrder " + JSON.stringify(resData.data));
+          log.error(
+            "响应 previewOrder " +
+              _this.data.logUserStr +
+              JSON.stringify(resData.data)
+          );
         }
         _this.setData(
           {
@@ -161,7 +183,11 @@ Page({
           }
         );
       } else {
-        log.error("响应 previewOrder " + JSON.stringify(resData.data));
+        log.error(
+          "响应 previewOrder " +
+            _this.data.logUserStr +
+            JSON.stringify(resData.data)
+        );
         wx.showToast({
           title: resData.data.msg,
           image: "/images/msg/error.png",
@@ -175,14 +201,24 @@ Page({
     let param = {
       url: "/user/getUserFinance?userCode=" + _this.data.userInfo.userCode,
     };
-    log.info("请求 getUserFinance " + JSON.stringify(param));
+    log.info(
+      "请求 getUserFinance " + _this.data.logUserStr + JSON.stringify(param)
+    );
     requestModel.request(
       param,
       (data) => {
         if (data) {
-          log.info("响应 getUserFinance " + JSON.stringify(data));
+          log.info(
+            "响应 getUserFinance " +
+              _this.data.logUserStr +
+              JSON.stringify(data)
+          );
         } else {
-          log.error("响应 getUserFinance " + JSON.stringify(data));
+          log.error(
+            "响应 getUserFinance " +
+              _this.data.logUserStr +
+              JSON.stringify(data)
+          );
         }
         wx.hideLoading();
         // 返回接口中的字段含义如下：
@@ -492,9 +528,17 @@ Page({
         balanceConfirmFlag: false,
       },
       () => {
-        log.info("请求 getOrderVerificationString " + JSON.stringify(param));
+        log.info(
+          "请求 getOrderVerificationString " +
+            _this.data.logUserStr +
+            JSON.stringify(param)
+        );
         requestModel.request(param, (data) => {
-          log.info("响应 getOrderVerificationString " + JSON.stringify(data));
+          log.info(
+            "响应 getOrderVerificationString " +
+              _this.data.logUserStr +
+              JSON.stringify(data)
+          );
           let tmp_verificationString = data;
           let tmp_payType = _this.data.payInfo.payType;
           let paramPay = {
@@ -517,12 +561,24 @@ Page({
             },
           };
 
-          log.info("请求 generateOrder " + JSON.stringify(paramPay));
+          log.info(
+            "请求 generateOrder " +
+              _this.data.logUserStr +
+              JSON.stringify(paramPay)
+          );
           request(paramPay, (resData) => {
             if (resData.data.data) {
-              log.info("响应 generateOrder " + JSON.stringify(resData.data));
+              log.info(
+                "响应 generateOrder " +
+                  _this.data.logUserStr +
+                  JSON.stringify(resData.data)
+              );
             } else {
-              log.error("响应 generateOrder " + JSON.stringify(resData.data));
+              log.error(
+                "响应 generateOrder " +
+                  _this.data.logUserStr +
+                  JSON.stringify(resData.data)
+              );
             }
             _this.setData({ tmpLoading: false, balanceConfirmFlag: false });
             if (resData.data.code === 200) {
