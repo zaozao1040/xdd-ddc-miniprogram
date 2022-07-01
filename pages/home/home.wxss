@@ -356,7 +356,7 @@ page {
   letter-spacing: 0;
   text-align: center;
   margin-bottom: 30rpx;
-  margin-top: 232rpx;
+  margin-top: 132rpx;
 }
 
 .modulebox-notice-content {
