@@ -389,6 +389,9 @@ Page({
     requestModel.request(
       param,
       (resData) => {
+        if (!resData.foodCustomizeList) {
+          resData.foodCustomizeList = [];
+        }
         if (resData.orderType == 3) {
           // 备用餐逻辑
           _this.setData({
@@ -398,9 +401,6 @@ Page({
             ),
           });
         } else {
-          if (!resData.foodCustomizeList) {
-            resData.foodCustomizeList = [];
-          }
           _this.setData(
             {
               foodTypeList: resData.foodCustomizeList.concat(
