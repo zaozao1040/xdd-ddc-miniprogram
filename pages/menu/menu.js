@@ -60,6 +60,7 @@ Page({
     orderType: 1, //点餐类型  1-普通餐 2-补餐 3-备用餐 4-啥餐也不能点 根据不同类型跳转不同页面 普通餐和补餐公用点餐页
     activeGroupId: 100, // 100 普通餐+商户餐  1 普通餐  2 商户餐 3 小食零食  4 开心农场
     today: moment().format("YYYY-MM-DD"),
+    timeTips: null, //各种类型的餐的截止时间提示
   },
 
   onLoad: function (option) {
@@ -440,6 +441,30 @@ Page({
             _this.getCartList();
           }
         }
+        if (_this.data.timeTips == null) {
+          _this.getTimeTips();
+        }
+      },
+      loading
+    );
+  },
+  getTimeTips: function (loading = false) {
+    let _this = this;
+    let param = {
+      url:
+        "/v3/getMealTime?organizeCode=" +
+        _this.data.userInfo.organizeCode +
+        "&mealDate=" +
+        _this.data.activeMealDate +
+        "&mealType=" +
+        _this.data.activeMealType,
+    };
+    requestModel.request(
+      param,
+      (resData) => {
+        _this.setData({
+          timeTips: resData.data,
+        });
       },
       loading
     );

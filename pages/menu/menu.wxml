@@ -70,6 +70,16 @@
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
             {{mealTypeMap[activeMealType]}}未开通或点餐时间已过
           </view>
+          <block wx:if="{{timeTips}}">
+            <view class="qcenter text-qciyao mt-qtn">
+              正常餐截止时间:
+              <text class="text-qbase">{{timeTips.endTime}}</text>
+            </view>
+            <view class="qcenter text-qciyao mt-qtn">
+              补餐截止时间:
+              <text class="text-qbase">{{timeTips.appendTime}}</text>
+            </view>
+          </block>
         </block>
         <!-- 所有类型的餐 的时间都过了 啥餐都不能点 -->
         <block wx:elif='{{today==activeMealDate&&orderType == 4}}'>
@@ -79,6 +89,16 @@
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
             普通餐、补餐、备用餐时间已过
           </view>
+          <block wx:if="{{timeTips}}">
+            <view class="qcenter text-qciyao mt-qtn">
+              正常餐截止时间:
+              <text class="text-qbase">{{timeTips.endTime}}</text>
+            </view>
+            <view class="qcenter text-qciyao mt-qtn">
+              补餐截止时间:
+              <text class="text-qbase">{{timeTips.appendTime}}</text>
+            </view>
+          </block>
         </block>
         <!-- 备用餐 -->
         <block wx:elif='{{today==activeMealDate&&orderType == 3}}'>
@@ -89,6 +109,16 @@
             普通餐、补餐时间已过，可申请
             <text style="color:#f79c4c">备用餐</text>
           </view>
+          <block wx:if="{{timeTips}}">
+            <view class="qcenter text-qciyao mt-qtn">
+              正常餐截止时间:
+              <text class="text-qbase">{{timeTips.endTime}}</text>
+            </view>
+            <view class="qcenter text-qciyao mt-qtn">
+              补餐截止时间:
+              <text class="text-qbase">{{timeTips.appendTime}}</text>
+            </view>
+          </block>
           <!-- <view style="display:flex;justify-content:center;">
             <l-button style="margin: 20rpx;" shape="semicircle" size="medium" bg-color="#f79c4c" catch:lintap="doWithByc">
               去申请
@@ -112,6 +142,16 @@
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
             预约时间已截止，下次记得提前预约哦
           </view>
+          <block wx:if="{{timeTips}}">
+            <view class="qcenter text-qciyao mt-qtn">
+              正常餐截止时间:
+              <text class="text-qbase">{{timeTips.endTime}}</text>
+            </view>
+            <view class="qcenter text-qciyao mt-qtn">
+              补餐截止时间:
+              <text class="text-qbase">{{timeTips.appendTime}}</text>
+            </view>
+          </block>
         </block>
         <!-- 尚未排餐 -->
         <block wx:elif='{{mealTypeList.length== 0||foodTypeList.length== 0}}'>
