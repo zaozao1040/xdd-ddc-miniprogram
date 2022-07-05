@@ -441,9 +441,7 @@ Page({
             _this.getCartList();
           }
         }
-        if (_this.data.timeTips == null) {
-          _this.getTimeTips();
-        }
+        _this.getTimeTips();
       },
       loading
     );
