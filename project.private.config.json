@@ -1154,6 +1154,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/menu/menu",
+          "query": "recentMealDate=2022-07-12&recentMealType=DINNER",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
