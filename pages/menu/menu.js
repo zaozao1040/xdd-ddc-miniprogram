@@ -833,16 +833,6 @@ Page({
         let foodItem = e.currentTarget.dataset.fooditem;
         let foodTypeIndex = e.currentTarget.dataset.foodtypeindex;
         let foodIndex = e.currentTarget.dataset.foodindex;
-        // if (
-        //   foodItem.foodQuota &&
-        //   foodItem.count == foodItem.foodQuota.quotaNum
-        // ) {
-        //   wx.showToast({
-        //     title: "超出限购",
-        //     image: "/images/msg/error.png",
-        //     duration: 2000,
-        //   });
-        // } else if
         if (foodItem.foodQuota && foodItem.foodQuota.surplusNum == 0) {
           wx.showToast({
             title: "库存为0",
