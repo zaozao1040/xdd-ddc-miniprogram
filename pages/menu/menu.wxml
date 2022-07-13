@@ -126,14 +126,14 @@
           </view> -->
         </block>
         <!-- 餐别不允许点餐 -->
-        <!-- <block wx:elif='{{userTimeAndMealTypeLimit}}'>
+        <block wx:elif='{{userTimeAndMealTypeLimit}}'>
           <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
             根据贵公司要求，当前餐别订餐功能暂不开放，敬请谅解！任何疑问请联系贵公司管理人员。
           </view>
-        </block> -->
+        </block>
         <!-- 已过截止时间 -->
         <block wx:elif='{{activeInfoExtra.mealType.orderStatus == false}}'>
           <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>

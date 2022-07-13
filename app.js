@@ -2,16 +2,17 @@ const mtjwxsdk = require("./utils/mtj-wx-sdk.js");
 import { request } from "./comm_plus/public/request.js";
 App({
   globalData: {
-    // baseUrl: "https://wx.api.91dcan.cn", //线上真实数据，发a布使用！！！！！！！！！！
+    baseUrl: "https://wx.api.91dcan.cn", //线上真实数据，发a布使用！！！！！！！！！！
     //baseUrl: "https://test.91dcan.cn/wx/api", //测试服务器
     // baseUrl: "http://192.168.10.208:9082", //陈震
     // baseUrl: "http://192.168.10.203:9082", //曹功德
-    baseUrl: "http://192.168.10.202:9082", //徐爱国
+    //  baseUrl: "http://192.168.10.202:9082", //徐爱国
+    // baseUrl: "http://192.168.10.207:9082", //李川
 
     baseUrlFlyingCarpet: "https://smartcabinet.91dcan.cn", //飞毯线上真实数据，发布使用！！！！！！！！！！
-    //  baseUrlFlyingCarpet: "http://10.168.1.197:9084", //赵家兴
+    //baseUrlFlyingCarpet: "http://192.168.10.207:9084", //李川
 
-    version: "v3.5.2",
+    version: "v3.5.3",
 
     xddOrgnaizeCode: "ORG530051032172986376", // xdd的orgnaizeCode,线上真实数据，测试用！！！！！！！！！！
     ningxiaOrgnaizeCode: "ORG717398064662446080", // 宁夏的orgnaizeCode,线上真实数据，发布使用！！！！！！！！！！
@@ -20,6 +21,7 @@ App({
       "ORG750349351406141440",
       "ORG803565354977722368",
       "ORG530051032172986376",
+      "ORG963427064847925248",
     ], // 药明康德的orgnaizeCode列表,线上真实数据，发布使用！！！！！！！！！！
     aomeikaiOrgnaizeCode: "ORG619447125926871040", // 奥美凯的orgnaizeCode,线上真实数据，发布使用！！！！！！！！！！
     chaolibaozhuangOrgnaizeCode: "ORG707884806851133440", // 奥美凯的orgnaizeCode,线上真实数据，发布使用！！！！！！！！！！

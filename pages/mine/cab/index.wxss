@@ -21,7 +21,7 @@
 }
 /* 标签列表 */
 .labels-wrapper {
-  height: 70rpx;
+  /* height: 70rpx; */
   line-height: 70rpx;
   margin: 0 10rpx;
   padding: 10rpx 0;

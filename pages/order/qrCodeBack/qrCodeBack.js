@@ -20,6 +20,8 @@ Page({
     code_w: code_w,
     pickStatus: -1, //0-不可取餐  1-可取餐  2-已取餐
     colorDark: "#999999", // "#999999"  "#f79c4c"
+    //
+    isYmkd: false, //是否药明康德
   },
 
   /**
@@ -28,6 +30,15 @@ Page({
 
   onLoad: function (options) {
     let _this = this;
+    // 针对 药明康德 企业，要先判断是否开启了“先评价后点餐”的个性化设置
+    let ymkdOrgnaizeCodeList = getApp().globalData.ymkdOrgnaizeCodeList;
+    let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
+    let organizeCode = tmp_userInfo ? tmp_userInfo.organizeCode : "";
+    if (ymkdOrgnaizeCodeList.indexOf(organizeCode) != -1) {
+      _this.setData({
+        isYmkd: true,
+      });
+    }
     requestModel.getUserCode((userCode) => {
       let param = {
         url:

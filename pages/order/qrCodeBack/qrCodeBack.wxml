@@ -1,61 +1,62 @@
 <view class="title"></view>
-<canvas
-  class="canvas"
-  style="margin:auto;width:{{ code_w }}px; height:{{ code_w }}px;"
-  canvas-id="canvas"
-></canvas>
-<view  class="{{pickStatus == 1&&detailInfo.status !=3&&detailInfo.status !=4?'date':'date anti'}}">{{ detailInfo.mealDate }} {{ detailInfo.mealTypeDes }}</view>
-
+<canvas class="canvas" style="margin:auto;width:{{ code_w }}px; height:{{ code_w }}px;" canvas-id="canvas"></canvas>
+<view class="{{pickStatus == 1&&detailInfo.status !=3&&detailInfo.status !=4?'date':'date anti'}}">
+  {{ detailInfo.mealDate }} {{ detailInfo.mealTypeDes }}
+</view>
 <view class="food-wrapper">
-  <view
-    class="foodItem"
-    wx:for="{{ detailInfo.orderFoodList }}"
-    wx:for-index="foodListIndex"
-    wx:for-item="foodListItem"
-  >
-    <view  class="{{pickStatus == 1&&detailInfo.status !=3&&detailInfo.status !=4?'foodName':'foodName anti'}}">
+  <view class="foodItem" wx:for="{{ detailInfo.orderFoodList }}" wx:for-index="foodListIndex" wx:for-item="foodListItem">
+    <view class="{{pickStatus == 1&&detailInfo.status !=3&&detailInfo.status !=4?'foodName':'foodName anti'}}">
       {{ foodListItem.foodName }}
     </view>
-    <view  class="{{pickStatus == 1&&detailInfo.status !=3&&detailInfo.status !=4?'foodQuantity':'foodQuantity anti'}}">x {{ foodListItem.foodQuantity }}份</view>
+    <view class="{{pickStatus == 1&&detailInfo.status !=3&&detailInfo.status !=4?'foodQuantity':'foodQuantity anti'}}">
+      x {{ foodListItem.foodQuantity }}份
+    </view>
   </view>
 </view>
-
-<view  class="{{pickStatus == 1&&detailInfo.status !=3&&detailInfo.status !=4?'user':'user anti'}}">{{ userInfo.userName }}({{ userInfo.phoneNumber }})</view>
-<view  class="{{pickStatus == 1&&detailInfo.status !=3&&detailInfo.status !=4?'organize':'organize anti'}}">
+<view class="{{pickStatus == 1&&detailInfo.status !=3&&detailInfo.status !=4?'user':'user anti'}}">
+  {{ userInfo.userName }}({{ userInfo.phoneNumber }})
+</view>
+<view class="{{pickStatus == 1&&detailInfo.status !=3&&detailInfo.status !=4?'organize':'organize anti'}}">
   {{ userInfo.organizeName }}
 </view>
-<view wx:if="{{ pickStatus === 1 }}" >
+<view wx:if="{{ pickStatus === 1 }}">
   <view wx:if="{{ detailInfo.status ==3 || detailInfo.status ==4 }}" class="yiqucan">
     订单已取消或已过期
   </view>
-  <view wx:else class="button" bindtap="updateOrderStatus">
-    确认取餐
-  </view>
+  <view wx:else class="button" bindtap="updateOrderStatus">确认取餐</view>
 </view>
 <view wx:elif="{{ pickStatus === 2 }}" class="yiqucan">{{ detailInfo.pickTime +' 已取餐'}}</view>
-<view wx:elif="{{ pickStatus === 0 }}"  class="weidao">
+<view wx:elif="{{ pickStatus === 0 }}" class="weidao">
   <view class="weidao-title">未到取餐时间</view>
-  <view class="qcsj"><text class="qcsj iconfont icon-tixing"></text>午餐取餐时间: 上午10:00</view>
-  <view class="qcsj"><text class="qcsj iconfont icon-tixing"></text>晚餐取餐时间: 下午16:00</view>
+  <!-- <view class="qcsj"><text class="qcsj iconfont icon-tixing"></text>午餐取餐时间: 上午10:00</view>
+  <view class="qcsj"><text class="qcsj iconfont icon-tixing"></text>晚餐取餐时间: 下午16:00</view> -->
+  <block wx:if="{{isYmkd}}">
+    <view class="qcsj">
+      <text class="qcsj iconfont icon-tixing"></text>
+      午餐取餐时间: 上午11:00
+    </view>
+    <view class="qcsj">
+      <text class="qcsj iconfont icon-tixing"></text>
+      晚餐取餐时间: 下午17:00
+    </view>
+  </block>
+  <block wx:else>
+    <view class="qcsj">
+      <text class="qcsj iconfont icon-tixing"></text>
+      午餐取餐时间: 上午10:00
+    </view>
+    <view class="qcsj">
+      <text class="qcsj iconfont icon-tixing"></text>
+      晚餐取餐时间: 下午16:00
+    </view>
+  </block>
 </view>
 <view class="{{pickStatus == 1&&detailInfo.status !=3&&detailInfo.status !=4?'ts-wrp':'ts-wrp anti'}}">
-  <view class="ts-title">
-    温馨提醒：  
-  </view>
-  <view class="ts-line">
-    1. 现场取餐须出示本页面作为取餐凭证；
-  </view>
-  <view class="ts-line">
-    2. 请在领取餐品后点击“确认取餐”按钮； 
-  </view>
-  <view class="ts-line">
-    3. 取餐凭证只能领取一次餐品；
-  </view>
+  <view class="ts-title">温馨提醒：</view>
+  <view class="ts-line">1. 现场取餐须出示本页面作为取餐凭证；</view>
+  <view class="ts-line">2. 请在领取餐品后点击“确认取餐”按钮；</view>
+  <view class="ts-line">3. 取餐凭证只能领取一次餐品；</view>
 </view>
-
-
-
-
 <!-- <view wx:if="{{ pickStatus === 1 }}" class="button" bindtap="updateOrderStatus">
   取餐
 </view>

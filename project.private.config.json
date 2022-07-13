@@ -1161,6 +1161,20 @@
           "query": "recentMealDate=2022-07-12&recentMealType=DINNER",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/mine/cab/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/order/qrCodeBack/qrCodeBack",
+          "query": "orderCode=DDC996768747182096384",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

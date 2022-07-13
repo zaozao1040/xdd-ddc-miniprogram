@@ -9,6 +9,10 @@
           {{item.cabinetSort}}
           <!-- <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/cab/xiangxia.png' wx:if="{{index==currentCabinetIndex}}" style='width:30rpx;height:30rpx;'></image> -->
         </view>
+        <view class="flex">
+          <view class="">所在地址：</view>
+          <view class="">{{currentCabinetInfo.cabinetAddressName}}</view>
+        </view>
       </scroll-view>
     </view>
     <scroll-view class="scroll-view" scroll-x>
