@@ -73,11 +73,11 @@
           <block wx:if="{{timeTips}}">
             <view class="qcenter text-qciyao mt-qtn">
               正常餐截止时间:
-              <text class="text-qbase">{{timeTips.endTime}}</text>
+              <text class="text-qbase">{{timeTips.endTime||'未开通或未配截止时间'}}</text>
             </view>
             <view class="qcenter text-qciyao mt-qtn">
               补餐截止时间:
-              <text class="text-qbase">{{timeTips.appendTime}}</text>
+              <text class="text-qbase">{{timeTips.appendTime||'未开通或未配截止时间'}}</text>
             </view>
           </block>
         </block>
@@ -92,11 +92,11 @@
           <block wx:if="{{timeTips}}">
             <view class="qcenter text-qciyao mt-qtn">
               正常餐截止时间:
-              <text class="text-qbase">{{timeTips.endTime}}</text>
+              <text class="text-qbase">{{timeTips.endTime||'未开通或未配截止时间'}}</text>
             </view>
             <view class="qcenter text-qciyao mt-qtn">
               补餐截止时间:
-              <text class="text-qbase">{{timeTips.appendTime}}</text>
+              <text class="text-qbase">{{timeTips.appendTime||'未开通或未配截止时间'}}</text>
             </view>
           </block>
         </block>
@@ -112,11 +112,11 @@
           <block wx:if="{{timeTips}}">
             <view class="qcenter text-qciyao mt-qtn">
               正常餐截止时间:
-              <text class="text-qbase">{{timeTips.endTime}}</text>
+              <text class="text-qbase">{{timeTips.endTime||'未开通或未配截止时间'}}</text>
             </view>
             <view class="qcenter text-qciyao mt-qtn">
               补餐截止时间:
-              <text class="text-qbase">{{timeTips.appendTime}}</text>
+              <text class="text-qbase">{{timeTips.appendTime||'未开通或未配截止时间'}}</text>
             </view>
           </block>
           <!-- <view style="display:flex;justify-content:center;">
@@ -145,11 +145,11 @@
           <block wx:if="{{timeTips}}">
             <view class="qcenter text-qciyao mt-qtn">
               正常餐截止时间:
-              <text class="text-qbase">{{timeTips.endTime}}</text>
+              <text class="text-qbase">{{timeTips.endTime||'未开通或未配截止时间'}}</text>
             </view>
             <view class="qcenter text-qciyao mt-qtn">
               补餐截止时间:
-              <text class="text-qbase">{{timeTips.appendTime}}</text>
+              <text class="text-qbase">{{timeTips.appendTime||'未开通或未配截止时间'}}</text>
             </view>
           </block>
         </block>
