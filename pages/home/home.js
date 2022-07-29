@@ -108,6 +108,8 @@ Page({
     ddcbInfo: {},
     //
     foodInfo: {},
+    // 是否显示关注公众号
+    showGzh: false,
   },
 
   navigateToMenu() {
@@ -310,6 +312,7 @@ Page({
     _this.getDcyjList(); //点餐有奖
     _this.getDdtjList(); //点点推荐
     _this.getDdcbList(); //点点餐榜
+    _this.getGzhFlag(); //是否关注公众号
 
     // 这个逻辑是  订单页 当没有订单时，引导用户跳转到首页的开始点餐
     if (options.fromorder) {
@@ -481,6 +484,26 @@ Page({
     }
   },
   // #endregion ######## end 区域: 点点餐榜 ###############*/
+
+  // #region ############### 区域: 是否关注公众号 ###############
+
+  getGzhFlag: function () {
+    let _this = this;
+    let param = {
+      url:
+        "/follow/concernedOrNot?userCode=" +
+        wx.getStorageSync("userInfo").userInfo.userCode,
+    };
+    requestModel.request(param, (resData) => {
+      if (resData == false) {
+        _this.setData({
+          showGzh: true,
+        });
+      }
+    });
+  },
+
+  // #endregion ######## end 区域: 是否关注公众号 ###############*/
 
   //重新绑定
   clickCxbd() {

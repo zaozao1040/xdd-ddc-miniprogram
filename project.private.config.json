@@ -1175,6 +1175,20 @@
           "query": "orderCode=DDC996768747182096384",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/mine/mine",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/login/selectPhone/selectPhone",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

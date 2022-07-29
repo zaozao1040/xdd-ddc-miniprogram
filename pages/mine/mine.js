@@ -39,6 +39,22 @@ Page({
     // 订单未评价个数
     notReadNumber: 0,
   },
+  contactCallback: function (e) {
+    console.log("@@@@@@@ 2 @@@@@@@ ", JSON.stringify(e));
+
+    var path = e.detail.path,
+      query = e.detail.query,
+      params = "";
+    if (path) {
+      for (var key in query) {
+        params = key + "=" + query[key] + "&";
+      }
+      params = params.slice(0, params.length - 1);
+      wx.navigateTo({
+        url: path + "?" + params,
+      });
+    }
+  },
   /* 获取待评价信息 */
   getOrderEvaluateReplyNotRead() {
     let _this = this;
