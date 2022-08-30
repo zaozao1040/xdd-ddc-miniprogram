@@ -192,10 +192,9 @@
           </view>
         </view>
       </view>
-      <!-- <view class='function-wrapper'>
+      <view class='function-wrapper'>
         <button open-type="contact" bindcontact='contactCallback'>联系客服</button>
-  
-      </view> -->
+      </view>
     </view>
     <!-- 切换弹窗 -->
     <c-custom-modal content='{{modalContent.content}}' wx:if='{{modalContent.show}}' bind:closemodal='closeModal' bind:handleconfirm='changeRoleModal'></c-custom-modal>
