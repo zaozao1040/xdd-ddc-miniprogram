@@ -1196,6 +1196,20 @@
           "query": "recentMealDate=2022-08-30&recentMealType=LUNCH",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/mine/complaint/complaint",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/mine/complaint/say",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

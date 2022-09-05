@@ -1,24 +1,29 @@
 <view style='background: #F5F5F5;height:{{windowHeight}}px;padding: 20rpx;'>
-  <view class='wrapper'>
-    <view class='flex-a'>
-      <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/mine/jing2.png' style='width:40rpx;height:40rpx;'></image>
-      <view class='title'>添加反馈</view>
-    </view>
-    <view class='word_list'>
-      <view wx:for='{{wordList}}' style='position:relative;' wx:key='index' class='{{item.active?"item-active flex-a":"item flex-a"}}' bindtap='changeSelect' data-index='{{index}}'>
-        <image wx:if='{{item.active}}' class='delete' src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/mine/delete.png' catchtap='deleteOne' data-index='{{index}}'></image>
-        <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/mine/jing2.png' style='width:32rpx;height:32rpx;margin-top:10rpx;'></image>
-        <view>{{item.content}}</view>
+  <form report-submit="true" bindsubmit="buttonClickYes_ratings">
+    <view class='wrapper'>
+      <view class='flex-a'>
+        <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/mine/jing2.png' style='width:40rpx;height:40rpx;'></image>
+        <view class='title'>添加反馈</view>
       </view>
-      <view class='item' bindtap='gotoAddWords'>
-        <text style='color:#F7A14C;'>+</text>
-        更多
+      <view class='word_list'>
+        <view wx:for='{{wordList}}' style='position:relative;' wx:key='index' class='{{item.active?"item-active flex-a":"item flex-a"}}' bindtap='changeSelect' data-index='{{index}}'>
+          <image wx:if='{{item.active}}' class='delete' src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/mine/delete.png' catchtap='deleteOne' data-index='{{index}}'></image>
+          <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/mine/jing2.png' style='width:32rpx;height:32rpx;margin-top:10rpx;'></image>
+          <view>{{item.content}}</view>
+        </view>
+        <view class='item' bindtap='gotoAddWords'>
+          <text style='color:#F7A14C;'>+</text>
+          更多
+        </view>
       </view>
     </view>
-  </view>
-  <view style="height:300rpx;background:#fff;border-radius:8rpx;">
-    <textarea style='color:#333;' class='textarea' placeholder-class='textarea' bindinput="bindTextAreaInput" placeholder="请输入~" maxlength="300" auto-focus value="{{value}}" />
-    <!-- <view style="font-size:32rpx;text-align:right;color:#ccc;padding-right:10rpx;">{{count}}/300</view> -->
-  </view>
-  <view bindtap='makeComplaints' class='button'>发布</view>
+    <view style="height:300rpx;background:#fff;border-radius:8rpx;">
+      <textarea style='color:#333;' class='textarea' placeholder-class='textarea' bindinput="bindTextAreaInput" placeholder="请输入~" maxlength="300" auto-focus value="{{value}}" />
+      <!-- <view style="font-size:32rpx;text-align:right;color:#ccc;padding-right:10rpx;">{{count}}/300</view> -->
+    </view>
+    <view class='button-view'>
+      <button class="button" formType="submit" data-ordercode="{{orderItem.orderCode}}">发布</button>
+    </view>
+    <!-- <view bindtap='makeComplaints' class='button'>发布</view> -->
+  </form>
 </view>
