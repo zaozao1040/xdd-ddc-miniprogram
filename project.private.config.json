@@ -1210,6 +1210,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/mine/complaint/complaint",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

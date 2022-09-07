@@ -15,7 +15,10 @@
             </block>
             <text class='content' wx:if='{{item.content}}'>{{item.content}}</text>
           </view>
-          <view class='reply' wx:if='{{item.replyContent}}'>{{item.replyContent}}</view>
+          <view class='reply flex' wx:if='{{item.replyContent}}'>
+            <view class="text-qciyao">回复：</view>
+            <view class="text-qchanggui">{{item.replyContent}}</view>
+          </view>
         </view>
       </view>
     </view>
