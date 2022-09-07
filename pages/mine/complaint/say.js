@@ -115,7 +115,7 @@ Page({
   buttonClickYes_ratings: function (e) {
     let _this = this;
     wx.requestSubscribeMessage({
-      tmplIds: ["k9_hMQJDtcP6thO3JsrAjeiFFfupnsE82BaaGaWRUMM"],
+      tmplIds: ["FJV-oVxXlvm3TF5ig_VQdlTJjAdUFvYQkYVp9sTsLuo"],
       complete(res) {
         _this.makeComplaints();
       },
