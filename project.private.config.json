@@ -1217,6 +1217,20 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/wenzhang/wenzhangDetail",
+          "query": "id=6",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/byc/byc",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
