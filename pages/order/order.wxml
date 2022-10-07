@@ -177,11 +177,11 @@
                 </view>
               </view>
               <view class='flex-a'>
-                <view class='food-money'>
-                  实付：￥
-                  <text style='font-weight:500;position:relative; left:-4rpx;;'>
+                <view class='food-money  flex'>
+                  <view class="">实付：￥</view>
+                  <view style='font-weight:500;position:relative; left:-4rpx;;'>
                     {{orderItem.payPrice}}
-                  </text>
+                  </view>
                 </view>
                 <view wx:if="{{orderItem.standardPrice}}">
                   <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/order/standard.png' style='width:68rpx;height:32rpx;margin-left:10rpx;margin-top:13rpx;'></image>
