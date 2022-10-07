@@ -1232,6 +1232,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/byc/byc",
+          "query": "qrCode=DDC1022143994018136064-8290-5",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

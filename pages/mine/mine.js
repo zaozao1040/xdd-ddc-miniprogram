@@ -512,15 +512,22 @@ Page({
 
   // 新版备用餐
   clickConfirm: function () {
+    console.log("####### 3ds ####### ");
+
     wx.scanCode({
-      type: "qr",
       success(res) {
-        console.log("xxx", res);
+        console.log("success", res);
         if (res.result) {
           wx.navigateTo({
             url: "/pages/byc/byc?qrCode=" + res.result,
           });
         }
+      },
+      fail(res) {
+        console.log("fail", res);
+      },
+      complete(res) {
+        console.log("complete", res);
       },
     });
   },

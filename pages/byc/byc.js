@@ -8,33 +8,18 @@ Page({
    */
   data: {
     hasData: false,
-    detailInfo: null,
+    detailInfo: {},
     userInfo: {},
-
-    payStatusMap: {
-      THIRD_PAYED: "第三方支付",
-      NO_PAYED: "未支付",
-      STANDARD_PAYED: "标准支付",
-    },
-    payTypeMap: {
-      ALI_PAY: "支付宝支付",
-      WECHAT_PAY: "微信支付",
-      BALANCE_PAY: "钱包支付",
-      STANDARD_PAY: "标准支付",
-    },
-    mealTypeMap: {
-      BREAKFAST: "早餐",
-      LUNCH: "午餐",
-      DINNER: "晚餐",
-      NIGHT: "夜宵",
-    },
+    qrCode: "",
   },
 
   onLoad: function (options) {
     let _this = this;
     let { userInfo } = wx.getStorageSync("userInfo");
-
-    // http://192.168.110.187:9082/order/getSpareMealDetail?qrCode=DDC972496882272043008-8290-20&organizeCode=ORG530051032172986376
+    _this.setData({
+      userInfo: userInfo,
+      qrCode: options.qrCode,
+    });
     requestModel.getUserCode((userCode) => {
       let param = {
         url:
@@ -43,11 +28,37 @@ Page({
           "&qrCode=" +
           options.qrCode,
       };
-      requestModel.request(param, (data) => {
-        console.log("======= data ======= ", data);
-        _this.setData({
-          hasData: true,
-        });
+      requestModel.qqRequest(param, (data) => {
+        if (data.code == 200) {
+          let mealTypeMap = {
+            LUNCH: "午餐",
+            DINNER: "晚餐",
+            BREAKFAST: "早餐",
+            NIGHT: "夜宵",
+          };
+          data.data.mealTypeDes = mealTypeMap[data.data.mealType];
+          _this.setData({
+            hasData: true,
+            detailInfo: data.data,
+          });
+        } else {
+          wx.showModal({
+            title: "提示",
+            content: data.msg,
+            confirmText: "返回上一页",
+            showCancel: false,
+            success(res) {
+              if (res.confirm) {
+                console.log("用户点击确定");
+                wx.reLaunch({
+                  url: "/pages/mine/mine",
+                });
+              } else if (res.cancel) {
+                console.log("用户点击取消");
+              }
+            },
+          });
+        }
       });
     });
   },
@@ -56,10 +67,64 @@ Page({
       url: "/pages/mine/mine",
     });
   },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {},
+  //  支付
+  clickZf: function () {
+    let _this = this;
+    let obj = {
+      qrCode: _this.data.qrCode,
+      userCode: _this.data.userInfo.userCode,
+      userName: _this.data.userInfo.userName,
+      phoneNumber: _this.data.userInfo.phoneNumber,
+    };
+    let param = {
+      data: obj,
+      method: "post",
+      url: "/order/spareMealOrderScanPay",
+    };
+    requestModel.qqRequest(param, (data) => {
+      if (data.code == 200) {
+        let payData = data.data.payData;
+        wx.requestPayment({
+          timeStamp: payData.timeStamp.toString(),
+          nonceStr: payData.nonceStr,
+          package: payData.packageValue,
+          signType: payData.signType,
+          paySign: payData.paySign,
+          success: function (e) {
+            setTimeout(function () {
+              wx.reLaunch({
+                url: "/pages/order/order?content=" + "订单已生成",
+              });
+            }, 200);
+          },
+          fail: function (e) {
+            setTimeout(function () {
+              wx.reLaunch({
+                url: "/pages/order/order?content=" + "订单已生成,请尽快支付",
+              });
+            }, 200);
+          },
+        });
+      } else {
+        wx.showModal({
+          title: "提示",
+          content: data.msg,
+          confirmText: "返回上一页",
+          showCancel: false,
+          success(res) {
+            if (res.confirm) {
+              console.log("用户点击确定");
+              wx.reLaunch({
+                url: "/pages/mine/mine",
+              });
+            } else if (res.cancel) {
+              console.log("用户点击取消");
+            }
+          },
+        });
+      }
+    });
+  },
 
   /**
    * 生命周期函数--监听页面显示

@@ -221,6 +221,25 @@ class base {
       },
     });
   }
+
+  // 新版request 把所有结果抛给业务api调用处
+  qqRequest(params, sCallback, eCallback) {
+    wx.request({
+      //timeout: 5000,//超时时间
+      url: baseUrl + params.url,
+      data: params.data || {}, //这个是不是可以传null或者undefined？
+      method: params.method || "GET",
+      header: {
+        "content-type": "application/json",
+      },
+      success: (result) => {
+        sCallback(result.data);
+      },
+      fail: (error) => {
+        console.log(error);
+      },
+    });
+  }
   // 获取用户信息
   getUserInfo(sCallback, pullDown) {
     let { userInfo, time } = wx.getStorageSync("userInfo");
