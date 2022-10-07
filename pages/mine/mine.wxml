@@ -203,4 +203,5 @@
 </view>
 <c-custom-modal title='是否拨打客服电话?' content='{{servicePhone}}' wx:if='{{showPhoneModal}}' bind:closemodal='closePhoneModal' bind:handleconfirm='handleContact'></c-custom-modal>
 <c-custom-modal title='是否开柜取餐?' content='{{cellInfoDes}}' wx:if='{{showTakeFoodModal}}' bind:closemodal='closeTakeFoodModal' bind:handleconfirm='handleTakeFoodContact'></c-custom-modal>
-<l-dialog show="{{showQuedingByc}}" type="alert" title="请扫码备用餐" confirm-color="#F79C4C" confirm-text="开始扫码" bind:linconfirm="clickConfirm" bind:lintap="clickCancel" />
+<!-- lin -->
+<l-action-sheet bind:linitemtap="lintapItem" />

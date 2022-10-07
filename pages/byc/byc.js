@@ -11,6 +11,7 @@ Page({
     detailInfo: {},
     userInfo: {},
     qrCode: "",
+    errMsg: "",
   },
 
   onLoad: function (options) {
@@ -42,21 +43,9 @@ Page({
             detailInfo: data.data,
           });
         } else {
-          wx.showModal({
-            title: "提示",
-            content: data.msg,
-            confirmText: "返回上一页",
-            showCancel: false,
-            success(res) {
-              if (res.confirm) {
-                console.log("用户点击确定");
-                wx.reLaunch({
-                  url: "/pages/mine/mine",
-                });
-              } else if (res.cancel) {
-                console.log("用户点击取消");
-              }
-            },
+          _this.setData({
+            hasData: false,
+            errMsg: data.msg,
           });
         }
       });
@@ -97,13 +86,6 @@ Page({
               });
             }, 200);
           },
-          fail: function (e) {
-            setTimeout(function () {
-              wx.reLaunch({
-                url: "/pages/order/order?content=" + "订单已生成,请尽快支付",
-              });
-            }, 200);
-          },
         });
       } else {
         wx.showModal({
@@ -125,34 +107,4 @@ Page({
       }
     });
   },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {},
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {},
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {},
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {},
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {},
 });

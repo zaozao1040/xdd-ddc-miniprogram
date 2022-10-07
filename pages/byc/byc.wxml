@@ -21,14 +21,14 @@
       </view>
       <!-- 订单信息 -->
       <view class="order-info-wrapper">
-        <view class="order-info-one">
+        <!-- <view class="order-info-one">
           <view class="left-label">下单时间</view>
           <view class="right-content">{{ detailInfo.orderTime }}</view>
         </view>
         <view class="order-info-one" wx:if="{{ detailInfo.isPay }}">
           <view class="left-label">支付时间</view>
           <view class="right-content">{{ detailInfo.orderTime }}</view>
-        </view>
+        </view> -->
         <view class="order-info-one">
           <view class="left-label">支付方式</view>
           <!-- <view class="right-content">{{detailInfo.payTypeDes}}</view> -->
@@ -42,7 +42,7 @@
   </view>
   <view wx:else class="fixed left-0 right-0 top-0 bottom-0 bg-white   h-full w-full flex justify-center items-center">
     <view class="  pb-qhhg ">
-      <view class=" flex justify-center items-center text-qlg text-qciyao">备用餐订单无效</view>
+      <view class=" flex justify-center items-center text-qlg text-qciyao">{{errMsg}}</view>
       <view class="flex justify-center items-center text-qbase text-qmd pt-qhhg" bindtap="clickBack">
         返回上一页
       </view>

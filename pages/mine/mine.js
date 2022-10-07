@@ -38,8 +38,6 @@ Page({
 
     // 订单未评价个数
     notReadNumber: 0,
-    // 新版备用餐
-    showQuedingByc: false,
   },
   contactCallback: function (e) {
     console.log("@@@@@@@ 2 @@@@@@@ ", JSON.stringify(e));
@@ -324,27 +322,6 @@ Page({
     }
   },
 
-  // 点击备用餐
-  clickByc(e) {
-    // let { orgadmin } = e.currentTarget.dataset;
-    // let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
-    // if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
-    //   wx.navigateTo({
-    //     url:
-    //       "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
-    //       orgadmin +
-    //       "&deliveryAddressCode=" +
-    //       tmp_tmp_userInfo.userInfo.deliveryAddressCode,
-    //   });
-    // }
-    this.setData({
-      showQuedingByc: true,
-    });
-    // wx.navigateTo({
-    //   url: "/pages/byc/byc",
-    // });
-  },
-
   gotoAddfoodAdmin() {
     wx.navigateTo({
       url: "/pages/mine/orgAdminAddfood/orgAdminAddfood",
@@ -511,31 +488,41 @@ Page({
   onShareAppMessage: function () {},
 
   // 新版备用餐
-  clickConfirm: function () {
-    console.log("####### 3ds ####### ");
-
-    wx.scanCode({
-      success(res) {
-        console.log("success", res);
-        if (res.result) {
-          wx.navigateTo({
-            url: "/pages/byc/byc?qrCode=" + res.result,
-          });
-        }
-      },
-      fail(res) {
-        console.log("fail", res);
-      },
-      complete(res) {
-        console.log("complete", res);
-      },
+  clickByc(e) {
+    wx.lin.showActionSheet({
+      itemList: [
+        {
+          name: "我的备用餐",
+        },
+        {
+          name: "扫码申请",
+        },
+      ],
     });
   },
-  clickCancel() {
-    console.log("=======  ======= ");
-
-    this.setData({
-      showQuedingByc: false,
-    });
+  lintapItem(e) {
+    let name = e.detail.item.name;
+    if (name == "扫码申请") {
+      wx.scanCode({
+        success(res) {
+          console.log("success", res);
+          if (res.result) {
+            wx.navigateTo({
+              url: "/pages/byc/byc?qrCode=" + res.result,
+            });
+          }
+        },
+        fail(res) {
+          console.log("fail", res);
+        },
+        complete(res) {
+          console.log("complete", res);
+        },
+      });
+    } else if (name == "我的备用餐") {
+      wx.navigateTo({
+        url: "/pages/byc/bycOrder",
+      });
+    }
   },
 });
