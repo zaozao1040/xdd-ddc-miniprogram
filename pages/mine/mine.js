@@ -38,6 +38,8 @@ Page({
 
     // 订单未评价个数
     notReadNumber: 0,
+    // 新版备用餐
+    showQuedingByc: false,
   },
   contactCallback: function (e) {
     console.log("@@@@@@@ 2 @@@@@@@ ", JSON.stringify(e));
@@ -324,17 +326,23 @@ Page({
 
   // 点击备用餐
   clickByc(e) {
-    let { orgadmin } = e.currentTarget.dataset;
-    let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
-    if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
-      wx.navigateTo({
-        url:
-          "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
-          orgadmin +
-          "&deliveryAddressCode=" +
-          tmp_tmp_userInfo.userInfo.deliveryAddressCode,
-      });
-    }
+    // let { orgadmin } = e.currentTarget.dataset;
+    // let tmp_tmp_userInfo = wx.getStorageSync("userInfo");
+    // if (tmp_tmp_userInfo && tmp_tmp_userInfo.userInfo) {
+    //   wx.navigateTo({
+    //     url:
+    //       "/pages/mine/orgAdminSpare/orgAdminSpare?orgadmin=" +
+    //       orgadmin +
+    //       "&deliveryAddressCode=" +
+    //       tmp_tmp_userInfo.userInfo.deliveryAddressCode,
+    //   });
+    // }
+    this.setData({
+      showQuedingByc: true,
+    });
+    // wx.navigateTo({
+    //   url: "/pages/byc/byc",
+    // });
   },
 
   gotoAddfoodAdmin() {
@@ -501,4 +509,26 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {},
+
+  // 新版备用餐
+  clickConfirm: function () {
+    wx.scanCode({
+      type: "qr",
+      success(res) {
+        console.log("xxx", res);
+        if (res.result) {
+          wx.navigateTo({
+            url: "/pages/byc/byc?qrCode=" + res.result,
+          });
+        }
+      },
+    });
+  },
+  clickCancel() {
+    console.log("=======  ======= ");
+
+    this.setData({
+      showQuedingByc: false,
+    });
+  },
 });

@@ -7,7 +7,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    hasData: false,
     detailInfo: null,
+    userInfo: {},
 
     payStatusMap: {
       THIRD_PAYED: "第三方支付",
@@ -30,143 +32,30 @@ Page({
 
   onLoad: function (options) {
     let _this = this;
+    let { userInfo } = wx.getStorageSync("userInfo");
 
+    // http://192.168.110.187:9082/order/getSpareMealDetail?qrCode=DDC972496882272043008-8290-20&organizeCode=ORG530051032172986376
     requestModel.getUserCode((userCode) => {
       let param = {
         url:
-          "/order/getOrderDetail?userCode=" +
-          userCode +
-          "&orderCode=DDC1021737510729940992",
+          "/order/getSpareMealDetail?organizeCode=" +
+          userInfo.organizeCode +
+          "&qrCode=" +
+          options.qrCode,
       };
       requestModel.request(param, (data) => {
-        data.mealTypeDes = _this.data.mealTypeMap[data.mealType]; //日期
-        data.orderStatusDes = _this.getOrderStatus(data); //状态
-        data.deduction = parseFloat(
-          (parseFloat(data.totalPrice) - parseFloat(data.payPrice)).toFixed(2)
-        );
-
-        //绑箱绑柜信息
-        let cabinets = [];
-        data.orderFoodList.forEach((item) => {
-          if (item.cabinet && item.cabinet.length > 0) {
-            item.cabinet.forEach((cc) => {
-              let a = cc.cabinetNumber + "-" + cc.cellNumber;
-              if (!cabinets.includes(a)) {
-                cabinets.push({
-                  gui: a,
-                  shijian: cc.foodPickTime,
-                  shiwu: item.foodName,
-                });
-              }
-            });
-          }
-        });
-        data.cabinets = cabinets || [];
-
-        if (data.isPay) {
-          //已支付，判断支付方式
-          if (data.payMethod == 2 || data.payMethod == 3) {
-            if (data.defrayType == 1) {
-              data.payTypeDes = "钱包支付";
-              data.showPayWay = true;
-            } else if (data.defrayType == 2) {
-              data.payTypeDes = "微信支付";
-            }
-            // else if (data.defrayType == 4) {
-            //     data.payTypeDes = '积分支付'
-            // }
-            else {
-              data.payTypeDes = "标准支付";
-            }
-          } else if (data.payMethod == 1) {
-            data.payTypeDes = "标准支付";
-          }
-        } else {
-          data.payTypeDes = "未支付";
-        }
-
+        console.log("======= data ======= ", data);
         _this.setData({
-          detailInfo: data,
-        });
-
-        //获取windowHeight
-        wx.getSystemInfo({
-          success: function (res) {
-            _this.setData({
-              windowHeight: res.windowHeight,
-              wrapperHeight: res.windowHeight,
-            });
-          },
-        });
-        //计算最外层view的bottom
-        const query = wx.createSelectorQuery();
-        query.select(".wrapper").boundingClientRect();
-        query.selectViewport().scrollOffset();
-        query.exec(function (res) {
-          if (res[0]) {
-            _this.setData({
-              wrapperHeight: res[0].bottom,
-            });
-          }
+          hasData: true,
         });
       });
     });
   },
-
-  //获取订单状态
-  getOrderStatus(element) {
-    let a = "";
-    if (element.status == 1) {
-      if (element.isPay == false) {
-        a = "订单未支付";
-      } else {
-        a = "订单已支付";
-      }
-    } else if (element.status == 2) {
-      if (element.confirmStatus == 2) {
-        if (element.evaluateStatus == 1) {
-          a = "待评价";
-        } else if (element.pickStatus == 1) {
-          a = "待取餐";
-        } else if (element.deliveryStatus == 1) {
-          a = "待配送";
-        } else if (element.deliveryStatus == 2) {
-          a = "配送中";
-        } else {
-          a = "制作中";
-        }
-      } else {
-        a = "订单已支付";
-      }
-    } else if (element.status == 3) {
-      a = "订单已完成";
-    } else {
-      a = "订单已取消";
-    }
-    return a;
-  },
-  //复制订单编号
-  handleCopy() {
-    let orderCode = this.data.detailInfo.orderCode;
-    wx.setClipboardData({
-      data: orderCode,
-      success(res) {
-        wx.getClipboardData({
-          success(res) {
-            console.log(res.data); // data
-          },
-        });
-      },
+  clickBack: function () {
+    wx.reLaunch({
+      url: "/pages/mine/mine",
     });
   },
-
-  gotoMyComment() {
-    let _this = this;
-    wx.navigateTo({
-      url: "./myComment/myComment?orderCode=" + _this.data.detailInfo.orderCode,
-    });
-  },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

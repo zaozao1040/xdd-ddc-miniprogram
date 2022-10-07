@@ -1,51 +1,59 @@
 <view class="wrapper text-qchanggui text-qsm">
-  <scroll-view scroll-y style="height:{{ windowHeight }}px" bindscroll="handleMostOuterScroll">
-    <view class="orderItem-wrapper">
-      <view class="flex items-center justify-between qbb pb-qtn">
-        <view class="">{{detailInfo.mealDate}}{{' '+detailInfo.mealTypeDes}}</view>
-        <view class=' '>{{detailInfo.orderStatusDes}}</view>
-      </view>
-      <view class="flex items-center justify-between   pb-qtn" wx:for="{{detailInfo.orderFoodList}}" wx:key="{{index}}">
-        <view class='flex-1'>
-          <view class='flex items-center justify-between pt-qtn'>
-            <!-- <view class="cart-menuItemDes">{{item.foodName}}</view> -->
-            <view class="cart-menuItemDes">{{'备用餐'}}</view>
-            <view class="text-qdanger">¥{{item.foodPrice}}</view>
-          </view>
-          <view class="cart-menuItem-mealtype">
-            <text style="margin-right:10rpx;">{{detailInfo.mealTypeDes}}</text>
-            <text>x{{item.foodQuantity}}</text>
+  <view class="" wx:if="{{ hasData }}">
+    <scroll-view scroll-y style="height:{{ windowHeight }}px" bindscroll="handleMostOuterScroll">
+      <view class="orderItem-wrapper">
+        <view class="flex items-center justify-between qbb pb-qtn">
+          <view class="">{{ detailInfo.mealDate }}{{ " " + detailInfo.mealTypeDes }}</view>
+          <view class=" ">{{ detailInfo.orderStatusDes }}</view>
+        </view>
+        <view class="flex items-center justify-between pb-qtn" wx:for="{{ detailInfo.orderFoodList }}" wx:key="{{ index }}">
+          <view class="flex-1">
+            <view class="flex items-center justify-between pt-qtn">
+              <!-- <view class="cart-menuItemDes">{{item.foodName}}</view> -->
+              <view class="cart-menuItemDes">{{ "备用餐" }}</view>
+              <view class="text-qdanger">¥{{ item.foodPrice }}</view>
+            </view>
+            <view class="cart-menuItem-mealtype">
+              <text style="margin-right: 10rpx">{{ detailInfo.mealTypeDes }}</text>
+              <text>x{{ item.foodQuantity }}</text>
+            </view>
           </view>
         </view>
       </view>
-    </view>
-    <!-- 订单信息 -->
-    <view class="order-info-wrapper">
-      <view class="order-info-one" style="padding-top:0">
-        <view class="left-label flex-a">
-          <view>订单编号</view>
-          <view style='font-size:24rpx;margin-left:10rpx;line-height:36rpx;border-radius:6rpx;color:#F79C4C;border:1rpx solid #F79C4C;padding:0 6rpx;' bindtap='handleCopy'>
-            复制
+      <!-- 订单信息 -->
+      <view class="order-info-wrapper">
+        <view class="order-info-one" style="padding-top: 0">
+          <view class="left-label flex-a">
+            <view>订单编号</view>
+            <view bindtap="handleCopy">复制</view>
           </view>
+          <view class="right-content">{{ detailInfo.orderCode }}</view>
         </view>
-        <view class="right-content">{{detailInfo.orderCode}}</view>
+        <view class="order-info-one">
+          <view class="left-label">下单时间</view>
+          <view class="right-content">{{ detailInfo.orderTime }}</view>
+        </view>
+        <view class="order-info-one" wx:if="{{ detailInfo.isPay }}">
+          <view class="left-label">支付时间</view>
+          <view class="right-content">{{ detailInfo.orderTime }}</view>
+        </view>
+        <view class="order-info-one">
+          <view class="left-label">支付方式</view>
+          <!-- <view class="right-content">{{detailInfo.payTypeDes}}</view> -->
+          <view class="right-content">{{ "微信支付" }}</view>
+        </view>
       </view>
-      <view class="order-info-one">
-        <view class="left-label">下单时间</view>
-        <view class="right-content">{{detailInfo.orderTime}}</view>
+      <view class="order-info-wrapper bg-qbase flex-b" style="margin-bottom: 0" bindtap="getPhoneNumber">
+        <view class="text-qsm rounded-xl" style="color: #ffffff; margin-left: 10rpx">支 付</view>
       </view>
-      <view class="order-info-one" wx:if='{{detailInfo.isPay}}'>
-        <view class="left-label">支付时间</view>
-        <view class="right-content">{{detailInfo.orderTime}}</view>
-      </view>
-      <view class="order-info-one">
-        <view class="left-label">支付方式</view>
-        <!-- <view class="right-content">{{detailInfo.payTypeDes}}</view> -->
-        <view class="right-content">{{'微信支付'}}</view>
+    </scroll-view>
+  </view>
+  <view wx:else class="fixed left-0 right-0 top-0 bottom-0 bg-white   h-full w-full flex justify-center items-center">
+    <view class="  pb-qhhg ">
+      <view class=" flex justify-center items-center text-qlg text-qciyao">备用餐订单无效</view>
+      <view class="flex justify-center items-center text-qbase text-qmd pt-qhhg" bindtap="clickBack">
+        返回上一页
       </view>
     </view>
-    <view class="order-info-wrapper bg-qbase flex-b" style='margin-bottom:0;' bindtap='getPhoneNumber'>
-      <view class=" text-qsm rounded-xl" style='color:#ffffff;margin-left:10rpx;'>支 付</view>
-    </view>
-  </scroll-view>
+  </view>
 </view>
