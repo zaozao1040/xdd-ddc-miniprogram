@@ -143,7 +143,7 @@
 }
 
 .order-info-wrapper {
-  background: #fff;
+ 
   padding: 30rpx;
   margin-bottom: 16rpx;
   border-radius: 6rpx;
@@ -162,7 +162,7 @@
 .order-info-one {
   display: flex;
   justify-content: space-between;
-  padding-top: 30rpx;
+  /* padding-top: 30rpx; */
 }
 
 .left-label {
