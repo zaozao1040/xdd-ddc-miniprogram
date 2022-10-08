@@ -52,8 +52,17 @@ Page({
     });
   },
   clickBack: function () {
-    wx.reLaunch({
-      url: "/pages/mine/mine",
+    wx.navigateBack({
+      delta: 1, // 回退前 delta(默认为1) 页面
+      success: function (res) {
+        // success
+      },
+      fail: function () {
+        // fail
+      },
+      complete: function () {
+        // complete
+      },
     });
   },
   //  支付

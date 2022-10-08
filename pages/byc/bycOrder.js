@@ -6,7 +6,6 @@ let requestModel = new base();
 Page({
   data: {
     userInfo: {},
-    list: [],
 
     //分页
     page: 1, // 设置加载的第几次，默认是第一次
@@ -71,40 +70,62 @@ Page({
     let _this = this;
     let userInfo = wx.getStorageSync("userInfo").userInfo;
     let obj = {
-      mealDate: moment().format("YYYY-MM-DD"),
+      // mealDate: moment().format("YYYY-MM-DD"),
       userCode: userInfo.userCode,
     };
     let params = {
       data: obj,
-      url:
-        "/order/getSpareOrderList?mealDate=" +
-        moment().format("YYYY-MM-DD") +
-        "&userCode=" +
-        userInfo.userCode,
+      url: "/order/getSpareOrderList?userCode=" + userInfo.userCode,
       method: "post",
     };
     requestModel.qqRequest(params, (data) => {
       if (data.code == 200) {
+        if (data.data && Array.isArray(data.data)) {
+          data.data.map((item) => {
+            if (item.mealType == "BREAKFAST") {
+              item.mealTypeDes = "早餐";
+            } else if (item.mealType == "LUNCH") {
+              item.mealTypeDes = "午餐";
+            } else if (item.mealType == "DINNER") {
+              item.mealTypeDes = "晚餐";
+            } else if (item.mealType == "NIGHT") {
+              item.mealTypeDes = "夜宵";
+            }
+          });
+          _this.setData({
+            orderList: data.data,
+          });
+        }
       } else {
         wx.showToast({
           title: data.msg,
           duration: 1000,
         });
       }
-
-      if (res.mealType == "BREAKFAST") {
-        res.mealTypeDes = "早餐";
-      } else if (res.mealType == "LUNCH") {
-        res.mealTypeDes = "午餐";
-      } else if (res.mealType == "DINNER") {
-        res.mealTypeDes = "晚餐";
-      } else if (res.mealType == "NIGHT") {
-        res.mealTypeDes = "夜宵";
-      }
-
-      _this.setData({
-        list: data.data,
-      });
+    });
+  },
+  clickSm() {
+    wx.scanCode({
+      success(res) {
+        console.log("success", res);
+        if (res.result) {
+          wx.navigateTo({
+            url: "/pages/byc/byc?qrCode=" + res.result,
+          });
+        }
+      },
+      fail(res) {
+        console.log("fail", res);
+        wx.showModal({
+          title: "提示",
+          content: "二维码错误，请扫备用餐二维码",
+          confirmText: "我知道了",
+          showCancel: false,
+        });
+      },
+      complete(res) {
+        console.log("complete", res);
+      },
     });
   },
 });

@@ -514,6 +514,12 @@ Page({
         },
         fail(res) {
           console.log("fail", res);
+          wx.showModal({
+            title: "提示",
+            content: "二维码错误，请扫备用餐二维码",
+            confirmText: "我知道了",
+            showCancel: false,
+          });
         },
         complete(res) {
           console.log("complete", res);
