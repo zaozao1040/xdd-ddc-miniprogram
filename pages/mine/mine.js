@@ -495,14 +495,14 @@ Page({
           name: "我的备用餐",
         },
         {
-          name: "扫码申请",
+          name: "扫码下单",
         },
       ],
     });
   },
   lintapItem(e) {
     let name = e.detail.item.name;
-    if (name == "扫码申请") {
+    if (name == "扫码下单") {
       wx.scanCode({
         success(res) {
           console.log("success", res);

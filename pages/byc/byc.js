@@ -99,6 +99,7 @@ Page({
             let param = {
               url:
                 "/order/cancelSpareOrderAndTrade?qrCode=" + _this.data.qrCode,
+              method: "post",
             };
             requestModel.qqRequest(param, (data) => {
               if (data.code == 200) {
