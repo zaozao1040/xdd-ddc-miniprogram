@@ -21,34 +21,33 @@ Page({
       userInfo: userInfo,
       qrCode: options.qrCode,
     });
-    requestModel.getUserCode((userCode) => {
-      let param = {
-        url:
-          "/order/getSpareMealDetail?organizeCode=" +
-          userInfo.organizeCode +
-          "&qrCode=" +
-          options.qrCode,
-      };
-      requestModel.qqRequest(param, (data) => {
-        if (data.code == 200) {
-          let mealTypeMap = {
-            LUNCH: "午餐",
-            DINNER: "晚餐",
-            BREAKFAST: "早餐",
-            NIGHT: "夜宵",
-          };
-          data.data.mealTypeDes = mealTypeMap[data.data.mealType];
-          _this.setData({
-            hasData: true,
-            detailInfo: data.data,
-          });
-        } else {
-          _this.setData({
-            hasData: false,
-            errMsg: data.msg,
-          });
-        }
-      });
+
+    let param = {
+      url:
+        "/order/getSpareMealDetail?organizeCode=" +
+        userInfo.organizeCode +
+        "&qrCode=" +
+        options.qrCode,
+    };
+    requestModel.qqRequest(param, (data) => {
+      if (data.code == 200) {
+        let mealTypeMap = {
+          LUNCH: "午餐",
+          DINNER: "晚餐",
+          BREAKFAST: "早餐",
+          NIGHT: "夜宵",
+        };
+        data.data.mealTypeDes = mealTypeMap[data.data.mealType];
+        _this.setData({
+          hasData: true,
+          detailInfo: data.data,
+        });
+      } else {
+        _this.setData({
+          hasData: false,
+          errMsg: data.msg,
+        });
+      }
     });
   },
   clickBack: function () {
@@ -90,10 +89,30 @@ Page({
           paySign: payData.paySign,
           success: function (e) {
             setTimeout(function () {
-              wx.reLaunch({
-                url: "/pages/order/order?content=" + "订单已生成",
+              wx.navigateTo({
+                url: "/pages/byc/bycOrder",
               });
             }, 200);
+          },
+          fail: function (e) {
+            console.log("======= fail ======= ");
+            let param = {
+              url:
+                "/order/cancelSpareOrderAndTrade?qrCode=" + _this.data.qrCode,
+            };
+            requestModel.qqRequest(param, (data) => {
+              if (data.code == 200) {
+                wx.showToast({
+                  title: "已取消下单",
+                  duration: 1000,
+                });
+              } else {
+                wx.showToast({
+                  title: data.msg,
+                  duration: 1000,
+                });
+              }
+            });
           },
         });
       } else {
