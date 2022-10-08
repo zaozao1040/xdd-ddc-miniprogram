@@ -1,3 +1,4 @@
 {
-  "usingComponents": {}
+  "navigationBarTitleText": "我的备用餐",
+  "navigationBarTextStyle": "black"
 }

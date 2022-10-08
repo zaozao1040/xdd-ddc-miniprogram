@@ -1,2 +1,87 @@
-<!--pages/byc/bycOrder.wxml-->
-<text>pages/byc/bycOrder.wxml</text>
+<view>
+  <view wx:if="{{ list.length>0 }}">
+    <!-- 标题 -->
+    <view class="header-wrapper">
+      <view class="header-item-active">{{list.mealDate}} {{spareInfo.mealTypeDes}}</view>
+    </view>
+    <view class="c_scrollPosition_forCalculate">
+      <view wx:if="{{orderList.length==0}}" style="font-size:30rpx;background:#F5F5F5;height:{{windowHeight-scrollTop}}px;">
+        <view style='padding:200rpx 0  0 256rpx;width:240rpx;height:240rpx;'>
+          <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/order/noorder.png" style="width:240rpx;height:240rpx;"></image>
+        </view>
+        <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
+          <view>库存剩余: {{spareInfo.spareNum}}</view>
+          <view>库存总数: {{spareInfo.spareNumTotal}}</view>
+        </view>
+      </view>
+      <scroll-view wx:else scroll-y style="height: {{windowHeight - scrollTop - 50}}px;background:#F5F5F5;">
+        <view style='height:{{windowHeight - scrollTop}}px; padding:20rpx;'>
+          <view>
+            <view wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
+              <view class='one-order' data-ordercode="{{orderItem.orderCode}}">
+                <view class='m-s'>
+                  <view class='manager' wx:if='{{orderItem.orgOrder}}'>管理员</view>
+                </view>
+                <view class='one-order-top'>
+                  <view class='top-date'>申请时间: {{orderItem.orderTime}}</view>
+                  <view class='flex-a'>
+                    <view class='top-date' style='color:{{orderItem.orderStatusDes.differentColor?"#F79C4C":"#666666"}};'>
+                      {{orderItem.statusDesc}}
+                    </view>
+                  </view>
+                </view>
+                <view class='flex-b' style='margin:32rpx 0 20rpx;'>
+                  <view class='flex-a'>
+                    <view class='food-name'>备用餐</view>
+                    <view class='food-count'>x {{orderItem.foodNum}}</view>
+                  </view>
+                </view>
+                <view class='flex-a'>
+                  <view wx:if="{{orderItem.isPay}}" style="display:flex;">
+                    <view class='food-money'>
+                      实付：
+                      <text style='font-weight:500;position:relative; left:-4rpx;color:#F56C6C;'>
+                        ￥{{orderItem.payPrice}}
+                      </text>
+                    </view>
+                    <view wx:if="{{orderItem.standardPrice}}" style="display:flex;">
+                      <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/order/standard.png' style='width:68rpx;height:32rpx;margin-left:10rpx;margin-top:13rpx;'></image>
+                    </view>
+                  </view>
+                  <view wx:else>
+                    <view class='food-money'>
+                      <text style='font-weight:500;position:relative; left:-4rpx;;'>未付款</text>
+                    </view>
+                    <view wx:if="{{orderItem.standardPrice}}">
+                      <image src='https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/order/standard.png' style='width:68rpx;height:32rpx;margin-left:10rpx;margin-top:13rpx;'></image>
+                    </view>
+                  </view>
+                  <view class='order-button'>
+                    <view wx:if="{{orderItem.isPay== false}}" class='see-detail' style='margin-left:16rpx;' catchtap="handleCancelOrder" data-orderindex="{{orderIndex}}" data-ordercode="{{orderItem.orderCode}}">
+                      取消订单
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view wx:if='{{loadingData}}' class="hasMore-wrapper" style="margin-top:60rpx;font-family: PingFang-SC-Regular; font-size: 26rpx; color: #666666; letter-spacing: 0; text-align: center;">
+            正在加载数据...
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+    <view class="shenqing" catchtap="handleGotoSpare">
+      <block wx:if="{{orderList.length==0}}">去申请</block>
+      <block wx:else>继续申请</block>
+    </view>
+  </view>
+  <view wx:else>
+    <view style='padding:400rpx 0  0 256rpx;width:240rpx;height:240rpx;'>
+      <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/order/noorder.png" style="width:240rpx;height:240rpx;"></image>
+    </view>
+    <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
+      <view>暂无记录</view>
+    </view>
+  </view>
+</view>
