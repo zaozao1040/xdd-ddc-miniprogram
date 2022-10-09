@@ -956,8 +956,6 @@ Page({
     }
   },
   clickMenuAddLong(e) {
-    console.log("=======  ======= ", e.currentTarget.dataset);
-
     this.setData({
       foodInfo: {
         foodTypeItem: e.currentTarget.dataset.foodtypeitem,
@@ -1019,7 +1017,7 @@ Page({
               image: foodItem.image,
               foodTypeIndex,
               foodIndex,
-              supplement: true,
+              supplement: _this.data.orderType == 2 ? true : false,
               canMeal: foodItem.canMeal,
               tempImage: foodItem.tempImage,
               orgAdmin: _this.data.userInfo.orgAdmin,
@@ -1034,6 +1032,9 @@ Page({
               });
               _this.getPayInfo();
               _this.getCartList();
+              _this.setData({
+                showPl: false,
+              });
             } else {
               wx.showToast({
                 title: resData.data.msg,
