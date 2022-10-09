@@ -964,6 +964,7 @@ Page({
         foodIndex: e.currentTarget.dataset.foodindex,
       },
       showPl: true,
+      plValue: null,
     });
   },
   addPl() {
