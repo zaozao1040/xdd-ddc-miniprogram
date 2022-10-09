@@ -392,7 +392,8 @@
 <view class='over-remind' wx:if='{{overRemindFlag}}'>该餐品优惠库存已用完, 超出部分将以原价计算哦</view>
 <!-- lin  -->
 <l-popup 
-  show="{{true}}" 
+  show="{{showPl}}" 
+  bind:lintap="clickPlClose"
 >
   <view class="bg-white rounded-md text-qchanggui text-qtn  pt-qttn" style="width: 500rpx;">
     <view class="qcenter text-qsm pt-qtn">

@@ -913,6 +913,7 @@ Page({
   clickPlClose() {
     this.setData({
       showPl: false,
+      plValue: null,
     });
   },
   plInput(e) {
@@ -951,9 +952,7 @@ Page({
         plValue: 100,
       });
     } else {
-      this.setData({
-        plValue: val,
-      });
+      this.addPl();
     }
   },
   clickMenuAddLong(e) {
@@ -971,10 +970,10 @@ Page({
   },
   addPl() {
     let _this = this;
-    let foodTypeItem = _this.data.foodInfo.foodtypeitem;
-    let foodItem = _this.data.foodInfo.fooditem;
-    let foodTypeIndex = _this.data.foodInfo.foodtypeindex;
-    let foodIndex = _this.data.foodInfo.foodindex;
+    let foodTypeItem = _this.data.foodInfo.foodTypeItem;
+    let foodItem = _this.data.foodInfo.foodItem;
+    let foodTypeIndex = _this.data.foodInfo.foodTypeIndex;
+    let foodIndex = _this.data.foodInfo.foodIndex;
     if (foodItem.foodQuota && foodItem.count == foodItem.foodQuota.quotaNum) {
       wx.showToast({
         title: "超出限购",
@@ -1014,7 +1013,7 @@ Page({
               foodCode: foodItem.foodCode,
               foodName: foodItem.foodName,
               foodPrice: foodItem.foodPrice,
-              foodQuantity: 10,
+              foodQuantity: _this.data.plValue,
               mealDate: _this.data.activeMealDate,
               mealType: _this.data.activeMealType,
               image: foodItem.image,
