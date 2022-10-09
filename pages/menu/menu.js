@@ -61,6 +61,9 @@ Page({
     activeGroupId: 100, // 100 普通餐+商户餐  1 普通餐  2 商户餐 3 小食零食  4 开心农场
     today: moment().format("YYYY-MM-DD"),
     timeTips: null, //各种类型的餐的截止时间提示
+    showPl: false, //批量选择餐品弹框
+    plValue: null,
+    foodInfo: {},
   },
 
   onLoad: function (option) {
@@ -749,6 +752,7 @@ Page({
           if (resData.data.code === 200) {
             wx.showToast({
               title: "添加成功",
+              icon: "none",
               duration: 1000,
             });
             _this.getPayInfo();
@@ -822,6 +826,7 @@ Page({
   },
 
   clickMenuAdd(e) {
+    console.log("======= clickMenuAdd ======= ");
     let _this = this;
     jiuaiDebounce.canDoFunction({
       type: "jieliu",
@@ -871,6 +876,7 @@ Page({
             if (resData.data.code === 200) {
               wx.showToast({
                 title: "添加成功",
+                icon: "none",
                 duration: 1000,
               });
               _this.getPayInfo();
@@ -904,7 +910,146 @@ Page({
       },
     });
   },
+  clickPlClose() {
+    this.setData({
+      showPl: false,
+    });
+  },
+  plInput(e) {
+    let num = Number(e.detail.value);
+    this.setData({
+      plValue: num,
+    });
+  },
+  confirmPl() {
+    let val = this.data.plValue;
+    console.log("=======val  ======= ", val);
 
+    if (val == null) {
+      wx.showToast({
+        title: "请填写",
+        icon: "none",
+        duration: 1000,
+      });
+    } else if (val < 0) {
+      wx.showToast({
+        title: "必需大于0",
+        icon: "none",
+        duration: 1000,
+      });
+
+      this.setData({
+        plValue: 1,
+      });
+    } else if (val > 100) {
+      wx.showToast({
+        title: "必需小于100",
+        icon: "none",
+        duration: 1000,
+      });
+      this.setData({
+        plValue: 100,
+      });
+    } else {
+      this.setData({
+        plValue: val,
+      });
+    }
+  },
+  clickMenuAddLong(e) {
+    console.log("=======  ======= ", e.currentTarget.dataset);
+
+    this.setData({
+      foodInfo: {
+        foodTypeItem: e.currentTarget.dataset.foodtypeitem,
+        foodItem: e.currentTarget.dataset.fooditem,
+        foodTypeIndex: e.currentTarget.dataset.foodtypeindex,
+        foodIndex: e.currentTarget.dataset.foodindex,
+      },
+      showPl: true,
+    });
+  },
+  addPl() {
+    let _this = this;
+    let foodTypeItem = _this.data.foodInfo.foodtypeitem;
+    let foodItem = _this.data.foodInfo.fooditem;
+    let foodTypeIndex = _this.data.foodInfo.foodtypeindex;
+    let foodIndex = _this.data.foodInfo.foodindex;
+    if (foodItem.foodQuota && foodItem.count == foodItem.foodQuota.quotaNum) {
+      wx.showToast({
+        title: "超出限购",
+        image: "/images/msg/error.png",
+        duration: 2000,
+      });
+    } else if (foodItem.foodQuota && foodItem.foodQuota.surplusNum == 0) {
+      wx.showToast({
+        title: "库存为0",
+        image: "/images/msg/error.png",
+        duration: 2000,
+      });
+    } else {
+      let tmp_foodTypeList = JSON.parse(
+        JSON.stringify(_this.data.foodTypeList)
+      );
+      let old_foodTypeList = JSON.parse(
+        JSON.stringify(_this.data.foodTypeList)
+      );
+      if (
+        tmp_foodTypeList instanceof Array &&
+        tmp_foodTypeList.length > foodTypeIndex &&
+        tmp_foodTypeList[foodTypeIndex].foodList
+      ) {
+        tmp_foodTypeList[foodTypeIndex].foodList[foodIndex].count++;
+      }
+      _this.setData(
+        {
+          foodTypeList: tmp_foodTypeList, //前端先渲染+1，再请求后端
+        },
+        () => {
+          let param = {
+            url: config.baseUrlPlus + "/v3/cart/addCart",
+            method: "post",
+            data: {
+              userCode: _this.data.userInfo.userCode,
+              foodCode: foodItem.foodCode,
+              foodName: foodItem.foodName,
+              foodPrice: foodItem.foodPrice,
+              foodQuantity: 10,
+              mealDate: _this.data.activeMealDate,
+              mealType: _this.data.activeMealType,
+              image: foodItem.image,
+              foodTypeIndex,
+              foodIndex,
+              supplement: true,
+              canMeal: foodItem.canMeal,
+              tempImage: foodItem.tempImage,
+              orgAdmin: _this.data.userInfo.orgAdmin,
+            },
+          };
+          request(param, (resData) => {
+            if (resData.data.code === 200) {
+              wx.showToast({
+                title: "添加成功",
+                icon: "none",
+                duration: 1000,
+              });
+              _this.getPayInfo();
+              _this.getCartList();
+            } else {
+              wx.showToast({
+                title: resData.data.msg,
+                image: "/images/msg/error.png",
+                duration: 2000,
+              });
+              _this.setData({
+                foodTypeList: old_foodTypeList, //后端加入购物车失败 则需要返还回原值
+              });
+            }
+          });
+        }
+      );
+    }
+  },
   clickMenuMinus(e) {
     let _this = this;
     jiuaiDebounce.canDoFunction({

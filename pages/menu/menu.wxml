@@ -260,7 +260,7 @@
                           <view wx:if="{{ foodItem.count > 0 }}" class="num">
                             {{ foodItem.count }}
                           </view>
-                          <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/order_add.png" style="width:50rpx;height:50rpx;" data-foodtypeitem='{{foodTypeItem}}' data-foodtypeindex='{{foodTypeIndex}}' data-fooditem='{{foodItem}}' data-foodindex='{{foodIndex}}' catchtap="clickMenuAdd"></image>
+                          <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/order_add.png" style="width:50rpx;height:50rpx;" data-foodtypeitem='{{foodTypeItem}}' data-foodtypeindex='{{foodTypeIndex}}' data-fooditem='{{foodItem}}' data-foodindex='{{foodIndex}}' catchtap="clickMenuAdd"  bindlongpress="clickMenuAddLong"></image>
                         </view>
                       </view>
                     </view>
@@ -390,3 +390,21 @@
   </view>
 </view>
 <view class='over-remind' wx:if='{{overRemindFlag}}'>该餐品优惠库存已用完, 超出部分将以原价计算哦</view>
+<!-- lin  -->
+<l-popup 
+  show="{{true}}" 
+>
+  <view class="bg-white rounded-md text-qchanggui text-qtn  pt-qttn" style="width: 500rpx;">
+    <view class="qcenter text-qsm pt-qtn">
+      批量添加餐品
+    </view>
+    <view class="py-qsm  "   >
+      <l-input focus="{{true}}" value="{{plValue}}" bind:lininput="plInput"	label-width="{{120}}" showRow="{{false}}" label="份数" type="number" placeholder="请输入1~100内数字 "  />
+    
+    </view>
+    <view catchtap="confirmPl" class="qcenter text-qbase text-qsm w-full h-qsm pb-q " style="border-top:1rpx solid #eeeeee ;">
+      确 定
+    </view>
+  </view>
+</l-popup>
+ 
