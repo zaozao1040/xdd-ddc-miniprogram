@@ -470,6 +470,7 @@ Page({
       if (resData.data.code === 200) {
         wx.showToast({
           title: "减少成功",
+          icon: "none",
           duration: 1000,
         });
         _this.getPayInfo();
@@ -637,6 +638,7 @@ Page({
             if (resData.data.code === 200) {
               wx.showToast({
                 title: "减少成功",
+                icon: "none",
                 duration: 1000,
               });
               _this.getPayInfo();
