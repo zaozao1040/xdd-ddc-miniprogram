@@ -143,6 +143,7 @@
     "l-steps": "/miniprogram_npm/lin-ui/steps/index",
     "l-step": "/miniprogram_npm/lin-ui/step/index",
     "l-popup": "/miniprogram_npm/lin-ui/popup/index",
+    "l-icon": "/miniprogram_npm/lin-ui/icon/index",
     "van-button": "/miniprogram_npm/vant/button/index",
     "van-tab": "/miniprogram_npm/vant/tab/index",
     "van-tabs": "/miniprogram_npm/vant/tabs/index",

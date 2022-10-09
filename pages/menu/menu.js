@@ -64,10 +64,52 @@ Page({
     showPl: false, //批量选择餐品弹框
     plValue: null,
     foodInfo: {},
+    showSx: false,
+    sxObj: {
+      type: "cplx", // cplx  cbjg
+      cbjg: "all", //all dycb
+    },
   },
 
   onLoad: function (option) {
     this.loadData(option);
+  },
+
+  // #region ############### 区域: 筛选 ###############
+  clickSxItem: function (e) {
+    let type = e.currentTarget.dataset.type;
+    if (type == "cplx") {
+      let obj = this.data.sxObj;
+      let cplx = !obj.cplx;
+      this.setData({
+        sxObj: { ...obj, cplx },
+      });
+    }
+  },
+  clickCbjg: function (e) {
+    let type = e.currentTarget.dataset.type;
+    let obj = this.data.sxObj;
+    this.setData(
+      {
+        sxObj: { ...obj, cbjg: type },
+      },
+      () => {
+        this.getFoodTypeList();
+      }
+    );
+  },
+
+  // #endregion ######## end 区域: 筛选 ###############*/
+
+  clickSx: function () {
+    this.setData({
+      showSx: true,
+    });
+  },
+  clickSxClose: function () {
+    this.setData({
+      showSx: false,
+    });
   },
   clickFanhui: function () {
     wx.navigateBack();
@@ -390,6 +432,9 @@ Page({
         "&groupId=" +
         _this.data.activeGroupId,
     };
+    if (_this.data.sxObj.cbjg == "dycb") {
+      param.url = param.url + "&lowerThanStandardPrice=" + true;
+    }
     requestModel.request(
       param,
       (resData) => {

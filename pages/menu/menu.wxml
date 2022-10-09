@@ -7,7 +7,7 @@
   <view wx:else>
     <scroll-view class="wrapper" scroll-y style="height:{{ windowHeight }}px" bindscroll="onScrollOut">
       <view class="pb-qttn w-full" style="padding-top:40px;">
-        <view class="" style='width:70%;'>
+        <view class="flex items-center justify-between relative" style='width:70%;'>
           <view class="flex items-center">
             <view class="qcenter ml-qtn pb-qtttn" bindtap='clickFanhui'>
               <van-icon name="arrow-left" color="{{'#333333'}}" size="{{18}}" />
@@ -38,6 +38,15 @@
                 </view>
               </view>
             </view>
+          </view>
+          <view bindtap='clickSx' class="absolute pl-qlg text-qsm flex flex-col justify-center items-center text-qbase" style="right:0;top:10rpx" >
+            <view class="h-qtn">
+              筛
+            </view>
+            <view class="h-qtn mb-qttn mt-qttn">
+              选
+            </view> 
+            <l-icon name="ellipsis" color="#f79c4c" size="25"/>
           </view>
         </view>
       </view>
@@ -392,19 +401,90 @@
 <view class='over-remind' wx:if='{{overRemindFlag}}'>该餐品优惠库存已用完, 超出部分将以原价计算哦</view>
 <!-- lin  -->
 <l-popup 
-  show="{{showPl}}" 
-  bind:lintap="clickPlClose"
+show="{{showPl}}" 
+bind:lintap="clickPlClose"
 >
-  <view class="bg-white rounded-md text-qchanggui text-qtn  pt-qttn" style="width: 500rpx;">
-    <view class="qcenter text-qsm pt-qtn">
-      批量添加餐品
+<view class="bg-white rounded-md text-qchanggui text-qtn  pt-qttn" style="width: 500rpx;">
+  <view class="qcenter text-qsm pt-qtn">
+    批量添加餐品
+  </view>
+  <view class="py-qsm  "   >
+    <l-input focus="{{true}}" value="{{plValue}}" bind:lininput="plInput"	label-width="{{120}}" showRow="{{false}}" label="份数" type="number" placeholder="请输入1~100内数字 "  />
+  </view>
+  <view catchtap="confirmPl" class="qcenter text-qbase text-qsm w-full h-qsm pb-q " style="border-top:1rpx solid #eeeeee ;">
+    确 定
+  </view>
+</view>
+</l-popup>
+<l-popup 
+  content-align="top" 
+  show="{{showSx}}" 
+  bind:lintap="clickSxClose"
+>
+  <view class="bg-white rounded-md text-qchanggui text-qmn  pt-qttn w-full"  > 
+    <view class="w-full h-qlg qcenter text-qsm pt-qhhg" style="margin-top: 10rpx;">
+      筛选
+    </view> 
+    <view class="flex items-center  qbb text-qsm text-qciyao pb-qtn">
+      <view class="flex-1 flex flex-col items-start pl-qhhg ">
+        <view class="flex items-center" data-type="cplx" catchtap="clickSxItem">
+          <view class="text-qbase">  
+            餐品类型
+          </view>
+          <view class="qcenter ml-qttn">
+            <l-icon  name="down" size="22" color="#f79c4c"/> 
+          </view> 
+        </view> 
+      </view>
+      <view class="flex-1 flex flex-col items-start pl-qhhg ">
+        <view class="flex items-center" data-type="cplx" catchtap="clickSxItem">
+          <view class="text-qbase">  
+            餐标价格
+          </view>
+          <view class="qcenter ml-qttn">
+            <l-icon  name="down" size="22" color="#f79c4c"/> 
+          </view> 
+        </view> 
+      </view>
+      <view class="flex-1">
+    
+      </view> 
     </view>
-    <view class="py-qsm  "   >
-      <l-input focus="{{true}}" value="{{plValue}}" bind:lininput="plInput"	label-width="{{120}}" showRow="{{false}}" label="份数" type="number" placeholder="请输入1~100内数字 "  />
+    <view class="flex items-start justify-start  text-qciyao text-qsm py-qsm">
+      <view class="flex-1 flex flex-col items-start justify-start pl-qhhg ">  
+        <view bindtap='clickGroupId' data-groupid="{{100}}" class="{{activeGroupId==100?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}"  >
+          工作餐
+        </view>
+        <view bindtap='clickGroupId' data-groupid="{{3}}" class="{{activeGroupId==3?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}"  >
+          小食零食
+        </view>
+        <view bindtap='clickGroupId' data-groupid="{{4}}" class="{{activeGroupId==4?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}"  >
+          开心农场
+        </view> 
+      </view>
+      <view class="flex-1 flex flex-col items-start pl-qhhg ">  
+        <view bindtap='clickCbjg' data-type="all"  class="{{sxObj.cbjg=='all'?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}"  >
+          全部
+        </view>
+        <view bindtap='clickCbjg' data-type="dycb"  class="{{sxObj.cbjg=='dycb'?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}"  >
+          低于餐标
+        </view> 
+      </view> 
+      <view class="flex-1">
+         
+      </view> 
     </view>
-    <view catchtap="confirmPl" class="qcenter text-qbase text-qsm w-full h-qsm pb-q " style="border-top:1rpx solid #eeeeee ;">
-      确 定
+    <view class=" ">
+      
     </view>
+    <!-- <view class="flex items-center h-qsm text-qsm " style="border-top: 1rpx solid #eeeeee;">
+      <view class="flex-1 qcenter h-qsm text-qciyao  border-gray-50">
+         清空
+      </view>
+      <view class="flex-1 qcenter h-qsm text-qbase" style="border-left: 1rpx solid #eeeeee;">
+         筛选
+      </view>
+    </view> -->
   </view>
 </l-popup>
  
