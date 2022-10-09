@@ -10,7 +10,7 @@
           <view class="flex-1">
             <view class="flex items-center justify-between pt-qtn">
               <view class="cart-menuItemDes">{{ detailInfo.foodName + " x 1" }}</view>
-              <view class="text-qdanger text-qmd">¥{{ detailInfo.standardPrice }}</view>
+              <view class="text-qdanger text-qmd">¥{{ detailInfo.actualPayPrice }}</view>
             </view>
             <view class="cart-menuItem-mealtype">
               <view style="margin-right: 10rpx" class="mt-qttn">{{ detailInfo.name }}</view>
@@ -35,21 +35,21 @@
             <view class="">餐标支付</view>
             <view style='width:44rpx;height:44rpx;'>
               <!-- 直接用默认选择 - 暂不支持切换支付方式 bindtap="clickBaCheck" -->
-              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/check.png" style="width:44rpx;height:44rpx;" wx:if="{{selectCb}}"></image>
-              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:else></image>
+              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/check.png" style="width:44rpx;height:44rpx;" wx:if="{{detailInfo.payType=='STANDARD_PAY'}}"></image>
+              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:else bindtap="clickIcon"></image>
             </view>
           </view>
           <view class="flex items-center justify-between py-qmn">
             <view class="flex items-baseline">
               <view class=" ">余额支付</view>
               <view class="  text-qciyao text-qmn ml-qttn">(当前总余额</view>
-              <view class="  text-qmoney text-qmn ml-qttn">{{ba||'23'}}</view>
+              <view class="  text-qmoney text-qmn ml-qttn">{{detailInfo.totalBalance||'0'}}</view>
               <view class=" text-qciyao text-qmn">)</view>
             </view>
             <view style='width:44rpx;height:44rpx;'>
               <!-- 直接用默认选择 - 暂不支持切换支付方式 bindtap="clickBaCheck" -->
-              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/check.png" style="width:44rpx;height:44rpx;" wx:if="{{selectYe}}"></image>
-              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:else></image>
+              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/check.png" style="width:44rpx;height:44rpx;" wx:if="{{detailInfo.payType=='BALANCE_PAY'}}"></image>
+              <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:else bindtap="clickIcon"></image>
             </view>
           </view>
           <view class="text-qmn text-qciyao">说明：优先使用餐标；若当餐餐标已用，则使用余额支付；若余额不足，则不允许支付</view>
@@ -62,7 +62,7 @@
           </view> -->
         </view>
       </view>
-      <view wx:if="{{detailInfo.payType=='none'}}" class="order-info-wrapper bg-qwhite-70 flex-b" style="margin-bottom: 0" bindtap="clickZf">
+      <view wx:if="{{detailInfo.payType=='NONE'}}" class="order-info-wrapper bg-qinfo flex-b" style="margin-bottom: 0" bindtap="clickZf">
         <view class="text-qsm rounded-xl" style="color: #ffffff; margin-left: 10rpx">去 支 付</view>
       </view>
       <view wx:else class="order-info-wrapper bg-qbase flex-b" style="margin-bottom: 0" bindtap="clickZf">

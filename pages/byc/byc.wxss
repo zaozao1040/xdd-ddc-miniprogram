@@ -143,7 +143,7 @@
 }
 
 .order-info-wrapper {
- 
+ background-color: #fff;
   padding: 30rpx;
   margin-bottom: 16rpx;
   border-radius: 6rpx;
