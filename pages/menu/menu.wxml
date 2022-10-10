@@ -40,7 +40,14 @@
                 </view>
               </view>
             </view>
-            <view bindtap='clickSx' class="absolute pl-qlg text-qsm flex flex-col justify-center items-center text-qbase" style="right:0;top:10rpx" >
+            <view bindtap='clickSx' class="  pl-qlg text-qsm flex flex-col justify-center items-center text-qbase"   >
+              <view class="pb-qttn ">
+                筛选
+              </view>
+ 
+              <l-icon name="ellipsis" color="#f79c4c" size="25"/>
+            </view>
+            <!-- <view bindtap='clickSx' class="absolute pl-qlg text-qsm flex flex-col justify-center items-center text-qbase" style="right:0;top:10rpx;" >
               <view class="h-qtn">
                 筛
               </view>
@@ -48,7 +55,7 @@
                 选
               </view> 
               <l-icon name="ellipsis" color="#f79c4c" size="25"/>
-            </view>
+            </view> -->
           </view>
         </view>
         <view style="">
@@ -430,7 +437,7 @@ bind:lintap="clickPlClose"
       筛选
     </view> 
     <view class="flex items-center  qbb text-qsm text-qciyao pb-qtn">
-      <view class="flex-1 flex flex-col items-start pl-qhhg ">
+      <!-- <view class="flex-1 flex flex-col items-start pl-qhhg ">
         <view class="flex items-center" data-type="cplx" catchtap="clickSxItem">
           <view class="text-qbase">  
             餐品类型
@@ -439,7 +446,7 @@ bind:lintap="clickPlClose"
             <l-icon  name="down" size="22" color="#f79c4c"/> 
           </view> 
         </view> 
-      </view>
+      </view> -->
       <view class="flex-1 flex flex-col items-start pl-qhhg ">
         <view class="flex items-center" data-type="cplx" catchtap="clickSxItem">
           <view class="text-qbase">  
@@ -455,7 +462,7 @@ bind:lintap="clickPlClose"
       </view> 
     </view>
     <view class="flex items-start justify-start  text-qciyao text-qsm py-qsm">
-      <view class="flex-1 flex flex-col items-start justify-start pl-qhhg ">  
+      <!-- <view class="flex-1 flex flex-col items-start justify-start pl-qhhg ">  
         <view bindtap='clickGroupId' data-groupid="{{100}}" class="{{activeGroupId==100?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}"  >
           工作餐
         </view>
@@ -465,13 +472,13 @@ bind:lintap="clickPlClose"
         <view bindtap='clickGroupId' data-groupid="{{4}}" class="{{activeGroupId==4?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}"  >
           开心农场
         </view> 
-      </view>
+      </view> -->
       <view class="flex-1 flex flex-col items-start pl-qhhg ">  
         <view bindtap='clickCbjg' data-type="all"  class="{{sxObj.cbjg=='all'?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}"  >
-          全部
+          全部餐品
         </view>
         <view bindtap='clickCbjg' data-type="dycb"  class="{{sxObj.cbjg=='dycb'?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}"  >
-          低于餐标
+          仅显示餐标内餐品
         </view> 
       </view> 
       <view class="flex-1">
