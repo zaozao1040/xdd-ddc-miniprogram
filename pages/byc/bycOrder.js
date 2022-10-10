@@ -26,6 +26,7 @@ Page({
     windowHeight: 0,
     scrollTop: 0,
     //
+    from: null,
   },
 
   /**
@@ -33,6 +34,7 @@ Page({
    */
   onLoad: function (options) {
     let _this = this;
+
     let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
 
     _this.setData({

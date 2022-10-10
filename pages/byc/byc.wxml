@@ -62,7 +62,7 @@
           </view> -->
         </view>
       </view>
-      <view wx:if="{{detailInfo.payType=='NONE'}}" class="order-info-wrapper bg-qinfo flex-b" style="margin-bottom: 0" bindtap="clickZf">
+      <view wx:if="{{detailInfo.payType=='NONE'||(detailInfo.payType=='BALANCE_PAY'&&detailInfo.totalBalance<detailInfo.standardPrice)}}" class="order-info-wrapper bg-qinfo flex-b" style="margin-bottom: 0" bindtap="clickZf">
         <view class="text-qsm rounded-xl" style="color: #ffffff; margin-left: 10rpx">去 支 付</view>
       </view>
       <view wx:else class="order-info-wrapper bg-qbase flex-b" style="margin-bottom: 0" bindtap="clickZf">
@@ -78,4 +78,6 @@
       </view>
     </view>
   </view>
+  <!-- lin -->
+  <l-dialog show="{{showConfirm}}" type="confirm" title="是否确定支付？" content="{{'金额：'+detailInfo.actualPayPrice}}" confirm-color="#F79C4C" bind:linconfirm="clickConfirm" bind:lincancel="clickCancel" bind:lintap="clickCancel"></l-dialog>
 </view>

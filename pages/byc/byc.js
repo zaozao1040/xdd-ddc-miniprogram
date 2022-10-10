@@ -1,5 +1,5 @@
 import { base } from "../../comm/public/request";
-
+import jiuaiDebounce from "../../comm_plus/jiuai-debounce/jiuai-debounce.js";
 let requestModel = new base();
 
 Page({
@@ -18,6 +18,7 @@ Page({
     //
     selectCb: true,
     selectYe: false,
+    showConfirm: false,
   },
 
   onLoad: function (options) {
@@ -79,10 +80,31 @@ Page({
       duration: 2000,
     });
   },
-  // 支付
+  clickCancel: function () {
+    this.setData({
+      showConfirm: false,
+    });
+  },
+  clickConfirm: function () {
+    this.setData({
+      showConfirm: false,
+    });
+    this.doConfirm();
+  },
   clickZf: function () {
+    this.setData({
+      showConfirm: true,
+    });
+  },
+  // 支付
+  doConfirm: function () {
     let _this = this;
-    if (_this.data.detailInfo.payType == "NONE") {
+    if (
+      _this.data.detailInfo.payType == "NONE" ||
+      (_this.data.detailInfo.payType == "BALANCE_PAY" &&
+        _this.data.detailInfo.totalBalance <
+          _this.data.detailInfo.standardPrice)
+    ) {
       wx.showToast({
         title: "余额不足",
         icon: "none",
@@ -90,75 +112,61 @@ Page({
       });
       return;
     }
-    let obj = {
-      qrCode: _this.data.qrCode,
-      userCode: _this.data.userInfo.userCode,
-      userName: _this.data.userInfo.userName,
-      phoneNumber: _this.data.userInfo.phoneNumber,
-    };
-    let param = {
-      data: obj,
-      method: "post",
-      url: "/order/spareMealOrderScanPay",
-    };
-    requestModel.qqRequest(param, (data) => {
-      if (data.code == 200) {
-        let payData = data.data.payData;
-        wx.requestPayment({
-          timeStamp: payData.timeStamp.toString(),
-          nonceStr: payData.nonceStr,
-          package: payData.packageValue,
-          signType: payData.signType,
-          paySign: payData.paySign,
-          success: function (e) {
+    jiuaiDebounce.canDoFunction({
+      type: "jieliu",
+      immediate: true,
+      key: "key_clickZf",
+      time: 3000,
+      success: () => {
+        let obj = {
+          qrCode: _this.data.qrCode,
+          userCode: _this.data.userInfo.userCode,
+          userName: _this.data.userInfo.userName,
+          phoneNumber: _this.data.userInfo.phoneNumber,
+          actualPayPrice: _this.data.detailInfo.actualPayPrice,
+          payType: _this.data.detailInfo.payType,
+        };
+        let param = {
+          data: obj,
+          method: "post",
+          url: "/order/spareMealOrderScanPay",
+        };
+        requestModel.qqRequest(param, (data) => {
+          if (data.code == 200) {
+            wx.showToast({
+              title: "支付成功",
+              icon: "none",
+              duration: 2000,
+            });
             setTimeout(function () {
-              wx.navigateTo({
+              wx.redirectTo({
                 url: "/pages/byc/bycOrder",
               });
-            }, 200);
-          },
-          fail: function (e) {
-            console.log("======= fail ======= ");
+            }, 2000);
+          } else {
+            wx.showToast({
+              title: "支付失败",
+              icon: "none",
+              duration: 2000,
+            });
+
             let param = {
               url:
                 "/order/cancelSpareOrderAndTrade?qrCode=" + _this.data.qrCode,
               method: "post",
             };
-            requestModel.qqRequest(param, (data) => {
-              if (data.code == 200) {
-                wx.showToast({
-                  title: "已取消下单",
-                  duration: 1000,
-                });
-              } else {
-                wx.showToast({
-                  title: data.msg,
-                  duration: 1000,
-                });
-              }
-            });
-          },
-        });
-      } else {
-        wx.showModal({
-          title: "提示",
-          content: data.msg,
-          confirmText: "返回上一页",
-          showCancel: false,
-          success(res) {
-            if (res.confirm) {
-              console.log("用户点击确定");
-              wx.reLaunch({
-                url: "/pages/mine/mine",
+            requestModel.qqRequest(param, (data) => {});
+            setTimeout(function () {
+              wx.redirectTo({
+                url: "/pages/byc/bycOrder",
               });
-            } else if (res.cancel) {
-              console.log("用户点击取消");
-            }
-          },
+            }, 2000);
+          }
         });
-      }
+      },
     });
   },
+
   //  微信支付  -- 暂时不用
   // clickZf: function () {
   //   let _this = this;
