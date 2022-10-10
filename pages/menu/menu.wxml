@@ -420,7 +420,7 @@ bind:lintap="clickPlClose"
     批量添加餐品
   </view>
   <view class="py-qsm  "   >
-    <l-input focus="{{true}}" value="{{plValue}}" bind:lininput="plInput"	label-width="{{120}}" showRow="{{false}}" label="份数" type="number" placeholder="请输入1~100内数字 "  />
+    <l-input   value="{{plValue}}" bind:lininput="plInput"	label-width="{{120}}" showRow="{{false}}" label="份数" type="number" placeholder="请输入1~100内数字 "  />
   </view>
   <view catchtap="confirmPl" class="qcenter text-qbase text-qsm w-full h-qsm pb-q " style="border-top:1rpx solid #eeeeee ;">
     确 定
