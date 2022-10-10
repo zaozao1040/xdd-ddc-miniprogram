@@ -2,6 +2,11 @@
   color:#bbbbbb;
 }
 
+/* .header-bg{
+  background: rgb(252,192,69);
+  background: linear-gradient(90deg, rgba(252,192,69,0.2) 32%, rgba(252,228,69,0.2) 62%, rgba(252,244,69,0.2) 100%);              
+} */
+
 .active-groupid{
   width:85rpx;
   height:85rpx;

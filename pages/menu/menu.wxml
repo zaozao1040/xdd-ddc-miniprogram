@@ -6,70 +6,73 @@
   <!-- "navigationStyle": "custom" -->
   <view wx:else>
     <scroll-view class="wrapper" scroll-y style="height:{{ windowHeight }}px" bindscroll="onScrollOut">
-      <view class="pb-qttn w-full" style="padding-top:40px;">
-        <view class="flex items-center justify-between relative" style='width:70%;'>
-          <view class="flex items-center">
-            <view class="qcenter ml-qtn pb-qtttn" bindtap='clickFanhui'>
-              <van-icon name="arrow-left" color="{{'#333333'}}" size="{{18}}" />
-            </view>
-            <view class="flex-1 flex justify-start items-end ml-qsm text-qmn text-qchanggui">
-              <view class="qcenter flex-col" bindtap='clickGroupId' data-groupid="{{100}}">
-                <view class="{{activeGroupId==100?'active-groupid':'inactive-groupid'}}">
-                  <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/gzc.png" class="w-full h-full"></image>
+      <view class="header-bg">
+        <view class="pb-qttn w-full" style="padding-top:40px;">
+          <view class="flex items-center justify-between relative" style='width:70%;'>
+            <view class="flex items-center">
+              <view class="qcenter ml-qtn pb-qtttn" bindtap='clickFanhui'>
+                <van-icon name="arrow-left" color="{{'#333333'}}" size="{{18}}" />
+              </view>
+              <view class="flex-1 flex justify-start items-end ml-qsm text-qmn text-qchanggui">
+                <view class="qcenter flex-col" bindtap='clickGroupId' data-groupid="{{100}}">
+                  <view class="{{activeGroupId==100?'active-groupid':'inactive-groupid'}}">
+                    <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/gzc.png" class="w-full h-full"></image>
+                  </view>
+                  <view class="{{activeGroupId==100?'bg-qbase text-white rounded-full py-qtttn px-qttn text-qtn':'text-bbb'}}">
+                    工作餐
+                  </view>
                 </view>
-                <view class="{{activeGroupId==100?'bg-qbase text-white rounded-full py-qtttn px-qttn text-qtn':'text-bbb'}}">
-                  工作餐
+                <view class="qcenter flex-col ml-qmn" bindtap='clickGroupId' data-groupid="{{3}}">
+                  <view class="{{activeGroupId==3?'active-groupid':'inactive-groupid'}}">
+                    <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/xsls.png" class="w-full h-full"></image>
+                  </view>
+                  <view class="{{activeGroupId==3?'bg-qbase text-white rounded-full py-qtttn px-qttn text-qtn':'text-bbb'}}">
+                    小食零食
+                  </view>
+                </view>
+                <view class="qcenter flex-col ml-qmn" bindtap='clickGroupId' data-groupid="{{4}}">
+                  <view class="{{activeGroupId==4?'active-groupid':'inactive-groupid'}}">
+                    <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/kxnc.png" class="w-full h-full"></image>
+                  </view>
+                  <view class="{{activeGroupId==4?'bg-qbase text-white rounded-full py-qtttn px-qttn text-qtn':'text-bbb'}}">
+                    开心农场
+                  </view>
                 </view>
               </view>
-              <view class="qcenter flex-col ml-qmn" bindtap='clickGroupId' data-groupid="{{3}}">
-                <view class="{{activeGroupId==3?'active-groupid':'inactive-groupid'}}">
-                  <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/xsls.png" class="w-full h-full"></image>
-                </view>
-                <view class="{{activeGroupId==3?'bg-qbase text-white rounded-full py-qtttn px-qttn text-qtn':'text-bbb'}}">
-                  小食零食
-                </view>
-              </view>
-              <view class="qcenter flex-col ml-qmn" bindtap='clickGroupId' data-groupid="{{4}}">
-                <view class="{{activeGroupId==4?'active-groupid':'inactive-groupid'}}">
-                  <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/kxnc.png" class="w-full h-full"></image>
-                </view>
-                <view class="{{activeGroupId==4?'bg-qbase text-white rounded-full py-qtttn px-qttn text-qtn':'text-bbb'}}">
-                  开心农场
-                </view>
-              </view>
             </view>
-          </view>
-          <view bindtap='clickSx' class="absolute pl-qlg text-qsm flex flex-col justify-center items-center text-qbase" style="right:0;top:10rpx" >
-            <view class="h-qtn">
-              筛
+            <view bindtap='clickSx' class="absolute pl-qlg text-qsm flex flex-col justify-center items-center text-qbase" style="right:0;top:10rpx" >
+              <view class="h-qtn">
+                筛
+              </view>
+              <view class="h-qtn mb-qttn mt-qttn">
+                选
+              </view> 
+              <l-icon name="ellipsis" color="#f79c4c" size="25"/>
             </view>
-            <view class="h-qtn mb-qttn mt-qttn">
-              选
-            </view> 
-            <l-icon name="ellipsis" color="#f79c4c" size="25"/>
           </view>
         </view>
-      </view>
-      <view style="">
-        <scroll-view scroll-x style="overflow:hidden;white-space:nowrap;">
-          <view wx:for="{{mealDateList}}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap='clickMealDate' id="day{{index}}" data-index='{{index}}' data-item='{{item}}' style='display:inline-block;margin-right:{{index==6?"40rpx":"60rpx"}};padding-left:{{index==0?"40rpx":"0"}}'>
-            <view wx:if='{{item.mealDate!=activeMealDate}}' class="inactive-day-date">
-              {{item.mealDateAbbreviation}}
+        <view style="">
+          <scroll-view scroll-x style="overflow:hidden;white-space:nowrap;">
+            <view wx:for="{{mealDateList}}" wx:for-item="item" wx:for-index="index" wx:key="index" bindtap='clickMealDate' id="day{{index}}" data-index='{{index}}' data-item='{{item}}' style='display:inline-block;margin-right:{{index==6?"40rpx":"60rpx"}};padding-left:{{index==0?"40rpx":"0"}}'>
+              <view wx:if='{{item.mealDate!=activeMealDate}}' class="inactive-day-date">
+                {{item.mealDateAbbreviation}}
+              </view>
+              <view class="{{item.mealDate==activeMealDate?'active-day':'inactive-day'}}">
+                {{item.description}}
+              </view>
+              <view class="{{item.mealDate==activeMealDate?'active-day-line':''}}"></view>
             </view>
-            <view class="{{item.mealDate==activeMealDate?'active-day':'inactive-day'}}">
-              {{item.description}}
-            </view>
-            <view class="{{item.mealDate==activeMealDate?'active-day-line':''}}"></view>
+          </scroll-view>
+          <view class='mealtype-list'>
+            <block wx:for="{{ mealTypeList }}" wx:for-item="item" wx:for-index="index" wx:key="index">
+              <view class="{{ item.value == activeMealType ? 'mealtype-active' : 'mealtype-inactive' }}" bindtap="clickMealType" data-index='{{index}}' data-item='{{item}}'>
+                {{ item.label }}
+              </view>
+            </block>
           </view>
-        </scroll-view>
-        <view class='mealtype-list'>
-          <block wx:for="{{ mealTypeList }}" wx:for-item="item" wx:for-index="index" wx:key="index">
-            <view class="{{ item.value == activeMealType ? 'mealtype-active' : 'mealtype-inactive' }}" bindtap="clickMealType" data-index='{{index}}' data-item='{{item}}'>
-              {{ item.label }}
-            </view>
-          </block>
-        </view>
+        </view>        
       </view>
+
       <block>
         <!-- 当前状态，若是false，要么没开通要么时间过了 -->
         <block wx:if='{{activeInfoExtra.mealType.status==false}}'>
