@@ -1,11 +1,11 @@
 .text-bbb{
-  color:#bbbbbb;
+  color:#666666;
 }
 
-/* .header-bg{
+.header-bg{
   background: rgb(252,192,69);
   background: linear-gradient(90deg, rgba(252,192,69,0.2) 32%, rgba(252,228,69,0.2) 62%, rgba(252,244,69,0.2) 100%);              
-} */
+}
 
 .active-groupid{
   width:85rpx;
@@ -99,16 +99,17 @@
   color: #333333;
   letter-spacing: 0;
   text-align: left;
-  line-height: 80rpx;
+  line-height: 90rpx;
   display: inline-block;
   position: relative;
   z-index: 200;
 }
 
 .active-day-line {
-  background: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%);
-  height: 12rpx;
-  border-radius: 5rpx;
+  /* background: linear-gradient(-90deg, #f79c4c 0%, #f7cd4e 99%); */
+  background:#f79c4c;
+  height: 15rpx;
+  border-radius: 8rpx;
   box-shadow: 0rpx 3rpx 10rpx #f7cd4e;
   z-index: 100;
   position: relative;
@@ -118,7 +119,7 @@
 .inactive-day {
   font-family: PingFang-SC-Regular;
   font-size: 34rpx;
-  color: #aaaaaa;
+  color: #666666;
   letter-spacing: 0;
   text-align: left;
   line-height: 48rpx;
@@ -129,7 +130,7 @@
 .inactive-day-date {
   font-family: PingFangSC-Regular;
   font-size: 20rpx;
-  color: #aaaaaa;
+  color: #666666;
   letter-spacing: 0;
   text-align: center;
   line-height: 28rpx;
@@ -162,8 +163,8 @@
   border-radius: 31rpx;
   font-family: PingFang-SC-Regular;
   font-size: 30rpx; 
-  color: #cccccc;
-  border: #dddddd solid 1rpx;
+  color: #666666;
+  border: #666666 solid 1rpx;
   letter-spacing: 0;
   text-align: center;
   height: 62rpx;
@@ -214,7 +215,7 @@
   justify-content: center;
   align-items: center;
   font-size: 27rpx;
-  color: #aaaaaa;
+  color: #666666;
 }
 
 .left-item-active {
@@ -253,6 +254,8 @@
   text-align: center;
   font-family: PingFang-SC-Regular; 
   letter-spacing: 0; 
+  color:#666666;
+  font-size: 24rpx;
 }
 
 .menu-name-image {
@@ -615,7 +618,7 @@
 /* + - **********控件(购物车详情中)********** */
 
 .mealtype-list {
-  padding: 0rpx 0 15rpx;
+  padding: 0rpx 0 18rpx;
   display: flex;
   /* border-bottom: 1rpx solid #EBEBEB; */
 }

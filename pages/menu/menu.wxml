@@ -18,7 +18,7 @@
                   <view class="{{activeGroupId==100?'active-groupid':'inactive-groupid'}}">
                     <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/gzc.png" class="w-full h-full"></image>
                   </view>
-                  <view class="{{activeGroupId==100?'bg-qbase text-white rounded-full py-qtttn px-qttn text-qtn':'text-bbb'}}">
+                  <view class="{{activeGroupId==100?'bg-qbase text-white rounded-full py-qtttn px-qttn text-qtn':' text-bbb rounded-full py-qtttn px-qttn text-qtn'}}">
                     工作餐
                   </view>
                 </view>
@@ -26,7 +26,7 @@
                   <view class="{{activeGroupId==3?'active-groupid':'inactive-groupid'}}">
                     <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/xsls.png" class="w-full h-full"></image>
                   </view>
-                  <view class="{{activeGroupId==3?'bg-qbase text-white rounded-full py-qtttn px-qttn text-qtn':'text-bbb'}}">
+                  <view class="{{activeGroupId==3?'bg-qbase text-white rounded-full py-qtttn px-qttn text-qtn':' text-bbb rounded-full py-qtttn px-qttn text-qtn'}}">
                     小食零食
                   </view>
                 </view>
@@ -34,7 +34,7 @@
                   <view class="{{activeGroupId==4?'active-groupid':'inactive-groupid'}}">
                     <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/kxnc.png" class="w-full h-full"></image>
                   </view>
-                  <view class="{{activeGroupId==4?'bg-qbase text-white rounded-full py-qtttn px-qttn text-qtn':'text-bbb'}}">
+                  <view class="{{activeGroupId==4?'bg-qbase text-white rounded-full py-qtttn px-qttn text-qtn':' text-bbb rounded-full py-qtttn px-qttn text-qtn'}}">
                     开心农场
                   </view>
                 </view>
@@ -73,10 +73,10 @@
         </view>        
       </view>
 
-      <block>
+      <view class="rounded-t-lg" style="">
         <!-- 当前状态，若是false，要么没开通要么时间过了 -->
         <block wx:if='{{activeInfoExtra.mealType.status==false}}'>
-          <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
+          <view   class="qcenter " style="padding-top:300rpx">
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
@@ -95,7 +95,7 @@
         </block>
         <!-- 所有类型的餐 的时间都过了 啥餐都不能点 -->
         <block wx:elif='{{today==activeMealDate&&orderType == 4}}'>
-          <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
+          <view  class="qcenter " style="padding-top:300rpx">
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
@@ -114,7 +114,7 @@
         </block>
         <!-- 备用餐 -->
         <block wx:elif='{{today==activeMealDate&&orderType == 3}}'>
-          <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
+          <view  class="qcenter " style="padding-top:300rpx">
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
@@ -139,7 +139,7 @@
         </block>
         <!-- 餐别不允许点餐 -->
         <block wx:elif='{{userTimeAndMealTypeLimit}}'>
-          <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
+          <view  class="qcenter " style="padding-top:300rpx">
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
@@ -148,7 +148,7 @@
         </block>
         <!-- 已过截止时间 -->
         <block wx:elif='{{activeInfoExtra.mealType.orderStatus == false}}'>
-          <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
+          <view  class="qcenter " style="padding-top:300rpx">
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
@@ -167,7 +167,7 @@
         </block>
         <!-- 尚未排餐 -->
         <block wx:elif='{{mealTypeList.length== 0||foodTypeList.length== 0}}'>
-          <view style='margin:100rpx auto 20rpx;width:300rpx;height:300rpx;'>
+          <view  class="qcenter   ">
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
@@ -178,7 +178,8 @@
           <view style="height: {{ windowHeight - 2 }}px; " class="menu-wrapper c_scrollPosition_forCalculate">
             <!-- 左边餐品分类 -->
             <scroll-view class="menu-left" scroll-y style="height: {{ windowHeight - 2 }}px;">
-              <view wx:for="{{ foodTypeList }}" wx:for-item="foodTypeItem" wx:for-index="foodTypeIndex" wx:key="foodTypeIndex" class=" {{ activeFoodType == foodTypeIndex ? 'left-item-active' : 'left-item'}}" data-foodtypeindex="{{ foodTypeIndex }}" bindtap="clickFoodType">
+              <view wx:for="{{ foodTypeList }}" wx:for-item="foodTypeItem" wx:for-index="foodTypeIndex" wx:key="foodTypeIndex" class=" {{ activeFoodType == foodTypeIndex ? 'left-item-active relative' : 'left-item relative'}}" data-foodtypeindex="{{ foodTypeIndex }}" bindtap="clickFoodType">
+                <view wx:if="{{activeFoodType == foodTypeIndex}}" class="bg-qbase absolute h-full  " style=" width:10rpx;left:0;top:0;bottom:0;"></view>
                 <block wx:if='{{ foodTypeItem.typePicture}}'>
                   <view class="menu-name-image">
                     <image src='{{foodTypeItem.typePicture}}' style='width:28rpx;height:28rpx;'></image>
@@ -283,7 +284,7 @@
             </view>
           </view>
         </view>
-      </block>
+      </view>
     </scroll-view>
     <!-- ---- 下面是购物车 ---- -->
     <!-- 购物车激活状态 -->
