@@ -712,30 +712,6 @@
           "scene": null
         },
         {
-          "name": "pages/fsmenu/preOrder/preOrder",
-          "pathName": "pages/fsmenu/preOrder/preOrder",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "pages/fsmenu/preOrder/preOrder",
-          "pathName": "pages/fsmenu/preOrder/preOrder",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "pages/fsmenu/preOrder/preOrder",
-          "pathName": "pages/fsmenu/preOrder/preOrder",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "pages/fsmenu/preOrder/preOrder",
-          "pathName": "pages/fsmenu/preOrder/preOrder",
-          "query": "",
-          "scene": null
-        },
-        {
           "name": "pages/order/order",
           "pathName": "pages/order/order",
           "query": "",
@@ -772,12 +748,6 @@
           "scene": null
         },
         {
-          "name": "pages/fsmenu/menu",
-          "pathName": "pages/fsmenu/menu",
-          "query": "recentMealDate=2021-10-28&recentMealType=LUNCH",
-          "scene": null
-        },
-        {
           "name": "pages/mine/mine",
           "pathName": "pages/mine/mine",
           "query": "",
@@ -792,54 +762,6 @@
         {
           "name": "pages/mine/organize/organize",
           "pathName": "pages/mine/organize/organize",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "pages/fsmenu/menu",
-          "pathName": "pages/fsmenu/menu",
-          "query": "recentMealDate=2021-11-19&recentMealType=LUNCH",
-          "scene": null
-        },
-        {
-          "name": "pages/fsmenu/menu",
-          "pathName": "pages/fsmenu/menu",
-          "query": "mealDate=2021-11-21&mealType=LUNCH&timeShareStatus=true&takeMealTime=11%3A00",
-          "scene": null
-        },
-        {
-          "name": "pages/fsmenu/preOrder/preOrder",
-          "pathName": "pages/fsmenu/preOrder/preOrder",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "pages/fsmenu/preOrder/preOrder",
-          "pathName": "pages/fsmenu/preOrder/preOrder",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "pages/fsmenu/menu",
-          "pathName": "pages/fsmenu/menu",
-          "query": "mealDate=2021-11-22&mealType=LUNCH&timeShareStatus=true&takeMealTime=11%3A00",
-          "scene": null
-        },
-        {
-          "name": "pages/fsmenu/preOrder/preOrder",
-          "pathName": "pages/fsmenu/preOrder/preOrder",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "pages/fsmenu/menu",
-          "pathName": "pages/fsmenu/menu",
-          "query": "mealDate=2021-11-24&mealType=DINNER&timeShareStatus=false&takeMealTime=18%3A00",
-          "scene": null
-        },
-        {
-          "name": "pages/fsmenu/preOrder/preOrder",
-          "pathName": "pages/fsmenu/preOrder/preOrder",
           "query": "",
           "scene": null
         },

@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "分时订单预览",
-  "navigationBarBackgroundColor": "#ffffff",
-  "navigationBarTextStyle": "black",
-  "usingComponents": {
-    "c-custom-modal": "../../components/customModal/customModal"
-  }
-}

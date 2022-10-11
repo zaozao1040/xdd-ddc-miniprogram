@@ -165,23 +165,6 @@ Page({
   },
 
   clickStartMeal: function () {
-    // 分时处理
-    if (this.data.fenshiInfo.timeShareFlag) {
-      let url =
-        "/pages/fsmenu/menu?mealDate=" +
-        this.data.fenshiInfo.mealDate +
-        "&mealType=" +
-        this.data.fenshiInfo.mealType +
-        "&timeShareStatus=" +
-        this.data.fenshiInfo.timeShareStatus +
-        "&takeMealTime=" +
-        this.data.fenshiInfo.takeMealTime;
-      wx.navigateTo({
-        url,
-      });
-      return;
-    }
-
     if (!wx.getStorageSync("userInfo")) {
       this.gotoMenu();
     } else {

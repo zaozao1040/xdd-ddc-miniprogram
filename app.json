@@ -68,10 +68,7 @@
         "bucan"
       ]
     },
-    {
-      "root": "pages/fsmenu",
-      "pages": ["menu", "preOrder/preOrder"]
-    },
+
     {
       "root": "pages/byc",
       "pages": ["byc", "bycOrder"]
