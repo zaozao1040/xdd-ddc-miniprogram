@@ -185,7 +185,7 @@ Page({
     if (!wx.getStorageSync("userInfo")) {
       this.gotoMenu();
     } else {
-      // 2022-05-20 药明康德终于废掉了“先评价后点餐”的屌需求，欧耶！所有人无不欢呼雀跃！奔走相告！
+      // 2 22-05-20 药明康德终于废掉了“先评价后点餐”的屌需求，欧耶！所有人无不欢呼雀跃！奔走相告！
       // // 针对 药明康德 企业，要先判断是否开启了“先评价后点餐”的个性化设置
       // let ymkdOrgnaizeCodeList = getApp().globalData.ymkdOrgnaizeCodeList;
       // let tmp_userInfo = wx.getStorageSync("userInfo").userInfo;
