@@ -26,7 +26,8 @@
                   <view class='flex-a'>
                     <view style="display:flex;">
                       <view class='food-money flex items-end'>
-                        <view class="text-qmn">实付：</view>
+                        <view wx:if="{{orderItem.payType=='STANDARD_PAY'}}" class="text-qmn">餐标支付：</view>
+                        <view wx:elif="{{orderItem.payType=='BALANCE_PAY'}}" class="text-qmn">余额支付：</view>
                         <view style='font-weight:500;position:relative; left:-4rpx; ' class="text-qmoney text-qmd">
                           ￥{{orderItem.standardPrice}}
                         </view>
@@ -43,7 +44,7 @@
           </view>
         </view>
       </scroll-view>
-      <view class="shenqing" catchtap="clickSm">扫码下单</view>
+
     </view>
     <view wx:else>
       <view style='padding:400rpx 0  0 256rpx;width:240rpx;height:240rpx;'>
@@ -53,5 +54,6 @@
         <view>暂无记录</view>
       </view>
     </view>
+    <view class="shenqing" catchtap="clickSm">扫码下单</view>
   </view>
 </view>

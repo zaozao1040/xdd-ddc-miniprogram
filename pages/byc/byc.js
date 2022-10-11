@@ -40,17 +40,24 @@ Page({
     };
     requestModel.qqRequest(param, (data) => {
       if (data.code == 200) {
-        let mealTypeMap = {
-          LUNCH: "午餐",
-          DINNER: "晚餐",
-          BREAKFAST: "早餐",
-          NIGHT: "夜宵",
-        };
-        data.data.mealTypeDes = mealTypeMap[data.data.mealType];
-        _this.setData({
-          hasData: true,
-          detailInfo: data.data,
-        });
+        if (data.data.payType == "NONE") {
+          _this.setData({
+            hasData: false,
+            errMsg: "备用餐价格未设置,请联系客服",
+          });
+        } else {
+          let mealTypeMap = {
+            LUNCH: "午餐",
+            DINNER: "晚餐",
+            BREAKFAST: "早餐",
+            NIGHT: "夜宵",
+          };
+          data.data.mealTypeDes = mealTypeMap[data.data.mealType];
+          _this.setData({
+            hasData: true,
+            detailInfo: data.data,
+          });
+        }
       } else {
         _this.setData({
           hasData: false,
