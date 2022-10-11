@@ -339,13 +339,14 @@
 .food-label-item {
     font-family: PingFang-SC-Regular;
     font-size: 10px;
-    color: #333333;
+    color: #FFFFFF;
     letter-spacing: 0;
     text-align: left;
     line-height: 28rpx;
     margin-right: 10rpx;
     padding: 0 8rpx;
-    background: #F5F5F5;
+    background: #f79c4c;
+ 
     border-radius: 4rpx;
     white-space: nowrap;
 }
