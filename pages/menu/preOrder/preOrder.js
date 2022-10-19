@@ -58,6 +58,29 @@ Page({
     previewInfo: {}, //这里记录一下previewInfo接口返回的原始数据
     tmpLoading: false, //防止重复下单
     logUserStr: "",
+    //顺手买一件
+    ssList: [
+      {
+        foodName: "黑椒大排",
+        foodPrice: 15.9,
+        selected: false,
+        image:
+          "https://oss.91dcan.cn/uploads/food_picture/20220827/4109d7e681a4448a9f98934bd0adf3cc.jpg?Expires=1666148798&OSSAccessKeyId=LTAI5tNjutGSqefR1piQCbnR&Signature=7WO3epm%2BIlq5%2F3%2BEk6mFym%2BOdWA%3D&x-oss-process=image%2Fauto-orient%2C1%2Finterlace%2C1%2Fquality%2CQ_50%2Fformat%2Cjpg",
+      },
+      {
+        foodName: "酱排骨",
+        foodPrice: 15.9,
+        selected: true,
+        image:
+          "https://oss.91dcan.cn/uploads/food_picture/20220827/4109d7e681a4448a9f98934bd0adf3cc.jpg?Expires=1666148798&OSSAccessKeyId=LTAI5tNjutGSqefR1piQCbnR&Signature=7WO3epm%2BIlq5%2F3%2BEk6mFym%2BOdWA%3D&x-oss-process=image%2Fauto-orient%2C1%2Finterlace%2C1%2Fquality%2CQ_50%2Fformat%2Cjpg",
+      },
+      {
+        foodName: "剁椒鱼头",
+        foodPrice: 15.9,
+        image:
+          "https://oss.91dcan.cn/uploads/food_picture/20220827/4109d7e681a4448a9f98934bd0adf3cc.jpg?Expires=1666148798&OSSAccessKeyId=LTAI5tNjutGSqefR1piQCbnR&Signature=7WO3epm%2BIlq5%2F3%2BEk6mFym%2BOdWA%3D&x-oss-process=image%2Fauto-orient%2C1%2Finterlace%2C1%2Fquality%2CQ_50%2Fformat%2Cjpg",
+      },
+    ],
   },
   onLoad: function (options) {
     this.setData({
