@@ -25,7 +25,7 @@
   "jj": {
     "scope": "javascript,typescript",
     "prefix": "jj",
-    "body": ["console.log('======= $1 ======= ');", "$1"]
+    "body": ["console.log('======= $1 ======= ',$1);"]
   },
   "jjj": {
     "scope": "javascript,typescript",

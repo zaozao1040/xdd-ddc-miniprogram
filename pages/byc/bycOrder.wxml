@@ -17,20 +17,30 @@
                 </view>
                 <view class='flex-b' style='margin:32rpx 0 20rpx;'>
                   <view class='flex-a' style="align-items:baseline">
-                    <view class='text-qchanggui'>{{orderItem.foodName}}</view>
+                    <view class="">{{orderItem.mealDate+' '+orderItem.mealTypeDes}}</view>
+                    <view class=' ml-qttn'>{{orderItem.foodName}}</view>
                     <view class='text-qciyao ml-qttn'>x {{orderItem.foodNum||1}}</view>
                   </view>
                 </view>
-                <view class="flex justify-between items-center text-qchanggui ">
-                  <view class="">{{orderItem.mealDate+' '+orderItem.mealTypeDes}}</view>
+                <view class="flex justify-end items-center text-qchanggui ">
                   <view class='flex-a'>
                     <view style="display:flex;">
-                      <view class='food-money flex items-end'>
-                        <view wx:if="{{orderItem.payType=='STANDARD_PAY'}}" class="text-qmn">餐标支付：</view>
-                        <view wx:elif="{{orderItem.payType=='BALANCE_PAY'}}" class="text-qmn">余额支付：</view>
-                        <view style='font-weight:500;position:relative; left:-4rpx; ' class="text-qmoney text-qmd">
-                          ￥{{orderItem.standardPrice}}
-                        </view>
+                      <view class='food-money flex items-center'>
+                        <block wx:if="{{orderItem.payType=='STANDARD_PAY'}}">
+                          <view class="text-qmn">餐标支付：</view>
+                          <view style='font-weight:500;position:relative; left:-4rpx; ' class="text-qmoney text-qmd">
+                            ￥{{orderItem.standardPrice}}
+                          </view>
+                        </block>
+                        <block wx:elif="{{orderItem.payType=='BALANCE_PAY'}}">
+                          <view class="text-qmn">余额支付：</view>
+                          <view style='font-weight:500;position:relative; left:-4rpx; ' class="text-qmoney text-qmd">
+                            ￥{{orderItem.totalBalancePayPrice}}
+                          </view>
+                          <view class="qcenter ml-qttn" catchtap="clickItemIcon" data-item="{{orderItem}}">
+                            <van-icon name="info" color="#f79c4c" size="20px" />
+                          </view>
+                        </block>
                       </view>
                     </view>
                   </view>
@@ -44,7 +54,6 @@
           </view>
         </view>
       </scroll-view>
-
     </view>
     <view wx:else>
       <view style='padding:400rpx 0  0 256rpx;width:240rpx;height:240rpx;'>
@@ -55,5 +64,32 @@
       </view>
     </view>
     <view class="shenqing" catchtap="clickSm">扫码下单</view>
+    <!-- lin -->
+    <l-popup show="{{showIcon}}" bind:lintap="clickPlClose">
+      <view class="bg-white rounded-md text-qchanggui text-qtn  pt-qttn" style="width: 500rpx;">
+        <view class="qcenter text-qsm pt-qtn">余额支付详情</view>
+        <view class="text-qchanggui text-qmn py-qtn">
+          <view class="flex justify-between items-center px-qmn py-qttn">
+            <view class="">企业点餐币</view>
+            <view class="text-qmoney">￥{{iconItem.organizePayPrice}}</view>
+          </view>
+          <view class="flex justify-between items-center px-qmn py-qttn">
+            <view class="">个人点餐币</view>
+            <view class="text-qmoney">￥{{iconItem.userPayPrice}}</view>
+          </view>
+          <view class="flex justify-between items-center px-qmn py-qttn">
+            <view class="">赠送点餐币</view>
+            <view class="text-qmoney">￥{{iconItem.presentPayPrice}}</view>
+          </view>
+          <view class="flex justify-between items-center px-qmn py-qttn">
+            <view class="">总计</view>
+            <view class="text-qmoney">￥{{iconItem.totalBalancePayPrice}}</view>
+          </view>
+        </view>
+        <view catchtap="confirmIcon" class="qcenter text-qbase text-qsm w-full h-qsm pb-q " style="border-top:1rpx solid #eeeeee ;">
+          我知道了
+        </view>
+      </view>
+    </l-popup>
   </view>
 </view>

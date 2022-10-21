@@ -27,6 +27,8 @@ Page({
     scrollTop: 0,
     //
     from: null,
+    showIcon: false,
+    iconItem: {},
   },
 
   /**
@@ -104,6 +106,19 @@ Page({
           duration: 1000,
         });
       }
+    });
+  },
+  clickItemIcon(e) {
+    let item = e;
+    console.log("======= e ======= ", e.currentTarget.dataset.item);
+    this.setData({
+      showIcon: true,
+      iconItem: e.currentTarget.dataset.item,
+    });
+  },
+  confirmIcon() {
+    this.setData({
+      showIcon: false,
     });
   },
   clickSm() {
