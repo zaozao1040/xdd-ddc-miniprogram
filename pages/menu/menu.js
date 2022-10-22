@@ -791,6 +791,7 @@ Page({
             tempImage: item.tempImage,
             isFoodQuota: item.isFoodQuota,
             orgAdmin: _this.data.userInfo.orgAdmin,
+            isAllowAccessoryFood: item.isAllowAccessoryFood || false,
           },
         };
         request(param, (resData) => {
@@ -916,6 +917,7 @@ Page({
               tempImage: foodItem.tempImage,
               isFoodQuota: tmp_isFoodQuota,
               orgAdmin: _this.data.userInfo.orgAdmin,
+              isAllowAccessoryFood: foodItem.isAllowAccessoryFood,
             },
           };
           request(param, (resData) => {
@@ -1068,6 +1070,7 @@ Page({
               canMeal: foodItem.canMeal,
               tempImage: foodItem.tempImage,
               orgAdmin: _this.data.userInfo.orgAdmin,
+              isAllowAccessoryFood: foodItem.isAllowAccessoryFood,
             },
           };
           request(param, (resData) => {

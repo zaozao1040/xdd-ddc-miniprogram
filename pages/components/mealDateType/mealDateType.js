@@ -127,6 +127,7 @@ Component({
           canMeal: _this.data.foodInfo.canMeal,
           tempImage: _this.data.foodInfo.tempImage,
           orgAdmin: wx.getStorageSync("userInfo").userInfo.orgAdmin,
+          isAllowAccessoryFood: _this.data.foodInfo.isAllowAccessoryFood,
         },
       };
       wx.showLoading();
