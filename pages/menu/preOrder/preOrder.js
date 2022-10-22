@@ -707,35 +707,18 @@ Page({
   //顺手买一件
   clickAcItem(e) {
     let _this = this;
-    let { mealdate, mealtype, itemac, accessoryfood } = e.currentTarget.dataset;
-    console.log("=======  ======= ", e.currentTarget.dataset);
-    // let tmp_accessoryFoodList = accessoryfood.filter(item=>{
-    //   return item.count>0
-    // }).map(item=>{
-    //   return {
-    //     foodCode:item.foodCode,
-    //     foodPrice:item.foodPrice,
-    //     num:1
-    //   }
-    // });
-    // console.log("======= tmp_accessoryFoodList ======= ", tmp_accessoryFoodList);
-    // if (itemac.count == 0) {
-    //   tmp_accessoryFoodList.push({
-    //     foodCode: itemac.foodCode,
-    //     foodPrice: itemac.foodPrice,
-    //     num: 1,
-    //   });
-    // } else {
-
-    // }
-
+    let { mealtypeitem, itemac } = e.currentTarget.dataset;
     let tmp_accessoryFoodList = [];
     _this.data.previewInfo.cartResDtoList.forEach((item) => {
       item.mealTypeList.forEach((itemIn) => {
         let tmp_list = itemIn.accessoryFood
           .map((itemInInIn) => {
             let tmp_num = 0;
-            if (itemac.foodCode == itemInInIn.foodCode) {
+            if (
+              itemac.foodCode == itemInInIn.foodCode &&
+              mealtypeitem.mealType == itemIn.mealType &&
+              mealtypeitem.mealDate == itemIn.mealDate
+            ) {
               tmp_num = itemInInIn.count == 0 ? 1 : 0;
             }
             return {
