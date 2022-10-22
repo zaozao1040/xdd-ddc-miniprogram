@@ -74,7 +74,7 @@
               </view>
             </view>
             <!-- 顺手买一件 -->
-            <view style='background:#fff;border-radius:6rpx;' wx:if="{{mealTypeItem.accessoryFood.length>0}}">
+            <view style='background:#fff;border-radius:6rpx;' wx:if="{{mealTypeItem.accessoryFood&&mealTypeItem.accessoryFood.length>0}}">
               <view class='pay-item-last'>
                 <view class='text-qchanggui text-qsm pt-qtn pb-qttn'>顺手买一件</view>
               </view>
@@ -96,7 +96,7 @@
                         </view>
                       </view>
                     </view>
-                    <view class="qcenter pr-qtn">
+                    <view class="qcenter pr-qtn" bindtap='clickAcItem' data-accessoryfood="{{mealTypeItem.accessoryFood}}" data-itemac="{{itemAc}}" data-mealtypeitem="{{mealTypeItem}}">
                       <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:if="{{itemAc.count==0}}"></image>
                       <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/check.png" style="width:44rpx;height:44rpx;" wx:else></image>
                     </view>

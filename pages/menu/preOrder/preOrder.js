@@ -59,28 +59,6 @@ Page({
     tmpLoading: false, //防止重复下单
     logUserStr: "",
     //顺手买一件
-    ssList: [
-      {
-        foodName: "黑椒大排",
-        foodPrice: 15.9,
-        selected: false,
-        image:
-          "https://oss.91dcan.cn/uploads/food_picture/20220827/4109d7e681a4448a9f98934bd0adf3cc.jpg?Expires=1666148798&OSSAccessKeyId=LTAI5tNjutGSqefR1piQCbnR&Signature=7WO3epm%2BIlq5%2F3%2BEk6mFym%2BOdWA%3D&x-oss-process=image%2Fauto-orient%2C1%2Finterlace%2C1%2Fquality%2CQ_50%2Fformat%2Cjpg",
-      },
-      {
-        foodName: "酱排骨",
-        foodPrice: 15.9,
-        selected: true,
-        image:
-          "https://oss.91dcan.cn/uploads/food_picture/20220827/4109d7e681a4448a9f98934bd0adf3cc.jpg?Expires=1666148798&OSSAccessKeyId=LTAI5tNjutGSqefR1piQCbnR&Signature=7WO3epm%2BIlq5%2F3%2BEk6mFym%2BOdWA%3D&x-oss-process=image%2Fauto-orient%2C1%2Finterlace%2C1%2Fquality%2CQ_50%2Fformat%2Cjpg",
-      },
-      {
-        foodName: "剁椒鱼头",
-        foodPrice: 15.9,
-        image:
-          "https://oss.91dcan.cn/uploads/food_picture/20220827/4109d7e681a4448a9f98934bd0adf3cc.jpg?Expires=1666148798&OSSAccessKeyId=LTAI5tNjutGSqefR1piQCbnR&Signature=7WO3epm%2BIlq5%2F3%2BEk6mFym%2BOdWA%3D&x-oss-process=image%2Fauto-orient%2C1%2Finterlace%2C1%2Fquality%2CQ_50%2Fformat%2Cjpg",
-      },
-    ],
   },
   onLoad: function (options) {
     this.setData({
@@ -153,8 +131,9 @@ Page({
     }
   },
 
-  getPreOrderInfo: function () {
+  getPreOrderInfo: function (accessoryFoodList) {
     let _this = this;
+
     let param = {
       url: config.baseUrlPlus + "/v3/cart/previewOrder",
       method: "post",
@@ -163,6 +142,9 @@ Page({
         standardPayFlag: _this.data.selectSt,
       },
     };
+    if (accessoryFoodList) {
+      param.data.accessoryFoodList = accessoryFoodList;
+    }
     wx.getStorageSync("userInfo").userInfo;
     log.info(
       "请求 previewOrder " + _this.data.logUserStr + JSON.stringify(param)
@@ -721,5 +703,63 @@ Page({
     wx.navigateTo({
       url: "/pages/menu/remark/remark",
     });
+  },
+  //顺手买一件
+  clickAcItem(e) {
+    let _this = this;
+    let { mealdate, mealtype, itemac, accessoryfood } = e.currentTarget.dataset;
+    console.log("=======  ======= ", e.currentTarget.dataset);
+    // let tmp_accessoryFoodList = accessoryfood.filter(item=>{
+    //   return item.count>0
+    // }).map(item=>{
+    //   return {
+    //     foodCode:item.foodCode,
+    //     foodPrice:item.foodPrice,
+    //     num:1
+    //   }
+    // });
+    // console.log("======= tmp_accessoryFoodList ======= ", tmp_accessoryFoodList);
+    // if (itemac.count == 0) {
+    //   tmp_accessoryFoodList.push({
+    //     foodCode: itemac.foodCode,
+    //     foodPrice: itemac.foodPrice,
+    //     num: 1,
+    //   });
+    // } else {
+
+    // }
+
+    let tmp_accessoryFoodList = [];
+    _this.data.previewInfo.cartResDtoList.forEach((item) => {
+      item.mealTypeList.forEach((itemIn) => {
+        let tmp_list = itemIn.accessoryFood
+          .map((itemInInIn) => {
+            let tmp_num = 0;
+            if (itemac.foodCode == itemInInIn.foodCode) {
+              tmp_num = itemInInIn.count == 0 ? 1 : 0;
+            }
+            return {
+              foodCode: itemInInIn.foodCode,
+              foodName: itemInInIn.foodName,
+              foodPrice: itemInInIn.foodPrice,
+              num: tmp_num,
+            };
+          })
+          .filter((itemInIn) => {
+            return itemInIn.num > 0;
+          });
+        let objIn = {
+          mealDate: itemIn.mealDate,
+          mealType: itemIn.mealType,
+          list: tmp_list,
+        };
+        tmp_accessoryFoodList.push(objIn);
+      });
+    });
+    console.log(
+      "======= tmp_accessoryFoodList ======= ",
+      tmp_accessoryFoodList
+    );
+    _this.getPreOrderInfo(tmp_accessoryFoodList);
   },
 });
