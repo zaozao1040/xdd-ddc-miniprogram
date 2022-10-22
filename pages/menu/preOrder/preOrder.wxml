@@ -213,9 +213,9 @@
   </view>
   <!-- 弹出层 填写钱包支付提示 -->
   <c-custom-modal title='下单提示' subtitle="{{previewInfo.kaiXinFlag?'开心农场订单只可使用个人点餐币':''}}" wx:if='{{balanceConfirmFlag}}' bind:closemodal='cancelPayBalance' bind:handleconfirm='confirmPayBalance' content1='企业点餐币' money1='￥{{payInfo.organizePayPrice}}' content2='个人点餐币' money2='￥{{payInfo.userPayPrice}}' content3='赠送点餐币' money3='￥{{payInfo.presentPayPrice}}' content4='微信支付' money4='￥{{payInfo.weiXinPayPrice}}' content5='取餐地址' money5='{{address}}'></c-custom-modal>
-  <van-overlay show="{{ tmpLoading }}">
+  <van-overlay show="{{ tmpLoading }}" z-index="{{150}}">
     <div class="fixed  flex" style="align-items: center;justify-content: center;left:0 ;right:0;bottom:0;top:0;">
-      <van-loading size="24px">订单生成中...</van-loading>
+      <van-loading size="24px">处理中..</van-loading>
     </div>
   </van-overlay>
 </view>

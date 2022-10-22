@@ -133,7 +133,6 @@ Page({
 
   getPreOrderInfo: function (accessoryFoodList) {
     let _this = this;
-
     let param = {
       url: config.baseUrlPlus + "/v3/cart/previewOrder",
       method: "post",
@@ -145,10 +144,12 @@ Page({
     if (accessoryFoodList) {
       param.data.accessoryFoodList = accessoryFoodList;
     }
-    wx.getStorageSync("userInfo").userInfo;
     log.info(
       "请求 previewOrder " + _this.data.logUserStr + JSON.stringify(param)
     );
+    _this.setData({
+      tmpLoading: true,
+    });
     request(param, (resData) => {
       if (resData.data.code === 200) {
         if (resData.data.data) {
@@ -166,6 +167,7 @@ Page({
         }
         _this.setData(
           {
+            tmpLoading: false,
             preOrderList: resData.data.data.cartResDtoList,
             payInfo: {
               orderPayPrice: resData.data.data.orderPayPrice,
@@ -713,7 +715,7 @@ Page({
       item.mealTypeList.forEach((itemIn) => {
         let tmp_list = itemIn.accessoryFood
           .map((itemInInIn) => {
-            let tmp_num = 0;
+            let tmp_num = itemInInIn.count;
             if (
               itemac.foodCode == itemInInIn.foodCode &&
               mealtypeitem.mealType == itemIn.mealType &&
