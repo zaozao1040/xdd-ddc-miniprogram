@@ -74,31 +74,31 @@
               </view>
             </view>
             <!-- 顺手买一件 -->
-            <view style='background:#fff;border-radius:6rpx;'>
+            <view style='background:#fff;border-radius:6rpx;' wx:if="{{mealTypeItem.accessoryFood.length>0}}">
               <view class='pay-item-last'>
                 <view class='text-qchanggui text-qsm pt-qtn pb-qttn'>顺手买一件</view>
               </view>
               <scroll-view scroll-x style=" overflow:hidden;white-space:nowrap;padding-bottom:20rpx;">
-                <view class="cart-menuItem p-qttn qb mr-qtn " style="display:inline-block;width:400rpx;" wx:for="{{ssList}}" wx:for-item="item" wx:for-index="index" wx:key="index">
+                <view class="cart-menuItem p-qttn qb mr-qtn " style="display:inline-block;width:400rpx;" wx:for="{{mealTypeItem.accessoryFood}}" wx:for-item="itemAc" wx:for-index="indexAc" wx:key="indexAc">
                   <view class="w-full flex justify-between">
                     <view class="flex">
                       <view class="cart-menuItem-left">
-                        <image class="cart-menuItem-img" src="{{item.image}}"></image>
+                        <image class="cart-menuItem-img" src="{{itemAc.image}}"></image>
                       </view>
                       <view class='flex-1'>
                         <view class='cart-menuItem-name'>
-                          <view class="cart-menuItemDes">{{item.foodName}}</view>
+                          <view class="cart-menuItemDes">{{itemAc.foodName}}</view>
                           <view class='flex-b'></view>
                         </view>
                         <view class="cart-menuItem-mealtype flex items-end">
-                          <view class="cart-menuItem-money">¥{{item.foodPrice}}</view>
+                          <view class="cart-menuItem-money">¥{{itemAc.foodPrice}}</view>
                           <view class="text-qciyao text-qtn ml-qttn">x 1</view>
                         </view>
                       </view>
                     </view>
                     <view class="qcenter pr-qtn">
-                      <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/check.png" style="width:44rpx;height:44rpx;" wx:if="{{item.selected}}"></image>
-                      <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:else></image>
+                      <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/uncheck.png" style="width:44rpx;height:44rpx;" wx:if="{{itemAc.count==0}}"></image>
+                      <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/check.png" style="width:44rpx;height:44rpx;" wx:else></image>
                     </view>
                   </view>
                 </view>
