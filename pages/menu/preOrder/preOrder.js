@@ -59,6 +59,7 @@ Page({
     tmpLoading: false, //防止重复下单
     logUserStr: "",
     //顺手买一件
+    accessoryFoodList: [],
   },
   onLoad: function (options) {
     this.setData({
@@ -131,7 +132,7 @@ Page({
     }
   },
 
-  getPreOrderInfo: function (accessoryFoodList) {
+  getPreOrderInfo: function () {
     let _this = this;
     let param = {
       url: config.baseUrlPlus + "/v3/cart/previewOrder",
@@ -141,8 +142,8 @@ Page({
         standardPayFlag: _this.data.selectSt,
       },
     };
-    if (accessoryFoodList) {
-      param.data.accessoryFoodList = accessoryFoodList;
+    if (_this.data.accessoryFoodList) {
+      param.data.accessoryFoodList = _this.data.accessoryFoodList;
     }
     log.info(
       "请求 previewOrder " + _this.data.logUserStr + JSON.stringify(param)
@@ -508,11 +509,22 @@ Page({
             foodQuantity: itemMini.foodQuantity,
           });
         });
+        //顺手买一件
+        let tmp_accessoryFoodList = [];
+        _this.data.accessoryFoodList.forEach((itemAc) => {
+          if (
+            itemAc.mealDate == itemOut.mealDate &&
+            itemAc.mealType == itemIn.mealType
+          ) {
+            tmp_accessoryFoodList = itemAc.list;
+          }
+        });
         tmp_orderParamList.push({
           mealType: itemIn.mealType,
           mealDate: itemOut.mealDate,
           integralNumber: 0,
           foods: tmp_foods,
+          accessoryFoodList: tmp_accessoryFoodList || [],
           userDiscountCode: itemIn.userDiscountCode,
         });
       });
@@ -707,9 +719,8 @@ Page({
     });
   },
   //顺手买一件
-  clickAcItem(e) {
+  getAccessoryFoodList(mealDate, mealType, foodCode) {
     let _this = this;
-    let { mealtypeitem, itemac } = e.currentTarget.dataset;
     let tmp_accessoryFoodList = [];
     _this.data.previewInfo.cartResDtoList.forEach((item) => {
       item.mealTypeList.forEach((itemIn) => {
@@ -717,9 +728,9 @@ Page({
           .map((itemInInIn) => {
             let tmp_num = itemInInIn.count;
             if (
-              itemac.foodCode == itemInInIn.foodCode &&
-              mealtypeitem.mealType == itemIn.mealType &&
-              mealtypeitem.mealDate == itemIn.mealDate
+              foodCode == itemInInIn.foodCode &&
+              mealType == itemIn.mealType &&
+              mealDate == itemIn.mealDate
             ) {
               tmp_num = itemInInIn.count == 0 ? 1 : 0;
             }
@@ -741,10 +752,23 @@ Page({
         tmp_accessoryFoodList.push(objIn);
       });
     });
-    console.log(
-      "======= tmp_accessoryFoodList ======= ",
-      tmp_accessoryFoodList
+    return tmp_accessoryFoodList;
+  },
+  clickAcItem(e) {
+    let _this = this;
+    let { mealtypeitem, itemac } = e.currentTarget.dataset;
+    let tmp_accessoryFoodList = _this.getAccessoryFoodList(
+      mealtypeitem.mealDate,
+      mealtypeitem.mealType,
+      itemac.foodCode
     );
-    _this.getPreOrderInfo(tmp_accessoryFoodList);
+    _this.setData(
+      {
+        accessoryFoodList: tmp_accessoryFoodList,
+      },
+      () => {
+        _this.getPreOrderInfo();
+      }
+    );
   },
 });
