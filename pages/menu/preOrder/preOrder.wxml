@@ -76,7 +76,7 @@
             <!-- 顺手买一件 -->
             <view style='background:#fff;border-radius:6rpx;' wx:if="{{mealTypeItem.accessoryFood&&mealTypeItem.accessoryFood.length>0}}">
               <view class='pay-item-last'>
-                <view class='text-qchanggui text-qsm pt-qtn pb-qttn'>顺手买一件</view>
+                <view class='text-qchanggui text-qsm pt-qtn pb-qttn'>为您推荐搭配</view>
               </view>
               <scroll-view scroll-x style=" overflow:hidden;white-space:nowrap;padding-bottom:20rpx;">
                 <view class="cart-menuItem p-qttn qb mr-qtn " style="display:inline-block;width:400rpx;" wx:for="{{mealTypeItem.accessoryFood}}" wx:for-item="itemAc" wx:for-index="indexAc" wx:key="indexAc">
