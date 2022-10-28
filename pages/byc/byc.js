@@ -131,6 +131,9 @@ Page({
           userName: _this.data.userInfo.userName,
           phoneNumber: _this.data.userInfo.phoneNumber,
           actualPayPrice: _this.data.detailInfo.actualPayPrice,
+          reportMealStandardPrice:
+            _this.data.detailInfo.reportMealStandardPrice,
+          standardPrice: _this.data.detailInfo.standardPrice,
           payType: _this.data.detailInfo.payType,
           organizeCode: _this.data.userInfo.organizeCode,
         };
