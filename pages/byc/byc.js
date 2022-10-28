@@ -132,13 +132,12 @@ Page({
           phoneNumber: _this.data.userInfo.phoneNumber,
           actualPayPrice: _this.data.detailInfo.actualPayPrice,
           payType: _this.data.detailInfo.payType,
+          organizeCode: _this.data.userInfo.organizeCode,
         };
         let param = {
           data: obj,
           method: "post",
-          url:
-            "/order/spareMealOrderScanPay?organizeCode=" +
-            _this.data.userInfo.organizeCode,
+          url: "/order/spareMealOrderScanPay",
         };
         requestModel.qqRequest(param, (data) => {
           if (data.code == 200) {
