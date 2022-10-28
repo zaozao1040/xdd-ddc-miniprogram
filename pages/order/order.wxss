@@ -1,5 +1,22 @@
-/*去付款的弹窗*/
 
+/* 倒计时 */
+.l-countdown-time{
+  background-color: none!important;
+}
+.countdown-blue {
+  width: 52rpx ;
+  height: 52rpx;
+  border: 2rpx solid #F79C4C;
+  border-radius: 50%;
+  background:#F79C4C;
+  color: white;
+}
+
+.countdown-text {
+  color: #F79C4C;
+}
+
+/*去付款的弹窗*/
 .pay-way {
   display: flex;
   justify-content: space-between;

@@ -136,7 +136,9 @@ Page({
         let param = {
           data: obj,
           method: "post",
-          url: "/order/spareMealOrderScanPay",
+          url:
+            "/order/spareMealOrderScanPay?organizeCode=" +
+            _this.data.userInfo.organizeCode,
         };
         requestModel.qqRequest(param, (data) => {
           if (data.code == 200) {

@@ -1,5 +1,6 @@
 import { base } from "../../comm/public/request";
 
+import moment from "../../comm/public/moment";
 let requestModel = new base();
 
 Page({
@@ -412,6 +413,14 @@ Page({
           weekday[6] = "周六";
           element.takeMealTimeDes =
             element.takeMealTimeDes + " (" + weekday[d.getDay()] + ") ";
+          if (element.supplementtaryMeal !== 1) {
+            const fiveTime = moment(element.orderTime).subtract(-5, "minute");
+            let tmpDiff = fiveTime.diff(moment(), "second");
+            element.diff = tmpDiff > 0 ? Number(tmpDiff) : null;
+            console.log(tmpDiff, element.diff); // 3600
+          } else {
+            element.djs = null;
+          }
         });
         if (page == 1) {
           _this.setData({

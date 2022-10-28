@@ -1210,6 +1210,13 @@
           "query": "orderCode=DDC1034065291866275840",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/order/order",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
