@@ -166,6 +166,16 @@ Page({
               JSON.stringify(resData.data)
           );
         }
+        //筛选一下看有没有补餐，有则弹框
+        let re = _this.doBucan(resData.data.data.cartResDtoList);
+        if (!re) {
+          wx.showModal({
+            title: "补餐提示",
+            content: "补餐下单后,五分钟后无法取消",
+            showCancel: false,
+            confirmText: "我知道了",
+          });
+        }
         _this.setData(
           {
             tmpLoading: false,
@@ -203,6 +213,19 @@ Page({
         });
       }
     });
+  },
+  doBucan(cartResDtoList) {
+    let re = false;
+    cartResDtoList.forEach((item) => {
+      item.mealTypeList.forEach((itemIn) => {
+        itemIn.foods.forEach((itemInIn) => {
+          if (itemInIn.supplement == true) {
+            re = true;
+          }
+        });
+      });
+    });
+    return re;
   },
   refreshUserFinance() {
     let _this = this;
