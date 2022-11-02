@@ -168,7 +168,7 @@ Page({
         }
         //筛选一下看有没有补餐，有则弹框
         let re = _this.doBucan(resData.data.data.cartResDtoList);
-        if (!re) {
+        if (re) {
           wx.showModal({
             title: "补餐提示",
             content: "补餐下单后,五分钟后无法取消",
