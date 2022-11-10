@@ -1,7 +1,8 @@
 {
   "description": "项目配置文件",
   "packOptions": {
-    "ignore": []
+    "ignore": [],
+    "include": []
   },
   "setting": {
     "urlCheck": false,
@@ -38,17 +39,14 @@
     "disableUseStrict": false,
     "showES6CompileOption": false,
     "useCompilerPlugins": false,
-    "minifyWXML": true
+    "minifyWXML": true,
+    "ignoreUploadUnusedFiles": true
   },
   "compileType": "miniprogram",
   "libVersion": "2.18.0",
   "appid": "wx47b750121e8288c1",
   "projectname": "___diancan",
   "cloudfunctionTemplateRoot": "",
-  "debugOptions": {
-    "hidedInDevtools": []
-  },
-  "scripts": {},
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
   "condition": {
@@ -222,5 +220,9 @@
         }
       ]
     }
+  },
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
   }
 }

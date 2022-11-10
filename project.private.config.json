@@ -1,152 +1,123 @@
 {
   "setting": {},
   "condition": {
-    "plugin": {
-      "list": []
-    },
-    "game": {
-      "list": []
-    },
-    "gamePlugin": {
-      "list": []
-    },
     "miniprogram": {
       "list": [
         {
-          "id": -1,
           "name": "selectPhone",
           "pathName": "pages/login/selectPhone/selectPhone",
           "query": "",
           "scene": null
         },
         {
-          "id": -1,
           "name": "phone",
           "pathName": "pages/login/phone/phone",
           "query": "",
           "scene": null
         },
         {
-          "id": -1,
           "name": "mine",
           "pathName": "pages/mine/mine",
           "query": "",
           "scene": null
         },
         {
-          "id": -1,
           "name": "order",
           "pathName": "pages/order/order",
           "query": "",
           "scene": null
         },
         {
-          "id": -1,
           "name": "menu",
           "pathName": "pages/menu/menu",
           "query": "",
           "scene": null
         },
         {
-          "id": -1,
           "name": "comment",
           "pathName": "pages/order/comment/comment",
           "query": "userCode=USER532153350464995387&orderCode=DDC611247543854039040",
           "scene": null
         },
         {
-          "id": -1,
           "name": "complaint",
           "pathName": "pages/mine/complaint/complaint",
           "query": "",
           "scene": null
         },
         {
-          "id": 7,
           "name": "complaint/say",
           "pathName": "pages/mine/complaint/say",
           "query": "",
           "scene": null
         },
         {
-          "id": 8,
           "name": "complaint/words/words",
           "pathName": "pages/mine/complaint/words/words",
           "query": "",
           "scene": null
         },
         {
-          "id": 9,
           "name": "allComment",
           "pathName": "pages/mine/allComment/allComment",
           "query": "",
           "scene": null
         },
         {
-          "id": -1,
           "name": "allComment/detail",
           "pathName": "pages/mine/allComment/detail",
           "query": "",
           "scene": null
         },
         {
-          "id": 11,
           "name": "pages/home/survey",
           "pathName": "pages/home/survey/survey",
           "query": "",
           "scene": null
         },
         {
-          "id": -1,
           "name": "pages/test",
           "pathName": "pages/test/test",
           "query": "",
           "scene": null
         },
         {
-          "id": -1,
           "name": "pages/mine/cab/index",
           "pathName": "pages/mine/cab/index",
           "query": "",
           "scene": null
         },
         {
-          "id": -1,
           "name": "管理员报餐",
           "pathName": "pages/mine/orgAdminAddfood/orgAdminAddfood",
           "query": "",
           "scene": null
         },
         {
-          "id": -1,
           "name": "pages/food/food",
           "pathName": "pages/food/food",
           "query": "",
           "scene": null
         },
         {
-          "id": -1,
           "name": "pages/login/selectPhone/selectPhone",
           "pathName": "pages/login/selectPhone/selectPhone",
           "query": "",
           "scene": null
         },
         {
-          "id": -1,
           "name": "pages/menu/preOrder/discount/discount",
           "pathName": "pages/menu/preOrder/discount/discount",
           "query": "",
           "scene": null
         },
         {
-          "id": -1,
           "name": "pages/mine/discount/discount",
           "pathName": "pages/mine/discount/discount",
           "query": "",
           "scene": null
         },
         {
-          "id": -1,
           "name": "pages/mine/discount/discount",
           "pathName": "pages/mine/discount/discount",
           "query": "",
@@ -1062,10 +1033,11 @@
           "name": "",
           "pathName": "pages/menu/menu",
           "query": "recentMealDate=2022-04-20&recentMealType=DINNER",
-          "scene": null,
-          "launchMode": "default"
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
-  }
+  },
+  "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html"
 }
