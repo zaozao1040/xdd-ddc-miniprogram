@@ -22,6 +22,11 @@
       "</block>"
     ]
   },
+  "j": {
+    "scope": "javascript,typescript",
+    "prefix": "j",
+    "body": ["console.log('======= $1 ======= ');"]
+  },
   "jj": {
     "scope": "javascript,typescript",
     "prefix": "jj",
