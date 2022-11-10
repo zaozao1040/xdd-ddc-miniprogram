@@ -110,7 +110,7 @@
                 -￥{{mealTypeItem.organizeDeductionPrice}}
               </view>
             </view>
-            <!-- 优惠券模块 -->
+            <!-- 优惠券 模块 -->
             <view class='pay-item-last' data-mealdate="{{mealTypeItem.mealDate}}" data-mealtype="{{mealTypeItem.mealType}}" data-combinediscountinfo="{{mealTypeItem.combineDiscountInfo}}" bindtap="clickDiscount">
               <view class='pay-title' style='padding:30rpx 0;'>优惠券</view>
               <view class='flex-a'>
