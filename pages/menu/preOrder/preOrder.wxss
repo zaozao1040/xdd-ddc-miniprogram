@@ -6,7 +6,15 @@
   right: 0;
   background: #eee;
 }
-
+.qshenglue2{
+  white-space: pre-wrap!important;
+  text-align: left!important;
+  text-overflow: ellipsis!important;
+  display: -webkit-box!important;
+  -webkit-line-clamp: 2!important;
+  -webkit-box-orient: vertical!important;
+  overflow: hidden!important;
+}
 /* 弹出层 填写取餐人 送餐地址 */
 
 .modulebox-background-wrapper {

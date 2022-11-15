@@ -81,16 +81,16 @@
               <scroll-view scroll-x style=" overflow:hidden;white-space:nowrap;padding-bottom:20rpx;">
                 <view class="cart-menuItem p-qttn qb mr-qtn " style="display:inline-block;width:400rpx;" wx:for="{{mealTypeItem.accessoryFood}}" wx:for-item="itemAc" wx:for-index="indexAc" wx:key="indexAc">
                   <view class="w-full flex justify-between">
-                    <view class="flex">
+                    <view class="flex flex-1" style="align-items:center;">
                       <view class="cart-menuItem-left">
                         <image class="cart-menuItem-img" src="{{itemAc.image}}"></image>
                       </view>
                       <view class='flex-1'>
                         <view class='cart-menuItem-name'>
-                          <view class="cart-menuItemDes">{{itemAc.foodName}}</view>
+                          <view class="cart-menuItemDes qshenglue2">{{itemAc.foodName}}</view>
                           <view class='flex-b'></view>
                         </view>
-                        <view class="cart-menuItem-mealtype flex items-end">
+                        <view class="cart-menuItem-mealtype flex items-end ">
                           <view class="cart-menuItem-money">¥{{itemAc.foodPrice}}</view>
                           <view class="text-qciyao text-qtn ml-qttn">x 1</view>
                         </view>
