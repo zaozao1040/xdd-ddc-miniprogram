@@ -29,7 +29,7 @@
                         <view class="text-qchanggui">
                           取餐柜号：
                         </view>
-                        <view class="text-qbase">
+                        <view class="text-qbase text-qsm">
                           {{orderItem.cabinetSort+'-'+orderItem.cellShowSort}}
                         </view>
                       </view>
