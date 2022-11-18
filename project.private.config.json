@@ -1224,6 +1224,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/byc/bycOrder",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

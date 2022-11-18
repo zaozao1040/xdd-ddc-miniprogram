@@ -23,9 +23,20 @@
                   </view>
                 </view>
                 <view class="flex justify-end items-center text-qchanggui ">
-                  <view class='flex-a'>
-                    <view style="display:flex;">
-                      <view class='food-money flex items-center'>
+                  <view class='flex-a w-full'>
+                    <view style="display:flex;justify-content: space-between;align-items: center;" class="text-qmn text-qchanggui w-full" >
+                      <view wx:if="{{orderItem.cellShowSort}}" class="flex">
+                        <view class="text-qchanggui">
+                          取餐柜号：
+                        </view>
+                        <view class="text-qbase">
+                          {{orderItem.cabinetSort+'-'+orderItem.cellShowSort}}
+                        </view>
+                      </view>
+                      <view wx:else class=""> 
+                        扫码投柜
+                      </view>
+                      <view class='food-money' style="display:flex;align-items: center;">
                         <block wx:if="{{orderItem.payType=='STANDARD_PAY'}}">
                           <view class="text-qmn">餐标支付：</view>
                           <view style='font-weight:500;position:relative; left:-4rpx; ' class="text-qmoney text-qmd">
@@ -63,7 +74,10 @@
         <view>暂无记录</view>
       </view>
     </view>
-    <view class="shenqing" catchtap="clickSm">扫码下单</view>
+    <view class="shenqing"> 
+      <view class="shenqing1" catchtap="clickSm">扫码下单</view> 
+      <view class="shenqing1" catchtap="clickTg">投柜下单</view> 
+    </view>
     <!-- lin -->
     <l-popup show="{{showIcon}}" bind:lintap="clickPlClose">
       <view class="bg-white rounded-md text-qchanggui text-qtn  pt-qttn" style="width: 500rpx;">

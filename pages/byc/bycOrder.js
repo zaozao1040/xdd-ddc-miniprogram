@@ -1,6 +1,5 @@
 import { base } from "../../comm/public/request";
 import moment from "../../comm/public/moment";
-
 let requestModel = new base();
 
 Page({
@@ -143,6 +142,38 @@ Page({
       complete(res) {
         console.log("complete", res);
       },
+    });
+  },
+  clickTg() {
+    let _this = this;
+    wx.showLoading({
+      title: "加载中",
+      mask: true,
+    });
+    let params = {
+      data: {
+        mealDate: moment().format("YYYY-MM-DD"),
+        deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
+        userCode: _this.data.userInfo.userCode,
+      },
+      url: "/spareMealOrder/getVotedSpareMeal",
+      method: "post",
+    };
+
+    requestModel.qqRequest(params, (data) => {
+      wx.hideLoading();
+      console.log("======= params ======= ", data);
+      if (data.code == 200) {
+        wx.navigateTo({
+          url: "/pages/byc/byc?qrCode=" + data.data.qrCode,
+        });
+      } else {
+        wx.showToast({
+          title: data.msg,
+          icon: "none",
+          duration: 2000,
+        });
+      }
     });
   },
 });
