@@ -489,82 +489,9 @@ Page({
   onShareAppMessage: function () {},
 
   // 新版备用餐
-  clickByc(e) {
-    wx.lin.showActionSheet({
-      itemList: [
-        {
-          name: "我的备用餐",
-        },
-        {
-          name: "扫码下单",
-        },
-        {
-          name: "投柜下单",
-        },
-      ],
+  clickByc() {
+    wx.navigateTo({
+      url: "/pages/byc/bycOrder",
     });
-  },
-  lintapItem(e) {
-    let _this = this;
-    let name = e.detail.item.name;
-    if (name == "扫码下单") {
-      wx.scanCode({
-        success(res) {
-          console.log("success", res);
-          if (res.result) {
-            wx.navigateTo({
-              url: "/pages/byc/byc?qrCode=" + res.result,
-            });
-          }
-        },
-        fail(res) {
-          console.log("fail", res);
-          wx.showModal({
-            title: "提示",
-            content: "二维码错误，请扫备用餐二维码",
-            confirmText: "我知道了",
-            showCancel: false,
-          });
-        },
-        complete(res) {
-          console.log("complete", res);
-        },
-      });
-    } else if (name == "投柜下单") {
-      wx.showLoading({
-        title: "加载中",
-        mask: true,
-      });
-      let params = {
-        data: {
-          // mealDate: moment().format("YYYY-MM-DD"),
-          mealDate: "2022-11-11",
-          deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
-          userCode: _this.data.userInfo.userCode,
-        },
-        url: "/spareMealOrder/getVotedSpareMeal",
-        method: "post",
-      };
-
-      requestModel.qqRequest(params, (data) => {
-        wx.hideLoading();
-        console.log("======= params ======= ", data);
-        if (data.code == 200) {
-          wx.navigateTo({
-            url: "/pages/byc/byc?qrCode=" + data.data.qrCode,
-          });
-        } else {
-          wx.showToast({
-            title: data.msg,
-            icon: "none",
-            duration: 2000,
-          });
-        }
-      });
-    } else if (name == "我的备用餐") {
-      wx.navigateTo({
-        url: "/pages/byc/bycOrder",
-      });
-    }
   },
 });

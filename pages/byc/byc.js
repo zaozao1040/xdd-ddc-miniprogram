@@ -19,6 +19,7 @@ Page({
     selectCb: true,
     selectYe: false,
     showConfirm: false,
+    type: "sm", //sm 扫码下单   tg 投柜下单
   },
 
   onLoad: function (options) {
@@ -27,6 +28,7 @@ Page({
     _this.setData({
       userInfo: userInfo,
       qrCode: options.qrCode,
+      type: options.type,
     });
 
     let param = {
@@ -144,23 +146,46 @@ Page({
         };
         requestModel.qqRequest(param, (data) => {
           if (data.code == 200) {
-            wx.showToast({
-              title: "支付成功",
-              icon: "none",
-              duration: 2000,
-            });
-            setTimeout(function () {
-              wx.redirectTo({
-                url: "/pages/byc/bycOrder",
+            if (_this.data.type == "sm") {
+              wx.showToast({
+                title: "支付成功",
+                icon: "none",
+                duration: 2000,
               });
-            }, 2000);
+              setTimeout(function () {
+                wx.redirectTo({
+                  url: "/pages/byc/bycOrder",
+                });
+              }, 2000);
+            } else if (_this.data.type == "tg") {
+              wx.showModal({
+                title: "支付成功，是否取餐？",
+                content:
+                  "柜号：" +
+                  data.data.cabinetSort +
+                  "-" +
+                  data.data.cellShowSort,
+                confirmText: "开柜取餐",
+                cancelText: "等一等",
+                showCancel: true,
+                success: function (res) {
+                  console.log("======= res ======= ", res);
+                  if (res.confirm) {
+                    _this.takeFoodOrderPlus(data.data);
+                  } else {
+                    wx.redirectTo({
+                      url: "/pages/byc/bycOrder",
+                    });
+                  }
+                },
+              });
+            }
           } else {
             wx.showToast({
               title: "支付失败",
               icon: "none",
               duration: 2000,
             });
-
             let param = {
               url:
                 "/order/cancelSpareOrderAndTrade?qrCode=" + _this.data.qrCode,
@@ -175,6 +200,38 @@ Page({
           }
         });
       },
+    });
+  },
+  //取餐
+  takeFoodOrderPlus(obj) {
+    let _this = this;
+    let param = {
+      url:
+        "/spareMealOrder/orderPick?userCode=" +
+        wx.getStorageSync("userCode") +
+        "&orderCode=" +
+        _this.data.detailInfo.orderCode +
+        "&cabinetNumber=" +
+        obj.cabinetSort +
+        "&cellNumber=" +
+        obj.cellSort +
+        "&cellId=" +
+        obj.cellId,
+    };
+    requestModel.qqRequest(param, (data) => {
+      if (data.code == 200) {
+        wx.showToast({
+          title: "已开柜",
+          icon: "none",
+          duration: 2000,
+        });
+        setTimeout(function () {
+          wx.redirectTo({
+            url: "/pages/byc/bycOrder",
+          });
+        }, 2000);
+      }
+      console.log("======= data ======= ", data);
     });
   },
 

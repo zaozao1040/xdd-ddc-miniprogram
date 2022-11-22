@@ -1,4 +1,7 @@
 {
   "navigationBarTitleText": "我的备用餐",
-  "navigationBarTextStyle": "black"
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "l-action-sheet": "/miniprogram_npm/lin-ui/action-sheet/index"
+  }
 }

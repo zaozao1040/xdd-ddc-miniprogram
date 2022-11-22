@@ -75,8 +75,8 @@
       </view>
     </view>
     <view class="shenqing"> 
-      <view class="shenqing1" catchtap="clickSm">扫码下单</view> 
-      <view class="shenqing1" catchtap="clickTg">投柜下单</view> 
+      <view class="shenqing1" data-type="sm" catchtap="clickSm">扫码下单</view> 
+      <view class="shenqing1" data-type="tg" catchtap="clickBtn">投柜下单</view> 
     </view>
     <!-- lin -->
     <l-popup show="{{showIcon}}" bind:lintap="clickPlClose">
@@ -106,4 +106,6 @@
       </view>
     </l-popup>
   </view>
+  <!-- lin -->
+  <l-action-sheet bind:linitemtap="lintapItem" />
 </view>

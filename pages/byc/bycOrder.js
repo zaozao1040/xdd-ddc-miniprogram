@@ -28,6 +28,7 @@ Page({
     from: null,
     showIcon: false,
     iconItem: {},
+    btnType: "",
   },
 
   /**
@@ -73,7 +74,8 @@ Page({
     let _this = this;
     let userInfo = wx.getStorageSync("userInfo").userInfo;
     let obj = {
-      // mealDate: moment().format("YYYY-MM-DD"),
+      mealDate: moment().format("YYYY-MM-DD"),
+      // mealDate: "2022-11-22",
       userCode: userInfo.userCode,
     };
     let params = {
@@ -120,13 +122,43 @@ Page({
       showIcon: false,
     });
   },
+  clickBtn(e) {
+    this.setData({
+      btnType: e.currentTarget.dataset.type,
+    });
+    wx.lin.showActionSheet({
+      itemList: [
+        {
+          name: "午餐",
+        },
+        {
+          name: "晚餐",
+        },
+      ],
+    });
+  },
+  lintapItem(e) {
+    let _this = this;
+    let name = e.detail.item.name;
+    let mealType = "";
+    if (name == "午餐") {
+      mealType = "LUNCH";
+    } else if (name == "晚餐") {
+      mealType = "DINNER";
+    }
+    if (this.data.btnType == "sm") {
+      this.clickSm();
+    } else if (this.data.btnType == "tg") {
+      this.clickTg(mealType);
+    }
+  },
   clickSm() {
     wx.scanCode({
       success(res) {
         console.log("success", res);
         if (res.result) {
           wx.navigateTo({
-            url: "/pages/byc/byc?qrCode=" + res.result,
+            url: "/pages/byc/byc?type=sm&qrCode=" + res.result,
           });
         }
       },
@@ -144,7 +176,7 @@ Page({
       },
     });
   },
-  clickTg() {
+  clickTg(mealType) {
     let _this = this;
     wx.showLoading({
       title: "加载中",
@@ -153,6 +185,7 @@ Page({
     let params = {
       data: {
         mealDate: moment().format("YYYY-MM-DD"),
+        mealType: mealType,
         deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
         userCode: _this.data.userInfo.userCode,
       },
@@ -165,7 +198,7 @@ Page({
       console.log("======= params ======= ", data);
       if (data.code == 200) {
         wx.navigateTo({
-          url: "/pages/byc/byc?qrCode=" + data.data.qrCode,
+          url: "/pages/byc/byc?type=tg&qrCode=" + data.data.qrCode,
         });
       } else {
         wx.showToast({
