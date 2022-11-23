@@ -2,17 +2,17 @@ const mtjwxsdk = require("./utils/mtj-wx-sdk.js");
 import { request } from "./comm_plus/public/request.js";
 App({
   globalData: {
-   //  baseUrl: "https://wx.api.91dcan.cn", //线上真实数据，发a布使用！！！！！！！！！！
+   baseUrl: "https://wx.api.91dcan.cn", //线上真实数据，发a布使用！！！！！！！！！！
     // baseUrl: "https://test.91dcan.cn/wx/api", //测试服务器
     //   baseUrl: "http://192.168.10.208:9082", //陈震
     //  baseUrl: "http://192.168.10.203:9082", //曹功德
     //   baseUrl: "http://192.168.10.202:9082", //徐爱国
-    baseUrl: "http://192.168.10.203:9082", //李川
+   //   baseUrl: "http://192.168.10.203:9082", //李川
 
     baseUrlFlyingCarpet: "https://smartcabinet.91dcan.cn", //飞毯线上真实数据，发布使用！！！！！！！！！！
     //  baseUrlFlyingCarpet: "http://192.168.10.207:9084", //李川
 
-    version: "v3.5.5",
+    version: "v3.5.6",
 
     xddOrgnaizeCode: "ORG530051032172986376", // xdd的orgnaizeCode,线上真实数据，测试用！！！！！！！！！！
     ningxiaOrgnaizeCode: "ORG717398064662446080", // 宁夏的orgnaizeCode,线上真实数据，发布使用！！！！！！！！！！
