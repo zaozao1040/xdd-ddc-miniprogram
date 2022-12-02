@@ -1238,6 +1238,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/menu/menu",
+          "query": "recentMealDate=2022-12-03&recentMealType=LUNCH",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

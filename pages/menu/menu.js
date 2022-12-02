@@ -75,6 +75,66 @@ Page({
     this.loadData(option);
   },
 
+  // #region ############### 区域: 备用餐 ###############
+  clickSm() {
+    wx.scanCode({
+      success(res) {
+        console.log("success", res);
+        if (res.result) {
+          wx.navigateTo({
+            url: "/pages/byc/byc?type=sm&qrCode=" + res.result,
+          });
+        }
+      },
+      fail(res) {
+        console.log("fail", res);
+        wx.showModal({
+          title: "提示",
+          content: "二维码错误，请扫备用餐二维码",
+          confirmText: "我知道了",
+          showCancel: false,
+        });
+      },
+      complete(res) {
+        console.log("complete", res);
+      },
+    });
+  },
+  clickTg() {
+    let _this = this;
+    wx.showLoading({
+      title: "加载中",
+      mask: true,
+    });
+    let params = {
+      data: {
+        mealDate: moment().format("YYYY-MM-DD"),
+        mealType: _this.data.activeMealType,
+        deliveryAddressCode: _this.data.userInfo.deliveryAddressCode,
+        userCode: _this.data.userInfo.userCode,
+      },
+      url: "/spareMealOrder/getVotedSpareMeal",
+      method: "post",
+    };
+
+    requestModel.qqRequest(params, (data) => {
+      wx.hideLoading();
+      console.log("======= params ======= ", data);
+      if (data.code == 200) {
+        wx.navigateTo({
+          url: "/pages/byc/byc?type=tg&qrCode=" + data.data.qrCode,
+        });
+      } else {
+        wx.showToast({
+          title: data.msg,
+          icon: "none",
+          duration: 2000,
+        });
+      }
+    });
+  },
+  // #endregion ######## end 区域: 备用餐 ###############*/
+
   // #region ############### 区域: 筛选 ###############
   clickSxItem: function (e) {
     let type = e.currentTarget.dataset.type;

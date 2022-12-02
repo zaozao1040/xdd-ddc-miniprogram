@@ -83,7 +83,7 @@
       <view class="rounded-t-lg" style="">
         <!-- 当前状态，若是false，要么没开通要么时间过了 -->
         <block wx:if='{{activeInfoExtra.mealType.status==false}}'>
-          <view   class="qcenter " style="padding-top:300rpx">
+          <view   class="qcenter " style="padding-top:150rpx">
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
@@ -102,7 +102,7 @@
         </block>
         <!-- 所有类型的餐 的时间都过了 啥餐都不能点 -->
         <block wx:elif='{{today==activeMealDate&&orderType == 4}}'>
-          <view  class="qcenter " style="padding-top:300rpx">
+          <view  class="qcenter " style="padding-top:150rpx">
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
@@ -120,8 +120,8 @@
           </block>
         </block>
         <!-- 备用餐 -->
-        <block wx:elif='{{today==activeMealDate&&orderType == 3}}'>
-          <view  class="qcenter " style="padding-top:300rpx">
+        <block wx:elif='{{today==activeMealDate&&orderType == 3}}'>  --正确
+          <view  class="qcenter " style="padding-top:150rpx">
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
@@ -138,15 +138,19 @@
               <text class="text-qbase">{{timeTips.appendTime||'未开通或未配截止时间'}}</text>
             </view>
           </block>
-          <!-- <view style="display:flex;justify-content:center;">
-            <l-button style="margin: 20rpx;" shape="semicircle" size="medium" bg-color="#f79c4c" catch:lintap="doWithByc">
-              去申请
+          <view style="display:flex;justify-content:center;">
+            <l-button style="margin: 20rpx;" shape="semicircle" size="medium" bg-color="#f79c4c" catch:lintap="clickSm">
+              扫码下单
+            </l-button> 
+            <l-button style="margin: 20rpx;" shape="semicircle" size="medium" bg-color="#f79c4c" catch:lintap="clickTg">
+              投柜下单
             </l-button>
-          </view> -->
+          </view>
+ 
         </block>
         <!-- 餐别不允许点餐 -->
         <block wx:elif='{{userTimeAndMealTypeLimit}}'>
-          <view  class="qcenter " style="padding-top:300rpx">
+          <view  class="qcenter " style="padding-top:150rpx">
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
