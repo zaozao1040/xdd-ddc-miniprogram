@@ -120,15 +120,16 @@
           </block>
         </block>
         <!-- 备用餐 -->
-        <block wx:elif='{{today==activeMealDate&&orderType == 3}}'>  --正确
+        <block wx:elif='{{today==activeMealDate&&orderType == 3}}'>  
           <view  class="qcenter " style="padding-top:150rpx">
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
-            普通餐、补餐时间已过，可申请
-            <text style="color:#f79c4c">备用餐</text>
+            普通餐、补餐时间已过 
+            <!-- 普通餐、补餐时间已过，可申请 -->
+            <!-- <text style="color:#f79c4c">备用餐</text> -->
           </view>
-          <block wx:if="{{timeTips}}">
+          <!-- <block wx:if="{{timeTips}}">
             <view class="qcenter text-qciyao mt-qtn">
               正常餐截止时间:
               <text class="text-qbase">{{timeTips.endTime||'未开通或未配截止时间'}}</text>
@@ -145,7 +146,7 @@
             <l-button style="margin: 20rpx;" shape="semicircle" size="medium" bg-color="#f79c4c" catch:lintap="clickTg">
               投柜下单
             </l-button>
-          </view>
+          </view> -->
  
         </block>
         <!-- 餐别不允许点餐 -->
@@ -461,8 +462,15 @@
           </view> 
         </view> 
       </view>
-      <view class="flex-1">
-    
+      <view class="flex-1 flex flex-col items-start pl-qhhg ">
+        <view class="flex items-center" data-type="cplx" catchtap="clickSxItem">
+          <view class="text-qbase">  
+            显示售罄
+          </view>
+          <view class="qcenter ml-qttn">
+            <l-icon  name="down" size="22" color="#f79c4c"/> 
+          </view> 
+        </view> 
       </view> 
     </view>
     <view class="flex items-start justify-start  text-qciyao text-qsm py-qsm">
@@ -485,9 +493,15 @@
           仅显示餐标内餐品
         </view> 
       </view> 
-      <view class="flex-1">
-         
+      <view class="flex-1 flex flex-col items-start pl-qhhg ">  
+        <view bindtap='clickXssq' data-type="yes"  class="{{sxObj.xssq=='yes'?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}"  >
+          显示
+        </view>
+        <view bindtap='clickXssq' data-type="no"  class="{{sxObj.xssq=='no'?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}"  >
+          隐藏
+        </view> 
       </view> 
+ 
     </view>
     <view class=" ">
       

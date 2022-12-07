@@ -68,6 +68,7 @@ Page({
     sxObj: {
       type: "cplx", // cplx  cbjg
       cbjg: "all", //all dycb
+      xssq: "yes", //yes no
     },
   },
 
@@ -152,6 +153,18 @@ Page({
     this.setData(
       {
         sxObj: { ...obj, cbjg: type },
+      },
+      () => {
+        this.getFoodTypeList();
+      }
+    );
+  },
+  clickXssq: function (e) {
+    let type = e.currentTarget.dataset.type;
+    let obj = this.data.sxObj;
+    this.setData(
+      {
+        sxObj: { ...obj, xssq: type },
       },
       () => {
         this.getFoodTypeList();
@@ -494,6 +507,11 @@ Page({
     };
     if (_this.data.sxObj.cbjg == "dycb") {
       param.url = param.url + "&lowerThanStandardPrice=" + true;
+    }
+    if (_this.data.sxObj.xssq == "yes") {
+      param.url = param.url + "&unsold=" + false;
+    } else {
+      param.url = param.url + "&unsold=" + true;
     }
     requestModel.request(
       param,
