@@ -47,6 +47,9 @@ Page({
     showShapeFlag: false,
     getalready: false,
     takeorderModalShowInit: true, //避免弹框在刚进入页面就弹出
+
+    showIcon: false,
+    iconItem: {},
   },
   bindDateChange(e) {
     if (e.detail && e.detail.value)
@@ -496,7 +499,19 @@ Page({
       });
     }
   },
-
+  clickItemIcon(e) {
+    let item = e;
+    console.log("======= e ======= ", e.currentTarget.dataset.item);
+    this.setData({
+      showIcon: true,
+      iconItem: e.currentTarget.dataset.item,
+    });
+  },
+  confirmIcon() {
+    this.setData({
+      showIcon: false,
+    });
+  },
   /* radio选择支付方式 */
   radioChangeWechatPay() {
     this.setData({

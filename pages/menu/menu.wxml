@@ -124,11 +124,11 @@
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
-            普通餐、补餐时间已过 
-            <!-- 普通餐、补餐时间已过，可申请 -->
-            <!-- <text style="color:#f79c4c">备用餐</text> -->
+            <!-- 普通餐、补餐时间已过  -->
+            普通餐、补餐时间已过，可申请
+            <text style="color:#f79c4c">备用餐</text>
           </view>
-          <!-- <block wx:if="{{timeTips}}">
+          <block wx:if="{{timeTips}}">
             <view class="qcenter text-qciyao mt-qtn">
               正常餐截止时间:
               <text class="text-qbase">{{timeTips.endTime||'未开通或未配截止时间'}}</text>
@@ -145,7 +145,7 @@
             <l-button style="margin: 20rpx;" shape="semicircle" size="medium" bg-color="#f79c4c" catch:lintap="clickTg">
               投柜下单
             </l-button>
-          </view> -->
+          </view>
  
         </block>
         <!-- 餐别不允许点餐 -->

@@ -1252,6 +1252,13 @@
           "query": "recentMealDate=2022-12-07&recentMealType=DINNER",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/order/order",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
