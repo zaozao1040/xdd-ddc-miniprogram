@@ -42,10 +42,10 @@
             {{remarkCount}}/100
           </view>
         </view>
-        <view class='remark-menuItem'>
+        <!-- <view class='remark-menuItem'>
           <view class='remark-menuItem-left'>添加详细备注</view>
           <view class='remark-menuItem-button' bindtap='addRemark'>添加</view>
-        </view>
+        </view> -->
         <view wx:if='{{markDetail.length>0}}'>
           <view wx:for="{{markDetail}}" wx:for-item='oneRemark' wx:for-index='remarkIndex' wx:key='{{remarkIndex}}'>
             <view class='flex-1' style='margin-top:20rpx;'>

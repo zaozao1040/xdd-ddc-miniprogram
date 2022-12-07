@@ -84,10 +84,15 @@ Page({
     let _this = this;
     let param = {
       url:
-        "/admin/getOrderSupplement?userCode=" +
+        "/admin/getNewOrderSupplement?userCode=" +
         _this.data.userCode +
         "&deliveryAddressCode=" +
         deliveryAddressCode,
+      // url:
+      //   "/admin/getOrderSupplement?userCode=" +
+      //   _this.data.userCode +
+      //   "&deliveryAddressCode=" +
+      //   deliveryAddressCode,
     };
 
     requestModel.request(
@@ -186,7 +191,8 @@ Page({
         };
         let params = {
           data: param,
-          url: "/admin/updateOrderSupplement",
+          url: "/admin/updateNewOrderSupplement",
+          // url: "/admin/updateOrderSupplement",
           method: "post",
         };
         let _this = this;
