@@ -1259,6 +1259,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/mine/organize/organize",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
