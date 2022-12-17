@@ -142,7 +142,7 @@
         </view>
         <view wx:else>
           <view wx:for="{{orderList}}" wx:for-index="orderIndex" wx:for-item="orderItem" wx:key="orderIndex">
-            <view class='one-order' catchtap="handleGotoOrderDetail" data-ordercode="{{orderItem.orderCode}}">
+            <view class='one-order' catchtap="handleGotoOrderDetail" data-ordercode="{{orderItem.orderCode}}" data-item="{{orderItem}}">
               <view class='m-s'>
                 <view class='manager' wx:if='{{orderItem.orgOrder}}'>管理员</view>
                 <view class='supplementary' wx:if='{{orderItem.supplementtaryMeal==1}}'>补餐</view>

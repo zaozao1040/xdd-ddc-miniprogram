@@ -11,7 +11,7 @@ Page({
     listCanGet: true,
     //分页
     page: 1, // 设置加载的第几次，默认是第一次
-    limit: 5, // 每页条数
+    limit: 10, // 每页条数
     hasMoreDataFlag: true, //是否还有更多数据  默认还有
     //
     showPayTypeFlag: false,
@@ -75,6 +75,14 @@ Page({
   },
   /* 跳转订单详情 */
   handleGotoOrderDetail: function (e) {
+    if (e.currentTarget.dataset.item.orderType == "SPARE_ORDER") {
+      wx.showToast({
+        title: "暂不支持",
+        icon: "none",
+        duration: 2000,
+      });
+      return;
+    }
     this.setData({
       showShapeFlag: false,
     });
