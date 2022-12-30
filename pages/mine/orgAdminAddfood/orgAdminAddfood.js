@@ -171,7 +171,6 @@ Page({
       });
       return;
     }
-
     this.setData({
       showQueding: true,
     });
