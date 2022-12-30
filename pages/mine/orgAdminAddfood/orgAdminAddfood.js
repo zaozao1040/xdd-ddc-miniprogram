@@ -32,6 +32,7 @@ Page({
     popContent: {},
     modalContent: {},
     showQueding: false,
+    userInfo: {},
   },
 
   /**
@@ -39,9 +40,11 @@ Page({
    */
   onLoad: function () {
     let _this = this;
+    let { userInfo } = wx.getStorageSync("userInfo");
     requestModel.getUserCode((userCode) => {
       _this.setData({
         userCode: userCode,
+        userInfo: userInfo,
       });
       _this.getOrganizeAddressList();
     });
@@ -83,21 +86,32 @@ Page({
   getAddfoodData(deliveryAddressCode) {
     let _this = this;
     let param = {
-      // url:
-      //   "/admin/getNewOrderSupplement?userCode=" +
-      //   _this.data.userCode +
-      //   "&deliveryAddressCode=" +
-      //   deliveryAddressCode,
       url:
-        "/admin/getOrderSupplement?userCode=" +
+        "/admin/getNewOrderSupplement?userCode=" +
         _this.data.userCode +
         "&deliveryAddressCode=" +
         deliveryAddressCode,
+      // url:
+      //   "/admin/getOrderSupplement?userCode=" +
+      //   _this.data.userCode +
+      //   "&deliveryAddressCode=" +
+      //   deliveryAddressCode,
     };
 
     requestModel.request(
       param,
       (data) => {
+        console.log("======= data ======= ", data);
+        let tmp_markDetail = [];
+        if (data.temporaryReport && Array.isArray(data.temporaryReport)) {
+          tmp_markDetail = data.temporaryReport.map((item) => {
+            return {
+              mark: item.remark,
+              quantity: item.foodNum,
+              reportCode: item.reportCode,
+            };
+          });
+        }
         _this.setData({
           date: data.mealDate,
           mealType: data.mealType,
@@ -112,11 +126,11 @@ Page({
           supplementCode: data.supplementCode,
           remarkValue: data.mark,
           remarkCount: data.mark ? data.mark.length : 0,
-          markDetail: data.markDetail ? data.markDetail : [],
+          markDetail: tmp_markDetail,
         });
         let a = 0;
-        if (data.markDetail && data.markDetail.length > 0) {
-          data.markDetail.forEach((item) => {
+        if (tmp_markDetail && tmp_markDetail.length > 0) {
+          tmp_markDetail.forEach((item) => {
             a += item.quantity;
           });
         }
@@ -188,11 +202,17 @@ Page({
           mark: this.data.remarkValue,
           markDetail: this.data.markDetail,
           deliveryAddressCode: this.data.deliveryAddressCode,
+          //
+          addressName: this.data.userInfo.deliveryAddress,
+          organizeCode: this.data.userInfo.organizeCode,
+          organizeName: this.data.userInfo.organizeName,
+          reportMealPrice: this.data.reportMealPrice,
         };
+        console.log("======= param ======= ", param);
         let params = {
           data: param,
-          // url: "/admin/updateNewOrderSupplement",
-          url: "/admin/updateOrderSupplement",
+          url: "/admin/updateNewOrderSupplement",
+          // url: "/admin/updateOrderSupplement",
           method: "post",
         };
         let _this = this;
