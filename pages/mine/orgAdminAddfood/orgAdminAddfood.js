@@ -184,7 +184,6 @@ Page({
       });
     } else {
       let flag = true;
-
       if (this.data.markDetail.length > 0) {
         let last = this.data.markDetail[this.data.markDetail.length - 1];
         if (!last.mark.trim() || !last.quantity) {
