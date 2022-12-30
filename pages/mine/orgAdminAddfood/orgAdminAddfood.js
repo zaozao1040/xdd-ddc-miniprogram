@@ -163,6 +163,15 @@ Page({
     });
   },
   increaseFood() {
+    if (this.data.markDetail.length == 0) {
+      wx.showToast({
+        title: "请添加详细份数",
+        image: "/images/msg/error.png",
+        duration: 2000,
+      });
+      return;
+    }
+
     this.setData({
       showQueding: true,
     });
