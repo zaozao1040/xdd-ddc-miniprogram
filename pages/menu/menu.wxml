@@ -40,11 +40,9 @@
                 </view>
               </view>
             </view>
-            <view bindtap='clickSx' class="  pl-qlg text-qsm flex flex-col justify-center items-center text-qbase"   >
-              <view class="" style="margin-bottom: 5rpx;">
-                筛选
-              </view> 
-              <l-icon name="ellipsis" color="#f79c4c" size="25"/>
+            <view bindtap='clickSx' class="  pl-qlg text-qsm flex flex-col justify-center items-center text-qbase">
+              <view class="" style="margin-bottom: 5rpx;">筛选</view>
+              <l-icon name="ellipsis" color="#f79c4c" size="25" />
             </view>
             <!-- <view bindtap='clickSx' class="absolute pl-qlg text-qsm flex flex-col justify-center items-center text-qbase" style="right:0;top:10rpx;" >
               <view class="h-qtn">
@@ -76,13 +74,12 @@
               </view>
             </block>
           </view>
-        </view>        
+        </view>
       </view>
-
       <view class="rounded-t-lg" style="">
         <!-- 当前状态，若是false，要么没开通要么时间过了 -->
         <block wx:if='{{activeInfoExtra.mealType.status==false}}'>
-          <view   class="qcenter " style="padding-top:150rpx">
+          <view class="qcenter " style="padding-top:150rpx">
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
@@ -101,7 +98,7 @@
         </block>
         <!-- 所有类型的餐 的时间都过了 啥餐都不能点 -->
         <block wx:elif='{{today==activeMealDate&&orderType == 4}}'>
-          <view  class="qcenter " style="padding-top:150rpx">
+          <view class="qcenter " style="padding-top:150rpx">
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
@@ -119,12 +116,12 @@
           </block>
         </block>
         <!-- 备用餐 -->
-        <block wx:elif='{{today==activeMealDate&&orderType == 3}}'>  
-          <view  class="qcenter " style="padding-top:150rpx">
+        <block wx:elif='{{today==activeMealDate&&orderType == 3}}'>
+          <view class="qcenter " style="padding-top:150rpx">
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
-            <!-- 普通餐、补餐时间已过  -->
+            <!-- 普通餐、补餐时间已过 -->
             普通餐、补餐时间已过，可申请
             <text style="color:#f79c4c">备用餐</text>
           </view>
@@ -141,16 +138,15 @@
           <view style="display:flex;justify-content:center;">
             <l-button style="margin: 20rpx;" shape="semicircle" size="medium" bg-color="#f79c4c" catch:lintap="clickSm">
               扫码下单
-            </l-button> 
+            </l-button>
             <l-button style="margin: 20rpx;" shape="semicircle" size="medium" bg-color="#f79c4c" catch:lintap="clickTg">
               投柜下单
             </l-button>
           </view>
- 
         </block>
         <!-- 餐别不允许点餐 -->
         <block wx:elif='{{userTimeAndMealTypeLimit}}'>
-          <view  class="qcenter " style="padding-top:150rpx">
+          <view class="qcenter " style="padding-top:150rpx">
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
@@ -159,7 +155,7 @@
         </block>
         <!-- 已过截止时间 -->
         <block wx:elif='{{activeInfoExtra.mealType.orderStatus == false}}'>
-          <view  class="qcenter " style="padding-top:300rpx">
+          <view class="qcenter " style="padding-top:300rpx">
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
@@ -178,7 +174,7 @@
         </block>
         <!-- 尚未排餐 -->
         <block wx:elif='{{mealTypeList.length== 0||foodTypeList.length== 0}}'>
-          <view  class="qcenter   ">
+          <view class="qcenter   ">
             <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/orderno.png" style="width:300rpx;height:300rpx;"></image>
           </view>
           <view style='font-family: PingFang-SC-Regular;font-size: 30rpx;color: #999999;letter-spacing: 0;text-align: center;'>
@@ -284,7 +280,7 @@
                           <view wx:if="{{ foodItem.count > 0 }}" class="num">
                             {{ foodItem.count }}
                           </view>
-                          <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/order_add.png" style="width:50rpx;height:50rpx;" data-foodtypeitem='{{foodTypeItem}}' data-foodtypeindex='{{foodTypeIndex}}' data-fooditem='{{foodItem}}' data-foodindex='{{foodIndex}}' catchtap="clickMenuAdd"  bindlongpress="clickMenuAddLong"></image>
+                          <image src="https://ddcpub.oss-cn-beijing.aliyuncs.com/diancan/menu/order_add.png" style="width:50rpx;height:50rpx;" data-foodtypeitem='{{foodTypeItem}}' data-foodtypeindex='{{foodTypeIndex}}' data-fooditem='{{foodItem}}' data-foodindex='{{foodIndex}}' catchtap="clickMenuAdd" bindlongpress="clickMenuAddLong"></image>
                         </view>
                       </view>
                     </view>
@@ -414,32 +410,21 @@
   </view>
 </view>
 <view class='over-remind' wx:if='{{overRemindFlag}}'>该餐品优惠库存已用完, 超出部分将以原价计算哦</view>
-<!-- lin  -->
-<l-popup 
-  show="{{showPl}}" 
-  bind:lintap="clickPlClose"
->
-<view class="bg-white rounded-md text-qchanggui text-qtn  pt-qttn" style="width: 500rpx;">
-  <view class="qcenter text-qsm pt-qtn">
-    批量添加餐品
+<!-- lin -->
+<l-popup show="{{showPl}}" bind:lintap="clickPlClose">
+  <view class="bg-white rounded-md text-qchanggui text-qtn  pt-qttn" style="width: 500rpx;">
+    <view class="qcenter text-qsm pt-qtn">批量添加餐品</view>
+    <view class="py-qsm  ">
+      <l-input value="{{plValue}}" bind:lininput="plInput" label-width="{{120}}" showRow="{{false}}" label="份数" type="number" placeholder="请输入1~100内数字 " />
+    </view>
+    <view catchtap="confirmPl" class="qcenter text-qbase text-qsm w-full h-qsm pb-q " style="border-top:1rpx solid #eeeeee ;">
+      确 定
+    </view>
   </view>
-  <view class="py-qsm  "   >
-    <l-input   value="{{plValue}}" bind:lininput="plInput"	label-width="{{120}}" showRow="{{false}}" label="份数" type="number" placeholder="请输入1~100内数字 "  />
-  </view>
-  <view catchtap="confirmPl" class="qcenter text-qbase text-qsm w-full h-qsm pb-q " style="border-top:1rpx solid #eeeeee ;">
-    确 定
-  </view>
-</view>
 </l-popup>
-<l-popup 
-  content-align="top" 
-  show="{{showSx}}" 
-  bind:lintap="clickSxClose"
->
-  <view class="bg-white rounded-md text-qchanggui text-qmn  pt-qttn w-full"  > 
-    <view class="w-full h-qlg qcenter text-qsm pt-qhhg" style="margin-top: 10rpx;">
-      筛选
-    </view> 
+<l-popup content-align="top" show="{{showSx}}" bind:lintap="clickSxClose">
+  <view class="bg-white rounded-md text-qchanggui text-qmn  pt-qttn w-full">
+    <view class="w-full h-qlg qcenter text-qsm pt-qhhg" style="margin-top: 10rpx;">筛选</view>
     <view class="flex items-center  qbb text-qsm text-qciyao pb-qtn">
       <!-- <view class="flex-1 flex flex-col items-start pl-qhhg ">
         <view class="flex items-center" data-type="cplx" catchtap="clickSxItem">
@@ -453,24 +438,20 @@
       </view> -->
       <view class="flex-1 flex flex-col items-start pl-qhhg ">
         <view class="flex items-center" data-type="cplx" catchtap="clickSxItem">
-          <view class="text-qbase">  
-            餐标价格
-          </view>
+          <view class="text-qbase">餐标价格</view>
           <view class="qcenter ml-qttn">
-            <l-icon  name="down" size="22" color="#f79c4c"/> 
-          </view> 
-        </view> 
+            <l-icon name="down" size="22" color="#f79c4c" />
+          </view>
+        </view>
       </view>
       <view class="flex-1 flex flex-col items-start pl-qhhg ">
         <view class="flex items-center" data-type="cplx" catchtap="clickSxItem">
-          <view class="text-qbase">  
-            显示售罄
-          </view>
+          <view class="text-qbase">显示售罄</view>
           <view class="qcenter ml-qttn">
-            <l-icon  name="down" size="22" color="#f79c4c"/> 
-          </view> 
-        </view> 
-      </view> 
+            <l-icon name="down" size="22" color="#f79c4c" />
+          </view>
+        </view>
+      </view>
     </view>
     <view class="flex items-start justify-start  text-qciyao text-qsm py-qsm">
       <!-- <view class="flex-1 flex flex-col items-start justify-start pl-qhhg ">  
@@ -484,27 +465,24 @@
           开心农场
         </view> 
       </view> -->
-      <view class="flex-1 flex flex-col items-start pl-qhhg ">  
-        <view bindtap='clickCbjg' data-type="all"  class="{{sxObj.cbjg=='all'?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}"  >
+      <view class="flex-1 flex flex-col items-start pl-qhhg ">
+        <view bindtap='clickCbjg' data-type="all" class="{{sxObj.cbjg=='all'?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}">
           全部餐品
         </view>
-        <view bindtap='clickCbjg' data-type="dycb"  class="{{sxObj.cbjg=='dycb'?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}"  >
+        <view bindtap='clickCbjg' data-type="dycb" class="{{sxObj.cbjg=='dycb'?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}">
           仅显示餐标内餐品
-        </view> 
-      </view> 
-      <view class="flex-1 flex flex-col items-start pl-qhhg ">  
-        <view bindtap='clickXssq' data-type="yes"  class="{{sxObj.xssq=='yes'?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}"  >
+        </view>
+      </view>
+      <view class="flex-1 flex flex-col items-start pl-qhhg ">
+        <view bindtap='clickXssq' data-type="yes" class="{{sxObj.xssq=='yes'?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}">
           显示
         </view>
-        <view bindtap='clickXssq' data-type="no"  class="{{sxObj.xssq=='no'?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}"  >
+        <view bindtap='clickXssq' data-type="no" class="{{sxObj.xssq=='no'?'text-qbase h-qmn py-qttn':'text-qciyao h-qmn py-qttn'}}">
           隐藏
-        </view> 
-      </view> 
- 
+        </view>
+      </view>
     </view>
-    <view class=" ">
-      
-    </view>
+    <view class=" "></view>
     <!-- <view class="flex items-center h-qsm text-qsm " style="border-top: 1rpx solid #eeeeee;">
       <view class="flex-1 qcenter h-qsm text-qciyao  border-gray-50">
          清空
@@ -515,4 +493,3 @@
     </view> -->
   </view>
 </l-popup>
- 

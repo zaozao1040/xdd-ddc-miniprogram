@@ -123,6 +123,12 @@ Page({
     });
   },
   clickBtn(e) {
+    wx.showToast({
+      title: "功能暂停使用",
+      icon: "none",
+      duration: 2000,
+    });
+    return;
     this.setData({
       btnType: e.currentTarget.dataset.type,
     });
