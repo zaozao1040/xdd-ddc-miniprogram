@@ -102,12 +102,12 @@ Page({
     });
   },
   clickTg() {
-    wx.showToast({
-      title: "功能暂停使用",
-      icon: "none",
-      duration: 2000,
-    });
-    return;
+    // wx.showToast({
+    //   title: "功能暂停使用",
+    //   icon: "none",
+    //   duration: 2000,
+    // });
+    // return;
     let _this = this;
     wx.showLoading({
       title: "加载中",
