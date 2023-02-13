@@ -101,7 +101,7 @@ Page({
     requestModel.request(
       param,
       (data) => {
-        console.log("======= data ======= ", data);
+        console.log("======= data ====== ", data);
         let tmp_markDetail = [];
         if (data.temporaryReport && Array.isArray(data.temporaryReport)) {
           tmp_markDetail = data.temporaryReport.map((item) => {
