@@ -91,11 +91,6 @@ Page({
         _this.data.userCode +
         "&deliveryAddressCode=" +
         deliveryAddressCode,
-      // url:
-      //   "/admin/getOrderSupplement?userCode=" +
-      //   _this.data.userCode +
-      //   "&deliveryAddressCode=" +
-      //   deliveryAddressCode,
     };
 
     requestModel.request(
@@ -111,6 +106,9 @@ Page({
               reportCode: item.reportCode,
             };
           });
+        }
+        if (tmp_markDetail.length == 0) {
+          tmp_markDetail.push({ mark: "", quantity: 0 });
         }
         _this.setData({
           date: data.mealDate,
@@ -163,9 +161,17 @@ Page({
     });
   },
   increaseFood() {
-    if (this.data.markDetail.length == 0) {
+    let re = true;
+    let len = this.data.markDetail.length;
+    for (let i = 0; i < len; i++) {
+      if (this.data.markDetail[i].quantity == 0) {
+        re = false;
+        i = len;
+      }
+    }
+    if (re == false) {
       wx.showToast({
-        title: "请添加详细份数",
+        title: "数量不可为0",
         image: "/images/msg/error.png",
         duration: 2000,
       });
@@ -176,63 +182,36 @@ Page({
     });
   },
   doIncreaseFood() {
-    if (!this.data.value & (this.data.value != 0)) {
+    let param = {
+      userCode: this.data.userCode,
+      mealDate: this.data.date,
+      mealType: this.data.mealType,
+      supplementCode: this.data.supplementCode,
+      mark: this.data.remarkValue,
+      markDetail: this.data.markDetail,
+      deliveryAddressCode: this.data.deliveryAddressCode,
+      //
+      addressName: this.data.userInfo.deliveryAddress,
+      organizeCode: this.data.userInfo.organizeCode,
+      organizeName: this.data.userInfo.organizeName,
+      reportMealPrice: this.data.reportMealPrice,
+    };
+
+    console.log("======= param ======= ", param);
+    let params = {
+      data: param,
+      url: "/admin/updateNewOrderSupplement",
+      method: "post",
+    };
+    let _this = this;
+    requestModel.request(params, () => {
+      _this.getAddfoodData(_this.data.deliveryAddressCode);
       wx.showToast({
-        title: "请输入份数",
-        image: "/images/msg/error.png",
+        title: "报餐成功",
+        icon: "success",
         duration: 2000,
       });
-    } else {
-      let flag = true;
-      if (this.data.markDetail.length > 0) {
-        let last = this.data.markDetail[this.data.markDetail.length - 1];
-        if (!last.mark.trim() || !last.quantity) {
-          flag = false;
-          let _this = this;
-          let a = {};
-          a.content = "有未完成的备注，是否删除未完成的备注？";
-          a.confirm = "确定删除";
-          a.cancel = "一会再弄";
-          _this.setData({
-            modalContent: a,
-            modalIndex: 3,
-          });
-        }
-      }
-      if (flag) {
-        let param = {
-          userCode: this.data.userCode,
-          mealDate: this.data.date,
-          mealType: this.data.mealType,
-          foodQuantity: this.data.value,
-          supplementCode: this.data.supplementCode,
-          mark: this.data.remarkValue,
-          markDetail: this.data.markDetail,
-          deliveryAddressCode: this.data.deliveryAddressCode,
-          //
-          addressName: this.data.userInfo.deliveryAddress,
-          organizeCode: this.data.userInfo.organizeCode,
-          organizeName: this.data.userInfo.organizeName,
-          reportMealPrice: this.data.reportMealPrice,
-        };
-        console.log("======= param ======= ", param);
-        let params = {
-          data: param,
-          url: "/admin/updateNewOrderSupplement",
-          // url: "/admin/updateOrderSupplement",
-          method: "post",
-        };
-        let _this = this;
-        requestModel.request(params, () => {
-          _this.getAddfoodData(_this.data.deliveryAddressCode);
-          wx.showToast({
-            title: "报餐成功",
-            icon: "success",
-            duration: 2000,
-          });
-        });
-      }
-    }
+    });
   },
   deleteUncompleteRemark() {
     let _this = this;
@@ -298,39 +277,14 @@ Page({
   },
   addRemark(e) {
     //添加备注
-    if (this.data.markDetail.length == 0 && this.data.value > 0) {
-      this.data.markDetail = [{ mark: "", quantity: this.data.value }];
-      this.data.remarkCountTotal = this.data.value;
-      this.setData({
-        markDetail: this.data.markDetail,
-      });
-    } else if (this.data.remarkCountTotal < this.data.value) {
-      let lastRemark = this.data.markDetail[this.data.markDetail.length - 1];
-      if (lastRemark.mark.trim() && lastRemark.quantity) {
-        this.data.markDetail.push({
-          mark: "",
-          quantity: this.data.value - this.data.remarkCountTotal,
-        });
-        this.data.remarkCountTotal = this.data.value;
-        this.setData({
-          markDetail: this.data.markDetail,
-        });
-      } else {
-        wx.showToast({
-          title: "补全备注再添加",
-          image: "/images/msg/error.png",
-          duration: 2000,
-        });
-      }
-    } else {
-      let _this = this;
-      _this.data.popContent.show = true;
-      _this.data.popContent.content =
-        "备注餐品的总数量已经等于点的餐品的数量，不可再添加备注";
-      _this.setData({
-        popContent: _this.data.popContent,
-      });
-    }
+    this.data.markDetail.push({
+      mark: "",
+      quantity: 1,
+      reportCode: null,
+    });
+    this.setData({
+      markDetail: this.data.markDetail,
+    });
   },
   closeModal() {
     let _this = this;
@@ -367,25 +321,9 @@ Page({
     } else {
       let oldcount = this.data.markDetail[remarkindex].quantity;
       //如果之前的餐品的数量不为空，那么计算现在的和是不是超过个餐品的数目
-
-      if (
-        oldcount &&
-        this.data.remarkCountTotal - oldcount + value > this.data.value
-      ) {
-        this.data.markDetail[remarkindex].quantity = oldcount;
-
-        let _this = this;
-        _this.data.popContent.show = true;
-        _this.data.popContent.content =
-          "备注餐品的总数量不能超过报餐的餐品的数量";
-        _this.setData({
-          popContent: _this.data.popContent,
-        });
-      } else {
-        this.data.markDetail[remarkindex].quantity = value;
-        this.data.remarkCountTotal =
-          this.data.remarkCountTotal - oldcount + value;
-      }
+      this.data.markDetail[remarkindex].quantity = value;
+      this.data.remarkCountTotal =
+        this.data.remarkCountTotal - oldcount + value;
 
       this.setData({
         markDetail: this.data.markDetail,
@@ -421,19 +359,11 @@ Page({
   handleRemarkAdd(e) {
     //添加备注
     let { remarkindex } = e.currentTarget.dataset;
-    if (this.data.remarkCountTotal == this.data.value) {
-      this.data.popContent.show = true;
-      this.data.popContent.content = "备注餐品的总数量已经等于点的餐品的数量！";
-      this.setData({
-        popContent: this.data.popContent,
-      });
-    } else {
-      this.data.markDetail[remarkindex].quantity++;
-      this.data.remarkCountTotal++;
-      this.setData({
-        markDetail: this.data.markDetail,
-      });
-    }
+    this.data.markDetail[remarkindex].quantity++;
+    this.data.remarkCountTotal++;
+    this.setData({
+      markDetail: this.data.markDetail,
+    });
   },
   deleteOneRemarkForModal(e) {
     //删除一条备注
@@ -449,13 +379,29 @@ Page({
     });
   },
   deleteOneRemark(e) {
+    if (this.data.markDetail.length == 1) {
+      wx.showToast({
+        title: "至少一条记录",
+        image: "/images/msg/error.png",
+        duration: 2000,
+      });
+      return;
+    }
+    let totalNum = this.data.markDetail.reduce((prev, cur) => {
+      prev += cur.quantity;
+      return prev;
+    }, 0);
+    if (totalNum == 0) {
+      wx.showToast({
+        title: "数量必需大于0",
+        image: "/images/msg/error.png",
+        duration: 2000,
+      });
+      return;
+    }
     //删除一条备注
     let { remarkindex } = e.currentTarget.dataset;
-
-    let oldcount = this.data.markDetail[remarkindex].quantity;
     this.data.markDetail.splice(remarkindex, 1);
-    this.data.remarkCountTotal -= oldcount;
-
     this.setData({
       markDetail: this.data.markDetail,
     });

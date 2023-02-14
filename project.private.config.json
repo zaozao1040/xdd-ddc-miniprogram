@@ -1273,6 +1273,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/mine/orgAdminAddfood/orgAdminAddfood",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
