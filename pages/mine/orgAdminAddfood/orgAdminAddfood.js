@@ -161,22 +161,34 @@ Page({
     });
   },
   increaseFood() {
-    let re = true;
-    let len = this.data.markDetail.length;
-    for (let i = 0; i < len; i++) {
-      if (this.data.markDetail[i].quantity == 0) {
-        re = false;
-        i = len;
-      }
-    }
-    if (re == false) {
-      wx.showToast({
-        title: "数量不可为0",
-        image: "/images/msg/error.png",
-        duration: 2000,
-      });
-      return;
-    }
+    // let re = true;
+    // let len = this.data.markDetail.length;
+    // for (let i = 0; i < len; i++) {
+    //   if (this.data.markDetail[i].quantity == 0) {
+    //     re = false;
+    //     i = len;
+    //   }
+    // }
+    // if (re == false) {
+    //   wx.showToast({
+    //     title: "数量不可为0",
+    //     image: "/images/msg/error.png",
+    //     duration: 2000,
+    //   });
+    //   return;
+    // }
+    // let totalNum = this.data.markDetail.reduce((prev, cur) => {
+    //   prev += cur.quantity;
+    //   return prev;
+    // }, 0);
+    // if (totalNum == 0) {
+    //   wx.showToast({
+    //     title: "数量必需大于0",
+    //     image: "/images/msg/error.png",
+    //     duration: 2000,
+    //   });
+    //   return;
+    // }
     this.setData({
       showQueding: true,
     });
@@ -387,21 +399,21 @@ Page({
       });
       return;
     }
-    let totalNum = this.data.markDetail.reduce((prev, cur) => {
-      prev += cur.quantity;
-      return prev;
-    }, 0);
-    if (totalNum == 0) {
-      wx.showToast({
-        title: "数量必需大于0",
-        image: "/images/msg/error.png",
-        duration: 2000,
-      });
-      return;
-    }
+    // let totalNum = this.data.markDetail.reduce((prev, cur) => {
+    //   prev += cur.quantity;
+    //   return prev;
+    // }, 0);
+    // if (totalNum == 0) {
+    //   wx.showToast({
+    //     title: "数量必需大于0",
+    //     image: "/images/msg/error.png",
+    //     duration: 2000,
+    //   });
+    //   return;
+    // }
     //删除一条备注
     let { remarkindex } = e.currentTarget.dataset;
-    this.data.markDetail.splice(remarkindex, 1);
+    this.data.markDetail[remarkindex].quantity = 0;
     this.setData({
       markDetail: this.data.markDetail,
     });
