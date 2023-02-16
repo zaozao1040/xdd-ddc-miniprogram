@@ -1280,6 +1280,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/menu/foodDetail/foodDetail",
+          "query": "foodCode=FOOD532153296639623168&mealDate=2023-02-16&from=menu",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

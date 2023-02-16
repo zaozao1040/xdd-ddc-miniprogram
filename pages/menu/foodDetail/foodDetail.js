@@ -11,7 +11,7 @@ Page({
     // 是否NGO
     isNGO: false,
     page: 1, // 设置加载的第几次，默认是第一次
-    limit: 10, // 每页条数
+    limit: 20, // 每页条数
     hasMoreDataFlag: true, //是否还有更多数据  默认还有
     itemStatusActiveFlag: true,
     //
