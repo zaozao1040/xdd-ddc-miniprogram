@@ -25,7 +25,9 @@
           </view>
         </view>
         <view style="margin-top:50rpx;" wx:if='{{markDetail.length>0}}'>
-          <view wx:for="{{markDetail}}" wx:for-item='oneRemark' wx:for-index='remarkIndex' wx:key='{{remarkIndex}}'>
+          <view class="relative" wx:for="{{markDetail}}" wx:for-item='oneRemark' wx:for-index='remarkIndex' wx:key='{{remarkIndex}}'>
+            <view wx:if="{{oneRemark.source==2}}" bindtap='clickMask'  class="absolute z-10 text-qinfo" style="background: rgba(150,150,150,0.2);left:0;right:0;bottom:0;top:0;display:flex;justify-content: center;align-items: center;">
+            </view>
             <view class='flex-1' style='margin-top:20rpx;'>
               <input bindinput='inputRemarkName' data-remarkindex='{{remarkIndex}}' maxlength="6" placeholder="备注(限6个字)" value="{{oneRemark.mark}}" class='remark-name' placeholder-class='remark-name-default' />
               <view class='remark-count-group'>

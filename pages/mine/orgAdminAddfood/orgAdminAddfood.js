@@ -104,6 +104,7 @@ Page({
               mark: item.remark,
               quantity: item.foodNum,
               reportCode: item.reportCode,
+              source: item.source,
             };
           });
         }
@@ -293,6 +294,7 @@ Page({
       mark: "",
       quantity: 1,
       reportCode: null,
+      source: null,
     });
     this.setData({
       markDetail: this.data.markDetail,
@@ -315,6 +317,13 @@ Page({
     this.data.markDetail[remarkindex].mark = value;
     this.setData({
       markDetail: this.data.markDetail,
+    });
+  },
+  clickMask() {
+    wx.showToast({
+      title: "后台添加,不允许修改",
+      icon: "none",
+      duration: 2000,
     });
   },
   inputRemarkCount(e) {
