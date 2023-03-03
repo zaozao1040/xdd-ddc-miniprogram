@@ -13,7 +13,7 @@ App({
     baseUrlFlyingCarpet: "https://smartcabinet.91dcan.cn", //飞毯线上真实数据，发布使用！！！！！！！！！！
     //  baseUrlFlyingCarpet: "http://192.168.10.207:9084", //李川
 
-    version: "v4.0.1",
+    version: "v4.0.2",
 
     xddOrgnaizeCode: "ORG530051032172986376", // xdd的orgnaizeCode,线上真实数据，测试用！！！！！！！！！！
     ningxiaOrgnaizeCode: "ORG717398064662446080", // 宁夏的orgnaizeCode,线上真实数据，发布使用！！！！！！！！！！

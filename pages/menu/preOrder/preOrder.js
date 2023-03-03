@@ -60,6 +60,9 @@ Page({
     logUserStr: "",
     //顺手买一件
     accessoryFoodList: [],
+    //多个餐品提示
+    showDuocan: false,
+    duocanList: [],
   },
   onLoad: function (options) {
     this.setData({
@@ -474,6 +477,54 @@ Page({
 
   //余额支付的提示
   clickPay() {
+    // 处理多份
+    let duofenBZTS = wx.getStorageSync("duofenBZTS");
+    if (!duofenBZTS) {
+      // 弹出提示
+      let arr = [];
+      console.log(
+        "======= this.data.preOrderList ======= ",
+        this.data.preOrderList
+      );
+      this.data.preOrderList.forEach((item) => {
+        item.mealTypeList.forEach((itemIn) => {
+          itemIn.foods.forEach((itemInIn) => {
+            if (itemInIn.foodQuantity > 1) {
+              arr.push({
+                foodName: itemInIn.foodName,
+                foodQuantity: itemInIn.foodQuantity,
+                mealDateDes: item.mealDateDes,
+                mealDate: item.mealDate,
+                mealType: itemIn.mealType,
+                mealTypeDes: itemIn.mealTypeDes,
+              });
+            }
+          });
+        });
+      });
+      if (arr.length > 0) {
+        this.setData({
+          duocanList: arr,
+          showDuocan: true,
+        });
+      } else {
+        this.payGoOn();
+      }
+    } else {
+      this.payGoOn();
+    }
+  },
+  confirmWzdl() {
+    this.payGoOn();
+  },
+  onChangeDuoxian(e) {
+    if (e.detail.currentKey == "1") {
+      wx.setStorageSync("duofenBZTS", true);
+    } else {
+      wx.setStorageSync("duofenBZTS", false);
+    }
+  },
+  payGoOn() {
     if (!this.data.userName) {
       wx.showToast({
         title: "请填写姓名",
@@ -493,20 +544,7 @@ Page({
     this.setData({
       balanceConfirmFlag: true,
     });
-    // if (
-    //   (this.data.payInfo.payType == "BALANCE_PAY" ||
-    //     this.data.payInfo.payType == "BALANCE_MIX_WECHAT_PAY") &&
-    //   this.data.payInfo.orderPayPrice > 0
-    // ) {
-    //   this.setData({
-    //     balanceConfirmFlag: true,
-    //   });
-    // } else {
-    //   //其余支付方式则直接支付
-    //   this.doPay();
-    // }
   },
-
   confirmPayBalance() {
     let _this = this;
     _this.doPay();

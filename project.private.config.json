@@ -1294,6 +1294,27 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/menu/foodDetail/foodDetail",
+          "query": "foodCode=FOOD1032333527271735296&mealDate=2023-02-21&from=menu",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/menu/menu",
+          "query": "recentMealDate=2023-02-21&recentMealType=LUNCH",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/menu/preOrder/preOrder",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }
