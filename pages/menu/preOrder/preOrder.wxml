@@ -213,29 +213,6 @@
   </view>
   <!-- 弹出层 填写钱包支付提示 -->
   <c-custom-modal title='下单提示' subtitle="{{previewInfo.kaiXinFlag?'开心农场订单只可使用个人点餐币':''}}" wx:if='{{balanceConfirmFlag}}' bind:closemodal='cancelPayBalance' bind:handleconfirm='confirmPayBalance' content1='企业点餐币' money1='￥{{payInfo.organizePayPrice}}' content2='个人点餐币' money2='￥{{payInfo.userPayPrice}}' content3='赠送点餐币' money3='￥{{payInfo.presentPayPrice}}' content4='微信支付' money4='￥{{payInfo.weiXinPayPrice}}' content5='取餐地址' money5='{{address}}'></c-custom-modal>
-  <l-dialog show="{{showDuocan}}" type="alert" show-title="{{false}}" title="标题" confirm-text="我知道了" confirm-color="#f7cd4e" bind:linconfirm="confirmWzdl">
-    <view class="">
-      <view class="" style="display: flex;  flex-direction: column;  justify-content: space-around;  width: 400rpx;">
-        <view class=" text-qmd my-qtn text-center">以下餐品点了多份</view>
-        <view wx:for="{{duocanList}}" wx:for-item='item' wx:for-index='index' wx:key="index" class="py-qttn my-qttn qbb   text-qmd">
-          <view class="flex">
-            <view class="">{{item.mealDate}}</view>
-            <view class="ml-qttn">{{item.mealTypeDes}}</view>
-          </view>
-          <view class="flex mt-qttn" style="justify-content:flex-end">
-            <view class="qshenglue">{{item.foodName}}</view>
-            <view class="text-qtn ml-qsm mr-qttn">x</view>
-            <view class="">{{item.foodQuantity}}</view>
-          </view>
-        </view>
-        <view class="w-full flex mt-qtn" style="justify-content: flex-end;">
-          <l-radio-group bind:linchange="onChangeDuoxian">
-            <l-radio key="1" select-color="#f7cd4e">不再提醒</l-radio>
-          </l-radio-group>
-        </view>
-      </view>
-    </view>
-  </l-dialog>
   <van-overlay show="{{ tmpLoading }}" z-index="{{150}}">
     <div class="fixed  flex" style="align-items: center;justify-content: center;left:0 ;right:0;bottom:0;top:0;">
       <van-loading size="24px">处理中..</van-loading>

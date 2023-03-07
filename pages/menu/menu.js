@@ -70,6 +70,11 @@ Page({
       cbjg: "all", //all dycb
       xssq: "yes", //yes no
     },
+
+    //多个餐品提示
+    e: {},
+    showDuocan: false,
+    duocanList: [],
   },
 
   onLoad: function (option) {
@@ -959,88 +964,137 @@ Page({
   clickMenuAdd(e) {
     console.log("======= clickMenuAdd ======= ");
     let _this = this;
-    jiuaiDebounce.canDoFunction({
-      type: "jieliu",
-      immediate: true,
-      key: "key_clickMenuMinus",
-      time: 300,
-      success: () => {
-        let foodTypeItem = e.currentTarget.dataset.foodtypeitem;
-        let foodItem = e.currentTarget.dataset.fooditem;
-        let foodTypeIndex = e.currentTarget.dataset.foodtypeindex;
-        let foodIndex = e.currentTarget.dataset.foodindex;
-        if (foodItem.foodQuota && foodItem.foodQuota.surplusNum == 0) {
-          wx.showToast({
-            title: "库存为0",
-            image: "/images/msg/error.png",
-            duration: 2000,
-          });
-        } else {
-          let tmp_isFoodQuota = null;
-          if (foodItem.foodQuota && foodItem.foodQuota.foodCode) {
-            tmp_isFoodQuota = true;
-          } else {
-            tmp_isFoodQuota = false;
-          }
+    _this.setData({
+      e: e,
+    });
+    // 处理多份
+    let duofenBZTS = wx.getStorageSync("duofenBZTS");
+    console.log("======= duofenBZTS ======= ", duofenBZTS);
+    if (!duofenBZTS) {
+      // 请求后端 看是否需要弹框
+      jiuaiDebounce.canDoFunction({
+        type: "jieliu",
+        immediate: true,
+        key: "key_clickMenuAdd",
+        time: 300,
+        success: () => {
           let param = {
-            url: config.baseUrlPlus + "/v3/cart/addCart",
+            url: config.baseUrlPlus + "/v3/cart/checkCart",
             method: "post",
             data: {
               userCode: _this.data.userInfo.userCode,
-              foodCode: foodItem.foodCode,
-              foodName: foodItem.foodName,
-              foodPrice: foodItem.foodPrice,
+              foodCode: e.currentTarget.dataset.fooditem.foodCode,
+              foodName: e.currentTarget.dataset.fooditem.foodName,
+              foodPrice: e.currentTarget.dataset.fooditem.foodPrice,
               foodQuantity: 1,
               mealDate: _this.data.activeMealDate,
               mealType: _this.data.activeMealType,
-              image: foodItem.image,
-              foodTypeIndex,
-              foodIndex,
-              supplement: _this.data.orderType == 2 ? true : false,
-              canMeal: foodItem.canMeal,
-              tempImage: foodItem.tempImage,
-              isFoodQuota: tmp_isFoodQuota,
-              orgAdmin: _this.data.userInfo.orgAdmin,
-              isAllowAccessoryFood: foodItem.isAllowAccessoryFood,
             },
           };
           request(param, (resData) => {
-            if (resData.data.code === 200) {
-              wx.showToast({
-                title: "添加成功",
-                icon: "none",
-                duration: 1000,
-              });
-              _this.getPayInfo();
-              _this.getCartList();
-            } else if (resData.data.code === 4068) {
-              // 4068 是检测到购物车同时加入了补餐和普通餐的报错
-              _this.showClearCard();
-            } else if (resData.data.code === 4036) {
-              // 4036 管理员身份不允许补餐的报错
-              wx.showModal({
-                title: "管理员不允许补餐",
-                content: "请切换成普通用户再补餐",
-                showCancel: false,
-                confirmText: "我知道了",
-              });
-            } else if (resData.data.code === 10001) {
-              // 10001 是检测开心农场餐品和非开心农场同时加入购物车
-              _this.showClearCard(
-                "开心农场餐品只可单独下单",
-                "是否清空购物车?"
-              );
+            console.log("======= resData ======= ", resData);
+            if (resData.data.code == 200) {
+              if (resData.data.data.isCanAdd) {
+                _this.doAddToCart(e);
+              } else {
+                _this.setData({
+                  duocanList: resData.data.data.checkOrderInfo,
+                  showDuocan: true,
+                });
+              }
             } else {
-              wx.showToast({
-                title: resData.data.msg,
-                image: "/images/msg/error.png",
-                duration: 2000,
-              });
+              _this.doAddToCart(e);
             }
           });
+        },
+      });
+    } else {
+      _this.doAddToCart(e);
+    }
+  },
+  confirmWzdl() {
+    this.doAddToCart(this.data.e);
+  },
+  onChangeDuoxian(e) {
+    if (e.detail.currentKey == "1") {
+      wx.setStorageSync("duofenBZTS", true);
+    } else {
+      wx.setStorageSync("duofenBZTS", false);
+    }
+  },
+  doAddToCart(e) {
+    let _this = this;
+    let foodTypeItem = e.currentTarget.dataset.foodtypeitem;
+    let foodItem = e.currentTarget.dataset.fooditem;
+    let foodTypeIndex = e.currentTarget.dataset.foodtypeindex;
+    let foodIndex = e.currentTarget.dataset.foodindex;
+    if (foodItem.foodQuota && foodItem.foodQuota.surplusNum == 0) {
+      wx.showToast({
+        title: "库存为0",
+        image: "/images/msg/error.png",
+        duration: 2000,
+      });
+    } else {
+      let tmp_isFoodQuota = null;
+      if (foodItem.foodQuota && foodItem.foodQuota.foodCode) {
+        tmp_isFoodQuota = true;
+      } else {
+        tmp_isFoodQuota = false;
+      }
+      let param = {
+        url: config.baseUrlPlus + "/v3/cart/addCart",
+        method: "post",
+        data: {
+          userCode: _this.data.userInfo.userCode,
+          foodCode: foodItem.foodCode,
+          foodName: foodItem.foodName,
+          foodPrice: foodItem.foodPrice,
+          foodQuantity: 1,
+          mealDate: _this.data.activeMealDate,
+          mealType: _this.data.activeMealType,
+          image: foodItem.image,
+          foodTypeIndex,
+          foodIndex,
+          supplement: _this.data.orderType == 2 ? true : false,
+          canMeal: foodItem.canMeal,
+          tempImage: foodItem.tempImage,
+          isFoodQuota: tmp_isFoodQuota,
+          orgAdmin: _this.data.userInfo.orgAdmin,
+          isAllowAccessoryFood: foodItem.isAllowAccessoryFood,
+        },
+      };
+      request(param, (resData) => {
+        if (resData.data.code === 200) {
+          wx.showToast({
+            title: "添加成功",
+            icon: "none",
+            duration: 1000,
+          });
+          _this.getPayInfo();
+          _this.getCartList();
+        } else if (resData.data.code === 4068) {
+          // 4068 是检测到购物车同时加入了补餐和普通餐的报错
+          _this.showClearCard();
+        } else if (resData.data.code === 4036) {
+          // 4036 管理员身份不允许补餐的报错
+          wx.showModal({
+            title: "管理员不允许补餐",
+            content: "请切换成普通用户再补餐",
+            showCancel: false,
+            confirmText: "我知道了",
+          });
+        } else if (resData.data.code === 10001) {
+          // 10001 是检测开心农场餐品和非开心农场同时加入购物车
+          _this.showClearCard("开心农场餐品只可单独下单", "是否清空购物车?");
+        } else {
+          wx.showToast({
+            title: resData.data.msg,
+            image: "/images/msg/error.png",
+            duration: 2000,
+          });
         }
-      },
-    });
+      });
+    }
   },
   clickPlClose() {
     this.setData({

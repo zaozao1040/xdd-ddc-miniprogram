@@ -493,3 +493,26 @@
     </view> -->
   </view>
 </l-popup>
+<l-dialog show="{{showDuocan}}" type="alert" show-title="{{false}}" title="标题" confirm-text="我知道了" confirm-color="#f7cd4e" bind:linconfirm="confirmWzdl">
+  <view class="">
+    <view class="" style="display: flex;  flex-direction: column;  justify-content: space-around;  width: 400rpx;">
+      <view class=" text-qmd my-qtn text-center">以下餐品点了多份</view>
+      <view wx:for="{{duocanList}}" wx:for-item='item' wx:for-index='index' wx:key="index" class="py-qttn my-qttn qbb   text-qmd">
+        <view class="flex">
+          <view class="">{{item.mealDate}}</view>
+          <view class="ml-qttn">{{item.mealTypeDes}}</view>
+        </view>
+        <view class="flex mt-qttn" style="justify-content:flex-end">
+          <view class="qshenglue">{{item.foodName}}</view>
+          <view class="text-qtn ml-qsm mr-qttn">x</view>
+          <view class="">{{item.foodQuantity}}</view>
+        </view>
+      </view>
+      <view class="w-full flex mt-qtn" style="justify-content: flex-end;">
+        <l-radio-group bind:linchange="onChangeDuoxian">
+          <l-radio key="1" select-color="#f7cd4e">不再提醒</l-radio>
+        </l-radio-group>
+      </view>
+    </view>
+  </view>
+</l-dialog>
