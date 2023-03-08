@@ -75,6 +75,7 @@ Page({
     e: {},
     showDuocan: false,
     duocanList: [],
+    duocanInfo: [],
   },
 
   onLoad: function (option) {
@@ -997,9 +998,24 @@ Page({
               if (resData.data.data.isCanAdd) {
                 _this.doAddToCart(e);
               } else {
+                let tmpMealTypeDes = "";
+                if (resData.data.data.mealType == "BREAKFAST") {
+                  tmpMealTypeDes = "早餐";
+                } else if (resData.data.data.mealType == "LUNCH") {
+                  tmpMealTypeDes = "午餐";
+                } else if (resData.data.data.mealType == "DINNER") {
+                  tmpMealTypeDes = "晚餐";
+                } else if (resData.data.data.mealType == "NIGHT") {
+                  tmpMealTypeDes = "夜宵";
+                }
                 _this.setData({
                   duocanList: resData.data.data.checkOrderInfo,
                   showDuocan: true,
+                  duocanInfo: {
+                    mealDate: resData.data.data.mealDate,
+                    mealType: resData.data.data.mealType,
+                    mealTypeDes: tmpMealTypeDes,
+                  },
                 });
               }
             } else {
